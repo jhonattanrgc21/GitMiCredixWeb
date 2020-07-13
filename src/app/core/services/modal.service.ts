@@ -1,6 +1,8 @@
 import {Injectable, TemplateRef} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {CredixPopupComponent} from '../../shared/components/credix-popup/credix-popup.component';
+import {CredixConfirmationPopupComponent} from '../../shared/components/credix-confirmation-popup/credix-confirmation-popup.component';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class ModalService {
@@ -28,6 +30,18 @@ export class ModalService {
     );
   }
 
+  public confirmationPopup(title: string, message?: string): Observable<boolean> {
+    let dialogRef: MatDialogRef<CredixConfirmationPopupComponent>;
+    dialogRef = this.dialog.open(CredixConfirmationPopupComponent, {
+      disableClose: true,
+      width: '420px',
+      height: '200px',
+      autoFocus: false
+    });
+    dialogRef.componentInstance.title = title;
+    dialogRef.componentInstance.message = message && message;
+    return dialogRef.afterClosed();
+  }
 }
 
 export interface DialogData {
