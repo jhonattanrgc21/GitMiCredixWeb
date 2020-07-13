@@ -1,0 +1,12 @@
+<svg height="28.002" viewBox="0 0 14 28.002" width="14" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.facebook-icon {
+      fill: #239df7;
+    }</style>
+  </defs>
+  <g transform="translate(-55 -319.999)">
+    <path class="facebook-icon"
+          d="M21,2V2h0V7.6H18.2c-.966,0-1.4,1.132-1.4,2.1v3.5H21v5.6H16.8V30l-5.6,0V18.8H7V13.2h4.2V7.6A5.6,5.6,0,0,1,16.8,2Z"
+          transform="translate(48 317.999)"/>
+  </g>
+</svg>

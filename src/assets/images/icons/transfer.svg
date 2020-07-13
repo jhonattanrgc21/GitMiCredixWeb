@@ -1,0 +1,16 @@
+<svg height="12" viewBox="0 0 16.001 12" width="16.001" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.a {
+      fill: #3e3e3e;
+    }</style>
+  </defs>
+  <g transform="translate(-1090 -501)">
+    <path
+      d="M6.3,10H1.2A1.227,1.227,0,0,1,0,8.75l.005-7.5A1.225,1.225,0,0,1,1.2,0h9.6A1.227,1.227,0,0,1,12,1.25V4.986H6.3V5H1.2V8.75H6.3V10ZM1.2,1.25V2.5h9.6V1.25Z"
+      transform="translate(1090 501)"/>
+    <path d="M4.9,1.4V3.5H2.8V4.9L0,2.45,2.8,0V1.4Z" transform="translate(1102.308 510.983) rotate(180)"/>
+    <path
+      d="M10.8,10H1.2A1.227,1.227,0,0,1,0,8.75V8.317H1.2V8.75h9.6V5H8.446V2.5H10.8V1.25H8.446V0H10.8A1.227,1.227,0,0,1,12,1.25v7.5A1.227,1.227,0,0,1,10.8,10Z"
+      transform="translate(1094 503)"/>
+  </g>
+</svg>

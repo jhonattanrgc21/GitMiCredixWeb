@@ -1,0 +1,30 @@
+<svg height="24.297" viewBox="0 0 29 24.297" width="29" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.a {
+      fill: #3e3e3e;
+    }
+
+    .b {
+      fill: #e42313;
+      stroke: #fff;
+      stroke-width: 2px;
+    }
+
+    .c {
+      stroke: none;
+    }
+
+    .d {
+      fill: none;
+    }</style>
+  </defs>
+  <g transform="translate(0 2)">
+    <path
+      d="M4.6,4H25.431a2.6,2.6,0,0,1,2.6,2.6V22.223a2.6,2.6,0,0,1-2.6,2.6H4.6a2.6,2.6,0,0,1-2.6-2.6V6.6A2.6,2.6,0,0,1,4.6,4Zm10.414,9.113L25.431,6.6H4.6ZM4.6,22.223H25.431V9.687L15.017,16.181,4.6,9.687Z"
+      transform="translate(-1.999 -3.011)"/>
+    <g class="b" transform="translate(19)">
+      <circle class="c" cx="4" cy="4" r="4"/>
+      <circle class="d" cx="4" cy="4" r="5"/>
+    </g>
+  </g>
+</svg>
