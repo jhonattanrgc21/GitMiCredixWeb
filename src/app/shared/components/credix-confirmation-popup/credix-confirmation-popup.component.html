@@ -1,0 +1,10 @@
+<div class="credix-confirmation-popup">
+  <h2>{{title}}</h2>
+
+  <p *ngIf="message" class="credix-confirmation-popup__message">{{message}}</p>
+
+  <div class="credix-confirmation-popup__actions">
+    <credix-button (buttonClick)="modal.close(false)" text="No" type="secondary"></credix-button>
+    <credix-button (buttonClick)="modal.close(true)" text="Si"></credix-button>
+  </div>
+</div>

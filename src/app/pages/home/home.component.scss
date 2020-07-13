@@ -1,0 +1,29 @@
+@import "src/app/core/styles/variables";
+
+.home {
+  width: 100vw;
+  min-height: 100vh;
+
+  &__sidenav-container {
+    flex: 1;
+    height: calc(100vh - 40px - 66px);
+  }
+
+  &__sidebar {
+    width: 291px;
+    background: $side-menu-background-color;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+
+  &__content {
+    padding: 16px;
+    background: $background-color;
+  }
+
+  &.is-tablet {
+    .home__sidenav-container {
+      flex: 1 0 auto;
+    }
+  }
+}

@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'MiCredixWeb'`, () => {
+  it(`should have as title 'miCredixWeb'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('MiCredixWeb');
+    expect(app.title).toEqual('miCredixWeb');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('MiCredixWeb app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('miCredixWeb app is running!');
   });
 });

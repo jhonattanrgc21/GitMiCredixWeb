@@ -1,0 +1,17 @@
+<ng-container [ngSwitch]="type">
+  <button (click)="buttonClick.emit()" *ngSwitchDefault [disabled]="disabled" [routerLink]="route ? [route] : []"
+          class="credix-button"
+          color="primary" mat-flat-button>
+    {{text}}
+  </button>
+  <button (click)="buttonClick.emit()" *ngSwitchCase="'primary'" [disabled]="disabled"
+          [routerLink]="route ? [route] : []" class="credix-button"
+          color="primary" mat-flat-button>
+    {{text}}
+  </button>
+  <button (click)="buttonClick.emit()" *ngSwitchCase="'secondary'" [disabled]="disabled"
+          [routerLink]="route ? [route] : []" class="credix-button"
+          color="primary" mat-stroked-button>
+    {{text}}
+  </button>
+</ng-container>

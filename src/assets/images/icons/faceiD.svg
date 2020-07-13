@@ -1,0 +1,23 @@
+<svg height="26" viewBox="0 0 26 26" width="26" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.a {
+      fill: none;
+      stroke: #3e3e3e;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 2px;
+    }</style>
+  </defs>
+  <g transform="translate(-154 -42)">
+    <path class="a" d="M12.062,20a4.816,4.816,0,0,0,5.876,0" transform="translate(152 40.524)"/>
+    <line class="a" transform="translate(172.455 51.8)" y2="2"/>
+    <line class="a" transform="translate(161.545 51.8)" y2="2"/>
+    <path class="a" d="M15,12v4a1,1,0,0,1-1,1" transform="translate(151.952 39.941)"/>
+    <g transform="translate(155 43)">
+      <path class="a" d="M26,9V6a2,2,0,0,0-2-2H21" transform="translate(-2 -4)"/>
+      <path class="a" d="M9,4H6A2,2,0,0,0,4,6V9" transform="translate(-4 -4)"/>
+      <path class="a" d="M21,26h3a2,2,0,0,0,2-2V21" transform="translate(-2 -2)"/>
+      <path class="a" d="M4,21v3a2,2,0,0,0,2,2H9" transform="translate(-4 -2)"/>
+    </g>
+  </g>
+</svg>

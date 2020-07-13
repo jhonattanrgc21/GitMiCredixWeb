@@ -1,0 +1,23 @@
+<div class="credix-payment-bar">
+  <div [ngClass]="[!toggleGradient ? 'credix-payment-bar__horizontal-line--yellow-to-red' :
+       'credix-payment-bar__horizontal-line--green-to-yellow']"
+       class="credix-payment-bar__horizontal-line">
+    <div [style.left]="displacement + '%'" class="credix-payment-bar__meter">
+      <span class="credix-payment-bar__meter__label">Hoy</span>
+      <span class="credix-payment-bar__meter__line"></span>
+    </div>
+  </div>
+
+  <div class="credix-payment-bar__footer">
+    <div class="credix-payment-bar__footer__left-content">
+      <span>{{firstLabel}}</span>
+      <span>{{startDate | date}}</span>
+    </div>
+
+    <div class="credix-payment-bar__footer__right-content">
+      <span>{{secondLabel}}</span>
+      <span>{{endDate | date}}</span>
+    </div>
+  </div>
+</div>
+

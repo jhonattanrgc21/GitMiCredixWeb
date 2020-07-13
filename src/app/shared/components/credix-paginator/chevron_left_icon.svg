@@ -1,0 +1,9 @@
+<svg height="12.948" viewBox="0 0 8 12.948" width="8" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.chevron-left {
+      fill: #e42313;
+    }</style>
+  </defs>
+  <path class="chevron-left" d="M16.585,17.421l-4.948-4.948,4.948-4.948L15.06,6,8.585,12.472l6.474,6.474Z"
+        transform="translate(-8.585 -5.998)"/>
+</svg>

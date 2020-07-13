@@ -1,0 +1,40 @@
+<svg height="40" viewBox="0 0 40 40" width="40" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.sun-a, .sun-b, .sun-d {
+      fill: none;
+    }
+
+    .sun-a, .sun-b {
+      stroke: #ffdc49;
+      stroke-width: 3px;
+    }
+
+    .sun-b {
+      stroke-linecap: round;
+    }
+
+    .sun-c {
+      stroke: none;
+    }</style>
+  </defs>
+  <g transform="translate(1.5 -4)">
+    <g class="sun-a" transform="translate(9 15)">
+      <circle class="sun-c" cx="9" cy="9" r="9"/>
+      <circle class="sun-d" cx="9" cy="9" r="7.5"/>
+    </g>
+    <line class="sun-b" transform="translate(18.5 37.5)" y2="5"/>
+    <line class="sun-b" transform="translate(18.5 5.5)" y2="5"/>
+    <g transform="translate(82.493 -101.512) rotate(45)">
+      <line class="sun-b" transform="translate(43.5 147.5)" y2="5"/>
+      <line class="sun-b" transform="translate(43.5 115.5)" y2="5"/>
+    </g>
+    <g transform="translate(-107.012 -39.993) rotate(-45)">
+      <line class="sun-b" transform="translate(43.5 147.5)" y2="5"/>
+      <line class="sun-b" transform="translate(43.5 115.5)" y2="5"/>
+    </g>
+    <g transform="translate(152.5 -19.5) rotate(90)">
+      <line class="sun-b" transform="translate(43.5 147.5)" y2="5"/>
+      <line class="sun-b" transform="translate(43.5 115.5)" y2="5"/>
+    </g>
+  </g>
+</svg>
