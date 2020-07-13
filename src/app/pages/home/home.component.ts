@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
-import {menus} from '../../core/menus';
 
 @Component({
   selector: 'app-home',
@@ -33,4 +32,24 @@ export class HomeComponent implements OnInit {
 
   }
 
+}
+
+export const menus: Menu[] = [
+  {
+    id: 1, name: 'Inicio', route: '/'
+  }
+];
+
+export interface Menu {
+  id: number;
+  name: string;
+  route?: string;
+  submenus?: Submenu[];
+}
+
+export interface Submenu {
+  id: number;
+  route: string;
+  name: string;
+  icon: string;
 }

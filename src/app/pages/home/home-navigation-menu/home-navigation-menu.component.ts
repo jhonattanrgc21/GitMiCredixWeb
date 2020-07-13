@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Menu} from '../../../core/menus';
+import {Menu} from '../home.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
