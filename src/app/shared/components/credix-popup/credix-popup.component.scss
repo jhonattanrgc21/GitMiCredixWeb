@@ -16,13 +16,6 @@
       outline: none;
     }
 
-    &:after {
-      content: url(./cancel.svg);
-      position: absolute;
-      left: 5px;
-      top: 5px
-    }
-
     &__icon {
       width: 16px;
       height: 16px;
