@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {CustomIconLoaderService} from './core/services/custom-icon-loader.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'MiCredixWeb';
+  title = 'Credix Template';
+
+  constructor(customIconLoaderService: CustomIconLoaderService) {
+    customIconLoaderService.registerIcons();
+  }
+
 }

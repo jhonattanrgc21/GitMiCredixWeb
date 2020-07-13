@@ -1,0 +1,16 @@
+@import './credix-theme';
+
+$primary-color: mat-color(map-get($theme, primary)); // buttons, calls to action.
+$accent-color: mat-color(map-get($theme, accent)); // links
+$typography-active-color: #3e3e3e; // Titles, content, form, etc.
+$typography-label-color: #696d6f; // Titles, content, form, etc.
+$background-color: #f4f4f4;
+$footer-background-color: #f0f0f0;
+$side-menu-background-color: #fafafa;
+$menu-icon-color: #b5b5b5;
+$line-color: #e9e9e9; // Content or tabs dividing line.
+$inactive-color: #d2d2d2; // Buttons or links with no action.
+$success-color: #19d27e;
+$warning-color: #ffdc49;
+$error-color: #ff4965;
+$notification-color: #5bc0de;

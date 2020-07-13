@@ -1,0 +1,18 @@
+<div class="sliders" fxLayout="column" fxLayoutGap="24px">
+
+  <h2>Slider</h2>
+
+  <div fxLayout="row" fxLayoutGap="16px">
+    <span fxFlex="20">Habilitado:</span>
+
+    <div fxLayout="column" fxLayoutGap="8px">
+      <credix-slider [(value)]="value" class="sliders__slider"></credix-slider>
+      <credix-slider class="sliders__slider" value="5"></credix-slider>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="16px">
+    <span fxFlex="20">Deshabilitado:</span>
+    <credix-slider [disabled]="true" class="sliders__slider"></credix-slider>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="forms" fxLayout="column" fxLayoutGap="24px">
+
+  <div fxLayout="row" fxLayoutGap="24px">
+
+    <div fxLayout="column" fxLayoutGap="16px">
+      <h2>Checkbox</h2>
+
+      <div class="mr-16px" fxLayout="row" fxLayoutGap="16px">
+        <span class="w-50">Deseleccionado:</span>
+        <credix-checkbox-button [checked]="false" [value]="'a'" label="Etiqueta"></credix-checkbox-button>
+      </div>
+
+      <div class="mr-16px" fxLayout="row" fxLayoutGap="16px">
+        <span class="w-50">Seleccionado:</span>
+        <credix-checkbox-button [checked]="true" [value]="'b'"></credix-checkbox-button>
+      </div>
+
+      <div class="mr-16px" fxLayout="row" fxLayoutGap="16px">
+        <span class="w-50">Inactivo:</span>
+
+        <div fxLayout="column" fxLayoutGap="8px">
+          <credix-checkbox-button [checked]="false" [disable]="true" [value]="'c'"></credix-checkbox-button>
+          <credix-checkbox-button [checked]="true" [disable]="true" [value]="'d'"></credix-checkbox-button>
+        </div>
+      </div>
+
+    </div>
+
+    <div fxLayout="column" fxLayoutGap="16px">
+      <h2>Radio Buttons</h2>
+
+      <div class="mr-16px" fxLayout="row" fxLayoutGap="16px">
+        <span class="w-50">Deseleccionado:</span>
+        <credix-radio-button [checked]="false" [value]="1" label="Etiqueta" name="a"></credix-radio-button>
+      </div>
+
+      <div class="mr-16px" fxLayout="row" fxLayoutGap="16px">
+        <span class="w-50">Seleccionado:</span>
+        <credix-radio-button [checked]="true" [value]="2" name="b"></credix-radio-button>
+      </div>
+
+      <div class="mr-16px" fxLayout="row" fxLayoutGap="16px">
+        <span class="w-50">Inactivo:</span>
+        <div fxLayout="column" fxLayoutGap="8px">
+          <credix-radio-button [checked]="false" [disabled]="true" [value]="3" name="c"></credix-radio-button>
+          <credix-radio-button [checked]="true" [disabled]="true" [value]="4" name="d"></credix-radio-button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,29 @@
+<ng-container class="navigation-table">
+
+  <div class="navigation-table__header" fxLayout="row" fxLayoutAlign="flex-start center">
+    <span fxFlex="25%">{{headers[0]}}</span>
+    <span fxFlex="75%">{{headers[1]}}</span>
+  </div>
+
+  <div class="navigation-table__content" fxLayout="row">
+    <div class="navigation-table__content__left" fxFlex="25%">
+      <button (click)="optionClick(option)" *ngFor="let option of options"
+              class="navigation-table__option">
+        <mat-icon [class.is-selected]="optionSelected.id  == option.id" [svgIcon]="option.icon"
+                  class="navigation-table__option__icon"></mat-icon>
+        <span [class.is-selected]="optionSelected.id  == option.id" class="navigation-table__option__label">
+            {{option.name}}</span>
+        <span *ngIf="optionSelected.id == option.id" class="navigation-table__option__arrow"></span>
+      </button>
+    </div>
+
+    <div class="navigation-table__content__right" fxFlex="75%">
+      <button (click)="subOptionClick(subOption.routerLink)" *ngFor="let subOption of optionSelected.subOptions"
+              class="navigation-table__option">
+        <mat-icon [svgIcon]="optionSelected.icon" class="navigation-table__option__icon"></mat-icon>
+        <span class="navigation-table__option__label">{{subOption.name}}</span>
+      </button>
+    </div>
+  </div>
+
+</ng-container>

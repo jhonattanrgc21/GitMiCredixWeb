@@ -1,0 +1,72 @@
+.credix-progress-bar {
+  min-width: 300px;
+
+  &__content {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    margin-left: 2px;
+
+    span {
+      line-height: 18px;
+      color: #3E3E3E;
+      font-size: 12px;
+
+      &:first-child {
+        text-align: left;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  &__line {
+    position: relative;
+    height: 0;
+    border: 6px solid #E9E9E9;
+    border-radius: 8px;
+
+    &.is-over {
+      position: absolute;
+      left: -6px;
+      top: -6px;
+      border: 6px solid #19D27E;
+      width: 0;
+      transition: width 1s ease-in;
+      -webkit-transition: width 1s ease-in;
+      -ms-transition: width 1s ease-in;
+      -moz-transition: width 1s ease-in;
+      -o-transition: width 1s ease-in;
+    }
+
+    &__circle {
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      border: 2px solid #E9E9E9;
+      background: #ffffff;
+      position: absolute;
+      left: 96%;
+      top: -12px;
+
+      &:after {
+        content: url(./check_inactive_icon.svg);
+        top: -3px;
+        left: 2px;
+        position: absolute;
+      }
+
+      &.is-complete {
+        border-color: #19D27E !important;
+
+        &:after {
+          content: url(./check_active_icon.svg) !important;
+        }
+      }
+    }
+  }
+}

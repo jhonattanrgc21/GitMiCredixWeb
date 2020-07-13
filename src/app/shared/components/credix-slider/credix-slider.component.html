@@ -1,0 +1,22 @@
+<div class="credix-slider" fxLayout="column">
+  <div class="credix-slider__header" fxLayout="row">
+    <span>{{instructions}}</span>
+    <span fxFlex></span>
+    <span><strong>{{value}}</strong> {{units}}</span>
+  </div>
+
+  <mat-slider (valueChange)="valueChangeEvent($event)"
+              [(value)]="value"
+              [disabled]="disabled"
+              [max]="max"
+              [min]="min"
+              [step]="step"
+              class="credix-slider__slider">
+  </mat-slider>
+
+  <div class="credix-slider__footer" fxLayout="row">
+    <span>{{min}}</span>
+    <span fxFlex></span>
+    <span>{{max}}</span>
+  </div>
+</div>
