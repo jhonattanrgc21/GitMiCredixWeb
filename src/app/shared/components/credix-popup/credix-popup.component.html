@@ -1,12 +1,11 @@
 <div class="credix-popup">
   <button class="credix-popup__close-button" mat-dialog-close mat-icon-button>
-    <mat-icon class="credix-popup__close-button__icon" svgIcon="cancel"></mat-icon>
   </button>
 
   <h2 *ngIf="data.title">{{data.title}}</h2>
 
   <div class="credix-popup__content">
-    <ng-container [ngTemplateOutletContext]="data.context" [ngTemplateOutlet]="data.template">
+    <ng-container *ngTemplateOutlet="data.template, context: data.context">
     </ng-container>
   </div>
 </div>

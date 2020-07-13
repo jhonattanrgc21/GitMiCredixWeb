@@ -7,7 +7,6 @@ import {HomeToolbarComponent} from './home-toolbar/home-toolbar.component';
 import {HomeFooterComponent} from './home-footer/home-footer.component';
 import {HomeNavigationMenuModule} from './home-navigation-menu/home-navigation-menu.module';
 
-
 @NgModule({
   declarations: [HomeComponent, HomeToolbarComponent, HomeFooterComponent],
   imports: [

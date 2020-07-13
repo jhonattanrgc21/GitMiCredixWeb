@@ -5,7 +5,6 @@ import {ModalService} from './services/modal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {CredixToastService} from './services/credix-toast.service';
 
-
 @NgModule({
   declarations: [],
   imports: [
