@@ -1,0 +1,16 @@
+@import "src/app/core/styles/variables";
+
+.menu_messages {
+  padding: 0 16px 0 16px;
+  position: sticky;
+  -webkit-position: sticky;
+  -ms-position: sticky;
+  -moz-position: sticky;
+  -o-position: sticky;
+  bottom: 0;
+  height: 61px;
+
+  &__label--color {
+    color: $typography-label-color;
+  }
+}

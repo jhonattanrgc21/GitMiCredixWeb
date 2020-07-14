@@ -1,0 +1,16 @@
+<ngx-gauge [max]="max"
+           [min]="min"
+           [value]="value"
+           backgroundColor="#E9E9E9"
+           cap="round"
+           foregroundColor="#19D27E"
+           size="200"
+           thick="14"
+           type="full">
+  <ngx-gauge-value>
+    <div class="credix-gauge-content">
+      <span class="credix-gauge-content__label">Disponible</span>
+      <ng-content></ng-content>
+    </div>
+  </ngx-gauge-value>
+</ngx-gauge>

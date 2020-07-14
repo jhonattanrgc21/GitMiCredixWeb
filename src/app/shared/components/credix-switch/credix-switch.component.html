@@ -1,0 +1,13 @@
+<div class="credix-switch">
+  <label [class.is-checked]="option === 'off'" class="credix-switch__label credix-switch__off">
+    <input (click)="isOptionSelected('off')" (keydown.enter)="isOptionSelected('off')" [disabled]="disabled" checked
+           class="credix-switch__input"
+           name="view" type="radio">
+    {{offLabel.name}}</label>
+  <label [class.is-checked]="option === 'on'" class="credix-switch__label credix-switch__on">
+    <input (click)="isOptionSelected('on')" (keydown.enter)="isOptionSelected('on')" [disabled]="disabled"
+           class="credix-switch__input"
+           name="view" type="radio">
+    {{onLabel.name}}</label>
+  <span [class.is-disabled]="disabled" class="credix-switch__selection"></span>
+</div>

@@ -1,0 +1,23 @@
+.credix-result-notification {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-size: 24px;
+    color: #3e3e3e;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  &__message {
+    font-size: 16px;
+    color: #3e3e3e;
+    text-align: center;
+  }
+}
