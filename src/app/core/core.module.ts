@@ -2,8 +2,11 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CustomIconLoaderService} from './services/custom-icon-loader.service';
 import {ModalService} from './services/modal.service';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CredixToastService} from './services/credix-toast.service';
+import {HttpRequestsResponseInterceptor} from './interceptors/http.interceptor';
+import {AuthorizationGuard} from './guards/authorization.guard';
+import {HttpService} from './services/http.service';
 
 @NgModule({
   declarations: [],
@@ -14,7 +17,10 @@ import {CredixToastService} from './services/credix-toast.service';
   providers: [
     CustomIconLoaderService,
     ModalService,
-    CredixToastService
+    CredixToastService,
+    HttpService,
+    AuthorizationGuard,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpRequestsResponseInterceptor, multi: true}
   ]
 })
 export class CoreModule {
