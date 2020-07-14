@@ -6,6 +6,8 @@ import {AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2} fr
 })
 export class CredixTextFieldDirective implements AfterViewInit {
   @Input() onFocusLabel: string;
+  @Input('credixTextField') type: 'password' | 'text' = 'text';
+
   label: string;
 
   constructor(private el: ElementRef, private renderer: Renderer2) {
@@ -29,7 +31,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
       'style', 'background:#C7C7C7');
 
     this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-      'style', 'font-size: 16px; color: #3e3e3e; text-align: left');
+      'style', 'font-size: 16px; color: #3e3e3e; text-align: left;');
 
     this.label = this.el.nativeElement.querySelector('.mat-form-field-label').children[0].innerHTML;
 
@@ -47,18 +49,26 @@ export class CredixTextFieldDirective implements AfterViewInit {
       'style', 'background:#707070');
 
     this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-      'style', 'font-size: 12px; color: #3e3e3e; text-align: left');
+      'style', 'font-size: 12px; color: #3e3e3e; text-align: left; margin-top: 8px');
 
     if (this.onFocusLabel) {
       this.el.nativeElement.querySelector('.mat-form-field-label').children[0].innerHTML = this.onFocusLabel;
     }
 
-    if (this.el.nativeElement.classList.contains('mat-form-field-invalid')) {
+    if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
       this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-ripple'),
         'style', 'background: #FF4965');
 
       this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
         'style', 'color:#FF4965');
+    }
+
+    if (this.type === 'password') {
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-flex'),
+        'style', 'padding-top: 0 !important; background: #ffffff');
+
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-infix'),
+        'style', 'padding-bottom: 16px !important; box-shadow: 0px 5px 10px #00000026;');
     }
   }
 
@@ -75,16 +85,25 @@ export class CredixTextFieldDirective implements AfterViewInit {
 
       this.el.nativeElement.querySelector('.mat-form-field-label').children[0].innerHTML = this.label;
 
-      if (this.el.nativeElement.classList.contains('mat-form-field-invalid')) {
+      if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-ripple'),
           'style', 'background:#FF4965');
 
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-          'style', 'color: #FF4965');
+          'style', 'color: #FF4965;');
 
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
           'style', 'color:#FF4965');
       }
     }
+
+    if (this.type === 'password') {
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-flex'),
+        'style', 'padding-top: 0 !important;');
+
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-infix'),
+        'style', 'padding-bottom: 16px !important;');
+    }
   }
+
 }
