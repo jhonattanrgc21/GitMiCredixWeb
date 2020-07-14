@@ -1,5 +1,3 @@
-@import "src/app/core/styles/variables";
-
 .home {
   width: 100vw;
   min-height: 100vh;
@@ -11,14 +9,14 @@
 
   &__sidebar {
     width: 291px;
-    background: $side-menu-background-color;
+    background: #fafafa;
     box-shadow: none !important;
     border: 0 !important;
   }
 
   &__content {
     padding: 16px;
-    background: $background-color;
+    background: #f4f4f4;
   }
 
   &.is-tablet {
