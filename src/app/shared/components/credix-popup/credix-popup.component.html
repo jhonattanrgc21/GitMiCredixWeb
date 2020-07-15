@@ -3,7 +3,7 @@
     <!--<mat-icon class="credix-popup__close-button__icon" svgIcon="cancel"></mat-icon>-->
   </button>
 
-  <h2 *ngIf="data.title">{{data.title}}</h2>
+  <h1 *ngIf="data.title">{{data.title}}</h1>
 
   <div class="credix-popup__content">
     <ng-container *ngTemplateOutlet="data.template, context: data.context">

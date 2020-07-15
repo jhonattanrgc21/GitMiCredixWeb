@@ -8,7 +8,7 @@
     position: relative;
 
     &--yellow-to-red {
-      background: transparent linear-gradient(270deg, #FF001A 0%, #FFEB34 100%) 0 0 no-repeat padding-box;
+      background: transparent linear-gradient(270deg, #FF0000 0%, #FFEB00 100%) 0 0 no-repeat padding-box;
     }
 
     &--green-to-yellow {
@@ -69,6 +69,7 @@
 
       &:last-child {
         font-weight: bold;
+        font-size: 16px;
       }
     }
 
