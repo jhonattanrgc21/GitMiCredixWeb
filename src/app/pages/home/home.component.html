@@ -1,15 +1,22 @@
 <div [class.is-tablet]="isTablet" class="home" fxLayout="column">
-  <credix-home-toolbar (signOutClick)="signOut()" (toggleClick)="sidenav.toggle()"></credix-home-toolbar>
+  <credix-home-toolbar (signOutClick)="signOut()" (toggleClick)="sidenav.toggle()" [isTablet]="isTablet"
+                       [toggleIcon]="toggleMenuIcon"></credix-home-toolbar>
 
   <mat-sidenav-container class="home__sidenav-container">
-    <mat-sidenav #sidenav [fixedInViewport]="isTablet" [mode]="isTablet ? 'over' : 'side'" class="home__sidebar"
-                 fixedTopGap="66" opened>
+    <mat-sidenav #sidenav (closedStart)="toggleMenuIcon = true" (openedStart)="toggleMenuIcon = false"
+                 [fixedInViewport]="isTablet"
+                 [mode]="isTablet ? 'over' : 'side'" [opened]="!isTablet" class="home__sidebar"
+                 fixedTopGap="66">
       <credix-home-navigation-menu [avatar]="avatar" [menus]="menus"
                                    [username]="username"></credix-home-navigation-menu>
     </mat-sidenav>
 
     <mat-sidenav-content class="home__content" fxLayout="column">
-      <router-outlet></router-outlet>
+      <overlay-scrollbars class="h-100">
+        <main class="home__content__main">
+          <router-outlet></router-outlet>
+        </main>
+      </overlay-scrollbars>
     </mat-sidenav-content>
   </mat-sidenav-container>
 

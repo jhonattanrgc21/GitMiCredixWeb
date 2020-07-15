@@ -8,6 +8,7 @@ import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 })
 export class HomeComponent implements OnInit {
   isTablet = false;
+  toggleMenuIcon = false;
   username = 'John Doe';
   avatar = 'assets/images/avatar.png';
   menus = menus;
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
   }
 
 }
+
 
 export const menus: Menu[] = [
   {

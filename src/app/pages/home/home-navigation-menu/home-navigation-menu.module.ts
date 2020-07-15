@@ -5,13 +5,15 @@ import {MenuOptionComponent} from './menu-option/menu-option.component';
 import {MenuHeaderComponent} from './menu-header/menu-header.component';
 import {MenuMessagesComponent} from './menu-messages/menu-messages.component';
 import {SharedModule} from '../../../shared/shared.module';
+import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
 
 
 @NgModule({
   declarations: [HomeNavigationMenuComponent, MenuOptionComponent, MenuHeaderComponent, MenuMessagesComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    OverlayscrollbarsModule
   ],
   exports: [HomeNavigationMenuComponent]
 })

@@ -45,13 +45,6 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnChanges, O
     }
   }
 
-  @HostListener('mouseenter')
-  mouseEnter() {
-    if (!this.overlayRef.hasAttached()) {
-      this.show();
-    }
-  }
-
   @HostListener('focusin')
   focusIn() {
     if (!this.overlayRef.hasAttached()) {
