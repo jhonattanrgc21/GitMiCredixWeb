@@ -39,6 +39,7 @@ export const icons: string[] = [
   'menu',
   'messages',
   'moon',
+  'mobile_icon',
   'municipalidad',
   'myAccount',
   'noon',
@@ -55,5 +56,5 @@ export const icons: string[] = [
   'sun',
   'transfer',
   'transfer_report',
-  'water',
+  'water'
 ];

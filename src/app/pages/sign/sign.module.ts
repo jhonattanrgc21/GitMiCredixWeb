@@ -3,13 +3,14 @@ import {CommonModule} from '@angular/common';
 import {SignComponent} from './sign.component';
 import {SignRoutingModule} from './sign-routing.module';
 import {SharedModule} from '../../shared/shared.module';
+import { FlexModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [SignComponent],
   imports: [
     CommonModule,
     SignRoutingModule,
-    SharedModule,
+    SharedModule
   ]
 })
 export class SignModule {

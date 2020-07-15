@@ -7,10 +7,16 @@ import {Component, OnInit} from '@angular/core';
 })
 export class SignComponent implements OnInit {
 
+  imageGoogleBandageUrl: string = '../../../assets/images/google-play-badge.png';
+  imageAppStoreBandageUrl: string = '../../../assets/images/appStore.png';
+  close:boolean = false;
   constructor() {
   }
 
   ngOnInit(): void {
   }
 
+  closeHeader(): boolean{
+    return !this.close;
+  }
 }

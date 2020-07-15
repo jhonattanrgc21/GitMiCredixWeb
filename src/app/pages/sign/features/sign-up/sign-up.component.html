@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayoutGap="24px">
+  <credix-button (click)=openSignUpModal() text="Abrir primer popup"></credix-button>
+
+  <ng-template #templateModalSignUp>
+    <div fxLayout="column" fxLayoutGap="36px">
+      <h1>Primer modal</h1>
+
+      <p>Puede cerrar el modal en el boton superior.</p>
+    </div>
+  </ng-template>
+</div>
