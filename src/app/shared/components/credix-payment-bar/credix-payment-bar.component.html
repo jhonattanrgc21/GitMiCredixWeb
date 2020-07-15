@@ -11,12 +11,12 @@
   <div class="credix-payment-bar__footer">
     <div class="credix-payment-bar__footer__left-content">
       <span>{{firstLabel}}</span>
-      <span>{{startDate | date}}</span>
+      <span>{{startDate | dateFormatter: 'alphanumeric'}}</span>
     </div>
 
     <div class="credix-payment-bar__footer__right-content">
       <span>{{secondLabel}}</span>
-      <span>{{endDate | date}}</span>
+      <span>{{endDate | dateFormatter: 'alphanumeric'}}</span>
     </div>
   </div>
 </div>

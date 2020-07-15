@@ -23,8 +23,8 @@ export class CredixSliderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  valueChangeEvent(event) {
-    this.value = event;
+  valueChangeEvent(event, eventType: number) {
+    this.value = eventType === 1 ? event : event.value;
     this.valueChange.emit(this.value);
   }
 }

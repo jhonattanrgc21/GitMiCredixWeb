@@ -1,7 +1,9 @@
-<div class="menu-options" fxLayout="column">
+<overlay-scrollbars [options]="scrollBarOptions" class="menu-options" fxLayout="column">
   <div *ngFor="let menu of menus, let index = index, let first = first"
-       [class.is-selected]="menuSelected == menu.id && !first">
-    <hr *ngIf="!first" [class.is-selected]="index == indexSelected || index == indexSelected + 1"
+       [class.is-home]="first" [class.is-selected]="menuSelected == menu.id">
+    <hr *ngIf="!first"
+        [ngClass]="{'menu-options__line--full-width': index == indexSelected || (index == indexSelected + 1 &&
+        indexSelected + 1 != 1)}"
         class="menu-options__line">
     <button (click)="menuClick(menu.id, index,  menu.route)"
             class="menu-options__menu menu-options__button menu-items">
@@ -22,4 +24,4 @@
       </ng-container>
     </div>
   </div>
-</div>
+</overlay-scrollbars>
