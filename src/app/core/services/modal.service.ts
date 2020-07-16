@@ -4,6 +4,7 @@ import {CredixPopupComponent} from '../../shared/components/credix-popup/credix-
 import {CredixConfirmationPopupComponent} from '../../shared/components/credix-confirmation-popup/credix-confirmation-popup.component';
 import {Observable} from 'rxjs';
 
+
 @Injectable()
 export class ModalService {
 

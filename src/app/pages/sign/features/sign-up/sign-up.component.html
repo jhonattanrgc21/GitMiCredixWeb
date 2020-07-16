@@ -1,11 +1,51 @@
-<div fxLayout="row" fxLayoutGap="24px">
-  <credix-button (click)=openSignUpModal() text="Abrir primer popup"></credix-button>
+<div class="modal-new-user" fxLayout="row" fxLayoutGap="24px">
+  <credix-button (click)=openSignUpModal() text="Abrir modal nuevo usuario"></credix-button>
 
   <ng-template #templateModalSignUp>
     <div fxLayout="column" fxLayoutGap="36px">
-      <h1>Primer modal</h1>
+      <p class="modal-new-user__parrafe" >Ingrese los siguientes datos para crear una clave nueva.</p>
 
-      <p>Puede cerrar el modal en el boton superior.</p>
+      <credix-stepper #stepper class="modal-new-user__stepper">
+        <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
+          <form [formGroup]="newUserFirstStepForm" fxLayout="column" fxLayoutGap="16px">
+            <mat-form-field appearance="fill">
+              <mat-label>Select</mat-label>
+              <mat-select>
+                <mat-option value="option">Option</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <credix-button [disabled]="!newUserFirstStepForm.valid" [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
+                           text="Seguir"></credix-button>
+          </form>
+        </cdk-step>
+
+        <cdk-step [label]="'Validar teléfono'" [stepControl]="newUserSecondStepForm">
+          <form [formGroup]="newUserSecondStepForm" fxLayout="column" fxLayoutGap="16px">
+            <mat-form-field appearance="fill">
+              <mat-label>
+
+              </mat-label>
+              <label>
+                <input matInput type="text">
+              </label>
+            </mat-form-field>
+
+            <credix-button [disabled]="!newUserSecondStepForm.valid" [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
+                           text="Seguir"></credix-button>
+          </form>
+        </cdk-step>
+
+        <cdk-step [label]="'Clave'" [stepControl]="newUserThirstyStepForm">
+          <form [formGroup]="newUserThirstyStepForm" fxLayout="column" fxLayoutGap="16px">
+
+
+            <credix-button [disabled]="!newUserThirstyStepForm.valid" [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
+                           text="Seguir"></credix-button>
+          </form>
+        </cdk-step>
+
+      </credix-stepper>
     </div>
   </ng-template>
 </div>
