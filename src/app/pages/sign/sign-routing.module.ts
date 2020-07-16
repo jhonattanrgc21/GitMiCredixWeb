@@ -15,6 +15,10 @@ const routes: Routes = [
         path: 'sign-in',
         loadChildren: () => import('./features/sign-in/sign-in.module.js').then(m => m.SignInModule)
       },
+      {
+        path: 'forgot-pass',
+        loadChildren: () => import('./features/forgot-password/forgot-password.module.js').then(m => m.ForgotPasswordModule)
+      },
     ]
   }
 ];
