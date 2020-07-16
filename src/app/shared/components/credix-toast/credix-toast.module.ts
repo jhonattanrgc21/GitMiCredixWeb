@@ -8,8 +8,7 @@ import {CommonModule} from '@angular/common';
   imports: [
     CommonModule,
     OverlayModule
-  ],
-  entryComponents: [CredixToastComponent]
+  ]
 })
 export class CredixToastModule {
 }
