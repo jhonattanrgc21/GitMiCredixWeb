@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
+import {HomeService} from './home.service';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +9,11 @@ import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 })
 export class HomeComponent implements OnInit {
   isTablet = false;
-  toggleMenuIcon = false;
   username = 'John Doe';
   avatar = 'assets/images/avatar.png';
   menus = menus;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver, public homeService: HomeService) {
     this.getMenus();
   }
 
@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
       .observe(['(max-width: 1199px)'])
       .subscribe((state: BreakpointState) => {
         this.isTablet = state.matches;
+        this.homeService.isTablet(this.isTablet);
       });
   }
 
@@ -34,7 +35,6 @@ export class HomeComponent implements OnInit {
   }
 
 }
-
 
 export const menus: Menu[] = [
   {

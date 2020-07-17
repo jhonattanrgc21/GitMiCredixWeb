@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {HomeService} from '../../home.service';
 import {Menu} from '../../home.component';
 
 @Component({
@@ -21,20 +22,25 @@ export class MenuOptionComponent implements OnInit {
   submenuSelected = 0;
   openSubmenu = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private homeService: HomeService) {
   }
 
   ngOnInit(): void {
+    this.homeService.goHomeObs.subscribe(() => {
+      this.openSubmenu = false;
+      this.menuSelected = 1;
+      this.indexSelected = 0;
+    });
   }
 
-  menuClick(id: number, index: number, route?: string) {
-    this.openSubmenu = this.menuSelected === id ? !this.openSubmenu : true;
-    this.submenuSelected = this.menuSelected === id ? this.submenuSelected : 0;
+  menuClick(menu: Menu, index: number) {
+    this.menuSelected = menu.id;
+    this.openSubmenu = menu.submenus ? !this.openSubmenu : false;
+    this.submenuSelected = this.indexSelected === index ? this.submenuSelected : 0;
     this.indexSelected = index;
-    this.menuSelected = id;
 
-    if (route) {
-      this.router.navigate([route]);
+    if (menu.route) {
+      this.router.navigate([menu.route]);
     }
   }
 

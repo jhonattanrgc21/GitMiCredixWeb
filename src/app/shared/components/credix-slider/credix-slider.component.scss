@@ -81,7 +81,7 @@
       }
 
       &:before {
-        content: url(./chevron_left_disable_icon.svg);
+        content: url(./slider_chevron_left_disable_icon.svg);
         position: absolute;
         left: 4px;
         bottom: 1px;
@@ -90,14 +90,23 @@
 
     .mat-slider-disabled .mat-slider-thumb {
       &:before {
-        content: url(./chevron_left_disable_icon.svg);
+        content: url(./slider_chevron_left_disable_icon.svg);
         position: absolute;
         left: 4px;
         bottom: 1px;
       }
 
       &:after {
-        content: url(./slider_chevron_right_icon.svg);
+        content: url(./slider_chevron_right_disabled_icon.svg);
+        position: absolute;
+        right: 4px;
+        bottom: 1px;
+      }
+    }
+
+    .mat-slider-horizontal.is-full .mat-slider-thumb {
+      &:after {
+        content: url(./slider_chevron_right_disabled_icon.svg);
         position: absolute;
         right: 4px;
         bottom: 1px;

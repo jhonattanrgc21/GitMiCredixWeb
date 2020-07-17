@@ -7,6 +7,8 @@ import {HomeToolbarComponent} from './home-toolbar/home-toolbar.component';
 import {HomeFooterComponent} from './home-footer/home-footer.component';
 import {HomeNavigationMenuModule} from './home-navigation-menu/home-navigation-menu.module';
 import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
+import {HomeService} from './home.service';
+
 
 @NgModule({
   declarations: [HomeComponent, HomeToolbarComponent, HomeFooterComponent],
@@ -16,6 +18,9 @@ import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
     SharedModule,
     HomeNavigationMenuModule,
     OverlayscrollbarsModule
+  ],
+  providers: [
+    HomeService
   ]
 })
 export class HomeModule {

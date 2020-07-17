@@ -8,7 +8,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 })
 export class CredixPaymentBarComponent implements OnInit, OnChanges {
   @Input() firstLabel = 'Corte';
-  @Input() secondLabel = 'Fecha de pago';
+  @Input() secondLabel = 'Fecha máxima de pago';
   @Input() startDate: Date;
   @Input() endDate: Date;
   @Input() currentDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate());
