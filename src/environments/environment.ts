@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  urlCanales: 'http://',
+  urlCanales: 'https://',
   urlMarchamos: 'http://',
   urlIncomex: 'http://',
 };

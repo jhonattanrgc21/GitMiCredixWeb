@@ -8,12 +8,29 @@
       <credix-stepper #stepper class="modal-new-user__stepper">
         <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
           <form [formGroup]="newUserFirstStepForm" fxLayout="column" fxLayoutGap="16px">
-            <mat-form-field appearance="fill">
-              <mat-label>Select</mat-label>
-              <mat-select>
-                <mat-option value="option">Option</mat-option>
-              </mat-select>
-            </mat-form-field>
+
+            <div fxLayout="column" fxLayoutGap="8px">
+              <mat-form-field appearance="fill">
+                <mat-label>Tipo de Identificación</mat-label>
+                <mat-select formControlName="typeIdentification">
+                  <mat-option *ngFor="let indentificationType of identifyTypes" [value]="indentificationType.value">
+                    {{indentificationType.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" credixTextField onFocusLabel="Identificación">
+                <mat-label>
+                  Digite Su Identificación
+                </mat-label>
+                <label>
+                  <input formControlName="identification"
+                  [mask]="identificationMask"
+                  matInput
+                  autocomplete="false">
+                </label>
+              </mat-form-field>
+          </div>
 
             <credix-button [disabled]="!newUserFirstStepForm.valid" [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
                            text="Seguir"></credix-button>
@@ -21,16 +38,22 @@
         </cdk-step>
 
         <cdk-step [label]="'Validar teléfono'" [stepControl]="newUserSecondStepForm">
+          <p class="modal-new-user__stepper--parrafe">Ingrese el código que hemos enviado al teléfono registrado: {{cellNumber}}</p>
+
           <form [formGroup]="newUserSecondStepForm" fxLayout="column" fxLayoutGap="16px">
-            <mat-form-field appearance="fill">
-              <mat-label>
+            <credix-code-input
+            [(codeFormControl)]="fSecondControl.confirmationCode"
+            [length]="6"
+            class="w-100"
+            errorMessage="Introduzca el codigo de confirmación">
+            </credix-code-input>
 
-              </mat-label>
-              <label>
-                <input matInput type="text">
-              </label>
-            </mat-form-field>
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+              <span>¿No ha recibido el código?</span>
+              <credix-link-button [text]="'Enviar nuevamente'"></credix-link-button>
+            </div>
 
+            <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX (2227-3349) o visite una de nuestras sucursales para solicitar el cambio.</p>
             <credix-button [disabled]="!newUserSecondStepForm.valid" [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
                            text="Seguir"></credix-button>
           </form>

@@ -5,7 +5,6 @@
     justify-content: flex-start;
     padding-bottom: 16px;
     margin-bottom: 16px;
-    border-bottom: 1px solid #E9E9E9;
 
     &__step {
       display: flex;
@@ -16,7 +15,7 @@
       background: transparent;
       border: none;
       height: 30px;
-      min-width: 82px;
+      min-width: 100px;
       outline: none;
 
       // &:not(:last-of-type) {
@@ -32,7 +31,7 @@
       background: #d2d2d2;
       display: inline-block;
       position: relative;
-      left: 8px;
+      left: 0px;
       z-index: 10;
 
       &:after {
@@ -45,19 +44,18 @@
 
     &__label {
       width: min-content;
-      margin-left: 16px;
       color: #d2d2d2;
       text-align: center;
     }
 
     &__line{
-      width: 106px;
+      width: 98px;
       height: 0px;
       border-top: 4px solid #d2d2d2;
       position: relative;
       top: 14px;
       z-index: 1;
-      left: 8px;
+      left: -2px;
     }
 
     .is-active {
@@ -79,6 +77,9 @@
     .is-complete {
       .credix-stepper__nav-bar__circle {
         background: #19d27e;
+      }
+      .credix-stepper__nav-bar__line{
+        border-top: 4px solid #19d27e;
       }
     }
   }
