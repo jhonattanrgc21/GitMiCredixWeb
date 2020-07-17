@@ -1,7 +1,5 @@
 <div class="cards" fxLayout="column" fxLayoutGap="24px">
 
-  <h2>Tarjetas</h2>
-
   <mat-card class="cards__credix-card" credixCard>
     <mat-card-header>
       <div class="img-avatar" mat-card-avatar></div>
@@ -9,15 +7,28 @@
       <mat-card-subtitle>jdoe</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <p>
-        Proin eget tortor risus. Vivamus suscipit tortor eget felis porttitor volutpat. Donec rutrum congue leo eget
-        malesuada. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis
-        porttitor volutpat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-      </p>
+      <form [formGroup]="formGroup" class="w-90 form-container" fxLayout="column" fxLayoutAlign="center"
+            fxLayoutGap="2%">
+        <div fxLayout="column" fxLayoutGap="16px">
+          <mat-form-field appearance="standard" credixTextField onFocusLabel="Identificación">
+            <mat-label>Digite su identificación</mat-label>
+            <input formControlName="username" matInput>
+            <mat-error *ngIf="!formGroup.valid && (formGroup.dirty || formGroup.touched)">
+              Mensaje de error aquí
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave" style="width: 343px">
+          <mat-label>Digite su clave</mat-label>
+          <input [formControl]="formGroup" formControlName="username"
+                 [type]="hidePassword ? 'password' : 'text'"
+                 matInput/>
+          <mat-icon (click)="hidePassword = !hidePassword" [svgIcon]="hidePassword ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
+        </mat-form-field>
+      </form>
     </mat-card-content>
     <div fxLayout="row" fxLayoutGap="16px">
-      <credix-button text="Atras" type="secondary"></credix-button>
-      <credix-button text="compartir"></credix-button>
+      <credix-button text="Ingresar" align="center"></credix-button>
     </div>
   </mat-card>
 

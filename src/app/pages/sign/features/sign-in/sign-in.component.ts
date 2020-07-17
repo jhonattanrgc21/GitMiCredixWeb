@@ -33,7 +33,7 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.securityService.userLogin();
+
   }
 
   hasError(controlName: string, errorName: string) {

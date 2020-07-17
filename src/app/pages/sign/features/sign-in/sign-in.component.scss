@@ -1,7 +1,15 @@
 .cards {
-
+  top:25%;
+  width:100%;
+  text-align:center;
+  position:fixed;
   &__credix-card {
     max-width: 400px;
+    margin:0 auto;
+    display: inline-block;
+    width: 376px;
+    height: 520px;
+    padding: 40px;
 
     .img-avatar {
       background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
