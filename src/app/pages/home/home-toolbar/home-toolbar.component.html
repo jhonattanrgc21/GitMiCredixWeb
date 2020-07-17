@@ -6,7 +6,7 @@
   </button>
 
   <span class="toolbar__logo-container" fxFlex fxLayoutAlign="center">
-    <a (click)="toggleClick.emit()" [routerLink]="['/']" class="toolbar__logo">
+    <a (click)="homeService.goHome()" [routerLink]="['/']" class="toolbar__logo">
       <img alt="credix-logo" src="assets/images/credixLogo_icon.svg">
     </a>
     </span>

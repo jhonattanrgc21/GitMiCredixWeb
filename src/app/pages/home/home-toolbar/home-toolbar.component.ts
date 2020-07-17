@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {HomeService} from '../home.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -6,27 +7,24 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
   templateUrl: './home-toolbar.component.html',
   styleUrls: ['./home-toolbar.component.scss']
 })
-export class HomeToolbarComponent implements OnInit, OnChanges {
-  @Input() isTablet = false;
-  @Input() toggleIcon = false;
+export class HomeToolbarComponent implements OnInit {
   @Output() toggleClick = new EventEmitter<void>();
   @Output() signOutClick = new EventEmitter<void>();
-  svgIcon: 'menu-close' | 'menu';
+  svgIcon: 'menu-close' | 'menu' = 'menu-close';
 
-  constructor() {
+  constructor(public homeService: HomeService) {
   }
 
   ngOnInit(): void {
-  }
+    this.homeService.isTabletObs.subscribe(value => {
+      this.svgIcon = value ? 'menu' : 'menu-close';
+    });
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.isTablet) {
-      this.svgIcon = this.isTablet ? 'menu' : 'menu-close';
-    }
-
-    if (changes.toggleIcon && this.toggleIcon) {
-      this.svgIcon = 'menu';
-    }
+    this.homeService.isClosingObs.subscribe(value => {
+      if (value) {
+        this.svgIcon = 'menu';
+      }
+    });
   }
 
   toggle() {

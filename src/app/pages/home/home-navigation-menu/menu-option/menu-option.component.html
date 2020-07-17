@@ -1,11 +1,11 @@
 <overlay-scrollbars [options]="scrollBarOptions" class="menu-options" fxLayout="column">
   <div *ngFor="let menu of menus, let index = index, let first = first"
-       [class.is-home]="first" [class.is-selected]="menuSelected == menu.id">
-    <hr *ngIf="!first"
-        [ngClass]="{'menu-options__line--full-width': index == indexSelected || (index == indexSelected + 1 &&
-        indexSelected + 1 != 1)}"
-        class="menu-options__line">
-    <button (click)="menuClick(menu.id, index,  menu.route)"
+       [ngClass]="{
+        'is-home' : first,
+        'is-selected' : menuSelected == menu.id,
+        'is-open' : menuSelected == menu.id && openSubmenu }">
+    <hr *ngIf="!first" class="menu-options__line">
+    <button (click)="menuClick(menu, index)"
             class="menu-options__menu menu-options__button menu-items">
       <span [class.is-home]="first" class="menu-label">{{menu.name}}</span>
       <mat-icon *ngIf="!first && menu.submenus"

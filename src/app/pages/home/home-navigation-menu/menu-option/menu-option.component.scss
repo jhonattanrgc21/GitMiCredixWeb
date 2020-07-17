@@ -51,16 +51,6 @@
     opacity: 1;
     margin-right: 16px;
     margin-left: 16px;
-    transition: width 0.3s ease-in-out;
-    -webkit-transition: width 0.3s ease-in-out;
-    -ms-transition: width 0.3s ease-in-out;
-    -moz-transition: width 0.3s ease-in-out;
-    -o-transition: width 0.3s ease-in-out;
-
-    &--full-width {
-      margin: 0;
-      width: 289px;
-    }
   }
 
   &__submenus {
@@ -108,10 +98,14 @@
   }
 
   .is-selected {
-    background-color: #ffffff;
+
+    &.is-open {
+      background-color: #ffffff;
+    }
 
     .menu-label {
-      margin-left: 8px;
+      margin-left: 2px;
+      padding-left: 14px;
       border-left: 2px solid #e42313;
       color: #3E3E3E;
       font-size: 24px;
