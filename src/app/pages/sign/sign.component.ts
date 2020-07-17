@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {SecurityService} from "../../core/services/security.service";
 
 @Component({
   selector: 'app-sign',
@@ -7,10 +8,11 @@ import {Component, OnInit} from '@angular/core';
 })
 export class SignComponent implements OnInit {
 
-  constructor() {
+  constructor(private securityService: SecurityService) {
   }
 
   ngOnInit(): void {
+
   }
 
 }
