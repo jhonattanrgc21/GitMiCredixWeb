@@ -1,0 +1,10 @@
+<svg height="8.951" viewBox="0 0 5.53 8.951" width="5.53" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.slider-chevron-right-disabled-icon {
+      fill: #D2D2D2;
+    }</style>
+  </defs>
+  <path class="slider-chevron-right-disabled-icon"
+        d="M8.585,13.894l3.421-3.421L8.585,7.053,9.64,6l4.475,4.475L9.64,14.949Z"
+        transform="translate(-8.585 -5.998)"/>
+</svg>
