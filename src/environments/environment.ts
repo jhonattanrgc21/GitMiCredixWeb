@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  urlCanales: 'http://',
+  urlCanales: 'https://qacanalesbe.credix.com/api/canalesbe/',
   urlMarchamos: 'http://',
   urlIncomex: 'http://',
 };

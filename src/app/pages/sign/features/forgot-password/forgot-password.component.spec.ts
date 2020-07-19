@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { DebugElement } from "@angular/core";
 import {By} from "@angular/platform-browser";
-import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule} from "@angular/material/dialog";
 
 import { ForgotPasswordComponent } from './forgot-password.component';
 
@@ -23,8 +23,8 @@ describe('ForgotPasswordComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
     component = fixture.componentInstance;
-    //debug = fixture.debugElement.query(By.css('form'))
-    //element = debug.nativeElement;
+    debug = fixture.debugElement.query(By.css('form'))
+    element = debug.nativeElement;
     fixture.detectChanges();
   });
 
@@ -38,10 +38,10 @@ describe('ForgotPasswordComponent', () => {
 
   it("button shouldn't work when invalid", () => {
     expect(component.forgotPassForm.valid).toBeFalsy();
-    spyOn(component, 'onSubmit');
+    spyOn(component, 'submit');
     element = fixture.debugElement.query(By.css('credix-button')).nativeElement;
     element.click();
-    expect(component.onSubmit).toHaveBeenCalledTimes(0);
+    expect(component.submit).toHaveBeenCalledTimes(0);
 
   })
 
@@ -64,7 +64,7 @@ describe('ForgotPasswordComponent', () => {
     component.forgotPassForm.controls['confirmPassword'].setValue('12345');
     component.forgotPassForm.controls['code'].setValue('681379');
     expect(component.forgotPassForm.valid).toBeTruthy();
-    component.onSubmit();
+    component.submit();
     expect(component.submitted).toBeTruthy();
   });
 

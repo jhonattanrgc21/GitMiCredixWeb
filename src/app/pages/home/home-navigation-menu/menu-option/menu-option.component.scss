@@ -1,5 +1,6 @@
 .menu-options {
-  height: calc(100% - 16px);
+  height: calc(100% - 20px);
+  width: 291px;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -19,12 +20,15 @@
     font-size: 20px;
 
     .menu-label {
-      border-left: 2px solid #3e3e3e;
       padding-left: 16px;
       color: #696d6f;
+      transition: font-size 0.2s ease-in;
+      -webkit-transition: font-size 0.2s ease-in;
+      -ms-transition: font-size 0.2s ease-in;
+      -moz-transition: font-size 0.2s ease-in;
+      -o-transition: font-size 0.2s ease-in;
 
       &.is-home {
-        border-color: #e42313;
         color: #3e3e3e;
         font-size: 24px;
       }
@@ -45,15 +49,16 @@
     background: #e9e9e9;
     width: 259px;
     opacity: 1;
-    margin-right: auto;
-    margin-left: auto;
+    margin-right: 16px;
+    margin-left: 16px;
     transition: width 0.3s ease-in-out;
     -webkit-transition: width 0.3s ease-in-out;
     -ms-transition: width 0.3s ease-in-out;
     -moz-transition: width 0.3s ease-in-out;
     -o-transition: width 0.3s ease-in-out;
 
-    &.is-selected {
+    &--full-width {
+      margin: 0;
       width: 289px;
     }
   }
@@ -74,12 +79,15 @@
 
   &__submenu {
     padding-left: 16px;
-    font-size: 16px;
     font-weight: normal;
+    display: flex;
+    align-items: center;
 
     .submenu-label {
+      align-items: center;
+      box-sizing: border-box;
+      font-size: 16px;
       color: #696d6f;
-      line-height: 24px;
     }
 
     .submenu-icon {
@@ -101,5 +109,21 @@
 
   .is-selected {
     background-color: #ffffff;
+
+    .menu-label {
+      margin-left: 8px;
+      border-left: 2px solid #e42313;
+      color: #3E3E3E;
+      font-size: 24px;
+    }
+  }
+
+  .is-home {
+    background-color: inherit !important;
+
+    .menu-label {
+      color: #3e3e3e;
+      font-size: 24px;
+    }
   }
 }

@@ -10,6 +10,17 @@
     color: #239DF7;
   }
 
+  &__icon {
+    color: #239DF7;
+  }
+
+  &:hover {
+    .credix-share-button__span, .credix-share-button__icon {
+      font-weight: bold;
+      color: #166EAF;
+    }
+  }
+
   &__menu {
 
     &__title {

@@ -6,6 +6,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {HomeToolbarComponent} from './home-toolbar/home-toolbar.component';
 import {HomeFooterComponent} from './home-footer/home-footer.component';
 import {HomeNavigationMenuModule} from './home-navigation-menu/home-navigation-menu.module';
+import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
 
 @NgModule({
   declarations: [HomeComponent, HomeToolbarComponent, HomeFooterComponent],
@@ -13,7 +14,8 @@ import {HomeNavigationMenuModule} from './home-navigation-menu/home-navigation-m
     CommonModule,
     HomeRoutingModule,
     SharedModule,
-    HomeNavigationMenuModule
+    HomeNavigationMenuModule,
+    OverlayscrollbarsModule
   ]
 })
 export class HomeModule {

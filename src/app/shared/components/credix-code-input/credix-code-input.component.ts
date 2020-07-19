@@ -21,7 +21,7 @@ export class CredixCodeInputComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.codeFormControl) {
-      this.codeFormControl.setValidators([Validators.minLength(6), Validators.maxLength(6)]);
+      this.codeFormControl.setValidators([Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
     }
   }
 

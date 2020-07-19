@@ -14,8 +14,14 @@
   }
 
   ::ng-deep {
+    .mat-slider.mat-slider-horizontal {
+      padding: 0;
+    }
+
     .mat-slider.mat-slider-horizontal .mat-slider-wrapper {
       top: 18px;
+      left: 0;
+      right: 0;
     }
 
     .mat-slider.mat-slider-horizontal .mat-slider-track-wrapper {

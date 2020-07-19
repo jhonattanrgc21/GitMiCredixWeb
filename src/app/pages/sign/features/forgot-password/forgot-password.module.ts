@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {ReactiveFormsModule} from "@angular/forms";
 import {FlexModule} from '@angular/flex-layout';
+import {NgxMaskModule, IConfig} from 'ngx-mask'
 
 import {ForgotPasswordComponent} from './forgot-password.component';
 import {ModalService} from '../../../../core/services/modal.service';
@@ -12,6 +13,10 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {CredixTooltipsModule} from "../../../../shared/directives/credix-tooltips/credix-tooltips.module";
 import {CredixFormsModule} from "../../../../shared/directives/credix-forms/credix-forms.module";
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 const routes: Routes = [
   {
@@ -32,7 +37,8 @@ const routes: Routes = [
     SharedModule,
     CredixTooltipsModule,
     CredixFormsModule,
-    CredixCodeInputModule
+    CredixCodeInputModule,
+    NgxMaskModule.forRoot(maskConfig)
 
   ],
   providers: [ModalService]

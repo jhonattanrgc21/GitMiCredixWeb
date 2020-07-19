@@ -10,6 +10,12 @@ import {Menu} from '../../home.component';
 })
 export class MenuOptionComponent implements OnInit {
   @Input() menus: Menu[];
+  scrollBarOptions = {
+    overflowBehavior: {
+      x: 'hidden',
+      y: 'scroll'
+    }
+  };
   menuSelected = 1;
   indexSelected = -1;
   submenuSelected = 0;
