@@ -15,7 +15,21 @@
         display: block;
       }
     }
-
-
   }
+
+  &__button{
+    align-self: flex-start;
+    width: 100%;
+    margin-top: 64px;
+  }
+
+  &__button-second_step{
+    margin-top:8px;
+    margin-bottom: 16px;
+  }
+
+}
+
+.credix-password-field-tooltip{
+  width: 298px;
 }

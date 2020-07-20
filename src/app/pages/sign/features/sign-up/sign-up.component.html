@@ -19,21 +19,26 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" credixTextField onFocusLabel="Identificación">
+              <mat-form-field appearance="fill" credixTextField="text" onFocusLabel="Identificación">
                 <mat-label>
                   Digite Su Identificación
                 </mat-label>
-                <label>
                   <input formControlName="identification"
                   [mask]="identificationMask"
                   matInput
+                  style="margin-top: 8px;"
                   autocomplete="false">
-                </label>
               </mat-form-field>
           </div>
 
-            <credix-button [disabled]="!newUserFirstStepForm.valid" [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
-                           text="Seguir"></credix-button>
+            <credix-button
+            class="modal-new-user__button"
+            [disabled]="!newUserFirstStepForm.valid"
+            [stepper]="stepper"
+            credixStepperNext
+            fxFlexAlign="flex-end"
+            (click)=sendIdentification()
+            text="Seguir"></credix-button>
           </form>
         </cdk-step>
 
@@ -50,21 +55,49 @@
 
             <div fxLayout="column" fxLayoutAlign="space-around center">
               <span>¿No ha recibido el código?</span>
-              <credix-link-button [text]="'Enviar nuevamente'"></credix-link-button>
+              <credix-link-button (click)=getCodeAgain() [text]="'Enviar nuevamente'"></credix-link-button>
             </div>
 
             <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX (2227-3349) o visite una de nuestras sucursales para solicitar el cambio.</p>
-            <credix-button [disabled]="!newUserSecondStepForm.valid" [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
-                           text="Seguir"></credix-button>
+            <credix-button
+            class="modal-new-user__button-second_step"
+            [disabled]="!newUserSecondStepForm.valid"
+            [stepper]="stepper"
+            credixStepperNext
+            fxFlexAlign="flex-end"
+            (click)=sendConfirmationCode()
+            text="Seguir"></credix-button>
           </form>
         </cdk-step>
 
         <cdk-step [label]="'Clave'" [stepControl]="newUserThirstyStepForm">
-          <form [formGroup]="newUserThirstyStepForm" fxLayout="column" fxLayoutGap="16px">
+          <form [formGroup]="newUserThirstyStepForm" fxLayout="column">
 
+            <!-- Nueva clave -->
+            <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave" style="width: 296px">
+              <mat-label>Digite su clave</mat-label>
+              <input [credixPasswordFieldTooltip]="fThirstyControls.newPassword.errors"
+                     [formControl]="fThirstyControls.newPassword"
+                     [type]="hideNewPassword ? 'password' : 'text'"
+                     matInput/>
+              <mat-icon (click)="hideNewPassword = !hideNewPassword" [svgIcon]="hideNewPassword ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
+            </mat-form-field>
+            <!-- Confirmar Clave -->
+            <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave" style="width: 296px">
+              <mat-label>Confirme su nueva clave</mat-label>
+              <input [formControl]="fThirstyControls.confirmPassword"
+                     [type]="hideConfirmPassword ? 'password' : 'text'"
+                     matInput/>
+              <mat-icon (click)="hideConfirmPassword = !hideConfirmPassword" [svgIcon]="hideConfirmPassword ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
+            </mat-form-field>
 
-            <credix-button [disabled]="!newUserThirstyStepForm.valid" [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
-                           text="Seguir"></credix-button>
+            <credix-button
+            class="modal-new-user__button"
+            [disabled]="!newUserThirstyStepForm.valid"
+             [stepper]="stepper"
+             (click)=sendPassword()
+             fxFlexAlign="flex-end"
+              text="Seguir"></credix-button>
           </form>
         </cdk-step>
 

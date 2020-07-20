@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ModalService } from '../../../../core/services/modal.service';
 import { MatDialog } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { IdentifyTypes } from 'src/app/shared/models/IdentifyModel/IndentifyTypes';
 import { HttpService } from 'src/app/core/services/http.service';
 import { finalize } from 'rxjs/operators';
@@ -18,6 +18,8 @@ export class SignUpComponent implements OnInit {
   cellNumber: string = '88**-**88';
   identificationMask = '0-0000-0000';
   identificationMaxLength = 0;
+  hideNewPassword: boolean = true;
+  hideConfirmPassword: boolean = true;
 
   newUserFirstStepForm: FormGroup = new FormGroup({
         typeIdentification: new FormControl('', [Validators.required]),
@@ -28,9 +30,9 @@ export class SignUpComponent implements OnInit {
   {confirmationCode: new FormControl('' , [Validators.required])});
 
   newUserThirstyStepForm: FormGroup = new FormGroup({
-        newPassword: new FormControl('',[Validators.required, Validators.minLength(8)]),
+        newPassword: new FormControl('',[Validators.required]),
         confirmPassword: new FormControl('', [Validators.required])
-      });
+      }, {validators: this.checkPasswords});
 
 
   @ViewChild('templateModalSignUp') templateModalSignUp: TemplateRef<any>;
@@ -48,6 +50,10 @@ export class SignUpComponent implements OnInit {
 
   get fSecondControl() {
     return this.newUserSecondStepForm.controls;
+  }
+
+  get fThirstyControls() {
+    return this.newUserThirstyStepForm.controls;
   }
 
 
@@ -98,8 +104,35 @@ export class SignUpComponent implements OnInit {
     });
   }
 
+  checkPasswords(group: FormGroup): ValidationErrors | null {
+    const password: string = group.get('newPassword').value || '';
+    const repeatedPassword = group.get('confirmPassword').value || '';
+
+    if (!password || !repeatedPassword) {
+      return null;
+    }
+    return password === repeatedPassword ? null : {mismatch: true};
+  }
+
   continueButton(){
     console.log('Continue');
   }
 
+  sendIdentification(){
+    const body = {
+    };
+
+  }
+
+  sendConfirmationCode(){
+
+  }
+
+  getCodeAgain(){
+
+  }
+
+  sendPassword(){
+
+  }
 }
