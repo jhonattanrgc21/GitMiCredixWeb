@@ -6,7 +6,7 @@ import {
   ValidatorFn,
   ValidationErrors,
 } from "@angular/forms";
-import { Router } from "@angular/router";
+//import { Router } from "@angular/router";
 import { finalize } from "rxjs/operators";
 import * as CryptoJS from "crypto-js";
 
@@ -58,7 +58,7 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private httpService: HttpService,
-    private router: Router
+    //private router: Router
   ) {}
 
   ngOnInit(): void {
