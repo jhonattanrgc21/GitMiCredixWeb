@@ -23,6 +23,11 @@ export class SignUpComponent implements OnInit {
   hideNewPassword: boolean = true;
   hideConfirmPassword: boolean = true;
   userId: number;
+  credixStatusResult = {
+    message: '',
+    title: '',
+    status: ''
+  };
 
   newUserFirstStepForm: FormGroup = new FormGroup({
         typeIdentification: new FormControl('', [Validators.required]),
@@ -39,6 +44,7 @@ export class SignUpComponent implements OnInit {
 
 
   @ViewChild('templateModalSignUp') templateModalSignUp: TemplateRef<any>;
+  @ViewChild('popupResults') popupResults: TemplateRef<any>;
 
   constructor(
     private dialog: MatDialog,
@@ -158,8 +164,8 @@ export class SignUpComponent implements OnInit {
     this.toastService.show({text, type});
   }
 
-  showPopup(title: string, message: string){
-    return this.modalService.confirmationPopup(title, message);
+  showPopupResult(){
+    this.modalService.open({template: this.popupResults}, {width: 376, height: 349, disableClose: false})
   }
 
   sendPasswordSecurity(){
@@ -189,9 +195,9 @@ export class SignUpComponent implements OnInit {
       uuid: "12311515615614515616",
       platform : 3
     })
-    // .pipe()
+    .pipe(finalize(()=> this.showPopupResult()))
     .subscribe( response => {
       console.log(response);
-    } );
+    });
   }
 }

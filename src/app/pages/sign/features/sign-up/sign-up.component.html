@@ -103,4 +103,10 @@
       </credix-stepper>
     </div>
   </ng-template>
+
+  <ng-template #popupResults>
+    <credix-result-notification [message]="credixStatusResult.message" [status]="credixStatusResult.status"
+                                [title]="credixStatusResult.title"></credix-result-notification>
+
+  </ng-template>
 </div>

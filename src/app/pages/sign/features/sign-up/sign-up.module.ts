@@ -18,6 +18,7 @@ import { NgxMaskModule, IConfig} from 'ngx-mask';
 import { CredixLinkButtonModule } from './credix-link-button/credix-link-button.module';
 import { CustomIconLoaderService } from 'src/app/core/services/custom-icon-loader.service';
 import { CredixTooltipsModule } from 'src/app/shared/directives/credix-tooltips/credix-tooltips.module';
+import { CredixResultNotificationModule } from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -45,6 +46,7 @@ const routes: Routes = [
     CredixCodeInputModule,
     CredixLinkButtonModule,
     CredixTooltipsModule,
+    CredixResultNotificationModule,
     CdkStepperModule,
     StepperModule,
     NgxMaskModule.forRoot(maskConfig),
