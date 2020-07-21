@@ -15,11 +15,12 @@ import { pipe } from 'rxjs';
 export class SignUpComponent implements OnInit {
 
   identifyTypes: IdentifyTypes[];
-  cellNumber: string = '88**-**88';
+  cellNumber: string;
   identificationMask = '0-0000-0000';
   identificationMaxLength = 0;
   hideNewPassword: boolean = true;
   hideConfirmPassword: boolean = true;
+  userId: number;
 
   newUserFirstStepForm: FormGroup = new FormGroup({
         typeIdentification: new FormControl('', [Validators.required]),
@@ -46,7 +47,9 @@ export class SignUpComponent implements OnInit {
     this.getIdentificationTypes();
   }
 
-
+  get fFirstControls() {
+    return this.newUserFirstStepForm.controls;
+  }
 
   get fSecondControl() {
     return this.newUserSecondStepForm.controls;
@@ -54,6 +57,12 @@ export class SignUpComponent implements OnInit {
 
   get fThirstyControls() {
     return this.newUserThirstyStepForm.controls;
+  }
+
+  get userIdValues() { return this.userId;}
+
+  public setUserIdValue (id:number) {
+    this.userId = id;
   }
 
 
@@ -64,7 +73,7 @@ export class SignUpComponent implements OnInit {
   }
 
   getIdentificationTypes() {
-    this.httpService.post( 'canales', 'qacanalesbe.credix.com/api/canalesbe/global/identification-types', {"channelId": 102})
+    this.httpService.post( 'canales', 'global/identification-types', {"channelId": 102})
     .pipe(finalize(() => this.identificationTypeChanged()))
     .subscribe( response => this.identifyTypes = response.identificationTypes.filter(idt => idt.id > 0));
   }
@@ -114,25 +123,35 @@ export class SignUpComponent implements OnInit {
     return password === repeatedPassword ? null : {mismatch: true};
   }
 
-  continueButton(){
-    console.log('Continue');
-  }
 
   sendIdentification(){
-    const body = {
+    const objTest = {
+      channelId: 1,
+      typeIdentification: this.fFirstControls.typeIdentification.value,
+      identification:this.fFirstControls.identification.value
     };
 
-  }
-
-  sendConfirmationCode(){
-
+    console.log(objTest);
+    this.httpService.post('canales','security/getdatamaskednameapplicantsendotp',{
+      channelId: 1,
+      typeIdentification: this.fFirstControls.typeIdentification.value,
+      identification:this.fFirstControls.identification.value
+    })
+    // .pipe()
+    .subscribe(response => {
+      this.cellNumber = response.phone;
+      this.setUserIdValue(response.userId);
+    });
   }
 
   getCodeAgain(){
 
   }
 
-  sendPassword(){
+  submit(){
+    this.httpService.post('canales','',{
+      channel: 102,
 
+    })
   }
 }

@@ -13,13 +13,13 @@
               <mat-form-field appearance="fill">
                 <mat-label>Tipo de Identificación</mat-label>
                 <mat-select formControlName="typeIdentification">
-                  <mat-option *ngFor="let indentificationType of identifyTypes" [value]="indentificationType.value">
+                  <mat-option *ngFor="let indentificationType of identifyTypes" [value]="indentificationType.id">
                     {{indentificationType.description}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" credixTextField="text" onFocusLabel="Identificación">
+              <mat-form-field appearance="fill" credixTextField="text" onFocusLabel="'Identificación'">
                 <mat-label>
                   Digite Su Identificación
                 </mat-label>
@@ -36,8 +36,8 @@
             [disabled]="!newUserFirstStepForm.valid"
             [stepper]="stepper"
             credixStepperNext
-            fxFlexAlign="flex-end"
             (click)=sendIdentification()
+            fxFlexAlign="flex-end"
             text="Seguir"></credix-button>
           </form>
         </cdk-step>
@@ -58,14 +58,13 @@
               <credix-link-button (click)=getCodeAgain() [text]="'Enviar nuevamente'"></credix-link-button>
             </div>
 
-            <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX (2227-3349) o visite una de nuestras sucursales para solicitar el cambio.</p>
+            <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX (<strong style="color: #239DF7; ">2227-3349</strong>) o visite una de nuestras sucursales para solicitar el cambio.</p>
             <credix-button
-            class="modal-new-user__button-second_step"
+            class="second-step"
             [disabled]="!newUserSecondStepForm.valid"
             [stepper]="stepper"
             credixStepperNext
             fxFlexAlign="flex-end"
-            (click)=sendConfirmationCode()
             text="Seguir"></credix-button>
           </form>
         </cdk-step>
@@ -94,8 +93,7 @@
             <credix-button
             class="modal-new-user__button"
             [disabled]="!newUserThirstyStepForm.valid"
-             [stepper]="stepper"
-             (click)=sendPassword()
+            (click)=submit()
              fxFlexAlign="flex-end"
               text="Seguir"></credix-button>
           </form>
