@@ -5,7 +5,9 @@ import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/f
 import { IdentifyTypes } from 'src/app/shared/models/IdentifyModel/IndentifyTypes';
 import { HttpService } from 'src/app/core/services/http.service';
 import { finalize } from 'rxjs/operators';
-import { pipe } from 'rxjs';
+import * as CryptoJS from "crypto-js";
+import { CredixToastService } from 'src/app/core/services/credix-toast.service';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -28,7 +30,7 @@ export class SignUpComponent implements OnInit {
       });
 
   newUserSecondStepForm: FormGroup = new FormGroup(
-  {confirmationCode: new FormControl('' , [Validators.required])});
+  {credixCode: new FormControl('' , [Validators.required])});
 
   newUserThirstyStepForm: FormGroup = new FormGroup({
         newPassword: new FormControl('',[Validators.required]),
@@ -41,7 +43,8 @@ export class SignUpComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private modalService: ModalService,
-    private httpService: HttpService) { }
+    private httpService: HttpService,
+    private toastService: CredixToastService) { }
 
   ngOnInit(): void {
     this.getIdentificationTypes();
@@ -123,15 +126,16 @@ export class SignUpComponent implements OnInit {
     return password === repeatedPassword ? null : {mismatch: true};
   }
 
+  verifyRegistryUser(){
+    this.httpService.post('canales','security/verifyregistryuser',{
+      identification: this.fFirstControls.identification.value,
+      channelId: 101
+    })
+    .pipe(finalize(() => this.sendIdentification()))
+    .subscribe( response => { console.log(response)})
+  }
 
   sendIdentification(){
-    const objTest = {
-      channelId: 1,
-      typeIdentification: this.fFirstControls.typeIdentification.value,
-      identification:this.fFirstControls.identification.value
-    };
-
-    console.log(objTest);
     this.httpService.post('canales','security/getdatamaskednameapplicantsendotp',{
       channelId: 1,
       typeIdentification: this.fFirstControls.typeIdentification.value,
@@ -141,17 +145,53 @@ export class SignUpComponent implements OnInit {
     .subscribe(response => {
       this.cellNumber = response.phone;
       this.setUserIdValue(response.userId);
+      this.showToast(response.type, response.message);
     });
   }
 
   getCodeAgain(){
+    let userId = this.userIdValues;
+    console.log(userId);
+  }
 
+  showToast(type, text: string) {
+    this.toastService.show({text, type});
+  }
+
+  showPopup(title: string, message: string){
+    return this.modalService.confirmationPopup(title, message);
+  }
+
+  sendPasswordSecurity(){
+    this.httpService.post('canales','security/validateonetimepassword',
+    {
+      channelId : 102,
+      userId : this.userIdValues,
+      validateToken : 1,
+      usernameSecurity: "sts_sac",
+      passwordSecurity: "27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47",
+      confirmationCode : this.fSecondControl.credixCode.value
+    })
+    // .pipe()
+    .subscribe(response => {console.log(response)});
   }
 
   submit(){
-    this.httpService.post('canales','',{
-      channel: 102,
-
+    this.httpService.post('canales','security/validatePasswordAndConfirmPassword',{
+      userId : this.userIdValues,
+      channelId : 102,
+      typeIncome : 1,
+      validateToken : 1,
+      newPassword: CryptoJS.SHA256(this.fThirstyControls.newPassword.value),
+      confirmPassword: CryptoJS.SHA256(this.fThirstyControls.confirmPassword.value),
+      usernameSecurity: "sts_sac",
+      passwordSecurity:  "27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47",
+      uuid: "12311515615614515616",
+      platform : 3
     })
+    // .pipe()
+    .subscribe( response => {
+      console.log(response);
+    } );
   }
 }

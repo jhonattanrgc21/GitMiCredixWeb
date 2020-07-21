@@ -18,21 +18,27 @@
   }
 
   &__button{
-    align-self: flex-start;
+    align-self: flex-start !important;
     width: 100%;
-    margin-top: 64px;
+    &.step-one{
+      margin-top: 72px;
+    }
+    &.step-two{
+      margin-top:8px;
+      margin-bottom: 16px;
+    }
+    &.step-three {
+      margin-top: 88px;
+    }
   }
-
-  .credix-password-field-tooltip{
-    width: 298px;
+  .mat-form-field{
+    ::ng-deepmat-select-panel{
+      margin-top:-195.5px;
+    }
   }
-
-  .second_step{
-    align-self: flex-start;
-    width: 100%;
-    margin-top:8px;
-    margin-bottom: 16px;
-  }
-
 }
 
+
+credix-password-field-tooltip {
+  width: 298px !important;
+}

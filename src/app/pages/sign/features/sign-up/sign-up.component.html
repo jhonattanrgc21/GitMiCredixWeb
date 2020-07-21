@@ -19,7 +19,7 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" credixTextField="text" onFocusLabel="'Identificación'">
+              <mat-form-field appearance="fill" credixTextField="text" onFocusLabel="Identificación">
                 <mat-label>
                   Digite Su Identificación
                 </mat-label>
@@ -32,11 +32,11 @@
           </div>
 
             <credix-button
-            class="modal-new-user__button"
+            class="modal-new-user__button step-one"
             [disabled]="!newUserFirstStepForm.valid"
             [stepper]="stepper"
             credixStepperNext
-            (click)=sendIdentification()
+            (click)=verifyRegistryUser()
             fxFlexAlign="flex-end"
             text="Seguir"></credix-button>
           </form>
@@ -47,7 +47,7 @@
 
           <form [formGroup]="newUserSecondStepForm" fxLayout="column" fxLayoutGap="16px">
             <credix-code-input
-            [(codeFormControl)]="fSecondControl.confirmationCode"
+            [(codeFormControl)]="fSecondControl.credixCode"
             [length]="6"
             class="w-100"
             errorMessage="Introduzca el codigo de confirmación">
@@ -60,10 +60,11 @@
 
             <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX (<strong style="color: #239DF7; ">2227-3349</strong>) o visite una de nuestras sucursales para solicitar el cambio.</p>
             <credix-button
-            class="second-step"
+            class="modal-new-user__button step-two"
             [disabled]="!newUserSecondStepForm.valid"
             [stepper]="stepper"
             credixStepperNext
+            (buttonClick)=sendPasswordSecurity()
             fxFlexAlign="flex-end"
             text="Seguir"></credix-button>
           </form>
@@ -91,9 +92,9 @@
             </mat-form-field>
 
             <credix-button
-            class="modal-new-user__button"
+            class="modal-new-user__button step-three"
             [disabled]="!newUserThirstyStepForm.valid"
-            (click)=submit()
+            (buttonClick)=submit()
              fxFlexAlign="flex-end"
               text="Seguir"></credix-button>
           </form>
