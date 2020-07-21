@@ -198,6 +198,9 @@ export class SignUpComponent implements OnInit {
     .pipe(finalize(()=> this.showPopupResult()))
     .subscribe( response => {
       console.log(response);
+      this.credixStatusResult.message = response.message;
+      this.credixStatusResult.title = response.titleOne;
+      this.credixStatusResult.status = response.type;
     });
   }
 }
