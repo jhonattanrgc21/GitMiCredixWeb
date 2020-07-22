@@ -16,7 +16,6 @@
 
   &__content {
     background: #f4f4f4;
-    justify-content: center;
     overflow: hidden;
 
     ::ng-deep.os-content {
@@ -26,7 +25,7 @@
 
     &__main {
       padding: 16px;
-      width: calc(100vw - 291px);
+      width: calc(877px + 16px + 16px);
     }
   }
 
@@ -34,5 +33,11 @@
     .home__sidenav-container {
       flex: 1 0 auto;
     }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .home__content__main {
+    width: calc(736px + 16px + 16px);
   }
 }

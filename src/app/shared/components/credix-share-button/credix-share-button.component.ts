@@ -9,6 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CredixShareButtonComponent implements OnInit {
   @Input() url: string;
   @Input() description: string;
+  @Input() disabled = false;
 
   constructor() {
   }

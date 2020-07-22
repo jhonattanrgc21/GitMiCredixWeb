@@ -27,11 +27,6 @@
       -ms-transition: font-size 0.2s ease-in;
       -moz-transition: font-size 0.2s ease-in;
       -o-transition: font-size 0.2s ease-in;
-
-      &.is-home {
-        color: #3e3e3e;
-        font-size: 24px;
-      }
     }
   }
 
@@ -108,15 +103,6 @@
       padding-left: 14px;
       border-left: 2px solid #e42313;
       color: #3E3E3E;
-      font-size: 24px;
-    }
-  }
-
-  .is-home {
-    background-color: inherit !important;
-
-    .menu-label {
-      color: #3e3e3e;
       font-size: 24px;
     }
   }

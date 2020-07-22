@@ -25,7 +25,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
       'style', 'margin-left: 8px; font-weight: bold');
 
     this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
-      'style', 'position: absolute !important; bottom: 20px; right: 8px; padding-bottom: 16px;');
+      'style', 'position: absolute !important; bottom: 20px; right: 8px; padding-bottom: 16px; color: #3e3e3e;');
 
     this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-underline'),
       'style', 'background:#C7C7C7');
@@ -51,6 +51,9 @@ export class CredixTextFieldDirective implements AfterViewInit {
     this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
       'style', 'font-size: 12px; color: #3e3e3e; text-align: left; margin-top: 8px');
 
+    this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
+      'style', 'position: absolute !important; bottom: 20px; right: 8px; padding-bottom: 16px; color: #3e3e3e;');
+
     if (this.onFocusLabel) {
       this.el.nativeElement.querySelector('.mat-form-field-label').children[0].innerHTML = this.onFocusLabel;
     }
@@ -58,6 +61,9 @@ export class CredixTextFieldDirective implements AfterViewInit {
     if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
       this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-ripple'),
         'style', 'background: #FF4965');
+
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
+        'style', 'font-size: 12px; color: #FF4965; text-align: left; margin-top: 8px');
 
       this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
         'style', 'color:#FF4965');
@@ -69,10 +75,16 @@ export class CredixTextFieldDirective implements AfterViewInit {
 
       this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-infix'),
         'style', 'padding-bottom: 16px !important; box-shadow: 0px 5px 10px #00000026;');
+
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-icon'),
+        'style', 'display: inline-block; height: 15px; width: 22px');
     }
   }
 
   @HostListener('focusout') onFocusOut() {
+    this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
+      'style', 'position: absolute !important; bottom: 20px; right: 8px; padding-bottom: 16px; color: #3e3e3e;');
+
     if (this.el.nativeElement.querySelector('.mat-error')) {
       this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-error'),
         'style', 'margin-left: 8px; color: #FF4965; font-size: 12px');
@@ -90,7 +102,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
           'style', 'background:#FF4965');
 
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-          'style', 'color: #FF4965;');
+          'style', 'font-size: 16px; color: #FF4965; text-align: left;');
 
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
           'style', 'color:#FF4965');
@@ -103,6 +115,52 @@ export class CredixTextFieldDirective implements AfterViewInit {
 
       this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-infix'),
         'style', 'padding-bottom: 16px !important;');
+    }
+  }
+
+  @HostListener('keyup', ['$event'])
+  inputChanged(event) {
+    this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-ripple'),
+      'style', 'background:#707070');
+
+    this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
+      'style', 'font-size: 12px; color: #3e3e3e; text-align: left; margin-top: 8px');
+
+    this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
+      'style', 'position: absolute !important; bottom: 20px; right: 8px; padding-bottom: 16px; color: #3e3e3e;');
+
+    if (this.onFocusLabel) {
+      this.el.nativeElement.querySelector('.mat-form-field-label').children[0].innerHTML = this.onFocusLabel;
+    }
+
+    if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-ripple'),
+        'style', 'background: #FF4965');
+
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
+        'style', 'color:#FF4965');
+    }
+
+    if (this.el.nativeElement.querySelector('.mat-error')) {
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-error'),
+        'style', 'margin-left: 8px; color: #FF4965; font-size: 12px');
+
+      this.renderer.removeAttribute(this.el.nativeElement.querySelector('.mat-form-field-ripple'),
+        'style');
+
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
+        'style', 'font-size: 16px; color: #3e3e3e; text-align: left');
+
+      if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
+        this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-ripple'),
+          'style', 'background:#FF4965');
+
+        this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
+          'style', 'font-size: 12px; color: #FF4965; text-align: left; margin-top: 8px');
+
+        this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-suffix'),
+          'style', 'color:#FF4965');
+      }
     }
   }
 

@@ -1,9 +1,7 @@
-<button [matMenuTriggerFor]="menu" class="credix-share-button"
-        mat-button>
+<a [class.is-disabled]="disabled" [matMenuTriggerFor]="!disabled ? menu : null" class="credix-share-button">
   <mat-icon class="credix-share-button__icon" svgIcon="share"></mat-icon>
   <span class="credix-share-button__span">Compartir</span>
-</button>
-
+</a>
 <mat-menu #menu="matMenu" class="credix-share-button__menu">
   <h3 class="credix-share-button__menu__title">Compartir</h3>
   <hr class="credix-share-button__menu__divider">

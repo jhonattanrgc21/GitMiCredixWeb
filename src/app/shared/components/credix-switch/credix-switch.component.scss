@@ -15,7 +15,6 @@
     box-sizing: border-box;
     width: 67px;
     height: 47px;
-    margin-right: 2px;
     padding: 12px 28px;
     z-index: 2;
     float: left;
@@ -54,10 +53,8 @@
     display: block;
     width: 67px;
     height: 47px;
-    left: 0;
-    padding: 12px 28px;
-    margin-left: 2px;
-    margin-right: 2px;
+    left: 2px;
+    margin-top: -1px;
     font-size: 16px;
     font-weight: bold;
     border-radius: 8px;

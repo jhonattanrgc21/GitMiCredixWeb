@@ -1,7 +1,6 @@
 <overlay-scrollbars [options]="scrollBarOptions" class="menu-options" fxLayout="column">
   <div *ngFor="let menu of menus, let index = index, let first = first"
        [ngClass]="{
-        'is-home' : first,
         'is-selected' : menuSelected == menu.id,
         'is-open' : menuSelected == menu.id && openSubmenu }">
     <hr *ngIf="!first" class="menu-options__line">
