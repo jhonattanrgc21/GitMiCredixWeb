@@ -7,6 +7,7 @@
 
       <credix-stepper #stepper class="modal-new-user__stepper">
         <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
+
           <form [formGroup]="newUserFirstStepForm" fxLayout="column" fxLayoutGap="16px">
 
             <div fxLayout="column" fxLayoutGap="8px">
@@ -37,15 +38,16 @@
             [stepper]="stepper"
             credixStepperNext
             (click)=verifyRegistryUser()
-            fxFlexAlign="flex-end"
-            text="Seguir"></credix-button>
+            fxFlexAlign="flex-start"
+            text="Continuar"></credix-button>
           </form>
         </cdk-step>
 
         <cdk-step [label]="'Validar teléfono'" [stepControl]="newUserSecondStepForm">
           <p class="modal-new-user__stepper--parrafe">Ingrese el código que hemos enviado al teléfono registrado: {{cellNumber}}</p>
 
-          <form [formGroup]="newUserSecondStepForm" fxLayout="column" fxLayoutGap="16px">
+          <form [formGroup]="newUserSecondStepForm" fxLayout="column" fxLayoutGap="24px">
+
             <credix-code-input
             [(codeFormControl)]="fSecondControl.credixCode"
             [length]="6"
@@ -65,13 +67,13 @@
             [stepper]="stepper"
             credixStepperNext
             (buttonClick)=sendPasswordSecurity()
-            fxFlexAlign="flex-end"
-            text="Seguir"></credix-button>
+            fxFlexAlign="flex-start"
+            text="Continuar"></credix-button>
           </form>
         </cdk-step>
 
         <cdk-step [label]="'Clave'" [stepControl]="newUserThirstyStepForm">
-          <form [formGroup]="newUserThirstyStepForm" fxLayout="column">
+          <form [formGroup]="newUserThirstyStepForm" fxLayout="column" fxLayoutGap="16px">
 
             <!-- Nueva clave -->
             <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave" style="width: 296px">
@@ -96,7 +98,7 @@
             [disabled]="!newUserThirstyStepForm.valid"
             (buttonClick)=submit()
              fxFlexAlign="flex-end"
-              text="Seguir"></credix-button>
+              text="Ingresar"></credix-button>
           </form>
         </cdk-step>
 
@@ -108,5 +110,19 @@
     <credix-result-notification [message]="credixStatusResult.message" [status]="credixStatusResult.status"
                                 [title]="credixStatusResult.title"></credix-result-notification>
 
+    <credix-button *ngIf="credixStatusResult.status == 'success'"
+        class="modal-new-user__button"
+        (buttonClick)=resultPopup.close()
+        fxFlexAlign="flex-end"
+        text="Ingresar">
+      </credix-button>
+
+      <credix-button
+      *ngIf="credixStatusResult.status == 'error'"
+      class="modal-new-user__button"
+      (buttonClick)=resultPopup.close()
+      fxFlexAlign="flex-end"
+      text="Atras">
+      </credix-button>
   </ng-template>
 </div>

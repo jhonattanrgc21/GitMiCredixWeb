@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ModalService } from '../../../../core/services/modal.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { IdentifyTypes } from 'src/app/shared/models/IdentifyModel/IndentifyTypes';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -28,6 +28,8 @@ export class SignUpComponent implements OnInit {
     title: '',
     status: ''
   };
+  resultPopup: MatDialogRef<any>;
+
 
   newUserFirstStepForm: FormGroup = new FormGroup({
         typeIdentification: new FormControl('', [Validators.required]),
@@ -147,7 +149,7 @@ export class SignUpComponent implements OnInit {
       typeIdentification: this.fFirstControls.typeIdentification.value,
       identification:this.fFirstControls.identification.value
     })
-    // .pipe()
+    .pipe()
     .subscribe(response => {
       this.cellNumber = response.phone;
       this.setUserIdValue(response.userId);
@@ -165,7 +167,7 @@ export class SignUpComponent implements OnInit {
   }
 
   showPopupResult(){
-    this.modalService.open({template: this.popupResults}, {width: 376, height: 349, disableClose: false})
+    this.resultPopup = this.modalService.open({template: this.popupResults}, {width: 376, height: 349, disableClose: false});
   }
 
   sendPasswordSecurity(){
@@ -178,8 +180,13 @@ export class SignUpComponent implements OnInit {
       passwordSecurity: "27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47",
       confirmationCode : this.fSecondControl.credixCode.value
     })
-    // .pipe()
-    .subscribe(response => {console.log(response)});
+    .pipe(finalize(()=> this.showPopupResult()))
+    .subscribe(response => {
+      console.log(response);
+      this.credixStatusResult.message = response.message;
+      this.credixStatusResult.title = response.titleOne;
+      this.credixStatusResult.status = response.type;
+    });
   }
 
   submit(){

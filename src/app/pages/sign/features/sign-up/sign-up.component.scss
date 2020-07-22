@@ -18,27 +18,33 @@
   }
 
   &__button{
-    align-self: flex-start !important;
     width: 100%;
     &.step-one{
       margin-top: 72px;
     }
     &.step-two{
-      margin-top:8px;
-      margin-bottom: 16px;
+      margin-bottom: 40px;
     }
     &.step-three {
       margin-top: 88px;
     }
   }
-  .mat-form-field{
-    ::ng-deepmat-select-panel{
-      margin-top:-195.5px;
-    }
-  }
 }
 
+// estar pendiente de
+// ::ng-deep.mat-select-panel{
+//   margin-top:-195.5px;
+// }
+::ng-deep .mat-form-field-appearance-standard.mat-form-field-has-label .mat-select:not(.mat-select-empty) .mat-select-arrow-wrapper{
+  transform: translateY(0%) !important;
+}
 
-credix-password-field-tooltip {
+::ng-deep.credix-password-field-tooltip {
   width: 298px !important;
 }
+
+::ng-deep.credix-result-notification{
+  margin-bottom: 16px;
+}
+
+
