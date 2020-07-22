@@ -149,7 +149,7 @@ export class SignUpComponent implements OnInit {
       typeIdentification: this.fFirstControls.typeIdentification.value,
       identification:this.fFirstControls.identification.value
     })
-    .pipe()
+    // .pipe()
     .subscribe(response => {
       this.cellNumber = response.phone;
       this.setUserIdValue(response.userId);
@@ -158,8 +158,7 @@ export class SignUpComponent implements OnInit {
   }
 
   getCodeAgain(){
-    let userId = this.userIdValues;
-    console.log(userId);
+    this.sendIdentification();
   }
 
   showToast(type, text: string) {
@@ -180,7 +179,7 @@ export class SignUpComponent implements OnInit {
       passwordSecurity: "27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47",
       confirmationCode : this.fSecondControl.credixCode.value
     })
-    .pipe(finalize(()=> this.showPopupResult()))
+    // .pipe(finalize(()=> this.showPopupResult()))
     .subscribe(response => {
       console.log(response);
       this.credixStatusResult.message = response.message;
