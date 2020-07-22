@@ -1,23 +1,30 @@
-<header class="sign__header" fxLayout="row" fxLayoutGap="16px" [class.close-header]="close">
-  <mat-icon svgIcon="mobile_icon" class="sign__header-icon"></mat-icon>
-  <div fxLayout="column" fxLayoutAlign="center start">
-    <span class="sign__header-span">App MiCredix</span>
-    <p class="sign__header-parrafe">Descargue la aplicación móvil para tener acceso a sus finanzas desde cualquier lugar.</p>
+<header [class.is-close]="close" class="sign__header" fxLayout="row">
+
+  <mat-icon class="sign__header__icon" svgIcon="mobile_icon"></mat-icon>
+
+  <div class="sign__header__content" fxLayout="column" fxLayoutAlign="center start">
+    <span>App MiCredix</span>
+    <span>Descargue la aplicación móvil para tener acceso a sus finanzas desde cualquier
+      lugar.</span>
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
-    <img [src]="imageGoogleBandageUrl" alt="GooglePlay Store">
-    <img [src]="imageAppStoreBandageUrl" alt="App Store">
+  <div class="sign__header__buttons" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
+    <button mat-button><img alt="Google Play Store" src="assets/images/google-play-badge.png"></button>
+    <button mat-button><img alt="App Store" src="assets/images/appStore.png"></button>
   </div>
 
-  <button class="sign__close-button" mat-icon-button (click)=closeHeader()>
-    <mat-icon class="sign__close-button__icon" svgIcon="cancel"></mat-icon>
+  <span fxFlex></span>
+
+  <button (click)="close = true" class="sign__header__close-btn" fxFlexAlign="center" mat-icon-button>
+    <mat-icon svgIcon="cancel"></mat-icon>
   </button>
 </header>
-<div>
+
+<main>
   <router-outlet></router-outlet>
-</div>
-<footer class="sign__footer" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="300px">
+</main>
+
+<footer class="sign__footer" fxLayout="row" fxLayoutAlign="space-between center">
   <span>® 2020 CREDIX</span>
   <span>Aviso legal</span>
 </footer>
