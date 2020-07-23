@@ -1,0 +1,132 @@
+<div class="modal-new-user" fxLayout="row" fxLayoutGap="24px">
+
+  <ng-template #templateModalSignUp>
+    <div fxLayout="column" fxLayoutGap="36px">
+      <p class="modal-new-user__parrafe">Ingrese los siguientes datos para crear una clave nueva.</p>
+
+      <credix-stepper #stepper class="modal-new-user__stepper">
+        <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
+
+          <form [formGroup]="newUserFirstStepForm" fxLayout="column" fxLayoutGap="16px">
+
+            <div fxLayout="column" fxLayoutGap="8px">
+              <mat-form-field appearance="standard">
+                <mat-label>Tipo de Identificación</mat-label>
+                <mat-select formControlName="typeIdentification">
+                  <mat-option *ngFor="let indentificationType of identifyTypes" [value]="indentificationType.id">
+                    {{indentificationType.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" credixTextField="text" onFocusLabel="Identificación">
+                <mat-label>
+                  Digite Su Identificación
+                </mat-label>
+                <input [mask]="identificationMask"
+                       autocomplete="false"
+                       formControlName="identification"
+                       matInput
+                       style="margin-top: 8px;">
+              </mat-form-field>
+            </div>
+
+            <credix-button
+              (click)=verifyRegistryUser()
+              [disabled]="!newUserFirstStepForm.valid"
+              [stepper]="stepper"
+              class="modal-new-user__button step-one"
+              credixStepperNext
+              fxFlexAlign="flex-start"
+              text="Continuar"></credix-button>
+          </form>
+        </cdk-step>
+
+        <cdk-step [label]="'Validar teléfono'" [stepControl]="newUserSecondStepForm">
+          <p class="modal-new-user__stepper--parrafe">Ingrese el código que hemos enviado al teléfono
+            registrado: {{cellNumber}}</p>
+
+          <form [formGroup]="newUserSecondStepForm" fxLayout="column" fxLayoutGap="24px">
+
+            <credix-code-input
+              [(codeFormControl)]="fSecondControl.credixCode"
+              [length]="6"
+              class="w-100"
+              errorMessage="Introduzca el codigo de confirmación">
+            </credix-code-input>
+
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+              <span>¿No ha recibido el código?</span>
+              <credix-link-button (click)=getCodeAgain() [text]="'Enviar nuevamente'"></credix-link-button>
+            </div>
+
+            <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por
+              favor, comuníquese con nuestro call center 22 CREDIX (<strong style="color: #239DF7;">2227-3349</strong>)
+              o visite una de nuestras sucursales para solicitar el cambio.</p>
+            <credix-button
+              (buttonClick)=sendPasswordSecurity()
+              [disabled]="!newUserSecondStepForm.valid"
+              [stepper]="stepper"
+              class="modal-new-user__button step-two"
+              credixStepperNext
+              fxFlexAlign="flex-start"
+              text="Continuar"></credix-button>
+          </form>
+        </cdk-step>
+
+        <cdk-step [label]="'Clave'" [stepControl]="newUserThirdStepForm">
+          <form [formGroup]="newUserThirdStepForm" fxLayout="column" fxLayoutGap="16px">
+
+            <!-- Nueva clave -->
+            <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave" style="width: 296px">
+              <mat-label>Digite su clave</mat-label>
+              <input [credixPasswordFieldTooltip]="fThirstyControls.newPassword.errors"
+                     [formControl]="fThirstyControls.newPassword"
+                     [type]="hideNewPassword ? 'password' : 'text'"
+                     matInput/>
+              <mat-icon (click)="hideNewPassword = !hideNewPassword"
+                        [svgIcon]="hideNewPassword ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
+            </mat-form-field>
+            <!-- Confirmar Clave -->
+            <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave" style="width: 296px">
+              <mat-label>Confirme su nueva clave</mat-label>
+              <input [formControl]="fThirstyControls.confirmPassword"
+                     [type]="hideConfirmPassword ? 'password' : 'text'"
+                     matInput/>
+              <mat-icon (click)="hideConfirmPassword = !hideConfirmPassword"
+                        [svgIcon]="hideConfirmPassword ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
+            </mat-form-field>
+
+            <credix-button
+              (buttonClick)=submit()
+              [disabled]="!newUserThirdStepForm.valid"
+              class="modal-new-user__button step-three"
+              fxFlexAlign="flex-end"
+              text="Ingresar"></credix-button>
+          </form>
+        </cdk-step>
+
+      </credix-stepper>
+    </div>
+  </ng-template>
+
+  <ng-template #popupResults>
+    <credix-result-notification [message]="responseResult.message" [status]="responseResult.status"
+                                [title]="responseResult.title"></credix-result-notification>
+
+    <credix-button (buttonClick)=resultPopup.close()
+                   *ngIf="responseResult.status == 'success'"
+                   class="modal-new-user__button"
+                   fxFlexAlign="flex-end"
+                   text="Ingresar">
+    </credix-button>
+
+    <credix-button
+      (buttonClick)=resultPopup.close()
+      *ngIf="responseResult.status == 'error'"
+      class="modal-new-user__button"
+      fxFlexAlign="flex-end"
+      text="Atras">
+    </credix-button>
+  </ng-template>
+</div>
