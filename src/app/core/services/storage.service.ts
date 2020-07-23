@@ -1,41 +1,48 @@
 import {Injectable} from "@angular/core";
 import { Router } from '@angular/router';
-import {Session} from "../../shared/models/session.model";
 import {User} from "../../shared/models/user.model";
+import {Card} from "../../shared/models/card.model";
 @Injectable()
 export class StorageService {
   private localStorageService;
-  private currentSession : Session = null;
+  public user: User;
+  private card: Card[]=[];
+
   constructor(private router: Router) {
     this.localStorageService = localStorage;
-    this.currentSession = this.loadSessionData();
   }
-  setCurrentSession(session: Session): void {
-    this.currentSession = session;
-    this.localStorageService.setItem('currentUser', JSON.stringify(session));
+
+  setCurrentSession(data: any): void {
+    this.user = { userId: data.json.userId, aplId: data.json.aplId, actId: data.json.actId, accountNumber: data.json.accountNumber, securityToken: data.json.securityToken, aplicantName: data.json.securityToken};
+    this.card = data.json.cardNumberList;
+    this.localStorageService.setItem('user', JSON.stringify(this.user));
+    this.localStorageService.setItem('card', JSON.stringify(this.card));
   }
-  loadSessionData(): Session{
-    var sessionStr = this.localStorageService.getItem('currentUser');
-    return (sessionStr) ? <Session> JSON.parse(sessionStr) : null;
-  }
-  getCurrentSession(): Session {
-    return this.currentSession;
-  }
+
   removeCurrentSession(): void {
-    this.localStorageService.removeItem('currentUser');
-    this.currentSession = null;
+    this.localStorageService.removeItem('user');
+    this.localStorageService.removeItem('card');
+    this.localStorageService.removeItem('token');
   }
+
   getCurrentUser(): User {
-    var session: Session = this.getCurrentSession();
-    return (session && session.user) ? session.user : null;
+    var user: User = this.localStorageService.getItem('user');
+    return (user) ? user : null;
   };
+  getCurrentCard(): Card[] {
+    var card: Card[] = this.localStorageService.getItem('card');
+    return (card) ? card : null;
+  };
+
   isAuthenticated(): boolean {
     return (this.getCurrentToken() != null) ? true : false;
   };
+
   getCurrentToken(): string {
-    var session = this.getCurrentSession();
-    return (session && session.token) ? session.token : null;
+    var token = this.localStorageService.getItem('token');
+    return (token) ? token : null;
   };
+
   logout(): void{
     this.removeCurrentSession();
     this.router.navigate(['/login']);

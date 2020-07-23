@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {SecurityService} from "../../core/services/security.service";
 
 @Component({
   selector: 'app-sign',
@@ -8,11 +7,16 @@ import {SecurityService} from "../../core/services/security.service";
 })
 export class SignComponent implements OnInit {
 
-  constructor(private securityService: SecurityService) {
+  imageGoogleBandageUrl: string = '../../../assets/images/google-play-badge.png';
+  imageAppStoreBandageUrl: string = '../../../assets/images/appStore.png';
+  close:boolean = false;
+  constructor() {
   }
 
   ngOnInit(): void {
-
   }
 
+  closeHeader(): boolean{
+    return !this.close;
+  }
 }

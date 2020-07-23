@@ -39,6 +39,7 @@ export const icons: string[] = [
   'menu',
   'messages',
   'moon',
+  'mobile_icon',
   'municipalidad',
   'myAccount',
   'noon',

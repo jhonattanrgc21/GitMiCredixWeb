@@ -1,5 +1,5 @@
 export class Card {
-  public id: number;
+  public cardId: number;
   public name: string;
   public typeCard: string;
   public category: string;
