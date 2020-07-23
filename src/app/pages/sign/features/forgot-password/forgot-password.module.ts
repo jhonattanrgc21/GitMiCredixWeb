@@ -13,6 +13,7 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltips/credix-tooltips.module';
 import {CredixFormsModule} from '../../../../shared/directives/credix-forms/credix-forms.module';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
+import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -38,7 +39,8 @@ const routes: Routes = [
     CredixTooltipsModule,
     CredixFormsModule,
     CredixCodeInputModule,
-    NgxMaskModule.forRoot(maskConfig)
+    NgxMaskModule.forRoot(maskConfig),
+    CredixLinkButtonModule
 
   ],
   providers: [ModalService]
