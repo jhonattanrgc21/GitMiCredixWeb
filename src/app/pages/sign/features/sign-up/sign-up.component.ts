@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { ModalService } from '../../../../core/services/modal.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
-import { IdentifyTypes } from 'src/app/shared/models/IdentifyModel/IndentifyTypes';
-import { HttpService } from 'src/app/core/services/http.service';
-import { finalize } from 'rxjs/operators';
-import * as CryptoJS from "crypto-js";
-import { CredixToastService } from 'src/app/core/services/credix-toast.service';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ModalService} from '../../../../core/services/modal.service';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {IdentifyTypes} from 'src/app/shared/models/IdentifyModel/IndentifyTypes';
+import {HttpService} from 'src/app/core/services/http.service';
+import {finalize} from 'rxjs/operators';
+import * as CryptoJS from 'crypto-js';
+import {CredixToastService} from 'src/app/core/services/credix-toast.service';
 
 
 @Component({
@@ -14,16 +14,16 @@ import { CredixToastService } from 'src/app/core/services/credix-toast.service';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, AfterViewInit {
 
   identifyTypes: IdentifyTypes[];
   cellNumber: string;
   identificationMask = '0-0000-0000';
   identificationMaxLength = 0;
-  hideNewPassword: boolean = true;
-  hideConfirmPassword: boolean = true;
+  hideNewPassword = true;
+  hideConfirmPassword = true;
   userId: number;
-  credixStatusResult = {
+  responseResult = {
     message: '',
     title: '',
     status: ''
@@ -32,17 +32,17 @@ export class SignUpComponent implements OnInit {
 
 
   newUserFirstStepForm: FormGroup = new FormGroup({
-        typeIdentification: new FormControl('', [Validators.required]),
-        identification: new FormControl('', [Validators.required])
-      });
+    typeIdentification: new FormControl('', [Validators.required]),
+    identification: new FormControl('', [Validators.required])
+  });
 
   newUserSecondStepForm: FormGroup = new FormGroup(
-  {credixCode: new FormControl('' , [Validators.required])});
+    {credixCode: new FormControl('', [Validators.required])});
 
-  newUserThirstyStepForm: FormGroup = new FormGroup({
-        newPassword: new FormControl('',[Validators.required]),
-        confirmPassword: new FormControl('', [Validators.required])
-      }, {validators: this.checkPasswords});
+  newUserThirdStepForm: FormGroup = new FormGroup({
+    newPassword: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required])
+  }, {validators: this.checkPasswords});
 
 
   @ViewChild('templateModalSignUp') templateModalSignUp: TemplateRef<any>;
@@ -52,10 +52,15 @@ export class SignUpComponent implements OnInit {
     private dialog: MatDialog,
     private modalService: ModalService,
     private httpService: HttpService,
-    private toastService: CredixToastService) { }
+    private toastService: CredixToastService) {
+  }
 
   ngOnInit(): void {
     this.getIdentificationTypes();
+  }
+
+  get fThirstyControls() {
+    return this.newUserThirdStepForm.controls;
   }
 
   get fFirstControls() {
@@ -66,61 +71,69 @@ export class SignUpComponent implements OnInit {
     return this.newUserSecondStepForm.controls;
   }
 
-  get fThirstyControls() {
-    return this.newUserThirstyStepForm.controls;
+  get userIdValues() {
+    return this.userId;
   }
 
-  get userIdValues() { return this.userId;}
+  ngAfterViewInit(): void {
+    this.openSignUpModal();
+  }
 
-  public setUserIdValue (id:number) {
+  public setUserIdValue(id: number) {
     this.userId = id;
   }
 
 
-  getFormControls(fGroup: FormGroup) { return fGroup.controls}
+  getFormControls(fGroup: FormGroup) {
+    return fGroup.controls;
+  }
 
-  openSignUpModal(){
-    this.modalService.open({template: this.templateModalSignUp, title:'¡Bienvenido(a) a MiCredix!'}, {width: 376, height: 623, disableClose: false});
+  openSignUpModal() {
+    this.modalService.open({template: this.templateModalSignUp, title: '¡Bienvenido(a) a MiCredix!'}, {
+      width: 376,
+      height: 623,
+      disableClose: false
+    });
   }
 
   getIdentificationTypes() {
-    this.httpService.post( 'canales', 'global/identification-types', {"channelId": 102})
-    .pipe(finalize(() => this.identificationTypeChanged()))
-    .subscribe( response => this.identifyTypes = response.identificationTypes.filter(idt => idt.id > 0));
+    this.httpService.post('canales', 'global/identification-types', {channelId: 102})
+      .pipe(finalize(() => this.identificationTypeChanged()))
+      .subscribe(response => this.identifyTypes = response.identificationTypes.filter(idt => idt.id > 0));
   }
 
   identificationTypeChanged() {
     this.newUserFirstStepForm.controls.typeIdentification.valueChanges.subscribe(value => {
-        if (value !== null) {
-            this.newUserFirstStepForm.controls.identification.reset(null, {emitEvent: false});
+      if (value !== null) {
+        this.newUserFirstStepForm.controls.identification.reset(null, {emitEvent: false});
 
-            this.newUserFirstStepForm.controls.identification.enable();
-        } else {
-            this.newUserFirstStepForm.controls.identification.disable();
-        }
+        this.newUserFirstStepForm.controls.identification.enable();
+      } else {
+        this.newUserFirstStepForm.controls.identification.disable();
+      }
 
-        switch (value) {
-            case 'CN': {
-                this.identificationMask = '0-0000-0000';
-                this.identificationMaxLength = 9;
-                break;
-            }
-            case 'CJ': {
-                this.identificationMask = '0-000-000000';
-                this.identificationMaxLength = 10;
-                break;
-            }
-            case 'CR': {
-                this.identificationMask = '000000000000';
-                this.identificationMaxLength = 12;
-                break;
-            }
-            case 'PE': {
-                this.identificationMask = '000000000000';
-                this.identificationMaxLength = 12;
-                break;
-            }
+      switch (value) {
+        case 'CN': {
+          this.identificationMask = '0-0000-0000';
+          this.identificationMaxLength = 9;
+          break;
         }
+        case 'CJ': {
+          this.identificationMask = '0-000-000000';
+          this.identificationMaxLength = 10;
+          break;
+        }
+        case 'CR': {
+          this.identificationMask = '000000000000';
+          this.identificationMaxLength = 12;
+          break;
+        }
+        case 'PE': {
+          this.identificationMask = '000000000000';
+          this.identificationMaxLength = 12;
+          break;
+        }
+      }
     });
   }
 
@@ -134,30 +147,32 @@ export class SignUpComponent implements OnInit {
     return password === repeatedPassword ? null : {mismatch: true};
   }
 
-  verifyRegistryUser(){
-    this.httpService.post('canales','security/verifyregistryuser',{
+  verifyRegistryUser() {
+    this.httpService.post('canales', 'security/verifyregistryuser', {
       identification: this.fFirstControls.identification.value,
       channelId: 101
     })
-    .pipe(finalize(() => this.sendIdentification()))
-    .subscribe( response => { console.log(response)})
+      .pipe(finalize(() => this.sendIdentification()))
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 
-  sendIdentification(){
-    this.httpService.post('canales','security/getdatamaskednameapplicantsendotp',{
+  sendIdentification() {
+    this.httpService.post('canales', 'security/getdatamaskednameapplicantsendotp', {
       channelId: 1,
       typeIdentification: this.fFirstControls.typeIdentification.value,
-      identification:this.fFirstControls.identification.value
+      identification: this.fFirstControls.identification.value
     })
-    // .pipe()
-    .subscribe(response => {
-      this.cellNumber = response.phone;
-      this.setUserIdValue(response.userId);
-      this.showToast(response.type, response.message);
-    });
+      // .pipe()
+      .subscribe(response => {
+        this.cellNumber = response.phone;
+        this.setUserIdValue(response.userId);
+        this.showToast(response.type, response.message);
+      });
   }
 
-  getCodeAgain(){
+  getCodeAgain() {
     this.sendIdentification();
   }
 
@@ -165,48 +180,48 @@ export class SignUpComponent implements OnInit {
     this.toastService.show({text, type});
   }
 
-  showPopupResult(){
+  showPopupResult() {
     this.resultPopup = this.modalService.open({template: this.popupResults}, {width: 376, height: 349, disableClose: false});
   }
 
-  sendPasswordSecurity(){
-    this.httpService.post('canales','security/validateonetimepassword',
-    {
-      channelId : 102,
-      userId : this.userIdValues,
-      validateToken : 1,
-      usernameSecurity: "sts_sac",
-      passwordSecurity: "27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47",
-      confirmationCode : this.fSecondControl.credixCode.value
-    })
-    // .pipe(finalize(()=> this.showPopupResult()))
-    .subscribe(response => {
-      console.log(response);
-      this.credixStatusResult.message = response.message;
-      this.credixStatusResult.title = response.titleOne;
-      this.credixStatusResult.status = response.type;
-    });
+  sendPasswordSecurity() {
+    this.httpService.post('canales', 'security/validateonetimepassword',
+      {
+        channelId: 102,
+        userId: this.userIdValues,
+        validateToken: 1,
+        usernameSecurity: 'sts_sac',
+        passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
+        confirmationCode: this.fSecondControl.credixCode.value
+      })
+      // .pipe(finalize(()=> this.showPopupResult()))
+      .subscribe(response => {
+        console.log(response);
+        this.responseResult.message = response.message;
+        this.responseResult.title = response.titleOne;
+        this.responseResult.status = response.type;
+      });
   }
 
-  submit(){
-    this.httpService.post('canales','security/validatePasswordAndConfirmPassword',{
-      userId : this.userIdValues,
-      channelId : 102,
-      typeIncome : 1,
-      validateToken : 1,
+  submit() {
+    this.httpService.post('canales', 'security/validatePasswordAndConfirmPassword', {
+      userId: this.userIdValues,
+      channelId: 102,
+      typeIncome: 1,
+      validateToken: 1,
       newPassword: CryptoJS.SHA256(this.fThirstyControls.newPassword.value),
       confirmPassword: CryptoJS.SHA256(this.fThirstyControls.confirmPassword.value),
-      usernameSecurity: "sts_sac",
-      passwordSecurity:  "27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47",
-      uuid: "12311515615614515616",
-      platform : 3
+      usernameSecurity: 'sts_sac',
+      passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
+      uuid: '12311515615614515616',
+      platform: 3
     })
-    .pipe(finalize(()=> this.showPopupResult()))
-    .subscribe( response => {
-      console.log(response);
-      this.credixStatusResult.message = response.message;
-      this.credixStatusResult.title = response.titleOne;
-      this.credixStatusResult.status = response.type;
-    });
+      .pipe(finalize(() => this.showPopupResult()))
+      .subscribe(response => {
+        console.log(response);
+        this.responseResult.message = response.message;
+        this.responseResult.title = response.titleOne;
+        this.responseResult.status = response.type;
+      });
   }
 }
