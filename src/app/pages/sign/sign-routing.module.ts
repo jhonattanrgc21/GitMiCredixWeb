@@ -18,7 +18,11 @@ const routes: Routes = [
       {
         path: 'sign-up',
         loadChildren: () => import('./features/sign-up/sign-up.module.js').then(m => m.SignUpModule)
-      }
+      },
+      {
+        path: 'forgot-pass',
+        loadChildren: () => import('./features/forgot-password/forgot-password.module.js').then(m => m.ForgotPasswordModule)
+      },
     ]
   }
 ];
