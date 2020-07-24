@@ -116,6 +116,8 @@ export class SignUpComponent implements OnInit, AfterViewInit {
           this.identificationTypes.find(identificationType => identificationType.id === value).value).mask;
         this.fFirstControls.identification.reset(null, {emitEvent: false});
         this.fFirstControls.identification.enable();
+      } else {
+        this.fFirstControls.identification.disable();
       }
     });
   }
