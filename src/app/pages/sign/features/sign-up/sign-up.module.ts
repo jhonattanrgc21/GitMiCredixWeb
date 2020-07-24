@@ -11,7 +11,6 @@ import {HttpService} from 'src/app/core/services/http.service';
 import {CredixPopupComponent} from 'src/app/shared/components/credix-popup/credix-popup.component';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {StepperModule} from 'src/app/shared/directives/stepper/stepper.module';
-import {CredixStepperModule} from './credix-stepper/credix-stepper.module';
 import {CredixFormsModule} from 'src/app/shared/directives/credix-forms/credix-forms.module';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
@@ -20,6 +19,8 @@ import {CustomIconLoaderService} from 'src/app/core/services/custom-icon-loader.
 import {CredixTooltipsModule} from 'src/app/shared/directives/credix-tooltips/credix-tooltips.module';
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 import {ModalSignUpResponseComponent} from './modal-sign-up-response/modal-sign-up-response.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { CredixStepperSignUpComponent } from './credix-stepper-sign-up/credix-stepper-sign-up.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -33,7 +34,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SignUpComponent, ModalSignUpResponseComponent],
+  declarations: [SignUpComponent, ModalSignUpResponseComponent, CredixStepperSignUpComponent],
   entryComponents: [CredixPopupComponent],
   imports: [
     CommonModule,
@@ -42,20 +43,20 @@ const routes: Routes = [
     CredixButtonModule,
     CredixPopupModule,
     CredixConfirmationPopupModule,
-    CredixStepperModule,
     CredixFormsModule,
     CredixCodeInputModule,
     CredixLinkButtonModule,
     CredixTooltipsModule,
     CredixResultNotificationModule,
-    CdkStepperModule,
     StepperModule,
+    CdkStepperModule,
+    MatStepperModule,
     NgxMaskModule.forRoot(maskConfig),
   ],
   providers: [
-    ModalService,
     HttpService,
-    CustomIconLoaderService
+    CustomIconLoaderService,
+    ModalService
   ]
 })
 export class SignUpModule {

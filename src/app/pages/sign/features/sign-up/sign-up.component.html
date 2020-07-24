@@ -4,7 +4,7 @@
     <div fxLayout="column" fxLayoutGap="36px">
       <p class="modal-new-user__parrafe">Ingrese los siguientes datos para crear una clave nueva.</p>
 
-      <credix-stepper #stepper class="modal-new-user__stepper">
+      <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
         <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
 
           <form [formGroup]="newUserFirstStepForm" fxLayout="column" fxLayoutGap="16px">
@@ -13,30 +13,27 @@
               <mat-form-field appearance="standard">
                 <mat-label>Tipo de Identificación</mat-label>
                 <mat-select formControlName="typeIdentification">
-                  <mat-option *ngFor="let indentificationType of identifyTypes" [value]="indentificationType.id">
-                    {{indentificationType.description}}
+                  <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+                    {{identificationType.description}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field appearance="standard" credixTextField="text" onFocusLabel="Identificación">
+              <mat-form-field appearance="standard" credixTextField onFocusLabel="Identificación">
                 <mat-label>
-                  Digite Su Identificación
+                  Digite su identificación
                 </mat-label>
                 <input [mask]="identificationMask"
                        autocomplete="false"
                        formControlName="identification"
-                       matInput
-                       style="margin-top: 8px;">
+                       matInput>
               </mat-form-field>
             </div>
 
             <credix-button
               (click)=verifyRegistryUser()
               [disabled]="!newUserFirstStepForm.valid"
-              [stepper]="stepper"
               class="modal-new-user__button step-one"
-              credixStepperNext
               fxFlexAlign="flex-start"
               text="Continuar"></credix-button>
           </form>
@@ -66,9 +63,7 @@
             <credix-button
               (buttonClick)=sendPasswordSecurity()
               [disabled]="!newUserSecondStepForm.valid"
-              [stepper]="stepper"
               class="modal-new-user__button step-two"
-              credixStepperNext
               fxFlexAlign="flex-start"
               text="Continuar"></credix-button>
           </form>
@@ -106,7 +101,7 @@
           </form>
         </cdk-step>
 
-      </credix-stepper>
+      </credix-stepper-sign-up>
     </div>
   </ng-template>
 

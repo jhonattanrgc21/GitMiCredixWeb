@@ -1,4 +1,4 @@
-export interface IdentifyTypes {
+export interface IdentificationType {
   id: number;
   description: string;
   value: string;
