@@ -44,4 +44,16 @@ export class SignInComponent implements OnInit {
   get f() {
     return this.signInformGroup.controls;
   }
+
+  closeSessionActivate(){
+    this.securityService.closeSessionActivate(
+      {
+        username: this.signInformGroup.get("identification").value,
+        password: CryptoJS.SHA256(this.signInformGroup.get("password").value).toString(),
+        channelId : 102,
+        deviceIdentifier : 1213123134,
+        typeIncome : 2
+      }
+    )
+  }
 }

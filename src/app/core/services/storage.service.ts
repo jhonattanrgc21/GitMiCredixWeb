@@ -43,6 +43,14 @@ export class StorageService {
     return (token) ? token : null;
   };
 
+  setCurrentToken(token: String): void {
+    this.localStorageService.setItem('token', token);
+  }
+
+  clearCurrentToken(): void {
+    this.localStorageService.removeItem('token');
+  }
+
   logout(): void{
     this.removeCurrentSession();
     this.router.navigate(['/login']);
