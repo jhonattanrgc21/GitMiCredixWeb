@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {finalize} from 'rxjs/operators';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
-import {ModalService} from 'src/app/core/services/modal.service';
-import {HttpService} from 'src/app/core/services/http.service';
+import { ModalService } from 'src/app/core/services/modal.service';
+import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -20,6 +20,16 @@ export class ForgotPasswordComponent implements OnInit, AfterViewInit {
   identMask = '0-0000-0000';
   identMaxLength = 0;
   submitted = false;
+  forgotPassForm: FormGroup = new FormGroup(
+    {
+      identType: new FormControl('', [Validators.required]),
+      identNumber: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      password: new FormControl('', [Validators.required]),
+      confirmPassword: new FormControl('', [Validators.required]),
+      code: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    },
+    { validators: this.passwordValidator }
+  );
 
   constructor(
     private modalService: ModalService,
@@ -29,30 +39,6 @@ export class ForgotPasswordComponent implements OnInit, AfterViewInit {
   get f() {
     return this.forgotPassForm.controls;
   }
-
-  passwordValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-    const password = control.get('password');
-    const repeatPassword = control.get('confirmPassword');
-    if (repeatPassword.errors && !repeatPassword.errors.passwordError) {
-      return;
-    }
-    if (password.value !== repeatPassword.value) {
-      repeatPassword.setErrors({passwordError: true});
-    } else {
-      repeatPassword.setErrors(null);
-    }
-  };
-
-  forgotPassForm: FormGroup = new FormGroup(
-    {
-      identType: new FormControl('', [Validators.required]),
-      identNumber: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl('', [Validators.required]),
-      code: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    },
-    {validators: this.passwordValidator}
-  );
 
   ngOnInit(): void {
     this.getIdentTypes();
@@ -64,8 +50,8 @@ export class ForgotPasswordComponent implements OnInit, AfterViewInit {
 
   openModal() {
     this.modalService.open(
-      {template: this.forgotPasswordTemplate, title: '¿Olvidó su clave?'},
-      {width: 376, height: 663, disableClose: false}
+      { template: this.forgotPasswordTemplate, title: '¿Olvidó su clave?' },
+      { width: 376, height: 663, disableClose: false }
     );
   }
 
@@ -157,4 +143,18 @@ export class ForgotPasswordComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  passwordValidator(control: FormGroup): ValidationErrors | null {
+    const password = control.get('password');
+    const repeatPassword = control.get('confirmPassword');
+    if (repeatPassword.errors && !repeatPassword.errors.passwordError) {
+      return;
+    }
+    if (password.value !== repeatPassword.value) {
+      repeatPassword.setErrors({ passwordError: true });
+    } else {
+      repeatPassword.setErrors(null);
+    }
+  };
+
 }
