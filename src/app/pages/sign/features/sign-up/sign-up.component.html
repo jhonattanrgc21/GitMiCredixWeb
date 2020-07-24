@@ -13,15 +13,15 @@
               <mat-form-field appearance="standard">
                 <mat-label>Tipo de Identificación</mat-label>
                 <mat-select formControlName="typeIdentification">
-                  <mat-option *ngFor="let indentificationType of identifyTypes" [value]="indentificationType.id">
-                    {{indentificationType.description}}
+                  <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+                    {{identificationType.description}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field appearance="standard" credixTextField="text" onFocusLabel="Identificación">
+              <mat-form-field appearance="standard" credixTextField onFocusLabel="Identificación">
                 <mat-label>
-                  Digite Su Identificación
+                  Digite su identificación
                 </mat-label>
                 <input [mask]="identificationMask"
                        autocomplete="false"
