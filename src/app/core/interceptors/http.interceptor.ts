@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {StorageService} from "../services/storage.service";
+import {StorageService} from '../services/storage.service';
 
 @Injectable()
 export class HttpRequestsResponseInterceptor implements HttpInterceptor {
@@ -12,6 +12,7 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let request = req;​
+
     if (this.storageService.getCurrentToken()) {
       request = req.clone({
         setHeaders: {
@@ -20,10 +21,10 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(req).pipe(
+    return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          if(event.headers) {
+          if (event.headers) {
             this.storageService.setCurrentToken(event.headers.get('x-auth-token'));
             console.log(event.headers.get('x-auth-token'));
           }

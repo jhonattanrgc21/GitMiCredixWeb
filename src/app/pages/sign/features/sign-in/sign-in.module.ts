@@ -2,13 +2,15 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SignInComponent} from './sign-in.component';
 import {RouterModule, Routes} from '@angular/router';
-import {SharedModule} from "../../../../shared/shared.module";
-import {CredixButtonModule} from "../../../../shared/components/credix-button/credix-button.module";
-import {ReactiveFormsModule} from "@angular/forms";
-import {CredixFormsModule} from "../../../../shared/directives/credix-forms/credix-forms.module";
-import {CredixTooltipsModule} from "../../../../shared/directives/credix-tooltips/credix-tooltips.module";
-import {NgxMaskModule, IConfig} from "ngx-mask";
-import {CredixLinkButtonModule} from "../../../../shared/components/credix-link-button/credix-link-button.module";
+import {SharedModule} from '../../../../shared/shared.module';
+import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
+import {ReactiveFormsModule} from '@angular/forms';
+import {CredixFormsModule} from '../../../../shared/directives/credix-forms/credix-forms.module';
+import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltips/credix-tooltips.module';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
+import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
+import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -31,7 +33,8 @@ const routes: Routes = [
     CredixFormsModule,
     CredixTooltipsModule,
     NgxMaskModule.forRoot(maskConfig),
-    CredixLinkButtonModule
+    CredixLinkButtonModule,
+    CredixCardsModule
   ]
 })
 export class SignInModule {

@@ -1,19 +1,27 @@
-import {Injectable} from "@angular/core";
-import { Router } from '@angular/router';
-import {User} from "../../shared/models/user.model";
-import {Card} from "../../shared/models/card.model";
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {User} from '../../shared/models/user.model';
+import {Card} from '../../shared/models/card.model';
+
 @Injectable()
 export class StorageService {
   private localStorageService;
   public user: User;
-  private card: Card[]=[];
+  private card: Card[] = [];
 
   constructor(private router: Router) {
     this.localStorageService = localStorage;
   }
 
   setCurrentSession(data: any): void {
-    this.user = { userId: data.json.userId, aplId: data.json.aplId, actId: data.json.actId, accountNumber: data.json.accountNumber, securityToken: data.json.securityToken, aplicantName: data.json.securityToken};
+    this.user = {
+      userId: data.json.userId,
+      aplId: data.json.aplId,
+      actId: data.json.actId,
+      accountNumber: data.json.accountNumber,
+      securityToken: data.json.securityToken,
+      aplicantName: data.json.securityToken
+    };
     this.card = data.json.cardNumberList;
     this.localStorageService.setItem('user', JSON.stringify(this.user));
     this.localStorageService.setItem('card', JSON.stringify(this.card));
@@ -26,24 +34,24 @@ export class StorageService {
   }
 
   getCurrentUser(): User {
-    var user: User = this.localStorageService.getItem('user');
-    return (user) ? user : null;
-  };
+    return this.localStorageService.getItem('user') as User;
+  }
+
   getCurrentCard(): Card[] {
-    var card: Card[] = this.localStorageService.getItem('card');
+    const card: Card[] = this.localStorageService.getItem('card');
     return (card) ? card : null;
-  };
+  }
 
   isAuthenticated(): boolean {
-    return (this.getCurrentToken() != null) ? true : false;
-  };
+    return this.getCurrentToken() != null;
+  }
 
   getCurrentToken(): string {
-    var token = this.localStorageService.getItem('token');
+    const token = this.localStorageService.getItem('token');
     return (token) ? token : null;
-  };
+  }
 
-  setCurrentToken(token: String): void {
+  setCurrentToken(token: string): void {
     this.localStorageService.setItem('token', token);
   }
 
@@ -51,7 +59,7 @@ export class StorageService {
     this.localStorageService.removeItem('token');
   }
 
-  logout(): void{
+  logout(): void {
     this.removeCurrentSession();
     this.router.navigate(['/login']);
   }

@@ -1,44 +1,34 @@
-<div class="cards" fxLayout="column" fxLayoutGap="24px">
+<div class="sign-in">
 
-  <mat-card class="cards__credix-card" credixCard>
-    <mat-card-header>
-      <div fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center">
-        <a class="cards__logo">
-          <img alt="credix-logo" src="assets/images/credixLogo_icon.svg">
-        </a>
-      </div>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="signInformGroup" class="w-90 form-container" fxLayout="column" fxLayoutAlign="center"
-            fxLayoutGap="2%">
-        <mat-form-field appearance="standard" credixTextField onFocusLabel="Identificación" style="width: 296px;">
-          <mat-label>Digite su identificación</mat-label>
-          <input formControlName="identification" matInput [mask]="idenMask" />
-          <mat-error *ngIf="
-            !f.identification.valid &&
-            (f.identification.dirty || f.identification.touched)
-          ">
-            Identificación inválida
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave" style="width: 296px;">
-          <mat-label>Digite su clave</mat-label>
-          <input [credixPasswordFieldTooltip]="f.password.errors" formControlName="password"
-                 [type]="hide ? 'password' : 'text'" matInput />
-          <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
-        </mat-form-field>
-      </form>
-    </mat-card-content>
-    <div fxLayout="row" fxLayoutGap="16px">
-      <credix-button text="Ingresar" align="center" [disabled]="signInformGroup.invalid" (click)="submit()"></credix-button>
-    </div>
-    <div fxLayout="row" fxLayoutGap="16px">
-      <span class="mr-8px">¿Nuevo en MiCredix?</span>
+  <mat-card class="sign-in__card" credixCard>
+    <img alt="Credix World" class="sign-in__card__logo" src="assets/images/credixLogo_icon.svg">
+
+    <form [formGroup]="signInformGroup" class="sign-in__card__form" fxLayout="column" fxLayoutAlign="center">
+
+      <mat-form-field appearance="standard" credixTextField onFocusLabel="Identificación">
+        <mat-label>Digite su identificación</mat-label>
+        <input [mask]="idenMask" formControlName="identification" matInput/>
+        <mat-error *ngIf="!f.identification.valid && (f.identification.dirty || f.identification.touched)">
+          Identificación inválida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave">
+        <mat-label>Digite su clave</mat-label>
+        <input [credixPasswordFieldTooltip]="f.password.errors" [type]="hide ? 'password' : 'text'"
+               formControlName="password" matInput/>
+        <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
+      </mat-form-field>
+
+      <credix-button (click)="submit()" [disabled]="signInformGroup.invalid" class="w-100"
+                     text="Ingresar"></credix-button>
+    </form>
+
+    <span class="sign-in__card__sign-up-span">¿Nuevo en MiCredix?
       <credix-link-button route="https://www.credix.com/" text="¡Regístrese aquí!"></credix-link-button>
-    </div>
-    <div fxLayout="row" fxLayoutGap="16px">
-      <credix-link-button route="https://www.credix.com/" text="¿Olvidó su clave?"></credix-link-button>
-    </div>
+    </span>
+
+    <credix-link-button route="https://www.credix.com/" text="¿Olvidó su clave?"></credix-link-button>
   </mat-card>
 
 </div>
