@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ModalService} from '../../../../core/services/modal.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
@@ -15,7 +15,7 @@ import {getIdentificationMaskByType} from '../../../../shared/utils';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit, AfterViewInit {
+export class SignUpComponent implements OnInit {
   identificationTypes: IdentificationType[];
   cellNumber: string;
   identificationMask = '0-0000-0000';
@@ -72,21 +72,8 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.getIdentificationTypes();
   }
 
-  ngAfterViewInit(): void {
-    this.openSignUpModal();
-  }
-
   public setUserIdValue(id: number) {
     this.userId = id;
-  }
-
-
-  openSignUpModal() {
-    this.modalService.open({template: this.templateModalSignUp, title: '¡Bienvenido(a) a MiCredix!'}, {
-      width: 376,
-      height: 623,
-      disableClose: false
-    });
   }
 
   getIdentificationTypes() {

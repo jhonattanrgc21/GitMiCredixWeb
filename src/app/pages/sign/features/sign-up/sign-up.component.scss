@@ -1,4 +1,6 @@
+
 .modal-new-user {
+
   &__parrafe {
     margin-top: 16px;
   }
@@ -17,6 +19,25 @@
         display: block;
       }
     }
+
+    mat-form-field:last-of-type {
+      flex: 1;
+    }
+
+  }
+
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    mat-form-field:first-of-type {
+      margin-bottom: 16px;
+    }
+
+    mat-form-field:last-of-type {
+      flex: 1;
+    }
   }
 
   &__button {
@@ -34,15 +55,6 @@
       margin-top: 64px;
     }
   }
-}
-
-// estar pendiente de
-// ::ng-deep.mat-select-panel{
-//   margin-top:-195.5px;
-// }
-
-::ng-deep .mat-form-field-appearance-standard.mat-form-field-has-label .mat-select:not(.mat-select-empty) .mat-select-arrow-wrapper {
-  transform: translateY(0%) !important;
 }
 
 ::ng-deep.credix-password-field-tooltip {

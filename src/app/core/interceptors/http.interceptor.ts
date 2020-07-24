@@ -26,7 +26,6 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
         if (event instanceof HttpResponse) {
           if (event.headers) {
             this.storageService.setCurrentToken(event.headers.get('x-auth-token'));
-            console.log(event.headers.get('x-auth-token'));
           }
         }
         return event;

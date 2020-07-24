@@ -18,9 +18,8 @@ import {CredixLinkButtonModule} from './credix-link-button/credix-link-button.mo
 import {CustomIconLoaderService} from 'src/app/core/services/custom-icon-loader.service';
 import {CredixTooltipsModule} from 'src/app/shared/directives/credix-tooltips/credix-tooltips.module';
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
-import {ModalSignUpResponseComponent} from './modal-sign-up-response/modal-sign-up-response.component';
-import { MatStepperModule } from '@angular/material/stepper';
-import { CredixStepperSignUpComponent } from './credix-stepper-sign-up/credix-stepper-sign-up.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {CredixStepperSignUpComponent} from './credix-stepper-sign-up/credix-stepper-sign-up.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -34,7 +33,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SignUpComponent, ModalSignUpResponseComponent, CredixStepperSignUpComponent],
+  declarations: [SignUpComponent, CredixStepperSignUpComponent],
   entryComponents: [CredixPopupComponent],
   imports: [
     CommonModule,

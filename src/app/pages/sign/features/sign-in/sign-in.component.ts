@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SecurityService} from '../../../../core/services/security.service';
-import {StorageService} from '../../../../core/services/storage.service';
 import * as CryptoJS from 'crypto-js';
+import {ModalService} from '../../../../core/services/modal.service';
+import {SignUpComponent} from '../sign-up/sign-up.component';
+import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,10 +17,10 @@ export class SignInComponent implements OnInit {
     password: new FormControl(null, [Validators.required, Validators.minLength(8)])
   });
   hide = true;
-  idenMask = '0-0000-0000';
+  identificationMask = '0-0000-0000';
 
   constructor(private securityService: SecurityService,
-              private storageService: StorageService) {
+              private modalService: ModalService) {
   }
 
   get f() {
@@ -43,6 +45,23 @@ export class SignInComponent implements OnInit {
 
   hasError(controlName: string, errorName: string) {
     return this.signInformGroup.controls[controlName].hasError(errorName);
+  }
+
+  open(modal: 'sign-up' | 'forgot-pass') {
+    switch (modal) {
+      case 'sign-up':
+        this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
+          {width: 376, height: 623, disableClose: true});
+        break;
+      case 'forgot-pass':
+        this.modalService.open({component: ForgotPasswordComponent, title: '¿Olvidó su clave?'},
+          {width: 376, height: 663, disableClose: true});
+        break;
+      default:
+        this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
+          {width: 376, height: 623, disableClose: true});
+        break;
+    }
   }
 
   closeSessionActivate() {

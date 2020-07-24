@@ -109,23 +109,23 @@ export class CredixTextFieldDirective implements AfterViewInit {
     switch (status) {
       case 'init':
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-infix'),
-          'style', 'padding-bottom: 16px !important');
+          'style', 'padding-bottom: 16px !important; border: 0;');
         break;
       case 'focusIn':
         if (this.type === 'password') {
           this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-infix'),
-            'style', 'padding-bottom: 16px !important; box-shadow: 0px 5px 10px #00000026;');
+            'style', 'padding-bottom: 16px !important; box-shadow: 0px 5px 10px #00000026; border: 0;');
         }
         break;
       case 'focusOut':
         if (this.type === 'password') {
           this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-infix'),
-            'style', 'padding-bottom: 16px !important;');
+            'style', 'padding-bottom: 16px !important; border: 0;');
         }
         break;
       default:
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-infix'),
-          'style', 'padding-bottom: 16px !important');
+          'style', 'padding-bottom: 16px !important; border: 0;');
         break;
     }
   }
@@ -181,7 +181,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
     switch (status) {
       case 'init':
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-          'style', 'font-size: 16px; color: #3e3e3e; text-align: left;');
+          'style', 'font-size: 16px; color: #3e3e3e; text-align: left; margin-left: 8px;');
 
         if (this.el.nativeElement.classList.contains('mat-form-field-disabled')) {
           this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
@@ -190,41 +190,41 @@ export class CredixTextFieldDirective implements AfterViewInit {
         break;
       case 'focusIn':
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-          'style', 'font-size: 12px; color: #3e3e3e; text-align: left; margin-top: 8px');
+          'style', 'font-size: 12px; color: #3e3e3e; text-align: left; margin-top: 8px; margin-left: 8px;');
 
         if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
           this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-            'style', 'font-size: 12px; color: #FF4965; text-align: left; margin-top: 8px');
+            'style', 'font-size: 12px; color: #FF4965; text-align: left; margin-top: 8px; margin-left: 8px;');
         }
         break;
       case 'focusOut':
         if (this.el.nativeElement.querySelector('.mat-error')) {
           this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-            'style', 'font-size: 16px; color: #3e3e3e; text-align: left');
+            'style', 'font-size: 16px; color: #3e3e3e; text-align: left; margin-left: 8px;');
 
           if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
             this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-              'style', 'font-size: 16px; color: #FF4965; text-align: left;');
+              'style', 'font-size: 16px; color: #FF4965; text-align: left; margin-left: 8px;');
           }
         }
         break;
       case 'keyUp':
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-          'style', 'font-size: 12px; color: #3e3e3e; text-align: left; margin-top: 8px');
+          'style', 'font-size: 12px; color: #3e3e3e; text-align: left; margin-top: 8px; margin-left: 8px;');
 
         if (this.el.nativeElement.querySelector('.mat-error')) {
           this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-            'style', 'font-size: 16px; color: #3e3e3e; text-align: left');
+            'style', 'font-size: 16px; color: #3e3e3e; text-align: left; margin-left: 8px;');
 
           if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
             this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-              'style', 'font-size: 12px; color: #FF4965; text-align: left; margin-top: 8px');
+              'style', 'font-size: 12px; color: #FF4965; text-align: left; margin-top: 8px; margin-left: 8px;');
           }
         }
         break;
       default:
         this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-form-field-label'),
-          'style', 'font-size: 16px; color: #3e3e3e; text-align: left;');
+          'style', 'font-size: 16px; color: #3e3e3e; text-align: left; margin-left: 8px;');
         break;
     }
   }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {finalize} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
@@ -12,7 +12,7 @@ import {getIdentificationMaskByType} from '../../../../shared/utils';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit, AfterViewInit {
+export class ForgotPasswordComponent implements OnInit {
   @ViewChild('forgotPasswordTemplate') forgotPasswordTemplate: TemplateRef<any>;
   message = '';
   showErrorMessage = false;
@@ -43,17 +43,6 @@ export class ForgotPasswordComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getIdentificationTypes();
-  }
-
-  ngAfterViewInit(): void {
-    this.openModal();
-  }
-
-  openModal() {
-    this.modalService.open(
-      {template: this.forgotPasswordTemplate, title: '¿Olvidó su clave?'},
-      {width: 376, height: 663, disableClose: false}
-    );
   }
 
   getIdentificationTypes() {
