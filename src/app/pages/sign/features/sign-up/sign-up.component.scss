@@ -8,7 +8,8 @@
 
     &--parrafe {
       text-align: left;
-      font: normal 16px/22px;
+      font-weight: normal;
+      font-size: 14px;
       letter-spacing: 0px;
       color: #3E3E3E;
 
@@ -22,7 +23,7 @@
     width: 100%;
 
     &.step-one {
-      margin-top: 72px;
+      margin-top: 56px;
     }
 
     &.step-two {

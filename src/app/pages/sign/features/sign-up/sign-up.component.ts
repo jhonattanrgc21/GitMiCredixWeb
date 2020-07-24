@@ -1,13 +1,14 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, Inject} from '@angular/core';
 import {ModalService} from '../../../../core/services/modal.service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {IdentifyTypes} from 'src/app/shared/models/IdentifyModel/IndentifyTypes';
 import {HttpService} from 'src/app/core/services/http.service';
 import {finalize} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import {CredixToastService} from 'src/app/core/services/credix-toast.service';
-
+import { CdkStepper } from '@angular/cdk/stepper';
+import { identificationTypeChanged } from 'src/app/core/utilities/IdentificationValidatorChange';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,8 +19,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
   identifyTypes: IdentifyTypes[];
   cellNumber: string;
-  identificationMask = '0-0000-0000';
-  identificationMaxLength = 0;
+  identificationMask: string = '0-0000-0000';
   hideNewPassword = true;
   hideConfirmPassword = true;
   userId: number;
@@ -30,10 +30,9 @@ export class SignUpComponent implements OnInit, AfterViewInit {
   };
   resultPopup: MatDialogRef<any>;
 
-
   newUserFirstStepForm: FormGroup = new FormGroup({
     typeIdentification: new FormControl('', [Validators.required]),
-    identification: new FormControl('', [Validators.required])
+    identification: new FormControl({value:'', disabled: true}, [Validators.required])
   });
 
   newUserSecondStepForm: FormGroup = new FormGroup(
@@ -47,16 +46,13 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
   @ViewChild('templateModalSignUp') templateModalSignUp: TemplateRef<any>;
   @ViewChild('popupResults') popupResults: TemplateRef<any>;
+  @ViewChild('stepper') stepper: CdkStepper;
+
 
   constructor(
-    private dialog: MatDialog,
     private modalService: ModalService,
     private httpService: HttpService,
     private toastService: CredixToastService) {
-  }
-
-  get fThirstyControls() {
-    return this.newUserThirdStepForm.controls;
   }
 
   get fFirstControls() {
@@ -65,6 +61,10 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
   get fSecondControl() {
     return this.newUserSecondStepForm.controls;
+  }
+
+  get fThirstyControls() {
+    return this.newUserThirdStepForm.controls;
   }
 
   get userIdValues() {
@@ -84,9 +84,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
   }
 
 
-  getFormControls(fGroup: FormGroup) {
-    return fGroup.controls;
-  }
 
   openSignUpModal() {
     this.modalService.open({template: this.templateModalSignUp, title: '¡Bienvenido(a) a MiCredix!'}, {
@@ -98,39 +95,47 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
   getIdentificationTypes() {
     this.httpService.post('canales', 'global/identification-types', {channelId: 102})
-      .pipe(finalize(() => this.identificationTypeChanged()))
+      .pipe(finalize(() => this.identificationChanged()))
       .subscribe(response => this.identifyTypes = response.identificationTypes.filter(idt => idt.id > 0));
   }
 
-  identificationTypeChanged() {
-    this.newUserFirstStepForm.controls.typeIdentification.valueChanges.subscribe(value => {
-      if (value !== null) {
-        this.newUserFirstStepForm.controls.identification.reset(null, {emitEvent: false});
+  showToast(type, text: string) {
+    this.toastService.show({text, type});
+  }
 
-        this.newUserFirstStepForm.controls.identification.enable();
-      } else {
-        this.newUserFirstStepForm.controls.identification.disable();
+  nextStep(){
+    this.stepper.selectedIndex = this.stepper.selectedIndex + 1;
+    this.stepper.next();
+  }
+
+  showPopupResult() {
+    this.resultPopup = this.modalService.open({template: this.popupResults}, {width: 376, height: 349, disableClose: false});
+  }
+
+  identificationChanged() {
+    this.fFirstControls.typeIdentification.valueChanges.subscribe(value => {
+
+      if (value !== null) {
+        this.fFirstControls.identification.reset(null, {emitEvent: false});
+
+        this.fFirstControls.identification.enable();
       }
 
       switch (value) {
         case 'CN': {
           this.identificationMask = '0-0000-0000';
-          this.identificationMaxLength = 9;
           break;
         }
         case 'CJ': {
           this.identificationMask = '0-000-000000';
-          this.identificationMaxLength = 10;
           break;
         }
         case 'CR': {
           this.identificationMask = '000000000000';
-          this.identificationMaxLength = 12;
           break;
         }
         case 'PE': {
           this.identificationMask = '000000000000';
-          this.identificationMaxLength = 12;
           break;
         }
       }
@@ -169,6 +174,8 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         this.cellNumber = response.phone;
         this.setUserIdValue(response.userId);
         this.showToast(response.type, response.message);
+
+        (response.type == 'success') ? this.nextStep() : this.stepper.reset();
       });
   }
 
@@ -176,13 +183,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.sendIdentification();
   }
 
-  showToast(type, text: string) {
-    this.toastService.show({text, type});
-  }
-
-  showPopupResult() {
-    this.resultPopup = this.modalService.open({template: this.popupResults}, {width: 376, height: 349, disableClose: false});
-  }
 
   sendPasswordSecurity() {
     this.httpService.post('canales', 'security/validateonetimepassword',
@@ -200,10 +200,13 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         this.responseResult.message = response.message;
         this.responseResult.title = response.titleOne;
         this.responseResult.status = response.type;
+        (response.type == 'success') ? this.nextStep() : this.stepper.reset();
+
       });
   }
 
   submit() {
+    let dialogRef: MatDialogRef<SignUpComponent>;
     this.httpService.post('canales', 'security/validatePasswordAndConfirmPassword', {
       userId: this.userIdValues,
       channelId: 102,
@@ -216,7 +219,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
       uuid: '12311515615614515616',
       platform: 3
     })
-      .pipe(finalize(() => this.showPopupResult()))
+      .pipe(finalize(() => {this.showPopupResult();}))
       .subscribe(response => {
         console.log(response);
         this.responseResult.message = response.message;
