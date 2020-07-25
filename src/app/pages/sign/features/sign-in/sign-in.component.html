@@ -9,9 +9,6 @@
       <mat-form-field appearance="standard" credixTextField onFocusLabel="Identificación">
         <mat-label>Digite su identificación</mat-label>
         <input [mask]="identificationMask" formControlName="identification" matInput/>
-        <mat-error *ngIf="!f.identification.valid && (f.identification.dirty || f.identification.touched)">
-          Identificación inválida
-        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave">
