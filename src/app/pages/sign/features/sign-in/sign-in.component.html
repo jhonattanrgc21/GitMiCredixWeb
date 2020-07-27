@@ -1,5 +1,32 @@
-<div fxLayout="column" fxLayoutGap="24px">
-  <credix-button (click)="navigate('/sign/sign-up')" text="Abrir modal nuevo usuario"></credix-button>
-  <credix-button (click)="navigate('/sign/forgot-pass')" text="Olvidé contraseña"></credix-button>
-</div>
+<div class="sign-in">
 
+  <mat-card class="sign-in__card" credixCard>
+    <img alt="Credix World" class="sign-in__card__logo" src="assets/images/credixLogo_icon.svg">
+
+    <form [formGroup]="signInformGroup" class="sign-in__card__form" fxLayout="column" fxLayoutAlign="center"
+          fxLayoutGap="3px">
+
+      <mat-form-field appearance="standard" credixTextField onFocusLabel="Identificación">
+        <mat-label>Digite su identificación</mat-label>
+        <input [mask]="identificationMask" formControlName="identification" matInput/>
+      </mat-form-field>
+
+      <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave">
+        <mat-label>Digite su clave</mat-label>
+        <input [credixPasswordFieldTooltip]="f.password.errors" [type]="hide ? 'password' : 'text'"
+               formControlName="password" matInput/>
+        <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
+      </mat-form-field>
+
+      <credix-button (click)="submit()" [disabled]="signInformGroup.invalid" class="w-100"
+                     text="Ingresar"></credix-button>
+    </form>
+
+    <span class="sign-in__card__sign-up-span">¿Nuevo en MiCredix?
+      <credix-link-button (click)="open('sign-up')" text="¡Regístrese aquí!"></credix-link-button>
+    </span>
+
+    <credix-link-button (click)="open('forgot-pass')" text="¿Olvidó su clave?"></credix-link-button>
+  </mat-card>
+
+</div>
