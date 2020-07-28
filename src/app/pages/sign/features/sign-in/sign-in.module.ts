@@ -12,6 +12,7 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {ModalService} from '../../../../core/services/modal.service';
 
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -35,7 +36,7 @@ const routes: Routes = [
     CredixTooltipsModule,
     NgxMaskModule.forRoot(maskConfig),
     CredixLinkButtonModule,
-    CredixCardsModule
+    CredixCardsModule,
   ],
   providers: [ModalService]
 })
