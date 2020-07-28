@@ -9,6 +9,7 @@ import * as CryptoJS from 'crypto-js';
 import {CredixToastService} from 'src/app/core/services/credix-toast.service';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {getIdentificationMaskByType} from '../../../../shared/utils';
+import { ModalResponseSignUpComponent } from './modal-response-sign-up/modal-response-sign-up.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -27,6 +28,8 @@ export class SignUpComponent implements OnInit {
     title: '',
     status: ''
   };
+
+
   resultPopup: MatDialogRef<any>;
 
   newUserFirstStepForm: FormGroup = new FormGroup({
@@ -43,13 +46,13 @@ export class SignUpComponent implements OnInit {
   }, {validators: this.checkPasswords});
 
   @ViewChild('templateModalSignUp') templateModalSignUp: TemplateRef<any>;
-  @ViewChild('popupResults') popupResults: TemplateRef<any>;
   @ViewChild('stepper') stepper: CdkStepper;
 
   constructor(
     private modalService: ModalService,
     private httpService: HttpService,
-    private toastService: CredixToastService) {
+    private toastService: CredixToastService,
+    private dialogRef: MatDialogRef<SignUpComponent>) {
   }
 
   get fFirstControls() {
@@ -91,8 +94,14 @@ export class SignUpComponent implements OnInit {
     this.stepper.next();
   }
 
-  showPopupResult() {
-    this.resultPopup = this.modalService.open({template: this.popupResults}, {width: 376, height: 349, disableClose: false});
+  showPopupResult(data?:any) {
+    this.resultPopup = this.modalService.open({
+      component: ModalResponseSignUpComponent, 
+      hideCloseButton: true, 
+      data: data
+    }, {width: 376, height: 368, disableClose: true});
+    this.resultPopup.afterClosed();
+    // .subscribe(modal => this.responseResult.message = modal.message);
   }
 
   identificationChanged() {
@@ -127,6 +136,9 @@ export class SignUpComponent implements OnInit {
       .pipe(finalize(() => this.sendIdentification()))
       .subscribe(response => {
         console.log(response);
+        if (response.type === 'success') {
+          this.nextStep();
+        }
       });
   }
 
@@ -140,9 +152,6 @@ export class SignUpComponent implements OnInit {
         this.cellNumber = response.phone;
         this.setUserIdValue(response.userId);
         this.showToast(response.type, response.message);
-        if (response.type === 'success') {
-          this.nextStep();
-        }
       });
   }
 
@@ -168,6 +177,8 @@ export class SignUpComponent implements OnInit {
         this.responseResult.status = response.type;
         if (response.type === 'success') {
           this.nextStep();
+        }else{ 
+          this.fSecondControl.credixCode.reset(null, {emitEvent: false});
         }
       });
   }
@@ -185,11 +196,10 @@ export class SignUpComponent implements OnInit {
       uuid: '12311515615614515616',
       platform: 3
     })
-      .pipe(finalize(() => this.showPopupResult()))
+      // .pipe(finalize(() => this.showPopupResult()))
       .subscribe(response => {
-        this.responseResult.message = response.message;
-        this.responseResult.title = response.titleOne;
-        this.responseResult.status = response.type;
+        this.showPopupResult({message:response.message, status: response.type, title:response.titleOne});
+        this.dialogRef.close();
       });
   }
 }
