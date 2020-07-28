@@ -18,7 +18,7 @@
         <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
       </mat-form-field>
 
-      <credix-button (click)="submit()" [disabled]="signInformGroup.invalid" class="w-100"
+      <credix-button (click)="login()" [disabled]="signInformGroup.invalid" class="w-100"
                      text="Ingresar"></credix-button>
     </form>
 
@@ -30,3 +30,12 @@
   </mat-card>
 
 </div>
+
+<ng-template class="modal" #sessionActiveTemplate>
+  <div class="h-100" fxLayout="column" fxLayoutAlign="space-between">
+    <credix-result-notification status="warning" title="Sesión activa detectada" message="Se detectó una sesión activa, presione continuar para cerrarla y seguir en esta." ></credix-result-notification>
+
+    <credix-button (buttonClick)="closeSessionActivate()" class="w-100" text="Continuar"></credix-button>
+    <credix-button (buttonClick)="sessionActivateModal.close()" type="secondary" class="w-100" text="Cancelar"></credix-button>
+  </div>
+</ng-template>
