@@ -1,0 +1,19 @@
+<div class="modal" fxLayout="column" fxLayoutAlign="space-between">
+    <credix-result-notification [message]="data.data.message" [status]="data.data.status"
+                                [title]="data.data.title"></credix-result-notification>
+
+    <credix-button (buttonClick)=close()
+                    *ngIf="data.data.status == 'success'"
+                    class="modal__response-button"
+                    fxFlexAlign="flex-end"
+                    text="Ingresar">
+    </credix-button>
+
+    <credix-button
+        (buttonClick)=close()
+        *ngIf="data.data.status == 'error'"
+        class="modal__response-button"
+        fxFlexAlign="flex-start"
+        text="Atras">
+    </credix-button>
+</div>
