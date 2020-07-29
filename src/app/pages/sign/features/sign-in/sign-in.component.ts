@@ -5,10 +5,10 @@ import * as CryptoJS from 'crypto-js';
 import {ModalService} from '../../../../core/services/modal.service';
 import {SignUpComponent} from '../sign-up/sign-up.component';
 import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
-import {MatDialogRef} from "@angular/material/dialog";
-import {HttpService} from "../../../../core/services/http.service";
-import {StorageService} from "../../../../core/services/storage.service";
-import {Router} from "@angular/router";
+import {MatDialogRef} from '@angular/material/dialog';
+import {HttpService} from '../../../../core/services/http.service';
+import {StorageService} from '../../../../core/services/storage.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -48,17 +48,12 @@ export class SignInComponent implements OnInit {
       deviceIdentifier: 1213123134,
       typeIncome: 2
     }).subscribe(data => {
-        if (data.titleOne === 'success') {
-          this.storageService.setCurrentSession(data);
-          console.log('CardlocalStorage' + this.storageService.getCurrentCard());
-          this.router.navigate(['/home']).then();
-        } else if (data.titleOne === 'warn') {
-          if(data.json.message  === 'El usuario ya tiene una sesion activa'){
-            this.open('session-activate');
-          }
-        } else if (data.titleOne === 'error') {
-
-        }
+      if (data.titleOne === 'success') {
+        this.storageService.setCurrentSession(data);
+        this.router.navigate(['/home']).then();
+      } else if (data.titleOne === 'warn' && data.json.message === 'El usuario ya tiene una sesion activa') {
+        this.open('session-activate');
+      }
       }
     );
   }
@@ -80,7 +75,7 @@ export class SignInComponent implements OnInit {
       case 'session-activate':
         this.sessionActivateModal = this.modalService.open({template: this.sessionActiveTemplate, hideCloseButton: true},
           {width: 376, height: 452, disableClose: true});
-      break;
+        break;
       default:
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
           {width: 376, height: 623, disableClose: true});
@@ -95,13 +90,10 @@ export class SignInComponent implements OnInit {
       deviceIdentifier: 1213123134,
       typeIncome: 2
     }).subscribe(data => {
-        console.log(data);
         if (data.type === 'success') {
           this.storageService.removeCurrentSession();
-          this.sessionActivateModal.close()
+          this.sessionActivateModal.close();
           this.login();
-        } else if (data.type === 'error') {
-
         }
       }
     );

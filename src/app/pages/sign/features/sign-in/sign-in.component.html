@@ -32,10 +32,14 @@
 </div>
 
 <ng-template class="modal" #sessionActiveTemplate>
-  <div class="h-100" fxLayout="column" fxLayoutAlign="space-between">
-    <credix-result-notification status="warning" title="Sesión activa detectada" message="Se detectó una sesión activa, presione continuar para cerrarla y seguir en esta." ></credix-result-notification>
+  <div class="h-100" fxLayout="column">
+    <credix-result-notification class="mb-24px"
+                                message="Se detectó una sesión activa, presione continuar para cerrarla y seguir en esta."
+                                status="warning"
+                                title="Sesión activa detectada"></credix-result-notification>
 
-    <credix-button (buttonClick)="closeSessionActivate()" class="w-100" text="Continuar"></credix-button>
-    <credix-button (buttonClick)="sessionActivateModal.close()" type="secondary" class="w-100" text="Cancelar"></credix-button>
+    <credix-button (buttonClick)="closeSessionActivate()" class="w-100 mb-16px" text="Continuar"></credix-button>
+    <credix-button (buttonClick)="sessionActivateModal.close()" class="w-100" text="Cancelar"
+                   type="secondary"></credix-button>
   </div>
 </ng-template>
