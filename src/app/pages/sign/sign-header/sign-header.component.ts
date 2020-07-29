@@ -11,6 +11,7 @@ import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 })
 export class SignHeaderComponent implements OnInit {
   close = false;
+  close1 = false;
   isTablet = false;
   deviceInfo: DeviceInfo;
 

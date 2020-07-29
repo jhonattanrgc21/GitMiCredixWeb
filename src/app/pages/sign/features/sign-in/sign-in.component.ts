@@ -23,17 +23,6 @@ export class SignInComponent implements OnInit {
   });
   hide = true;
   identificationMask = '0-0000-0000';
-<<<<<<< HEAD
-  deviceInfo;
-  isMobile;
-  isTablet;
-  isDesktopDevice;
-
-
-  constructor(private securityService: SecurityService,
-              private modalService: ModalService,
-              ) {
-=======
   sessionActivateModal: MatDialogRef<any>;
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
 
@@ -42,7 +31,7 @@ export class SignInComponent implements OnInit {
               private httpService: HttpService,
               private storageService: StorageService,
               private router: Router) {
->>>>>>> ba3c135e8466db55b43d2d580271fe6129204f45
+
   }
 
   get f() {

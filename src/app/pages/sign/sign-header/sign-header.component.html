@@ -1,4 +1,4 @@
-<header [class.is-close]="close" class="sign__header" fxLayout="row">
+<header [class.is-close]="close" class="sign__header" fxLayout="row" *ngIf="!isTablet">
 
   <mat-icon class="sign__header__icon" svgIcon="mobile_icon"></mat-icon>
 
@@ -19,7 +19,38 @@
 
   <span fxFlex></span>
 
-  <button (click)="close = true" class="sign__header__close-btn" fxFlexAlign="center" mat-icon-button>
+  <button (click)="close = true" class="sign__header__close-btn" fxFlexAlign="start" mat-icon-button>
+    <mat-icon svgIcon="cancel"></mat-icon>
+  </button>
+</header>
+
+<header [class.is-close]="close1" class="sign__header-tablet" fxLayout="row" *ngIf="isTablet">
+
+  <mat-icon class="sign__header-tablet__icon" svgIcon="mobile_icon"></mat-icon>
+
+  <div class="sign__header-tablet__content" fxLayout="column" fxLayoutAlign="center start">
+    <div class="sign__header-tablet__msg" fxLayout="column">
+    <span>App MiCredix</span>
+    <span>Descargue la aplicación móvil para tener acceso a sus finanzas</span>
+    </div>
+    <div class="sign__header-tablet__buttons">
+      <button [fxHide]="deviceInfo.os !== 'Android'" fxShow mat-button>
+        <img alt="Google Play Store" src="assets/images/google-play-badge.png">
+      </button>
+      <button [fxHide]="(deviceInfo.os !== 'Mac')" fxShow mat-button>
+        <img alt="App Store" src="assets/images/appStore.png">
+      </button>
+    </div>
+  </div>
+
+
+  <div fxLayout="row">
+
+  </div>
+
+  <span fxFlex></span>
+
+  <button (click)="close1 = true" class="sign__header-tablet__close-btn" fxFlexAlign="center" mat-icon-button>
     <mat-icon svgIcon="cancel"></mat-icon>
   </button>
 </header>
