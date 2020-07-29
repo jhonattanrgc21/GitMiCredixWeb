@@ -1,1 +1,83 @@
-<p>marchamos works!</p>
+<div 
+class="marchamos" 
+fxLayout="column">
+    <h1 class="marchamos__title">Marchamo</h1>
+
+    <credix-stepper #stepper class="marchamos__stepper">
+        <cdk-step [label]="'Consultar'" [stepControl]="consultForm" fxLayout="row">
+            <h3 class="marchamos__sub-title">Vehículo a consultar</h3>
+            <form [formGroup]="consultForm" fxLayout="column" fxLayoutGap="16px">
+              <mat-form-field appearance="fill">
+                <mat-label>
+                  Nombre
+                </mat-label>
+                <label>
+                  <input formControlName="plateNumber" matInput type="text">
+                </label>
+              </mat-form-field>
+      
+              <credix-button  [stepper]="stepper" credixStepperNext fxFlexAlign="flex-end"
+                             text="Seguir"></credix-button>
+            </form>
+          </cdk-step>
+      
+          <cdk-step [label]="'Seguros y. cuotas'" >
+            <!-- <form fxLayout="column" fxLayoutGap="2%">
+              <mat-form-field appearance="fill">
+                <mat-label>
+                  Nombre
+                </mat-label>
+                <label>
+                  <input matInput type="text">
+                </label>
+              </mat-form-field> -->
+      
+              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+                <credix-button [stepper]="stepper" credixStepperNext
+                               text="Finalizar"></credix-button>
+              </div>
+            <!-- </form> -->
+          </cdk-step>
+
+          <cdk-step [label]="'Lugar de retiro'" >
+            <!-- <form fxLayout="column" fxLayoutGap="2%">
+              <mat-form-field appearance="fill">
+                <mat-label>
+                  Nombre
+                </mat-label>
+                <label>
+                  <input matInput type="text">
+                </label>
+              </mat-form-field> -->
+      
+              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+                <credix-button [stepper]="stepper" credixStepperNext
+                               text="Finalizar"></credix-button>
+              </div>
+            <!-- </form> -->
+          </cdk-step>
+
+          <cdk-step [label]="'Confirmar'" >
+            <!-- <form fxLayout="column" fxLayoutGap="2%">
+              <mat-form-field appearance="fill">
+                <mat-label>
+                  Nombre
+                </mat-label>
+                <label>
+                  <input matInput type="text">
+                </label>
+              </mat-form-field> -->
+      
+              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+                <credix-button [stepper]="stepper" credixStepperNext
+                               text="Finalizar"></credix-button>
+              </div>
+            <!-- </form> -->
+          </cdk-step>
+        
+    </credix-stepper>
+
+</div>

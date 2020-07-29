@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-marchamos',
@@ -6,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./marchamos.component.scss']
 })
 export class MarchamosComponent implements OnInit {
+
+  consultForm: FormGroup = new FormGroup({
+    VehicleType: new FormControl('',[Validators.required]),
+    plateNumber: new FormControl('',[Validators.required])
+  });
 
   constructor() { }
 
