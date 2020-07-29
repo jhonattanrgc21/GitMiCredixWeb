@@ -49,6 +49,7 @@ export interface DialogData {
   component?: any;
   title?: string;
   hideCloseButton?: boolean;
+  data?: any;
 }
 
 export interface DialogOptions {
