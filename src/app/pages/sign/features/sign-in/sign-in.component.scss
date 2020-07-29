@@ -11,7 +11,7 @@
     align-items: center;
     width: 376px;
     height: 520px;
-    padding: 40px !important;
+    padding: 40px 36px !important;
     box-shadow: 0 3px 20px #00000029 !important;
 
     &__logo {
@@ -24,6 +24,17 @@
       margin-top: 70px;
       margin-bottom: 32px;
       width: 100%;
+
+      mat-form-field {
+
+        &:first-of-type {
+          margin-bottom: 20px;
+        }
+
+        &:last-of-type {
+          margin-bottom: 24px;
+        }
+      }
     }
 
     &__sign-up-span {
@@ -52,5 +63,5 @@
 }
 
 ::ng-deep.credix-password-field-tooltip {
-  width: 296px !important;
+  width: 304px !important;
 }

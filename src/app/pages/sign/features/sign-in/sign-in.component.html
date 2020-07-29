@@ -3,15 +3,14 @@
   <mat-card class="sign-in__card" credixCard>
     <img alt="Credix World" class="sign-in__card__logo" src="assets/images/credixLogo_icon.svg">
 
-    <form [formGroup]="signInformGroup" class="sign-in__card__form" fxLayout="column" fxLayoutAlign="center"
-          fxLayoutGap="3px">
+    <form [formGroup]="signInformGroup" class="sign-in__card__form" fxLayout="column" fxLayoutAlign="center">
 
-      <mat-form-field appearance="standard" credixTextField onFocusLabel="Identificación">
+      <mat-form-field appearance="standard" credixTextField height="43" onFocusLabel="Identificación">
         <mat-label>Digite su identificación</mat-label>
         <input [mask]="identificationMask" formControlName="identification" matInput/>
       </mat-form-field>
 
-      <mat-form-field appearance="standard" credixTextField="password" onFocusLabel="Clave">
+      <mat-form-field appearance="standard" credixTextField="password" height="43" onFocusLabel="Clave">
         <mat-label>Digite su clave</mat-label>
         <input [credixPasswordFieldTooltip]="f.password.errors" [type]="hide ? 'password' : 'text'"
                formControlName="password" matInput/>

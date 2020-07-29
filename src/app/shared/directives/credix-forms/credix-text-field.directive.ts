@@ -6,6 +6,7 @@ import {AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2} fr
 })
 export class CredixTextFieldDirective implements AfterViewInit {
   @Input() onFocusLabel: string;
+  @Input() height: number;
   @Input('credixTextField') type: 'password' | 'text' = 'text';
   label: string;
   inputClass = '.mat-input-element';
@@ -30,9 +31,14 @@ export class CredixTextFieldDirective implements AfterViewInit {
     this.setFieldLabel('init');
     this.setFieldRipple('init');
 
+    if (this.height) {
+      this.renderer.setStyle(this.el.nativeElement, 'height', `${this.height}px`);
+      this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldFlexClass), 'height', `${this.height}px`);
+    }
+
     if (this.el.nativeElement.querySelector(this.inputClass)) {
       this.inputEl = this.el.nativeElement.querySelector(this.inputClass);
-      this.renderer.setAttribute(this.inputEl, 'style', 'margin-left: 8px; font-weight: bold');
+      this.renderer.setAttribute(this.inputEl, 'style', 'margin-left: 8px; font-weight: bold; font-size: 16px;');
     }
 
     this.label = this.el.nativeElement.querySelector(this.labelClass).children[0].innerHTML;
@@ -80,7 +86,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
     const fieldFlex = this.el.nativeElement.querySelector(this.fieldFlexClass);
     switch (status) {
       case 'init':
-        this.renderer.setAttribute(fieldFlex, 'style', 'padding-top: 0 !important');
+        this.renderer.setAttribute(fieldFlex, 'style', 'padding-top: 0 !important; align-items: flex-end');
         break;
       case 'focusIn':
         this.renderer.setStyle(fieldFlex, 'background',
@@ -97,19 +103,21 @@ export class CredixTextFieldDirective implements AfterViewInit {
 
     switch (status) {
       case 'init':
-        this.renderer.setAttribute(fieldInfix, 'style', 'padding-bottom: 16px; padding-top: 4px; border: 0 !important;');
+        this.renderer.setAttribute(fieldInfix, 'style', 'padding-bottom: 16px; padding-top: 4px;');
         break;
       case 'focusIn':
         this.renderer.setStyle(fieldInfix, 'box-shadow',
           this.type === 'password' ? '0px 5px 10px #00000026' : 'none');
         this.renderer.setStyle(fieldInfix, 'padding-bottom', '6px', 1);
+        this.renderer.setStyle(fieldInfix, 'padding-top', '14px', 1);
         break;
       case 'focusOut':
         this.renderer.setStyle(fieldInfix, 'box-shadow', 'none');
         this.renderer.setStyle(fieldInfix, 'padding-bottom', this.inputEl.value ? '6px' : '16px', 1);
+        this.renderer.setStyle(fieldInfix, 'padding-top', this.inputEl.value ? '14px' : '4px', 1);
         break;
       default:
-        this.renderer.setAttribute(fieldInfix, 'style', 'padding-bottom: 16px; padding-top: 4px; border: 0 !important;');
+        this.renderer.setAttribute(fieldInfix, 'style', 'padding-bottom: 16px; padding-top: 4px;');
         break;
     }
   }
@@ -128,15 +136,11 @@ export class CredixTextFieldDirective implements AfterViewInit {
           }
           break;
         case 'focusIn':
-          this.renderer.setStyle(fieldSuffix, 'padding-bottom', '6px', 1);
-
           if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
             this.renderer.setStyle(fieldSuffix, 'color', '#FF4965', 1);
           }
           break;
         case 'focusOut':
-          this.renderer.setStyle(fieldSuffix, 'padding-bottom', this.inputEl.value ? '6px' : '16px', 1);
-
           if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
             this.renderer.setStyle(fieldSuffix, 'color', '#FF4965', 1);
           }
@@ -155,7 +159,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
     switch (status) {
       case 'init':
         this.renderer.setAttribute(fieldLabel, 'style',
-          'font-size: 16px; color: #3e3e3e; text-align: left; margin-left: 8px;');
+          'font-size: 16px; color: #3e3e3e; text-align: left; margin-left: 8px; width: 100%');
 
         if (this.el.nativeElement.classList.contains('mat-form-field-disabled')) {
           this.renderer.setStyle(fieldLabel, 'color', '#D2D2D2', 1);
@@ -163,13 +167,15 @@ export class CredixTextFieldDirective implements AfterViewInit {
         break;
       case 'focusIn':
         this.renderer.setStyle(fieldLabel, 'font-size', '12px', 1);
+        this.renderer.setStyle(fieldLabel, 'transform', 'translateY(-4px)', 1);
         break;
       case 'focusOut':
-        if (this.el.nativeElement.classList.contains('mat-form-field-invalid')) {
+        this.renderer.setStyle(fieldLabel, 'transform', this.inputEl.value ? 'translateY(-4px)' : 'translateY(0)', 1);
+        this.renderer.setStyle(fieldLabel, 'font-size', this.inputEl.value ? '12px' : '16px', 1);
+
+        if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
           this.renderer.setStyle(fieldLabel, 'color', '#FF4965', 1);
         }
-
-        this.renderer.setStyle(fieldLabel, 'font-size', this.inputEl.value ? '12px' : '16px', 1);
         break;
       default:
         this.renderer.setAttribute(fieldLabel, 'style',
