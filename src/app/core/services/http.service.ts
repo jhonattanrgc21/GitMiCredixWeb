@@ -29,7 +29,7 @@ export class HttpService {
   post(service: 'canales' | 'marchamos' | 'incomex', uri: string, body = {}, params = []): Observable<any> {
     const headers = new HttpHeaders()
       .append('Accept', 'application/json')
-      .append('Content-Type', 'application/json');
+      .append('Content-Type', 'text/json');
 
     let httpParams = new HttpParams();
     params.forEach(p => {

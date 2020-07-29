@@ -1,7 +1,7 @@
 <mat-form-field appearance="outline" class="credix-code-input">
   <input [formControl]="codeFormControl" [maxlength]="length" [minLength]="length" autocomplete="off" credixDigitOnly
          inputmode="numeric" matInput pattern="[0-9]*">
-  <mat-error *ngIf="!codeFormControl.valid && (codeFormControl.dirty || codeFormControl.touched)"
+  <mat-error *ngIf="codeFormControl.invalid"
              class="credix-code-input__error-label">
     {{errorMessage}}</mat-error>
 </mat-form-field>

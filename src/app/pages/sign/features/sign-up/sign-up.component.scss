@@ -1,0 +1,72 @@
+
+.modal-new-user {
+
+  &__parrafe {
+    margin-top: 16px;
+  }
+
+  &__stepper {
+    margin-top: 16px;
+
+    &--parrafe {
+      text-align: left;
+      font-weight: normal;
+      font-size: 14px;
+      letter-spacing: 0px;
+      color: #3E3E3E;
+
+      &.info {
+        display: block;
+      }
+    }
+
+    mat-form-field:last-of-type {
+      flex: 1;
+    }
+    &__credix-code{
+      margin-bottom: 24px !important;
+    }
+
+  }
+
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    mat-form-field:first-of-type {
+      margin-bottom: 16px;
+    }
+
+    mat-form-field:last-of-type {
+      flex: 1;
+    }
+  }
+
+  &__button {
+    width: 100%;
+
+    &.step-one {
+      margin-top: 56px;
+    }
+
+    &.step-two {
+      margin-top: 2px;
+      margin-bottom: 40px;
+    }
+
+    &.step-three {
+      margin-top: 64px;
+    }
+  }
+}
+
+::ng-deep.credix-password-field-tooltip {
+  width: 298px !important;
+}
+
+::ng-deep.credix-result-notification {
+  margin-bottom: 16px;
+}
+
+
