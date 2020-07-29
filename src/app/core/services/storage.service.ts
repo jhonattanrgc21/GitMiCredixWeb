@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
 import {User} from '../../shared/models/user.model';
 import {Card} from '../../shared/models/card.model';
 
@@ -9,7 +8,7 @@ export class StorageService {
   private localStorageService;
   private card: Card[] = [];
 
-  constructor(private router: Router) {
+  constructor() {
     this.localStorageService = localStorage;
   }
 
@@ -42,10 +41,6 @@ export class StorageService {
     return (card) ? card : null;
   }
 
-  isAuthenticated(): boolean {
-    return this.getCurrentToken() != null;
-  }
-
   getCurrentToken(): string {
     const token = this.localStorageService.getItem('token');
     return (token) ? token : null;
@@ -57,10 +52,5 @@ export class StorageService {
 
   clearCurrentToken(): void {
     this.localStorageService.removeItem('token');
-  }
-
-  logout(): void {
-    this.removeCurrentSession();
-    this.router.navigate(['/login']);
   }
 }

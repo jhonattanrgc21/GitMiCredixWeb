@@ -2,7 +2,7 @@
 
   <ng-container [ngSwitch]="status">
     <svg *ngSwitchCase="'success'" height="100" viewBox="0 0 100 100" width="100"
-         xmlns="http://www.w3.org/2000/svg">
+         class="credix-result-notification__icon" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <style>.result-notification-success-check {
           fill: #19D27E;
@@ -14,7 +14,7 @@
     </svg>
 
     <svg *ngSwitchCase="'warning'" height="100" viewBox="0 0 100 100" width="100"
-         xmlns="http://www.w3.org/2000/svg">
+         class="credix-result-notification__icon" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <style>.result-notification-alert-check {
           fill: #ffdc49;
@@ -26,7 +26,7 @@
     </svg>
 
     <svg *ngSwitchCase="'error'" height="100" viewBox="0 0 100 100" width="100"
-         xmlns="http://www.w3.org/2000/svg">
+         class="credix-result-notification__icon" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <style>.result-notification-exclamation-red {
           fill: #ff4965;
@@ -49,7 +49,6 @@
             transform="translate(-1.999 -1.998)"/>
     </svg>
   </ng-container>
-
 
   <h2 *ngIf="title" class="credix-result-notification__title">{{title}}</h2>
 

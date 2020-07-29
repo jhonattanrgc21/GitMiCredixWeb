@@ -30,8 +30,25 @@
       margin-bottom: 39px;
       line-height: 22px;
     }
-
   }
+
+}
+
+::ng-deep.credix-result-notification__icon {
+  width: 70px !important;
+  height: 70px !important;
+  margin-bottom: 24px !important;
+}
+
+::ng-deep.credix-result-notification__title {
+  font-size: 32px !important;
+  line-height: 32px !important;
+  height: 79px !important;
+  margin-bottom: 16px !important;
+}
+
+::ng-deep.credix-result-notification__message {
+  width: 268px !important;
 }
 
 ::ng-deep.credix-password-field-tooltip {
