@@ -18,7 +18,7 @@ import {Router} from '@angular/router';
 export class SignInComponent implements OnInit {
   signInformGroup: FormGroup = new FormGroup({
     identification: new FormControl(null, [Validators.required]),
-    password: new FormControl(null, [Validators.required, Validators.minLength(8)])
+    password: new FormControl(null, [Validators.required])
   });
   hide = true;
   identificationMask = '0-0000-0000';
