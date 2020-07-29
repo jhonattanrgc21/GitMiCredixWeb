@@ -23,6 +23,9 @@
     mat-form-field:last-of-type {
       flex: 1;
     }
+    &__credix-code{
+      margin-bottom: 24px !important;
+    }
 
   }
 
@@ -48,6 +51,7 @@
     }
 
     &.step-two {
+      margin-top: 2px;
       margin-bottom: 40px;
     }
 

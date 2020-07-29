@@ -3,11 +3,12 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {StorageService} from '../services/storage.service';
+import {CredixToastService} from '../services/credix-toast.service';
 
 @Injectable()
 export class HttpRequestsResponseInterceptor implements HttpInterceptor {
 
-  constructor(private storageService: StorageService) {
+  constructor(private storageService: StorageService, private toastService: CredixToastService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -26,6 +27,13 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
         if (event instanceof HttpResponse) {
           if (event.headers) {
             this.storageService.setCurrentToken(event.headers.get('x-auth-token'));
+          }
+
+          console.log(event.body);
+
+          if ((event.body.titleOne === 'error' || event.body.type === 'error')) {
+            const message = event.body.message ? event.body.message : event.body.json.message;
+            this.toastService.show({text: message, type: 'error'});
           }
         }
         return event;
