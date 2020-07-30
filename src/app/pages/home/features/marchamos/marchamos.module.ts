@@ -15,6 +15,8 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { StepperModule } from 'src/app/shared/directives/stepper/stepper.module';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 import { CredixFormsModule } from 'src/app/shared/directives/credix-forms/credix-forms.module';
+import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
+import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -40,6 +42,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     CredixStepperModule,
     CredixFormsModule,
+    CredixCheckboxButtonModule,
+    CredixSliderModule,
     CdkStepperModule,
     StepperModule,
     NgxMaskModule.forRoot(maskConfig)

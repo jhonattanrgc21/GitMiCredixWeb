@@ -188,7 +188,8 @@ export class MarchamosComponent implements OnInit {
     }
   ];
   vehicleInformation: boolean;
-  totalMount: number = 144996;
+  totalMount: string = '₡ 114.996,00';
+  value: number = 1;
 
 
   consultForm: FormGroup = new FormGroup({

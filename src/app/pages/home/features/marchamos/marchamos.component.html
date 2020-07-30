@@ -75,29 +75,48 @@ fxLayout="column">
       
           <cdk-step [label]="'Seguros y. cuotas'" [stepControl]="secureAndCoutesForm" fxLayout="column">
 
-            <div fxLayout="row" fxLayoutAlign="space-between" class="marchamos__payment-information">
-                <label>Marchamo</label>
-                <span>Monto al cobro</span>
+            <div fxLayout="row" class="marchamos__payment-information">
+                <label class="marchamos__label-1">Marchamo</label>
+                <span class="marchamos__payment-span">Monto al cobro</span>
                 <span>{{ totalMount }}</span>
             </div>
 
+            
 
-            <form [formGroup]="secureAndCoutesForm" fxLayout="column" fxLayoutGap="2%">
-              <mat-form-field appearance="fill">
-                <mat-label>
-                  Nombre
-                </mat-label>
-                <label>
-                  <input matInput type="text">
-                </label>
-              </mat-form-field>
-      
-              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-                <credix-button [stepper]="stepper" credixStepperNext
-                               text="Continuar"></credix-button>
-              </div>
+            <mat-divider></mat-divider>
+            <form [formGroup]="secureAndCoutesForm">
+                <div fxLayout="row" class="marchamos__payment-information secure">
+                  <label class="marchamos__label-2">Seguros opcionales</label> 
+                  <div fxLayout="column" style="margin-right: 215px;">
+                    <credix-checkbox-button [checked]="false" [value]="'a'" label="Responsabilidad civil"></credix-checkbox-button>
+                    <credix-checkbox-button [checked]="false" [value]="'b'" label="Asistencia en carretera"></credix-checkbox-button>
+                    <credix-checkbox-button [checked]="false" [value]="'c'" label="Más protección"></credix-checkbox-button>
+                    <credix-checkbox-button [checked]="false" [value]="'d'" label="Todos"></credix-checkbox-button>
+                  </div>
+                  <div class="marchamos__prices" fxLayout="column">
+                   <span>₡ 8.745,00</span>
+                   <span>₡ 3.359,00</span>
+                   <span>₡ 7.140,00</span>
+                  </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div fxLayout="row" class="marchamos__payment-information secure">
+                  <label class="marchamos__label-3">Cuotas</label> 
+                  <div style="margin-right: 215px;">
+
+                    <credix-slider [(value)]="value" class="marchamos__slider"></credix-slider>
+                  </div>
+                  <div class="marchamos__prices" fxLayout="column">
+                   <span>₡ 114.996,00</span>
+                  </div>
+                </div>
             </form>
+            <mat-divider></mat-divider>
+            <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+              <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+              <credix-button [stepper]="stepper" credixStepperNext
+                             text="Continuar"></credix-button>
+            </div>
           </cdk-step>
 
           <cdk-step [label]="'Lugar de retiro'" >
