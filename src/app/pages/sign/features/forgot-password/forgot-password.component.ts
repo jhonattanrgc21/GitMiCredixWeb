@@ -83,12 +83,10 @@ export class ForgotPasswordComponent implements OnInit {
         .subscribe((res) => {
           this.submitted = true;
           if (res.type === 'success') {
-            console.log(res);
             this.message = res.message;
             this.showErrorMessage = true;
           } else {
             this.message = res.message;
-            console.log(this.message);
             this.showErrorMessage = true;
           }
         });

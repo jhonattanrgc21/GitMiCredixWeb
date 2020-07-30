@@ -10,6 +10,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
   @Input('credixTextField') type: 'password' | 'text' = 'text';
   label: string;
   inputClass = '.mat-input-element';
+  selectClass = '.mat-select';
   labelClass = '.mat-form-field-label';
   iconClass = '.mat-icon';
   fieldFlexClass = '.mat-form-field-flex';
@@ -40,7 +41,11 @@ export class CredixTextFieldDirective implements AfterViewInit {
     if (this.el.nativeElement.querySelector(this.inputClass)) {
       this.inputEl = this.el.nativeElement.querySelector(this.inputClass);
       this.renderer.setAttribute(this.inputEl, 'style', 'margin-left: 8px; font-weight: bold; font-size: 16px; height: 24px');
+    } else if (this.el.nativeElement.querySelector(this.selectClass)) {
+      this.inputEl = this.el.nativeElement.querySelector(this.selectClass);
+      this.renderer.setAttribute(this.inputEl, 'style', 'margin-left: 8px; font-weight: bold; font-size: 16px; height: 24px');
     }
+
 
     this.label = this.el.nativeElement.querySelector(this.labelClass).children[0].innerHTML;
 
