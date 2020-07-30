@@ -49,7 +49,7 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
 
   @HostListener('focusout')
   focusOut() {
-    // this.overlayRef.detach();
+    this.overlayRef.detach();
   }
 
   show() {

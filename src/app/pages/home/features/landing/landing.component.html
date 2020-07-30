@@ -1,3 +1,15 @@
-<div fxLayout="column">
-  landing component
+<div fxLayout="column" fxLayoutGap="16px">
+
+  <div fxLayout="row" fxLayoutGap="16px">
+    <app-balances></app-balances>
+
+    <div fxLayout="column" fxLayoutGap="16px">
+      <app-payment-details></app-payment-details>
+      <app-movements></app-movements>
+    </div>
+
+  </div>
+
+  <app-awards></app-awards>
+
 </div>
