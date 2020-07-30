@@ -1,0 +1,85 @@
+.sign__header, .sign__header-tablet {
+  height: 80px;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px #00000029;
+  padding: 16px 32px 16px 125px;
+  align-items: center;
+  overflow-y: hidden;
+  transition: height 0.5s ease-in;
+  -webkit-transition: height 0.5s ease-in, padding 0s ease-in 0.48s;
+  -ms-transition: height 0.5s ease-in, padding 0s ease-in 0.48s;
+  -moz-transition: height 0.5s ease-in, padding 0s ease-in 0.48s;
+  -o-transition: height 0.5s ease-in, padding 0s ease-in 0.48s;
+
+  &__icon {
+    width: 24px;
+    height: 48px;
+    margin-right: 9px;
+  }
+
+  &__content {
+    margin-right: 34px;
+
+    span {
+      color: #3e3e3e;
+      font-size: 16px;
+
+      &:first-child {
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__buttons button {
+    width: auto;
+    padding: 0;
+  }
+
+  &__close-btn {
+    width: 32px;
+    height: 32px;
+    margin-left: 64px;
+    background: #E9E9E9;
+
+    mat-icon {
+      width: 16px;
+      height: 16px;
+      vertical-align: baseline !important;
+    }
+  }
+
+  &.is-close {
+    height: 0 !important;
+    padding: 0;
+  }
+
+}
+
+.sign__header-tablet {
+  height: 140px !important;
+
+  &__icon {
+    margin-top: -58px !important;
+  }
+
+  &__msg {
+    margin-top: -23px;
+  }
+
+  &__buttons {
+    position: relative;
+    bottom: -19px;
+  }
+
+  &__close-btn {
+    margin-left: 0 !important;
+    position: relative !important;
+    top: -38px;
+    right: -16px;
+
+  }
+}

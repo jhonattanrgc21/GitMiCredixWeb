@@ -12,6 +12,8 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {ModalService} from '../../../../core/services/modal.service';
 import {CredixResultNotificationModule} from "../../../../shared/components/credix-result-notification/credix-result-notification.module";
+
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
