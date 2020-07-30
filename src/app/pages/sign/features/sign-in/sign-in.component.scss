@@ -62,10 +62,10 @@
   width: 268px !important;
 }
 
-::ng-deep.credix-password-field-tooltip {
-  width: 304px !important;
-}
+::ng-deep.sign-in-tooltip {
 
-::ng-deep.credix-tooltip-panel {
-  margin-bottom: 8px;
+  .credix-password-field-tooltip {
+    width: 304px !important;
+    margin-bottom: 8px;
+  }
 }
