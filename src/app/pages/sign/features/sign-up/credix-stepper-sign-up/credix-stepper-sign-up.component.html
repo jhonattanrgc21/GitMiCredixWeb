@@ -1,13 +1,13 @@
-<section class="credix-stepper">
-  <header class="credix-stepper__nav-bar">
+<section class="credix-stepper-sign-up">
+  <header class="credix-stepper-sign-up__nav-bar">
     <div
       *ngFor="let step of steps; let i = index"
       [class.is-active]="selectedIndex === i"
       [class.is-complete]="i < selectedIndex"
-      class="credix-stepper__nav-bar__step">
-      <span class="credix-stepper__nav-bar__circle"></span>
-      <span class="credix-stepper__nav-bar__line"></span>
-      <span class="credix-stepper__nav-bar__label">{{step.label}}</span>
+      class="credix-stepper-sign-up__nav-bar__step">
+      <span class="credix-stepper-sign-up__nav-bar__circle"></span>
+      <span class="credix-stepper-sign-up__nav-bar__line"></span>
+      <span class="credix-stepper-sign-up__nav-bar__label">{{step.label}}</span>
     </div>
   </header>
 

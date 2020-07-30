@@ -1,10 +1,9 @@
-.credix-stepper {
+.credix-stepper-sign-up {
 
   &__nav-bar {
     display: flex;
     justify-content: flex-start;
-    padding-bottom: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 
     &__step {
       display: flex;
@@ -17,10 +16,6 @@
       height: 30px;
       min-width: 100px;
       outline: none;
-
-      // &:not(:last-of-type) {
-      //   margin-right: 0px;
-      // }
     }
 
     &__circle {
@@ -44,13 +39,15 @@
 
     &__label {
       width: min-content;
+      font-size: 16px;
+      line-height: 16px;
       color: #d2d2d2;
       text-align: center;
     }
 
     &__line {
       width: 98px;
-      height: 0px;
+      height: 0;
       border-top: 4px solid #d2d2d2;
       position: relative;
       top: 14px;
@@ -59,27 +56,26 @@
     }
 
     .is-active {
-      .credix-stepper__nav-bar__circle {
+      .credix-stepper-sign-up__nav-bar__circle {
         background: #ffdc49;
       }
 
-      .credix-stepper__nav-bar__line {
+      .credix-stepper-sign-up__nav-bar__line {
         border-top: 4px solid #ffdc49;
       }
 
 
-      .credix-stepper__nav-bar__label {
-        font-weight: bold;
+      .credix-stepper-sign-up__nav-bar__label {
         color: #3e3e3e;
       }
     }
 
     .is-complete {
-      .credix-stepper__nav-bar__circle {
+      .credix-stepper-sign-up__nav-bar__circle {
         background: #19d27e;
       }
 
-      .credix-stepper__nav-bar__line {
+      .credix-stepper-sign-up__nav-bar__line {
         border-top: 4px solid #19d27e;
       }
     }
