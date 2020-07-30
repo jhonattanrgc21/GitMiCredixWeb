@@ -18,15 +18,18 @@
 
     mat-cell:first-child {
       text-align: left !important;
+      flex: 20% !important;
     }
 
     mat-cell:nth-child(2) {
       text-align: left !important;
+      flex: 40% !important;
     }
 
     mat-cell:last-child {
       text-align: right !important;
       font-weight: bold !important;
+      flex: 40% !important;
     }
 
   }
