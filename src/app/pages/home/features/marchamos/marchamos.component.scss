@@ -1,66 +1,100 @@
-.marchamos{
-    
-    background: #FFFFFF 0% 0% no-repeat padding-box;    
-    width: 877px;
-    height: 662px;
-    // padding: 40px !important;
+.marchamos {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  width: 877px;
+  height: 662px;
+  // padding: 40px !important;
+  border-radius: 8px;
 
-    &__list{
-        list-style: none;
-        li {
-            label{
-                font-weight: normal;
-                font-size: 16px;
-            }
+  &__list {
+    list-style: none;
+    li {
+      label {
+        font-weight: normal;
+        font-size: 16px;
+      }
 
-            span{
-                font-weight: bold;
-                font-size: 16px;
-            }
-        }
-    }
-
-    &__container{
-        width: 100%;
-        height: 100%;
-        height: 412px;
-    }
-
-    &__information{
-        padding-left: 101px;
-        padding-right: 99px;
-        padding-top: 32.5px;
-    }
-
-    &__title{
+      span {
         font-weight: bold;
-        font-size: 32px/47px;
-        margin: 16px;
+        font-size: 16px;
+      }
     }
+  }
 
-    &__stepper{
-        margin: 16px;
-    }
+  &__container {
+    width: 100%;
+    height: 100%;
+    height: 412px;
+  }
 
-    &__buttons{
-        margin: 16px 0;
-    }
+  &__information {
+    padding-left: 101px;
+    padding-right: 99px;
+    padding-top: 32.5px;
+  }
 
-    &__inputs{
-        margin-top: -32px;
-        ::ng-deep.mat-form-field{
-            width: 322px;
-        }
-    }
+  &__title {
+    font-weight: bold;
+    font-size: 32px/47px;
+    margin: 16px;
+  }
 
-    &__form{
-        &--step-1{
-            padding-left: 101px;
-            padding-right: 99px;
-            padding-top: 32.5px;
-        }
+  &__stepper {
+    margin: 16px;
+  }
+
+  &__buttons {
+    margin: 16px 0;
+  }
+
+  &__inputs {
+    margin-top: -32px;
+    ::ng-deep.mat-form-field {
+      width: 322px;
     }
+    &__first{
+      margin-top: -10px;
+      ::ng-deep.mat-form-field {
+        width: 322px;
+      }
+    }
+  }
+  &__inputs-hidden {
+    margin-top: 12px;
+    ::ng-deep.mat-form-field {
+      width: 322px;
+    }
+  }
+
+  &__sub-title {
+    font-weight: bold;
+    font-size: 16px !important;
+
+    &__first{
+      margin-top: -22px;
+      font-weight: bold;
+      font-size: 16px !important;
+    }
+  }
+
+  &__top-row {
+    margin-bottom: -39px !important;
+  }
+
+  &__divider-footer {
+    margin-bottom: 16px;
+  }
+
+  &__form {
+    &--step-1 {
+      padding-left: 101px;
+      padding-right: 99px;
+      padding-top: 32.5px;
+    }
+  }
+  &__places-divider {
+      margin-bottom: 17px !important;
+  }
 }
-::ng-deep.mat-divider{
-    margin-top: 32px !important;
+::ng-deep.mat-divider {
+  margin-top: 32px !important;
 }
