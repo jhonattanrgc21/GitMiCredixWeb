@@ -17,6 +17,7 @@ import {IConfig, NgxMaskModule} from 'ngx-mask';
 import { CredixFormsModule } from 'src/app/shared/directives/credix-forms/credix-forms.module';
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
+import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -46,7 +47,8 @@ const routes: Routes = [
     CredixSliderModule,
     CdkStepperModule,
     StepperModule,
-    NgxMaskModule.forRoot(maskConfig)
+    CredixRadioButtonModule
+    NgxMaskModule.forRoot(maskConfig),
   ],
   providers: [
     HttpService,

@@ -102,8 +102,8 @@ fxLayout="column">
                 <mat-divider></mat-divider>
                 <div fxLayout="row" class="marchamos__payment-information secure">
                   <label class="marchamos__label-3">Cuotas</label> 
-                  <div style="margin-right: 215px;">
 
+                  <div style="margin-right: 215px;">
                     <credix-slider [(value)]="value" class="marchamos__slider"></credix-slider>
                   </div>
                   <div class="marchamos__prices" fxLayout="column">
@@ -118,26 +118,66 @@ fxLayout="column">
                              text="Continuar"></credix-button>
             </div>
           </cdk-step>
+    <cdk-step [label]="'Lugar de retiro'">
+      <form [formGroup]="consultForm" fxLayout="column" class="marchamos__form--step-1" fxLayoutGap="150px">
+        <div fxLayout="row" fxLayoutGap="163px" class="marchamos__top-row">
+          <h3 class="marchamos__sub-title__first">Correo electrónico</h3>
 
-          <cdk-step [label]="'Lugar de retiro'" >
-            <!-- <form fxLayout="column" fxLayoutGap="2%">
-              <mat-form-field appearance="fill">
+          <div fxLayout="column" class="marchamos__inputs__first">
+
+            <mat-form-field appearance="standard" credixTextField>
+              <mat-label>
+                Correo registrado
+              </mat-label>
+              <label>
+                <input formControlName="plateNumber" matInput type="email">
+              </label>
+            </mat-form-field>
+
+          </div>
+        </div>
+        <mat-divider class="marchamos__places-divider"></mat-divider>
+        <div fxLayout="row" fxLayoutGap="191px" class="marchamos__bottom-row">
+          <h3 class="marchamos__sub-title">Lugar de retiro</h3>
+
+          <div fxLayout="column" class="marchamos__radio-button">
+            <credix-radio-button [checked]="false" [value]="1" label="Sucursales Credix" name="a"></credix-radio-button>
+            <div class="marchamos__inputs-hidden">
+              <mat-form-field appearance="standard" credixTextField>
                 <mat-label>
-                  Nombre
+                  Seleccione la más cercana
+                </mat-label>
+                <mat-select formControlName="VehicleType">
+                  <mat-option *ngFor="let  of " [value]="">
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <credix-radio-button [checked]="false" [value]="2" label="Domicilio" name="x"></credix-radio-button>
+            <div class="marchamos__inputs-hidden">
+              <mat-form-field appearance="standard" credixTextField>
+                <mat-label>
+                  Dirección
                 </mat-label>
                 <label>
-                  <input matInput type="text">
+                  <input formControlName="plateNumber" matInput type="text">
                 </label>
-              </mat-form-field> -->
-      
-              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-                <credix-button [stepper]="stepper" credixStepperNext
-                               text="Finalizar"></credix-button>
-              </div>
-            <!-- </form> -->
-          </cdk-step>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
 
+      </form>
+      <mat-divider class="marchamos__divider-footer"></mat-divider>
+      <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px" class="marchamos__buttons-footer">
+        <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+        <credix-button [stepper]="stepper" (buttonClick)="continue()" credixStepperNext text="continuar">
+        </credix-button>
+      </div>
+
+
+
+    </cdk-step>
           <cdk-step [label]="'Confirmar'" >
             <!-- <form fxLayout="column" fxLayoutGap="2%">
               <mat-form-field appearance="fill">
