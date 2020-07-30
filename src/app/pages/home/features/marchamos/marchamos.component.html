@@ -1,80 +1,85 @@
-<div 
-class="marchamos" 
-fxLayout="column">
-    <h1 class="marchamos__title">Marchamo</h1>
+<div class="marchamos" fxLayout="column">
+  <h1 class="marchamos__title">Marchamo</h1>
 
-    <credix-stepper #stepper class="marchamos__stepper">
-        <cdk-step [label]="'Consultar'" 
-        [stepControl]="consultForm" 
-        fxLayout="column" 
-        fxLayoutAlign="space-around">
+  <credix-stepper #stepper class="marchamos__stepper">
+    <cdk-step [label]="'Consultar'" [stepControl]="consultForm" fxLayout="column" fxLayoutAlign="space-around">
 
-            <div class="marchamos__container">
-              <form [formGroup]="consultForm" 
-              fxLayout="row"
-              class="marchamos__form--step-1" 
-              fxLayoutGap="150px">
-              <h3 class="marchamos__sub-title">Vehículo a consultar</h3>
-              
-              <div fxLayout="column" class="marchamos__inputs">
-                <mat-form-field appearance="standard">
-                  <mat-label>Tipo de vehículo</mat-label>
-                  <mat-select formControlName="VehicleType">
-                    <mat-option *ngFor="let  of " [value]="">
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+      <div class="marchamos__container">
+        <form [formGroup]="consultForm" fxLayout="row" class="marchamos__form--step-1" fxLayoutGap="150px">
+          <h3 class="marchamos__sub-title">Vehículo a consultar</h3>
 
-                <mat-form-field appearance="fill">
-                  <mat-label>
-                    Número de placa
-                  </mat-label>
-                  <label>
-                    <input formControlName="plateNumber" matInput type="text">
-                  </label>
-                </mat-form-field>
+          <div fxLayout="column" class="marchamos__inputs">
+            <mat-form-field appearance="standard">
+              <mat-label>Tipo de vehículo</mat-label>
+              <mat-select formControlName="VehicleType">
+                <mat-option *ngFor="let  of " [value]="">
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              </div>
-            
-              </form>
-              <mat-divider></mat-divider>
-              <div fxLayout="row" class="marchamos__information" fxLayoutGap="119px">
-                <h3 class="marchamos__sub-title"
-              fxFlex="50">Información del vehículo</h3>
-                <div fxLayout="column" fxLayoutGap="64px">
-                  <ul class="marchamos__list">
-                    <li fxLayoutGap="183px"><label>Propietario</label> <span>Sergio Marquina</span></li>
-                    <li fxLayoutGap="277px"><label>Marca</label> <span>Yamaha</span></li>
-                    <li fxLayoutGap="315px"><label>Año</label> <span>2012</span></li>
-                    <li fxLayoutGap="224px"><label>Períodos adeudados</label> <span>0</span></li>
-                    <li fxLayoutGap="207px"><label>Período (s) a pagar</label> <span>2019</span></li>
-                  </ul>
-                </div>
-              </div>
+            <mat-form-field appearance="fill">
+              <mat-label>
+                Número de placa
+              </mat-label>
+              <label>
+                <input formControlName="plateNumber" matInput type="text">
+              </label>
+            </mat-form-field>
 
           </div>
 
-            <mat-divider></mat-divider>
-            <div class="marchamos__buttons" 
-            fxLayout="row" 
-            fxLayoutGap="16px" 
-            fxLayoutAlign="end">
+        </form>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" class="marchamos__information" fxLayoutGap="119px">
+          <h3 class="marchamos__sub-title" fxFlex="50">Información del vehículo</h3>
+          <div fxLayout="column" fxLayoutGap="64px">
+            <ul class="marchamos__list">
+              <li fxLayoutGap="183px"><label>Propietario</label> <span>Sergio Marquina</span></li>
+              <li fxLayoutGap="277px"><label>Marca</label> <span>Yamaha</span></li>
+              <li fxLayoutGap="315px"><label>Año</label> <span>2012</span></li>
+              <li fxLayoutGap="224px"><label>Períodos adeudados</label> <span>0</span></li>
+              <li fxLayoutGap="207px"><label>Período (s) a pagar</label> <span>2019</span></li>
+            </ul>
+          </div>
+        </div>
 
-              <credix-button 
-              text="Consulta" 
-              type="secondary">
-              </credix-button>
+      </div>
 
-              <credix-button  
-              [stepper]="stepper"
-              (buttonClick)="continue()"
-              credixStepperNext 
-              text="continuar"></credix-button>
-            </div>
-          </cdk-step>
-      
-          <cdk-step [label]="'Seguros y. cuotas'" >
-            <!-- <form fxLayout="column" fxLayoutGap="2%">
+      <mat-divider></mat-divider>
+      <div class="marchamos__buttons" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
+
+        <credix-button text="Consulta" type="secondary">
+        </credix-button>
+
+        <credix-button [stepper]="stepper" (buttonClick)="continue()" credixStepperNext text="continuar">
+        </credix-button>
+      </div>
+    </cdk-step>
+
+    <cdk-step [label]="'Seguros y. cuotas'">
+
+
+      <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+        <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+        <credix-button [stepper]="stepper" (buttonClick)="continue()" credixStepperNext text="continuar">
+        </credix-button>
+      </div>
+
+    </cdk-step>
+
+    <cdk-step [label]="'Lugar de retiro'">
+
+
+      <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+        <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+        <credix-button [stepper]="stepper" credixStepperNext (buttonClick)="continue()" text="Continuar">
+        </credix-button>
+      </div>
+
+    </cdk-step>
+
+    <cdk-step [label]="'Confirmar'">
+      <!-- <form fxLayout="column" fxLayoutGap="2%">
               <mat-form-field appearance="fill">
                 <mat-label>
                   Nombre
@@ -83,53 +88,13 @@ fxLayout="column">
                   <input matInput type="text">
                 </label>
               </mat-form-field> -->
-      
-              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-                <credix-button [stepper]="stepper" credixStepperNext
-                               text="Finalizar"></credix-button>
-              </div>
-            <!-- </form> -->
-          </cdk-step>
 
-          <cdk-step [label]="'Lugar de retiro'" >
-            <!-- <form fxLayout="column" fxLayoutGap="2%">
-              <mat-form-field appearance="fill">
-                <mat-label>
-                  Nombre
-                </mat-label>
-                <label>
-                  <input matInput type="text">
-                </label>
-              </mat-form-field> -->
-      
-              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-                <credix-button [stepper]="stepper" credixStepperNext
-                               text="Finalizar"></credix-button>
-              </div>
-            <!-- </form> -->
-          </cdk-step>
+      <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+        <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+        <credix-button [stepper]="stepper" credixStepperNext text="Finalizar"></credix-button>
+      </div>
+    </cdk-step>
 
-          <cdk-step [label]="'Confirmar'" >
-            <!-- <form fxLayout="column" fxLayoutGap="2%">
-              <mat-form-field appearance="fill">
-                <mat-label>
-                  Nombre
-                </mat-label>
-                <label>
-                  <input matInput type="text">
-                </label>
-              </mat-form-field> -->
-      
-              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-                <credix-button [stepper]="stepper" credixStepperNext
-                               text="Finalizar"></credix-button>
-              </div>
-            <!-- </form> -->
-          </cdk-step>
-        
-    </credix-stepper>
+  </credix-stepper>
 
 </div>

@@ -17,8 +17,8 @@ export class MarchamosComponent implements OnInit {
   vehicleInformation: boolean;
 
   consultForm: FormGroup = new FormGroup({
-    VehicleType: new FormControl('',[Validators.required]),
-    plateNumber: new FormControl('',[Validators.required])
+    VehicleType: new FormControl('',/*[Validators.required]*/),
+    plateNumber: new FormControl('',/*[Validators.required]*/)
   });
 
 
