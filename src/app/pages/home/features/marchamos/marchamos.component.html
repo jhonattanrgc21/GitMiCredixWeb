@@ -20,35 +20,36 @@ fxLayout="column">
                 <mat-form-field appearance="standard">
                   <mat-label>Tipo de vehículo</mat-label>
                   <mat-select formControlName="VehicleType">
-                    <mat-option *ngFor="let  of " [value]="">
+                    <mat-option *ngFor="let vehicleTypes of vehicleType" [value]="vehicleTypes.type">
+                      {{ vehicleTypes.description}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="fill" credixTextField onFocusLabel="Placa">
                   <mat-label>
                     Número de placa
                   </mat-label>
                   <label>
-                    <input formControlName="plateNumber" matInput type="text">
+                    <input formControlName="plateNumber" matInput type="text" mask="AAAAAA">
                   </label>
                 </mat-form-field>
 
               </div>
             
               </form>
-              <mat-divider></mat-divider>
-              <div fxLayout="row" class="marchamos__information" fxLayoutGap="119px">
-                <h3 class="marchamos__sub-title"
-              fxFlex="50">Información del vehículo</h3>
-                <div fxLayout="column" fxLayoutGap="64px">
-                  <ul class="marchamos__list">
-                    <li fxLayoutGap="183px"><label>Propietario</label> <span>Sergio Marquina</span></li>
-                    <li fxLayoutGap="277px"><label>Marca</label> <span>Yamaha</span></li>
-                    <li fxLayoutGap="315px"><label>Año</label> <span>2012</span></li>
-                    <li fxLayoutGap="224px"><label>Períodos adeudados</label> <span>0</span></li>
-                    <li fxLayoutGap="207px"><label>Período (s) a pagar</label> <span>2019</span></li>
-                  </ul>
+              <mat-divider *ngIf="vehicleInformation"></mat-divider>
+              <div  *ngIf="vehicleInformation" fxLayout="row" class="marchamos__information" fxLayoutGap="119px">
+                  <h3 class="marchamos__sub-title"
+                fxFlex="50">Información del vehículo</h3>
+                  <div fxLayout="column" fxLayoutGap="64px">
+                    <ul class="marchamos__list">
+                      <li fxLayoutGap="183px"><label>Propietario</label> <span>Sergio Marquina</span></li>
+                      <li fxLayoutGap="277px"><label>Marca</label> <span>Yamaha</span></li>
+                      <li fxLayoutGap="315px"><label>Año</label> <span>2012</span></li>
+                      <li fxLayoutGap="224px"><label>Períodos adeudados</label> <span>0</span></li>
+                      <li fxLayoutGap="207px"><label>Período (s) a pagar</label> <span>2019</span></li>
+                    </ul>
                 </div>
               </div>
 
@@ -56,25 +57,32 @@ fxLayout="column">
 
             <mat-divider></mat-divider>
             <div class="marchamos__buttons" 
-            fxLayout="row" 
-            fxLayoutGap="16px" 
-            fxLayoutAlign="end">
+            xLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
 
               <credix-button 
               text="Consulta" 
-              type="secondary">
+              type="secondary"
+              [disabled]="!consultForm.valid"
+              (buttonClick)="consult()">
               </credix-button>
 
               <credix-button  
-              [stepper]="stepper"
               (buttonClick)="continue()"
-              credixStepperNext 
-              text="continuar"></credix-button>
+              [disabled]="!consultForm.valid"
+              text="Continuar"></credix-button>
             </div>
           </cdk-step>
       
-          <cdk-step [label]="'Seguros y. cuotas'" >
-            <!-- <form fxLayout="column" fxLayoutGap="2%">
+          <cdk-step [label]="'Seguros y. cuotas'" [stepControl]="secureAndCoutesForm" fxLayout="column">
+
+            <div fxLayout="row" fxLayoutAlign="space-between" class="marchamos__payment-information">
+                <label>Marchamo</label>
+                <span>Monto al cobro</span>
+                <span>{{ totalMount }}</span>
+            </div>
+
+
+            <form [formGroup]="secureAndCoutesForm" fxLayout="column" fxLayoutGap="2%">
               <mat-form-field appearance="fill">
                 <mat-label>
                   Nombre
@@ -82,14 +90,14 @@ fxLayout="column">
                 <label>
                   <input matInput type="text">
                 </label>
-              </mat-form-field> -->
+              </mat-form-field>
       
               <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
                 <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
                 <credix-button [stepper]="stepper" credixStepperNext
-                               text="Finalizar"></credix-button>
+                               text="Continuar"></credix-button>
               </div>
-            <!-- </form> -->
+            </form>
           </cdk-step>
 
           <cdk-step [label]="'Lugar de retiro'" >

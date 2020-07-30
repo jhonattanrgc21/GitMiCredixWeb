@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarchamosComponent } from './marchamos.component';
+
 import { Routes, RouterModule } from '@angular/router';
 import { FlexModule } from '@angular/flex-layout';
 import {SharedModule} from '../../../../shared/shared.module';
@@ -12,7 +13,13 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { CredixStepperModule } from 'src/app/shared/components/credix-stepper/credix-stepper.module';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { StepperModule } from 'src/app/shared/directives/stepper/stepper.module';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
+import { CredixFormsModule } from 'src/app/shared/directives/credix-forms/credix-forms.module';
 
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 const routes: Routes = [
   {
@@ -32,9 +39,10 @@ const routes: Routes = [
     CredixButtonModule,
     ReactiveFormsModule,
     CredixStepperModule,
+    CredixFormsModule,
     CdkStepperModule,
     StepperModule,
-
+    NgxMaskModule.forRoot(maskConfig)
   ],
   providers: [
     HttpService,
