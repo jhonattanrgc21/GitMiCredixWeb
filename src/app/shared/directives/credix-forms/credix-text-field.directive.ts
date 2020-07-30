@@ -16,7 +16,6 @@ export class CredixTextFieldDirective implements AfterViewInit {
   fieldInfixClass = '.mat-form-field-infix';
   fieldSuffixClass = '.mat-form-field-suffix';
   fieldRippleClass = '.mat-form-field-ripple';
-  invalidClass = '.mat-form-field-invalid';
   errorClass = '.mat-error';
   inputEl: any;
 
@@ -36,9 +35,11 @@ export class CredixTextFieldDirective implements AfterViewInit {
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldFlexClass), 'height', `${this.height}px`);
     }
 
+    this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'height', '52px');
+
     if (this.el.nativeElement.querySelector(this.inputClass)) {
       this.inputEl = this.el.nativeElement.querySelector(this.inputClass);
-      this.renderer.setAttribute(this.inputEl, 'style', 'margin-left: 8px; font-weight: bold; font-size: 16px;');
+      this.renderer.setAttribute(this.inputEl, 'style', 'margin-left: 8px; font-weight: bold; font-size: 16px; height: 24px');
     }
 
     this.label = this.el.nativeElement.querySelector(this.labelClass).children[0].innerHTML;
@@ -77,9 +78,10 @@ export class CredixTextFieldDirective implements AfterViewInit {
     this.el.nativeElement.querySelector(this.labelClass).children[0].innerHTML = this.inputEl.value ? this.onFocusLabel : this.label;
   }
 
-  @HostListener('keyup', ['$event'])
-  inputChanged(event) {
+  @HostListener('keyup')
+  inputChanged() {
     this.setFieldRipple('keyUp');
+    this.setFieldLabel('keyUp');
   }
 
   setFieldFlex(status: 'init' | 'focusIn') {
@@ -103,7 +105,8 @@ export class CredixTextFieldDirective implements AfterViewInit {
 
     switch (status) {
       case 'init':
-        this.renderer.setAttribute(fieldInfix, 'style', 'padding-bottom: 16px; padding-top: 4px;');
+        this.renderer.setAttribute(fieldInfix, 'style', 'padding-bottom: 16px; padding-top: 4px; border: 0');
+        this.renderer.setStyle(fieldInfix, 'border-top', '8px solid transparent');
         break;
       case 'focusIn':
         this.renderer.setStyle(fieldInfix, 'box-shadow',
@@ -129,7 +132,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
       switch (status) {
         case 'init':
           this.renderer.setAttribute(fieldSuffix, 'style',
-            'position: absolute !important; bottom: 20px; right: 8px; padding-bottom: 16px; color: #3e3e3e;');
+            'position: absolute !important; bottom: 16px; right: 8px; padding-bottom: 16px; color: #3e3e3e;');
 
           if (this.el.nativeElement.classList.contains('mat-form-field-disabled')) {
             this.renderer.setStyle(fieldSuffix, 'color', '#D2D2D2', 1);
@@ -153,13 +156,13 @@ export class CredixTextFieldDirective implements AfterViewInit {
     }
   }
 
-  setFieldLabel(status: 'init' | 'focusIn' | 'focusOut') {
+  setFieldLabel(status: 'init' | 'focusIn' | 'focusOut' | 'keyUp') {
     const fieldLabel = this.el.nativeElement.querySelector(this.labelClass);
 
     switch (status) {
       case 'init':
         this.renderer.setAttribute(fieldLabel, 'style',
-          'font-size: 16px; color: #3e3e3e; text-align: left; margin-left: 8px; width: 100%');
+          'font-size: 16px; color: #3e3e3e; text-align: left; padding-left: 8px; width: 100%; height: 18px');
 
         if (this.el.nativeElement.classList.contains('mat-form-field-disabled')) {
           this.renderer.setStyle(fieldLabel, 'color', '#D2D2D2', 1);
@@ -168,11 +171,24 @@ export class CredixTextFieldDirective implements AfterViewInit {
       case 'focusIn':
         this.renderer.setStyle(fieldLabel, 'font-size', '12px', 1);
         this.renderer.setStyle(fieldLabel, 'transform', 'translateY(-4px)', 1);
+        this.renderer.setStyle(fieldLabel, 'color', '#3e3e3e');
+
+        if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
+          this.renderer.setStyle(fieldLabel, 'color', '#FF4965', 1);
+        }
         break;
       case 'focusOut':
+        this.renderer.removeStyle(fieldLabel, 'margin-top');
+        this.renderer.removeStyle(fieldLabel, 'border-top');
+        this.renderer.setStyle(fieldLabel, 'color', '#3e3e3e');
         this.renderer.setStyle(fieldLabel, 'transform', this.inputEl.value ? 'translateY(-4px)' : 'translateY(0)', 1);
         this.renderer.setStyle(fieldLabel, 'font-size', this.inputEl.value ? '12px' : '16px', 1);
 
+        if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
+          this.renderer.setStyle(fieldLabel, 'color', '#FF4965', 1);
+        }
+        break;
+      case 'keyUp':
         if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
           this.renderer.setStyle(fieldLabel, 'color', '#FF4965', 1);
         }
@@ -189,29 +205,29 @@ export class CredixTextFieldDirective implements AfterViewInit {
 
     switch (status) {
       case 'init':
-        this.renderer.setAttribute(fieldRipple, 'style', 'background: #C7C7C7');
+        this.renderer.setAttribute(fieldRipple, 'style', 'background: #C7C7C7; height: 1px; opacity: 1; transform: scaleX(1)');
         break;
       case 'focusIn':
-        this.renderer.setStyle(fieldRipple, 'background', '#707070', 1);
+        this.renderer.setAttribute(fieldRipple, 'style', 'background: #707070; height: 1px; opacity: 1; transform: scaleX(1)');
 
         if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
-          this.renderer.setStyle(fieldRipple, 'background', '#FF4965', 1);
+          this.renderer.setAttribute(fieldRipple, 'style', 'background: #FF4965; height: 1px; opacity: 1; transform: scaleX(1)');
         }
         break;
       case 'focusOut':
-        this.renderer.setStyle(fieldRipple, 'background', '#C7C7C7', 1);
+        this.renderer.setAttribute(fieldRipple, 'style', 'background: #C7C7C7; height: 1px; opacity: 1; transform: scaleX(1)');
 
         if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
-          this.renderer.setStyle(fieldRipple, 'background', '#FF4965', 1);
+          this.renderer.setAttribute(fieldRipple, 'style', 'background: #FF4965; height: 1px; opacity: 1; transform: scaleX(1)');
         }
         break;
       case 'keyUp':
         if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
-          this.renderer.setStyle(fieldRipple, 'background', '#FF4965', 1);
+          this.renderer.setAttribute(fieldRipple, 'style', 'background: #FF4965; height: 1px; opacity: 1; transform: scaleX(1)');
         }
         break;
       default:
-        this.renderer.setAttribute(fieldRipple, 'style', 'background: #C7C7C7');
+        this.renderer.setAttribute(fieldRipple, 'style', 'background: #C7C7C7; height: 1px; opacity: 1; transform: scaleX(1)');
         break;
     }
   }
