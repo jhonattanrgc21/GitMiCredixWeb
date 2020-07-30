@@ -1,30 +1,7 @@
-<header [class.is-close]="close" class="sign__header" fxLayout="row">
-
-  <mat-icon class="sign__header__icon" svgIcon="mobile_icon"></mat-icon>
-
-  <div class="sign__header__content" fxLayout="column" fxLayoutAlign="center start">
-    <span>App MiCredix</span>
-    <span>Descargue la aplicación móvil para tener acceso a sus finanzas desde cualquier
-      lugar.</span>
-  </div>
-
-  <div class="sign__header__buttons" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
-    <button mat-button><img alt="Google Play Store" src="assets/images/google-play-badge.png"></button>
-    <button mat-button><img alt="App Store" src="assets/images/appStore.png"></button>
-  </div>
-
-  <span fxFlex></span>
-
-  <button (click)="close = true" class="sign__header__close-btn" fxFlexAlign="center" mat-icon-button>
-    <mat-icon svgIcon="cancel"></mat-icon>
-  </button>
-</header>
+<credix-sign-header></credix-sign-header>
 
 <main class="sign__main">
   <router-outlet></router-outlet>
 </main>
 
-<footer class="sign__footer" fxLayout="row" fxLayoutAlign="space-between center">
-  <span>® 2020 CREDIX</span>
-  <span>Aviso legal</span>
-</footer>
+<credix-sign-footer></credix-sign-footer>
