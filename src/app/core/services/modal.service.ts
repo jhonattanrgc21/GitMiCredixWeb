@@ -10,16 +10,18 @@ export class ModalService {
   constructor(private dialog: MatDialog) {
   }
 
-  private static fetchOptions({width, height, disableClose}: DialogOptions):
-    Pick<MatDialogConfig<DialogData>, 'width' | 'height' | 'disableClose'> {
+  private static fetchOptions({width, minHeight, height, disableClose}: DialogOptions):
+    Pick<MatDialogConfig<DialogData>, 'width' | 'minHeight' | 'height' | 'disableClose' | 'panelClass'> {
     return {
       width: `${width}px`,
+      minHeight: `${minHeight}px`,
       height: `${height}px`,
-      disableClose
+      disableClose,
+      panelClass: 'credix-popup-panel'
     };
   }
 
-  open(data: DialogData, options: DialogOptions = {width: 800, height: 500, disableClose: true}):
+  open(data: DialogData, options: DialogOptions = {width: 800, minHeight: 0, height: 200, disableClose: true}):
     MatDialogRef<CredixPopupComponent> {
     return this.dialog.open<CredixPopupComponent, DialogData>(
       CredixPopupComponent,
@@ -54,7 +56,8 @@ export interface DialogData {
 
 export interface DialogOptions {
   width: number;
-  height: number;
+  minHeight?: number;
+  height?: number;
   disableClose: boolean;
 }
 

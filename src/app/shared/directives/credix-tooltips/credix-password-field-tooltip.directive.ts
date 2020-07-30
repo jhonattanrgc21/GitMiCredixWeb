@@ -1,21 +1,15 @@
-import {ComponentRef, Directive, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {ComponentRef, Directive, ElementRef, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {Overlay, OverlayPositionBuilder, OverlayRef} from '@angular/cdk/overlay';
 import {CredixPasswordFieldTooltipComponent} from './credix-password-field-tooltip/credix-password-field-tooltip.component';
-import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: '[credixPasswordFieldTooltip]',
-  providers: [{
-    provide: NG_VALIDATORS,
-    useExisting: CredixPasswordFieldTooltipDirective,
-    multi: true
-  }]
+  selector: '[credixPasswordFieldTooltip]'
 })
-export class CredixPasswordFieldTooltipDirective implements OnInit, OnChanges, OnDestroy, Validator {
-
-  @Input('credixPasswordFieldTooltip') errors: ValidationErrors | null;
+export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
+  @Input('credixPasswordFieldTooltip') passwordControl: FormControl;
   private overlayRef: OverlayRef;
   private tooltipRef: ComponentRef<CredixPasswordFieldTooltipComponent>;
 
@@ -31,18 +25,18 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnChanges, O
         originY: 'top',
         overlayX: 'center',
         overlayY: 'bottom',
-        offsetY: -22,
-        offsetX: -8,
+        panelClass: 'credix-tooltip-panel'
       }]);
 
     this.overlayRef = this.overlay.create({positionStrategy});
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.overlayRef && this.overlayRef.hasAttached()) {
-      this.overlayRef.detach();
-      this.show();
-    }
+    this.passwordControl.valueChanges.subscribe(value => {
+      this.validate(value);
+      if (this.overlayRef && this.overlayRef.hasAttached()) {
+        this.overlayRef.detach();
+        this.show();
+      }
+    });
   }
 
   @HostListener('focusin')
@@ -60,32 +54,37 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnChanges, O
   show() {
     this.tooltipRef = this.overlayRef.attach(new ComponentPortal(CredixPasswordFieldTooltipComponent));
     // @ts-ignore
-    this.tooltipRef.instance.errors = this.errors;
+    this.tooltipRef.instance.errors = this.passwordControl.errors;
   }
 
   ngOnDestroy(): void {
     this.overlayRef.detach();
   }
 
-  validate(control: AbstractControl): ValidationErrors | null {
-    let validationObject = null;
+  validate(value) {
+    let validationObject = {...this.passwordControl.errors};
 
-    if (control.value && control.value.length < 8) {
+    if (value && value.length < 8) {
       validationObject = {...validationObject, minLength: true};
     }
 
-    if (control.value && !(new RegExp('[A-Z]').test(control.value))) {
+    if (value && !(new RegExp('[A-Z]').test(value))) {
       validationObject = {...validationObject, upperCaseLetter: true};
     }
 
-    if (control.value && !(new RegExp('[a-z]').test(control.value))) {
+    if (value && !(new RegExp('[a-z]').test(value))) {
       validationObject = {...validationObject, lowerCaseLetter: true};
     }
 
-    if (control.value && !(new RegExp('[0-9]').test(control.value))) {
+    if (value && !(new RegExp('[0-9]').test(value))) {
       validationObject = {...validationObject, numericDigit: true};
     }
 
-    return validationObject;
+    if (Object.keys(validationObject).length === 0) {
+      this.passwordControl.setErrors(null);
+    } else {
+      this.passwordControl.setErrors(validationObject);
+    }
+
   }
 }
