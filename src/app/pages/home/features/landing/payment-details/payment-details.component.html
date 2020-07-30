@@ -1,8 +1,8 @@
 <mat-card class="payment-details-card" credixCard fxLayout="column" fxLayoutAlign="start center">
   <h2 class="w-100">Detalle de pago</h2>
 
-  <credix-payment-bar [endDate]="endDateOne"
-                      [startDate]="startDateOne" class="payment-details-card__bar"></credix-payment-bar>
+  <credix-payment-bar [endDate]="endDate"
+                      [startDate]="startDate" class="payment-details-card__bar"></credix-payment-bar>
 
   <mat-divider class="payment-details-card__divider"></mat-divider>
 
@@ -16,19 +16,23 @@
     <tr class="payment-details-card__table-row">
       <td>Colones</td>
       <td class="tr">
-        <credix-numeric-block [prefix]="prefixColones" [value]="value" fontSize="20" fontWeight></credix-numeric-block>
+        <credix-numeric-block [prefix]="prefixColones" [value]="minColonesAmount" fontSize="20"
+                              fontWeight></credix-numeric-block>
       </td>
       <td class="tr">
-        <credix-numeric-block [prefix]="prefixColones" [value]="value" fontSize="20" fontWeight></credix-numeric-block>
+        <credix-numeric-block [prefix]="prefixColones" [value]="cashColonesAmount" fontSize="20"
+                              fontWeight></credix-numeric-block>
       </td>
     </tr>
     <tr class="payment-details-card__table-row">
       <td>Dólares</td>
       <td class="tr">
-        <credix-numeric-block [prefix]="prefixDollars" [value]="value" fontSize="20" fontWeight></credix-numeric-block>
+        <credix-numeric-block [prefix]="prefixDollars" [value]="minDollarsAmount" fontSize="20"
+                              fontWeight></credix-numeric-block>
       </td>
       <td class="tr">
-        <credix-numeric-block [prefix]="prefixDollars" [value]="value" fontSize="20" fontWeight></credix-numeric-block>
+        <credix-numeric-block [prefix]="prefixDollars" [value]="cashDollarsAmount" fontSize="20"
+                              fontWeight></credix-numeric-block>
       </td>
     </tr>
     </tbody>

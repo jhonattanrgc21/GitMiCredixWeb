@@ -4,7 +4,8 @@
     <app-balances></app-balances>
 
     <div fxLayout="column" fxLayoutGap="16px">
-      <app-payment-details></app-payment-details>
+      <app-payment-details *ngIf="paymentDetails"
+                           [paymentDetails]="paymentDetails"></app-payment-details>
       <app-movements></app-movements>
     </div>
 
