@@ -24,14 +24,14 @@
   </button>
 </header>
 
-<header [class.is-close]="close1" class="sign__header-tablet" fxLayout="row" *ngIf="isTablet">
+<header *ngIf="isTablet" [class.is-close]="close" class="sign__header-tablet" fxLayout="row">
 
   <mat-icon class="sign__header-tablet__icon" svgIcon="mobile_icon"></mat-icon>
 
   <div class="sign__header-tablet__content" fxLayout="column" fxLayoutAlign="center start">
     <div class="sign__header-tablet__msg" fxLayout="column">
-    <span>App MiCredix</span>
-    <span>Descargue la aplicación móvil para tener acceso a sus finanzas</span>
+      <span>App MiCredix</span>
+      <span>Descargue la aplicación móvil para tener acceso a sus finanzas</span>
     </div>
     <div class="sign__header-tablet__buttons">
       <button [fxHide]="deviceInfo.os !== 'Android'" fxShow mat-button>
@@ -50,7 +50,7 @@
 
   <span fxFlex></span>
 
-  <button (click)="close1 = true" class="sign__header-tablet__close-btn" fxFlexAlign="center" mat-icon-button>
+  <button (click)="close = true" class="sign__header-tablet__close-btn" fxFlexAlign="center" mat-icon-button>
     <mat-icon svgIcon="cancel"></mat-icon>
   </button>
 </header>
