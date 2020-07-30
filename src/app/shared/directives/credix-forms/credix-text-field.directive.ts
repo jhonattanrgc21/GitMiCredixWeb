@@ -7,7 +7,7 @@ import {AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2} fr
 export class CredixTextFieldDirective implements AfterViewInit {
   @Input() onFocusLabel: string;
   @Input() height: number;
-  @Input('credixTextField') type: 'password' | 'text' = 'text';
+  @Input('credixTextField') type: 'password' | 'confirmPassword' | 'text' = 'text';
   label: string;
   inputClass = '.mat-input-element';
   selectClass = '.mat-select';
@@ -53,7 +53,7 @@ export class CredixTextFieldDirective implements AfterViewInit {
 
     this.label = this.el.nativeElement.querySelector(this.labelClass).children[0].innerHTML;
 
-    if (this.type === 'password') {
+    if (this.type === 'password' || this.type === 'confirmPassword') {
       if (this.el.nativeElement.querySelector(this.iconClass)) {
         this.renderer.setAttribute(this.el.nativeElement.querySelector(this.iconClass), 'style',
           'display: inline-block; height: 15px; width: 22px');
