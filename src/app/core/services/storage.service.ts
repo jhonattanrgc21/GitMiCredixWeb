@@ -19,7 +19,7 @@ export class StorageService {
       actId: data.json.actId,
       accountNumber: data.json.accountNumber,
       securityToken: data.json.securityToken,
-      aplicantName: data.json.securityToken
+      aplicantName: data.json.aplicantName
     };
     this.card = data.json.cardNumberList;
     this.localStorageService.setItem('user', JSON.stringify(this.user));
@@ -36,9 +36,8 @@ export class StorageService {
     return this.localStorageService.getItem('user') as User;
   }
 
-  getCurrentCard(): Card[] {
-    const card: Card[] = this.localStorageService.getItem('card');
-    return (card) ? card : null;
+  getCurrentCards() {
+    return JSON.parse(localStorage.getItem('card')) as Card[];
   }
 
   getCurrentToken(): string {

@@ -1,4 +1,5 @@
 export const icons: string[] = [
+  'additionalCards',
   'anticipated_canc',
   'arrow-down-drop-1',
   'arrow-down-drop',
@@ -49,6 +50,7 @@ export const icons: string[] = [
   'phone',
   'products',
   'public_services',
+  'redCard',
   'search-1',
   'search-2',
   'search',
