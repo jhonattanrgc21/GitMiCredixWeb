@@ -19,7 +19,7 @@ export class StorageService {
       actId: data.json.actId,
       accountNumber: data.json.accountNumber,
       securityToken: data.json.securityToken,
-      aplicantName: data.json.securityToken
+      aplicantName: data.json.aplicantName
     };
     this.card = data.json.cardNumberList;
     this.localStorageService.setItem('user', JSON.stringify(this.user));
@@ -33,24 +33,30 @@ export class StorageService {
   }
 
   getCurrentUser(): User {
-    return this.localStorageService.getItem('user') as User;
+    return JSON.parse(localStorage.getItem('user')) as User;
   }
 
-  getCurrentCard(): Card[] {
-    const card: Card[] = this.localStorageService.getItem('card');
-    return (card) ? card : null;
+  clearCurrentUser() {
+    localStorage.removeItem('user');
+  }
+
+  getCurrentCards() {
+    return JSON.parse(localStorage.getItem('card')) as Card[];
+  }
+
+  clearCurrentCard() {
+    localStorage.removeItem('card');
   }
 
   getCurrentToken(): string {
-    const token = this.localStorageService.getItem('token');
-    return (token) ? token : null;
+    return localStorage.getItem('token');
   }
 
   setCurrentToken(token: string): void {
-    this.localStorageService.setItem('token', token);
+    localStorage.setItem('token', token);
   }
 
   clearCurrentToken(): void {
-    this.localStorageService.removeItem('token');
+    localStorage.removeItem('token');
   }
 }

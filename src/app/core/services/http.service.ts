@@ -7,6 +7,7 @@ import {takeUntil} from 'rxjs/operators';
 @Injectable()
 export class HttpService {
   cancelHttpCall: Subject<void> = new Subject<void>();
+  channelId = environment.channelId;
 
   constructor(private http: HttpClient) {
   }
@@ -26,21 +27,7 @@ export class HttpService {
       .pipe(takeUntil(this.cancelHttpCall));
   }
 
-  post(service: 'canales' | 'marchamos' | 'incomex', uri: string, body = {}, params = []): Observable<any> {
-    const headers = new HttpHeaders()
-      .append('Accept', 'application/json')
-      .append('Content-Type', 'text/json');
-
-    let httpParams = new HttpParams();
-    params.forEach(p => {
-      httpParams = httpParams.append(p.key, p.value);
-    });
-
-    return this.http.post<any>(this.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
-      .pipe(takeUntil(this.cancelHttpCall));
-  }
-
-  put(service: 'canales' | 'marchamos' | 'incomex', uri: string, body = {}, params = []): Observable<any> {
+  post(service: 'canales' | 'marchamos' | 'incomex', uri: string, body: any = {}, params = []): Observable<any> {
     const headers = new HttpHeaders()
       .append('Accept', 'application/json')
       .append('Content-Type', 'application/json');
@@ -49,6 +36,24 @@ export class HttpService {
     params.forEach(p => {
       httpParams = httpParams.append(p.key, p.value);
     });
+
+    body.channelId = this.channelId;
+
+    return this.http.post<any>(this.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
+      .pipe(takeUntil(this.cancelHttpCall));
+  }
+
+  put(service: 'canales' | 'marchamos' | 'incomex', uri: string, body: any = {}, params = []): Observable<any> {
+    const headers = new HttpHeaders()
+      .append('Accept', 'application/json')
+      .append('Content-Type', 'application/json');
+
+    let httpParams = new HttpParams();
+    params.forEach(p => {
+      httpParams = httpParams.append(p.key, p.value);
+    });
+
+    body.channelId = this.channelId;
 
     return this.http.put<any>(this.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
       .pipe(takeUntil(this.cancelHttpCall));

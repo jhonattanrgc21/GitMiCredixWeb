@@ -7,7 +7,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
   styleUrls: ['./credix-numeric-block.component.scss']
 })
 export class CredixNumericBlockComponent implements OnInit, OnChanges {
-  @Input() value: number;
+  @Input() value: number | string;
   @Input() prefix = '';
   @Input() fontSize = 16;
   @Input() fontWeight: 'normal' | 'bold' = 'normal';
@@ -21,10 +21,15 @@ export class CredixNumericBlockComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.value) {
-      this.integerValue = Math.trunc(this.value).toLocaleString('es');
-      const valuesArray = (this.value + '').split('.');
-      this.decimalValue = valuesArray[1] ? valuesArray[1] : '00';
+    if (changes.value) {
+      if (typeof this.value === 'string') {
+        this.integerValue = this.value.split(',')[0];
+        this.decimalValue = this.value.split(',')[1] ? this.value.split(',')[1] : '00';
+      } else {
+        this.integerValue = Math.trunc(this.value).toLocaleString('es');
+        const valuesArray = (this.value + '').split('.');
+        this.decimalValue = valuesArray[1] ? valuesArray[1] : '00';
+      }
     }
   }
 

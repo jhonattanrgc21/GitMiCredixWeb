@@ -10,6 +10,7 @@ import {FormControl} from '@angular/forms';
 })
 export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
   @Input('credixPasswordFieldTooltip') passwordControl: FormControl;
+  @Input() panelClass: string;
   private overlayRef: OverlayRef;
   private tooltipRef: ComponentRef<CredixPasswordFieldTooltipComponent>;
 
@@ -25,7 +26,7 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
         originY: 'top',
         overlayX: 'center',
         overlayY: 'bottom',
-        panelClass: 'credix-tooltip-panel'
+        panelClass: ['credix-tooltip-panel', this.panelClass]
       }]);
 
     this.overlayRef = this.overlay.create({positionStrategy});

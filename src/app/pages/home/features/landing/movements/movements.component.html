@@ -1,0 +1,25 @@
+<mat-card class="movements-card" credixCard fxLayout="column" fxLayoutAlign="start center">
+  <h2 class="w-100 mb-16px">Movimientos</h2>
+
+  <mat-table [dataSource]="dataSource" class="w-100">
+
+    <ng-container matColumnDef="date">
+      <mat-cell *matCellDef="let element" credixCell> {{element.date}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="commerce">
+      <mat-cell *matCellDef="let element" credixCell> {{element.commerce}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <mat-cell *matCellDef="let element" credixCell>
+        <credix-numeric-block [prefix]="element.currency" [value]="element.amount" fontSize="16"
+                              fontWeight></credix-numeric-block>
+      </mat-cell>
+    </ng-container>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
+  </mat-table>
+
+  <credix-link-button fxFlexAlign="flex-end" text="Ver más"></credix-link-button>
+</mat-card>
