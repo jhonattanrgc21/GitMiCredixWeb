@@ -40,10 +40,14 @@ export class CredixTextFieldDirective implements AfterViewInit {
 
     if (this.el.nativeElement.querySelector(this.inputClass)) {
       this.inputEl = this.el.nativeElement.querySelector(this.inputClass);
-      this.renderer.setAttribute(this.inputEl, 'style', 'margin-left: 8px; font-weight: bold; font-size: 16px; height: 24px');
+      this.renderer.setAttribute(this.inputEl, 'style', 'padding-left: 8px; font-weight: bold; font-size: 16px; height: 24px');
     } else if (this.el.nativeElement.querySelector(this.selectClass)) {
       this.inputEl = this.el.nativeElement.querySelector(this.selectClass);
-      this.renderer.setAttribute(this.inputEl, 'style', 'margin-left: 8px; font-weight: bold; font-size: 16px; height: 24px');
+      this.renderer.setAttribute(this.inputEl, 'style', 'font-weight: bold; font-size: 16px; height: 24px');
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-select-arrow-wrapper'),
+        'style', 'display: block; margin-right: 8px');
+      this.renderer.setAttribute(this.el.nativeElement.querySelector('.mat-select-arrow'),
+        'style', 'color: #3e3e3e');
     }
 
 
