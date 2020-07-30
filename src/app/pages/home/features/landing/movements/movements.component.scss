@@ -1,0 +1,39 @@
+.movements-card {
+  width: 479px;
+  height: 239px;
+
+  mat-row {
+    padding: 0 0 8px 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    height: 32px !important;
+
+    &:last-of-type {
+      margin-bottom: 8px !important;
+    }
+
+    mat-cell {
+      margin: 0 !important;
+    }
+
+    mat-cell:first-child {
+      text-align: left !important;
+    }
+
+    mat-cell:nth-child(2) {
+      text-align: left !important;
+    }
+
+    mat-cell:last-child {
+      text-align: right !important;
+      font-weight: bold !important;
+    }
+
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .movements-card {
+    width: 360px;
+  }
+}
