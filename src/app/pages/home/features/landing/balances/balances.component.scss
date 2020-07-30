@@ -1,0 +1,76 @@
+.balances-card {
+  width: 382px;
+  height: 555px;
+
+  &__cards-select {
+    width: 170px;
+    height: 24px;
+    margin-top: 16px;
+    margin-bottom: 50px;
+  }
+
+  &__card-icon {
+    width: 27px;
+    height: 20px;
+    vertical-align: baseline;
+  }
+
+  &__tag {
+    font-size: 14px;
+    color: #696D6F;
+    line-height: 21px;
+  }
+
+  &__divider {
+    width: 100%;
+    border: 1px solid #E9E9E9;
+    margin-top: 20px;
+    margin-bottom: 16px;
+  }
+
+  &__iban-account-wrapper {
+    height: 24px;
+
+    span:first-of-type {
+      font-weight: bold;
+    }
+
+    button {
+      width: auto;
+      height: 20px;
+      line-height: 1 !important;
+
+      mat-icon {
+        color: #E42313;
+        width: 17px;
+        height: 20px;
+        vertical-align: baseline;
+      }
+    }
+  }
+}
+
+:host ::ng-deep.mat-select-value-text {
+  display: inline-block;
+  height: 24px;
+
+  mat-select-trigger {
+    display: flex;
+    align-items: center;
+
+  }
+}
+
+::ng-deep.select-cards-panel {
+  min-width: 100% !important;
+
+  mat-option {
+    background: #ffffff !important;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .balances-card {
+    width: 360px;
+  }
+}
