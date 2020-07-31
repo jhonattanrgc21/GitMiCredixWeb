@@ -1,4 +1,25 @@
 .awards {
+
+  &__warning-icon{
+    width: 100px;
+    height: 100px;
+    color: #5BC0DE;
+  }
+  &__warning-msg-f, &__warning-msg{
+    color: #3E3E3E;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  &__warning-msg-f{
+    width: 286px;
+  }
+
+  &__warning-msg{
+    width: 268px;
+  }
+
   &__banner-tab {
     h1 {
       margin-bottom: 16px;

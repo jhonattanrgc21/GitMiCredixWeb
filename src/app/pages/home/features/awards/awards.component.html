@@ -12,7 +12,7 @@
   </mat-card>
 </div>
 
-<div class="awards__cards">
+<div class="awards__cards" >
   <div fxLayout="row" class="mt-16px" fxLayoutGap="16px">
     <mat-card fxFlex="50" credixCard>
       <div fxLayout="row">
@@ -104,8 +104,16 @@
   </div>
 </div>
 
-<!--<div>
-<mat-card fxLayout="row" fxLayoutGap="16px">
-  <mat-icon svgIcon=></mat-icon>
+<div >
+<mat-card fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center center">
+  <mat-icon svgIcon="information-outline" class="awards__warning-icon">
+  </mat-icon>
+  <p class="awards__warning-msg-f">No ha finalizado ningún premio en este momento.</p>
 </mat-card>
-</div>-->
+
+<mat-card fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center center">
+  <mat-icon svgIcon="information-outline" class="awards__warning-icon">
+  </mat-icon>
+  <p class="awards__warning-msg">No tiene premios en este momento.</p>
+</mat-card>
+</div>
