@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {HomeService} from '../../home.service';
 import {Message} from '../../../../shared/models/Message';
 import {HomeNavigationMenuService} from '../home-navigation-menu.service';
+import {ModalService} from '../../../../core/services/modal.service';
+import {ModalMessagesComponent} from './modal-messages/modal-messages.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -22,7 +24,8 @@ export class MenuMessagesComponent implements OnInit {
   };
 
   constructor(private homeService: HomeService,
-              private homeNavigationMenuService: HomeNavigationMenuService) {
+              private homeNavigationMenuService: HomeNavigationMenuService,
+              private modalService: ModalService) {
   }
 
   ngOnInit(): void {
@@ -56,6 +59,17 @@ export class MenuMessagesComponent implements OnInit {
     });
   }
 
+  openMessagesModal(index: number) {
+    this.modalService.open({
+      component: ModalMessagesComponent, title: 'Mensajes', hideCloseButton: false,
+      data: {messages: this.messages, messagesIndex: index}
+    }, {
+      width: 376,
+      height: 586,
+      disableClose: true,
+      panelClass: 'messages-result-panel'
+    }, 2);
+  }
 }
 
 export const TESTING_MESSAGES: Message[] = [
