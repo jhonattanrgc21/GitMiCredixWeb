@@ -232,9 +232,9 @@ export class MarchamosComponent implements OnInit {
   showDetail(data?:any){
      this.popupShowDetail =  this.modalService.open({
           component: PopupMarchamosDetailComponent, 
-          hideCloseButton: true, 
+          hideCloseButton: false, 
           data: data
-        }, {width: 376, height: 368, disableClose: true});
+        }, {width: 376, height: 368, disableClose: false});
         this.popupShowDetail.afterClosed();
         // .subscribe(modal => this.responseResult.message = modal.message);
       }

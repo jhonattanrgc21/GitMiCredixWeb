@@ -78,7 +78,10 @@ fxLayout="column">
             <div fxLayout="row" class="marchamos__payment-information">
                 <label class="marchamos__label-1">Marchamo</label>
                 <span class="marchamos__payment-span">Monto al cobro</span>
-                <span>{{ totalMount }}</span>
+                  <div class="marchamos__prices" fxLayout="column">
+                    <span>{{ totalMount }}</span>
+                    <credix-link-button text="Ver detalles" (click)="showDetail()" ></credix-link-button>
+                  </div>
             </div>
 
             
@@ -113,7 +116,7 @@ fxLayout="column">
                 </div>
             </form>
             <mat-divider></mat-divider>
-            <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+            <div  class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
               <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
               <credix-button [stepper]="stepper" credixStepperNext
                              text="Continuar"></credix-button>
