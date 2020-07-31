@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { VehicleType } from 'src/app/shared/models/vehicleType.models';
@@ -189,10 +189,61 @@ export class MarchamosComponent implements OnInit {
       type: 43
     }
   ];
+  wishPayFirstCouteIn: any[] = [
+    {
+      description:'Enero 2020',
+      value: 'enero'
+    },
+    {
+      description:'Febrero 2020',
+      value: 'febrero'
+    },
+    {
+      description:'Marzo 2020',
+      value: 'marzo'
+    },
+    {
+      description:'Abril 2020',
+      value: 'abril'
+    },
+    {
+      description:'Mayo 2020',
+      value: 'mayo'
+    },
+    {
+      description:'Junio 2020',
+      value: 'junio'
+    },
+    {
+      description:'Julio 2020',
+      value: 'julio'
+    },
+    {
+      description:'Agosto 2020',
+      value: 'agosto'
+    },
+    {
+      description:'Septiembre 2020',
+      value: 'septiembre'
+    },
+    {
+      description:'Octubre 2020',
+      value: 'octubre'
+    },
+    {
+      description:'Noviembre 2020',
+      value: 'noviembre'
+    },
+    {
+      description:'diciembre 2020',
+      value: 'diciembre'
+    }
+  ];
   vehicleInformation: boolean;
   totalMount: string = '₡ 114.996,00';
   value: number = 1;
   popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
+  isChecked: boolean = false;
 
 
   consultForm: FormGroup = new FormGroup({
@@ -202,8 +253,14 @@ export class MarchamosComponent implements OnInit {
 
   secureAndCoutesForm: FormGroup = new FormGroup({
     responsabilityCivil: new FormControl('',[]),
-
+    roadAssistance: new FormControl('',[]),
+    moreProtection: new FormControl('',[]),
+    firstCouteToPayIn: new FormControl('',[Validators.required])
   });
+
+  pickUpForm: FormGroup = new FormGroup ({
+    
+  })
 
 
   @ViewChild('stepper') stepper: CdkStepper;
@@ -217,12 +274,21 @@ export class MarchamosComponent implements OnInit {
     this.getVehicleType();
   }
 
+  
+   get secureAndCoutesControls (){return this.secureAndCoutesForm.controls;}
+  
+   get arrayControls(): FormArray { return this.secureAndCoutesForm.get('aditionalProducts') as FormArray}
+
   consult(): boolean{
     return this.vehicleInformation = true;
   }
 
   continue(){
     this.stepper.next();
+  }
+
+  allChecked(){
+    return this.isChecked = !this.isChecked;
   }
 
   getVehicleType(){
