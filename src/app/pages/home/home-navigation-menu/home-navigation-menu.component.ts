@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Menu} from '../home.component';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -8,9 +7,6 @@ import {Menu} from '../home.component';
   styleUrls: ['./home-navigation-menu.component.scss']
 })
 export class HomeNavigationMenuComponent implements OnInit {
-  @Input() username: string;
-  @Input() avatar: string;
-  @Input() menus: Menu[];
 
   constructor() {
   }

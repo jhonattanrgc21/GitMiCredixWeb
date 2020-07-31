@@ -6,9 +6,7 @@
                  [fixedInViewport]="isTablet"
                  [mode]="isTablet ? 'over' : 'side'" [opened]="!isTablet" class="home__sidebar"
                  fixedTopGap="66">
-      <credix-home-navigation-menu [avatar]="avatar"
-                                   [menus]="menus"
-                                   [username]="getApplicantName()"></credix-home-navigation-menu>
+      <credix-home-navigation-menu></credix-home-navigation-menu>
     </mat-sidenav>
 
     <mat-sidenav-content class="home__content" fxLayout="column">
