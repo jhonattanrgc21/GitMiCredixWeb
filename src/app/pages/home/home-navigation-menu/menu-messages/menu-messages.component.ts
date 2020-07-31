@@ -27,6 +27,7 @@ export class MenuMessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMessages();
+    this.homeService.goHomeObs.subscribe(() => this.open = false);
     this.homeNavigationMenuService.closeMessagesObs.subscribe(() => this.open = false);
   }
 
