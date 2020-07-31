@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HomeService} from '../../home.service';
 import {Message} from '../../../../shared/models/Message';
+import {HomeNavigationMenuService} from '../home-navigation-menu.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,10 +20,21 @@ export class MenuMessagesComponent implements OnInit {
     }
   };
 
-  constructor(private homeService: HomeService) {
+  constructor(private homeService: HomeService,
+              private homeNavigationMenuService: HomeNavigationMenuService) {
   }
 
   ngOnInit(): void {
+    this.getMessages();
+    this.homeNavigationMenuService.closeMessagesObs.subscribe(() => this.open = false);
+  }
+
+  openMessages() {
+    this.open = !this.open;
+    this.homeNavigationMenuService.closeSubmenu();
+  }
+
+  getMessages() {
     this.homeService.getMessages().subscribe(response => {
       this.messages = response.map(message => ({
         id: message.id,
