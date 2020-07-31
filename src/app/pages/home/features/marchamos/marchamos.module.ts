@@ -47,8 +47,8 @@ const routes: Routes = [
     CredixSliderModule,
     CdkStepperModule,
     StepperModule,
-    CredixRadioButtonModule
-    NgxMaskModule.forRoot(maskConfig),
+    CredixRadioButtonModule,
+    NgxMaskModule.forRoot(maskConfig)
   ],
   providers: [
     HttpService,
