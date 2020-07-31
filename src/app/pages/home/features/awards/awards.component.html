@@ -105,13 +105,13 @@
 </div>
 
 <div >
-<mat-card fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center center">
+<mat-card fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center center" *ngIf="!tab_show" class="awards__warning-card-f">
   <mat-icon svgIcon="information-outline" class="awards__warning-icon">
   </mat-icon>
   <p class="awards__warning-msg-f">No ha finalizado ningún premio en este momento.</p>
 </mat-card>
 
-<mat-card fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center center">
+<mat-card fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center center" *ngIf="tab_show" class="awards__warning-card">
   <mat-icon svgIcon="information-outline" class="awards__warning-icon">
   </mat-icon>
   <p class="awards__warning-msg">No tiene premios en este momento.</p>

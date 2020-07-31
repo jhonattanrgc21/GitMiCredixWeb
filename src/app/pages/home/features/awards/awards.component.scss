@@ -1,5 +1,23 @@
 .awards {
 
+  &__warning-card{
+    @media screen and (max-width: 1999px) {
+      height: 591px;
+  }
+    @media screen and (min-width: 1200px) {
+      height: 367px;
+  }
+  }
+
+  &__warning-card-f{
+    @media screen and (max-width: 1999px) {
+      height: 733px;
+  }
+    @media screen and (min-width: 1200px) {
+      height: 509px;
+  }
+  }
+
   &__warning-icon{
     width: 100px;
     height: 100px;

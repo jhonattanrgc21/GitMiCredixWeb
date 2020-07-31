@@ -27,7 +27,6 @@ export class AwardsComponent implements OnInit {
   }
 
   tabSelected(tab) {
-    console.log(tab);
     if (tab.id == 1) {
       this.tab_show = 1
     } else {
