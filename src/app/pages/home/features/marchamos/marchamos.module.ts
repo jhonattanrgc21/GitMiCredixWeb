@@ -18,6 +18,8 @@ import { CredixFormsModule } from 'src/app/shared/directives/credix-forms/credix
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
 import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
+import { CredixLinkButtonModule } from 'src/app/shared/components/credix-link-button/credix-link-button.module';
+import { PopupMarchamosDetailComponent } from './popup-marchamos-detail/popup-marchamos-detail.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -32,7 +34,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent],
+  declarations: [MarchamosComponent, PopupMarchamosDetailComponent],
   entryComponents:[MarchamosComponent],
   imports: [
     CommonModule,
@@ -45,6 +47,7 @@ const routes: Routes = [
     CredixFormsModule,
     CredixCheckboxButtonModule,
     CredixSliderModule,
+    CredixLinkButtonModule,
     CdkStepperModule,
     StepperModule,
     CredixRadioButtonModule,

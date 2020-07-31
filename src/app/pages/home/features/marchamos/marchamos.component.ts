@@ -5,6 +5,8 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { VehicleType } from 'src/app/shared/models/vehicleType.models';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { HttpHeaders } from '@angular/common/http';
+import { MatDialogRef } from '@angular/material/dialog';
+import { PopupMarchamosDetailComponent } from './popup-marchamos-detail/popup-marchamos-detail.component';
 
 @Component({
   selector: 'app-marchamos',
@@ -190,6 +192,7 @@ export class MarchamosComponent implements OnInit {
   vehicleInformation: boolean;
   totalMount: string = '₡ 114.996,00';
   value: number = 1;
+  popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
 
 
   consultForm: FormGroup = new FormGroup({
@@ -198,6 +201,7 @@ export class MarchamosComponent implements OnInit {
   });
 
   secureAndCoutesForm: FormGroup = new FormGroup({
+    responsabilityCivil: new FormControl('',[]),
 
   });
 
@@ -224,4 +228,14 @@ export class MarchamosComponent implements OnInit {
   getVehicleType(){
     this.httpService.post('marchamos', 'pay/platetypes', {channelId: 102}).subscribe( response => console.log(response));
   }
-}
+
+  showDetail(data?:any){
+     this.popupShowDetail =  this.modalService.open({
+          component: PopupMarchamosDetailComponent, 
+          hideCloseButton: true, 
+          data: data
+        }, {width: 376, height: 368, disableClose: true});
+        this.popupShowDetail.afterClosed();
+        // .subscribe(modal => this.responseResult.message = modal.message);
+      }
+  }

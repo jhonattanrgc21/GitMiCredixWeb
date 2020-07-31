@@ -103,11 +103,12 @@ fxLayout="column">
                 <div fxLayout="row" class="marchamos__payment-information secure">
                   <label class="marchamos__label-3">Cuotas</label> 
 
-                  <div style="margin-right: 215px;">
-                    <credix-slider [(value)]="value" class="marchamos__slider"></credix-slider>
+                  <div class="marchamos__slider">
+                    <credix-slider [(value)]="value" [instructions]="'Deseo dividir este pago en'" [units]="'Cuota'" ></credix-slider>
                   </div>
                   <div class="marchamos__prices" fxLayout="column">
                    <span>₡ 114.996,00</span>
+                   <credix-link-button text="Ver detalles" (click)="showDetail()" ></credix-link-button>
                   </div>
                 </div>
             </form>
