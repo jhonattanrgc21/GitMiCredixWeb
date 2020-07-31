@@ -6,6 +6,7 @@ import {MenuHeaderComponent} from './menu-header/menu-header.component';
 import {MenuMessagesComponent} from './menu-messages/menu-messages.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
+import {CredixResultNotificationModule} from '../../../shared/components/credix-result-notification/credix-result-notification.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
   imports: [
     CommonModule,
     SharedModule,
-    OverlayscrollbarsModule
+    OverlayscrollbarsModule,
+    CredixResultNotificationModule
   ],
   exports: [HomeNavigationMenuComponent]
 })

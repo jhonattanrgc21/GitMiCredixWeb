@@ -1,17 +1,95 @@
 .menu_messages {
-  border-top: 2px solid #E9E9E9;
-  padding: 0 16px 0 16px;
-  background: #FFFFFF;
-  position: sticky;
-  -webkit-position: sticky;
-  -ms-position: sticky;
-  -moz-position: sticky;
-  -o-position: sticky;
-  bottom: 0;
-  height: 61px;
-  z-index: 1;
+  max-height: 61px;
+  transition: margin-top 0.3s ease-in-out;
+  -webkit-transition: margin-top 0.3s ease-in-out;
+  -ms-transition: margin-top 0.3s ease-in-out;
+  -moz-transition: margin-top 0.3s ease-in-out;
+  -o-transition: margin-top 0.3s ease-in-out;
+  overflow: hidden;
 
-  &__label--color {
-    color: #696d6f;
+  &.is-open {
+    max-height: 2000px;
+    margin-top: -219px;
+  }
+
+  &__fixed-container {
+    border-top: 2px solid #E9E9E9;
+    padding: 0 16px 0 16px;
+    background: #FFFFFF;
+    position: sticky;
+    -webkit-position: sticky;
+    -ms-position: sticky;
+    -moz-position: sticky;
+    -o-position: sticky;
+    bottom: 0;
+    height: 61px;
+    z-index: 1;
+
+    &__label--color {
+      color: #696d6f;
+    }
+  }
+
+  &__overlay-scrollbars {
+    height: 219px !important;
+  }
+
+  &__message-container {
+    height: 73px;
+    background: #ffffff;
+    padding: 16px;
+    z-index: 999;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    ::ng-deep.mat-button-wrapper {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      margin-right: 8px;
+    }
+
+    &__content {
+      width: 210px;
+
+      span {
+        color: #3E3E3E;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        line-height: 1;
+
+        &:first-of-type {
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        &:last-of-type {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+}
+
+
+:host ::ng-deep.credix-result-notification {
+  background: #ffffff !important;
+  height: 219px !important;
+  padding: 40px !important;
+
+  ::ng-deep.credix-result-notification__icon {
+    width: 70px !important;
+    height: 70px !important;
   }
 }
