@@ -75,7 +75,7 @@ export class SignInComponent implements OnInit {
         break;
       case 'session-activate':
         this.sessionActivateModal = this.modalService.open({template: this.sessionActiveTemplate, hideCloseButton: true},
-          {width: 376, height: 452, disableClose: true});
+          {width: 376, height: 452, disableClose: true, panelClass: 'sign-in-result-panel'});
         break;
       default:
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
