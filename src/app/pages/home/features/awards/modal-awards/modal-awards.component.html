@@ -1,0 +1,41 @@
+<div>
+  <div class="h-100" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="36px">
+    <mat-dialog-content >
+      <div class="premios__content-div" *ngIf="template1">
+        <h4>¡Gane dos entradas al cine!</h4>
+        <img src="../../../../../assets/images/tickets_img.png">
+        <credix-progress-bar [goal]="10" [value]="4" label="Meta de transacciones"></credix-progress-bar>
+        <p class="premios__content-div__msg">¡Está cada vez más cerca de la meta! Al acumular 10 compras por más de ₡20.000, le regalamos dos entradas al
+          cine. In tortor ipsum, pretium id ante sed, pretium faucibus leo.</p>
+      </div>
+      <div class="premios__content-div" *ngIf="template2">
+        <h4>¡Gane dos entradas al cine!2</h4>
+        <img src="../../../../../assets/images/tickets_img.png">
+        <credix-progress-bar [goal]="10" [value]="4" label="Meta de transacciones"></credix-progress-bar>
+        <p class="premios__content-div__msg">¡Está cada vez más cerca de la meta! Al acumular 10 compras por más de ₡20.000, le regalamos dos entradas al
+          cine. In tortor ipsum, pretium id ante sed, pretium faucibus leo.</p>
+      </div>
+      <div class="premios__content-div" *ngIf="template3">
+        <h4>¡Gane dos entradas al cine!3</h4>
+        <img src="../../../../../assets/images/tickets_img.png">
+        <credix-progress-bar [goal]="10" [value]="4" label="Meta de transacciones"></credix-progress-bar>
+        <p class="premios__content-div__msg">¡Está cada vez más cerca de la meta! Al acumular 10 compras por más de ₡20.000, le regalamos dos entradas al
+          cine. In tortor ipsum, pretium id ante sed, pretium faucibus leo.</p>
+      </div>
+    </mat-dialog-content>
+  </div>
+  <div fxLayout="row" fxLayoutGap="33px"  class="premios__footer">
+    <div class="premios__footer__share-btn" fxLayout="column">
+      <credix-share-button
+    description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
+    url="https://www.credix.com/somos-uno/"></credix-share-button>
+    </div>
+    <div class="premios__footer__premios" fxLayout="column">
+      <span>Premio</span>
+      <div fxLayout="row">
+        <mat-icon svgIcon="chevron_left" (click)="back()" ></mat-icon>{{pag}}<mat-icon svgIcon="chevron_right" (click)="next()" ></mat-icon>
+      </div>
+    </div>
+  </div>
+  </div>
+

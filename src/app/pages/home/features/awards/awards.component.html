@@ -1,0 +1,111 @@
+<div fxLayout="row" fxLayoutGap="16px" class="awards__banner-tab">
+  <mat-card fxFlex="100" credixCard
+    [ngClass]="tab_show ? 'awards__banner-tab__card-progress' : 'awards__banner-tab__card-finalizado' ">
+    <h1>Premios</h1>
+    <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+    <div *ngIf="tab_show" class="awards__banner-tab__progress-div">
+      <h2>¡Complete desafíos y gane con Credix!</h2>
+      <p class="awards__banner-tab__progress-div__msg">Siga las instrucciones de cada desafío y al completarlo obtendrá
+        un premio. Además, acumule acciones y participe en la rifa de un carro Toyota Rav4.</p>
+      <p class="awards__banner-tab__progress-div__p">¡Es hora de ganar!</p>
+    </div>
+  </mat-card>
+</div>
+
+<div class="awards__cards">
+  <div fxLayout="row" class="mt-16px" fxLayoutGap="16px">
+    <mat-card fxFlex="50" credixCard>
+      <div fxLayout="row">
+        <div fxFlex="57" class="awards__cards__content">
+          <div *ngIf="!tab_show">
+            <h2>¡Acumuló 1000 acciones!</h2>
+            <p class="awards__cards__content__main1_f">Verifique el total de acciones en su Perfil del app de Credix o
+              en miCredix.com</p>
+          </div>
+          <div *ngIf="tab_show">
+            <h2>Participe y gane un RAV4</h2>
+            <p class="awards__cards__content__main1">Por cada ₡10.000 consumidos te damos 1 acción.</p>
+            <p class="awards__cards__content__actions__entrega">Próxima entrega</p>
+            <p class="awards__cards__content__actions__fecha">15 Ene 2020</p>
+          </div>
+        </div>
+        <div fxFlex="43">
+          <img src="../../../../../assets/images/rav4_img.png">
+        </div>
+      </div>
+      <div fxLayout="row" class="awards__cards__footer__actions" fxLayoutAlign="space-between center">
+        <div fxLayout="row"><span class="awards__cards__footer__actions__100">1000</span><span
+            class="awards__cards__footer__actions__acumuladas">Acciones <br> acumuladas</span></div>
+        <credix-link-button (click)="open()" class="awards__cards__footer__details-1" text="Ver detalle">
+        </credix-link-button>
+      </div>
+    </mat-card>
+    <mat-card fxFlex="50" credixCard>
+      <div fxLayout="row">
+        <div fxFlex="57" class="awards__cards__content">
+          <div *ngIf="!tab_show">
+            <h2>¡Ganó dos entradas al cine!</h2>
+            <p class="awards__cards__content__main2_f">Puede retirar su premio en nuestras oficinas.</p>
+          </div>
+          <div *ngIf="tab_show">
+            <h2>¡Gane dos entradas al cine!</h2>
+            <p class="awards__cards__content__main2">Al acumular 10 compras por más de ₡20.000, le regalamos dos
+              entradas al cine.</p>
+          </div>
+        </div>
+        <div fxFlex="43">
+          <img src="../../../../../assets/images/tickets_img.png">
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="awards__cards__footer">
+        <div *ngIf="!tab_show">
+          <credix-progress-bar [goal]="10" [value]="10" label="Meta de transacciones"></credix-progress-bar>
+        </div>
+        <div *ngIf="tab_show">
+          <credix-progress-bar [goal]="10" [value]="4" label="Meta de transacciones"></credix-progress-bar>
+        </div>
+        <credix-link-button (click)="open()" class="awards__cards__footer__details-2" text="Ver detalle">
+        </credix-link-button>
+      </div>
+    </mat-card>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="16px" class="mt-16px mb-16px">
+    <mat-card fxFlex="50" credixCard>
+      <div fxLayout="row">
+        <div fxFlex="57" class="awards__cards__content">
+          <div *ngIf="!tab_show">
+            <h2>¡Disfrute de un hospedaje en Jaco Bay!</h2>
+            <p class="awards__cards__content__main3_f">Relájese y disfrute en la playa. Puede retirar su premio en
+              nuestras oficinas.</p>
+          </div>
+          <div *ngIf="tab_show">
+            <h2>¡Gane 100 acciones para el RAV4!</h2>
+            <p class="awards__cards__content__main3">Al realizar 10 compras por más de ₡10.000, le regalamos 100
+              acciones electrónicas.</p>
+          </div>
+        </div>
+        <div fxFlex="43">
+          <img src="../../../../../assets/images/beach_img.png">
+        </div>
+      </div>
+        <div fxLayout="row" fxLayoutAlign="space-between" class="awards__cards__footer">
+          <div *ngIf="!tab_show">
+            <credix-progress-bar [goal]="10" [value]="10" label="Meta de transacciones"></credix-progress-bar>
+          </div>
+          <div *ngIf="tab_show">
+            <credix-progress-bar [goal]="10" [value]="4" label="Meta de transacciones"></credix-progress-bar>
+          </div>
+          <credix-link-button (click)="open()" class="awards__cards__footer__details-3" text="Ver detalle">
+          </credix-link-button>
+        </div>
+
+    </mat-card>
+  </div>
+</div>
+
+<!--<div>
+<mat-card fxLayout="row" fxLayoutGap="16px">
+  <mat-icon svgIcon=></mat-icon>
+</mat-card>
+</div>-->

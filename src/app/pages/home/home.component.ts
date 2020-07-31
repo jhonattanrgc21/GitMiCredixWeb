@@ -63,7 +63,8 @@ export const menus: Menu[] = [
       {id: 3, name: 'Marchamo', route: '/home', icon: 'car'},
       {id: 4, name: 'Enviar dinero', route: '/home', icon: 'transfer'},
       {id: 5, name: 'Reportar transferencia', route: '/home', icon: 'transfer_report'},
-      {id: 6, name: 'Lugares de pago', route: '/home', icon: 'map-marker'}
+      {id: 6, name: 'Lugares de pago', route: '/home', icon: 'map-marker'},
+      {id: 7, name: 'Premios', route: '/home/awards', icon: 'map-marker'}
     ]
   },
   {

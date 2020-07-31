@@ -12,6 +12,10 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./features/landing/landing.module.js').then(m => m.LandingModule)
+      },
+      {
+        path: 'awards',
+        loadChildren: () => import('./features/awards/awards.module.js').then(m => m.AwardsModule)
       }
     ]
   }

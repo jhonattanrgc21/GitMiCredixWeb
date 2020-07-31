@@ -1,0 +1,186 @@
+.awards {
+  &__banner-tab {
+    h1 {
+      margin-bottom: 16px;
+    }
+    ::ng-deep .credix-tab {
+      margin-bottom: 16px !important;
+    }
+    &__progress-div {
+      &__msg {
+        margin-bottom: 13px;
+        font-size: 16px;
+      }
+      h2 {
+        margin-bottom: 8px;
+      }
+      &__p {
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+    &__card-progress {
+      background-image: url("../../../../../assets/images/Asset\ 1@4x@2x.png") !important;
+      background-size: cover !important;
+      height: 279px;
+    }
+    &__card-finalizado {
+      background-image: none !important;
+    }
+  }
+  &__cards {
+
+    h2 {
+      margin-bottom: 8px;
+      text-align: left;
+    }
+    img {
+      width: 100%;
+    }
+    mat-card {
+      @media screen and (max-width: 1999px) {
+          height: 286px;
+      }
+      @media screen and (min-width: 1200px) {
+        height: 260px;
+    }
+    }
+
+    &__content {
+      //padding-right: 35px;
+      &__main1, &__main2, &__main3{
+        font-size: 14px;
+        line-height: 22px;
+        text-align: left;
+      }
+      &__main1{
+          @media screen and (max-width: 1999px) {
+            width: 114px;
+          }
+          @media screen and (min-width: 1200px) {
+            width: 199px;
+        }
+      }
+      &__main2{
+          @media screen and (max-width: 1999px) {
+            width: 163px;
+            margin-bottom: 31px;
+          }
+          @media screen and (min-width: 1200px) {
+            width: 191px;
+            margin-bottom: 56px;
+        }
+      }
+      &__main3{
+          @media screen and (max-width: 1999px) {
+            width: 163px;
+            margin-bottom: 32px;
+          }
+          @media screen and (min-width: 1200px) {
+            width: 191px;
+            margin-bottom: 56px;
+        }
+      }
+
+      &__main1_f, &__main2_f, &__main3_f{
+        font-size: 14px;
+        line-height: 22px;
+        text-align: left;
+      }
+      &__main1_f{
+          @media screen and (max-width: 1999px) {
+            width: 156px;
+            margin-bottom: 66px;
+          }
+          @media screen and (min-width: 1200px) {
+            width: 221px;
+            margin-bottom: 61px;
+        }
+      }
+      &__main2_f{
+          @media screen and (max-width: 1999px) {
+            width: 155px;
+            margin-bottom: 75px;
+          }
+          @media screen and (min-width: 1200px) {
+            width: 168px;
+            margin-bottom: 77px;
+        }
+      }
+      &__main3_f{
+          @media screen and (max-width: 1999px) {
+            width: 156px;
+            margin-bottom: 31px;
+          }
+          @media screen and (min-width: 1200px) {
+            width: 191px;
+            margin-bottom: 26px;
+        }
+      }
+
+      &__actions {
+
+        &__fecha {
+          font-size: 24px;
+          font-weight: bold;
+          @media screen and (max-width: 1999px) {
+            margin-bottom: 26px;
+          }
+          @media screen and (min-width: 1200px) {
+            margin-bottom: 21px;
+        }
+
+        }
+        &__entrega {
+          font-size: 16px;
+          margin-bottom: 5px;
+          margin-top: 8.5px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    &__footer {
+
+      &__details-1 {
+        transform: translateY(6px);
+      }
+      &__details-2 {
+        transform: translateY(11px);
+      }
+      &__details-3 {
+        transform: translateY(13px);
+      }
+      &__actions {
+        /*position: relative;
+        @media screen and (max-width: 1999px) {
+        bottom: -28px;
+        }
+        @media screen and (min-width: 1200px) {
+          bottom: 131px;
+        }*/
+
+        &__100 {
+          font-size: 32px;
+          color: #19d27e;
+          font-weight: bold;
+        }
+        &__acumuladas {
+          margin-left: 16px;
+          font-size: 14px;
+          line-height: 15px;
+        }
+      }
+    }
+  }
+}
+::ng-deep .credix-progress-bar {
+  min-width: 215px !important;
+}
+::ng-deep .credix-progress-bar__line.is-over {
+  background-color: #19d27e;
+}
+::ng-deep .credix-progress-bar__line {
+  background-color: #e9e9e9;
+}
+
