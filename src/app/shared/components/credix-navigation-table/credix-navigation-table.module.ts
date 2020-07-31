@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {CredixNavigationTableComponent} from './credix-navigation-table.component';
 import {FlexModule} from '@angular/flex-layout';
 import {MatIconModule} from '@angular/material/icon';
+import {CredixLinkButtonModule} from '../credix-link-button/credix-link-button.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {MatIconModule} from '@angular/material/icon';
   imports: [
     CommonModule,
     FlexModule,
-    MatIconModule
+    MatIconModule,
+    CredixLinkButtonModule
   ]
 })
 export class CredixNavigationTableModule {

@@ -22,7 +22,7 @@ export class AwardsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.userChallenges = this.getUserChallenges();
+
     console.log(this.userChallenges);
   }
 
@@ -42,9 +42,9 @@ export class AwardsComponent implements OnInit {
   getUserChallenges(){
     const sibUserId = this.storageService.getCurrentUser().userId;
 
-    this.httpServide.post('canales', `api/canalesbe/messagesrewards/challenges/user/${sibUserId}`, {"channelId":102, "usuId": sibUserId})
+    this.httpServide.post('canales', `messagesrewards/challenges/user/${sibUserId}`, {"channelId":102, "usuId": sibUserId})
     .subscribe((resp)=>{
-
+      this.userChallenges = resp;
     })
 
   }

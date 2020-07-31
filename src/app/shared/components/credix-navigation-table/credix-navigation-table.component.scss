@@ -1,5 +1,4 @@
 .navigation-table {
-
   &__header {
     height: 40px;
     background-color: #f0f0f0;
@@ -57,7 +56,6 @@
     }
 
     &__icon {
-      width: 16px;
       color: #b5b5b5;
 
       &.is-selected {
@@ -86,4 +84,35 @@
       }
     }
   }
+
+  &__content-right {
+    margin-left: 116px;
+
+    &__title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+
+    &__subtitle {
+      font-weight: bold;
+    }
+
+    &__info-list {
+      list-style: none;
+      padding-left: 21px;
+    }
+
+    &__option {
+      padding: 16px 0;
+      &:not(:last-child) {
+        border-bottom: 1px solid #e9e9e9;
+      }
+    }
+  }
+}
+
+::ng-deep.credix-link-button{
+  font-weight: normal !important;
+  vertical-align: super;
 }

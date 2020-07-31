@@ -16,6 +16,10 @@ const routes: Routes = [
       {
         path: 'awards',
         loadChildren: () => import('./features/awards/awards.module.js').then(m => m.AwardsModule)
+      },
+      {
+        path: 'payment-places',
+        loadChildren: () => import('./features/payment-places/payment-places.module.js').then(m => m.PaymentPlacesModule)
       }
     ]
   }

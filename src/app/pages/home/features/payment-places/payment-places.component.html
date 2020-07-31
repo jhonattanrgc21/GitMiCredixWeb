@@ -1,0 +1,105 @@
+<div fxLayout="row" fxLayoutGap="16px" class="payment-places__banner-tab">
+  <mat-card fxFlex="100" credixCard>
+    <h1>Lugares de pago</h1>
+    <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+    <credix-navigation-table *ngIf="tab_show" [headers]="['Comercios', 'Información del comercio']" [options]="options"
+      [details]="details"></credix-navigation-table>
+
+    <div *ngIf="!tab_show" class="digital-payments__content">
+      <div fxLayout="row" class="digital-payments__content__option" fxLayoutAlign="space-between start">
+        <div fxFlex="30%">
+          <p class="digital-payments__content__title">SINPE Móvil</p>
+        </div>
+        <div fxFlex="60%">
+          <p>Realice un pase de dinero para pagar su tarjeta al número de SINPE Móvil de Credix: <credix-link-button
+              route="" text="8927-3349"></credix-link-button>.</p>
+        </div>
+      </div>
+      <div fxLayout="row" class="digital-payments__content__option" fxLayoutAlign="space-between start">
+        <div fxFlex="30%">
+          <p class="digital-payments__content__title">Transferencia a sus cuentas IBAN</p>
+        </div>
+        <div fxFlex="60%">
+          <p>Pague mediante transferencia SINPE a las cuentas IBAN de su tarjeta.</p>
+          <div fxLayout="row" class="digital-payments__content__option__inner-option-first">
+            <div fxFlex="30%">
+              <p>Colones</p>
+            </div>
+            <div fxFlex="70%">
+              <p>CR00000000000000000001<mat-icon svgIcon="content-copy" class="digital-payments__content__copy-icon"
+                  #tooltip="matTooltip" matTooltip="Copiar" matTooltipPosition="after" cdkCopyToClipboard="CR00000000000000000001">
+                </mat-icon>
+              </p>
+            </div>
+          </div>
+          <div fxLayout="row" class="digital-payments__content__option__inner-option">
+            <div fxFlex="30%">
+              <p>Dólares</p>
+            </div>
+            <div fxFlex="70%">
+              <p>CR00000000000000000002<mat-icon svgIcon="content-copy" class="digital-payments__content__copy-icon"
+                  #tooltip="matTooltip" matTooltip="Copiar" matTooltipPosition="after" cdkCopyToClipboard="CR00000000000000000002">
+                </mat-icon>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" class="digital-payments__content__option" fxLayoutAlign="space-between start">
+        <div fxFlex="30%">
+          <p class="digital-payments__content__title">Transferencia a cuentas IBAN de Credix</p>
+        </div>
+        <div fxFlex="60%">
+          <p>También puede realizar el pago de su tarjeta mediante transferencia SINPE a las cuentas IBAN de Credix.</p>
+
+          <div fxLayout="row" class="digital-payments__content__option__inner-option-first">
+            <div fxFlex="30%">
+              <p>Cuenta a nombre de</p>
+            </div>
+            <div fxFlex="70%">
+              <p>Credix World S.A.</p>
+            </div>
+          </div>
+          <div fxLayout="row" class="digital-payments__content__option__inner-option">
+            <div fxFlex="30%">
+              <p>Cédula jurídica</p>
+            </div>
+            <div fxFlex="70%">
+              <p>3-101-575885</p>
+            </div>
+          </div>
+          <div fxLayout="row" class="digital-payments__content__option__inner-option">
+            <div fxFlex="30%">
+              <p>Colones</p>
+            </div>
+            <div fxFlex="70%">
+              <p>CR00000000000000000001<mat-icon svgIcon="content-copy" class="digital-payments__content__copy-icon"
+                  #tooltip="matTooltip" matTooltip="Copiar" matTooltipPosition="after" cdkCopyToClipboard="CR00000000000000000001"></mat-icon>
+              </p>
+            </div>
+          </div>
+          <div fxLayout="row" class="digital-payments__content__option__inner-option">
+            <div fxFlex="30%">
+              <p>Dólares</p>
+            </div>
+            <div fxFlex="70%">
+              <p>CR00000000000000000002<mat-icon svgIcon="content-copy" #tooltip="matTooltip" matTooltip="Copiar"
+                  class="digital-payments__content__copy-icon" matTooltipPosition="after" cdkCopyToClipboard="CR00000000000000000002">
+                </mat-icon>
+              </p>
+            </div>
+          </div>
+          <p class="digital-payments__content__option__inner-content-first">Al realizar el pago de su tarjeta por esta
+            via, debe:</p>
+          <p class="digital-payments__content__option__inner-content">• Indicar en el detalle de la transferencia, su
+            número de cuenta ubicado en el reverso de la tarjeta.</p>
+          <p class="digital-payments__content__option__inner-content">• Hacer el reporte de pago <credix-link-button
+              route="" text="aquí."></credix-link-button>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
