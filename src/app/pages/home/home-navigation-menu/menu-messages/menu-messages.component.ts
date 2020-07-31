@@ -12,6 +12,7 @@ import {HomeNavigationMenuService} from '../home-navigation-menu.service';
 export class MenuMessagesComponent implements OnInit {
   open = false;
   messages: Message[] = [];
+  testMessages = TESTING_MESSAGES;
   hasNewMessage = false;
   scrollBarOptions = {
     overflowBehavior: {
