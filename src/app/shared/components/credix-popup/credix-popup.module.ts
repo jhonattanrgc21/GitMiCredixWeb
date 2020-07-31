@@ -4,8 +4,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {RouterModule} from '@angular/router';
-
-import {CredixButtonModule} from '../credix-button/credix-button.module';
 import {CredixPopupComponent} from './credix-popup.component';
 
 
@@ -16,10 +14,9 @@ import {CredixPopupComponent} from './credix-popup.component';
   ],
   imports: [
     CommonModule,
+    MatIconModule,
     MatButtonModule,
     RouterModule,
-    CredixButtonModule,
-    MatIconModule,
     MatDialogModule
   ]
 })
