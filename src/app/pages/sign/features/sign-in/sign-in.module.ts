@@ -12,6 +12,7 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {ModalService} from '../../../../core/services/modal.service';
 import {CredixResultNotificationModule} from "../../../../shared/components/credix-result-notification/credix-result-notification.module";
+import {CredixCodeInputModule} from "../../../../shared/components/credix-code-input/credix-code-input.module";
 
 
 const maskConfig: Partial<IConfig> = {
@@ -38,7 +39,8 @@ const routes: Routes = [
     NgxMaskModule.forRoot(maskConfig),
     CredixLinkButtonModule,
     CredixCardsModule,
-    CredixResultNotificationModule
+    CredixResultNotificationModule,
+    CredixCodeInputModule
   ],
   providers: [ModalService]
 })

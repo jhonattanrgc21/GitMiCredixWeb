@@ -30,11 +30,11 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
               this.storageService.setCurrentToken(event.headers.get('x-auth-token'));
             }
           }
-
-          if ((event.body.titleOne === 'error' || event.body.type === 'error')) {
-            const message = event.body.message ? event.body.message : event.body.json.message;
+          console.log(event.body);
+          /*if ((event.body.titleOne === 'error' || event.body.type === 'error')) {
+            const message = event.body.message ? event.body.message : event.body.json.message ? event.body.json.message: event.body.descriptionOne;
             this.toastService.show({text: message, type: 'error'});
-          }
+          }*/
         }
         return event;
       }),
