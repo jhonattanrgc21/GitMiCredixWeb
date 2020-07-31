@@ -1,9 +1,9 @@
 <mat-card class="awards-card" credixCard fxLayout="row">
-  <img alt="Premios Credix" class="awards-card__img" src="assets/images/banner.png">
+  <img [src]="awards[0].img" alt="Premios Credix" class="awards-card__img">
 
   <div class="awards-card__content" fxFlex fxLayout="column">
-    <h2>¡Participe y gane!</h2>
-    <span>Encuentre todos nuestros premios.</span>
+    <h2>{{awards[0].title}}</h2>
+    <span>{{awards[0].description}}</span>
   </div>
 
   <button class="awards-card__btn" fxFlexAlign="center" mat-icon-button>

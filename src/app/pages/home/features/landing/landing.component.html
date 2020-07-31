@@ -1,16 +1,16 @@
 <div fxLayout="column" fxLayoutGap="16px">
 
   <div fxLayout="row" fxLayoutGap="16px">
-    <app-balances></app-balances>
+    <app-balances *ngIf="balances && paymentDetails" [balances]="balances"></app-balances>
 
     <div fxLayout="column" fxLayoutGap="16px">
-      <app-payment-details *ngIf="paymentDetails"
+      <app-payment-details *ngIf="balances && paymentDetails"
                            [paymentDetails]="paymentDetails"></app-payment-details>
-      <app-movements></app-movements>
+      <app-movements *ngIf="balances && paymentDetails"></app-movements>
     </div>
 
   </div>
 
-  <app-awards></app-awards>
+  <app-awards *ngIf="balances && paymentDetails && awards.length > 0" [awards]="awards"></app-awards>
 
 </div>

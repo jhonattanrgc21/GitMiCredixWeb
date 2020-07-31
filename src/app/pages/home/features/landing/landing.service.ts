@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
 })
 export class LandingService {
   tagsHomePageUri = 'homepage/tagshomepage';
+  accountSummaryUri = '/channels/accountsummary';
 
   constructor(private httpService: HttpService, private storageService: StorageService) {
   }
@@ -18,6 +19,16 @@ export class LandingService {
       cardId: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
       userId: this.storageService.getCurrentUser().userId,
       hour: new DatePipe('es').transform(new Date(), 'HH:MM')
+    })
+      .pipe(map(response => {
+        return response.json;
+      }));
+  }
+
+  getAccountSummary() {
+    return this.httpService.post('canales', this.accountSummaryUri, {
+      cardId: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
+      userId: this.storageService.getCurrentUser().userId
     })
       .pipe(map(response => {
         return response.json;

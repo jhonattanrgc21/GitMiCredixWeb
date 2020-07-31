@@ -10,10 +10,10 @@ export class PaymentDetailsComponent implements OnInit, OnChanges {
   @Input() paymentDetails: PaymentDetails;
   startDate: Date;
   endDate: Date;
-  cashColonesAmount = 0;
-  cashDollarsAmount = 0;
-  minColonesAmount = 0;
-  minDollarsAmount = 0;
+  cashColonesAmount = '0';
+  cashDollarsAmount = '0';
+  minColonesAmount = '0';
+  minDollarsAmount = '0';
   prefixColones = '₡';
   prefixDollars = '$';
 
@@ -25,7 +25,11 @@ export class PaymentDetailsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.paymentDetails.firstChange) {
-      this.setDates(this.paymentDetails.nextCutOffDate, this.paymentDetails.nextPaymentDate);
+
+      if (this.paymentDetails.nextCutOffDate && this.paymentDetails.nextPaymentDate) {
+        this.setDates(this.paymentDetails.nextCutOffDate, this.paymentDetails.nextPaymentDate);
+      }
+
       this.cashColonesAmount = this.paymentDetails.cashPaymentColones;
       this.cashDollarsAmount = this.paymentDetails.cashPaymentDollars;
       this.minColonesAmount = this.paymentDetails.minPaymentColones;
@@ -34,7 +38,6 @@ export class PaymentDetailsComponent implements OnInit, OnChanges {
   }
 
   setDates(startDateStr: string, endDateStr: string) {
-
     this.startDate = new Date(
       Number(startDateStr.split('/')[2]),
       Number(startDateStr.split('/')[1]),

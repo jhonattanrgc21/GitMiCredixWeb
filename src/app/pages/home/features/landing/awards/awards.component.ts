@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Awards} from '../landing.component';
 
 @Component({
   selector: 'app-awards',
@@ -6,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./awards.component.scss']
 })
 export class AwardsComponent implements OnInit {
+  @Input() awards: Awards[] = [{img: '', title: '', description: ''}];
 
   constructor() {
   }

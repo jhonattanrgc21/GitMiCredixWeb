@@ -8,12 +8,20 @@ import {LandingService} from './landing.service';
 })
 export class LandingComponent implements OnInit {
   paymentDetails: PaymentDetails;
+  balances: Balances;
+  awards: Awards[] = [];
 
   constructor(private landingService: LandingService) {
   }
 
   ngOnInit(): void {
+    this.getHomeContent();
+    this.getAccountsSummary();
+  }
+
+  getHomeContent() {
     this.landingService.getHomeContent().subscribe(response => {
+      console.log(response);
       this.paymentDetails = {
         currentDate: response.fechaActual,
         nextCutOffDate: response.fechaProximaCorte,
@@ -25,6 +33,32 @@ export class LandingComponent implements OnInit {
         cashPaymentColones: response.pagoContadoColones,
         cashPaymentDollars: response.pagoContadoDolares
       };
+
+      response.listBanner.forEach(banner => {
+        this.awards.push({
+          title: banner.title,
+          description: banner.description,
+          img: banner.link
+        });
+      });
+    });
+  }
+
+  getAccountsSummary() {
+    this.landingService.getAccountSummary().subscribe(response => {
+      if (response.type === 'success') {
+        this.balances = {
+          available: response.compra,
+          limit: response.compracuotasdisp,
+          consumed: response.consumed
+        };
+      } else {
+        this.balances = {
+          available: '0',
+          limit: '0',
+          consumed: '0'
+        };
+      }
     });
   }
 
@@ -36,8 +70,20 @@ export interface PaymentDetails {
   nextPaymentDate: string;
   lastCutOffDate: string;
   lastPaymentDate: string;
-  minPaymentColones: number;
-  minPaymentDollars: number;
-  cashPaymentColones: number;
-  cashPaymentDollars: number;
+  minPaymentColones: string;
+  minPaymentDollars: string;
+  cashPaymentColones: string;
+  cashPaymentDollars: string;
+}
+
+export interface Balances {
+  available: string;
+  limit: string;
+  consumed: string;
+}
+
+export interface Awards {
+  title: string;
+  description: string;
+  img: string;
 }

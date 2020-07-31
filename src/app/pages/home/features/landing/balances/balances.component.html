@@ -15,20 +15,20 @@
     </mat-option>
   </mat-select>
 
-  <credix-gauge [max]="max" [min]="min" [prefix]="prefix" [value]="amount" label="Disponible">
-    <credix-numeric-block [prefix]="prefix" [value]="amount" fontSize="20" fontWeight="bold"></credix-numeric-block>
+  <credix-gauge [max]="limit" [min]="0" [prefix]="prefix" [value]="available" label="Disponible">
+    <credix-numeric-block [prefix]="prefix" [value]="available" fontSize="20" fontWeight="bold"></credix-numeric-block>
   </credix-gauge>
 
 
   <div class="w-100" fxLayout="row">
     <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-start">
       <span class="balances-card__tag">Consumidos</span>
-      <credix-numeric-block [prefix]="prefix" [value]="amount" fontSize="24" fontWeight></credix-numeric-block>
+      <credix-numeric-block [prefix]="prefix" [value]="consumed" fontSize="24" fontWeight></credix-numeric-block>
     </div>
 
     <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-end">
       <span class="balances-card__tag">Límite de crédito</span>
-      <credix-numeric-block [prefix]="prefix" [value]="max" fontSize="24" fontWeight></credix-numeric-block>
+      <credix-numeric-block [prefix]="prefix" [value]="limit" fontSize="24" fontWeight></credix-numeric-block>
       <credix-link-button text="Aumentar límite"></credix-link-button>
     </div>
   </div>
