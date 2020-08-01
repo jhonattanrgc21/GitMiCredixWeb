@@ -243,8 +243,13 @@ fxLayout="column">
                        
           
           <mat-divider></mat-divider>
-            <form [formGroup]="confirmForm" fxLayout="column">
-              
+
+            <div fxLayout="row">
+              <div fxLayout="column">
+                <label>Código MiCredix</label>
+                <p>Ingrese el código generado en la aplicación <credix-link-button text="Código MiCredix" ></credix-link-button></p>
+              </div>
+            <form [formGroup]="confirmForm" >
               <credix-code-input
               [(codeFormControl)]="confirmControls.credixCode"
               [length]="6"
@@ -253,7 +258,7 @@ fxLayout="column">
             </credix-code-input>
             </form>
 
-            
+          </div>
             <mat-divider></mat-divider>
             <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
               <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
