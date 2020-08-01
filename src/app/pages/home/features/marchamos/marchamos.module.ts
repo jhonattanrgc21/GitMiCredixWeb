@@ -20,6 +20,7 @@ import { CredixSliderModule } from 'src/app/shared/components/credix-slider/cred
 import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
 import { CredixLinkButtonModule } from 'src/app/shared/components/credix-link-button/credix-link-button.module';
 import { PopupMarchamosDetailComponent } from './popup-marchamos-detail/popup-marchamos-detail.component';
+import { CredixCodeInputModule } from 'src/app/shared/components/credix-code-input/credix-code-input.module';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -48,6 +49,7 @@ const routes: Routes = [
     CredixCheckboxButtonModule,
     CredixSliderModule,
     CredixLinkButtonModule,
+    CredixCodeInputModule,
     CdkStepperModule,
     StepperModule,
     CredixRadioButtonModule,

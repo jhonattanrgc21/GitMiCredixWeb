@@ -259,8 +259,12 @@ export class MarchamosComponent implements OnInit {
   });
 
   pickUpForm: FormGroup = new FormGroup ({
-    
-  })
+
+  });
+
+  confirmForm: FormGroup = new FormGroup ({
+    credixCode: new FormControl('',[Validators.required])
+  });
 
 
   @ViewChild('stepper') stepper: CdkStepper;
@@ -275,9 +279,9 @@ export class MarchamosComponent implements OnInit {
   }
 
   
-   get secureAndCoutesControls (){return this.secureAndCoutesForm.controls;}
-  
-   get arrayControls(): FormArray { return this.secureAndCoutesForm.get('aditionalProducts') as FormArray}
+   get secureAndCoutesControls(){return this.secureAndCoutesForm.controls;}
+
+   get confirmControls() { return this.confirmForm.controls;}
 
   consult(): boolean{
     return this.vehicleInformation = true;

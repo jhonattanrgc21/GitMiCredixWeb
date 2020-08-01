@@ -114,7 +114,7 @@ fxLayout="column">
 
                       <label class="marchamos__label-4">Comisión</label>
 
-                    <mat-form-field appearance="standard">
+                    <mat-form-field appearance="standard" class="marchamos__select">
                       <mat-label>Deseo pagar la primera cuota en</mat-label>
                       <mat-select formControlName="firstCouteToPayIn">
                         <mat-option *ngFor="let firstCoute of wishPayFirstCouteIn" [value]="firstCoute.value">
@@ -192,32 +192,74 @@ fxLayout="column">
                 </div>
               </div>
             </div>
-            <mat-divider class="marchamos__divider-footer"></mat-divider>
+            <!-- <mat-divider class="marchamos__divider-footer"></mat-divider>
             <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px" class="marchamos__buttons-footer">
               <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
               <credix-button (click)="continue()"  text="Continuar">
               </credix-button>
-            </div>
+            </div> -->
           </form>
-          
+          <mat-divider></mat-divider>
+            <div  class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+              <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+              <credix-button (click)="continue()"
+                             text="Continuar"></credix-button>
+            </div>
         </cdk-step>
+
           <cdk-step [label]="'Confirmar'" >
-            <!-- <form fxLayout="column" fxLayoutGap="2%">
-              <mat-form-field appearance="fill">
-                <mat-label>
-                  Nombre
-                </mat-label>
-                <label>
-                  <input matInput type="text">
-                </label>
-              </mat-form-field> -->
-      
-              <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-                <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-                <credix-button [stepper]="stepper" credixStepperNext
-                               text="Finalizar"></credix-button>
+            
+            <div fxLayout="row" class="marchamos__billing">
+              <label>Contacto</label>
+
+              <div class="marchamos__billing-contact" fxLayout="column">
+                <span>Sergio Marquina</span>
+                <span>sergio.marquina@gmail.com</span>
+                <span>8888-8888</span>  
               </div>
-            <!-- </form> -->
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div fxLayout="row" class="marchamos__billing-pickup">
+              <label>Lugar de retiro</label>
+              <p>Del cruce de Llorente de Tibas, 300 metros Este, Colima, Tibas, San José.</p>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            
+            <div fxLayout="row" class="marchamos__billing-information">
+              <label>Resumen de pago</label>
+                      <ul>
+                        <li><label>Marchamo</label><span>₡ 114.996,00</span></li>
+                        <li><label>Seguros</label><span>₡ 19.244,00</span></li>
+                        <li><label>Comisión</label><span>₡ 10.000,00</span></li>
+                        <li><label>IVA</label><span>₡ 1.000,00</span></li>
+                        <mat-divider></mat-divider>
+                        <li><label>Total</label><span>₡ 145.240,00</span></li>
+                      </ul>
+                  </div>
+                       
+          
+          <mat-divider></mat-divider>
+            <form [formGroup]="confirmForm" fxLayout="column">
+              
+              <credix-code-input
+              [(codeFormControl)]="confirmControls.credixCode"
+              [length]="6"
+              class="w-50"
+              errorMessage="Introduzca el codigo de confirmación">
+            </credix-code-input>
+            </form>
+
+            
+            <mat-divider></mat-divider>
+            <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+              <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
+              <credix-button [stepper]="stepper" credixStepperNext
+                             text="Finalizar"></credix-button>
+            </div>
           </cdk-step>
         
     </credix-stepper>
