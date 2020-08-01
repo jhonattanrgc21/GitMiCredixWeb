@@ -231,13 +231,13 @@ fxLayout="column">
             
             <div fxLayout="row" class="marchamos__billing-information">
               <label>Resumen de pago</label>
-                      <ul>
-                        <li><label>Marchamo</label><span>₡ 114.996,00</span></li>
-                        <li><label>Seguros</label><span>₡ 19.244,00</span></li>
-                        <li><label>Comisión</label><span>₡ 10.000,00</span></li>
-                        <li><label>IVA</label><span>₡ 1.000,00</span></li>
+                      <ul class="marchamos__list">
+                        <li fxLayoutGap="206px"><label>Marchamo</label><span>₡ 114.996,00</span></li>
+                        <li fxLayoutGap="231px"><label>Seguros</label><span>₡ 19.244,00</span></li>
+                        <li fxLayoutGap="225px"><label>Comisión</label><span>₡ 10.000,00</span></li>
+                        <li fxLayoutGap="278px"><label>IVA</label><span>₡ 1.000,00</span></li>
                         <mat-divider></mat-divider>
-                        <li><label>Total</label><span>₡ 145.240,00</span></li>
+                        <li fxLayoutGap="247px"><label class="marchamos__total">Total</label><span>₡ 145.240,00</span></li>
                       </ul>
                   </div>
                        
@@ -262,7 +262,7 @@ fxLayout="column">
             <mat-divider></mat-divider>
             <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
               <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-              <credix-button [stepper]="stepper" credixStepperNext
+              <credix-button (buttonClick)="submit()"
                              text="Finalizar"></credix-button>
             </div>
           </cdk-step>

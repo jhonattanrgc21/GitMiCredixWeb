@@ -308,4 +308,9 @@ export class MarchamosComponent implements OnInit {
         this.popupShowDetail.afterClosed();
         // .subscribe(modal => this.responseResult.message = modal.message);
       }
+
+
+      submit(){
+        
+      }
   }

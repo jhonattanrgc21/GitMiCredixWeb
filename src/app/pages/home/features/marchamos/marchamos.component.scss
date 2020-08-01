@@ -92,6 +92,35 @@
     margin: 16px;
   }
 
+
+  &__billing{
+    label{
+      font-weight: bold;
+      font-size: 16px/22px;
+      margin-right: 232px;
+    }
+    &-pickup{
+      label{
+        font-weight: bold;
+        font-size: 16px/22px;
+        margin-right: 192px;
+      }
+
+      p{
+        width: 380px;
+      }
+    }
+    &-information{
+      font-weight: bold;
+      font-size: 16px/22px;
+    }
+  }
+
+  &__total{
+    font-weight: bold;
+    font-size: 16px/22px;
+  }
+
   &__stepper {
     margin: 16px;
   }
