@@ -18,6 +18,7 @@ import {CredixProgressBarModule} from "../../../../shared/components/credix-prog
 import {CredixCardsModule} from "../../../../shared/directives/credix-cards/credix-cards.module";
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import { ModalAwardsComponent } from './modal-awards/modal-awards.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 const routes: Routes = [
   {
@@ -44,6 +45,7 @@ const routes: Routes = [
     CredixProgressBarModule,
     CredixCardsModule,
     CredixLinkButtonModule,
+    NgxPaginationModule
 
   ],
   providers: [ModalService]
