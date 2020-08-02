@@ -1,48 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from "@angular/core";
+import { StorageService } from "../../../../../core/services/storage.service";
+import { HttpService } from "../../../../../core/services/http.service";
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-modal-awards',
-  templateUrl: './modal-awards.component.html',
-  styleUrls: ['./modal-awards.component.scss']
+  selector: "app-modal-awards",
+  templateUrl: "./modal-awards.component.html",
+  styleUrls: ["./modal-awards.component.scss"],
 })
 export class ModalAwardsComponent implements OnInit {
-  template1 = true;
-  template2 = false;
-  template3 = false;
-  pag = "1 de 3";
-  leftPag = true;
-  rightPag = false;
 
-  constructor() { }
+  config: any;
+  collection = { data: [] };
+  userChallenges = {
+    descriptionOne: "",
+    descriptionTwo: "",
+    json: [],
+    status: "",
+    titleOne: "",
+    titleTwo: "",
+    type: "",
+  };
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = true;
+  public labels: any = {
+      previousLabel: '',
+      nextLabel: '',
+      screenReaderPaginationLabel: 'Pagination',
+      screenReaderPageLabel: 'page',
+      screenReaderCurrentLabel: `You're on page`
+  };
+
+  constructor(
+    private storageService: StorageService,
+    private httpServide: HttpService,
+     @Inject(MAT_DIALOG_DATA) public data
+  ) {}
 
   ngOnInit(): void {
+    console.log(this.data.data)
+    this.config = {
+      id: 'custom',
+      itemsPerPage: 1,
+      currentPage: this.data.data.id + 1,
+      totalItems: this.data.data.array.length,
+    };
   }
 
-  next(){
-    if(this.pag == "1 de 3"){
-      this.template1 = false;
-      this.template2 = true;
-      this.pag = "2 de 3";
-      this.leftPag = false;
-    } else if(this.pag == "2 de 3"){
-      this.template2 = false;
-      this.template3 = true;
-      this.pag = "3 de 3"
-      this.rightPag = true;
-    }
+  onPageChanged(event) {
+    this.config.currentPage = event;
   }
-  back(){
-    if(this.pag == "2 de 3"){
-      this.template2 = false;
-      this.template1 = true;
-      this.pag = "1 de 3";
-      this.leftPag = true;
-    } else if(this.pag == "3 de 3"){
-      this.template3 = false;
-      this.template2 = true;
-      this.pag = "2 de 3"
-      this.rightPag = false;
-    }
-  }
-
 }
