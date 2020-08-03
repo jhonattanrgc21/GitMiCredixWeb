@@ -29,14 +29,8 @@ export class CredixToastService {
   getPositionStrategy() {
     return this.overlay.position()
       .global()
-      .top(this.getPosition())
+      .top(`${TOP_POSITION}px`)
       .left(LEFT_POSITION + 'px');
-  }
-
-  getPosition() {
-    const lastToastIsVisible = this.lastToast && this.lastToast.isVisible();
-    const position = lastToastIsVisible ? this.lastToast.getPosition().bottom + 10 : TOP_POSITION;
-    return position + 'px';
   }
 
   getInjector(data: ToastData, toastRef: ToastRef, parentInjector: Injector) {
