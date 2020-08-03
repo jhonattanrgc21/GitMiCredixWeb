@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CustomIconLoaderService} from './services/custom-icon-loader.service';
-import {ModalService} from './services/modal.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CredixToastService} from './services/credix-toast.service';
 import {HttpRequestsResponseInterceptor} from './interceptors/http.interceptor';
@@ -18,7 +17,6 @@ import {StorageService} from './services/storage.service';
   ],
   providers: [
     CustomIconLoaderService,
-    ModalService,
     CredixToastService,
     HttpService,
     SecurityService,

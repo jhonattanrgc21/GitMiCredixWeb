@@ -3,6 +3,7 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog
 import {CredixPopupComponent} from '../../shared/components/credix-popup/credix-popup.component';
 import {Observable} from 'rxjs';
 import {CredixConfirmationPopupComponent} from '../../shared/components/credix-confirmation-popup/credix-confirmation-popup.component';
+import {CredixPopupAlternativeComponent} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.component';
 
 @Injectable()
 export class ModalService {
@@ -10,26 +11,42 @@ export class ModalService {
   constructor(private dialog: MatDialog) {
   }
 
-  private static fetchOptions({width, minHeight, height, disableClose}: DialogOptions):
+  private static fetchOptions({width, minHeight, height, disableClose, panelClass}: DialogOptions, option: 1 | 2):
     Pick<MatDialogConfig<DialogData>, 'width' | 'minHeight' | 'height' | 'disableClose' | 'panelClass'> {
     return {
       width: `${width}px`,
       minHeight: `${minHeight}px`,
       height: `${height}px`,
       disableClose,
-      panelClass: 'credix-popup-panel'
+      panelClass: [panelClass, option === 1 ? 'credix-popup-panel' : 'credix-popup-alternative-panel']
     };
   }
 
-  open(data: DialogData, options: DialogOptions = {width: 800, minHeight: 0, height: 200, disableClose: true}):
-    MatDialogRef<CredixPopupComponent> {
-    return this.dialog.open<CredixPopupComponent, DialogData>(
-      CredixPopupComponent,
-      {
-        ...ModalService.fetchOptions(options),
-        data
-      }
-    );
+  open(data: DialogData, options: DialogOptions = {
+         width: 800,
+         minHeight: 0,
+         height: 200,
+         disableClose: true
+       },
+       option: 1 | 2 = 1): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
+    switch (option) {
+      case 1:
+        return this.dialog.open<CredixPopupComponent, DialogData>(
+          CredixPopupComponent,
+          {
+            ...ModalService.fetchOptions(options, 1),
+            data
+          }
+        );
+      case 2:
+        return this.dialog.open<CredixPopupAlternativeComponent, DialogData>(
+          CredixPopupAlternativeComponent,
+          {
+            ...ModalService.fetchOptions(options, 2),
+            data
+          }
+        );
+    }
   }
 
   public confirmationPopup(title: string, message?: string): Observable<boolean> {
@@ -56,8 +73,9 @@ export interface DialogData {
 
 export interface DialogOptions {
   width: number;
+  disableClose: boolean;
   minHeight?: number;
   height?: number;
-  disableClose: boolean;
+  panelClass?: string;
 }
 

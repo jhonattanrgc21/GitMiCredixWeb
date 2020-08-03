@@ -9,15 +9,32 @@ import {map} from 'rxjs/operators';
 })
 export class LandingService {
   tagsHomePageUri = 'homepage/tagshomepage';
+  tagsHomeUri = 'tags/funcionalitytagshome';
+  accountSummaryUri = 'channels/accountsummary';
 
   constructor(private httpService: HttpService, private storageService: StorageService) {
   }
 
-  getHomeContent() {
+  getHomeTags() {
+    return this.httpService.post('canales', this.tagsHomeUri);
+  }
+
+
+  getHomeContent(cardId: number) {
     return this.httpService.post('canales', this.tagsHomePageUri, {
-      cardId: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
+      cardId,
       userId: this.storageService.getCurrentUser().userId,
       hour: new DatePipe('es').transform(new Date(), 'HH:MM')
+    })
+      .pipe(map(response => {
+        return response.json;
+      }));
+  }
+
+  getAccountSummary(cardId: number) {
+    return this.httpService.post('canales', this.accountSummaryUri, {
+      cardId,
+      userId: this.storageService.getCurrentUser().userId
     })
       .pipe(map(response => {
         return response.json;

@@ -11,15 +11,11 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   isTablet = false;
-  username = 'John Doe';
-  avatar = 'assets/images/avatar.png';
-  menus = menus;
 
   constructor(private breakpointObserver: BreakpointObserver,
               private storageService: StorageService,
               private router: Router,
               public homeService: HomeService) {
-    this.getMenus();
   }
 
   ngOnInit() {
@@ -29,14 +25,6 @@ export class HomeComponent implements OnInit {
         this.isTablet = state.matches;
         this.homeService.isTablet(this.isTablet);
       });
-  }
-
-  getApplicantName(): string {
-    return this.storageService.getCurrentUser().aplicantName;
-  }
-
-  getMenus() {
-
   }
 
   signOut() {
@@ -50,52 +38,4 @@ export class HomeComponent implements OnInit {
     });
   }
 
-}
-
-export const menus: Menu[] = [
-  {
-    id: 1, name: 'Inicio', route: '/home'
-  },
-  {
-    id: 2, name: 'Pagar', submenus: [
-      {id: 1, name: 'Servicios', route: '/home', icon: 'public_services'},
-      {id: 2, name: 'Pagar tarjeta', route: '/home', icon: 'pay'},
-      {id: 3, name: 'Marchamo', route: '/home', icon: 'car'},
-      {id: 4, name: 'Enviar dinero', route: '/home', icon: 'transfer'},
-      {id: 5, name: 'Reportar transferencia', route: '/home', icon: 'transfer_report'},
-      {id: 6, name: 'Lugares de pago', route: '/home', icon: 'map-marker'}
-    ]
-  },
-  {
-    id: 3, name: 'Productos', submenus: [
-      {id: 1, name: 'Crédito personal', route: '/home', icon: 'personal_credit'},
-      {id: 2, name: 'Compra sin tarjeta', route: '/home', icon: 'code'},
-      {id: 3, name: 'Ampliar plazo de compra', route: '/home', icon: 'anticipated_canc'},
-      {id: 4, name: 'Cancelación anticipada', route: '/home', icon: 'anticipated_canc'}
-    ]
-  },
-  {
-    id: 4, name: 'Mi cuenta', submenus: [
-      {id: 1, name: 'Datos personales', route: '/home', icon: 'personal_data'},
-      {id: 2, name: 'Gestionar favoritos', route: '/home', icon: 'favorites'},
-      {id: 3, name: 'Cambiar clave', route: '/home', icon: 'change_password'},
-      {id: 4, name: 'Cambiar PIN', route: '/home', icon: 'asterisk'},
-      {id: 5, name: 'Aumentar límite de crédito', route: '/home', icon: 'cash'},
-      {id: 5, name: 'Tarjetas adicionales', route: '/home', icon: 'credit-card-plus'}
-    ]
-  }
-];
-
-export interface Menu {
-  id: number;
-  name: string;
-  route?: string;
-  submenus?: Submenu[];
-}
-
-export interface Submenu {
-  id: number;
-  route: string;
-  name: string;
-  icon: string;
 }

@@ -45,20 +45,20 @@
 
 }
 
-::ng-deep.credix-result-notification__icon {
+::ng-deep.sign-in-result-panel .credix-result-notification__icon {
   width: 70px !important;
   height: 70px !important;
   margin-bottom: 24px !important;
 }
 
-::ng-deep.credix-result-notification__title {
+::ng-deep.sign-in-result-panel .credix-result-notification__title {
   font-size: 32px !important;
   line-height: 32px !important;
   height: 79px !important;
   margin-bottom: 16px !important;
 }
 
-::ng-deep.credix-result-notification__message {
+::ng-deep.sign-in-result-panel .credix-result-notification__message {
   width: 268px !important;
 }
 

@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Movement} from '../../../../../shared/models/Movement';
+import {ConvertStringDateToDate} from '../../../../../shared/utils';
 
 @Component({
   selector: 'app-movements',
@@ -6,8 +8,11 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./movements.component.scss']
 })
 export class MovementsComponent implements OnInit {
+  @Input() movements: Movement[] = [];
+  @Input() movementsTags = {
+    titleTag: 'Movimientos'
+  };
   displayedColumns: string[] = ['date', 'commerce', 'amount'];
-  dataSource = DATA;
 
   constructor() {
   }
@@ -15,11 +20,7 @@ export class MovementsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  convertStringDateToDate(value: string): Date {
+    return ConvertStringDateToDate(value);
+  }
 }
-
-const DATA = [
-  {id: 1, date: '29 Jul 20', commerce: 'EPA', amount: '100.00', currency: '₡'},
-  {id: 2, date: '29 Jul 20', commerce: 'Zara Home', amount: '100.00', currency: '$'},
-  {id: 3, date: '29 Jul 20', commerce: 'Aliss', amount: '100.00', currency: '₡'},
-  {id: 4, date: '29 Jul 20', commerce: 'Hospital clinico San Jose', amount: '100.00', currency: '₡'}
-];

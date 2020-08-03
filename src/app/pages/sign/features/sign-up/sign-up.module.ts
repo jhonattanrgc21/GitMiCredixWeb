@@ -8,7 +8,6 @@ import {CredixPopupModule} from 'src/app/shared/components/credix-popup/credix-p
 import {CredixConfirmationPopupModule} from 'src/app/shared/components/credix-confirmation-popup/credix-confirmation-popup.module';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {HttpService} from 'src/app/core/services/http.service';
-import {CredixPopupComponent} from 'src/app/shared/components/credix-popup/credix-popup.component';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {StepperModule} from 'src/app/shared/directives/stepper/stepper.module';
 import {CredixFormsModule} from 'src/app/shared/directives/credix-forms/credix-forms.module';
@@ -19,7 +18,7 @@ import {CredixTooltipsModule} from 'src/app/shared/directives/credix-tooltips/cr
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 import {MatStepperModule} from '@angular/material/stepper';
 import {CredixStepperSignUpComponent} from './credix-stepper-sign-up/credix-stepper-sign-up.component';
-import { ModalResponseSignUpComponent } from './modal-response-sign-up/modal-response-sign-up.component';
+import {ModalResponseSignUpComponent} from './modal-response-sign-up/modal-response-sign-up.component';
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 
 const maskConfig: Partial<IConfig> = {
@@ -35,7 +34,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [SignUpComponent, CredixStepperSignUpComponent, ModalResponseSignUpComponent],
-  entryComponents: [CredixPopupComponent],
   imports: [
     CommonModule,
     SharedModule,

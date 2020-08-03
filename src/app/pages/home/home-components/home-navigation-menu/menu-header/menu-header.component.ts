@@ -1,22 +1,25 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {StorageService} from '../../../../../core/services/storage.service';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'credix-menu-header',
+  selector: 'app-menu-header',
   templateUrl: './menu-header.component.html',
   styleUrls: ['./menu-header.component.scss']
 })
 export class MenuHeaderComponent implements OnInit {
-  @Input() username: string;
-  @Input() avatar: string;
+  avatar = 'assets/images/avatar.png';
   greetingMessage: string;
 
-  constructor() {
+  constructor(private storageService: StorageService) {
     this.checkTime();
   }
 
   ngOnInit(): void {
     setInterval(this.checkTime, 1000 * 60 * 60);
+  }
+
+  getApplicantName(): string {
+    return this.storageService.getCurrentUser().aplicantName;
   }
 
   checkTime() {

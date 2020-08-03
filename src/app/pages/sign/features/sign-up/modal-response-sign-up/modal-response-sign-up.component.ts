@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-modal-response-sign-up',
@@ -8,13 +8,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ModalResponseSignUpComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<ModalResponseSignUpComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
-
-  ngOnInit(): void {
-    console.log(this.data);
+  constructor(public dialogRef: MatDialogRef<ModalResponseSignUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {
   }
 
-  close(){
+  ngOnInit(): void {
+
+  }
+
+  close() {
     this.dialogRef.close();
   }
 

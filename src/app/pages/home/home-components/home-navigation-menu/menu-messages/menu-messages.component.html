@@ -1,0 +1,30 @@
+<div [class.is-open]="open" class="menu_messages" fxLayout="column">
+  <div class="menu_messages__fixed-container" fxLayout="row" fxLayoutAlign="flex-start center">
+    <span class="menu-items menu_messages__fixed-container__label--color" fxFlex>Mensajes</span>
+
+    <button (click)="openMessages()" mat-icon-button>
+      <mat-icon [svgIcon]="hasNewMessage ? 'messages_active_btn' : 'messages'"></mat-icon>
+    </button>
+  </div>
+
+  <overlay-scrollbars *ngIf="messages.length > 0 else noMessagesTemplate" [options]="scrollBarOptions"
+                      class="menu_messages__overlay-scrollbars">
+    <ng-container *ngFor="let message of  messages, let last = last, let index = index">
+      <a (click)="openMessagesModal(index)" [class.is-read]="message.read || message.readDate"
+         class="menu_messages__message-container"
+         mat-button>
+        <img [src]="message.previewImage" alt="Mensajes Credix" class="menu_messages__message-container__img">
+
+        <div class="menu_messages__message-container__content" fxLayout="column" fxLayoutAlign="center">
+          <span>{{message.title}}</span>
+          <span>{{message.creationDate}}</span>
+        </div>
+      </a>
+      <mat-divider *ngIf="!last" class="menu-options__line"></mat-divider>
+    </ng-container>
+  </overlay-scrollbars>
+
+  <ng-template #noMessagesTemplate>
+    <credix-result-notification message="No tiene mensajes en este momento" status="info"></credix-result-notification>
+  </ng-template>
+</div>
