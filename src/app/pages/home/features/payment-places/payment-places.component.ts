@@ -9,6 +9,7 @@ import {HttpService} from '../../../../core/services/http.service';
 export class PaymentPlacesComponent implements OnInit {
   paymentPlaces:string[];
   contador = 0;
+  optionSelected = {}
   tabs = [
     {id: 1, name: 'Comercios'},
     {id: 2, name: 'Pago digitales'},
@@ -37,10 +38,9 @@ export class PaymentPlacesComponent implements OnInit {
     this.httpService.post('canales', 'paymentplace/getpaymentplace')
       .subscribe(resp =>{
         this.paymentPlaces = resp.paymentPlace;
-        this.paymentPlaces.forEach(paymentPlace => {
-          this.getPaymentPlaceRestriction(paymentPlace);
+        this.paymentPlaces.forEach(async paymentPlace => {
+          await this.getPaymentPlaceRestriction(paymentPlace);
         });
-        console.log(this.paymentPlaces);
       });
   }
 
@@ -52,7 +52,8 @@ export class PaymentPlacesComponent implements OnInit {
       .subscribe(resp =>{
         this.contador+=1;
         paymentPlace.restrictions = resp.paymentPlace;
-        this.options.push({id: this.contador, name: paymentPlace.name, img: `../../../../../assets/images/${paymentPlace.name}.png`})
+        this.options.push({id: this.contador, priority: paymentPlace.priority, name: paymentPlace.name, img: paymentPlace.linkImage, restrictions:resp.paymentPlace})
+
       });
   }
 

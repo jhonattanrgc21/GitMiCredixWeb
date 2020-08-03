@@ -7,58 +7,76 @@
       margin-bottom: 16px !important;
     }
   }
-
 }
 
-.digital-payments{
-  &__content{
-    margin: 35px 0 0 106px;
-    padding-right: 93px;
+.digital-payments {
+  &__content {
+    @media screen and (max-width: 1999px) {
+      margin: 40px 0 0 64px;
+      padding-right: 64px;
+    }
+    @media screen and (min-width: 1200px) {
+      margin: 40px 0 0 106px;
+      padding-right: 93px;
+    }
 
-
-    ::ng-deep .credix-link-button{
+    ::ng-deep .credix-link-button {
       vertical-align: middle !important;
       font-weight: bold !important;
     }
 
-    &__copy-icon{
-      color: #E42313;
+    &__copy-icon {
+      color: #e42313;
       width: 17px;
       height: 20px;
       padding-left: 16px;
       vertical-align: middle;
     }
 
-    &__option{
+    &__option {
       padding: 16px;
       &:not(:last-child) {
         border-bottom: 1px solid #e9e9e9;
       }
 
-      &__inner-option-first{
+      &__inner-option-first {
         padding: 16px 0;
       }
-      &__inner-option{
+      &__inner-option {
         padding-bottom: 16px;
+
+        &__title {
+          @media screen and (max-width: 1999px) {
+            max-width: 25% !important;
+          }
+          @media screen and (min-width: 1200px) {
+            max-width: 30% !important
+          }
+        }
+        &__content {
+          @media screen and (max-width: 1999px) {
+            max-width: 75% !important;
+          }
+          @media screen and (min-width: 1200px) {
+            max-width: 70% !important;
+          }
+        }
       }
 
-      &__inner-content-first{
+      &__inner-content-first {
         padding: 8px 0;
       }
-      &__inner-content{
+      &__inner-content {
         padding-bottom: 8px;
       }
     }
-    &__title{
+    &__title {
       font-weight: bold;
     }
   }
-
-
-
 }
 
-::ng-deep .navigation-table__header{
+::ng-deep .navigation-table__header {
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
   margin-left: -16px;

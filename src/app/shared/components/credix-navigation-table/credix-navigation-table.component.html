@@ -22,7 +22,7 @@
     </div>
 
     <div class="navigation-table__content__right" fxFlex="75%">
-      <div *ngIf="!details">
+      <div *ngIf="optionSelected.subOptions">
       <button (click)="subOptionClick(subOption.routerLink)" *ngFor="let subOption of optionSelected.subOptions"
         class="navigation-table__option">
         <mat-icon [svgIcon]="optionSelected.icon" class="navigation-table__option__icon"></mat-icon>
@@ -31,15 +31,15 @@
     </div>
 
 
-    <div *ngIf="details" class="navigation-table__content-right">
-      <p class="navigation-table__content-right__title">{{ optionSelected.name }}</p>
+    <div *ngIf="!optionSelected.subOptions" class="navigation-table__content-right">
+      <p class="navigation-table__content-right__title">{{ optionSelected.name | titlecase }}</p>
       <div fxLayout="row" class="navigation-table__content-right__option">
         <div fxFlex="40%">
           <p class="navigation-table__content-right__subtitle">Detalles</p>
         </div>
         <div fxFlex="60%">
-          <ul *ngFor="let detail of details">
-            <li>{{ detail.name }}</li>
+          <ul *ngFor="let detail of optionSelected.restrictions?.paymentPlaceRestriction">
+            <li>{{ detail.description }}</li>
           </ul>
         </div>
       </div>
@@ -57,7 +57,7 @@
             </li>
             <li>
               <mat-icon svgIcon="facebook"></mat-icon>
-              <credix-link-button route="optionSelected.restrictions?.linkFacebook" text="Facebook">
+              <credix-link-button route="{{optionSelected.restrictions?.linkFacebook}}" text="Facebook">
               </credix-link-button>
             </li>
           </ul>

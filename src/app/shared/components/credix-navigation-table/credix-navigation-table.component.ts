@@ -23,6 +23,7 @@ export class CredixNavigationTableComponent implements OnInit {
 
   optionClick(option) {
     this.optionSelected = option;
+    //console.log(this.optionSelected);
   }
 
   subOptionClick(navigation: string) {
