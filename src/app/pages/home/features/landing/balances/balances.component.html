@@ -4,11 +4,21 @@
   <mat-select [formControl]="cardFormControl" class="balances-card__cards-select" disableOptionCentering
               disableRipple panelClass="select-cards-panel">
     <mat-select-trigger>
-      <mat-icon class="balances-card__card-icon mr-8px" svgIcon="redCard"></mat-icon>
-      <span class="mr-8px">{{getSelectedCard().typeCard}}</span>
-      <span>{{getSelectedCardNumber(cardFormControl.value)}}</span>
+      <div *ngIf="cardFormControl.value.category == 'Principal'" fxLayout="row" fxLayoutAlign="center center"
+           fxLayoutGap="8px">
+        <mat-icon class="balances-card__card-icon" svgIcon="redCard"></mat-icon>
+        <span class="mr-8px">{{cardFormControl.value.typeCard}}</span>
+        <span>{{formatPrincipalCard(cardFormControl.value.cardNumber)}}</span>
+        <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
+      </div>
+      <div *ngIf="cardFormControl.value.category != 'Principal'" fxLayout="row" fxLayoutAlign="center center"
+           fxLayoutGap="8px">
+        <mat-icon class="balances-card__card-icon" svgIcon="additionalCards"></mat-icon>
+        <span>{{cardFormControl.value.name}}</span>
+        <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
+      </div>
     </mat-select-trigger>
-    <mat-option *ngFor="let card of cards; let last = last" [value]="card.cardId">
+    <mat-option *ngFor="let card of cards; let last = last" [value]="card">
       <mat-icon [svgIcon]="card.category === 'Principal' ? 'redCard' : 'additionalCards'" class="mr-8px"></mat-icon>
       <span>{{card.typeCard}} {{card.name}}</span>
       <mat-divider *ngIf="!last" class="w-100"></mat-divider>

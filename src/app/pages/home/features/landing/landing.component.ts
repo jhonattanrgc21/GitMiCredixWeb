@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {LandingService} from './landing.service';
 import {Movement} from '../../../../shared/models/Movement';
+import {StorageService} from '../../../../core/services/storage.service';
 
 @Component({
   selector: 'app-landing',
@@ -16,7 +17,8 @@ export class LandingComponent implements OnInit {
   paymentDetailsTags: any;
   movementsTags: any;
 
-  constructor(private landingService: LandingService) {
+  constructor(private landingService: LandingService,
+              private storageService: StorageService) {
   }
 
   ngOnInit(): void {
@@ -25,8 +27,8 @@ export class LandingComponent implements OnInit {
     this.getAccountsSummary();
   }
 
-  getHomeContent() {
-    this.landingService.getHomeContent().subscribe(response => {
+  getHomeContent(cardId: number = this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId) {
+    this.landingService.getHomeContent(cardId).subscribe(response => {
       this.paymentDetails = {
         currentDate: response.fechaActual,
         nextCutOffDate: response.fechaProximaCorte,
@@ -41,18 +43,21 @@ export class LandingComponent implements OnInit {
 
       this.movements = response.movements;
 
-      response.listBanner.forEach(banner => {
-        this.awards.push({
-          title: banner.title,
-          description: banner.description,
-          img: banner.link
+      if (response.listBanner) {
+        response.listBanner.forEach(banner => {
+          this.awards.push({
+            title: banner.title,
+            description: banner.description,
+            img: banner.link
+          });
         });
-      });
+      }
+
     });
   }
 
-  getAccountsSummary() {
-    this.landingService.getAccountSummary().subscribe(response => {
+  getAccountsSummary(cardId: number = this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId) {
+    this.landingService.getAccountSummary(cardId).subscribe(response => {
       if (response.type === 'success') {
         this.balances = {
           available: response.compracuotasdisp,
@@ -98,6 +103,11 @@ export class LandingComponent implements OnInit {
         };
       }
     });
+  }
+
+  onCardChanged(cardId: number) {
+    this.getHomeContent(cardId);
+    this.getAccountsSummary(cardId);
   }
 }
 

@@ -20,9 +20,9 @@ export class LandingService {
   }
 
 
-  getHomeContent() {
+  getHomeContent(cardId: number) {
     return this.httpService.post('canales', this.tagsHomePageUri, {
-      cardId: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
+      cardId,
       userId: this.storageService.getCurrentUser().userId,
       hour: new DatePipe('es').transform(new Date(), 'HH:MM')
     })
@@ -31,9 +31,9 @@ export class LandingService {
       }));
   }
 
-  getAccountSummary() {
+  getAccountSummary(cardId: number) {
     return this.httpService.post('canales', this.accountSummaryUri, {
-      cardId: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
+      cardId,
       userId: this.storageService.getCurrentUser().userId
     })
       .pipe(map(response => {

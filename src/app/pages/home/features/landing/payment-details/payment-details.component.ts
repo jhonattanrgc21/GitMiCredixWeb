@@ -40,7 +40,7 @@ export class PaymentDetailsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.paymentDetails.firstChange) {
+    if (changes.paymentDetails) {
       this.setDates(this.paymentDetails.lastCutOffDate, this.paymentDetails.lastPaymentDate,
         this.paymentDetails.nextCutOffDate, this.paymentDetails.nextPaymentDate);
       this.cashColonesAmount = this.paymentDetails.cashPaymentColones;
