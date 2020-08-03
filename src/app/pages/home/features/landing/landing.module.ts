@@ -21,6 +21,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {CredixPaymentBarModule} from '../../../../shared/components/credix-payment-bar/credix-payment-bar.module';
 import {MatTableModule} from '@angular/material/table';
 import {TablesDirectivesModule} from '../../../../shared/directives/tables/tables-directives.module';
+import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
 
 const routes: Routes = [
   {
@@ -48,7 +49,8 @@ const routes: Routes = [
     ClipboardModule,
     CredixPaymentBarModule,
     MatTableModule,
-    TablesDirectivesModule
+    TablesDirectivesModule,
+    DateFormatterModule
   ]
 })
 export class LandingModule {

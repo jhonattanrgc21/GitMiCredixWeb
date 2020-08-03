@@ -9,7 +9,7 @@ import {map} from 'rxjs/operators';
 })
 export class LandingService {
   tagsHomePageUri = 'homepage/tagshomepage';
-  accountSummaryUri = '/channels/accountsummary';
+  accountSummaryUri = 'channels/accountsummary';
 
   constructor(private httpService: HttpService, private storageService: StorageService) {
   }

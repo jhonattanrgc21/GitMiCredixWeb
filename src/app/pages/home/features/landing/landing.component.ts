@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LandingService} from './landing.service';
+import {Movement} from '../../../../shared/models/Movement';
 
 @Component({
   selector: 'app-landing',
@@ -10,6 +11,7 @@ export class LandingComponent implements OnInit {
   paymentDetails: PaymentDetails;
   balances: Balances;
   awards: Awards[] = [];
+  movements: Movement[] = [];
 
   constructor(private landingService: LandingService) {
   }
@@ -21,7 +23,6 @@ export class LandingComponent implements OnInit {
 
   getHomeContent() {
     this.landingService.getHomeContent().subscribe(response => {
-      console.log(response);
       this.paymentDetails = {
         currentDate: response.fechaActual,
         nextCutOffDate: response.fechaProximaCorte,
@@ -33,6 +34,9 @@ export class LandingComponent implements OnInit {
         cashPaymentColones: response.pagoContadoColones,
         cashPaymentDollars: response.pagoContadoDolares
       };
+
+      this.movements = response.movements;
+      console.log(this.movements);
 
       response.listBanner.forEach(banner => {
         this.awards.push({

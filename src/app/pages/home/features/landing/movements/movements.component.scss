@@ -18,7 +18,7 @@
 
     mat-cell:first-child {
       text-align: left !important;
-      flex: 20% !important;
+      flex: 25% !important;
     }
 
     mat-cell:nth-child(2) {
@@ -29,7 +29,7 @@
     mat-cell:last-child {
       text-align: right !important;
       font-weight: bold !important;
-      flex: 40% !important;
+      flex: 35% !important;
     }
 
   }
