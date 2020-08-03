@@ -7,11 +7,18 @@ import {DatePipe} from '@angular/common';
 export class DateFormatterPipe implements PipeTransform {
 
   transform(date: Date | string, format: 'numeric' | 'alphanumeric' = 'numeric', locale: string = 'es'): string {
-    date = new Date(date);
-    if (format === 'numeric') {
-      return new DatePipe(locale).transform(date, 'dd/MM/yyyy');
+    let returnDate;
+
+    if (date instanceof Date) {
+      returnDate = new Date(date);
     } else {
-      return `${date.getDate()} ${this.getAlphaNumericMonth(date.getMonth())} ${date.getFullYear()}`;
+      returnDate = new Date(Number(date.split('/')[2]), Number(date.split('/')[1]), Number(date.split('/')[0]));
+    }
+
+    if (format === 'numeric') {
+      return new DatePipe(locale).transform(returnDate, 'dd/MM/yyyy');
+    } else {
+      return `${returnDate.getDate()} ${this.getAlphaNumericMonth(returnDate.getMonth())} ${returnDate.getFullYear()}`;
     }
   }
 
