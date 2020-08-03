@@ -12,7 +12,10 @@ export class DateFormatterPipe implements PipeTransform {
     if (date instanceof Date) {
       returnDate = new Date(date);
     } else {
-      returnDate = new Date(Number(date.split('/')[2]), Number(date.split('/')[1]), Number(date.split('/')[0]));
+      returnDate = new Date(
+        Number(date.split('/')[2]),
+        Number(date.split('/')[1]) - 1,
+        Number(date.split('/')[0]));
     }
 
     if (format === 'numeric') {
