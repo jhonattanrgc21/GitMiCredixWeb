@@ -1,4 +1,5 @@
 import {Component,EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -11,7 +12,8 @@ export class CredixCheckboxButtonComponent implements OnInit {
   @Input() checked: boolean;
   @Input() value;
   @Input() disable: boolean;
-  @Output() isChecked = new EventEmitter<boolean>();
+  
+  @Output() emitCheckBox = new EventEmitter();
 
   constructor() {
   }
@@ -21,6 +23,6 @@ export class CredixCheckboxButtonComponent implements OnInit {
 
   isCheckedValue(event, eventType: boolean){
     this.checked = eventType ? event : event.checked;
-    this.isChecked.emit(this.checked);
+    this.emitCheckBox.emit(event);
   }
 }

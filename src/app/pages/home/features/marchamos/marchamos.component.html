@@ -73,7 +73,7 @@ fxLayout="column">
             </div>
           </cdk-step>
 
-          <cdk-step [label]="'Seguros y. cuotas'" [stepControl]="secureAndCoutesForm" fxLayout="column">
+          <cdk-step [label]="'Seguros y. cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
 
             <div fxLayout="row" class="marchamos__payment-information">
                 <label class="marchamos__label-1">Marchamo</label>
@@ -87,14 +87,14 @@ fxLayout="column">
 
 
             <mat-divider></mat-divider>
-            <form [formGroup]="secureAndCoutesForm">
+            <form [formGroup]="secureAndQuotesForm">
                 <div fxLayout="row" class="marchamos__payment-information secure">
                   <label class="marchamos__label-2">Seguros opcionales</label>
                   <div fxLayout="column" style="margin-right: 215px;">
-                    <credix-checkbox-button  [checked]="isChecked" [value]="'a'" label="Responsabilidad civil"></credix-checkbox-button>
-                    <credix-checkbox-button  [checked]="isChecked" [value]="'b'" label="Asistencia en carretera"></credix-checkbox-button>
-                    <credix-checkbox-button  [checked]="isChecked" [value]="'c'" label="Más protección"></credix-checkbox-button>
-                    <credix-checkbox-button  label="Todos" (isChecked)="allChecked($event)"></credix-checkbox-button>
+                    <credix-checkbox-button  [checked]="isChecked" [value]="'a'" label="Responsabilidad civil" (emitCheckBox)="getValueCheckBoxes($event)"></credix-checkbox-button>
+                    <credix-checkbox-button   [checked]="isChecked" [value]="'b'" label="Asistencia en carretera" (emitCheckBox)="getValueCheckBoxes($event)"></credix-checkbox-button>
+                    <credix-checkbox-button   [checked]="isChecked" [value]="'c'" label="Más protección" (emitCheckBox)="getValueCheckBoxes($event)"></credix-checkbox-button>
+                    <credix-checkbox-button  label="Todos" (emitCheckBox)="allChecked($event.checked)"></credix-checkbox-button>
 
                   </div>
                   <div class="marchamos__prices" fxLayout="column">
@@ -109,12 +109,12 @@ fxLayout="column">
 
                   <div fxLayout="column">
                     <div class="marchamos__slider">
-                      <credix-slider [(value)]="value" (valueChange)="getValueSlider($event)" [instructions]="'Deseo dividir este pago en'" [units]="'Cuota'" ></credix-slider>
+                      <credix-slider  [(value)]="value" (valueChange)="getValueSlider($event)" [instructions]="'Deseo dividir este pago en'" [units]="'Cuota'" ></credix-slider>
                     </div>
 
-                      <label class="marchamos__label-4">Comisión</label>
+                      <label *ngIf="sliderChangedValue" class="marchamos__label-4">Comisión</label>
 
-                    <mat-form-field appearance="standard" class="marchamos__select">
+                    <mat-form-field  *ngIf="sliderChangedValue" appearance="standard" class="marchamos__select">
                       <mat-label>Deseo pagar la primera cuota en</mat-label>
                       <mat-select formControlName="firstCouteToPayIn">
                         <mat-option *ngFor="let firstCoute of wishPayFirstCouteIn" [value]="firstCoute.value">
@@ -127,7 +127,7 @@ fxLayout="column">
                     <div class="marchamos__prices" fxLayout="column">
                       <span style="font-size: 24px !important; margin-bottom: 4px;">₡ 114.996,00</span>
                       <credix-link-button text="Ver detalles" (click)="showDetail()" style="margin-bottom: 64px;"></credix-link-button>
-                      <span>₡ 10.000,00</span>
+                      <span *ngIf="">₡ 10.000,00</span>
                     </div>
                   </div>
 

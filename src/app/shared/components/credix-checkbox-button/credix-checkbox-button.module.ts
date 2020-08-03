@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CredixCheckboxButtonComponent} from './credix-checkbox-button.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   ],
   imports: [
     CommonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ReactiveFormsModule
   ]
 })
 export class CredixCheckboxButtonModule {

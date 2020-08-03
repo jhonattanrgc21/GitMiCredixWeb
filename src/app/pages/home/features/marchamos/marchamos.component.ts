@@ -245,6 +245,7 @@ export class MarchamosComponent implements OnInit {
   value: number = 1;
   popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
   isChecked: boolean = false;
+  sliderChangedValue: boolean = false;
 
 
   consultForm: FormGroup = new FormGroup({
@@ -252,11 +253,9 @@ export class MarchamosComponent implements OnInit {
     plateNumber: new FormControl('',[Validators.required])
   });
 
-  secureAndCoutesForm: FormGroup = new FormGroup({
-    responsabilityCivil: new FormControl('',[]),
-    roadAssistance: new FormControl('',[]),
-    moreProtection: new FormControl('',[]),
-    coutesToPay: new FormControl('',[]),
+  secureAndQuotesForm: FormGroup = new FormGroup({
+    aditionalProducts: new FormArray([]),
+    quotesToPay: new FormControl('',[]),
     firstCouteToPayIn: new FormControl('',[Validators.required])
   });
 
@@ -284,7 +283,9 @@ export class MarchamosComponent implements OnInit {
 
    get consultControls(){ return this.consultForm.controls; }
 
-   get secureAndCoutesControls(){return this.secureAndCoutesForm.controls;}
+   get secureAndQuotesControls(){return this.secureAndQuotesForm.controls;}
+
+   get pickUpControls(){ return this.pickUpForm.controls;}
 
    get confirmControls() { return this.confirmForm.controls;}
 
@@ -304,17 +305,65 @@ export class MarchamosComponent implements OnInit {
   }
 
   allChecked(event?:any){
-    console.log(event);
-    return this.isChecked = event;
+    this.isChecked = event;
   }
 
-  getValueSlider(event?:EventEmitter) {
+  getValueSlider(event?) {
     console.log(event);
+    this.value = event;
   }
 
+  getValueCheckBoxes(event:any){
+    console.log(event);
+    const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
+
+    if (event.checked) {
+      checkArray.push(new FormControl(event.source.value))
+    }else {
+      let index: number = 0;
+      checkArray.controls.forEach((item: FormControl) => {
+          if (item.value == event.source.value) {
+            checkArray.removeAt(index);
+            return;
+          }
+          index++
+        });
+      }
+  }
   getVehicleType(){
         // x-auth-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NDQxNyIsImV4cCI6MTU5NjMwNzk5OH0.0DtKkUAAI1XHbXu4_BQzvsFugB1bQLT8NO4VzQPukMXIEoYfd4vitgNTOUt8tygwRtDhcvwnqsgVBnm7f_wpNQ
     this.httpService.post('marchamos', 'pay/platetypes', {channelId: 102}).subscribe( response => console.log(response));
+  }
+
+  secureToPay(){
+    this.httpService.post('marchamos', 'pay/soapay',
+    {
+       channelId : 101
+      ,aditionalProducts : []
+      ,amount : 1690727
+      ,authenticationNumberCommission : "0000"
+      ,authenticationNumberMarchamo1 : "000000"
+      ,cardNumber : 289534
+      ,deliveryPlaceId : 1
+      ,domicilePerson : ""
+      ,domicilePhone : ""
+      ,domicilePlace : ""
+      ,email : "luisporteperez@GMAIL.COM"
+      ,extraCardStatus : "0"
+      ,firstPayment : "Siguiente pago"
+      ,ownerEmail : "luisporteperez@GMAIL.COM"
+      ,payId : "cgVJcuPB3k"
+      ,payerId : 114140321
+      ,period : 2020
+      ,phoneNumber : 88583435
+      ,plateClassId : parseInt(this.consultControls.vehicleType.value)
+      ,plateNumber : this.consultControls.plateNumber.value.toUpperCase()
+      ,promoStatus : 0
+      ,quotasId : 2
+      ,requiredBill : "1"
+      ,transactionTypeId : 1
+    })
+    .subscribe()
   }
 
   showDetail(data?:any){
@@ -325,6 +374,10 @@ export class MarchamosComponent implements OnInit {
         }, {width: 376, height: 368, disableClose: false});
         this.popupShowDetail.afterClosed();
         // .subscribe(modal => this.responseResult.message = modal.message);
+      }
+
+      payWithQuotesAndSecure(){
+
       }
 
 
