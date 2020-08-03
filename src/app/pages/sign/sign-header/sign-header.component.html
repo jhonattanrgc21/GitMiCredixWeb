@@ -8,18 +8,16 @@
       lugar.</span>
   </div>
 
-  <div class="sign__header__buttons" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
-    <button [fxHide]="deviceInfo.os !== 'Android' && isTablet" fxShow mat-button>
+  <div class="sign__header__buttons" fxFlex fxLayout="row" fxLayoutAlign="flex-start center" fxLayoutGap="16px">
+    <button mat-button>
       <img alt="Google Play Store" src="assets/images/google-play-badge.png">
     </button>
-    <button [fxHide]="(deviceInfo.os !== 'Mac') && isTablet" fxShow mat-button>
+    <button mat-button>
       <img alt="App Store" src="assets/images/appStore.png">
     </button>
   </div>
 
-  <span fxFlex></span>
-
-  <button (click)="close = true" class="sign__header__close-btn" fxFlexAlign="start" mat-icon-button>
+  <button (click)="close = true" class="sign__header__close-btn" mat-icon-button>
     <mat-icon svgIcon="cancel"></mat-icon>
   </button>
 </header>
@@ -28,7 +26,7 @@
 
   <mat-icon class="sign__header-tablet__icon" svgIcon="mobile_icon"></mat-icon>
 
-  <div class="sign__header-tablet__content" fxLayout="column" fxLayoutAlign="center start">
+  <div class="sign__header-tablet__content" fxFlex fxLayout="column" fxLayoutAlign="center flex-start">
     <div class="sign__header-tablet__msg" fxLayout="column">
       <span>App MiCredix</span>
       <span>Descargue la aplicación móvil para tener acceso a sus finanzas</span>
@@ -42,13 +40,6 @@
       </button>
     </div>
   </div>
-
-
-  <div fxLayout="row">
-
-  </div>
-
-  <span fxFlex></span>
 
   <button (click)="close = true" class="sign__header-tablet__close-btn" fxFlexAlign="center" mat-icon-button>
     <mat-icon svgIcon="cancel"></mat-icon>
