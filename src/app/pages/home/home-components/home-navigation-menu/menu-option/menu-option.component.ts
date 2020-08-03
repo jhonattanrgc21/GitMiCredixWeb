@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {HomeService} from '../../home.service';
 import {HomeNavigationMenuService} from '../home-navigation-menu.service';
+import {HomeService} from '../../../home.service';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'credix-menu-option',
+  selector: 'app-menu-option',
   templateUrl: './menu-option.component.html',
   styleUrls: ['./menu-option.component.scss']
 })

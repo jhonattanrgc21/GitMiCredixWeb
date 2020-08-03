@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {HomeService} from '../../home.service';
-import {Message} from '../../../../shared/models/Message';
 import {HomeNavigationMenuService} from '../home-navigation-menu.service';
-import {ModalService} from '../../../../core/services/modal.service';
 import {ModalMessagesComponent} from './modal-messages/modal-messages.component';
+import {Message} from '../../../../../shared/models/Message';
+import {HomeService} from '../../../home.service';
+import {ModalService} from '../../../../../core/services/modal.service';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'credix-menu-messages',
+  selector: 'app-menu-messages',
   templateUrl: './menu-messages.component.html',
   styleUrls: ['./menu-messages.component.scss']
 })
@@ -55,7 +54,7 @@ export class MenuMessagesComponent implements OnInit {
         type: message.type
       }));
 
-      this.hasNewMessage = this.messages.find(messages => messages.readDate === null) !== null;
+      this.hasNewMessage = this.messages.find(messages => !messages.readDate) instanceof Message;
     });
   }
 

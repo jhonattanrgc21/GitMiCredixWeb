@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {StorageService} from '../../../../core/services/storage.service';
+import {StorageService} from '../../../../../core/services/storage.service';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'credix-menu-header',
+  selector: 'app-menu-header',
   templateUrl: './menu-header.component.html',
   styleUrls: ['./menu-header.component.scss']
 })
