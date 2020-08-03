@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   isTablet = false;
+  options = {autoHide: false, scrollbarMinSize: 100};
 
   constructor(private breakpointObserver: BreakpointObserver,
               private storageService: StorageService,

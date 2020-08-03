@@ -15,12 +15,7 @@ export class MenuMessagesComponent implements OnInit {
   messages: Message[] = [];
   testMessages = TESTING_MESSAGES;
   hasNewMessage = false;
-  scrollBarOptions = {
-    overflowBehavior: {
-      x: 'hidden',
-      y: 'scroll'
-    }
-  };
+  options = {autoHide: false, scrollbarMinSize: 100};
 
   constructor(private homeService: HomeService,
               private homeNavigationMenuService: HomeNavigationMenuService,

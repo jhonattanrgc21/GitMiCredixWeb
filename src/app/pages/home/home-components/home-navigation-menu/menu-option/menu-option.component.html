@@ -1,4 +1,4 @@
-<overlay-scrollbars [options]="scrollBarOptions" class="menu-options" fxLayout="column">
+<ngx-simplebar [options]="options" class="menu-options" fxLayout="column">
   <div *ngFor="let menu of menus, let index = index, let first = first"
        [ngClass]="{
         'is-selected' : menuSelected == menu.id,
@@ -23,4 +23,4 @@
       </ng-container>
     </div>
   </div>
-</overlay-scrollbars>
+</ngx-simplebar>

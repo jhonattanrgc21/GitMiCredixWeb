@@ -7,8 +7,8 @@
     </button>
   </div>
 
-  <overlay-scrollbars *ngIf="messages.length > 0 else noMessagesTemplate" [options]="scrollBarOptions"
-                      class="menu_messages__overlay-scrollbars">
+  <ngx-simplebar *ngIf="messages.length > 0 else noMessagesTemplate" [options]="options"
+                 class="menu_messages__overlay-scrollbar" fxLayout="column">
     <ng-container *ngFor="let message of  messages, let last = last, let index = index">
       <a (click)="openMessagesModal(index)" [class.is-read]="message.read || message.readDate"
          class="menu_messages__message-container"
@@ -22,7 +22,7 @@
       </a>
       <mat-divider *ngIf="!last" class="menu-options__line"></mat-divider>
     </ng-container>
-  </overlay-scrollbars>
+  </ngx-simplebar>
 
   <ng-template #noMessagesTemplate>
     <credix-result-notification message="No tiene mensajes en este momento" status="info"></credix-result-notification>

@@ -10,12 +10,7 @@ import {HomeService} from '../../../home.service';
 })
 export class MenuOptionComponent implements OnInit {
   menus = menus;
-  scrollBarOptions = {
-    overflowBehavior: {
-      x: 'hidden',
-      y: 'scroll'
-    }
-  };
+  options = {autoHide: false, scrollbarMinSize: 100};
   menuSelected = 1;
   submenuSelected = 0;
   openSubmenu = false;

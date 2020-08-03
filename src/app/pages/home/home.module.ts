@@ -16,6 +16,7 @@ import {CredixShareButtonModule} from '../../shared/components/credix-share-butt
 import {ModalService} from '../../core/services/modal.service';
 import {CredixResultNotificationModule} from '../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.module';
+import {SimplebarAngularModule} from 'simplebar-angular';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup
     OverlayscrollbarsModule,
     CredixShareButtonModule,
     CredixResultNotificationModule,
-    CredixPopupAlternativeModule
+    CredixPopupAlternativeModule,
+    SimplebarAngularModule
   ],
   providers: [
     HomeService,
