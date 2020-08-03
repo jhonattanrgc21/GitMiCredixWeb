@@ -85,7 +85,8 @@ export class LandingComponent implements OnInit {
           ibanAccountsTag: response.tagsHome.tags.find(tag => tag.description === 'pago.link.cuentasiban').value,
           colonesTag: response.tagsHome.tags.find(tag => tag.description === 'pago.table.header.colones').value,
           dollarsTag: response.tagsHome.tags.find(tag => tag.description === 'pago.table.header.dolares').value,
-          ibanCopiedTag: response.tagsHome.tags.find(tag => tag.description === 'pago.popup.message.success.copy').value
+          colonesIbanCopiedTag: response.tagsHome.tags.find(tag => tag.description === 'pago.popup.message.success.copy').value,
+          dollarsIbanCopiedTag: 'Cuenta IBAN dólares copiada'
         };
 
         this.paymentDetailsTags = {

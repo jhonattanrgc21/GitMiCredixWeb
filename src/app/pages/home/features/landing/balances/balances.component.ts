@@ -21,7 +21,8 @@ export class BalancesComponent implements OnInit, OnChanges {
     ibanAccountsTag: 'Cuentas IBAN',
     colonesTag: 'Colones',
     dollarsTag: 'Dólares',
-    ibanCopiedTag: 'Cuenta IBAN copiada'
+    colonesIbanCopiedTag: 'Cuenta IBAN en colones copiada',
+    dollarsIbanCopiedTag: 'Cuenta IBAN en dólares copiada',
   };
   @Output() cardChanged = new EventEmitter<number>();
   cardFormControl = new FormControl(null, []);
@@ -51,8 +52,8 @@ export class BalancesComponent implements OnInit, OnChanges {
     return `${value.substr(value.length - 8, 4)} ${value.substr(value.length - 4, value.length)}`;
   }
 
-  copyIbanAccount() {
-    this.toastService.show({text: this.balancesTag.ibanCopiedTag, type: 'success'});
+  copyIbanAccount(text: string) {
+    this.toastService.show({text, type: 'success'});
   }
 
   ngOnChanges(changes: SimpleChanges): void {
