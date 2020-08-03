@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   urlCanales: 'https://qacanalesbe.credix.com/api/canalesbe/',
-  urlMarchamos: 'http://',
+  urlMarchamos: 'https://qamarchamoscore.credix.com/',
   urlIncomex: 'http://',
   channelId: 102
 };

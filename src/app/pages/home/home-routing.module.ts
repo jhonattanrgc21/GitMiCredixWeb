@@ -12,6 +12,10 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./features/landing/landing.module.js').then(m => m.LandingModule)
+      },
+      {
+        path: 'marchamos',
+        loadChildren: () => import('./features/marchamos/marchamos.module.js').then(m => m.MarchamosModule)
       }
     ]
   }
