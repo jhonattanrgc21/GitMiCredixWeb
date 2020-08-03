@@ -22,7 +22,7 @@ export class SignInComponent implements OnInit {
     identification: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required])
   });
-  newDeviceformGroup: FormGroup = new FormGroup(
+  newDeviceFormGroup: FormGroup = new FormGroup(
     {
       otp: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
@@ -51,7 +51,7 @@ export class SignInComponent implements OnInit {
   }
 
   get g() {
-    return this.newDeviceformGroup.controls;
+    return this.newDeviceFormGroup.controls;
   }
 
   ngOnInit(): void {
@@ -103,7 +103,7 @@ export class SignInComponent implements OnInit {
             hideCloseButton: false,
             title: 'Validación de Identidad'
           },
-          {width: 376, height: 623, disableClose: true});
+          {width: 376, height: 623, disableClose: true, panelClass: 'new-device-panel'});
         break;
       default:
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
@@ -156,7 +156,7 @@ export class SignInComponent implements OnInit {
       validateToken: 1,
       usernameSecurity: 'sts_sac',
       passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
-      confirmationCode: this.newDeviceformGroup.get('otp').value
+      confirmationCode: this.newDeviceFormGroup.get('otp').value
     }).subscribe(data => {
       console.log(data.toString());
       if (data.type === 'success') {

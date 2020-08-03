@@ -78,4 +78,3 @@ export interface DialogOptions {
   height?: number;
   panelClass?: string;
 }
-

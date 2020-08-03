@@ -31,7 +31,7 @@
 
 </div>
 
-<ng-template class="modal" #sessionActiveTemplate>
+<ng-template #sessionActiveTemplate>
   <div class="h-100" fxLayout="column">
     <credix-result-notification class="mb-24px"
                                 message="Se detectó una sesión activa, presione continuar para cerrarla y seguir en esta."
@@ -46,26 +46,32 @@
 
 
 <ng-template #newDeviceTemplate class="modal">
-  <div class="h-100" fxLayout="column" fxLayoutAlign="space-between">
+  <div class="h-100" fxLayout="column" fxLayoutAlign="space-between center">
     <p class="mt-16px">
       Por su seguridad le hemos enviado un código de verificación vía SMS al teléfono registrado: {{phone}}.
     </p>
-    <form [formGroup]="newDeviceformGroup">
-      <credix-code-input [(codeFormControl)]="g.otp" [length]="6" class="w-30">
+
+    <form [formGroup]="newDeviceFormGroup" class="w-100">
+      <credix-code-input [(codeFormControl)]="g.otp" [length]="6">
       </credix-code-input>
       <mat-error *ngIf="showErrorMessage" class="error-label">
         {{ message }}
       </mat-error>
     </form>
-    <span class="">¿No ha recibido el código?<br>
+
+    <div class="w-100" fxLayout="column" fxLayoutAlign="center center">
+      <span>¿No ha recibido el código?</span>
       <credix-link-button (click)="forwardOtp()" text="Enviar nuevamente"></credix-link-button>
-    </span>
-    <p class="mt-14px f8">
+    </div>
+
+
+    <p class="mt-14px f-14px">
       Si este no es su teléfono o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX
       <credix-link-button text="2227-3349">()</credix-link-button>
       o visite una de nuestras sucursales para solicitar el cambio.
     </p>
-    <credix-button (buttonClick)="validateOtp()" [disabled]="newDeviceformGroup.invalid" class="w-100"
+
+    <credix-button (buttonClick)="validateOtp()" [disabled]="newDeviceFormGroup.invalid" class="w-100"
                    text="Ingresar"></credix-button>
   </div>
 </ng-template>
