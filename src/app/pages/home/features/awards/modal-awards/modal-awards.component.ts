@@ -1,6 +1,4 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {StorageService} from '../../../../../core/services/storage.service';
-import {HttpService} from '../../../../../core/services/http.service';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
@@ -9,9 +7,8 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
   styleUrls: ['./modal-awards.component.scss'],
 })
 export class ModalAwardsComponent implements OnInit {
-
+  options = { autoHide: false };
   config: any;
-  collection = {data: []};
   userChallenges = {
     descriptionOne: '',
     descriptionTwo: '',
@@ -21,27 +18,13 @@ export class ModalAwardsComponent implements OnInit {
     titleTwo: '',
     type: '',
   };
-  public maxSize = 7;
-  public directionLinks = true;
-  public autoHide = false;
-  public responsive = true;
-  public labels: any = {
-    previousLabel: '',
-    nextLabel: '',
-    screenReaderPaginationLabel: 'Pagination',
-    screenReaderPageLabel: 'page',
-    screenReaderCurrentLabel: `You're on page`
-  };
 
   constructor(
-    private storageService: StorageService,
-    private httpServide: HttpService,
     @Inject(MAT_DIALOG_DATA) public data
   ) {
   }
 
   ngOnInit(): void {
-    console.log(this.data.data);
     this.config = {
       id: 'custom',
       itemsPerPage: 1,

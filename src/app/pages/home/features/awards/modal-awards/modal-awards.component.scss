@@ -1,8 +1,15 @@
 .premios {
 
+  &__bar{
+    height: calc(100% - 3px);
+    width: 376px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   &__content-div {
     width: 336px;
-    margin: 16px 20px 3px 16px;
+    margin: 16px auto 3px auto;
     background-color: #FFFFFF;
     border-radius: 8px 8px 0px 0px;
     text-align: center;
@@ -80,6 +87,7 @@
   width: 376px;
   height: 425px;
   transform: translateY(-18px);
+  overflow: hidden;
 }
 
 mat-slider {
