@@ -9,6 +9,7 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {HttpService} from '../../../../core/services/http.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {Router} from '@angular/router';
+import {CredixToastService} from '../../../../core/services/credix-toast.service';
 
 
 @Component({
@@ -21,21 +22,36 @@ export class SignInComponent implements OnInit {
     identification: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required])
   });
+  newDeviceformGroup: FormGroup = new FormGroup(
+    {
+      otp: new FormControl('', [Validators.required, Validators.minLength(6)])
+    });
   hide = true;
   identificationMask = '0-0000-0000';
   sessionActivateModal: MatDialogRef<any>;
+  newDeviceModal: MatDialogRef<any>;
+  showErrorMessage = false;
+  message = 'El código ingresado es erróneo. Inténtelo de nuevo.';
+  forward = false;
+  phone = '';
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
+  @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
 
   constructor(private securityService: SecurityService,
               private modalService: ModalService,
               private httpService: HttpService,
               private storageService: StorageService,
-              private router: Router) {
+              private router: Router,
+              private toastService: CredixToastService) {
 
   }
 
   get f() {
     return this.signInformGroup.controls;
+  }
+
+  get g() {
+    return this.newDeviceformGroup.controls;
   }
 
   ngOnInit(): void {
@@ -49,12 +65,16 @@ export class SignInComponent implements OnInit {
       deviceIdentifier: 1213123134,
       typeIncome: 2
     }).subscribe(data => {
-      if (data.titleOne === 'success') {
-        this.storageService.setCurrentSession(data);
-        this.router.navigate(['/home']).then();
-      } else if (data.titleOne === 'warn' && data.json.message === 'El usuario ya tiene una sesion activa') {
-        this.open('session-activate');
-      }
+        if (data.titleOne === 'success') {
+          this.storageService.setCurrentSession(data);
+          this.deviceInfo();
+        } else if (data.titleOne === 'warn') {
+          if (data.json.message === 'El usuario ya tiene una sesion activa') {
+            this.open('session-activate');
+          }
+        } else if (data.titleOne === 'error') {
+
+        }
       }
     );
   }
@@ -63,7 +83,7 @@ export class SignInComponent implements OnInit {
     return this.signInformGroup.controls[controlName].hasError(errorName);
   }
 
-  open(modal: 'sign-up' | 'forgot-pass' | 'session-activate') {
+  open(modal: 'sign-up' | 'forgot-pass' | 'session-activate' | 'new-device') {
     switch (modal) {
       case 'sign-up':
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
@@ -76,6 +96,14 @@ export class SignInComponent implements OnInit {
       case 'session-activate':
         this.sessionActivateModal = this.modalService.open({template: this.sessionActiveTemplate, hideCloseButton: true},
           {width: 376, height: 452, disableClose: true, panelClass: 'sign-in-result-panel'});
+        break;
+      case 'new-device':
+        this.newDeviceModal = this.modalService.open({
+            template: this.newDeviceTemplate,
+            hideCloseButton: false,
+            title: 'Validación de Identidad'
+          },
+          {width: 376, height: 623, disableClose: true});
         break;
       default:
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
@@ -100,5 +128,97 @@ export class SignInComponent implements OnInit {
     );
   }
 
+  sendOtp() {
+    this.httpService.post('canales', 'security/getdatamaskednameapplicantsendotp', {
+      identification: this.signInformGroup.get('identification').value,
+      channelId: 102,
+      typeIdentification: 1
+    }).subscribe(data => {
+      if (data.type === 'success') {
+        if (this.forward === false) {
+          this.phone = data.phone;
+          this.open('new-device');
+        } else {
+          this.toastService.show({text: 'SMS enviado nuevamente', type: 'success'});
+        }
+      }
+      if (data.type === 'error') {
+        this.phone = '88**-**88';
+        this.open('new-device');
+      }
+    });
+  }
+
+  validateOtp() {
+    this.httpService.post('canales', 'security/validateonetimepassword', {
+      channelId: 102,
+      userId: 12345,
+      validateToken: 1,
+      usernameSecurity: 'sts_sac',
+      passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
+      confirmationCode: this.newDeviceformGroup.get('otp').value
+    }).subscribe(data => {
+      console.log(data.toString());
+      if (data.type === 'success') {
+        this.saveDevice();
+      } else {
+        this.showErrorMessage = data.descriptionOne;
+        console.log('error: ' + data.descriptionOne);
+      }
+    });
+  }
+
+  saveDevice() {
+    this.httpService.post('canales', 'channels/savedevice', {
+      channelId: 102,
+      deviceIdentification: '12345',
+      platform: 1,
+      uuid: 12345,
+      carrierName: 'AT&T',
+      platformVersion: '8.2.3',
+      manufacturer: 'Xiaomi',
+      model: 'Redmi note 8 pro',
+      isoCountryCode: 'VE',
+      mobileNetworkCode: '123',
+      mobileCountryCode: '123',
+      numberPhone: '1234567890',
+      isActive: '1'
+    }).subscribe(data => {
+      console.log(data.toString());
+      if (data.type === 'success') {
+        this.newDeviceModal.close();
+        this.router.navigate(['/home']).then();
+      } else {
+        this.newDeviceModal.close();
+        this.router.navigate(['/home']).then();
+      }
+    });
+  }
+
+  forwardOtp() {
+    this.forward = true;
+    this.sendOtp();
+  }
+
+  deviceInfo() {
+    this.forward = false;
+    this.httpService.post('canales', 'channels/getdeviceinfo', {
+      channelId: 102,
+      uuid: 12345
+    }).subscribe(data => {
+      console.log(data.toString());
+      console.log(data.id);
+      if (data.type === 'success' && (data.id === 0 || data.id === 2)) {
+        console.log(1);
+        this.sendOtp();
+      } else if (data.type === 'success' && data.id === 1) {
+        console.log(2);
+        this.router.navigate(['/home']).then();
+      } else if (data.type === 'error') {
+        console.log(3);
+        this.router.navigate(['/home']).then();
+      }
+    });
+  }
 
 }
