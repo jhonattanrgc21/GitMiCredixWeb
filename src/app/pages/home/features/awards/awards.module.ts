@@ -19,6 +19,7 @@ import {CredixCardsModule} from '../../../../shared/directives/credix-cards/cred
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {ModalAwardsComponent} from './modal-awards/modal-awards.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import {SimplebarAngularModule} from 'simplebar-angular';
 
 const routes: Routes = [
   {
@@ -45,7 +46,8 @@ const routes: Routes = [
     CredixProgressBarModule,
     CredixCardsModule,
     CredixLinkButtonModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    SimplebarAngularModule
 
   ],
   providers: [ModalService]

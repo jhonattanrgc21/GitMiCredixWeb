@@ -1,5 +1,4 @@
 .awards {
-
   &__warning-card {
     margin-top: -16px;
     @media screen and (max-width: 1999px) {
@@ -23,11 +22,12 @@
   &__warning-icon {
     width: 100px;
     height: 100px;
-    color: #5BC0DE;
+    color: #5bc0de;
   }
 
-  &__warning-msg-f, &__warning-msg {
-    color: #3E3E3E;
+  &__warning-msg-f,
+  &__warning-msg {
+    color: #3e3e3e;
     font-size: 24px;
     font-weight: bold;
     text-align: center;
@@ -67,7 +67,7 @@
     }
 
     &__card-progress {
-      background-image: url("../../../../../assets/images/Asset\ 1@4x@2x.png") !important;
+      background-image: url("../../../../../assets/images/award_banner.png") !important;
       background-size: cover !important;
       height: 279px;
     }
@@ -119,9 +119,7 @@
         text-align: left;
       }
 
-
       &__actions {
-
         &__fecha {
           font-size: 24px;
           font-weight: bold;
@@ -131,7 +129,6 @@
           @media screen and (min-width: 1200px) {
             margin-bottom: 21px;
           }
-
         }
 
         &__entrega {
@@ -161,7 +158,6 @@
       &__actions {
         /*position:absolute;
         bottom:16px;*/
-
 
         &__100 {
           font-size: 32px;
