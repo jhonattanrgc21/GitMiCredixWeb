@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component,EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -11,6 +11,7 @@ export class CredixCheckboxButtonComponent implements OnInit {
   @Input() checked: boolean;
   @Input() value;
   @Input() disable: boolean;
+  @Output() isChecked = new EventEmitter<boolean>();
 
   constructor() {
   }
@@ -18,4 +19,8 @@ export class CredixCheckboxButtonComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isCheckedValue(event, eventType: boolean){
+    this.checked = eventType ? event : event.checked;
+    this.isChecked.emit(this.checked);
+  }
 }

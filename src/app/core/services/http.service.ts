@@ -29,8 +29,8 @@ export class HttpService {
   post(service: 'canales' | 'marchamos' | 'incomex', uri: string, body = {}, params = []): Observable<any> {
     const headers = new HttpHeaders()
       .append('Accept', 'application/json')
-      .append('x-auth-token','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NDQxNyIsImV4cCI6MTU5NjA2MDczMH0.ed3geNAb2y2np7tEVLF6ydVwzRqGIH1-BxBDWEoHou9LuoPetMIFKd2dDuRbiSEg9ZBSHoOWXzAVw-kn-HbjHg')
-      .append('Content-Type', 'text/json');
+      .append('Content-Type', 'text/json')
+      .append('x-auth-token','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NDQxNyIsImV4cCI6MTU5NjMwNzk5OH0.0DtKkUAAI1XHbXu4_BQzvsFugB1bQLT8NO4VzQPukMXIEoYfd4vitgNTOUt8tygwRtDhcvwnqsgVBnm7f_wpNQ');
 
     let httpParams = new HttpParams();
     params.forEach(p => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ModalService } from 'src/app/core/services/modal.service';
@@ -7,6 +7,7 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { HttpHeaders } from '@angular/common/http';
 import { MatDialogRef } from '@angular/material/dialog';
 import { PopupMarchamosDetailComponent } from './popup-marchamos-detail/popup-marchamos-detail.component';
+import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-marchamos',
@@ -247,7 +248,7 @@ export class MarchamosComponent implements OnInit {
 
 
   consultForm: FormGroup = new FormGroup({
-    VehicleType: new FormControl('',[Validators.required]),
+    vehicleType: new FormControl('',[Validators.required]),
     plateNumber: new FormControl('',[Validators.required])
   });
 
@@ -255,11 +256,13 @@ export class MarchamosComponent implements OnInit {
     responsabilityCivil: new FormControl('',[]),
     roadAssistance: new FormControl('',[]),
     moreProtection: new FormControl('',[]),
+    coutesToPay: new FormControl('',[]),
     firstCouteToPayIn: new FormControl('',[Validators.required])
   });
 
   pickUpForm: FormGroup = new FormGroup ({
-
+    email: new FormControl('',[]),
+    pickUp: new FormControl('',[])
   });
 
   confirmForm: FormGroup = new FormGroup ({
@@ -271,38 +274,53 @@ export class MarchamosComponent implements OnInit {
 
   constructor(
     private httpService: HttpService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private element: ElementRef
     ) { }
 
   ngOnInit(): void {
     this.getVehicleType();
   }
 
-  
+   get consultControls(){ return this.consultForm.controls; }
+
    get secureAndCoutesControls(){return this.secureAndCoutesForm.controls;}
 
    get confirmControls() { return this.confirmForm.controls;}
 
-  consult(): boolean{
-    return this.vehicleInformation = true;
+  consult(){
+    this.httpService.post('marchamos','pay/vehicleconsult', {
+      channelId: 107,
+      plateClassId: this.consultControls.vehicleType.value.toString(),
+      plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
+      aditionalProducts:[]
+    })
+    .subscribe( response => console.log(response));
+    this.vehicleInformation = true;
   }
 
   continue(){
     this.stepper.next();
   }
 
-  allChecked(){
-    return this.isChecked = !this.isChecked;
+  allChecked(event?:any){
+    console.log(event);
+    return this.isChecked = event;
+  }
+
+  getValueSlider(event?:EventEmitter) {
+    console.log(event);
   }
 
   getVehicleType(){
+        // x-auth-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NDQxNyIsImV4cCI6MTU5NjMwNzk5OH0.0DtKkUAAI1XHbXu4_BQzvsFugB1bQLT8NO4VzQPukMXIEoYfd4vitgNTOUt8tygwRtDhcvwnqsgVBnm7f_wpNQ
     this.httpService.post('marchamos', 'pay/platetypes', {channelId: 102}).subscribe( response => console.log(response));
   }
 
   showDetail(data?:any){
      this.popupShowDetail =  this.modalService.open({
-          component: PopupMarchamosDetailComponent, 
-          hideCloseButton: false, 
+          component: PopupMarchamosDetailComponent,
+          hideCloseButton: false,
           data: data
         }, {width: 376, height: 368, disableClose: false});
         this.popupShowDetail.afterClosed();
@@ -311,6 +329,6 @@ export class MarchamosComponent implements OnInit {
 
 
       submit(){
-        
+
       }
   }

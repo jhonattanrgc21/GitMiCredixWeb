@@ -1,25 +1,25 @@
-<div 
-class="marchamos" 
+<div
+class="marchamos"
 fxLayout="column">
     <h1 class="marchamos__title">Marchamo</h1>
 
     <credix-stepper #stepper class="marchamos__stepper">
-        <cdk-step [label]="'Consultar'" 
-        [stepControl]="consultForm" 
-        fxLayout="column" 
+        <cdk-step [label]="'Consultar'"
+        [stepControl]="consultForm"
+        fxLayout="column"
         fxLayoutAlign="space-around">
 
             <div class="marchamos__container">
-              <form [formGroup]="consultForm" 
+              <form [formGroup]="consultForm"
               fxLayout="row"
-              class="marchamos__form--step-1" 
+              class="marchamos__form--step-1"
               fxLayoutGap="150px">
               <h3 class="marchamos__sub-title">Vehículo a consultar</h3>
-              
+
               <div fxLayout="column" class="marchamos__inputs">
                 <mat-form-field appearance="standard">
                   <mat-label>Tipo de vehículo</mat-label>
-                  <mat-select formControlName="VehicleType">
+                  <mat-select formControlName="vehicleType">
                     <mat-option *ngFor="let vehicleTypes of vehicleType" [value]="vehicleTypes.type">
                       {{ vehicleTypes.description}}
                     </mat-option>
@@ -36,7 +36,7 @@ fxLayout="column">
                 </mat-form-field>
 
               </div>
-            
+
               </form>
               <mat-divider *ngIf="vehicleInformation"></mat-divider>
               <div  *ngIf="vehicleInformation" fxLayout="row" class="marchamos__information" fxLayoutGap="119px">
@@ -56,23 +56,23 @@ fxLayout="column">
           </div>
 
             <mat-divider></mat-divider>
-            <div class="marchamos__buttons" 
+            <div class="marchamos__buttons"
             xLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
 
-              <credix-button 
-              text="Consulta" 
+              <credix-button
+              text="Consulta"
               type="secondary"
               [disabled]="!consultForm.valid"
               (buttonClick)="consult()">
               </credix-button>
 
-              <credix-button  
+              <credix-button
               (buttonClick)="continue()"
               [disabled]="!consultForm.valid"
               text="Continuar"></credix-button>
             </div>
           </cdk-step>
-      
+
           <cdk-step [label]="'Seguros y. cuotas'" [stepControl]="secureAndCoutesForm" fxLayout="column">
 
             <div fxLayout="row" class="marchamos__payment-information">
@@ -84,18 +84,18 @@ fxLayout="column">
                   </div>
             </div>
 
-            
+
 
             <mat-divider></mat-divider>
             <form [formGroup]="secureAndCoutesForm">
                 <div fxLayout="row" class="marchamos__payment-information secure">
-                  <label class="marchamos__label-2">Seguros opcionales</label> 
+                  <label class="marchamos__label-2">Seguros opcionales</label>
                   <div fxLayout="column" style="margin-right: 215px;">
                     <credix-checkbox-button  [checked]="isChecked" [value]="'a'" label="Responsabilidad civil"></credix-checkbox-button>
                     <credix-checkbox-button  [checked]="isChecked" [value]="'b'" label="Asistencia en carretera"></credix-checkbox-button>
                     <credix-checkbox-button  [checked]="isChecked" [value]="'c'" label="Más protección"></credix-checkbox-button>
-                    <credix-checkbox-button  label="Todos" (selectedValueChange)="allChecked()"></credix-checkbox-button>
-                    
+                    <credix-checkbox-button  label="Todos" (isChecked)="allChecked($event)"></credix-checkbox-button>
+
                   </div>
                   <div class="marchamos__prices" fxLayout="column">
                    <span>₡ 8.745,00</span>
@@ -105,11 +105,11 @@ fxLayout="column">
                 </div>
                 <mat-divider></mat-divider>
                 <div fxLayout="row" class="marchamos__payment-information secure">
-                  <label class="marchamos__label-3">Cuotas</label> 
+                  <label class="marchamos__label-3">Cuotas</label>
 
                   <div fxLayout="column">
                     <div class="marchamos__slider">
-                      <credix-slider [(value)]="value" [instructions]="'Deseo dividir este pago en'" [units]="'Cuota'" ></credix-slider>
+                      <credix-slider [(value)]="value" (valueChange)="getValueSlider($event)" [instructions]="'Deseo dividir este pago en'" [units]="'Cuota'" ></credix-slider>
                     </div>
 
                       <label class="marchamos__label-4">Comisión</label>
@@ -131,8 +131,8 @@ fxLayout="column">
                     </div>
                   </div>
 
-                  
-              
+
+
             </form>
             <mat-divider></mat-divider>
             <div  class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
@@ -142,8 +142,8 @@ fxLayout="column">
             </div>
           </cdk-step>
 
-     
-          
+
+
         <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
           <form [formGroup]="pickUpForm" fxLayout="column" class="marchamos__form--step-1" fxLayoutGap="150px">
             <div fxLayout="row" fxLayoutGap="163px" class="marchamos__top-row">
@@ -156,7 +156,7 @@ fxLayout="column">
                     Correo registrado
                   </mat-label>
                   <label>
-                    <input matInput type="email">
+                    <input formControlName="email" matInput type="email">
                   </label>
                 </mat-form-field>
 
@@ -173,20 +173,20 @@ fxLayout="column">
                     <mat-label>
                       Seleccione la más cercana
                     </mat-label>
-                    <mat-select >
+                    <mat-select  formControlName="pickUp">
                       <mat-option *ngFor="let  of " [value]="">
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <credix-radio-button [checked]="false" [value]="2" label="Domicilio" name="x"></credix-radio-button>
+                <credix-radio-button [checked]="false" [value]="2" label="Domicilio" name="a"></credix-radio-button>
                 <div class="marchamos__inputs-hidden">
                   <mat-form-field appearance="standard" credixTextField>
                     <mat-label>
                       Dirección
                     </mat-label>
                     <label>
-                      <input  matInput type="text">
+                      <input formControlName="pickUp" matInput type="text">
                     </label>
                   </mat-form-field>
                 </div>
@@ -208,14 +208,14 @@ fxLayout="column">
         </cdk-step>
 
           <cdk-step [label]="'Confirmar'" >
-            
+
             <div fxLayout="row" class="marchamos__billing">
               <label>Contacto</label>
 
               <div class="marchamos__billing-contact" fxLayout="column">
                 <span>Sergio Marquina</span>
                 <span>sergio.marquina@gmail.com</span>
-                <span>8888-8888</span>  
+                <span>8888-8888</span>
               </div>
             </div>
 
@@ -228,7 +228,7 @@ fxLayout="column">
 
             <mat-divider></mat-divider>
 
-            
+
             <div fxLayout="row" class="marchamos__billing-information">
               <label>Resumen de pago</label>
                       <ul class="marchamos__list">
@@ -240,16 +240,16 @@ fxLayout="column">
                         <li fxLayoutGap="247px"><label class="marchamos__total">Total</label><span>₡ 145.240,00</span></li>
                       </ul>
                   </div>
-                       
-          
+
+
           <mat-divider></mat-divider>
 
             <div fxLayout="row">
-              <div fxLayout="column">
+              <div fxLayout="column" class="marchamos__credix-code">
                 <label>Código MiCredix</label>
                 <p>Ingrese el código generado en la aplicación <credix-link-button text="Código MiCredix" ></credix-link-button></p>
               </div>
-            <form [formGroup]="confirmForm" >
+            <form [formGroup]="confirmForm">
               <credix-code-input
               [(codeFormControl)]="confirmControls.credixCode"
               [length]="6"
@@ -266,7 +266,7 @@ fxLayout="column">
                              text="Finalizar"></credix-button>
             </div>
           </cdk-step>
-        
+
     </credix-stepper>
 
 </div>
