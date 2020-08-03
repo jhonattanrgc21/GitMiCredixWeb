@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -13,10 +13,15 @@ export class CredixRadioButtonComponent implements OnInit {
   @Input() checked: boolean;
   @Input() disabled: boolean;
 
+  @Output() emitRadioButton = new EventEmitter();
+
   constructor() {
   }
 
   ngOnInit(): void {
   }
 
+  isCheckedValue(event){
+    this.emitRadioButton.emit(event);
+  }
 }

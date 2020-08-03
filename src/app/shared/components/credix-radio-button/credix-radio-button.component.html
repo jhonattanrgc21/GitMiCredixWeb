@@ -1,5 +1,5 @@
 <mat-radio-button [checked]="checked" [disabled]="disabled" [name]="name" [value]="value"
-                  class="credix-radio-button">
+                  class="credix-radio-button" (change)="isCheckedValue($event)">
   {{label}}
 </mat-radio-button>
 
