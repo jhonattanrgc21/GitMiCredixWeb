@@ -4,6 +4,7 @@ import {StorageService} from '../../../../../core/services/storage.service';
 import {Card} from '../../../../../shared/models/card.model';
 import {Balances} from '../landing.component';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
+import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 
 @Component({
   selector: 'app-balances',
@@ -20,6 +21,7 @@ export class BalancesComponent implements OnInit, OnChanges {
     ibanAccountsTag: 'Cuentas IBAN',
     colonesTag: 'Colones',
     dollarsTag: 'Dólares',
+    ibanCopiedTag: 'Cuenta IBAN copiada'
   };
   @Output() cardChanged = new EventEmitter<number>();
   cardFormControl = new FormControl(null, []);
@@ -29,7 +31,8 @@ export class BalancesComponent implements OnInit, OnChanges {
   available: number;
   prefix = '₡';
 
-  constructor(private storageService: StorageService) {
+  constructor(private storageService: StorageService,
+              private toastService: CredixToastService) {
     this.cards = this.storageService.getCurrentCards();
     this.cardFormControl.setValue(this.cards.find(card => card.category === 'Principal'));
   }
@@ -46,6 +49,10 @@ export class BalancesComponent implements OnInit, OnChanges {
 
   formatPrincipalCard(value: string): string {
     return `${value.substr(value.length - 8, 4)} ${value.substr(value.length - 4, value.length)}`;
+  }
+
+  copyIbanAccount() {
+    this.toastService.show({text: this.balancesTag.ibanCopiedTag, type: 'success'});
   }
 
   ngOnChanges(changes: SimpleChanges): void {
