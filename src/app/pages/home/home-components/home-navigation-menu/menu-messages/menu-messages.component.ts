@@ -54,12 +54,12 @@ export class MenuMessagesComponent implements OnInit {
         type: message.type
       }));
 
-      this.hasNewMessage = this.messages.find(messages => !messages.readDate) instanceof Message;
+      this.hasNewMessage = this.messages.find(messages => !messages.readDate) !== undefined;
     });
   }
 
   openMessagesModal(index: number) {
-    this.modalService.open({
+    const modal = this.modalService.open({
       component: ModalMessagesComponent, title: 'Mensajes', hideCloseButton: false,
       data: {messages: this.messages, messagesIndex: index}
     }, {
@@ -68,6 +68,10 @@ export class MenuMessagesComponent implements OnInit {
       disableClose: true,
       panelClass: 'messages-result-panel'
     }, 2);
+
+    modal.afterClosed().subscribe(value => {
+      this.hasNewMessage = this.messages.find(messages => !messages.readDate) !== undefined;
+    });
   }
 }
 
