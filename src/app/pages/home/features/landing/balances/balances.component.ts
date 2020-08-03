@@ -12,6 +12,15 @@ import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 })
 export class BalancesComponent implements OnInit, OnChanges {
   @Input() balances: Balances;
+  @Input() balancesTag = {
+    creditLimitTag: 'Límite de crédito',
+    consumedTag: 'Consumido',
+    availableTag: 'Disponible',
+    increaseCreditLimitTag: 'Aumentar límite',
+    ibanAccountsTag: 'Cuentas IBAN',
+    colonesTag: 'Colones',
+    dollarsTag: 'Dólares',
+  };
   cardFormControl = new FormControl(null, []);
   cards: Card[];
   consumed: number;

@@ -1,10 +1,11 @@
 <mat-card class="movements-card" credixCard fxLayout="column" fxLayoutAlign="start center">
-  <h2 class="w-100 mb-16px">Movimientos</h2>
+  <h2 class="w-100 mb-16px">{{movementsTags.titleTag}}</h2>
 
   <mat-table *ngIf="movements && movements.length > 0" [dataSource]="movements" class="w-100">
 
     <ng-container matColumnDef="date">
-      <mat-cell *matCellDef="let element" credixCell> {{element.originDate | dateFormatter: 'alphanumeric'}} </mat-cell>
+      <mat-cell *matCellDef="let element"
+                credixCell> {{convertStringDateToDate(element.originDate) | dateFormatter: 'alphanumeric'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="commerce">

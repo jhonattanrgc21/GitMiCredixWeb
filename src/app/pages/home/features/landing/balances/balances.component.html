@@ -15,38 +15,38 @@
     </mat-option>
   </mat-select>
 
-  <credix-gauge [max]="limit" [min]="0" [prefix]="prefix" [value]="available" label="Disponible">
+  <credix-gauge [label]="balancesTag.availableTag" [max]="limit" [min]="0" [prefix]="prefix" [value]="available">
     <credix-numeric-block [prefix]="prefix" [value]="available" fontSize="20" fontWeight="bold"></credix-numeric-block>
   </credix-gauge>
 
 
   <div class="w-100" fxLayout="row">
-    <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-start">
-      <span class="balances-card__tag">Consumidos</span>
+    <div fxFlex="40" fxLayout="column" fxLayoutAlign="flex-start flex-start">
+      <span class="balances-card__tag">{{balancesTag.consumedTag}}</span>
       <credix-numeric-block [prefix]="prefix" [value]="consumed" fontSize="24" fontWeight></credix-numeric-block>
     </div>
 
-    <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-end">
-      <span class="balances-card__tag">Límite de crédito</span>
+    <div fxFlex="60" fxLayout="column" fxLayoutAlign="flex-start flex-end">
+      <span class="balances-card__tag">{{balancesTag.creditLimitTag}}</span>
       <credix-numeric-block [prefix]="prefix" [value]="limit" fontSize="24" fontWeight></credix-numeric-block>
-      <credix-link-button text="Aumentar límite"></credix-link-button>
+      <credix-link-button [text]="balancesTag.increaseCreditLimitTag"></credix-link-button>
     </div>
   </div>
 
   <mat-divider class="balances-card__divider"></mat-divider>
 
-  <span class="balances-card__tag w-100 mb-8px">Cuentas IBAN</span>
+  <span class="balances-card__tag w-100 mb-8px">{{balancesTag.ibanAccountsTag}}</span>
 
   <div class="w-100" fxLayout="column" fxLayoutGap="4px">
     <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
-      <span>Colones</span>
+      <span>{{balancesTag.colonesTag}}</span>
       <span>CR00000000000000000001</span>
       <button cdkCopyToClipboard="CR00000000000000000001" mat-icon-button>
         <mat-icon svgIcon="content-copy"></mat-icon>
       </button>
     </div>
     <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
-      <span><strong>Dólares</strong></span>
+      <span>{{balancesTag.dollarsTag}}</span>
       <span>CR00000000000000000002</span>
       <button cdkCopyToClipboard="CR00000000000000000002" mat-icon-button>
         <mat-icon svgIcon="content-copy"></mat-icon>

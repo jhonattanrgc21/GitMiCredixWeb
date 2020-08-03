@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {PaymentDetails} from '../landing.component';
+import {ConvertStringDateToDate} from '../../../../../shared/utils';
 
 @Component({
   selector: 'app-payment-details',
@@ -8,8 +9,22 @@ import {PaymentDetails} from '../landing.component';
 })
 export class PaymentDetailsComponent implements OnInit, OnChanges {
   @Input() paymentDetails: PaymentDetails;
+  @Input() paymentDetailsTags = {
+    titleTag: 'Detalle de pago',
+    cutOffTag: 'Corte',
+    maxPaymentDateTag: 'Fecha máxima de pago',
+    colonesTag: 'Colones',
+    dollarsTag: 'Dólares',
+    minTag: 'Mínimo',
+    countedTag: 'Contado',
+    todayTag: 'Hoy'
+  };
   startDate: Date;
   endDate: Date;
+  today: Date;
+  firstLabel: string;
+  secondLabel: string;
+  toggleBarColor = false;
   cashColonesAmount = '0';
   cashDollarsAmount = '0';
   minColonesAmount = '0';
@@ -18,6 +33,7 @@ export class PaymentDetailsComponent implements OnInit, OnChanges {
   prefixDollars = '$';
 
   constructor() {
+    this.today = new Date();
   }
 
   ngOnInit(): void {
@@ -25,11 +41,8 @@ export class PaymentDetailsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.paymentDetails.firstChange) {
-
-      if (this.paymentDetails.nextCutOffDate && this.paymentDetails.nextPaymentDate) {
-        this.setDates(this.paymentDetails.nextCutOffDate, this.paymentDetails.nextPaymentDate);
-      }
-
+      this.setDates(this.paymentDetails.lastCutOffDate, this.paymentDetails.lastPaymentDate,
+        this.paymentDetails.nextCutOffDate, this.paymentDetails.nextPaymentDate);
       this.cashColonesAmount = this.paymentDetails.cashPaymentColones;
       this.cashDollarsAmount = this.paymentDetails.cashPaymentDollars;
       this.minColonesAmount = this.paymentDetails.minPaymentColones;
@@ -37,18 +50,25 @@ export class PaymentDetailsComponent implements OnInit, OnChanges {
     }
   }
 
-  setDates(startDateStr: string, endDateStr: string) {
-    this.startDate = new Date(
-      Number(startDateStr.split('/')[2]),
-      Number(startDateStr.split('/')[1]),
-      Number(startDateStr.split('/')[0])
-    );
+  setDates(lastCutOff: string, lastPayment: string, nextCutOff: string, nextPayment: string) {
+    const lastCutOffDate = ConvertStringDateToDate(lastCutOff);
+    const lastPaymentDate = ConvertStringDateToDate(lastPayment);
+    const nextCutOffDate = ConvertStringDateToDate(nextCutOff);
+    const nextPaymentDate = ConvertStringDateToDate(nextPayment);
 
-    this.endDate = new Date(
-      Number(endDateStr.split('/')[2]),
-      Number(endDateStr.split('/')[1]),
-      Number(endDateStr.split('/')[0])
-    );
+    if (this.today.getTime() > lastPaymentDate.getTime()) {
+      this.startDate = lastPaymentDate;
+      this.endDate = nextCutOffDate;
+      this.firstLabel = this.paymentDetailsTags.maxPaymentDateTag;
+      this.secondLabel = this.paymentDetailsTags.cutOffTag;
+      this.toggleBarColor = true;
+    } else {
+      this.startDate = lastCutOffDate;
+      this.endDate = lastPaymentDate;
+      this.firstLabel = this.paymentDetailsTags.cutOffTag;
+      this.secondLabel = this.paymentDetailsTags.maxPaymentDateTag;
+      this.toggleBarColor = false;
+    }
   }
 
 }

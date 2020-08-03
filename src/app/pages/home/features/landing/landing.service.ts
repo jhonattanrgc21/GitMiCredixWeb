@@ -9,10 +9,16 @@ import {map} from 'rxjs/operators';
 })
 export class LandingService {
   tagsHomePageUri = 'homepage/tagshomepage';
+  tagsHomeUri = 'tags/funcionalitytagshome';
   accountSummaryUri = 'channels/accountsummary';
 
   constructor(private httpService: HttpService, private storageService: StorageService) {
   }
+
+  getHomeTags() {
+    return this.httpService.post('canales', this.tagsHomeUri);
+  }
+
 
   getHomeContent() {
     return this.httpService.post('canales', this.tagsHomePageUri, {
