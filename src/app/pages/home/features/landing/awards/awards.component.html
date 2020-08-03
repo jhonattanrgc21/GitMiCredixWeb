@@ -6,7 +6,7 @@
     <span>{{awards[0].description}}</span>
   </div>
 
-  <button class="awards-card__btn" fxFlexAlign="center" mat-icon-button>
+  <button (click)="goToAwards()" class="awards-card__btn" fxFlexAlign="center" mat-icon-button>
     <mat-icon svgIcon="chevron_right"></mat-icon>
   </button>
 </mat-card>

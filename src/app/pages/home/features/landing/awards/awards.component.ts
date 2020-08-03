@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Awards} from '../landing.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-awards',
@@ -9,10 +10,15 @@ import {Awards} from '../landing.component';
 export class AwardsComponent implements OnInit {
   @Input() awards: Awards[] = [{img: '', title: '', description: ''}];
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
   }
+
+  goToAwards() {
+    this.router.navigate(['/home/awards']).then();
+  }
+
 
 }
