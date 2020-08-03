@@ -112,7 +112,7 @@
   }
 }
 
-::ng-deep.credix-link-button{
+:host ::ng-deep.credix-link-button{
   font-weight: normal !important;
   vertical-align: super;
 }
