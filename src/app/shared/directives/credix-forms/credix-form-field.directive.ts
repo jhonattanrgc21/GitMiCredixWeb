@@ -52,6 +52,11 @@ export class CredixFormFieldDirective implements AfterViewInit {
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelClass), 'color', '#D2D2D2', 1);
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldUnderlineClass), 'background', '#D2D2D2', 1);
     }
+
+    if (this.el.nativeElement.querySelector(this.fieldSuffixClass)) {
+      this.renderer.setAttribute(this.el.nativeElement.querySelector(this.fieldSuffixClass), 'style',
+        `position: absolute; bottom: 16px; right: 8px; padding-bottom: 16px; color: #3e3e3e;`);
+    }
   }
 
   @HostListener('focusin') onFocusIn() {
@@ -65,14 +70,8 @@ export class CredixFormFieldDirective implements AfterViewInit {
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelWrapperClass), 'top', '0', 1);
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.inputClass), 'margin-top', '16px', 1);
 
-
-    if (this.el.nativeElement.classList.contains('mat-form-field-invalid')) {
-      this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelClass), 'color', '#FF4965', 1);
-      this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldRippleClass), 'background-color', '#FF4965', 1);
-    } else {
-      this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelClass), 'color', '#3e3e3e', 1);
-      this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldRippleClass), 'background-color', '#707070', 1);
-    }
+    this.setInvalidStyle();
+    this.setErrorStyle();
   }
 
   @HostListener('focusout') onFocusOut() {
@@ -87,17 +86,39 @@ export class CredixFormFieldDirective implements AfterViewInit {
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelWrapperClass), 'top',
       this.inputEl.value ? '0' : '-16px', 1);
 
+    this.setInvalidStyle();
+    this.setErrorStyle();
+  }
+
+
+  @HostListener('keyup')
+  inputChanged() {
+    this.setInvalidStyle();
+    this.setErrorStyle();
+  }
+
+  setInvalidStyle() {
     if (this.el.nativeElement.classList.contains('mat-form-field-invalid')) {
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelClass), 'color', '#FF4965', 1);
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldRippleClass), 'background-color', '#FF4965', 1);
+
+      if (this.el.nativeElement.querySelector(this.fieldSuffixClass)) {
+        this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldSuffixClass), 'color', '#FF4965', 1);
+      }
     } else {
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelClass), 'color', '#3e3e3e', 1);
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldRippleClass), 'background-color', '#707070', 1);
+
+      if (this.el.nativeElement.querySelector(this.fieldSuffixClass)) {
+        this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldSuffixClass), 'color', '#3e3e3e', 1);
+      }
     }
   }
 
-  @HostListener('keyup')
-  onKeyUp() {
-
+  setErrorStyle() {
+    if (this.el.nativeElement.querySelector(this.errorClass)) {
+      this.renderer.setAttribute(this.el.nativeElement.querySelector(this.errorClass), 'style',
+        'margin-left: 8px; color: #FF4965');
+    }
   }
 }
