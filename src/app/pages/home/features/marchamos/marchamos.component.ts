@@ -8,6 +8,8 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
 import { ConsultVehicle } from 'src/app/shared/models/consultVehicle.models';
 import { Item } from 'src/app/shared/models/item.model';
+import { map } from 'rxjs/operators';
+import { PopupMarchamosNewDirectionComponent } from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
 
 @Component({
   selector: 'app-marchamos',
@@ -18,7 +20,28 @@ export class MarchamosComponent implements OnInit {
 
   vehicleType: VehicleType[];
   consultVehicle: ConsultVehicle;
-  itemProduct: Item[];
+  itemProduct: Item[] = [
+    {
+      responseDescription: "Responsabilidad civil",
+      responseCode: 15,
+      productCode: 5
+    },
+    {
+      responseDescription: "Asistencia en carretera",
+      responseCode: 15,
+      productCode: 6
+    },
+    {
+      responseDescription: "Mas protección",
+      responseCode: 15,
+      productCode: 8
+    },
+    {
+      responseDescription: "Todos.",
+      responseCode: 15,
+      productCode: 10
+    }
+  ];
   wishPayFirstCouteIn: any[] = [
     {
       description: 'Enero 2020',
@@ -69,12 +92,22 @@ export class MarchamosComponent implements OnInit {
       value: 'diciembre'
     }
   ];
+
+  delivery: any = {
+    deliveryName: 'Sergio Marquina',
+    deliveryNumber:'8888-8888',
+    deliveryLocation:'Del cruce de Llorente de Tibas, 300 metros Este, Colima, Tibas, San José.'
+  }
+
   vehicleInformation: boolean;
-  totalMount = '₡ 114.996,00';
+  totalMount:string = '₡ 114.996,00';
   value = 1;
   popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
+  popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent>;
   isChecked = false;
   sliderChangedValue = false;
+  radioButtonsChangedValue: any;
+  amount:number;
 
 
   consultForm: FormGroup = new FormGroup({
@@ -99,7 +132,6 @@ export class MarchamosComponent implements OnInit {
 
 
   @ViewChild('stepper') stepper: CdkStepper;
-  @ViewChild('checkBoxValue') checkBoxValue: any;
 
   constructor(
     private httpService: HttpService,
@@ -124,8 +156,15 @@ export class MarchamosComponent implements OnInit {
     return this.confirmForm.controls;
   }
 
+  get amountValue() {
+    return this.amount;
+  }
+
+
+
   ngOnInit(): void {
     this.getVehicleType();
+    this.getPickUpStore();
   }
 
   
@@ -141,17 +180,18 @@ export class MarchamosComponent implements OnInit {
   getValueSlider(event?) {
     console.log(event);
     this.value = event;
+    this.secureAndQuotesControls.quotesToPay.patchValue(this.value);
   }
 
   getValueCheckBoxes(event: any, all?:string) {
     console.log(event);
-    console.log(this.checkBoxValue);
     const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
-    if (all === 'all') {
+    if (event.source.id === 'mat-checkbox-4') {
       this.allChecked(event.checked);  
     }
-    
+     (event.checked) ? this.sliderChangedValue = true: false;
 
+     console.log(event.source._elementRef.nativeElement.id);
     if (event.checked) {
       checkArray.push(new FormGroup({
         productCode:new FormControl(event.source.value)
@@ -169,7 +209,14 @@ export class MarchamosComponent implements OnInit {
   }
 
   getRadioButtonsChecked(event){
-    console.log(event);
+    this.radioButtonsChangedValue = event.value;
+  }
+
+  newDirectionChecked(event){
+    if (event.value ==='newDirection' && event.source.checked) {
+      this.newDirection();
+    }
+
   }
 
   consult() {
@@ -177,12 +224,21 @@ export class MarchamosComponent implements OnInit {
       channelId: 107,
       plateClassId: this.consultControls.vehicleType.value.toString(),
       plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
-      aditionalProducts: []
+      aditionalProducts: [
+        {
+          "productCode": 5
+        },
+        {
+          "productCode": 6
+        },
+        {
+          "productCode": 8
+        }
+      ]
     })
       .subscribe(response => { 
         console.log(response);
           this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
-          this.itemProduct = response.REQUESTRESULT.soaResultVehicleConsult.item;
         (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
       });
     
@@ -193,6 +249,21 @@ export class MarchamosComponent implements OnInit {
     .subscribe(response => {
         this.vehicleType = response.plateTypesList;
     });
+  }
+
+  getPickUpStore() {
+    this.httpService.post('marchamos', 'pay/deliveryplaces',{channelId: 102})
+    .subscribe(response => {
+      console.log(response);
+    });
+  }
+
+  getCommission(){
+    this.httpService.post('marchamos', 'pay/calculatecommission',{
+      channelId: 107,
+      amount:this.amountValue,
+      commissionQuotasId: this.secureAndQuotesControls.quotesToPay.value
+    }).subscribe(response => { console.log(response);});
   }
 
   secureToPay() {
@@ -230,10 +301,19 @@ export class MarchamosComponent implements OnInit {
     this.popupShowDetail = this.modalService.open({
       component: PopupMarchamosDetailComponent,
       hideCloseButton: false,
-      data
+      data:data
     }, {width: 376, height: 368, disableClose: false});
     this.popupShowDetail.afterClosed();
     // .subscribe(modal => this.responseResult.message = modal.message);
+  }
+
+  newDirection() {
+    this.popupNewDirection = this.modalService.open({
+      component: PopupMarchamosNewDirectionComponent,
+      hideCloseButton: false,
+      title:'Nueva dirección de entrega'
+    },{width: 380, height: 614, disableClose: false});
+    this.popupNewDirection.afterClosed();
   }
 
   payWithQuotesAndSecure() {

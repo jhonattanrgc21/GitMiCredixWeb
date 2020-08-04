@@ -21,6 +21,7 @@ import {CredixRadioButtonModule} from '../../../../shared/components/credix-radi
 import {CredixLinkButtonModule} from 'src/app/shared/components/credix-link-button/credix-link-button.module';
 import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
+import { PopupMarchamosNewDirectionComponent } from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -35,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent, PopupMarchamosDetailComponent],
+  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent],
   entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,
