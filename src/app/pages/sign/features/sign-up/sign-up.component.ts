@@ -98,7 +98,7 @@ export class SignUpComponent implements OnInit {
       component: ModalResponseSignUpComponent,
       hideCloseButton: true,
       data
-    }, {width: 376, height: 368, disableClose: true});
+    }, {width: 376, height: 368, disableClose: true, panelClass: 'modal-response-sign-up-panel'});
     this.resultPopup.afterClosed();
   }
 
