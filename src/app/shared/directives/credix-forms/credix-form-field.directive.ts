@@ -5,6 +5,7 @@ import {AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2} fr
   selector: '[credixFormField]'
 })
 export class CredixFormFieldDirective implements AfterViewInit {
+  @Input('credixFormField') type: 'password' | 'confirmPassword' | 'text' = 'text';
   @Input() onFocusLabel: string;
   @Input() height: number;
   label: string;
@@ -16,7 +17,6 @@ export class CredixFormFieldDirective implements AfterViewInit {
   fieldUnderlineClass = '.mat-form-field-underline';
   fieldSuffixClass = '.mat-form-field-suffix';
   fieldRippleClass = '.mat-form-field-ripple';
-  iconClass = '.mat-icon';
   errorClass = '.mat-error';
   inputEl: any;
 
@@ -64,11 +64,19 @@ export class CredixFormFieldDirective implements AfterViewInit {
       this.el.nativeElement.querySelector(this.labelClass).children[0].innerHTML = this.onFocusLabel;
     }
 
+    if (this.type === 'password') {
+      this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldFlexClass), 'background',
+        '#ffffff');
+      this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'box-shadow',
+        this.type === 'password' ? 'none' : 'none');
+    }
+
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'padding-bottom', '6px', 1);
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'padding-top', '0', 1);
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelWrapperClass), 'padding-top', '0', 1);
-    this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelWrapperClass), 'top', '0', 1);
-    this.renderer.setStyle(this.el.nativeElement.querySelector(this.inputClass), 'margin-top', '16px', 1);
+    this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelWrapperClass), 'top',
+      this.type === 'password' ? '4px' : '0', 1);
+    this.renderer.setStyle(this.el.nativeElement.querySelector(this.inputClass), 'margin-top', `${this.height / 3}px`, 1);
 
     this.setInvalidStyle();
     this.setErrorStyle();
@@ -79,12 +87,24 @@ export class CredixFormFieldDirective implements AfterViewInit {
       this.el.nativeElement.querySelector(this.labelClass).children[0].innerHTML = this.inputEl.value ? this.onFocusLabel : this.label;
     }
 
+    if (this.type === 'password') {
+      this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldFlexClass), 'background',
+        'none');
+      this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'box-shadow', 'none');
+    }
+
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'padding-bottom',
       this.inputEl.value ? '6px' : '16px', 1);
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'padding-top',
       this.inputEl.value ? '0' : '4px', 1);
-    this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelWrapperClass), 'top',
-      this.inputEl.value ? '0' : '-16px', 1);
+
+    if (this.type !== 'password') {
+      this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelWrapperClass), 'top',
+        this.inputEl.value ? '0' : '-16px', 1);
+    } else {
+      this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelWrapperClass), 'top',
+        this.inputEl.value ? '4px' : '-12px', 1);
+    }
 
     this.setInvalidStyle();
     this.setErrorStyle();
@@ -98,7 +118,7 @@ export class CredixFormFieldDirective implements AfterViewInit {
   }
 
   setInvalidStyle() {
-    if (this.el.nativeElement.classList.contains('mat-form-field-invalid')) {
+    if (this.el.nativeElement.classList.contains('mat-form-field-invalid') && this.type !== 'password') {
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.labelClass), 'color', '#FF4965', 1);
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldRippleClass), 'background-color', '#FF4965', 1);
 
@@ -116,7 +136,7 @@ export class CredixFormFieldDirective implements AfterViewInit {
   }
 
   setErrorStyle() {
-    if (this.el.nativeElement.querySelector(this.errorClass)) {
+    if (this.el.nativeElement.querySelector(this.errorClass) && this.type !== 'password') {
       this.renderer.setAttribute(this.el.nativeElement.querySelector(this.errorClass), 'style',
         'margin-left: 8px; color: #FF4965');
     }
