@@ -43,13 +43,13 @@
           <h3 class="marchamos__sub-title"
               fxFlex="50">Información del vehículo</h3>
           <div fxLayout="column" fxLayoutGap="64px">
-            <ul class="marchamos__list">
-              <li fxLayoutGap="183px"><label>Propietario</label> <span>Sergio Marquina</span></li>
-              <li fxLayoutGap="277px"><label>Marca</label> <span>Yamaha</span></li>
-              <li fxLayoutGap="315px"><label>Año</label> <span>2012</span></li>
-              <li fxLayoutGap="224px"><label>Períodos adeudados</label> <span>0</span></li>
-              <li fxLayoutGap="207px"><label>Período (s) a pagar</label> <span>2019</span></li>
-            </ul>
+            <div fxLayout="column" class="marchamos__list">
+              <div fxLayout="row" fxLayoutGap="183px"><label>Propietario</label> <span>{{consultVehicle.ownerName | slice:0:20}}</span></div>
+              <div fxLayout="row" fxLayoutGap="277px"><label>Marca</label> <span>{{consultVehicle.brandDescription}}</span></div>
+              <div fxLayout="row" fxLayoutGap="315px"><label>Año</label> <span>{{consultVehicle.yearModel}}</span></div>
+              <div fxLayout="row" fxLayoutGap="224px"><label>Períodos adeudados</label> <span>{{consultVehicle.owedYears}}</span></div>
+              <div fxLayout="row" fxLayoutGap="207px"><label>Período (s) a pagar</label> <span>{{consultVehicle.period}}</span></div>
+            </div>
           </div>
         </div>
 
@@ -90,13 +90,14 @@
         <div class="marchamos__payment-information secure" fxLayout="row">
           <label class="marchamos__label-2">Seguros opcionales</label>
           <div fxLayout="column" style="margin-right: 215px;">
-            <credix-checkbox-button (emitCheckBox)="getValueCheckBoxes($event)" [checked]="isChecked" [value]="'a'"
-                                    label="Responsabilidad civil"></credix-checkbox-button>
-            <credix-checkbox-button (emitCheckBox)="getValueCheckBoxes($event)" [checked]="isChecked" [value]="'b'"
-                                    label="Asistencia en carretera"></credix-checkbox-button>
-            <credix-checkbox-button (emitCheckBox)="getValueCheckBoxes($event)" [checked]="isChecked" [value]="'c'"
-                                    label="Más protección"></credix-checkbox-button>
-            <credix-checkbox-button (emitCheckBox)="allChecked($event.checked)" label="Todos"></credix-checkbox-button>
+            <credix-checkbox-button 
+            *ngFor="let item of itemProduct" 
+            #checkBoxValue 
+            (emitCheckBox)="getValueCheckBoxes($event)" 
+            [checked]="isChecked" 
+            [value]="item.itemPayCode"
+            [label]="item.itemDescription"></credix-checkbox-button>
+            <credix-checkbox-button  [value]="checkBoxValue" (emitCheckBox)="getValueCheckBoxes($event, 'all')" label="Todos"></credix-checkbox-button>
 
           </div>
           <div class="marchamos__prices" fxLayout="column">
@@ -169,7 +170,7 @@
           <h3 class="marchamos__sub-title">Lugar de retiro</h3>
 
           <div class="marchamos__radio-button" fxLayout="column">
-            <credix-radio-button [checked]="false" [value]="1" label="Sucursales Credix" name="a"></credix-radio-button>
+            <credix-radio-button [checked]="false" [value]="1" label="Sucursales Credix" name="a" (emitRadioButton)="$event"></credix-radio-button>
             <div class="marchamos__inputs-hidden">
               <mat-form-field appearance="standard" credixTextField>
                 <mat-label>

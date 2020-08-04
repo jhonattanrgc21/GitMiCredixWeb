@@ -7,8 +7,10 @@
 
   &__list {
     list-style: none;
+    width: 380px;
+    text-overflow: ellipsis;
 
-    li {
+    div {
       label {
         font-weight: normal;
         font-size: 16px;
