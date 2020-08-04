@@ -45,7 +45,7 @@
 </ng-template>
 
 
-<ng-template #newDeviceTemplate class="modal">
+<ng-template #newDeviceTemplate>
   <div class="h-100" fxLayout="column" fxLayoutAlign="space-between center">
     <p class="mt-16px">
       Por su seguridad le hemos enviado un código de verificación vía SMS al teléfono registrado: {{phone}}.
@@ -54,8 +54,8 @@
     <form [formGroup]="newDeviceFormGroup" class="w-100">
       <credix-code-input [(codeFormControl)]="g.otp" [length]="6">
       </credix-code-input>
-      <mat-error *ngIf="showErrorMessage" class="error-label">
-        {{ message }}
+      <mat-error *ngIf="showErrorMessage">
+        El código ingresado es erróneo. Inténtelo de nuevo.
       </mat-error>
     </form>
 

@@ -11,6 +11,8 @@ import {FormControl} from '@angular/forms';
 export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
   @Input('credixPasswordFieldTooltip') passwordControl: FormControl;
   @Input() panelClass: string;
+  @Input() tooltipWidth: number;
+  @Input() tooltipOffsetY: number;
   private overlayRef: OverlayRef;
   private tooltipRef: ComponentRef<CredixPasswordFieldTooltipComponent>;
 
@@ -26,10 +28,15 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
         originY: 'top',
         overlayX: 'center',
         overlayY: 'bottom',
+        offsetY: this.tooltipOffsetY ? -1 * this.tooltipOffsetY : -12,
         panelClass: ['credix-tooltip-panel', this.panelClass]
       }]);
 
-    this.overlayRef = this.overlay.create({positionStrategy});
+    console.log(this.tooltipWidth);
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      width: this.tooltipWidth ? `${this.tooltipWidth}px` : this.elementRef.nativeElement.offsetWidth
+    });
 
     this.passwordControl.valueChanges.subscribe(value => {
       this.validate(value);
@@ -49,6 +56,10 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
 
   @HostListener('focusout')
   focusOut() {
+    // this.overlayRef.detach();
+  }
+
+  ngOnDestroy(): void {
     this.overlayRef.detach();
   }
 
@@ -56,10 +67,6 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
     this.tooltipRef = this.overlayRef.attach(new ComponentPortal(CredixPasswordFieldTooltipComponent));
     // @ts-ignore
     this.tooltipRef.instance.errors = this.passwordControl.errors;
-  }
-
-  ngOnDestroy(): void {
-    this.overlayRef.detach();
   }
 
   validate(value) {

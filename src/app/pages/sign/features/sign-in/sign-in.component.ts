@@ -31,7 +31,6 @@ export class SignInComponent implements OnInit {
   sessionActivateModal: MatDialogRef<any>;
   newDeviceModal: MatDialogRef<any>;
   showErrorMessage = false;
-  message = 'El código ingresado es erróneo. Inténtelo de nuevo.';
   forward = false;
   phone = '';
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
@@ -158,12 +157,10 @@ export class SignInComponent implements OnInit {
       passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
       confirmationCode: this.newDeviceFormGroup.get('otp').value
     }).subscribe(data => {
-      console.log(data.toString());
       if (data.type === 'success') {
         this.saveDevice();
       } else {
         this.showErrorMessage = data.descriptionOne;
-        console.log('error: ' + data.descriptionOne);
       }
     });
   }
@@ -184,7 +181,6 @@ export class SignInComponent implements OnInit {
       numberPhone: '1234567890',
       isActive: '1'
     }).subscribe(data => {
-      console.log(data.toString());
       if (data.type === 'success') {
         this.newDeviceModal.close();
         this.router.navigate(['/home']).then();
@@ -206,16 +202,11 @@ export class SignInComponent implements OnInit {
       channelId: 102,
       uuid: 12345
     }).subscribe(data => {
-      console.log(data.toString());
-      console.log(data.id);
       if (data.type === 'success' && (data.id === 0 || data.id === 2)) {
-        console.log(1);
         this.sendOtp();
       } else if (data.type === 'success' && data.id === 1) {
-        console.log(2);
         this.router.navigate(['/home']).then();
       } else if (data.type === 'error') {
-        console.log(3);
         this.router.navigate(['/home']).then();
       }
     });

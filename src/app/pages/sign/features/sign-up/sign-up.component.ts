@@ -32,8 +32,8 @@ export class SignUpComponent implements OnInit {
   resultPopup: MatDialogRef<any>;
 
   newUserFirstStepForm: FormGroup = new FormGroup({
-    typeIdentification: new FormControl('', []),
-    identification: new FormControl({value: '', disabled: true}, [])
+    typeIdentification: new FormControl('', [Validators.required]),
+    identification: new FormControl({value: '', disabled: true}, [Validators.required])
   });
 
   newUserSecondStepForm: FormGroup = new FormGroup(

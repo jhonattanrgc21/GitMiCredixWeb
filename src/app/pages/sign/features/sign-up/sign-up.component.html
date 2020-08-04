@@ -69,8 +69,13 @@
       <form [formGroup]="newUserThirdStepForm" fxLayout="column" fxLayoutGap="16px">
 
         <!-- Nueva clave -->
-        <mat-form-field [credixPasswordFieldTooltip]="fThirstyControls.newPassword" appearance="standard"
-                        credixTextField="password" height="50" panelClass="sign-up-tooltip">
+        <mat-form-field [credixPasswordFieldTooltip]="fThirstyControls.newPassword"
+                        appearance="standard"
+                        credixTextField="password"
+                        height="50"
+                        panelClass="sign-up-tooltip"
+                        tooltipOffsetY="2"
+                        tooltipWidth="296">
           <mat-label>Digite su clave</mat-label>
           <input [formControl]="fThirstyControls.newPassword"
                  [type]="hideNewPassword ? 'password' : 'text'"
