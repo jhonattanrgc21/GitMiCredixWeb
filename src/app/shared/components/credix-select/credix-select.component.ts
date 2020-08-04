@@ -10,6 +10,7 @@ import {MatOption} from '@angular/material/core';
 })
 export class CredixSelectComponent implements OnInit, AfterViewInit {
   @Input() control: FormControl;
+  @Input() label: string;
   @Input() panelClass = '';
   @Input() height = 38;
   @ContentChildren(MatOption) queryOptions: QueryList<MatOption>;

@@ -10,6 +10,10 @@
     color: #3E3E3E !important;
   }
 
+  ::ng-deep.mat-form-field-infix {
+    border: 0 !important;
+  }
+
   ::ng-deep.mat-select-arrow {
     margin-right: 16px;
     color: #3E3E3E !important;

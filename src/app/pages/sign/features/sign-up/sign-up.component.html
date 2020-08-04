@@ -4,16 +4,13 @@
   <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
     <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
 
-      <form [formGroup]="newUserFirstStepForm" fxLayout="column" fxLayoutGap="16px">
+      <form [formGroup]="newUserFirstStepForm" fxLayout="column" fxLayoutGap="18px">
 
-        <mat-form-field appearance="standard" credixTextField height="38">
-          <mat-label>Tipo de Identificación</mat-label>
-          <mat-select formControlName="typeIdentification">
-            <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
-              {{identificationType.description}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <credix-select [control]="newUserFirstStepForm.controls.typeIdentification" label="Tipo de identificación">
+          <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+            {{identificationType.description}}
+          </mat-option>
+        </credix-select>
 
         <mat-form-field appearance="standard" credixFormField height="38" onFocusLabel="Identificación">
           <mat-label>
