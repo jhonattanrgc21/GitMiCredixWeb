@@ -32,7 +32,6 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
         panelClass: ['credix-tooltip-panel', this.panelClass]
       }]);
 
-    console.log(this.tooltipWidth);
     this.overlayRef = this.overlay.create({
       positionStrategy,
       width: this.tooltipWidth ? `${this.tooltipWidth}px` : this.elementRef.nativeElement.offsetWidth
@@ -56,7 +55,7 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
 
   @HostListener('focusout')
   focusOut() {
-    // this.overlayRef.detach();
+    this.overlayRef.detach();
   }
 
   ngOnDestroy(): void {
