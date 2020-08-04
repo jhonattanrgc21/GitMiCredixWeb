@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -7,7 +7,7 @@ import {FormControl, Validators} from '@angular/forms';
   templateUrl: './credix-code-input.component.html',
   styleUrls: ['./credix-code-input.component.scss']
 })
-export class CredixCodeInputComponent implements OnInit, OnChanges {
+export class CredixCodeInputComponent implements OnInit {
   @Input() codeFormControl: FormControl;
   @Input() length = 6;
   @Input() errorMessage = 'Mensaje de error aquí';
@@ -17,12 +17,6 @@ export class CredixCodeInputComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.codeFormControl) {
-      this.codeFormControl.setValidators([Validators.minLength(6), Validators.maxLength(6)]);
-    }
   }
 
 }

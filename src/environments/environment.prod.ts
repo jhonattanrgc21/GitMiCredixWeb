@@ -3,4 +3,5 @@ export const environment = {
   urlCanales: '',
   urlMarchamos: '',
   urlIncomex: '',
+  channelId: 102
 };

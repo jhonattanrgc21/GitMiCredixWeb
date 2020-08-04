@@ -106,8 +106,10 @@ import {RouterModule} from '@angular/router';
     MatToolbarModule,
     MatTooltipModule,
     MatStepperModule,
-    FlexModule
+    FlexModule,
+    ReactiveFormsModule
   ],
+
 
 })
 

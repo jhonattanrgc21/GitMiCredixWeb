@@ -9,6 +9,7 @@
   &.mat-checkbox-checked.mat-accent {
     ::ng-deep.mat-checkbox-background {
       background: #3E3E3E 0 0 no-repeat padding-box;
+      border-radius: 4px;
     }
   }
 
@@ -25,5 +26,9 @@
       letter-spacing: 0;
       color: #D2D2D2;
     }
+  }
+
+  ::ng-deep.mat-checkbox-frame {
+    border-radius: 4px;
   }
 }

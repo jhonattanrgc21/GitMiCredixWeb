@@ -14,10 +14,10 @@ import {CredixPopupComponent} from './credix-popup.component';
   ],
   imports: [
     CommonModule,
+    MatIconModule,
     MatButtonModule,
     RouterModule,
-    MatDialogModule,
-    MatIconModule
+    MatDialogModule
   ]
 })
 export class CredixPopupModule {

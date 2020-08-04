@@ -11,6 +11,7 @@
 
   &.is-disabled {
     color: #D2D2D2;
-    cursor: inherit;
+    pointer-events: none;
+    cursor: default;
   }
 }

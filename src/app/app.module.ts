@@ -7,6 +7,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CoreModule} from './core/core.module';
 import {CredixToastModule} from './shared/components/credix-toast';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 registerLocaleData(localeES, 'es');
 
@@ -19,7 +20,8 @@ registerLocaleData(localeES, 'es');
     BrowserAnimationsModule,
     AppRoutingModule,
     CredixToastModule,
-    CoreModule
+    CoreModule,
+    NgxSpinnerModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'es'}

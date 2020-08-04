@@ -1,0 +1,36 @@
+<div class="modal-messages" fxLayout="column" fxLayoutGap="16px">
+
+  <div class="modal-messages__header" fxLayout="row" fxLayoutAlign="space-between">
+    <span>{{message.title}}</span>
+    <span>{{message.creationDate}}</span>
+  </div>
+
+  <img [alt]="message.title" [src]="message.image" class="modal-messages__img">
+
+  <p class="pr-16px pl-16px pb-16px">{{message.text}}</p>
+</div>
+
+<ng-template #footer>
+  <div fxLayout="row" fxLayoutAlign="flex-start">
+    <credix-share-button></credix-share-button>
+
+    <div class="modal-messages__paginator" fxLayout="column" fxLayoutAlign="flex-start center">
+      <span>Mensajes</span>
+      <div fxLayout="row" fxLayoutGap="16px">
+        <button (click)="back()" [disabled]="currentMessage === 0"
+                class="modal-messages__paginator__btn" mat-icon-button>
+          <mat-icon [class.is-enable]="currentMessage !== 0"
+                    svgIcon="chevron_left"></mat-icon>
+        </button>
+
+        <span>{{currentMessage + 1}} de {{messagesLength}}</span>
+
+        <button (click)="next()" [disabled]="currentMessage === (messagesLength - 1)"
+                class="modal-messages__paginator__btn" mat-icon-button>
+          <mat-icon [class.is-enable]="currentMessage !== (messagesLength - 1)"
+                    svgIcon="chevron_right"></mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

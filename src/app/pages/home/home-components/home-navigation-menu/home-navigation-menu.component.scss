@@ -1,0 +1,10 @@
+.navigation-menu {
+  position: relative;
+  height: 100%;
+  padding-top: 16px;
+  overflow: hidden;
+
+  &__main {
+    height: calc(100% - 61px);
+  }
+}

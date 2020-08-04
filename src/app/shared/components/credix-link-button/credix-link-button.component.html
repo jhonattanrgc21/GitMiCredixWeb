@@ -1,6 +1,9 @@
-<a *ngIf="!disabled" [href]="route" [target]="target" class="credix-link-button">
+<a *ngIf="route else actionLink" [class.is-disabled]="disabled" [href]="route ? route : null" [target]="target"
+   class="credix-link-button">
   {{text}}
 </a>
-<a *ngIf="disabled" [class.is-disabled]="disabled" class="credix-link-button">
-  {{text}}
-</a>
+<ng-template #actionLink>
+  <a [class.is-disabled]="disabled" [target]="target" class="credix-link-button">
+    {{text}}
+  </a>
+</ng-template>

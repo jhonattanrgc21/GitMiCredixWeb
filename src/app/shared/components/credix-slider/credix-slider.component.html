@@ -5,12 +5,13 @@
     <span><strong>{{value}}</strong> {{units}}</span>
   </div>
 
-  <mat-slider (valueChange)="valueChangeEvent($event)"
+  <mat-slider (input)="valueChangeEvent($event, 2)" (valueChange)="valueChangeEvent($event, 1)"
               [(value)]="value"
               [disabled]="disabled"
               [max]="max"
               [min]="min"
               [step]="step"
+              [class.is-full]="value == max"
               class="credix-slider__slider">
   </mat-slider>
 

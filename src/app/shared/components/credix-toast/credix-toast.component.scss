@@ -30,6 +30,8 @@
     background-color: #FFDC49;
 
     .credix-toast__message:before {
+      left: -28px;
+      top: 1px;
       content: url(./warning_icon.svg);
     }
   }

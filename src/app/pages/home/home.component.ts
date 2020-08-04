@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
+import {HomeService} from './home.service';
+import {StorageService} from '../../core/services/storage.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +11,12 @@ import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 })
 export class HomeComponent implements OnInit {
   isTablet = false;
-  username = 'John Doe';
-  avatar = 'assets/images/avatar.png';
-  menus = menus;
+  options = {autoHide: false, scrollbarMinSize: 100};
 
-  constructor(private breakpointObserver: BreakpointObserver) {
-    this.getMenus();
+  constructor(private breakpointObserver: BreakpointObserver,
+              private storageService: StorageService,
+              private router: Router,
+              public homeService: HomeService) {
   }
 
   ngOnInit() {
@@ -21,35 +24,19 @@ export class HomeComponent implements OnInit {
       .observe(['(max-width: 1199px)'])
       .subscribe((state: BreakpointState) => {
         this.isTablet = state.matches;
+        this.homeService.isTablet(this.isTablet);
       });
   }
 
-  getMenus() {
-
-  }
-
   signOut() {
-
+    this.homeService.logOut({
+      deviceIdentifier: 1213123134,
+      typeIncome: 2
+    }).subscribe(response => {
+      if (response.type === 'success') {
+        this.router.navigate(['/']);
+      }
+    });
   }
 
-}
-
-export const menus: Menu[] = [
-  {
-    id: 1, name: 'Inicio', route: '/'
-  }
-];
-
-export interface Menu {
-  id: number;
-  name: string;
-  route?: string;
-  submenus?: Submenu[];
-}
-
-export interface Submenu {
-  id: number;
-  route: string;
-  name: string;
-  icon: string;
 }

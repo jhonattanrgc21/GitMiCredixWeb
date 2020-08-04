@@ -14,8 +14,14 @@
   }
 
   ::ng-deep {
+    .mat-slider.mat-slider-horizontal {
+      padding: 0;
+    }
+
     .mat-slider.mat-slider-horizontal .mat-slider-wrapper {
       top: 18px;
+      left: 0;
+      right: 0;
     }
 
     .mat-slider.mat-slider-horizontal .mat-slider-track-wrapper {
@@ -75,7 +81,7 @@
       }
 
       &:before {
-        content: url(./chevron_left_disable_icon.svg);
+        content: url(./slider_chevron_left_disable_icon.svg);
         position: absolute;
         left: 4px;
         bottom: 1px;
@@ -84,14 +90,23 @@
 
     .mat-slider-disabled .mat-slider-thumb {
       &:before {
-        content: url(./chevron_left_disable_icon.svg);
+        content: url(./slider_chevron_left_disable_icon.svg);
         position: absolute;
         left: 4px;
         bottom: 1px;
       }
 
       &:after {
-        content: url(./slider_chevron_right_icon.svg);
+        content: url(./slider_chevron_right_disabled_icon.svg);
+        position: absolute;
+        right: 4px;
+        bottom: 1px;
+      }
+    }
+
+    .mat-slider-horizontal.is-full .mat-slider-thumb {
+      &:after {
+        content: url(./slider_chevron_right_disabled_icon.svg);
         position: absolute;
         right: 4px;
         bottom: 1px;

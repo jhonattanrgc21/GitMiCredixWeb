@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class CredixResultNotificationComponent implements OnInit {
   @Input() status: 'success' | 'warning' | 'error' | 'info' = 'success';
-  @Input() title = '¡Éxito!';
+  @Input() title;
   @Input() message = '';
 
   constructor() {

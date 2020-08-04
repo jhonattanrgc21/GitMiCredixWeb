@@ -1,0 +1,36 @@
+.awards-card {
+  width: 877px;
+  height: 91px;
+  padding: 0 !important;
+
+  &__content {
+    padding: 16px;
+  }
+
+  &__btn {
+    margin-right: 8px;
+
+    mat-icon {
+      color: #E42313;
+      width: 8px;
+      height: 12px;
+      vertical-align: baseline;
+    }
+  }
+
+  &__img {
+    width: 480px;
+    height: 91px;
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .awards-card {
+    width: 736px;
+
+    &__img {
+      width: 369px;
+    }
+  }
+}

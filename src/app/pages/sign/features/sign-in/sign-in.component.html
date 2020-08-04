@@ -1,1 +1,77 @@
-<p>sign-in works!</p>
+<div class="sign-in">
+
+  <mat-card class="sign-in__card" credixCard>
+    <img alt="Credix World" class="sign-in__card__logo" src="assets/images/credixLogo_icon.svg">
+
+    <form [formGroup]="signInformGroup" class="sign-in__card__form" fxLayout="column" fxLayoutAlign="center">
+
+      <mat-form-field appearance="standard" credixTextField height="43" onFocusLabel="Identificación">
+        <mat-label>Digite su identificación</mat-label>
+        <input [mask]="identificationMask" formControlName="identification" matInput/>
+      </mat-form-field>
+
+      <mat-form-field [credixPasswordFieldTooltip]="f.password" appearance="standard" credixTextField="password"
+                      height="43"
+                      onFocusLabel="Clave" panelClass="sign-in-tooltip">
+        <mat-label>Digite su clave</mat-label>
+        <input [type]="hide ? 'password' : 'text'" formControlName="password" matInput/>
+        <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
+      </mat-form-field>
+
+      <credix-button (click)="login()" [disabled]="signInformGroup.invalid" class="w-100"
+                     text="Ingresar"></credix-button>
+    </form>
+
+    <span class="sign-in__card__sign-up-span">¿Nuevo en MiCredix?
+      <credix-link-button (click)="open('sign-up')" text="¡Regístrese aquí!"></credix-link-button>
+    </span>
+
+    <credix-link-button (click)="open('forgot-pass')" text="¿Olvidó su clave?"></credix-link-button>
+  </mat-card>
+
+</div>
+
+<ng-template #sessionActiveTemplate>
+  <div class="h-100" fxLayout="column">
+    <credix-result-notification class="mb-24px"
+                                message="Se detectó una sesión activa, presione continuar para cerrarla y seguir en esta."
+                                status="warning"
+                                title="Sesión activa detectada"></credix-result-notification>
+
+    <credix-button (buttonClick)="closeSessionActivate()" class="w-100 mb-16px" text="Continuar"></credix-button>
+    <credix-button (buttonClick)="sessionActivateModal.close()" class="w-100" text="Cancelar"
+                   type="secondary"></credix-button>
+  </div>
+</ng-template>
+
+
+<ng-template #newDeviceTemplate class="modal">
+  <div class="h-100" fxLayout="column" fxLayoutAlign="space-between center">
+    <p class="mt-16px">
+      Por su seguridad le hemos enviado un código de verificación vía SMS al teléfono registrado: {{phone}}.
+    </p>
+
+    <form [formGroup]="newDeviceFormGroup" class="w-100">
+      <credix-code-input [(codeFormControl)]="g.otp" [length]="6">
+      </credix-code-input>
+      <mat-error *ngIf="showErrorMessage" class="error-label">
+        {{ message }}
+      </mat-error>
+    </form>
+
+    <div class="w-100" fxLayout="column" fxLayoutAlign="center center">
+      <span>¿No ha recibido el código?</span>
+      <credix-link-button (click)="forwardOtp()" text="Enviar nuevamente"></credix-link-button>
+    </div>
+
+
+    <p class="mt-14px f-14px">
+      Si este no es su teléfono o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX
+      <credix-link-button text="2227-3349">()</credix-link-button>
+      o visite una de nuestras sucursales para solicitar el cambio.
+    </p>
+
+    <credix-button (buttonClick)="validateOtp()" [disabled]="newDeviceFormGroup.invalid" class="w-100"
+                   text="Ingresar"></credix-button>
+  </div>
+</ng-template>

@@ -2,17 +2,21 @@
 
   &__header {
     height: 40px;
-    padding: 0 16px 0 16px;
     background-color: #f0f0f0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 
     span {
       font-size: 14px;
       color: #696d6f;
       text-align: left;
+      padding-left: 16px;
     }
   }
 
   &__content {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
     background-color: #ffffff;
     min-height: 478px;
 
@@ -28,7 +32,7 @@
 
   &__option {
     position: relative;
-    padding: 16px;
+    padding: 16px 16px 16px 0;
     width: 100%;
     text-align: left;
     background-color: inherit;
@@ -53,6 +57,7 @@
     }
 
     &__icon {
+      width: 16px;
       color: #b5b5b5;
 
       &.is-selected {

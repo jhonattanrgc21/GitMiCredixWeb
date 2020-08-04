@@ -1,0 +1,29 @@
+<a [class.is-disabled]="disabled" [matMenuTriggerFor]="!disabled ? menu : null" class="credix-share-button">
+  <mat-icon class="credix-share-button__icon" svgIcon="share"></mat-icon>
+  <span class="credix-share-button__span">Compartir</span>
+</a>
+<mat-menu #menu="matMenu" class="credix-share-button__menu">
+  <h3 class="credix-share-button__menu__title">Compartir</h3>
+  <hr class="credix-share-button__menu__divider">
+  <div class="credix-share-button__menu__content">
+    <button #twtBtn="shareButton" [description]="description" [style.backgroundColor]="twtBtn?.color" [url]="url"
+            mat-fab
+            shareButton="twitter">
+      <fa-icon [icon]="twtBtn?.icon" size="lg"></fa-icon>
+    </button>
+    <button #fbBtn="shareButton" [description]="description" [style.backgroundColor]="fbBtn?.color" [url]="url" mat-fab
+            shareButton="facebook">
+      <fa-icon [icon]="fbBtn?.icon" size="lg"></fa-icon>
+    </button>
+    <button #whatsappBtn="shareButton" [description]="description" [style.backgroundColor]="whatsappBtn?.color"
+            [url]="url" mat-fab
+            shareButton="whatsapp">
+      <fa-icon [icon]="whatsappBtn?.icon" size="lg"></fa-icon>
+    </button>
+    <button #telegramBtn="shareButton" [description]="description" [style.backgroundColor]="telegramBtn?.color"
+            [url]="url" mat-fab
+            shareButton="telegram">
+      <fa-icon [icon]="telegramBtn?.icon" size="lg"></fa-icon>
+    </button>
+  </div>
+</mat-menu>

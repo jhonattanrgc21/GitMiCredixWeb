@@ -1,0 +1,59 @@
+<div>
+  <div class="h-100" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="36px">
+
+    <mat-dialog-content *ngIf="data.data.modal == 'in-progress'">
+      <ngx-simplebar [options]="options" class="premios__bar">
+        <div *ngFor="let userChallenge of data.data.array | paginate: config" class="premios__content-div">
+          <h4>{{userChallenge.in_progress_name}}</h4>
+          <img src="{{userChallenge.image}}">
+          <credix-progress-bar [goal]="10" [value]="userChallenge.progress" label="Meta de transacciones">
+          </credix-progress-bar>
+          <p class="premios__content-div__msg">{{userChallenge.in_progress_description}}</p>
+        </div>
+      </ngx-simplebar>
+    </mat-dialog-content>
+
+    <mat-dialog-content *ngIf="data.data.modal == 'completed'">
+      <ngx-simplebar [options]="options" class="premios__bar">
+        <div *ngFor="let userChallenge of data.data.array | paginate: config" class="premios__content-div">
+          <h4>{{userChallenge.completed_name}}</h4>
+          <img src="{{userChallenge.image}}">
+          <credix-progress-bar [goal]="10" [value]="10" label="Meta de transacciones">
+          </credix-progress-bar>
+          <p class="premios__content-div__msg">{{userChallenge.completed_description}}</p>
+        </div>
+      </ngx-simplebar>
+    </mat-dialog-content>
+
+  </div>
+  <div class="premios__footer" fxLayout="row" fxLayoutGap="33px">
+    <div class="premios__footer__share-btn" fxLayout="column">
+      <credix-share-button
+        description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
+        url="https://www.credix.com/somos-uno/"></credix-share-button>
+    </div>
+    <div class="premios__footer__premios" fxLayout="column">
+      <span>Premio</span>
+      <div fxLayout="row">
+        <pagination-template #p="paginationApi" (pageChange)="config.currentPage = $event" [id]="config.id">
+
+
+          <div class="custom-pagination">
+            <div [class.disabled]="p.isFirstPage()" class="pagination-previous">
+              <mat-icon (click)="!p.isFirstPage() ? p.previous() : null"
+                [ngClass]="!p.isFirstPage() ? 'red_icon' : 'gray_icon'" svgIcon="chevron_left"></mat-icon>
+            </div>
+            <div class="page-number">
+              {{config.currentPage}} de {{data.data.array.length}}
+            </div>
+            <div [class.disabled]="p.isLastPage()" class="pagination-next">
+              <mat-icon (click)="!p.isLastPage() ? p.next() : null"
+                [ngClass]="!p.isLastPage() ? 'red_icon' : 'gray_icon'" svgIcon="chevron_right"></mat-icon>
+            </div>
+          </div>
+        </pagination-template>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {StorageService} from '../../core/services/storage.service';
 
 @Component({
   selector: 'app-sign',
@@ -7,10 +8,12 @@ import {Component, OnInit} from '@angular/core';
 })
 export class SignComponent implements OnInit {
 
-  constructor() {
+  constructor(private storageService: StorageService) {
+    this.storageService.clearCurrentToken();
+    this.storageService.clearCurrentUser();
+    this.storageService.clearCurrentCard();
   }
 
   ngOnInit(): void {
   }
-
 }

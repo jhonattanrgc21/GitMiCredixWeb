@@ -2648,7 +2648,7 @@ textarea {
 }
 
 .mb-24px {
-  margin-bottom: 23px !important;
+  margin-bottom: 24px !important;
 }
 
 .mb-32px {
@@ -3024,6 +3024,14 @@ textarea {
   font-size: 6rem
 }
 
+.f-16px {
+  font-size: 16px;
+}
+
+.f-14px {
+  font-size: 14px;
+}
+
 .f-5, .f-subheadline {
   font-size: 5rem
 }
@@ -3054,6 +3062,10 @@ textarea {
 
 .f7 {
   font-size: .75rem
+}
+
+.f-14px {
+  font-size: 14px !important;
 }
 
 .measure {

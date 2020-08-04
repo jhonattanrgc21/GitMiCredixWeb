@@ -1,0 +1,188 @@
+.awards {
+  &__warning-card {
+    margin-top: -16px;
+    @media screen and (max-width: 1999px) {
+      height: 591px;
+    }
+    @media screen and (min-width: 1200px) {
+      height: 367px;
+    }
+  }
+
+  &__warning-card-f {
+    margin-top: -16px;
+    @media screen and (max-width: 1999px) {
+      height: 733px;
+    }
+    @media screen and (min-width: 1200px) {
+      height: 509px;
+    }
+  }
+
+  &__warning-icon {
+    width: 100px;
+    height: 100px;
+    color: #5bc0de;
+  }
+
+  &__warning-msg-f,
+  &__warning-msg {
+    color: #3e3e3e;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  &__warning-msg-f {
+    width: 286px;
+  }
+
+  &__warning-msg {
+    width: 268px;
+  }
+
+  &__banner-tab {
+    h1 {
+      margin-bottom: 16px;
+    }
+
+    ::ng-deep .credix-tab {
+      margin-bottom: 16px !important;
+    }
+
+    &__progress-div {
+      &__msg {
+        margin-bottom: 13px;
+        font-size: 16px;
+      }
+
+      h2 {
+        margin-bottom: 8px;
+      }
+
+      &__p {
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+
+    &__card-progress {
+      background-image: url("../../../../../assets/images/award_banner.png") !important;
+      background-size: cover !important;
+      height: 279px;
+    }
+
+    &__card-finalizado {
+      background-image: none !important;
+    }
+  }
+
+  &__cards {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 16px;
+    grid-row-gap: 16px;
+
+    h2 {
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 100%;
+    }
+
+    mat-card {
+      position: relative;
+      @media screen and (max-width: 1999px) {
+        height: 286px;
+      }
+      @media screen and (min-width: 1200px) {
+        height: 260px;
+      }
+    }
+
+    &__content {
+      //padding-right: 35px;
+      &__main {
+        font-size: 14px;
+        line-height: 22px;
+        text-align: left;
+      }
+
+      &__main_f {
+        font-size: 14px;
+        line-height: 22px;
+        text-align: left;
+      }
+
+      &__actions {
+        &__fecha {
+          font-size: 24px;
+          font-weight: bold;
+          @media screen and (max-width: 1999px) {
+            margin-bottom: 26px;
+          }
+          @media screen and (min-width: 1200px) {
+            margin-bottom: 21px;
+          }
+        }
+
+        &__entrega {
+          font-size: 16px;
+          margin-bottom: 5px;
+          margin-top: 8.5px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    &__footer {
+      position: relative;
+
+      &__details {
+        transform: translateY(11px);
+        position: absolute;
+        right: 16px;
+        bottom: 30px;
+      }
+
+      &__probar {
+        position: absolute;
+        bottom: 27.5px;
+      }
+
+      &__actions {
+        /*position:absolute;
+        bottom:16px;*/
+
+        &__100 {
+          font-size: 32px;
+          color: #19d27e;
+          font-weight: bold;
+        }
+
+        &__acumuladas {
+          margin-left: 16px;
+          font-size: 14px;
+          line-height: 15px;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .credix-progress-bar {
+  min-width: 215px !important;
+}
+
+::ng-deep .credix-progress-bar__line.is-over {
+  background-color: #19d27e;
+}
+
+::ng-deep .credix-progress-bar__line {
+  background-color: #e9e9e9;
+}

@@ -1,0 +1,59 @@
+.modal-new-user {
+
+  &__parrafe {
+    margin-bottom: 40px;
+  }
+
+  &__stepper {
+    margin-top: 16px;
+
+    &--parrafe {
+      text-align: left;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: 0;
+      color: #3E3E3E;
+      margin-bottom: 16px;
+
+      &.info {
+        display: block;
+        margin-bottom: 18px;
+      }
+    }
+  }
+
+  &__button {
+    width: 100%;
+
+    &.step-one {
+      margin-top: 132px;
+    }
+
+    &.step-two {
+      margin-top: 2px;
+      margin-bottom: 40px;
+    }
+
+    &.step-three {
+      margin-top: 132px;
+    }
+  }
+}
+
+::ng-deep.credix-popup__title {
+  line-height: normal !important;
+  margin-bottom: 16px !important;
+}
+
+::ng-deep.credix-result-notification {
+  margin-bottom: 16px;
+}
+
+::ng-deep.sign-in-tooltip {
+
+  .credix-password-field-tooltip {
+    width: 296px !important;
+    margin-bottom: 4px;
+  }
+}

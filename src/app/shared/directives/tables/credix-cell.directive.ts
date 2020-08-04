@@ -10,6 +10,7 @@ export class CredixCellDirective {
     el.nativeElement.style.margin = '0 16px';
     el.nativeElement.style.fontSize = '16px';
     el.nativeElement.style.display = 'inline';
+    el.nativeElement.style.textAlign = 'center';
     el.nativeElement.style.whiteSpace = 'nowrap';
     el.nativeElement.style.overflow = 'hidden';
     el.nativeElement.style.textOverflow = 'ellipsis';

@@ -1,0 +1,69 @@
+<mat-card class="balances-card" credixCard fxLayout="column" fxLayoutAlign="start center">
+  <h2 class="w-100">Saldos</h2>
+
+  <mat-select [formControl]="cardFormControl" class="balances-card__cards-select" disableOptionCentering
+              disableRipple panelClass="select-cards-panel">
+    <mat-select-trigger>
+      <div *ngIf="cardFormControl.value.category == 'Principal'" fxLayout="row" fxLayoutAlign="center center"
+           fxLayoutGap="8px">
+        <mat-icon class="balances-card__card-icon" svgIcon="redCard"></mat-icon>
+        <span class="mr-8px">{{cardFormControl.value.typeCard}}</span>
+        <span>{{formatPrincipalCard(cardFormControl.value.cardNumber)}}</span>
+        <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
+      </div>
+      <div *ngIf="cardFormControl.value.category != 'Principal'" fxLayout="row" fxLayoutAlign="center center"
+           fxLayoutGap="8px">
+        <mat-icon class="balances-card__card-icon" svgIcon="additionalCards"></mat-icon>
+        <span>{{cardFormControl.value.name}}</span>
+        <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
+      </div>
+    </mat-select-trigger>
+    <mat-option *ngFor="let card of cards; let last = last" [value]="card">
+      <mat-icon [svgIcon]="card.category === 'Principal' ? 'redCard' : 'additionalCards'" class="mr-8px"></mat-icon>
+      <span>{{card.typeCard}} {{card.name}}</span>
+      <mat-divider *ngIf="!last" class="w-100"></mat-divider>
+    </mat-option>
+  </mat-select>
+
+  <credix-gauge [label]="balancesTag.availableTag" [max]="limit" [min]="0" [prefix]="prefix" [value]="available">
+    <credix-numeric-block [prefix]="prefix" [value]="available" fontSize="20" fontWeight="bold"></credix-numeric-block>
+  </credix-gauge>
+
+
+  <div class="w-100" fxLayout="row">
+    <div fxFlex="40" fxLayout="column" fxLayoutAlign="flex-start flex-start">
+      <span class="balances-card__tag">{{balancesTag.consumedTag}}</span>
+      <credix-numeric-block [prefix]="prefix" [value]="consumed" fontSize="24" fontWeight></credix-numeric-block>
+    </div>
+
+    <div fxFlex="60" fxLayout="column" fxLayoutAlign="flex-start flex-end">
+      <span class="balances-card__tag">{{balancesTag.creditLimitTag}}</span>
+      <credix-numeric-block [prefix]="prefix" [value]="limit" fontSize="24" fontWeight></credix-numeric-block>
+      <credix-link-button [text]="balancesTag.increaseCreditLimitTag"></credix-link-button>
+    </div>
+  </div>
+
+  <mat-divider class="balances-card__divider"></mat-divider>
+
+  <span class="balances-card__tag w-100 mb-8px">{{balancesTag.ibanAccountsTag}}</span>
+
+  <div class="w-100" fxLayout="column" fxLayoutGap="4px">
+    <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
+      <span>{{balancesTag.colonesTag}}</span>
+      <span>CR00000000000000000001</span>
+      <button (click)="copyIbanAccount(balancesTag.colonesIbanCopiedTag)" cdkCopyToClipboard="CR00000000000000000001"
+              mat-icon-button>
+        <mat-icon svgIcon="content-copy"></mat-icon>
+      </button>
+    </div>
+    <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
+      <span>{{balancesTag.dollarsTag}}</span>
+      <span>CR00000000000000000002</span>
+      <button (click)="copyIbanAccount(balancesTag.dollarsIbanCopiedTag)" cdkCopyToClipboard="CR00000000000000000002"
+              mat-icon-button>
+        <mat-icon svgIcon="content-copy"></mat-icon>
+      </button>
+    </div>
+  </div>
+
+</mat-card>

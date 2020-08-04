@@ -8,10 +8,11 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 })
 export class CredixPaymentBarComponent implements OnInit, OnChanges {
   @Input() firstLabel = 'Corte';
-  @Input() secondLabel = 'Fecha de pago';
+  @Input() secondLabel = 'Fecha máxima de pago';
+  @Input() meterLabel = 'Hoy';
   @Input() startDate: Date;
   @Input() endDate: Date;
-  @Input() currentDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate());
+  @Input() today: Date;
   @Input() toggleGradient = false;
   displacement = 0;
 
@@ -23,7 +24,7 @@ export class CredixPaymentBarComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     setTimeout(() => {
-      this.displacement = ((this.currentDate.getTime() - this.startDate.getTime()) /
+      this.displacement = ((this.today.getTime() - this.startDate.getTime()) /
         (this.endDate.getTime() - this.startDate.getTime())) * 100;
     }, 300);
   }
