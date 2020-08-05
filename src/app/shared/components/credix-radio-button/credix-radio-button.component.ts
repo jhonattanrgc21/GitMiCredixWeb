@@ -22,6 +22,6 @@ export class CredixRadioButtonComponent implements OnInit {
   }
 
   isCheckedValue(event){
-    this.emitRadioButton.emit(event);
+    this.emitRadioButton.emit({value:event.value, checked:event.source.checked});
   }
 }

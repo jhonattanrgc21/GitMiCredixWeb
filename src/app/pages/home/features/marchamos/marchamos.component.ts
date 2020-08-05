@@ -11,6 +11,8 @@ import { Item } from 'src/app/shared/models/item.model';
 import { map } from 'rxjs/operators';
 import { PopupMarchamosNewDirectionComponent } from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
 import { DeliveryPlace } from 'src/app/shared/models/deliveryPlace.model';
+import { StorageService } from 'src/app/core/services/storage.service';
+import { OwnerPayer } from 'src/app/shared/models/ownerPayer.model';
 
 @Component({
   selector: 'app-marchamos',
@@ -22,6 +24,7 @@ export class MarchamosComponent implements OnInit {
   vehicleType: VehicleType[];
   consultVehicle: ConsultVehicle;
   deliveryPlaces: DeliveryPlace[];
+  ownerPayer: OwnerPayer;
   itemProduct: Item[] = [
     {
       responseDescription: "Responsabilidad civil",
@@ -91,9 +94,9 @@ export class MarchamosComponent implements OnInit {
   ];
 
   delivery: any = {
-    deliveryName: 'Sergio Marquina',
-    deliveryNumber:'8888-8888',
-    deliveryLocation:'Del cruce de Llorente de Tibas, 300 metros Este, Colima, Tibas, San José.'
+    deliveryName: '',
+    deliveryNumber:0,
+    deliveryLocation:''
   }
 
   vehicleInformation: boolean;
@@ -106,6 +109,7 @@ export class MarchamosComponent implements OnInit {
   radioButtonsChangedValue: any;
   amount:number = 408455;
 
+  options = {autoHide: false, scrollbarMinSize: 100};
 
   consultForm: FormGroup = new FormGroup({
     vehicleType: new FormControl('', [Validators.required]),
@@ -133,7 +137,8 @@ export class MarchamosComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private modalService: ModalService,
-    private element: ElementRef
+    private element: ElementRef,
+    private storageService: StorageService
   ) {
   }
 
@@ -162,6 +167,7 @@ export class MarchamosComponent implements OnInit {
   ngOnInit(): void {
     this.getVehicleType();
     this.getPickUpStore();
+    this.getOwnersPayerInfo();
   }
 
   
@@ -187,12 +193,12 @@ export class MarchamosComponent implements OnInit {
      (event.checked) ? this.quotesToPayOfAmount = true: false;
       if (event.checked) {
           checkArray.push(new FormGroup({
-            productCode:new FormControl(event.source.value)
+            productCode:new FormControl(event.value)
           }));
         } else {
           let index: number = 0;
           checkArray.controls.forEach((item: FormGroup) => {
-            if (item.value.productCode === event.source.value) {
+            if (item.value.productCode === event.value) {
               checkArray.removeAt(index);
               return; 
             }
@@ -205,7 +211,7 @@ export class MarchamosComponent implements OnInit {
     const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
     (event.checked) ? this.quotesToPayOfAmount = true: false;
 
-    if (event.source.id === 'mat-checkbox-1' && event.source._checked) {
+    if (event.value === 10 && event.checked) {
       this.allChecked(event.checked); 
       for (const product of this.itemProduct) {
         checkArray.push(
@@ -226,7 +232,7 @@ export class MarchamosComponent implements OnInit {
   }
 
   newDirectionChecked(event){
-    if (event.value ==='newDirection' && event.source.checked) {
+    if (event.value ==='newDirection' && event.checked) {
       this.newDirection();
     }
   }
@@ -236,25 +242,24 @@ export class MarchamosComponent implements OnInit {
       channelId: 107,
       plateClassId: this.consultControls.vehicleType.value.toString(),
       plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
-      govermentCode:'PAR',
-      aditionalProducts: [
-        {
-          "productCode": 5
-        },
-        {
-          "productCode": 6
-        },
-        {
-          "productCode": 8
-        }
-      ]
+      aditionalProducts: []
     })
       .subscribe(response => { 
-        console.log(response);
           this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
         (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
       });
     
+  }
+
+  getOwnersPayerInfo(){
+    this.httpService.post('marchamos','owners/payerinfo',{
+      channelId : 107,
+      payerId : null,
+      accountNumber: this.storageService.getCurrentUser().accountNumber 
+    })
+    .subscribe(response => {console.log(response);
+      this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
+    });
   }
 
   getVehicleType() {
@@ -321,11 +326,12 @@ export class MarchamosComponent implements OnInit {
     // .subscribe(modal => this.responseResult.message = modal.message);
   }
 
-  newDirection() {
+  newDirection(data?:any) {
     this.popupNewDirection = this.modalService.open({
       component: PopupMarchamosNewDirectionComponent,
       hideCloseButton: false,
-      title:'Nueva dirección de entrega'
+      title:'Nueva dirección de entrega',
+      data:data
     },{width: 380, height: 614, disableClose: false});
     this.popupNewDirection.afterClosed().subscribe( values => console.log(values));
   }

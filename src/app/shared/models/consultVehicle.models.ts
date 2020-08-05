@@ -1,5 +1,5 @@
 export interface ConsultVehicle {
-    amount: number;
+    amount: number | string;
     brandDescription: string;
     capacity: number;
     carBodyDescription: string;

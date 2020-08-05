@@ -22,6 +22,7 @@ import {CredixLinkButtonModule} from 'src/app/shared/components/credix-link-butt
 import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
 import { PopupMarchamosNewDirectionComponent } from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
+import { SimplebarAngularModule } from 'simplebar-angular';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -54,6 +55,7 @@ const routes: Routes = [
     CdkStepperModule,
     StepperModule,
     CredixRadioButtonModule,
+    SimplebarAngularModule,
     NgxMaskModule.forRoot(maskConfig)
   ],
   providers: [
