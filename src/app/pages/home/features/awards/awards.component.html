@@ -17,7 +17,7 @@
     </mat-card>
   </div>
 
-  <div *ngIf="(showInProgress && inProgress) || (!showInProgress && completed)"
+  <div *ngIf="(showInProgress && inProgress.length > 0) || (!showInProgress && completed.length > 0)"
        class="awards__cards-container">
 
     <ng-container *ngFor="let award of awards; let i = index">
