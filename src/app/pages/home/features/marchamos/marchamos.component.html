@@ -155,7 +155,7 @@
                 Correo registrado
               </mat-label>
               <label>
-                <input formControlName="email" matInput type="email">
+                <input formControlName="email" matInput type="email" [pattern]="'^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'">
               </label>
             </mat-form-field>
 
@@ -173,7 +173,8 @@
                   Seleccione la más cercana
                 </mat-label>
                 <mat-select formControlName="pickUp">
-                  <mat-option *ngFor="let  of " [value]="">
+                  <mat-option *ngFor="let delivery of deliveryPlaces" [value]="delivery.id">
+                    {{delivery.description}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -188,8 +189,13 @@
                     <mat-divider></mat-divider>
                   </div>
                   <credix-radio-button [checked]="false" [value]="'newDirection'" label="User otra dirección" name="b" (emitRadioButton)="newDirectionChecked($event)"></credix-radio-button>
+                  <div class="marchamos__delivery-pickup" fxLayout="column">
+                    <span> {{delivery.deliveryName}} </span>
+                    <span> {{delivery.deliveryNumber}}</span>
+                    <p> {{delivery.deliveryLocation }}</p>
+                    <mat-divider></mat-divider>
+                  </div>
 
-                  
                 </div>
               
           </div>

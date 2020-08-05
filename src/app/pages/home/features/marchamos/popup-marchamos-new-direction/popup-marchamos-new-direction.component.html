@@ -1,16 +1,16 @@
 <div class="new-delivery" fxLayout="column" fxLayoutGap="16px">
-    
-    <mat-form-field appearance="standard">
-        <mat-label>Provincia</mat-label>
-        <mat-select >
-          <mat-option  [value]="">
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <form [formGroup]="newDeliveryForm">
+      <mat-form-field appearance="standard">
+          <mat-label>Provincia</mat-label>
+          <mat-select formControlName="province">
+            <mat-option  [value]="">
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
       <mat-form-field appearance="standard">
         <mat-label>Cantón</mat-label>
-        <mat-select >
+        <mat-select formControlName="canton">
           <mat-option  [value]="">
             
           </mat-option>
@@ -19,7 +19,7 @@
 
       <mat-form-field appearance="standard">
         <mat-label>Distrito</mat-label>
-        <mat-select >
+        <mat-select formControlName="distric">
           <mat-option  [value]="">
           </mat-option>
         </mat-select>
@@ -29,22 +29,23 @@
         <mat-label>
             Dirección exacta
         </mat-label>
-          <input  matInput type="text">
+          <input formControlName="exactlyDirection" matInput type="text">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>
             Persona que recibe
         </mat-label>
-          <input matInput type="text">
+          <input formControlName="personReceive" matInput type="text">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>
             Teléfono de quién recibe
         </mat-label>
-          <input mask="0000-0000" matInput type="text">
+          <input mask="0000-0000" matInput type="text" formControlName="phoneNumber">
       </mat-form-field>
 
-      <credix-button fxLayoutAlign="flex-start" class="w-100" text="Agregar"></credix-button>
+      <credix-button fxLayoutAlign="flex-start" class="w-100" text="Agregar" (click)="submit()"></credix-button>
+    </form>
 </div>

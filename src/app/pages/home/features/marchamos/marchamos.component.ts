@@ -10,6 +10,7 @@ import { ConsultVehicle } from 'src/app/shared/models/consultVehicle.models';
 import { Item } from 'src/app/shared/models/item.model';
 import { map } from 'rxjs/operators';
 import { PopupMarchamosNewDirectionComponent } from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
+import { DeliveryPlace } from 'src/app/shared/models/deliveryPlace.model';
 
 @Component({
   selector: 'app-marchamos',
@@ -20,6 +21,7 @@ export class MarchamosComponent implements OnInit {
 
   vehicleType: VehicleType[];
   consultVehicle: ConsultVehicle;
+  deliveryPlaces: DeliveryPlace[];
   itemProduct: Item[] = [
     {
       responseDescription: "Responsabilidad civil",
@@ -103,11 +105,11 @@ export class MarchamosComponent implements OnInit {
   totalMount:string = '₡ 114.996,00';
   value = 1;
   popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
-  popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent>;
+  popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
   isChecked = false;
   sliderChangedValue = false;
   radioButtonsChangedValue: any;
-  amount:number;
+  amount:number = 408455;
 
 
   consultForm: FormGroup = new FormGroup({
@@ -122,7 +124,7 @@ export class MarchamosComponent implements OnInit {
   });
 
   pickUpForm: FormGroup = new FormGroup({
-    email: new FormControl('', []),
+    email: new FormControl('', [Validators.email]),
     pickUp: new FormControl('', [])
   });
 
@@ -181,13 +183,18 @@ export class MarchamosComponent implements OnInit {
     console.log(event);
     this.value = event;
     this.secureAndQuotesControls.quotesToPay.patchValue(this.value);
+
+    this.getCommission(this.value);
   }
 
   getValueCheckBoxes(event: any, all?:string) {
-    console.log(event);
     const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
     if (event.source.id === 'mat-checkbox-4') {
       this.allChecked(event.checked);  
+
+      for (let index = 0; index < this.itemProduct.length; index++) {
+        console.log(this.itemProduct[index]);
+      }
     }
      (event.checked) ? this.sliderChangedValue = true: false;
 
@@ -224,6 +231,7 @@ export class MarchamosComponent implements OnInit {
       channelId: 107,
       plateClassId: this.consultControls.vehicleType.value.toString(),
       plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
+      govermentCode:'PAR',
       aditionalProducts: [
         {
           "productCode": 5
@@ -254,17 +262,18 @@ export class MarchamosComponent implements OnInit {
   getPickUpStore() {
     this.httpService.post('marchamos', 'pay/deliveryplaces',{channelId: 102})
     .subscribe(response => {
-      console.log(response);
+      this.deliveryPlaces = response.deliveryPlacesList;
     });
   }
 
-  getCommission(){
+  getCommission(commission:number){
     this.httpService.post('marchamos', 'pay/calculatecommission',{
       channelId: 107,
       amount:this.amountValue,
-      commissionQuotasId: this.secureAndQuotesControls.quotesToPay.value
+      commissionQuotasId: 6
     }).subscribe(response => { console.log(response);});
   }
+  
 
   secureToPay() {
     this.httpService.post('marchamos', 'pay/soapay',
@@ -313,7 +322,7 @@ export class MarchamosComponent implements OnInit {
       hideCloseButton: false,
       title:'Nueva dirección de entrega'
     },{width: 380, height: 614, disableClose: false});
-    this.popupNewDirection.afterClosed();
+    this.popupNewDirection.afterClosed().subscribe( values => console.log(values));
   }
 
   payWithQuotesAndSecure() {
