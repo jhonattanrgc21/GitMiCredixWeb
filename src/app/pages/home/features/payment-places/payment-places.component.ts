@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
+import {CredixToastService} from '../../../../core/services/credix-toast.service';
 
 @Component({
   selector: 'app-payment-places',
@@ -18,7 +19,7 @@ export class PaymentPlacesComponent implements OnInit {
   details=[{id: 1, name: 'Detalles 1'}]
   tab_show = 1;
   tooltip = "Copiar";
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService, private toastService: CredixToastService) { }
 
   ngOnInit(): void {
     this.getPaymentPlaces();
@@ -55,6 +56,10 @@ export class PaymentPlacesComponent implements OnInit {
         this.options.push({id: this.contador, priority: paymentPlace.priority, name: paymentPlace.name, img: paymentPlace.linkImage, restrictions:resp.paymentPlace})
 
       });
+  }
+
+  copyIbanAccount(text: string) {
+    this.toastService.show({text, type: 'success'});
   }
 
 }

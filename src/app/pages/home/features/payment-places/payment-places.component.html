@@ -11,8 +11,8 @@
           <p class="digital-payments__content__title">SINPE Móvil</p>
         </div>
         <div fxFlex="60%">
-          <p class="digital-payments__content__text">Realice un pase de dinero para pagar su tarjeta al número de SINPE Móvil de Credix: <credix-link-button
-              route="" text="8927-3349"></credix-link-button>.</p>
+          <p class="digital-payments__content__text">Realice un pase de dinero para pagar su tarjeta al número de SINPE
+            Móvil de Credix: <credix-link-button route="" text="8927-3349"></credix-link-button>.</p>
         </div>
       </div>
       <div fxLayout="row" class="digital-payments__content__option" fxLayoutAlign="space-between start">
@@ -26,10 +26,11 @@
               <p>Colones</p>
             </div>
             <div fxFlex="70%" class="digital-payments__content__option__inner-option__content">
-              <p>CR91010200009093845399<mat-icon svgIcon="content-copy" class="digital-payments__content__copy-icon"
-                  #tooltip="matTooltip" matTooltip="Copiar" matTooltipPosition="after" cdkCopyToClipboard="CR00000000000000000001">
-                </mat-icon>
-              </p>
+              <span>CR91010200009093845399</span>
+                <button (click)="copyIbanAccount('Cuenta copiada')"
+                  cdkCopyToClipboard="CR91010200009093845399" mat-icon-button>
+                  <mat-icon svgIcon="content-copy"></mat-icon>
+                </button>
             </div>
           </div>
           <div fxLayout="row" class="digital-payments__content__option__inner-option">
@@ -37,10 +38,13 @@
               <p>Dólares</p>
             </div>
             <div fxFlex="70%" class="digital-payments__content__option__inner-option__content">
-              <p>CR31010200009093845703<mat-icon svgIcon="content-copy" class="digital-payments__content__copy-icon"
-                  #tooltip="matTooltip" matTooltip="Copiar" matTooltipPosition="after" cdkCopyToClipboard="CR00000000000000000002">
-                </mat-icon>
-              </p>
+              <span>CR31010200009093845703</span>
+
+                <button (click)="copyIbanAccount('Cuenta copiada')"
+                  cdkCopyToClipboard="CR31010200009093845703" mat-icon-button>
+                  <mat-icon svgIcon="content-copy"></mat-icon>
+                </button>
+
             </div>
           </div>
         </div>
@@ -73,9 +77,12 @@
               <p>Colones</p>
             </div>
             <div fxFlex="70%" class="digital-payments__content__option__inner-option__content">
-              <p>CR91010200009093845399<mat-icon svgIcon="content-copy" class="digital-payments__content__copy-icon"
-                  #tooltip="matTooltip" matTooltip="Copiar" matTooltipPosition="after" cdkCopyToClipboard="CR00000000000000000001"></mat-icon>
-              </p>
+              <span>CR91010200009093845399</span>
+                <button (click)="copyIbanAccount('Cuenta copiada')"
+                  cdkCopyToClipboard="CR91010200009093845399" mat-icon-button>
+                  <mat-icon svgIcon="content-copy"></mat-icon>
+                </button>
+
             </div>
           </div>
           <div fxLayout="row" class="digital-payments__content__option__inner-option">
@@ -83,10 +90,12 @@
               <p>Dólares</p>
             </div>
             <div fxFlex="70%" class="digital-payments__content__option__inner-option__content">
-              <p>CR31010200009093845703<mat-icon svgIcon="content-copy" #tooltip="matTooltip" matTooltip="Copiar"
-                  class="digital-payments__content__copy-icon" matTooltipPosition="after" cdkCopyToClipboard="CR00000000000000000002">
-                </mat-icon>
-              </p>
+              <span>CR31010200009093845703</span>
+                <button (click)="copyIbanAccount('Cuenta copiada')"
+                cdkCopyToClipboard="CR31010200009093845703" mat-icon-button>
+                <mat-icon svgIcon="content-copy"></mat-icon>
+              </button>
+
             </div>
           </div>
           <p class="digital-payments__content__option__inner-content-first">Al realizar el pago de su tarjeta por esta
@@ -102,4 +111,3 @@
     </div>
   </mat-card>
 </div>
-
