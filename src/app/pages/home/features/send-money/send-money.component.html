@@ -1,0 +1,31 @@
+<mat-card class="send-money" credixCard fxLayout="column" fxLayoutGap="16px">
+  <h1>Enviar dinero</h1>
+
+  <credix-stepper #sendMoneyStepper class="send-money__stepper">
+
+    <cdk-step [stepControl]="informationForm"
+              fxLayout="column"
+              label="Información">
+      <app-first-step [favoriteAccountControl]="informationForm.controls.account"></app-first-step>
+    </cdk-step>
+
+    <cdk-step [stepControl]="amountAndQuotaForm"
+              fxLayout="column"
+              label="Monto y plazo">
+      <app-second-step></app-second-step>
+    </cdk-step>
+
+    <cdk-step [stepControl]="confirmForm"
+              fxLayout="column"
+              label="Confirmación">
+      <app-third-step></app-third-step>
+    </cdk-step>
+
+  </credix-stepper>
+
+  <div class="send-money__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" text="Atras" type="secondary"></credix-button>
+    <credix-button (buttonClick)="next()" [disabled]="disableButton" text="Continuar"></credix-button>
+  </div>
+
+</mat-card>

@@ -55,7 +55,7 @@ export const menus: Menu[] = [
       {id: 1, name: 'Servicios', route: '/home', icon: 'public_services'},
       {id: 2, name: 'Pagar tarjeta', route: '/home', icon: 'pay'},
       {id: 3, name: 'Marchamo', route: '/home/marchamos', icon: 'car'},
-      {id: 4, name: 'Enviar dinero', route: '/home', icon: 'transfer'},
+      {id: 4, name: 'Enviar dinero', route: '/home/send-money', icon: 'transfer'},
       {id: 5, name: 'Reportar transferencia', route: '/home', icon: 'transfer_report'},
       {id: 6, name: 'Lugares de pago', route: '/home/payment-places', icon: 'map-marker'}
     ]
