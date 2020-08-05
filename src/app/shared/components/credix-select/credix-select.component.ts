@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ContentChildren, ElementRef, Input, OnInit, QueryList, Renderer2} from '@angular/core';
+import {AfterViewInit, Component, ContentChildren, Input, OnInit, QueryList} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatOption} from '@angular/material/core';
 
@@ -16,7 +16,7 @@ export class CredixSelectComponent implements OnInit, AfterViewInit {
   @ContentChildren(MatOption) queryOptions: QueryList<MatOption>;
   options: any[];
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {
+  constructor() {
 
   }
 
@@ -27,8 +27,6 @@ export class CredixSelectComponent implements OnInit, AfterViewInit {
     this.queryOptions.changes.subscribe(() => {
       this.options = this.queryOptions.toArray().map(option => ({value: option.value, viewValue: option.viewValue}));
     });
-
-    this.renderer.setStyle(this.el.nativeElement.querySelector('.mat-form-field'), 'height', `${this.height}px`);
   }
 
 }

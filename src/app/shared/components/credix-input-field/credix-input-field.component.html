@@ -1,0 +1,16 @@
+<mat-form-field [class.has-value]="control.value && control.value.length > 0"
+                appearance="standard"
+                class="credix-input-field">
+  <mat-label>{{this.viewLabel}}</mat-label>
+  <input [formControl]="control"
+         [mask]="mask"
+         [type]="type"
+         autocomplete="off" matInput/>
+  <div matSuffix>
+    <ng-content select="[suffix]">
+    </ng-content>
+  </div>
+  <mat-error>
+    <ng-content select="[error]"></ng-content>
+  </mat-error>
+</mat-form-field>

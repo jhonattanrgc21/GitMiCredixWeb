@@ -15,6 +15,8 @@ import {CredixFormsModule} from '../../../../shared/directives/credix-forms/cred
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
+import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
+import {CredixInputPasswordModule} from '../../../../shared/components/credix-input-password/credix-input-password.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -42,7 +44,9 @@ const routes: Routes = [
     CredixCodeInputModule,
     NgxMaskModule.forRoot(maskConfig),
     CredixLinkButtonModule,
-    CredixSelectModule
+    CredixSelectModule,
+    CredixInputFieldModule,
+    CredixInputPasswordModule
 
   ],
   providers: [ModalService]

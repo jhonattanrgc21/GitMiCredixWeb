@@ -5,17 +5,14 @@
 
     <form [formGroup]="signInformGroup" class="sign-in__card__form" fxLayout="column" fxLayoutAlign="center">
 
-      <mat-form-field appearance="standard" credixFormField height="43" onFocusLabel="Identificación">
-        <mat-label>Digite su identificación</mat-label>
-        <input [mask]="identificationMask" autocomplete="off" formControlName="identification" matInput/>
-      </mat-form-field>
+      <credix-input-field [control]="signInformGroup.controls.identification" [mask]="identificationMask"
+                          class="sign-in__card__form__input" focusLabel="Identificación"
+                          label="Digite su identificación">
+      </credix-input-field>
 
-      <mat-form-field [credixPasswordFieldTooltip]="f.password" appearance="standard" credixFormField="password"
-                      height="43" onFocusLabel="Clave" panelClass="sign-in-tooltip" tooltipOffsetY="2">
-        <mat-label>Digite su clave</mat-label>
-        <input [type]="hide ? 'password' : 'text'" formControlName="password" matInput/>
-        <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
-      </mat-form-field>
+      <credix-input-password [control]="signInformGroup.controls.password" focusLabel="Clave" label="Digite su clave"
+                             tooltipOffsetY="2">
+      </credix-input-password>
 
       <credix-button (click)="login()" [disabled]="signInformGroup.invalid" class="w-100"
                      text="Ingresar"></credix-button>
