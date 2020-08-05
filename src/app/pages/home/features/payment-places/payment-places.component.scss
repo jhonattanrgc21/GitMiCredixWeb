@@ -57,6 +57,7 @@
             line-height: 1 !important;
             background: none;
             border: none;
+            padding: 0;
 
             mat-icon {
               color: #E42313;
@@ -109,7 +110,7 @@
 
         &__inner-option-first,
         &__inner-option {
-          width: 336px;
+          width: 350px;
         }
 
       }
