@@ -1,0 +1,57 @@
+.credix-select {
+  width: 100%;
+
+  ::ng-deep.mat-select {
+    margin-left: 8px;
+  }
+
+  ::ng-deep.mat-form-field-label {
+    margin-left: 8px;
+    color: #3E3E3E !important;
+  }
+
+  ::ng-deep.mat-form-field-infix {
+    border: 0 !important;
+  }
+
+  ::ng-deep.mat-select-arrow {
+    margin-right: 16px;
+    color: #3E3E3E !important;
+  }
+
+  ::ng-deep.mat-form-field-underline {
+    background-color: #C7C7C7 !important;
+  }
+
+  ::ng-deep &.mat-focused .mat-form-field-ripple {
+    background-color: #707070 !important;
+  }
+
+  ::ng-deep &.mat-form-field-disabled {
+
+    .mat-form-field-label {
+      color: #D2D2D2 !important;
+    }
+
+    ::ng-deep.mat-form-field-underline {
+      background-color: #D2D2D2 !important;
+    }
+  }
+
+  ::ng-deep &.mat-form-field-invalid {
+
+    .mat-form-field-label {
+      color: #FF4965 !important;
+    }
+
+    .mat-form-field-ripple {
+      background-color: #FF4965 !important;
+    }
+  }
+}
+
+::ng-deep.credix-select-panel {
+  margin-top: 40px !important;
+  margin-left: 8px !important;
+  min-width: 100% !important;
+}

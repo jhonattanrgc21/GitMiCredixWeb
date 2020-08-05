@@ -20,6 +20,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {CredixStepperSignUpComponent} from './credix-stepper-sign-up/credix-stepper-sign-up.component';
 import {ModalResponseSignUpComponent} from './modal-response-sign-up/modal-response-sign-up.component';
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
+import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -50,6 +51,7 @@ const routes: Routes = [
     CdkStepperModule,
     MatStepperModule,
     NgxMaskModule.forRoot(maskConfig),
+    CredixSelectModule,
   ],
   providers: [
     HttpService,
