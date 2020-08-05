@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Component, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-modal-awards',
@@ -7,33 +7,38 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
   styleUrls: ['./modal-awards.component.scss'],
 })
 export class ModalAwardsComponent implements OnInit {
-  options = { autoHide: false };
-  config: any;
-  userChallenges = {
-    descriptionOne: '',
-    descriptionTwo: '',
-    json: [],
-    status: '',
-    titleOne: '',
-    titleTwo: '',
-    type: '',
-  };
+  @ViewChild('footer') footer: TemplateRef<any>;
+  currentAward: number;
+  awardLength = 0;
+  award;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data
+    @Inject(MAT_DIALOG_DATA) public data,
+    public dialogRef: MatDialogRef<ModalAwardsComponent>
   ) {
+    this.currentAward = this.data.data.id;
+    this.awardLength = this.data.data.array.length;
+    this.award = this.data.data.array[this.currentAward];
   }
 
   ngOnInit(): void {
-    this.config = {
-      id: 'custom',
-      itemsPerPage: 1,
-      currentPage: this.data.data.id + 1,
-      totalItems: this.data.data.array.length,
-    };
+
   }
 
-  onPageChanged(event) {
-    this.config.currentPage = event;
+
+  ngAfterViewInit(): void {
+    this.data.footer = this.footer;
   }
+
+  back() {
+    this.currentAward = this.currentAward - 1;
+    this.award = this.data.data.array[this.currentAward];
+
+  }
+
+  next() {
+    this.currentAward = this.currentAward + 1;
+    this.award = this.data.data.array[this.currentAward];
+  }
+
 }

@@ -1,182 +1,61 @@
-.premios {
-
-  &__bar{
-    height: calc(100% - 3px);
-    width: 376px;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  &__content-div {
-    width: 336px;
-    margin: 16px auto 3px auto;
-    background-color: #FFFFFF;
-    border-radius: 8px 8px 0px 0px;
-    text-align: center;
-
-    ::ng-deep .mat-icon {
-      width: 32px;
-      height: 32px;
-      color: #E9E9E9;
-      transform: translate(5px, 18px);
-    }
-
-    h4 {
-      padding: 16px 0 16px 0px;
-      margin-left: 16px;
-      text-align: start;
-    }
-
-    img {
-      width: 151px;
-      border-radius: 100%;
-    }
-
-    &__slider-title {
-      font-size: 12px;
-      position: absolute;
-      margin-top: 8px;
-    }
-
-    &__msg {
-      padding: 8.2px 16px 16px;
-      text-align: left;
-    }
-
-  }
-
-  &__footer {
-    margin-top: -1.5px;
-    margin-left: 16px;
-
-    &__share-btn {
-      margin-left: -40px;
-      margin-right: 41px !important;
-
-      span {
-        margin-left: -17px;
-        color: #239DF7;
-        font-size: 14px;
-      }
-    }
-
-    &__premios {
-      text-align: center;
-
-      span {
-        font-size: 14px;
-        color: #696D6F;
-        font-weight: bold;
-      }
-
-      ::ng-deep .mat-icon {
-        height: 12.95px;
-        width: 8px;
-        padding: 0 16px;
-      }
-    }
-  }
-
-}
 
 
-::ng-deep .mat-dialog-content {
-  background-color: #f4f4f4;
-  margin: 0 -40px !important;
-  padding: 0px !important;
-  width: 376px;
-  height: 425px;
-  transform: translateY(-18px);
-  overflow: hidden;
-}
-
-mat-slider {
-  width: 271.37px;
-  padding: 0;
-  margin: 10px 0 0 -8px;
-}
-
-::ng-deep .mat-slider.mat-slider-horizontal .mat-slider-track-fill {
-  background-color: #19D27E;
-  height: 6px;
-  border-radius: 6px;
-}
-
-::ng-deep .mat-slider.mat-slider-horizontal .mat-slider-track-wrapper {
-  height: 6px;
-  border-radius: 6px;
-}
-
-::ng-deep .mat-slider.mat-slider-horizontal .mat-slider-track-background,
-.mat-slider.mat-slider-horizontal .mat-slider-track-fill {
+.modal-awards {
+  background: #ffffff;
+  width: 336px;
   height: 100%;
-  background-color: #E9E9E9;
-}
-
-::ng-deep .mat-accent .mat-slider-thumb {
-  display: none;
-}
+  border-radius: 8px 8px 0 0;
 
 
-::ng-deep .mat-slider-horizontal .mat-slider-wrapper {
-  width: 271.37px;
-}
+  &__header {
+    padding: 16px 16px 0 16px;
 
-::ng-deep .mat-dialog-container {
-  overflow: hidden !important;
-}
+    span {
+      font-weight: bold;
+    }
+  }
 
-:host ::ng-deep .credix-progress-bar {
-  width: 303px !important;
-  padding-left: 16px;
-  padding-bottom: 18px;
-  padding-top: 16px;
+  &__img {
+    width: 151px;
+    border-radius: 100%;
+    margin: 0 auto;
+  }
 
-}
+  credix-progress-bar{
+    width: 300px;
+    margin: 0 auto;
+  }
 
-:host ::ng-deep .credix-progress-bar__line.is-over {
-  background-color: #19d27e;
-}
+  &__paginator {
+    margin-left: 65px;
 
-:host ::ng-deep .credix-progress-bar__line {
-  background-color: #e9e9e9;
-}
+    &__title-span{
+        font-weight: bold;
+        color: #696D6F;
+        font-size: 14px;
+    }
 
-::ng-deep .credix-popup__title {
-  margin-bottom: -8px !important;
-  position: relative;
-  top: -42px;
-  left: -24px;
-}
+    &__pag-span{
+      transform: translateY(-3px);
+  }
 
-.custom-pagination .page-number {
-  display: inline-block;
-  /* padding: 5px 12px; */
-  margin: 0px 4px;
-}
+    &__btn {
+      width: 15px;
+      height: 15px;
+      line-height: 1 !important;
+      border: none;
+      background: none;
 
-.page-number.current {
-  background: #ffffff !important;
-  border: 2px solid #458873;
-}
+      mat-icon {
+        fill: #D2D2D2;
+        width: 8px;
+        height: 13px;
+        vertical-align: baseline;
 
-.page-number span {
-  display: block;
-  width: 28px;
-  height: 28px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.pagination-previous, .pagination-next {
-  display: inline-block;
-  font-weight: bold;
-}
-
-.red_icon {
-  color: #E42313;
-}
-
-.gray_icon {
-  color: #D2D2D2;
+        &.is-enable {
+          fill: #E42313;
+        }
+      }
+    }
+  }
 }
