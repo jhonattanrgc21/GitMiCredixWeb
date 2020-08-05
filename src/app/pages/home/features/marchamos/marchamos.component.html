@@ -184,7 +184,7 @@
                 <div *ngIf="radioButtonsChangedValue === 1" class="marchamos__inputs-hidden">
                   <credix-radio-button [checked]="true" [value]="'directionRegister'" label="Dirección registrada en Credix" name="b" (emitRadioButton)="newDirectionChecked($event)"></credix-radio-button>
                     <div class="marchamos__delivery-pickup" fxLayout="column">
-                      <span> {{ownerPayer.payerName | slice:0:18}} </span>
+                      <span> {{ownerPayer.payerName}} </span>
                       <span> {{ownerPayer.payerPhone | mask: '0000-0000'}}</span>
                       <div fxLayout="row">
                         <span>{{ownerPayer.cantonDescription}} </span>
