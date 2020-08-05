@@ -3,18 +3,18 @@ import {FormControl} from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'credix-input-field',
-  templateUrl: './credix-input-field.component.html',
-  styleUrls: ['./credix-input-field.component.scss']
+  selector: 'credix-input-password',
+  templateUrl: './credix-input-password.component.html',
+  styleUrls: ['./credix-input-password.component.scss']
 })
-export class CredixInputFieldComponent implements OnInit, OnChanges {
+export class CredixInputPasswordComponent implements OnInit, OnChanges {
   @Input() label: string;
   @Input() focusLabel: string;
-  @Input() mask: string;
-  @Input() errorMessage: string;
-  @Input() icon: string;
-  @Input() type: 'text' | 'password' = 'text';
+  @Input() tooltipOffsetY: number;
+  @Input() tooltipWidth: number;
+  @Input() panelClass: string;
   @Input() control: FormControl;
+  hide = true;
   viewLabel: string;
 
   constructor() {
