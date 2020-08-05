@@ -1,0 +1,36 @@
+.first-step {
+  margin-top: 32px;
+
+  &__content, .full-width {
+    width: 677px;
+  }
+
+  &__divider {
+    width: 100%;
+    border: 1px solid #E9E9E9;
+  }
+
+  &__favorites {
+    width: calc(100% - 20px);
+
+    &__select {
+      width: 100%;
+      height: 43px;
+      margin-top: 8px;
+      margin-bottom: 19px;
+    }
+  }
+
+  .ml-20px {
+    margin-left: 20px !important;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .first-step {
+
+    &__content, .full-width {
+      width: 549px;
+    }
+  }
+}
