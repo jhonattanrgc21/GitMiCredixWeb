@@ -23,11 +23,32 @@
     }
   }
 
+  &__first-form {
+
+    &__input-wrapper {
+      :nth-child(1) {
+        height: 38px;
+        margin-bottom: 16px;
+      }
+    }
+  }
+
+  &__third-form {
+
+    &__input-pass {
+      height: 38px;
+
+      &:nth-child(1) {
+        margin-bottom: 18px;
+      }
+    }
+  }
+
   &__button {
     width: 100%;
 
     &.step-one {
-      margin-top: 132px;
+      margin-top: 90px;
     }
 
     &.step-two {

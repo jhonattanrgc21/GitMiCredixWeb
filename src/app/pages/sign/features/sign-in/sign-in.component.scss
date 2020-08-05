@@ -25,15 +25,9 @@
       margin-bottom: 32px;
       width: 100%;
 
-      mat-form-field {
-
-        &:first-of-type {
-          margin-bottom: 20px;
-        }
-
-        &:last-of-type {
-          margin-bottom: 24px;
-        }
+      :first-child {
+        height: 43px;
+        margin-bottom: 22px;
       }
     }
 
