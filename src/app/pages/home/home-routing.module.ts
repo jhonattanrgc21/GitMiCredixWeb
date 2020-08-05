@@ -20,6 +20,10 @@ const routes: Routes = [
       {
         path: 'marchamos',
         loadChildren: () => import('./features/marchamos/marchamos.module.js').then(m => m.MarchamosModule)
+      },
+      {
+        path: 'payment-places',
+        loadChildren: () => import('./features/payment-places/payment-places.module.js').then(m => m.PaymentPlacesModule)
       }
     ]
   }

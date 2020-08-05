@@ -10,8 +10,14 @@ import {Router} from '@angular/router';
 export class CredixNavigationTableComponent implements OnInit {
   @Input() headers = ['', ''];
   @Input() options = [];
+  @Input() details = [];
   optionSelected = {
-    id: 0, name: '', icon: '', subOptions: []
+    id: 0,
+    name: '',
+    icon: '',
+    img: '',
+    subOptions: [],
+    restrictions: {linkFacebook: '', name: '', paymentPlaceRestriction: [], webPage: ''},
   };
 
   constructor(private router: Router) {
@@ -22,6 +28,7 @@ export class CredixNavigationTableComponent implements OnInit {
 
   optionClick(option) {
     this.optionSelected = option;
+    // console.log(this.optionSelected);
   }
 
   subOptionClick(navigation: string) {
