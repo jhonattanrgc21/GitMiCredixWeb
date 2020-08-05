@@ -27,8 +27,6 @@ export class CredixSelectComponent implements OnInit, AfterViewInit {
     this.queryOptions.changes.subscribe(() => {
       this.options = this.queryOptions.toArray().map(option => ({value: option.value, viewValue: option.viewValue}));
     });
-
-    this.renderer.setStyle(this.el.nativeElement.querySelector('.mat-form-field'), 'height', `${this.height}px`);
   }
 
 }
