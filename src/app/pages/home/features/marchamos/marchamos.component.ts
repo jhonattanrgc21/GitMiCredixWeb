@@ -37,11 +37,6 @@ export class MarchamosComponent implements OnInit {
       responseDescription: "Mas protección",
       responseCode: 15,
       productCode: 8
-    },
-    {
-      responseDescription: "Todos.",
-      responseCode: 15,
-      productCode: 10
     }
   ];
   wishPayFirstCouteIn: any[] = [
@@ -103,11 +98,11 @@ export class MarchamosComponent implements OnInit {
 
   vehicleInformation: boolean;
   totalMount:string = '₡ 114.996,00';
-  value = 1;
+  value:number = 1;
   popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
   popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
-  isChecked = false;
-  sliderChangedValue = false;
+  isChecked:boolean = false;
+  quotesToPayOfAmount:boolean = false;
   radioButtonsChangedValue: any;
   amount:number = 408455;
 
@@ -187,31 +182,42 @@ export class MarchamosComponent implements OnInit {
     this.getCommission(this.value);
   }
 
-  getValueCheckBoxes(event: any, all?:string) {
+  getValueCheckBoxes(event: any) {
     const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
-    if (event.source.id === 'mat-checkbox-4') {
-      this.allChecked(event.checked);  
-
-      for (let index = 0; index < this.itemProduct.length; index++) {
-        console.log(this.itemProduct[index]);
-      }
+     (event.checked) ? this.quotesToPayOfAmount = true: false;
+      if (event.checked) {
+          checkArray.push(new FormGroup({
+            productCode:new FormControl(event.source.value)
+          }));
+        } else {
+          let index: number = 0;
+          checkArray.controls.forEach((item: FormGroup) => {
+            if (item.value.productCode === event.source.value) {
+              checkArray.removeAt(index);
+              return; 
+            }
+            index++;
+          });
     }
-     (event.checked) ? this.sliderChangedValue = true: false;
+  }
 
-     console.log(event.source._elementRef.nativeElement.id);
-    if (event.checked) {
-      checkArray.push(new FormGroup({
-        productCode:new FormControl(event.source.value)
-      }));
-    } else {
-      let index = 0;
-      checkArray.controls.forEach((item: FormControl) => {
-        if (item.value === event.source.value) {
-          checkArray.removeAt(index);
-          return;
+  getValueOfCheckBoxAll(event){
+    const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
+    (event.checked) ? this.quotesToPayOfAmount = true: false;
+
+    if (event.source.id === 'mat-checkbox-1' && event.source._checked) {
+      this.allChecked(event.checked); 
+      for (const product of this.itemProduct) {
+        checkArray.push(
+          new FormGroup({
+            productCode:new FormControl(product.productCode)
+          }));
+          checkArray.removeAt(3);
         }
-        index++;
-      });
+    }else{
+      this.allChecked(event.checked);
+      checkArray.controls.splice(0, this.itemProduct.length);
+      checkArray.setValue([]);
     }
   }
 
@@ -223,7 +229,6 @@ export class MarchamosComponent implements OnInit {
     if (event.value ==='newDirection' && event.source.checked) {
       this.newDirection();
     }
-
   }
 
   consult() {
