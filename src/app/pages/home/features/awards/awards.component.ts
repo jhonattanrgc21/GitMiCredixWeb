@@ -3,6 +3,7 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {ModalAwardsComponent} from './modal-awards/modal-awards.component';
 import {StorageService} from '../../../../core/services/storage.service';
 import {HttpService} from '../../../../core/services/http.service';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-awards',
@@ -14,20 +15,11 @@ export class AwardsComponent implements OnInit {
     {id: 1, name: 'En progreso'},
     {id: 2, name: 'Finalizados'},
   ];
-  tabShow = 1;
+  showInProgress = true;
   completed = [];
   inProgress = [];
-  completedItems = false;
-  inProgressItems = false;
-  userChallenges = {
-    descriptionOne: '',
-    descriptionTwo: '',
-    json: [],
-    status: '',
-    titleOne: '',
-    titleTwo: '',
-    type: '',
-  };
+  awards = [];
+  options = {autoHide: false, scrollbarMinSize: 100};
 
   constructor(
     private modalService: ModalService,
@@ -41,11 +33,8 @@ export class AwardsComponent implements OnInit {
   }
 
   tabSelected(tab) {
-    if (tab.id === 1) {
-      this.tabShow = 1;
-    } else {
-      this.tabShow = 0;
-    }
+    this.showInProgress = tab.id === 1;
+    this.awards = this.showInProgress ? this.inProgress : this.completed;
   }
 
   open(i, modal: 'in-progress' | 'completed') {
@@ -82,21 +71,20 @@ export class AwardsComponent implements OnInit {
         channelId: 102,
         usuId: sibUserId,
       })
-      .subscribe((resp) => {
-        this.userChallenges = resp;
-        this.getArrays();
+      .pipe(map(response => {
+        return response.json;
+      }))
+      .subscribe((response) => {
+        response.forEach((award) => {
+          if (award.completed) {
+            this.completed.push(award);
+          } else {
+            this.inProgress.push(award);
+          }
+        });
+
+        this.awards = this.inProgress;
       });
   }
 
-  getArrays() {
-    this.userChallenges.json.forEach((award) => {
-      if (award.completed) {
-        this.completedItems = true;
-        this.completed.push(award);
-      } else {
-        this.inProgressItems = true;
-        this.inProgress.push(award);
-      }
-    });
-  }
 }

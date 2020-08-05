@@ -1,97 +1,71 @@
+<div class="awards" fxLayout="column" fxLayoutGap="16px">
 
-<div class="awards__banner-tab" fxLayout="row" fxLayoutGap="16px">
-  <mat-card [ngClass]="tabShow ? 'awards__banner-tab__card-progress' : 'awards__banner-tab__card-finalizado' "
+  <div class="awards__banner-tab" fxLayout="row" fxLayoutGap="16px">
+    <mat-card [ngClass]="showInProgress ? 'awards__banner-tab__card-progress' : 'awards__banner-tab__card-finalizado' "
+              credixCard
+              fxFlex="100">
+      <h1>Premios</h1>
+
+      <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+      <div *ngIf="showInProgress" class="awards__banner-tab__progress-div">
+        <h2>¡Complete desafíos y gane con Credix!</h2>
+        <p class="awards__banner-tab__progress-div__msg">Siga las instrucciones de cada desafío y al completarlo
+          obtendrá
+          un premio. Además, acumule acciones y participe en la rifa de un carro Toyota Rav4.</p>
+        <p class="awards__banner-tab__progress-div__p">¡Es hora de ganar!</p>
+      </div>
+    </mat-card>
+  </div>
+
+  <div *ngIf="(showInProgress && inProgress) || (!showInProgress && completed)"
+       class="awards__cards-container">
+
+    <ng-container *ngFor="let award of awards; let i = index">
+
+      <mat-card *ngIf="!award.completed" [class.in-progress]="showInProgress" class="awards__cards-container__card"
+                credixCard fxLayout="column" fxLayoutAlign="space-between">
+
+        <div class="awards__cards-container__content" fxLayout="row" fxLayoutAlign="space-between">
+          <ngx-simplebar [options]="options" fxFlex="50">
+            <div class="w-100" fxLayout="column">
+              <h2>{{award.in_progress_name}}</h2>
+              <p class="awards__cards-container__content__main">{{award.in_progress_description}} </p>
+            </div>
+          </ngx-simplebar>
+
+          <img class="awards__cards-container__img" src="{{award.image}}">
+        </div>
+
+        <div class="awards__cards-container__footer" fxLayout="row" fxLayoutAlign="space-between">
+          <div *ngIf="!showInProgress">
+            <credix-progress-bar [goal]="10" [value]="10" class="awards__cards-container__footer__probar"
+                                 label="Meta de transacciones"></credix-progress-bar>
+          </div>
+
+          <div *ngIf="showInProgress">
+            <credix-progress-bar [goal]="10" [value]="award.progress"
+                                 class="awards__cards-container__footer__probar"
+                                 label="Meta de transacciones"></credix-progress-bar>
+          </div>
+
+          <credix-link-button (click)="open(i, 'in-progress')" class="awards__cards-container__footer__link"
+                              text="Ver detalle">
+          </credix-link-button>
+        </div>
+
+      </mat-card>
+    </ng-container>
+
+  </div>
+
+  <mat-card *ngIf="(showInProgress && inProgress.length === 0) || (!showInProgress && completed.length === 0)"
+            [class.in-progress]="showInProgress" class="awards__result-notification"
             credixCard
-            fxFlex="100">
-    <h1>Premios</h1>
-    <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
-    <div *ngIf="tabShow" class="awards__banner-tab__progress-div">
-      <h2>¡Complete desafíos y gane con Credix!</h2>
-      <p class="awards__banner-tab__progress-div__msg">Siga las instrucciones de cada desafío y al completarlo obtendrá
-        un premio. Además, acumule acciones y participe en la rifa de un carro Toyota Rav4.</p>
-      <p class="awards__banner-tab__progress-div__p">¡Es hora de ganar!</p>
-    </div>
-  </mat-card>
-</div>
+            fxLayoutAlign="center center">
 
-<div
-  *ngIf="userChallenges.json && tabShow"
-  class="awards__cards">
-  <ng-container *ngFor="let userChallenge of userChallenges.json; let i = index">
-    <mat-card
-      *ngIf="!userChallenge.completed"
-      credixCard
-    >
-      <div fxLayout="row">
-        <div class="awards__cards__content" fxFlex="57">
-          <div>
-            <h2>{{userChallenge.in_progress_name}}</h2>
-            <p class="awards__cards__content__main">{{userChallenge.in_progress_description}}</p>
-          </div>
-        </div>
-        <div fxFlex="43">
-          <img src="{{userChallenge.image}}">
-        </div>
-      </div>
-      <div class="awards__cards__footer__actions" fxLayout="row" fxLayoutAlign="space-between center">
-        <div *ngIf="!tabShow">
-          <credix-progress-bar [goal]="10" [value]="10" class="awards__cards__footer__probar"
-                               label="Meta de transacciones"></credix-progress-bar>
-        </div>
-        <div *ngIf="tabShow">
-          <credix-progress-bar [goal]="10" [value]="userChallenge.progress" class="awards__cards__footer__probar"
-                               label="Meta de transacciones"></credix-progress-bar>
-        </div>
-        <credix-link-button (click)="open(i, 'in-progress')" class="awards__cards__footer__details" text="Ver detalle">
-        </credix-link-button>
-      </div>
-    </mat-card>
-  </ng-container>
-</div>
-
-<div
-  *ngIf="userChallenges.json && !tabShow"
-  class="awards__cards">
-  <ng-container *ngFor="let userChallenge of userChallenges.json; let i = index">
-    <mat-card
-      *ngIf="userChallenge.completed"
-      credixCard
-    >
-      <div fxLayout="row">
-        <div class="awards__cards__content" fxFlex="57">
-          <div>
-            <h2>{{userChallenge.completed_name}}</h2>
-            <p class="awards__cards__content__main_f">{{userChallenge.completed_description}}</p>
-          </div>
-        </div>
-        <div fxFlex="43">
-          <img src="{{userChallenge.image}}">
-        </div>
-      </div>
-      <div class="awards__cards__footer__actions" fxLayout="row" fxLayoutAlign="space-between center">
-        <div *ngIf="!tabShow">
-          <credix-progress-bar [goal]="10" [value]="10" class="awards__cards__footer__probar"
-                               label="Meta de transacciones"></credix-progress-bar>
-        </div>
-        <credix-link-button (click)="open(i, 'completed')" class="awards__cards__footer__details" text="Ver detalle">
-        </credix-link-button>
-      </div>
-    </mat-card>
-  </ng-container>
-</div>
-
-<div *ngIf="!userChallenges.json || !completedItems || !inProgressItems">
-  <mat-card *ngIf="!tabShow && !completedItems" class="awards__warning-card-f" credixCard fxLayout="column"
-            fxLayoutAlign="center center" fxLayoutGap="16px">
-    <mat-icon class="awards__warning-icon" svgIcon="information-outline">
-    </mat-icon>
-    <p class="awards__warning-msg-f">No ha finalizado ningún premio en este momento.</p>
+    <credix-result-notification [title]="showInProgress ? 'No tiene premios en este momento.' :
+                                 'No ha finalizado ningún premio en este momento.'"
+                                status="info"></credix-result-notification>
   </mat-card>
 
-  <mat-card *ngIf="tabShow && !inProgressItems" class="awards__warning-card" credixCard fxLayout="column"
-            fxLayoutAlign="center center" fxLayoutGap="16px">
-    <mat-icon class="awards__warning-icon" svgIcon="information-outline">
-    </mat-icon>
-    <p class="awards__warning-msg">No tiene premios en este momento.</p>
-  </mat-card>
 </div>

@@ -1,45 +1,4 @@
 .awards {
-  &__warning-card {
-    margin-top: -16px;
-    @media screen and (max-width: 1999px) {
-      height: 591px;
-    }
-    @media screen and (min-width: 1200px) {
-      height: 367px;
-    }
-  }
-
-  &__warning-card-f {
-    margin-top: -16px;
-    @media screen and (max-width: 1999px) {
-      height: 733px;
-    }
-    @media screen and (min-width: 1200px) {
-      height: 509px;
-    }
-  }
-
-  &__warning-icon {
-    width: 100px;
-    height: 100px;
-    color: #5bc0de;
-  }
-
-  &__warning-msg-f,
-  &__warning-msg {
-    color: #3e3e3e;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  &__warning-msg-f {
-    width: 286px;
-  }
-
-  &__warning-msg {
-    width: 268px;
-  }
 
   &__banner-tab {
     h1 {
@@ -54,6 +13,7 @@
       &__msg {
         margin-bottom: 13px;
         font-size: 16px;
+        width: 542px;
       }
 
       h2 {
@@ -77,58 +37,44 @@
     }
   }
 
-  &__cards {
+  &__cards-container {
     margin-top: 16px;
-    margin-bottom: 16px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 16px;
     grid-row-gap: 16px;
 
-    h2 {
-      margin-bottom: 8px;
-      text-align: left;
-    }
+    &__card {
+      width: 430px;
+      height: 239px;
 
-    img {
-      width: 100%;
-      border-radius: 100%;
-    }
-
-    mat-card {
-      position: relative;
-      @media screen and (max-width: 1999px) {
-        height: 286px;
-      }
-      @media screen and (min-width: 1200px) {
+      &.in-progress {
         height: 260px;
       }
+
     }
 
     &__content {
-      //padding-right: 35px;
-      &__main {
-        font-size: 14px;
-        line-height: 22px;
+      width: 100%;
+
+      h2 {
+        margin-bottom: 8px;
         text-align: left;
       }
 
-      &__main_f {
+      &__main {
+        width: 100%;
         font-size: 14px;
         line-height: 22px;
         text-align: left;
       }
 
       &__actions {
+
         &__fecha {
           font-size: 24px;
           font-weight: bold;
-          @media screen and (max-width: 1999px) {
-            margin-bottom: 26px;
-          }
-          @media screen and (min-width: 1200px) {
-            margin-bottom: 21px;
-          }
+          margin-bottom: 21px;
         }
 
         &__entrega {
@@ -140,39 +86,61 @@
       }
     }
 
+    &__img {
+      width: 160px;
+      height: 160px;
+      border-radius: 100%;
+    }
+
     &__footer {
-      position: relative;
+      height: 40px;
 
-      &__details {
-        transform: translateY(11px);
-        position: absolute;
-        right: 16px;
-        bottom: 30px;
-      }
-
-      &__probar {
-        position: absolute;
-        bottom: 27.5px;
-      }
-
-      &__actions {
-        /*position:absolute;
-        bottom:16px;*/
-
-        &__100 {
-          font-size: 32px;
-          color: #19d27e;
-          font-weight: bold;
-        }
-
-        &__acumuladas {
-          margin-left: 16px;
-          font-size: 14px;
-          line-height: 15px;
-        }
+      &__link {
+        padding: 10px 0;
       }
     }
   }
+
+  &__result-notification {
+    height: 509px;
+
+    ::ng-deep.credix-result-notification__title {
+      width: 300px;
+      line-height: 24px;
+    }
+
+    &.in-progress {
+      ::ng-deep.credix-result-notification__title {
+        width: 268px;
+      }
+    }
+
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .awards {
+
+    &__cards-container__card {
+      width: 360px;
+      height: 263px;
+
+      &.in-progress {
+        height: 286px;
+      }
+    }
+
+    &__cards-container__img {
+      width: 142px !important;
+      height: 142px !important;
+    }
+
+    &__result-notification {
+      height: 733px;
+    }
+  }
+
 }
 
 ::ng-deep .credix-progress-bar {

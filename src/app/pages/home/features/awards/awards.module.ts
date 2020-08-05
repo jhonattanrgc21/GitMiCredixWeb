@@ -20,6 +20,8 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {ModalAwardsComponent} from './modal-awards/modal-awards.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {SimplebarAngularModule} from 'simplebar-angular';
+import {MatButtonModule} from '@angular/material/button';
+import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 
 const routes: Routes = [
   {
@@ -47,7 +49,9 @@ const routes: Routes = [
     CredixCardsModule,
     CredixLinkButtonModule,
     NgxPaginationModule,
-    SimplebarAngularModule
+    SimplebarAngularModule,
+    MatButtonModule,
+    CredixResultNotificationModule
 
   ],
   providers: [ModalService]
