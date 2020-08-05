@@ -6,7 +6,9 @@
     <form [formGroup]="signInformGroup" class="sign-in__card__form" fxLayout="column" fxLayoutAlign="center">
 
       <credix-input-field [control]="signInformGroup.controls.identification" [mask]="identificationMask"
-                          focusLabel="Identificación" label="Digite su identificación"></credix-input-field>
+                          class="sign-in__card__form__input" focusLabel="Identificación"
+                          label="Digite su identificación">
+      </credix-input-field>
 
       <credix-input-password [control]="signInformGroup.controls.password" focusLabel="Clave" label="Digite su clave"
                              tooltipOffsetY="2">

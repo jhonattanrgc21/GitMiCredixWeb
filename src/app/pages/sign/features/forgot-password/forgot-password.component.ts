@@ -18,7 +18,7 @@ export class ForgotPasswordComponent implements OnInit {
   showErrorMessage = false;
   identificationTypes: IdentificationType[];
   hide = true;
-  hide1 = true;
+  type = 'password';
   identificationMask = '0-0000-0000';
   submitted = false;
   forgotPassForm: FormGroup = new FormGroup(

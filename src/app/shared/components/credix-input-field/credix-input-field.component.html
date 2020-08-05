@@ -6,6 +6,11 @@
          [mask]="mask"
          [type]="type"
          autocomplete="off" matInput/>
-  <mat-icon *ngIf="icon" [svgIcon]="icon" matSuffix></mat-icon>
-  <mat-error *ngIf="errorMessage && control.invalid">{{errorMessage}}</mat-error>
+  <div matSuffix>
+    <ng-content select="[suffix]">
+    </ng-content>
+  </div>
+  <mat-error>
+    <ng-content select="[error]"></ng-content>
+  </mat-error>
 </mat-form-field>
