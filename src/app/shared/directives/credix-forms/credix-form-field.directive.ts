@@ -68,7 +68,7 @@ export class CredixFormFieldDirective implements AfterViewInit {
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldFlexClass), 'background',
         '#ffffff');
       this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'box-shadow',
-        this.type === 'password' ? 'none' : 'none');
+        this.type === 'password' ? '-5px 4px 7px -4px rgba(0,0,0,0.149), 5px 4px 7px -4px rgba(0,0,0,0.149)' : 'none');
     }
 
     this.renderer.setStyle(this.el.nativeElement.querySelector(this.fieldInfixClass), 'padding-bottom', '6px', 1);
