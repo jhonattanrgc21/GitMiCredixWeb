@@ -46,6 +46,29 @@
         }
         &__content {
           text-align: end;
+
+          span{
+            padding-right: 16px;
+          }
+
+          button {
+            width: auto;
+            height: 20px;
+            line-height: 1 !important;
+            background: none;
+            border: none;
+
+            mat-icon {
+              color: #E42313;
+              width: 17px;
+              height: 20px;
+              vertical-align: baseline;
+            }
+          }
+
+          button:focus{
+            outline: none;
+          }
         }
       }
 
