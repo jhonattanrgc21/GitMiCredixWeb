@@ -12,7 +12,6 @@ export class CredixSelectComponent implements OnInit, AfterViewInit {
   @Input() control: FormControl;
   @Input() label: string;
   @Input() panelClass = '';
-  @Input() height = 38;
   @ContentChildren(MatOption) queryOptions: QueryList<MatOption>;
   options: any[];
 
@@ -24,9 +23,15 @@ export class CredixSelectComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.setOptions();
+
     this.queryOptions.changes.subscribe(() => {
-      this.options = this.queryOptions.toArray().map(option => ({value: option.value, viewValue: option.viewValue}));
+      this.setOptions();
     });
+  }
+
+  setOptions() {
+    this.options = this.queryOptions.toArray().map(option => ({value: option.value, viewValue: option.viewValue}));
   }
 
 }
