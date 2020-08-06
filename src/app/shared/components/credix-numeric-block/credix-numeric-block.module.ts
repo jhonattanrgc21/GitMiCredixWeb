@@ -1,7 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CredixNumericBlockComponent} from './credix-numeric-block.component';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
 
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   declarations: [CredixNumericBlockComponent],
@@ -9,7 +13,8 @@ import {CredixNumericBlockComponent} from './credix-numeric-block.component';
     CredixNumericBlockComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgxMaskModule.forRoot(maskConfig),
   ]
 })
 export class CredixNumericBlockModule {
