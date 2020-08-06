@@ -1,44 +1,21 @@
+<div *ngIf="data.data.modal == 'in-progress'" class="modal-awards" fxLayout="column" fxLayoutGap="16px">
 
-
-  <!--<div class="h-100" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="36px">
-
-    <mat-dialog-content *ngIf="data.data.modal == 'in-progress'">
-
-        <div *ngFor="let userChallenge of data.data.array" class="premios__content-div">
-          <h4>{{userChallenge.in_progress_name}}</h4>
-          <img src="{{userChallenge.image}}">
-          <credix-progress-bar [goal]="10" [value]="userChallenge.progress" label="Meta de transacciones">
-          </credix-progress-bar>
-          <p class="premios__content-div__msg">{{userChallenge.in_progress_description}}</p>
-        </div>
-
-    </mat-dialog-content>
-
-    <mat-dialog-content *ngIf="data.data.modal == 'completed'">
-
-        <div *ngFor="let userChallenge of data.data.array" class="premios__content-div">
-          <h4>{{userChallenge.completed_name}}</h4>
-          <img src="{{userChallenge.image}}">
-          <credix-progress-bar [goal]="10" [value]="10" label="Meta de transacciones">
-          </credix-progress-bar>
-          <p class="premios__content-div__msg">{{userChallenge.completed_description}}</p>
-        </div>
-
-    </mat-dialog-content>
-
-  </div>-->
-
-  <div class="modal-awards" fxLayout="column" fxLayoutGap="16px" *ngIf="data.data.modal == 'in-progress'">
-
-    <div class="modal-awards__header" fxLayout="row" fxLayoutAlign="space-between">
-      <span>{{award.in_progress_name}}</span>
-    </div>
-
-    <img [alt]="award.in_progress_name" [src]="award.image" class="modal-awards__img">
-    <credix-progress-bar [goal]="10" [value]="award.progress" label="Meta de transacciones">
-    </credix-progress-bar>
-    <p class="pr-16px pl-16px pb-16px">{{award.in_progress_description}}</p>
+  <div class="modal-awards__header" fxLayout="row" fxLayoutAlign="space-between">
+    <span>{{award.in_progress_name}}</span>
   </div>
+
+  <img [alt]="award.in_progress_name" [src]="award.image" class="modal-awards__img">
+  <div *ngIf="award.goal_type == 4" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px" class="modal-awards__actions">
+    <span class="modal-awards__actions__span-title">{{award.progress}}</span>
+    <div>
+      <span>Aciones<br>
+        acumuladas</span>
+    </div>
+  </div>
+  <credix-progress-bar [goal]="award.goal_qty" [value]="award.progress" label="Meta de transacciones" *ngIf="award.goal_type == 1">
+  </credix-progress-bar>
+  <p class="pr-16px pl-16px pb-16px">{{award.in_progress_description}}</p>
+</div>
 
   <div class="modal-awards" fxLayout="column" fxLayoutGap="16px" *ngIf="data.data.modal == 'completed'">
 
@@ -47,7 +24,14 @@
     </div>
 
     <img [alt]="award.completed_name" [src]="award.image" class="modal-awards__img">
-    <credix-progress-bar [goal]="10" [value]="10" label="Meta de transacciones">
+    <div *ngIf="award.goal_type == 4" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px" class="awards__cards-container__footer__actions">
+      <span class="awards__cards-container__footer__actions__span-title">{{award.progress}}</span>
+      <div>
+        <span>Aciones<br>
+          acumuladas</span>
+      </div>
+    </div>
+    <credix-progress-bar [goal]="award.goal_qty" [value]="award.goal_qty" label="Meta de transacciones" *ngIf="award.goal_type == 1">
     </credix-progress-bar>
     <p class="pr-16px pl-16px pb-16px">{{award.completed_description}}</p>
   </div>
