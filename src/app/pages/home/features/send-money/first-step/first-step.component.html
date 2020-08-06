@@ -4,9 +4,12 @@
     <span class="tl" fxFlex="40"><strong>Tipo de transferencia</strong></span>
 
     <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
-      <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)" label="Colones"
+      <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)"
+                           label="Colones"
+                           name="currency"
                            value="188"></credix-radio-button>
       <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)" label="Dólares"
+                           name="currency"
                            value="840"></credix-radio-button>
     </div>
   </div>
@@ -21,6 +24,7 @@
 
       <div class="first-step__favorites" fxLayout="column">
         <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="Favoritos"
+                             name="accountType"
                              value="1"></credix-radio-button>
 
         <credix-select *ngIf="showFavoriteAccountsSelect" [control]="favoriteAccountControl"
@@ -45,6 +49,7 @@
 
       <div>
         <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="Otra cuenta"
+                             name="accountType"
                              value="2"></credix-radio-button>
       </div>
     </div>

@@ -1,8 +1,9 @@
 .first-step {
   margin-top: 32px;
+  padding: 0 100px;
 
-  &__content, .full-width {
-    width: 677px;
+  &__content {
+    width: 100%;
   }
 
   &__divider {
@@ -28,9 +29,6 @@
 
 @media screen and (max-width: 1199px) {
   .first-step {
-
-    &__content, .full-width {
-      width: 549px;
-    }
+    padding: 0 94px;
   }
 }
