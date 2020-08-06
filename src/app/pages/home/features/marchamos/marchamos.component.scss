@@ -210,6 +210,12 @@
     width: 210px;
     margin-left: 24px;
   }
+  &__edit{
+    margin-top: 2px;
+    &-delivery{
+      
+    }
+  }
 }
 
 ::ng-deep.mat-divider {

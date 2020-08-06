@@ -32,12 +32,19 @@ export class PopupMarchamosNewDirectionComponent implements OnInit{
 
 
   ngOnInit(): void {
+    console.log(this.data);
+    if (this.data.data !== undefined) {
+      this.getCantons(this.data.data.province);
+      this.getDistrict(this.data.data.canton);
+      this.editFormUpdate(this.data.data);
+    }
+
     this.getProvinces();
     this.newDeliveryForm.get('province').valueChanges.subscribe(value => { this.getCantons(value);});
-    this.newDeliveryForm.get('canton').valueChanges.subscribe(value => { this.getDistrict(value);});
-
-    
+    this.newDeliveryForm.get('canton').valueChanges.subscribe(value => { this.getDistrict(value);}); 
   }
+
+  get newDeliveryControls () { return this.newDeliveryForm.controls;}
 
   getProvinces(){
     this.httpService.post('canales','global/listprovinces')
@@ -69,6 +76,15 @@ export class PopupMarchamosNewDirectionComponent implements OnInit{
         console.log(response)
         this.districs = response;
       ;});
+  }
+
+  editFormUpdate(data:any){
+    this.newDeliveryControls.province.patchValue(data.province);
+    this.newDeliveryControls.canton.patchValue(data.canton);
+    this.newDeliveryControls.distric.patchValue(data.distric);
+    this.newDeliveryControls.exactlyDirection.patchValue(data.exactlyDirection);
+    this.newDeliveryControls.personReceive.patchValue(data.personReceive);
+    this.newDeliveryControls.phoneNumber.patchValue(data.phoneNumber);
   }
 
   submit(){

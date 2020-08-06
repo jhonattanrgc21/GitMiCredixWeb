@@ -93,11 +93,8 @@ export class MarchamosComponent implements OnInit {
     }
   ];
 
-  delivery: any = {
-    deliveryName: '',
-    deliveryNumber:0,
-    deliveryLocation:''
-  }
+  newDeliveryDirection: any;
+  newDeliveryOption: string;
 
   vehicleInformation: boolean;
   totalMount:string = '₡ 114.996,00';
@@ -108,6 +105,7 @@ export class MarchamosComponent implements OnInit {
   quotesToPayOfAmount:boolean = false;
   radioButtonsChangedValue: any;
   amount:number = 408455;
+
 
   options = {autoHide: false, scrollbarMinSize: 100};
 
@@ -235,6 +233,7 @@ export class MarchamosComponent implements OnInit {
     if (event.value ==='newDirection' && event.checked) {
       this.newDirection();
     }
+    this.newDeliveryOption = event.value;
   }
 
   consult() {
@@ -244,7 +243,8 @@ export class MarchamosComponent implements OnInit {
       plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
       aditionalProducts: []
     })
-      .subscribe(response => { 
+      .subscribe(response => {
+        console.log(response);
           this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
         (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
       });
@@ -257,8 +257,10 @@ export class MarchamosComponent implements OnInit {
       payerId : null,
       accountNumber: this.storageService.getCurrentUser().accountNumber 
     })
-    .subscribe(response => {console.log(response);
+    .subscribe(response => {
+      console.log(response);
       this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
+      this.pickUpControls.email.setValue(response.REQUESTRESULT.soaResultPayerInfo.header.email);
     });
   }
 
@@ -333,8 +335,25 @@ export class MarchamosComponent implements OnInit {
       title:'Nueva dirección de entrega',
       data:data
     },{width: 380, height: 614, disableClose: false});
-    this.popupNewDirection.afterClosed().subscribe( values => console.log(values));
+    this.popupNewDirection.afterClosed().subscribe( values => {
+        this.newDeliveryDirection = {
+          canton: values.canton,
+          distric: values.distric,
+          exactlyDirection: values.exactlyDirection,
+          personReceive: values.personReceive,
+          phoneNumber: values.phoneNumber,
+          province: values.province
+        };
+      });
   }
+
+  editNewDirection(edit:boolean){
+    if (edit) {
+      this.newDirection(this.newDeliveryDirection);  
+    }
+    
+  }
+
 
   payWithQuotesAndSecure() {
 
