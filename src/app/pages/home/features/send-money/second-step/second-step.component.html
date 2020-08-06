@@ -21,7 +21,10 @@
                        units="Coutas"></credix-slider>
 
         <div fxLayout="column">
-          <credix-numeric-block [value]="'33.333,33'" fontSize="24" fontWeight="bold"></credix-numeric-block>
+          <credix-numeric-block [prefix]="currencyCode"
+                                [value]="quotaAmountView"
+                                class="tr" fontSize="24"
+                                fontWeight="bold"></credix-numeric-block>
           <credix-link-button class="tr" text="Ver detalle"></credix-link-button>
         </div>
       </div>

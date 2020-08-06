@@ -21,6 +21,7 @@ import {CredixNumericBlockModule} from '../../../../shared/components/credix-num
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {MatIconModule} from '@angular/material/icon';
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
+import {SendMoneyService} from './send-money.service';
 
 const routes: Routes = [
   {
@@ -50,7 +51,8 @@ const routes: Routes = [
     CredixLinkButtonModule,
     MatIconModule,
     CredixCodeInputModule
-  ]
+  ],
+  providers: [SendMoneyService]
 })
 export class SendMoneyModule {
 }

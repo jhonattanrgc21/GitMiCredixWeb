@@ -7,7 +7,8 @@
     <cdk-step [stepControl]="informationForm"
               fxLayout="column"
               label="Información">
-      <app-first-step [favoriteAccountControl]="informationForm.controls.account"></app-first-step>
+      <app-first-step (currencyPrefixEvent)="currencyPrefix = $event"
+                      [favoriteAccountControl]="informationForm.controls.account"></app-first-step>
     </cdk-step>
 
     <cdk-step [stepControl]="amountAndQuotaForm"
@@ -21,7 +22,11 @@
     <cdk-step [stepControl]="confirmForm"
               fxLayout="column"
               label="Confirmación">
-      <app-third-step [codeControl]="confirmForm.controls.code"></app-third-step>
+      <app-third-step [account]="informationForm.controls.account.value"
+                      [amount]="amountAndQuotaForm.controls.amount.value"
+                      [codeControl]="confirmForm.controls.code"
+                      [currencyPrefix]="currencyPrefix"
+                      [timeLimit]="amountAndQuotaForm.controls.quotas.value"></app-third-step>
     </cdk-step>
 
   </credix-stepper>

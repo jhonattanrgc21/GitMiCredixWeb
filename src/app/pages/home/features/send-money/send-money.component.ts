@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
+import {SendMoneyService} from './send-money.service';
 
 @Component({
   selector: 'app-send-money',
@@ -21,10 +22,11 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   });
   selectedIndex = 0;
   disableButton = true;
+  currencyPrefix: string;
   buttonText = 'Continuar';
   @ViewChild('sendMoneyStepper') stepper: CdkStepper;
 
-  constructor() {
+  constructor(private sendMoneyService: SendMoneyService) {
   }
 
   ngOnInit(): void {

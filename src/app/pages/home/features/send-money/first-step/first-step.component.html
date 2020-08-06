@@ -5,12 +5,10 @@
 
     <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)"
-                           label="Colones"
+                           *ngFor="let currency of currencies"
+                           [label]="currency.description"
                            name="currency"
-                           value="188"></credix-radio-button>
-      <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)" label="Dólares"
-                           name="currency"
-                           value="840"></credix-radio-button>
+                           [value]="currency"></credix-radio-button>
     </div>
   </div>
 
@@ -30,8 +28,8 @@
         <credix-select *ngIf="showFavoriteAccountsSelect" [control]="favoriteAccountControl"
                        class="first-step__favorites__select ml-20px"
                        label="Cuentas favoritas">
-          <mat-option value="a">
-            prueba
+          <mat-option *ngFor="let favoriteAccount of favoritesAccounts" [value]="favoriteAccount">
+            {{favoriteAccount.aliasName}} - {{favoriteAccount.ibanAccount}}
           </mat-option>
         </credix-select>
 
@@ -40,7 +38,7 @@
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span>Nombre</span>
-            <span><strong></strong></span>
+            <span><strong>{{favoriteAccountControl.value.aliasName}}</strong></span>
           </div>
         </div>
 
