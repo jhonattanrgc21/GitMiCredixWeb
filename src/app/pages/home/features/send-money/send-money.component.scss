@@ -10,6 +10,10 @@
     border-top: 1px solid #E9E9E9;
     padding: 16px;
   }
+
+  &.full-height {
+    height: 703px;
+  }
 }
 
 @media screen and (max-width: 1199px) {

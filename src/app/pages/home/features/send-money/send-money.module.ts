@@ -15,6 +15,12 @@ import {CredixRadioButtonModule} from '../../../../shared/components/credix-radi
 import {MatDividerModule} from '@angular/material/divider';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {MatOptionModule} from '@angular/material/core';
+import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
+import {CredixSliderModule} from '../../../../shared/components/credix-slider/credix-slider.module';
+import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
+import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
+import {MatIconModule} from '@angular/material/icon';
+import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 
 const routes: Routes = [
   {
@@ -37,7 +43,13 @@ const routes: Routes = [
     CredixRadioButtonModule,
     MatDividerModule,
     CredixSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    CredixInputFieldModule,
+    CredixSliderModule,
+    CredixNumericBlockModule,
+    CredixLinkButtonModule,
+    MatIconModule,
+    CredixCodeInputModule
   ]
 })
 export class SendMoneyModule {
