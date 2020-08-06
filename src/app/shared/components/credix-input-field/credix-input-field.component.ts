@@ -10,7 +10,8 @@ import {FormControl} from '@angular/forms';
 export class CredixInputFieldComponent implements OnInit, OnChanges {
   @Input() label: string;
   @Input() focusLabel: string;
-  @Input() mask: string;
+  @Input() mask = '';
+  @Input() thousandSeparator = '.';
   @Input() errorMessage: string;
   @Input() icon: string;
   @Input() type: 'text' | 'password' = 'text';

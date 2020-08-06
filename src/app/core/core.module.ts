@@ -8,6 +8,7 @@ import {AuthorizationGuard} from './guards/authorization.guard';
 import {HttpService} from './services/http.service';
 import {SecurityService} from './services/security.service';
 import {StorageService} from './services/storage.service';
+import {GlobalRequestsService} from './services/global-requests.service';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import {StorageService} from './services/storage.service';
     CredixToastService,
     HttpService,
     SecurityService,
+    GlobalRequestsService,
     StorageService,
     AuthorizationGuard,
     {provide: HTTP_INTERCEPTORS, useClass: HttpRequestsResponseInterceptor, multi: true}

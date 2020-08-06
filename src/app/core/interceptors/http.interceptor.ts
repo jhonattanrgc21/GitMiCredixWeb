@@ -13,6 +13,7 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
   marchamosUrl = environment.urlMarchamos;
   incomexUrl = environment.urlIncomex;
   requestsCount = 0;
+  private printUserInfo = true;
 
   constructor(private storageService: StorageService,
               private toastService: CredixToastService,
@@ -28,6 +29,7 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
           'x-auth-token': this.storageService.getCurrentToken()
         }
       });
+      this.print();
     }
 
     if (request.url.search(this.canalesUrL) !== -1 || request.url.search(this.marchamosUrl) !== -1 ||
@@ -50,6 +52,7 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
           if (event.headers) {
             if (event.headers.get('x-auth-token') != null) {
               this.storageService.setCurrentToken(event.headers.get('x-auth-token'));
+              this.print();
             }
           }
 
@@ -71,6 +74,15 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
         return throwError(error);
       })
     );
+  }
+
+  print() {
+    if (!environment.production && this.printUserInfo) {
+      console.log('token: ', this.storageService.getCurrentToken());
+      console.log('usuario: ', this.storageService.getCurrentUser());
+      console.log('tarjetas: ', this.storageService.getCurrentCards());
+      this.printUserInfo = false;
+    }
   }
 
 }
