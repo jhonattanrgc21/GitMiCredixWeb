@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
+import {CredixToastService} from '../../../../core/services/credix-toast.service';
 
 @Component({
   selector: 'app-payment-places',
@@ -9,7 +10,6 @@ import {HttpService} from '../../../../core/services/http.service';
 export class PaymentPlacesComponent implements OnInit {
   paymentPlaces: string[];
   contador = 0;
-  optionSelected = {};
   tabs = [
     {id: 1, name: 'Comercios'},
     {id: 2, name: 'Pago digitales'},
@@ -19,7 +19,7 @@ export class PaymentPlacesComponent implements OnInit {
   tabShow = 1;
   tooltip = 'Copiar';
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private toastService: CredixToastService) {
   }
 
   ngOnInit(): void {
@@ -34,14 +34,11 @@ export class PaymentPlacesComponent implements OnInit {
     }
   }
 
-  change() {
-    this.tooltip = 'Copiado';
-  }
-
   getPaymentPlaces() {
     this.httpService.post('canales', 'paymentplace/getpaymentplace')
       .subscribe(resp => {
         this.paymentPlaces = resp.paymentPlace;
+
         this.paymentPlaces.forEach(async paymentPlace => {
           await this.getPaymentPlaceRestriction(paymentPlace);
         });
@@ -56,6 +53,7 @@ export class PaymentPlacesComponent implements OnInit {
       .subscribe(resp => {
         this.contador += 1;
         paymentPlace.restrictions = resp.paymentPlace;
+
         this.options.push({
           id: this.contador,
           priority: paymentPlace.priority,
@@ -65,6 +63,10 @@ export class PaymentPlacesComponent implements OnInit {
         });
 
       });
+  }
+
+  copyIbanAccount(text: string) {
+    this.toastService.show({text, type: 'success'});
   }
 
 }
