@@ -23,6 +23,7 @@ export class MenuOptionComponent implements OnInit {
   ngOnInit(): void {
     this.homeService.goHomeObs.subscribe(() => {
       this.openSubmenu = false;
+      this.submenuSelected = 0;
       this.menuSelected = 1;
     });
 
