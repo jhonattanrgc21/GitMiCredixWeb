@@ -1,5 +1,4 @@
 
-
 .modal-awards {
   background: #ffffff;
   width: 336px;
@@ -7,19 +6,20 @@
   border-radius: 8px 8px 0 0;
 
 
-  &__actions{
+  &__actions {
     margin: 16px auto 0 auto;
 
-    &__span-title{
+    &__span-title {
       color: #19D27E;
       font-size: 32px;
       font-weight: bold;
       margin-top: 3px;
     }
-    div{
+
+    div {
       line-height: 15px;
 
-      span{
+      span {
         font-size: 14px;
         color: #3E3E3E;
       }
@@ -41,7 +41,7 @@
     margin: 0 auto;
   }
 
-  credix-progress-bar{
+  credix-progress-bar {
     width: 300px;
     margin: 0 auto;
   }
@@ -49,15 +49,15 @@
   &__paginator {
     margin-left: 65px;
 
-    &__title-span{
-        font-weight: bold;
-        color: #696D6F;
-        font-size: 14px;
+    &__title-span {
+      font-weight: bold;
+      color: #696D6F;
+      font-size: 14px;
     }
 
-    &__pag-span{
+    &__pag-span {
       transform: translateY(-3px);
-  }
+    }
 
     &__btn {
       width: 15px;

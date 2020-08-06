@@ -43,11 +43,12 @@
                                  class="awards__cards-container__footer__probar"
                                  label="Meta de transacciones"></credix-progress-bar>
           </div>
-          <div *ngIf="award.goal_type == 4" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px" class="awards__cards-container__footer__actions">
+          <div *ngIf="award.goal_type == 4" class="awards__cards-container__footer__actions" fxLayout="row"
+               fxLayoutAlign="space-between"
+               fxLayoutGap="16px">
             <span class="awards__cards-container__footer__actions__span-title">{{award.progress}}</span>
             <div>
-              <span>Aciones<br>
-                acumuladas</span>
+              <span>Aciones<br>acumuladas</span>
             </div>
           </div>
 
@@ -74,14 +75,16 @@
 
         <div class="awards__cards-container__footer" fxLayout="row" fxLayoutAlign="space-between">
           <div *ngIf="award.goal_type == 1">
-            <credix-progress-bar [goal]="award.goal_qty" [value]="award.goal_qty" class="awards__cards-container__footer__probar"
+            <credix-progress-bar [goal]="award.goal_qty" [value]="award.goal_qty"
+                                 class="awards__cards-container__footer__probar"
                                  label="Meta de transacciones"></credix-progress-bar>
           </div>
-          <div *ngIf="award.goal_type == 4" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px" class="awards__cards-container__footer__actions">
+          <div *ngIf="award.goal_type == 4" class="awards__cards-container__footer__actions" fxLayout="row"
+               fxLayoutAlign="space-between"
+               fxLayoutGap="16px">
             <span class="awards__cards-container__footer__actions__span-title">{{award.progress}}</span>
             <div>
-              <span>Aciones<br>
-                acumuladas</span>
+              <span>Aciones<br>acumuladas</span>
             </div>
           </div>
 
