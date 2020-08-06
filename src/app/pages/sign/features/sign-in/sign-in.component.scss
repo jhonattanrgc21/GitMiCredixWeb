@@ -25,15 +25,9 @@
       margin-bottom: 32px;
       width: 100%;
 
-      mat-form-field {
-
-        &:first-of-type {
-          margin-bottom: 20px;
-        }
-
-        &:last-of-type {
-          margin-bottom: 24px;
-        }
+      &__input {
+        height: 43px;
+        margin-bottom: 22px;
       }
     }
 
@@ -67,14 +61,6 @@
 ::ng-deep.new-device-panel {
   .credix-popup__title {
     line-height: 1 !important;
-  }
-}
-
-::ng-deep.sign-in-tooltip {
-
-  .credix-password-field-tooltip {
-    width: 304px !important;
-    margin-bottom: 8px;
   }
 }
 

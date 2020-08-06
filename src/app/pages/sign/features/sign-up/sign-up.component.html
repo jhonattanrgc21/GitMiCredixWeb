@@ -4,26 +4,21 @@
   <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
     <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
 
-      <form [formGroup]="newUserFirstStepForm" fxLayout="column" fxLayoutGap="16px">
+      <form [formGroup]="newUserFirstStepForm" class="modal-new-user_first-form" fxLayout="column"
+            fxLayoutGap="space-between">
 
-        <mat-form-field appearance="standard" credixTextField height="38">
-          <mat-label>Tipo de Identificación</mat-label>
-          <mat-select formControlName="typeIdentification">
+        <div class="modal-new-user__first-form__input-wrapper" fxLayout="column">
+          <credix-select [control]="newUserFirstStepForm.controls.typeIdentification" label="Tipo de identificación">
             <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
               {{identificationType.description}}
             </mat-option>
-          </mat-select>
-        </mat-form-field>
+          </credix-select>
 
-        <mat-form-field appearance="standard" credixTextField height="38" onFocusLabel="Identificación">
-          <mat-label>
-            Digite su identificación
-          </mat-label>
-          <input [mask]="identificationMask"
-                 autocomplete="false"
-                 formControlName="identification"
-                 matInput>
-        </mat-form-field>
+          <credix-input-field [control]="newUserFirstStepForm.controls.identification" [mask]="identificationMask"
+                              focusLabel="Identificación"
+                              label="Digite su identificación"></credix-input-field>
+        </div>
+
         <credix-button
           (buttonClick)=verifyRegistryUser()
           [disabled]="!newUserFirstStepForm.valid"
@@ -66,28 +61,19 @@
     </cdk-step>
 
     <cdk-step [label]="'Clave'" [stepControl]="newUserThirdStepForm">
-      <form [formGroup]="newUserThirdStepForm" fxLayout="column" fxLayoutGap="16px">
+      <form [formGroup]="newUserThirdStepForm" class="modal-new-user__third-form" fxLayout="column">
 
-        <!-- Nueva clave -->
-        <mat-form-field [credixPasswordFieldTooltip]="fThirstyControls.newPassword" appearance="standard"
-                        credixTextField="password" height="50" panelClass="sign-up-tooltip">
-          <mat-label>Digite su clave</mat-label>
-          <input [formControl]="fThirstyControls.newPassword"
-                 [type]="hideNewPassword ? 'password' : 'text'"
-                 matInput/>
-          <mat-icon (click)="hideNewPassword = !hideNewPassword"
-                    [svgIcon]="hideNewPassword ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
-        </mat-form-field>
+        <credix-input-password [control]="newUserThirdStepForm.controls.newPassword" [tooltipWidth]="296"
+                               class="modal-new-user__third-form__input-pass"
+                               focusLabel="Clave"
+                               label="Digite su clave"
+                               tooltipOffsetY="2">
+        </credix-input-password>
 
-        <!-- Confirmar Clave -->
-        <mat-form-field appearance="standard" credixTextField="confirmPassword" height="50" onFocusLabel="Clave">
-          <mat-label>Confirme su nueva clave</mat-label>
-          <input [formControl]="fThirstyControls.confirmPassword"
-                 [type]="hideConfirmPassword ? 'password' : 'text'"
-                 matInput/>
-          <mat-icon (click)="hideConfirmPassword = !hideConfirmPassword"
-                    [svgIcon]="hideConfirmPassword ? 'eye-outline' : 'eye-off-outline'" matSuffix></mat-icon>
-        </mat-form-field>
+        <credix-input-field [control]="newUserThirdStepForm.controls.confirmPassword"
+                            class="modal-new-user__third-form__input-pass"
+                            focusLabel="Clave" label="Confirme su nueva clave"
+                            type="password"></credix-input-field>
 
         <credix-button
           (buttonClick)=submit()

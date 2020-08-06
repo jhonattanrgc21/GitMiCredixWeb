@@ -1,0 +1,10 @@
+<mat-form-field [class.has-value]="control.value" appearance="standard"
+                class="credix-select">
+  <mat-label>{{label}}</mat-label>
+  <mat-select [formControl]="control" [panelClass]="['credix-select-panel', panelClass]">
+    <mat-option *ngFor="let option of options" [value]="option.value">
+      {{ option.viewValue }}
+    </mat-option>
+    <ng-container></ng-container>
+  </mat-select>
+</mat-form-field>

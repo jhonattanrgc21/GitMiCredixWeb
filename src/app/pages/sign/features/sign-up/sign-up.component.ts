@@ -32,16 +32,16 @@ export class SignUpComponent implements OnInit {
   resultPopup: MatDialogRef<any>;
 
   newUserFirstStepForm: FormGroup = new FormGroup({
-    typeIdentification: new FormControl('', []),
-    identification: new FormControl({value: '', disabled: true}, [])
+    typeIdentification: new FormControl(null, [Validators.required]),
+    identification: new FormControl({value: null, disabled: true}, [Validators.required])
   });
 
   newUserSecondStepForm: FormGroup = new FormGroup(
     {credixCode: new FormControl('', [])});
 
   newUserThirdStepForm: FormGroup = new FormGroup({
-    newPassword: new FormControl('', [Validators.required]),
-    confirmPassword: new FormControl('', [Validators.required])
+    newPassword: new FormControl(null, [Validators.required]),
+    confirmPassword: new FormControl(null, [Validators.required])
   }, {validators: this.checkPasswords});
 
   @ViewChild('templateModalSignUp') templateModalSignUp: TemplateRef<any>;
@@ -98,13 +98,12 @@ export class SignUpComponent implements OnInit {
       component: ModalResponseSignUpComponent,
       hideCloseButton: true,
       data
-    }, {width: 376, height: 368, disableClose: true});
+    }, {width: 376, height: 368, disableClose: true, panelClass: 'modal-response-sign-up-panel'});
     this.resultPopup.afterClosed();
   }
 
   identificationChanged() {
     this.fFirstControls.typeIdentification.valueChanges.subscribe(value => {
-
       if (value !== null) {
         this.identificationMask = getIdentificationMaskByType(
           this.identificationTypes.find(identificationType => identificationType.id === value).value).mask;
