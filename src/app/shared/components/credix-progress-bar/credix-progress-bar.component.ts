@@ -21,8 +21,8 @@ export class CredixProgressBarComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     setTimeout(() => {
+      this.width = (100 * this.value)/this.goal;
       this.isCompleted = this.value === this.goal;
-      this.width = this.value * 10;
     }, 300);
   }
 }

@@ -97,6 +97,23 @@
       &__link {
         padding: 10px 0;
       }
+
+      &__actions{
+        &__span-title{
+          color: #19D27E;
+          font-size: 32px;
+          font-weight: bold;
+          margin-top: 3px;
+        }
+        div{
+          line-height: 15px;
+
+          span{
+            font-size: 14px;
+            color: #3E3E3E;
+          }
+        }
+      }
     }
   }
 
