@@ -43,7 +43,7 @@
                 fxFlex="50">Información del vehículo</h3>
             <div fxLayout="column" fxLayoutGap="64px">
               <div fxLayout="column" class="marchamos__list">
-                <div fxLayout="row" fxLayoutGap="183px"><label>Propietario</label> <span>{{consultVehicle.ownerName | slice:0:18}}</span></div>
+                <div fxLayout="row" fxLayoutGap="183px"><label>Propietario</label> <span>{{consultVehicle.ownerName}}</span></div>
                 <div fxLayout="row" fxLayoutGap="277px"><label>Marca</label> <span>{{consultVehicle.brandDescription}}</span></div>
                 <div fxLayout="row" fxLayoutGap="315px"><label>Año</label> <span>{{consultVehicle.yearModel}}</span></div>
                 <div fxLayout="row" fxLayoutGap="224px"><label>Períodos adeudados</label> <span>{{consultVehicle.owedYears}}</span></div>
@@ -78,7 +78,7 @@
           <label class="marchamos__label-1">Marchamo</label>
           <span class="marchamos__payment-span">Monto al cobro</span>
           <div class="marchamos__prices" fxLayout="column">
-            <span style="margin-bottom: 4px;">{{ totalMount }}</span>
+            <span style="margin-bottom: 4px;">₡ {{ totalMount | mask: 'separator' : '.' }}</span>
             <credix-link-button (click)="showDetail()" text="Ver detalles"></credix-link-button>
           </div>
         </div>
@@ -99,9 +99,9 @@
 
             </div>
             <div class="marchamos__prices" fxLayout="column">
-              <span>₡ 8.745,00</span>
-              <span>₡ 3.359,00</span>
-              <span>₡ 7.140,00</span>
+              <span>{{amountItemsProducts.responsabilityCivilAmount}} </span>
+              <span>{{amountItemsProducts.roadAsistanceAmount}} </span>
+              <span>{{amountItemsProducts.moreProtectionAmount}} </span>
             </div>
           </div>
           <mat-divider></mat-divider>
@@ -130,7 +130,7 @@
               <span style="font-size: 24px !important; margin-bottom: 4px;">₡ 114.996,00</span>
               <credix-link-button (click)="showDetail()" style="margin-bottom: 64px;"
                                   text="Ver detalles"></credix-link-button>
-              <span *ngIf="quotesToPayOfAmount">₡ 10.000,00</span>
+              <span *ngIf="quotesToPayOfAmount">₡ {{commission}} </span>
             </div>
           </div>
 
@@ -139,7 +139,7 @@
         <mat-divider></mat-divider>
         <div class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
           <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-          <credix-button (click)="continue()"
+          <credix-button (click)="getValuesSecondStep()"
                         text="Continuar"></credix-button>
         </div>
       </cdk-step>
@@ -195,13 +195,12 @@
                     </div>
                     <div fxLayout="row" fxLayoutGap="16px">
                       <credix-radio-button [checked]="false" [value]="'newDirection'" label="User otra dirección" name="b" (emitRadioButton)="newDirectionChecked($event)"></credix-radio-button>
-                      <credix-link-button *ngIf="newDeliveryOption !== '' && newDeliveryOption !== 'directionRegister'" class="marchamos__edit-delivery" text="Editar" (click)="editNewDirection(true)"></credix-link-button>
+                      <credix-link-button *ngIf="newDeliveryDirection !== undefined && newDeliveryDirection !== '' && newDeliveryOption !== 'directionRegister'" class="marchamos__edit-delivery" text="Editar" (click)="editNewDirection(true)"></credix-link-button>
                     </div>
                       <div *ngIf="newDeliveryDirection && newDeliveryOption !== 'directionRegister'" class="marchamos__delivery-pickup" fxLayout="column">
-                        <span>{{newDeliveryDirection.personReceive}}</span>
-                        <span>{{newDeliveryDirection.phoneNumber | mask: '0000-0000'}}</span>
+                        <span style="font-weight: bold; font-size: 16px">{{newDeliveryDirection.personReceive}}</span>
+                        <span style="font-weight: bold; font-size: 16px">{{newDeliveryDirection.phoneNumber | mask: '0000-0000'}}</span>
                         <p>{{newDeliveryDirection.exactlyDirection}}</p>
-                        <p>{{newDeliveryDirection.province}}, {{newDeliveryDirection.canton}}, {{newDeliveryDirection.distric}} </p>
                         <mat-divider *ngIf="newDeliveryDirection && newDeliveryOption !== 'directionRegister'"></mat-divider>
                       </div>
 
@@ -216,7 +215,7 @@
             </credix-button>
           </div> -->
         </form>
-        <mat-divider></mat-divider>
+        <mat-divider class="marchamos__divider-footer"></mat-divider>
         <div class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
           <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
           <credix-button (click)="continue()"
@@ -246,7 +245,7 @@
         <mat-divider></mat-divider>
 
 
-        <div class="marchamos__billing-information" fxLayout="row">
+        <div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="168px">
           <label>Resumen de pago</label>
           <ul class="marchamos__billing-list">
             <li fxLayoutGap="206px"><label>Marchamo</label><span>₡ 114.996,00</span></li>
@@ -279,7 +278,7 @@
 
         </div>
         <mat-divider></mat-divider>
-        <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+        <div lass="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
           <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
           <credix-button (buttonClick)="submit()"
                         text="Finalizar"></credix-button>

@@ -13,6 +13,7 @@ import { PopupMarchamosNewDirectionComponent } from './popup-marchamos-new-direc
 import { DeliveryPlace } from 'src/app/shared/models/deliveryPlace.model';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { OwnerPayer } from 'src/app/shared/models/ownerPayer.model';
+import { BillingHistory } from 'src/app/shared/models/billingHistory.models';
 
 @Component({
   selector: 'app-marchamos',
@@ -25,6 +26,7 @@ export class MarchamosComponent implements OnInit {
   consultVehicle: ConsultVehicle;
   deliveryPlaces: DeliveryPlace[];
   ownerPayer: OwnerPayer;
+  billingHistorys: BillingHistory[];
   itemProduct: Item[] = [
     {
       responseDescription: "Responsabilidad civil",
@@ -95,16 +97,23 @@ export class MarchamosComponent implements OnInit {
 
   newDeliveryDirection: any;
   newDeliveryOption: string;
+  deliveryDescription: any;
 
   vehicleInformation: boolean;
-  totalMount:string = '₡ 114.996,00';
+  totalMount:string | number;  //'₡ 114.996,00'
   value:number = 1;
   popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
   popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
   isChecked:boolean = false;
   quotesToPayOfAmount:boolean = false;
   radioButtonsChangedValue: any;
-  amount:number = 408455;
+  amountItemsProducts: any = {
+    responsabilityCivilAmount: '₡ 8.745,00',
+    roadAsistanceAmount: '₡ 3.359,00',
+    moreProtectionAmount: '₡ 7.140,00'
+  }
+  commission: string | number = '0.0'; 
+  
 
 
   options = {autoHide: false, scrollbarMinSize: 100};
@@ -116,13 +125,14 @@ export class MarchamosComponent implements OnInit {
 
   secureAndQuotesForm: FormGroup = new FormGroup({
     aditionalProducts: new FormArray([]),
-    quotesToPay: new FormControl('', []),
-    firstCouteToPayIn: new FormControl('', [Validators.required])
+    quotesToPay: new FormControl(''),
+    firstCouteToPayIn: new FormControl('')
   });
 
   pickUpForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.email]),
-    pickUp: new FormControl('', [])
+    pickUp: new FormControl('', []),
+    domicile: new FormArray([])
   });
 
   confirmForm: FormGroup = new FormGroup({
@@ -157,7 +167,7 @@ export class MarchamosComponent implements OnInit {
   }
 
   get amountValue() {
-    return this.amount;
+    return this.totalMount;
   }
 
 
@@ -166,6 +176,7 @@ export class MarchamosComponent implements OnInit {
     this.getVehicleType();
     this.getPickUpStore();
     this.getOwnersPayerInfo();
+    this.getPromo();
   }
 
   
@@ -246,6 +257,8 @@ export class MarchamosComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
           this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
+          this.totalMount = response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
+          this.billingHistorys = response.REQUESTRESULT.soaResultVehicleConsult.item;
         (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
       });
     
@@ -282,12 +295,23 @@ export class MarchamosComponent implements OnInit {
     this.httpService.post('marchamos', 'pay/calculatecommission',{
       channelId: 107,
       amount:this.amountValue,
-      commissionQuotasId: 6
-    }).subscribe(response => { console.log(response);});
+      commissionQuotasId: commission
+    }).subscribe(response => { 
+      console.log(response);
+      this.commission = response.result;
+    });
   }
-  
 
-  secureToPay() {
+  getPromo(){
+    this.httpService.post('marchamos','pay/promoapply',
+    {
+    channelId : 107,
+    accountNumber:this.storageService.getCurrentUser().accountNumber.toString()
+  })
+  .subscribe(response => {console.log(response)});
+  }
+
+  secureToPay(data?) {
     this.httpService.post('marchamos', 'pay/soapay',
       {
         channelId: 101,
@@ -318,11 +342,11 @@ export class MarchamosComponent implements OnInit {
       .subscribe();
   }
 
-  showDetail(data?: any) {
+  showDetail() {
     this.popupShowDetail = this.modalService.open({
       component: PopupMarchamosDetailComponent,
       hideCloseButton: false,
-      data:data
+      data:this.billingHistorys.values
     }, {width: 376, height: 368, disableClose: false});
     this.popupShowDetail.afterClosed();
     // .subscribe(modal => this.responseResult.message = modal.message);
@@ -351,7 +375,6 @@ export class MarchamosComponent implements OnInit {
     if (edit) {
       this.newDirection(this.newDeliveryDirection);  
     }
-    
   }
 
 
@@ -359,6 +382,18 @@ export class MarchamosComponent implements OnInit {
 
   }
 
+  getValuesSecondStep(){
+    if (this.secureAndQuotesForm.value) {
+      console.log(this.secureAndQuotesForm.value);
+      this.continue();
+    }
+  }
+
+  getValuesThirstyStep(){
+      console.log(this.secureAndQuotesForm.value);
+      // console.log(object);
+      this.continue();
+  }
 
   submit() {
 
