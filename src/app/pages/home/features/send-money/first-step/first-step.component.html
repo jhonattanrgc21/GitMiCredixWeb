@@ -1,0 +1,56 @@
+<div class="first-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="first-step__content" fxLayout="row">
+    <span class="tl" fxFlex="40"><strong>Tipo de transferencia</strong></span>
+
+    <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
+      <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)"
+                           *ngFor="let currency of currencies"
+                           [label]="currency.description"
+                           name="currency"
+                           [value]="currency"></credix-radio-button>
+    </div>
+  </div>
+
+  <mat-divider *ngIf="showSecondContent" class="first-step__divider full-width mt-16px mb-16px"></mat-divider>
+
+  <div *ngIf="showSecondContent" class="first-step__content" fxLayout="row">
+
+    <span class="tl" fxFlex="40"><strong>Cuenta a transferir</strong></span>
+
+    <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
+
+      <div class="first-step__favorites" fxLayout="column">
+        <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="Favoritos"
+                             name="accountType"
+                             value="1"></credix-radio-button>
+
+        <credix-select *ngIf="showFavoriteAccountsSelect" [control]="favoriteAccountControl"
+                       class="first-step__favorites__select ml-20px"
+                       label="Cuentas favoritas">
+          <mat-option *ngFor="let favoriteAccount of favoritesAccounts" [value]="favoriteAccount">
+            {{favoriteAccount.aliasName}} - {{favoriteAccount.ibanAccount}}
+          </mat-option>
+        </credix-select>
+
+        <div *ngIf="favoriteAccountControl.value" class="ml-20px" fxLayout="column" fxLayoutGap="8px">
+          <span><strong>Información</strong></span>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span>Nombre</span>
+            <span><strong>{{favoriteAccountControl.value.aliasName}}</strong></span>
+          </div>
+        </div>
+
+        <mat-divider *ngIf="favoriteAccountControl.value" class="first-step__divider ml-20px mt-16px"></mat-divider>
+      </div>
+
+      <div>
+        <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="Otra cuenta"
+                             name="accountType"
+                             value="2"></credix-radio-button>
+      </div>
+    </div>
+
+  </div>
+</div>

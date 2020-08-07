@@ -24,6 +24,10 @@ const routes: Routes = [
       {
         path: 'payment-places',
         loadChildren: () => import('./features/payment-places/payment-places.module.js').then(m => m.PaymentPlacesModule)
+      },
+      {
+        path: 'send-money',
+        loadChildren: () => import('./features/send-money/send-money.module.js').then(m => m.SendMoneyModule)
       }
     ]
   }

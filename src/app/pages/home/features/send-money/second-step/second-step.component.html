@@ -1,0 +1,53 @@
+<div class="second-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
+    <span class="tl" fxFlex="30"><strong>Monto a enviar</strong></span>
+
+    <credix-input-field [control]="amountToSendControl" class="second-step__input" label="Monto"
+                        mask="separator"></credix-input-field>
+  </div>
+
+  <mat-divider class="second-step__divider full-width mt-16px mb-16px"></mat-divider>
+
+  <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
+
+    <span class="tl" fxFlex="30"><strong>Cuotas</strong></span>
+
+    <div fxFlex fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <credix-slider (valueChange)="quotasControl.setValue($event)" [value]="quotasControl.value"
+                       class="second-step__slider"
+                       instructions="Deseo dividir este pago en"
+                       units="Coutas"></credix-slider>
+
+        <div fxLayout="column">
+          <credix-numeric-block [prefix]="currencyCode"
+                                [value]="quotaAmountView"
+                                class="tr" fontSize="24"
+                                fontWeight="bold"></credix-numeric-block>
+          <credix-link-button class="tr" text="Ver detalle"></credix-link-button>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Comisión</span>
+
+        <credix-numeric-block [value]="'10.000,00'" fontWeight="bold"></credix-numeric-block>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="second-step__divider full-width mt-16px mb-16px"></mat-divider>
+
+  <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
+
+    <span class="tl" fxFlex="30"><strong>Detalle</strong></span>
+
+    <credix-input-field [control]="detailsControl" class="second-step__input"
+                        label="Detalle"></credix-input-field>
+  </div>
+
+</div>
+

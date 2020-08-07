@@ -1,81 +1,70 @@
+<div *ngIf="data.data.modal == 'in-progress'" class="modal-awards" fxLayout="column" fxLayoutGap="16px">
 
-
-  <!--<div class="h-100" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="36px">
-
-    <mat-dialog-content *ngIf="data.data.modal == 'in-progress'">
-
-        <div *ngFor="let userChallenge of data.data.array" class="premios__content-div">
-          <h4>{{userChallenge.in_progress_name}}</h4>
-          <img src="{{userChallenge.image}}">
-          <credix-progress-bar [goal]="10" [value]="userChallenge.progress" label="Meta de transacciones">
-          </credix-progress-bar>
-          <p class="premios__content-div__msg">{{userChallenge.in_progress_description}}</p>
-        </div>
-
-    </mat-dialog-content>
-
-    <mat-dialog-content *ngIf="data.data.modal == 'completed'">
-
-        <div *ngFor="let userChallenge of data.data.array" class="premios__content-div">
-          <h4>{{userChallenge.completed_name}}</h4>
-          <img src="{{userChallenge.image}}">
-          <credix-progress-bar [goal]="10" [value]="10" label="Meta de transacciones">
-          </credix-progress-bar>
-          <p class="premios__content-div__msg">{{userChallenge.completed_description}}</p>
-        </div>
-
-    </mat-dialog-content>
-
-  </div>-->
-
-  <div class="modal-awards" fxLayout="column" fxLayoutGap="16px" *ngIf="data.data.modal == 'in-progress'">
-
-    <div class="modal-awards__header" fxLayout="row" fxLayoutAlign="space-between">
-      <span>{{award.in_progress_name}}</span>
-    </div>
-
-    <img [alt]="award.in_progress_name" [src]="award.image" class="modal-awards__img">
-    <credix-progress-bar [goal]="10" [value]="award.progress" label="Meta de transacciones">
-    </credix-progress-bar>
-    <p class="pr-16px pl-16px pb-16px">{{award.in_progress_description}}</p>
+  <div class="modal-awards__header" fxLayout="row" fxLayoutAlign="space-between">
+    <span>{{award.in_progress_name}}</span>
   </div>
 
-  <div class="modal-awards" fxLayout="column" fxLayoutGap="16px" *ngIf="data.data.modal == 'completed'">
-
-    <div class="modal-awards__header" fxLayout="row" fxLayoutAlign="space-between">
-      <span>{{award.completed_name}}</span>
+  <img [alt]="award.in_progress_name" [src]="award.image" class="modal-awards__img">
+  <div *ngIf="award.goal_type == 4" class="modal-awards__actions" fxLayout="row" fxLayoutAlign="space-between"
+       fxLayoutGap="16px">
+    <span class="modal-awards__actions__span-title">{{award.progress}}</span>
+    <div>
+      <span>Aciones<br>
+        acumuladas</span>
     </div>
+  </div>
+  <credix-progress-bar *ngIf="award.goal_type == 1" [goal]="award.goal_qty" [value]="award.progress"
+                       label="Meta de transacciones">
+  </credix-progress-bar>
+  <p class="pr-16px pl-16px pb-16px">{{award.in_progress_description}}</p>
+</div>
 
-    <img [alt]="award.completed_name" [src]="award.image" class="modal-awards__img">
-    <credix-progress-bar [goal]="10" [value]="10" label="Meta de transacciones">
-    </credix-progress-bar>
-    <p class="pr-16px pl-16px pb-16px">{{award.completed_description}}</p>
+<div *ngIf="data.data.modal == 'completed'" class="modal-awards" fxLayout="column" fxLayoutGap="16px">
+
+  <div class="modal-awards__header" fxLayout="row" fxLayoutAlign="space-between">
+    <span>{{award.completed_name}}</span>
   </div>
 
+  <img [alt]="award.completed_name" [src]="award.image" class="modal-awards__img">
+  <div *ngIf="award.goal_type == 4" class="awards__cards-container__footer__actions" fxLayout="row"
+       fxLayoutAlign="space-between"
+       fxLayoutGap="16px">
+    <span class="awards__cards-container__footer__actions__span-title">{{award.progress}}</span>
+    <div>
+        <span>Aciones<br>
+          acumuladas</span>
+    </div>
+  </div>
+  <credix-progress-bar *ngIf="award.goal_type == 1" [goal]="award.goal_qty" [value]="award.goal_qty"
+                       label="Meta de transacciones">
+  </credix-progress-bar>
+  <p class="pr-16px pl-16px pb-16px">{{award.completed_description}}</p>
+</div>
 
-  <ng-template #footer>
-    <div fxLayout="row" fxLayoutAlign="flex-start">
-      <credix-share-button></credix-share-button>
 
-      <div class="modal-awards__paginator" fxLayout="column" fxLayoutAlign="flex-start center">
-        <span class="modal-awards__paginator__title-span">Premios</span>
-        <div fxLayout="row" fxLayoutGap="16px">
-          <button (click)="back()" [disabled]="currentAward === 0"
-                  class="modal-awards__paginator__btn" mat-icon-button>
-            <mat-icon [class.is-enable]="currentAward !== 0"
-                      svgIcon="chevron_left"></mat-icon>
-          </button>
+<ng-template #footer>
+  <div fxLayout="row" fxLayoutAlign="flex-start">
+    <credix-share-button></credix-share-button>
 
-          <span class="modal-awards__paginator__pag-span">{{currentAward + 1}} de {{awardLength}}</span>
+    <div class="modal-awards__paginator" fxLayout="column" fxLayoutAlign="flex-start center">
+      <span class="modal-awards__paginator__title-span">Premios</span>
+      <div fxLayout="row" fxLayoutGap="16px">
+        <button (click)="back()" [disabled]="currentAward === 0"
+                class="modal-awards__paginator__btn" mat-icon-button>
+          <mat-icon [class.is-enable]="currentAward !== 0"
+                    svgIcon="chevron_left"></mat-icon>
+        </button>
 
-          <button (click)="next()" [disabled]="currentAward === (awardLength - 1)"
-                  class="modal-awards__paginator__btn" mat-icon-button>
-            <mat-icon [class.is-enable]="currentAward !== (awardLength - 1)"
-                      svgIcon="chevron_right"></mat-icon>
-          </button>
-        </div>
+        <span class="modal-awards__paginator__pag-span">{{currentAward + 1}} de {{awardLength}}</span>
+
+        <button (click)="next()" [disabled]="currentAward === (awardLength - 1)"
+                class="modal-awards__paginator__btn" mat-icon-button>
+          <mat-icon [class.is-enable]="currentAward !== (awardLength - 1)"
+                    svgIcon="chevron_right"></mat-icon>
+        </button>
       </div>
     </div>
-  </ng-template>
+  </div>
+</ng-template>
 
 

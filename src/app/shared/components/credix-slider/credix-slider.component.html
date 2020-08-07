@@ -1,8 +1,8 @@
 <div class="credix-slider" fxLayout="column">
   <div class="credix-slider__header" fxLayout="row">
-    <span>{{instructions}}</span>
+    <span class="credix-slider__header__instructions">{{instructions}}</span>
     <span fxFlex></span>
-    <span><strong>{{value}}</strong> {{units}}</span>
+    <span class="credix-slider__units"><strong>{{value}}</strong> {{units}}</span>
   </div>
 
   <mat-slider (input)="valueChangeEvent($event, 2)" (valueChange)="valueChangeEvent($event, 1)"
