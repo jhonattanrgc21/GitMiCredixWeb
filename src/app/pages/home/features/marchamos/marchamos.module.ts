@@ -23,6 +23,8 @@ import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marc
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
 import { PopupMarchamosNewDirectionComponent } from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
 import { SimplebarAngularModule } from 'simplebar-angular';
+import { PopupMarchamosPayResumeComponent } from './popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
+import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -37,7 +39,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent],
+  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent],
   entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,
@@ -52,6 +54,7 @@ const routes: Routes = [
     CredixSliderModule,
     CredixLinkButtonModule,
     CredixCodeInputModule,
+    CredixNumericBlockModule,
     CdkStepperModule,
     StepperModule,
     CredixRadioButtonModule,

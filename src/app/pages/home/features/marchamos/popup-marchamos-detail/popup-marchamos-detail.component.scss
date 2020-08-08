@@ -1,0 +1,23 @@
+.popup-detail{
+    div{
+        margin-bottom: 8px;
+        p{
+            width: 50%;
+            font-weight: normal;
+            font-size: 16px;
+        }
+
+        span{
+            font-weight: bold;
+            font-size: 16px;
+        }
+    }
+
+    &__total-mount{
+        margin-top: 8.24px;
+        span{
+            font-weight: bold;
+            font-size: 16px;
+        }
+    }
+}

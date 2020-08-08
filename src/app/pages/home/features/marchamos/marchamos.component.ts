@@ -14,6 +14,7 @@ import { DeliveryPlace } from 'src/app/shared/models/deliveryPlace.model';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { OwnerPayer } from 'src/app/shared/models/ownerPayer.model';
 import { BillingHistory } from 'src/app/shared/models/billingHistory.models';
+import { PopupMarchamosPayResumeComponent } from './popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
 
 @Component({
   selector: 'app-marchamos',
@@ -100,20 +101,22 @@ export class MarchamosComponent implements OnInit {
   deliveryDescription: any;
 
   vehicleInformation: boolean;
-  totalMount:string | number;  //'₡ 114.996,00'
+  totalMount:number | string;  //'₡ 114.996,00'
   value:number = 1;
-  popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
+  popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent | any>;
   popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
+  popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
   isChecked:boolean = false;
   quotesToPayOfAmount:boolean = false;
+  quotesAmount: number;
   radioButtonsChangedValue: any;
   amountItemsProducts: any = {
     responsabilityCivilAmount: '₡ 8.745,00',
     roadAsistanceAmount: '₡ 3.359,00',
     moreProtectionAmount: '₡ 7.140,00'
   }
-  commission: string | number = '0.0'; 
-  
+  commission: string | number = '0.0';
+
 
 
   options = {autoHide: false, scrollbarMinSize: 100};
@@ -192,14 +195,18 @@ export class MarchamosComponent implements OnInit {
   getValueSlider(event?) {
     console.log(event);
     this.value = event;
-    this.secureAndQuotesControls.quotesToPay.patchValue(this.value);
+    this.quotesAmount = this.consultVehicle.amount / event;
+    this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
 
-    this.getCommission(this.value);
+    
   }
 
   getValueCheckBoxes(event: any) {
     const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
      (event.checked) ? this.quotesToPayOfAmount = true: false;
+     
+     this.getCommission(6);
+
       if (event.checked) {
           checkArray.push(new FormGroup({
             productCode:new FormControl(event.value)
@@ -219,6 +226,8 @@ export class MarchamosComponent implements OnInit {
   getValueOfCheckBoxAll(event){
     const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
     (event.checked) ? this.quotesToPayOfAmount = true: false;
+    
+    this.getCommission(6);
 
     if (event.value === 10 && event.checked) {
       this.allChecked(event.checked); 
@@ -346,8 +355,9 @@ export class MarchamosComponent implements OnInit {
     this.popupShowDetail = this.modalService.open({
       component: PopupMarchamosDetailComponent,
       hideCloseButton: false,
-      data:this.billingHistorys.values
-    }, {width: 376, height: 368, disableClose: false});
+      title: 'Detalle del marchamo',
+      data:this.billingHistorys
+    }, {width: 380, height: 673, disableClose: false});
     this.popupShowDetail.afterClosed();
     // .subscribe(modal => this.responseResult.message = modal.message);
   }
@@ -369,6 +379,32 @@ export class MarchamosComponent implements OnInit {
           province: values.province
         };
       });
+  }
+
+  payResume(){
+    let dataForPayResumen : any = {
+      marchamos: this.totalMount,
+      itemsProductsAmount:[
+      {
+        responsabilityCivilAmount: 8745.00,
+        roadAsistanceAmount:3359.00,
+        moreProtectionAmount:7140.00}
+      ],
+      commission: this.commission,
+      billingHistory: this.billingHistorys,
+      quotesToPay:[
+
+
+      ]    
+    }
+
+
+    this.popupPayResume = this.modalService.open({
+      component: PopupMarchamosPayResumeComponent,
+      hideCloseButton: false,
+      title: 'Resumen del pago',
+    }, {width: 380, height: 673, disableClose: false});
+    this.popupShowDetail.afterClosed();
   }
 
   editNewDirection(edit:boolean){

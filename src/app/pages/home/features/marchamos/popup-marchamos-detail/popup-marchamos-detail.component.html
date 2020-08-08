@@ -1,1 +1,11 @@
-<p>popup-marchamos-detail works!</p>
+<div fxLayout="column" class="popup-detail">
+    <div fxLayout="row" fxLayoutGap="64px" *ngFor="let billing of billingHistorys">
+        <p>{{billing.itemDescription}}</p>
+        <credix-numeric-block [value]="billing.itemAmount" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+    </div>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" class="popup-detail__total-mount" fxLayoutGap="176px">
+        <span>Total</span>
+        <credix-numeric-block [value]="totalAmount" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+    </div>
+</div>
