@@ -67,7 +67,7 @@
 
           <credix-button
             (buttonClick)="continue()"
-            [disabled]="!consultForm.valid"
+            [disabled]="responseToContinue != 'success'"
             text="Continuar"></credix-button>
         </div>
       </cdk-step>
@@ -127,9 +127,9 @@
             </div>
 
             <div class="marchamos__prices" fxLayout="column">
-              <credix-numeric-block *ngIf="quotesToPayOfAmount" [value]="quotesAmount" fontSize="24" fontWeight="bold" prefix="₡" style="font-size: 24px !important; margin-bottom: 4px;"></credix-numeric-block>
-                <span style="font-size: 24px !important; margin-bottom: 4px;">₡ 114.996,00</span>
-                <credix-link-button (click)="showDetail()" style="margin-bottom: 64px;"
+              <credix-numeric-block [value]="quotesAmount" fontSize="24" fontWeight="bold" prefix="₡" style="font-size: 24px !important; margin-bottom: 4px;"></credix-numeric-block>
+                <!-- <span style="font-size: 24px !important; margin-bottom: 4px;">₡ 114.996,00</span> -->
+                <credix-link-button (click)="payResume()" style="margin-bottom: 64px;"
                                     text="Ver detalles"></credix-link-button>
               <credix-numeric-block *ngIf="quotesToPayOfAmount" [value]="commission" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
             </div>

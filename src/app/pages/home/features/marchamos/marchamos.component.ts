@@ -111,12 +111,12 @@ export class MarchamosComponent implements OnInit {
   quotesAmount: number;
   radioButtonsChangedValue: any;
   amountItemsProducts: any = {
-    responsabilityCivilAmount: '₡ 8.745,00',
-    roadAsistanceAmount: '₡ 3.359,00',
-    moreProtectionAmount: '₡ 7.140,00'
+    responsabilityCivilAmount: 8745.00,
+    roadAsistanceAmount:3359.00,
+    moreProtectionAmount:7140.00
   }
   commission: string | number = '0.0';
-
+  responseToContinue: string;
 
 
   options = {autoHide: false, scrollbarMinSize: 100};
@@ -195,7 +195,7 @@ export class MarchamosComponent implements OnInit {
   getValueSlider(event?) {
     console.log(event);
     this.value = event;
-    this.quotesAmount = this.consultVehicle.amount / event;
+    (event > 0) ? this.quotesAmount = this.consultVehicle.amount / event : this.quotesAmount;
     this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
 
     
@@ -268,6 +268,8 @@ export class MarchamosComponent implements OnInit {
           this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
           this.totalMount = response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
           this.billingHistorys = response.REQUESTRESULT.soaResultVehicleConsult.item;
+          this.responseToContinue = response.type;
+          this.quotesAmount = this.consultVehicle.amount;
         (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
       });
     
@@ -307,7 +309,8 @@ export class MarchamosComponent implements OnInit {
       commissionQuotasId: commission
     }).subscribe(response => { 
       console.log(response);
-      this.commission = response.result;
+
+      (response.result === '10000.0') ? this.commission = 10000 : this.commission = 0;
     });
   }
 
@@ -382,29 +385,27 @@ export class MarchamosComponent implements OnInit {
   }
 
   payResume(){
-    let dataForPayResumen : any = {
+    let dataForPayResumen : any[] = [{
       marchamos: this.totalMount,
-      itemsProductsAmount:[
-      {
-        responsabilityCivilAmount: 8745.00,
-        roadAsistanceAmount:3359.00,
-        moreProtectionAmount:7140.00}
-      ],
+      itemsProductsAmount:[this.amountItemsProducts],
       commission: this.commission,
       billingHistory: this.billingHistorys,
       quotesToPay:[
-
-
+        {
+          quotes: this.value,
+          quotesAmount: this.quotesAmount
+        }
       ]    
-    }
+    }];
 
 
     this.popupPayResume = this.modalService.open({
       component: PopupMarchamosPayResumeComponent,
       hideCloseButton: false,
       title: 'Resumen del pago',
-    }, {width: 380, height: 673, disableClose: false});
-    this.popupShowDetail.afterClosed();
+      data: dataForPayResumen
+    }, {width: 380, height: 417, disableClose: false});
+    this.popupPayResume.afterClosed();
   }
 
   editNewDirection(edit:boolean){
