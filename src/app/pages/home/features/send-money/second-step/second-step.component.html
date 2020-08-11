@@ -17,6 +17,9 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <credix-slider (valueChange)="quotasControl.setValue($event)" [value]="quotasControl.value"
                        class="second-step__slider"
+                       [max]="maxQuota"
+                       [min]="minQuota"
+                       [step]="stepQuota"
                        instructions="Deseo dividir este pago en"
                        units="Coutas"></credix-slider>
 
@@ -31,8 +34,7 @@
 
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Comisión</span>
-
-        <credix-numeric-block [value]="'10.000,00'" fontWeight="bold"></credix-numeric-block>
+        <credix-numeric-block [value]="commission" fontWeight="bold"></credix-numeric-block>
       </div>
 
     </div>

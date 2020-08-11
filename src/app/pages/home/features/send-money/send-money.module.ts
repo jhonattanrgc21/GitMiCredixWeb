@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {SendMoneyComponent} from './send-money.component';
 import {MatCardModule} from '@angular/material/card';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
@@ -22,6 +24,14 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {MatIconModule} from '@angular/material/icon';
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 import {SendMoneyService} from './send-money.service';
+import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
+import { ModalAddIbanComponent } from './first-step/modal-add-iban/modal-add-iban.component';
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
+
 
 const routes: Routes = [
   {
@@ -31,7 +41,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SendMoneyComponent, FirstStepComponent, SecondStepComponent, ThirdStepComponent],
+  declarations: [SendMoneyComponent, FirstStepComponent, SecondStepComponent, ThirdStepComponent, ModalAddIbanComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -50,7 +60,11 @@ const routes: Routes = [
     CredixNumericBlockModule,
     CredixLinkButtonModule,
     MatIconModule,
-    CredixCodeInputModule
+    CredixCodeInputModule,
+    CredixResultNotificationModule,
+    CredixShareButtonModule,
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot(maskConfig),
   ],
   providers: [SendMoneyService]
 })
