@@ -2,6 +2,7 @@
 
   &__slider {
     width: 100%;
+    pointer-events: none;
   }
 
   &__footer {
@@ -43,6 +44,7 @@
     }
 
     .mat-accent .mat-slider-thumb {
+      pointer-events: all;
       height: 32px;
       width: 32px;
       background-color: #F1F1F1;
