@@ -11,7 +11,14 @@
                    [step]="sliderStep"
                    [value]="amountControl.value"
                    class="credix-slider--no-units"
-                   instructions="Deseo Solicitar"></credix-slider>
+                   instructions="Deseo Solicitar">
+      <credix-numeric-block [value]="amountControl.value"
+                            fontWeight="bold"
+                            min prefix="₡"></credix-numeric-block>
+      <credix-numeric-block [value]="cardLimit"
+                            fontWeight="bold"
+                            max prefix="₡"></credix-numeric-block>
+    </credix-slider>
 
     <credix-numeric-block [value]="amountControl.value" class="tr"
                           fontSize="24"
