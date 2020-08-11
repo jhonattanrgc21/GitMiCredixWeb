@@ -1,0 +1,24 @@
+.personal-credit {
+  position: relative;
+  min-height: 662px;
+
+  &__footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #E9E9E9;
+    padding: 16px;
+  }
+
+  ::ng-deep.credix-result-notification__message {
+    width: 296px;
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+  .personal-credit {
+    height: 886px;
+  }
+}

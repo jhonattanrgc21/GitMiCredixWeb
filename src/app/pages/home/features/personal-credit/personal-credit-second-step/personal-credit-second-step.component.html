@@ -1,0 +1,45 @@
+<div class="personal-credit-second-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="personal-credit-second-step__content" fxLayout="row">
+
+    <span class="tl" fxFlex="50"><strong>¿Cómo desea recibir el desembolso?</strong></span>
+
+    <div fxFlex fxFlexAlign="flex-start flex-start" fxLayout="column" fxLayoutGap="16px">
+
+      <div fxLayout="column">
+        <credix-radio-button (emitRadioButton)="radioButtonChanged($event)" label="Transferencia"
+                             name="disbursement"
+                             value="1"></credix-radio-button>
+
+        <credix-input-field *ngIf="radioButtonSelected == 1" [control]="accountControl"
+                            class="personal-credit-second-step__content__input ml-20px"
+                            label="Dígite la cuenta IBAN"></credix-input-field>
+
+        <span *ngIf="radioButtonSelected == 1" class="ml-20px">El dinero será transferido en un plazo máximo de 48 horas hábiles.</span>
+
+        <mat-divider *ngIf="radioButtonSelected == 1"
+                     class="personal-credit-second-step__divider ml-20px"></mat-divider>
+      </div>
+
+      <div fxLayout="column" fxLayoutGap="16px">
+        <credix-radio-button (emitRadioButton)="radioButtonChanged($event)" label="Cheque"
+                             name="disbursement"
+                             value="2"></credix-radio-button>
+
+        <p *ngIf="radioButtonSelected == 2" class="ml-20px">
+          El cheque estará listo para ser retirado en nuestras oficinas en días hábiles, de 10am-12pm o de 2pm-4pm.
+          (Lunes a viernes)
+        </p>
+
+        <span *ngIf="radioButtonSelected == 2" class="ml-20px"><strong>Dirección</strong></span>
+
+        <p *ngIf="radioButtonSelected == 2" class="ml-20px">
+          Tibás, 300m oeste del cruce de llorente, oficinas en el segundo piso.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,55 @@
+<div class="personal-credit-third-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="personal-credit-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+
+    <span class="tl">
+      <strong>{{account === 0 ? 'Desembolso por cheque' : 'Desembolso por transferencia a:'}}</strong></span>
+
+    <div *ngIf="account !== 0" fxFlex="60" fxLayout="row" fxLayoutAlign="space-between">
+      <span class="tl">IBAN</span>
+
+      <span class="tr">{{account}}</span>
+    </div>
+
+    <p *ngIf="account === 0" class="tl" fxFlex="60">
+      Oficinas de Credix. Tibás, 300m oeste del cruce de llorente, oficinas en el segundo piso.</p>
+
+  </div>
+
+  <mat-divider class="personal-credit-third-step__divider"></mat-divider>
+
+  <div class="personal-credit-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+
+    <span class="tl"><strong>Resumen del crédito</strong></span>
+
+    <table fxFlex="60">
+      <tbody>
+      <tr>
+        <td>Cuota</td>
+        <td class="tr">
+          <credix-numeric-block
+            [value]="personalCreditSummary?.quota"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </td>
+      </tr>
+      <tr>
+        <td>Plazo</td>
+        <td class="tr">
+          <strong>{{term}} {{term === 1 ? 'Mes' : 'Meses'}}</strong>
+        </td>
+      </tr>
+      <tr>
+        <td>Monto del desembolso</td>
+        <td class="tr">
+          <credix-numeric-block
+            [value]="amount"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

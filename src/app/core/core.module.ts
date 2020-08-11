@@ -9,6 +9,7 @@ import {HttpService} from './services/http.service';
 import {SecurityService} from './services/security.service';
 import {StorageService} from './services/storage.service';
 import {GlobalRequestsService} from './services/global-requests.service';
+import {GoHomeService} from './services/go-home.service';
 
 @NgModule({
   declarations: [],
@@ -22,6 +23,7 @@ import {GlobalRequestsService} from './services/global-requests.service';
     HttpService,
     SecurityService,
     GlobalRequestsService,
+    GoHomeService,
     StorageService,
     AuthorizationGuard,
     {provide: HTTP_INTERCEPTORS, useClass: HttpRequestsResponseInterceptor, multi: true}

@@ -49,12 +49,12 @@ export class ModalService {
     }
   }
 
-  public confirmationPopup(title: string, message?: string): Observable<boolean> {
+  public confirmationPopup(title: string, message?: string, width: number | 'auto' = 420, height: number | 'auto' = 200): Observable<boolean> {
     let dialogRef: MatDialogRef<CredixConfirmationPopupComponent>;
     dialogRef = this.dialog.open(CredixConfirmationPopupComponent, {
       disableClose: true,
-      width: '420px',
-      height: '200px',
+      width: width === 'auto' ? width : `${width}px`,
+      height: height === 'auto' ? height : `${height}px`,
       autoFocus: false
     });
     dialogRef.componentInstance.title = title;

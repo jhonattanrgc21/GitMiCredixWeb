@@ -28,6 +28,10 @@ const routes: Routes = [
       {
         path: 'send-money',
         loadChildren: () => import('./features/send-money/send-money.module.js').then(m => m.SendMoneyModule)
+      },
+      {
+        path: 'personal-credit',
+        loadChildren: () => import('./features/personal-credit/personal-credit.module.js').then(m => m.PersonalCreditModule)
       }
     ]
   }
