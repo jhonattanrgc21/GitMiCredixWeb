@@ -170,10 +170,8 @@
             <div class="marchamos__radio-button" fxLayout="column">
               <credix-radio-button [checked]="false" [value]="2" label="Sucursales Credix" name="a" (emitRadioButton)="getRadioButtonsChecked($event)"></credix-radio-button>
               <div *ngIf="radioButtonsChangedValue === 2" class="marchamos__inputs-hidden">
-                <mat-form-field appearance="standard" credixTextField>
-                  <mat-label>
-                    Seleccione la más cercana
-                  </mat-label>
+                <mat-form-field appearance="standard">
+                  <mat-label>Seleccione la más cercana</mat-label>
                   <mat-select formControlName="pickUp">
                     <mat-option *ngFor="let delivery of deliveryPlaces" [value]="delivery.id">
                       {{delivery.description}}
@@ -219,7 +217,7 @@
         <mat-divider class="marchamos__divider-footer"></mat-divider>
         <div class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
           <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-          <credix-button (click)="continue()"
+          <credix-button (click)="getValuesThirstyStep()"
                         text="Continuar"></credix-button>
         </div>
       </cdk-step>
@@ -230,9 +228,9 @@
           <label>Contacto</label>
 
           <div class="marchamos__billing-contact" fxLayout="column">
-            <span>Sergio Marquina</span>
-            <span>sergio.marquina@gmail.com</span>
-            <span>8888-8888</span>
+            <span>{{contactToConfirm.name}}</span>
+            <span>{{contactToConfirm.email}}</span>
+            <span>{{contactToConfirm.phone | mask: '0000-0000'}}</span>
           </div>
         </div>
 
@@ -240,13 +238,13 @@
 
         <div class="marchamos__billing-pickup" fxLayout="row">
           <label>Lugar de retiro</label>
-          <p>Del cruce de Llorente de Tibas, 300 metros Este, Colima, Tibas, San José.</p>
+          <p>{{placeOfRetreat.placeDescription}}</p>
         </div>
 
         <mat-divider></mat-divider>
 
 
-        <div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="168px">
+        <div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="153px">
           <label>Resumen de pago</label>
           <ul class="marchamos__billing-list">
             <li fxLayoutGap="206px"><label>Marchamo</label><span>₡ 114.996,00</span></li>

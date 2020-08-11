@@ -15,6 +15,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { OwnerPayer } from 'src/app/shared/models/ownerPayer.model';
 import { BillingHistory } from 'src/app/shared/models/billingHistory.models';
 import { PopupMarchamosPayResumeComponent } from './popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
+import { ContactToConfirm } from 'src/app/shared/models/contactToConfirm.model';
 
 @Component({
   selector: 'app-marchamos',
@@ -115,9 +116,16 @@ export class MarchamosComponent implements OnInit {
     roadAsistanceAmount:3359.00,
     moreProtectionAmount:7140.00
   }
-  commission: string | number = '0.0';
+  commission: number = 0;
   responseToContinue: string;
-
+  contactToConfirm: any = {
+    name: '',
+    email: '',
+    phone: ''
+  };
+  placeOfRetreat: any = {
+    placeDescription: ''
+  };
 
   options = {autoHide: false, scrollbarMinSize: 100};
 
@@ -197,8 +205,6 @@ export class MarchamosComponent implements OnInit {
     this.value = event;
     (event > 0) ? this.quotesAmount = this.consultVehicle.amount / event : this.quotesAmount;
     this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
-
-    
   }
 
   getValueCheckBoxes(event: any) {
@@ -261,7 +267,9 @@ export class MarchamosComponent implements OnInit {
       channelId: 107,
       plateClassId: this.consultControls.vehicleType.value.toString(),
       plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
-      aditionalProducts: []
+      aditionalProducts: [
+        ''
+      ]
     })
       .subscribe(response => {
         console.log(response);
@@ -298,7 +306,8 @@ export class MarchamosComponent implements OnInit {
   getPickUpStore() {
     this.httpService.post('marchamos', 'pay/deliveryplaces',{channelId: 102})
     .subscribe(response => {
-      this.deliveryPlaces = response.deliveryPlacesList;
+      console.log(response);
+      this.deliveryPlaces = response.deliveryPlacesList.filter(x => x.id !== 6);
     });
   }
 
@@ -415,6 +424,78 @@ export class MarchamosComponent implements OnInit {
   }
 
 
+  getContactToConfirm(){
+    if (!this.newDeliveryDirection) {
+        this.contactToConfirm = {
+          name: this.ownerPayer.payerName,
+          email: this.pickUpControls.email.value,
+          phone: this.ownerPayer.payerPhone
+        }
+      }else if(this.newDeliveryDirection && this.newDeliveryDirection !== undefined){
+        this.contactToConfirm = {
+          name: this.newDeliveryDirection.personReceive,
+          email: this.pickUpControls.email.value,
+          phone: this.newDeliveryDirection.phoneNumber
+        }
+      }else{
+        this.contactToConfirm;
+      }
+    }
+
+    getPlaceOfRetreat(){
+      console.log(this.radioButtonsChangedValue);
+      (this.radioButtonsChangedValue === 2) ? this.isPickUp() : this.isDelivery();
+    }
+
+    private isPickUp(){
+            switch (this.pickUpControls.pickUp.value) {
+              case 1:
+                this.placeOfRetreat = {
+                  placeDescription: 'SUCURSAL TIBÁS'
+                }
+                break;
+              case 2:
+                this.placeOfRetreat = {
+                  placeDescription: 'SUCURSAL BELÉN'
+                }
+                break;
+                case 3:
+                  this.placeOfRetreat = {
+                    placeDescription: 'SUCURSAL ESCAZÚ'
+                  }
+                break;
+                case 4:
+                  this.placeOfRetreat = {
+                    placeDescription: 'SUCURSAL TIBÁS'
+                  }
+                break;
+                case 5:
+                  this.placeOfRetreat = {
+                    placeDescription: 'SUCURSAL DESAMPARADOS'
+                  }
+                  break;
+                  case 7:
+                    this.placeOfRetreat = {
+                      placeDescription: 'ADMINISTRATIVO'
+                    }
+                  break;
+            }
+    }
+
+    private isDelivery(){
+        if (this.newDeliveryOption === 'directionRegister' || !this.newDeliveryDirection) {
+          this.placeOfRetreat = {
+            placeDescription: this.ownerPayer.provinceDescription + ', ' + this.ownerPayer.cantonDescription  + ', ' + this.ownerPayer.districtDescription
+          };   
+        } else if(this.newDeliveryOption === 'newDirection' && this.newDeliveryDirection){
+          this.placeOfRetreat = {
+            placeDescription: this.newDeliveryDirection.exactlyDirection
+          };
+        } else {
+          return;
+        }
+    }
+
   payWithQuotesAndSecure() {
 
   }
@@ -427,9 +508,11 @@ export class MarchamosComponent implements OnInit {
   }
 
   getValuesThirstyStep(){
-      console.log(this.secureAndQuotesForm.value);
+      console.log(this.pickUpForm.value);
       // console.log(object);
       this.continue();
+      this.getContactToConfirm();
+      this.getPlaceOfRetreat();
   }
 
   submit() {
