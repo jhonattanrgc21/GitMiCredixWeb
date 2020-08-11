@@ -6,16 +6,14 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class HomeService {
-  logOutURI = 'security/logout';
-  messagesUri = 'messagesrewards/messages/user';
-  markMessageReadUri = `messagesrewards/messages`;
+  private logOutURI = 'security/logout';
+  private messagesUri = 'messagesrewards/messages/user';
+  private markMessageReadUri = `messagesrewards/messages`;
 
   private isTabletSubject = new Subject<boolean>();
   isTabletObs = this.isTabletSubject.asObservable();
   private isClosingSubject = new Subject<boolean>();
   isClosingObs = this.isClosingSubject.asObservable();
-  private goHomeSubject = new Subject();
-  goHomeObs = this.goHomeSubject.asObservable();
 
   constructor(private httpService: HttpService,
               private localStorage: StorageService) {
@@ -27,10 +25,6 @@ export class HomeService {
 
   isClosing(value: boolean) {
     this.isClosingSubject.next(value);
-  }
-
-  goHome() {
-    this.goHomeSubject.next();
   }
 
   getMessages() {

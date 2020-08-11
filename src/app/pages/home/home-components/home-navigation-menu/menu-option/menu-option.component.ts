@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HomeNavigationMenuService} from '../home-navigation-menu.service';
 import {HomeService} from '../../../home.service';
+import {GoHomeService} from '../../../../../core/services/go-home.service';
 
 @Component({
   selector: 'app-menu-option',
@@ -16,12 +17,13 @@ export class MenuOptionComponent implements OnInit {
   openSubmenu = false;
 
   constructor(private router: Router,
+              private goHomeService: GoHomeService,
               private homeService: HomeService,
               private homeNavigationMenuService: HomeNavigationMenuService) {
   }
 
   ngOnInit(): void {
-    this.homeService.goHomeObs.subscribe(() => {
+    this.goHomeService.goHomeObs.subscribe(() => {
       this.openSubmenu = false;
       this.submenuSelected = 0;
       this.menuSelected = 1;
@@ -63,7 +65,7 @@ export const menus: Menu[] = [
   },
   {
     id: 3, name: 'Productos', submenus: [
-      {id: 7, name: 'Crédito personal', route: '/home', icon: 'personal_credit'},
+      {id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit'},
       {id: 8, name: 'Compra sin tarjeta', route: '/home', icon: 'code'},
       {id: 9, name: 'Ampliar plazo de compra', route: '/home', icon: 'anticipated_canc'},
       {id: 10, name: 'Cancelación anticipada', route: '/home', icon: 'anticipated_canc'}
