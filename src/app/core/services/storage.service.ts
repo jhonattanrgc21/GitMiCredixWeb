@@ -12,7 +12,7 @@ export class StorageService {
     this.localStorageService = localStorage;
   }
 
-  setCurrentSession(data: any): void {
+  setCurrentSession(data: any, identification: string): void {
     this.user = {
       userId: data.json.userId,
       aplId: data.json.aplId,
@@ -24,6 +24,7 @@ export class StorageService {
     this.card = data.json.cardNumberList;
     this.localStorageService.setItem('user', JSON.stringify(this.user));
     this.localStorageService.setItem('card', JSON.stringify(this.card));
+    this.localStorageService.setItem('identification', JSON.stringify(identification));
   }
 
   removeCurrentSession(): void {
@@ -46,6 +47,14 @@ export class StorageService {
 
   clearCurrentCard() {
     localStorage.removeItem('card');
+  }
+
+  getIdentification(): string {
+    return localStorage.getItem('identification');
+  }
+
+  clearIdentification(): void {
+    localStorage.removeItem('identification');
   }
 
   getCurrentToken(): string {
