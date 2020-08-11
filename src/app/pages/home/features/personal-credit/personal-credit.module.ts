@@ -62,7 +62,8 @@ const routes: Routes = [
   ],
   providers: [
     PersonalCreditService,
-    ModalService]
+    ModalService
+  ]
 })
 export class PersonalCreditModule {
 }

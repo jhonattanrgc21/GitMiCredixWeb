@@ -6,6 +6,7 @@ import {GlobalRequestsService} from '../../../../core/services/global-requests.s
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
+import {CredixToastService} from '../../../../core/services/credix-toast.service';
 
 @Component({
   selector: 'app-personal-credit',
@@ -36,6 +37,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   constructor(private personalCreditService: PersonalCreditService,
               private globalRequestsService: GlobalRequestsService,
               private modalService: ModalService,
+              private toastService: CredixToastService,
               private router: Router) {
   }
 
@@ -86,9 +88,11 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
       case 1:
         if (this.disbursementForm.controls.account.value !== 0) {
           this.personalCreditService.checkIbanColonesAccount(this.disbursementForm.controls.account.value).subscribe(response => {
-            if (response.type === 'success' && response.message.CodigoMoneda === 'Colones') {
+            if (response.type === 'success' && response.message.MotivoRechazo === '0') {
               this.stepper.next();
               this.selectedIndex++;
+            } else {
+              this.toastService.show({text: 'Cuenta incorrecta', type: 'error'});
             }
           });
         } else {
@@ -131,7 +135,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
       commission: this.personalCreditService.personalCreditSummary.commission,
       quota: this.personalCreditService.personalCreditSummary.quota,
       term: this.requestForm.controls.term.value,
-      method: this.disbursementForm.controls.account.value === 0 ? 'Cheque' : 'Banco',
+      method: this.disbursementForm.controls.account.value === 0 ? 'Cheque' : 'Transferencia',
       bankAccount: this.disbursementForm.controls.account.value.toString(),
       total: this.personalCreditService.personalCreditSummary.totalPay,
       ads: 'Revista Digital',
