@@ -8,7 +8,7 @@
   &__footer {
     margin-top: -10px;
 
-    span {
+    span, ::ng-deep.credix-numeric-block__integer, ::ng-deep.credix-numeric-block__decimal {
       color: #7B7B7B;
       font-weight: bold;
     }
@@ -114,5 +114,9 @@
         bottom: 1px;
       }
     }
+  }
+
+  .is-hidden {
+    display: none;
   }
 }

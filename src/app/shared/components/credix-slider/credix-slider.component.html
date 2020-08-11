@@ -16,9 +16,14 @@
               class="credix-slider__slider">
   </mat-slider>
 
-  <div class="credix-slider__footer" fxLayout="row">
-    <span>{{min}}</span>
-    <span fxFlex></span>
-    <span>{{max}}</span>
+  <div class="credix-slider__footer" fxLayout="row" fxLayoutAlign="space-between">
+    <span #minWrapper [class.is-hidden]="!showMinWrapper">
+    <ng-content select="credix-numeric-block[min]"></ng-content>
+    </span>
+    <span *ngIf="minWrapper.children.length == 0">{{min}}</span>
+    <span #maxWrapper [class.is-hidden]="!showMaxWrapper">
+    <ng-content select="credix-numeric-block[max]"></ng-content>
+    </span>
+    <span *ngIf="maxWrapper.children.length == 0">{{max}}</span>
   </div>
 </div>

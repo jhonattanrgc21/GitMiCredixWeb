@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatSlider} from '@angular/material/slider';
 
 @Component({
@@ -19,11 +19,17 @@ export class CredixSliderComponent implements OnInit {
   @Output() inputChange = new EventEmitter<number>();
   @Output() valueChange = new EventEmitter<number>();
   @ViewChild(MatSlider) slider: MatSlider;
+  @ViewChild('minWrapper', {read: ElementRef, static: true}) minWrapper: ElementRef;
+  @ViewChild('maxWrapper', {read: ElementRef, static: true}) maxWrapper: ElementRef;
+  showMinWrapper = false;
+  showMaxWrapper = false;
 
   constructor() {
   }
 
   ngOnInit(): void {
+    this.showMinWrapper = !!this.minWrapper.nativeElement.innerHTML;
+    this.showMaxWrapper = !!this.maxWrapper.nativeElement.innerHTML;
   }
 
   valueChangeEvent(event) {
