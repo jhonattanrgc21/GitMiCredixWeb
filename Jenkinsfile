@@ -19,7 +19,7 @@ pipeline {
 		    }
             steps {
                 sh 'npm install -g @angular/cli@' + "${angularCliVersion}"
-                sh 'ng build --configuration=' + "${environment}" + ' --aot'
+                sh 'ng build --deploy-url='npersonas/' --configuration=' + "${environment}" + ' --aot'
             }
         }
         stage('Deploy-App') {
