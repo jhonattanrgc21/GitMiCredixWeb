@@ -3,8 +3,6 @@ import {CommonModule} from '@angular/common';
 import {FlexModule} from '@angular/flex-layout';
 import {RouterModule, Routes} from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
-
-import {AwardsComponent} from './Awards.component';
 import {CredixPopupModule} from '../../../../shared/components/credix-popup/credix-popup.module';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import {CredixConfirmationPopupModule} from '../../../../shared/components/credix-confirmation-popup/credix-confirmation-popup.module';
@@ -22,6 +20,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {MatButtonModule} from '@angular/material/button';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {AwardsComponent} from './awards.component';
 
 const routes: Routes = [
   {
