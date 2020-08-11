@@ -54,7 +54,6 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
     this.personalCreditSummary = this.personalCreditsSummaries.find(value => value.term === this.termControl.value);
     this.ivaAmount = Number((ConvertStringAmountToNumber(this.personalCreditSummary.commission) * 0.13).toFixed(2));
     this.personalCreditService.emitPersonalCreditSummaryChanges(this.personalCreditSummary);
-    console.log(this.personalCreditSummary);
   }
 
   getQuotas() {

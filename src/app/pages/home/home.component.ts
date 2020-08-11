@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {HomeService} from './home.service';
 import {StorageService} from '../../core/services/storage.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,19 +16,11 @@ export class HomeComponent implements OnInit {
   constructor(private breakpointObserver: BreakpointObserver,
               private storageService: StorageService,
               private router: Router,
-              public homeService: HomeService,
-              private activatedRoute: ActivatedRoute) {
+              public homeService: HomeService) {
   }
 
   ngOnInit() {
-    this.checkRoute();
     this.checkScreenBreakpoint();
-  }
-
-  checkRoute() {
-    this.activatedRoute.url.subscribe(url => {
-      console.log(url);
-    });
   }
 
   checkScreenBreakpoint() {
