@@ -29,13 +29,13 @@ pipeline {
                     if( autoDeploy == "true" )  {
                         withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh', keyFileVariable: 'keyfile', usernameVariable: 'username')]) {
                             sh "ssh -i ${keyfile} ${username}@${sftpDestServer} \
-                            'cd /var/www/personas && \
-                            rm -fr /var/www/personas/*'"
+                            'cd /var/www/personasFE && \
+                            rm -fr /var/www/personasFE/*'"
                         }
                     }
                     if( autoDeploy == "true" )  {
                         withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh', keyFileVariable: 'keyfile', usernameVariable: 'username')]) {
-                            sh "scp -i ${keyfile} -r dist/* ${username}@${sftpDestServer}:/var/www/personas/"
+                            sh "scp -i ${keyfile} -r dist/* ${username}@${sftpDestServer}:/var/www/personasFE/"
                         }
                     }
                 }
