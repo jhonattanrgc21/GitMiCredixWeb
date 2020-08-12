@@ -1,25 +1,38 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {HomeService} from './home.service';
-import {StorageService} from '../../core/services/storage.service';
 import {Router} from '@angular/router';
+import {SimplebarAngularComponent} from 'simplebar-angular';
+import {ScrollService} from '../../core/services/scroll.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   isTablet = false;
   options = {autoHide: false, scrollbarMinSize: 100};
 
-  constructor(private breakpointObserver: BreakpointObserver,
-              private storageService: StorageService,
-              private router: Router,
-              public homeService: HomeService) {
+  @ViewChild('scrollBar', {read: SimplebarAngularComponent, static: true})
+  scrollBar: SimplebarAngularComponent;
+
+  constructor(public homeService: HomeService,
+              private scrollService: ScrollService,
+              private breakpointObserver: BreakpointObserver,
+              private router: Router) {
   }
 
   ngOnInit() {
+    this.breakpointChanged();
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollBar.SimpleBar.getScrollElement().addEventListener('scroll', (event) =>
+      this.scrollService.emitScroll(this.scrollBar.SimpleBar.getScrollElement().scrollTop));
+  }
+
+  breakpointChanged() {
     this.breakpointObserver
       .observe(['(max-width: 1199px)'])
       .subscribe((state: BreakpointState) => {
