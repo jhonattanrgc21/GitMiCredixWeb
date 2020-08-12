@@ -7,6 +7,7 @@ import { FavoriteIbanAccount } from "../../../../../shared/models/favorite-iban-
 import { ModalService } from "../../../../../core/services/modal.service";
 import { ModalAddIbanComponent } from "./modal-add-iban/modal-add-iban.component";
 
+
 @Component({
   selector: "app-first-step",
   templateUrl: "./first-step.component.html",
@@ -19,6 +20,7 @@ export class FirstStepComponent implements OnInit {
   favoritesAccounts: FavoriteIbanAccount[] = [];
   showSecondContent = false;
   showFavoriteAccountsSelect = false;
+  info;
 
   constructor(
     private globalRequestsService: GlobalRequestsService,
@@ -55,17 +57,28 @@ export class FirstStepComponent implements OnInit {
   accountRadioButtonChange(event: { value: string; checked: boolean }) {
     this.showFavoriteAccountsSelect = event.value === "1";
     if (event.value === "2") {
-      this.modalService.open(
-        {
-          component: ModalAddIbanComponent,
-          title: "Añadir cuenta IBAN",
-        },
-        {
-          width: 380,
-          height: 535,
-          disableClose: true,
-        }
-      );
+      this.openModal(this.info);
     }
+  }
+
+  openModal(info){
+    const modal = this.modalService.open(
+      {
+        component: ModalAddIbanComponent,
+        title: "Añadir cuenta IBAN",
+        data:{info: this.info}
+      },
+      {
+        width: 380,
+        height: 535,
+        disableClose: false,
+        panelClass: "add-account-panel",
+      },
+      1
+    );
+    this.modalService.addAccountChange.subscribe(info=>{
+      this.info = info;
+      console.log(info);
+    })
   }
 }

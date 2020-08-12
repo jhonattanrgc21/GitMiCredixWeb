@@ -1,9 +1,9 @@
 <div class="h-100" fxLayout="column" fxLayoutGap="19px">
-  <form [formGroup]="newAccountForm" class="forgot-pass-form" fxLayout="column">
-    <credix-input-field [control]="newAccountForm.controls.ibanAccount" class="forgot-pass-form__input"
+  <form [formGroup]="newAccountForm" class="add-account" fxLayout="column">
+    <credix-input-field [control]="newAccountForm.controls.ibanAccount" class="add-account__input"
       label="Cuenta IBAN"></credix-input-field>
 
-    <credix-select [control]="newAccountForm.controls.identType" class="forgot-pass-form__input"
+    <credix-select [control]="newAccountForm.controls.identType" class="add-account__select"
       label="Tipo de identificación">
       <mat-option *ngFor="let identType of identificationTypes" [value]="identType.id">
         {{ identType.description }}
@@ -11,13 +11,13 @@
     </credix-select>
 
     <credix-input-field [control]="newAccountForm.controls.identNumber" [mask]="identificationMask"
-      class="forgot-pass-form__input" label="Número de Identificación"></credix-input-field>
+      class="add-account__input" label="Número de Identificación"></credix-input-field>
 
-    <credix-input-field [control]="newAccountForm.controls.name" class="forgot-pass-form__input" label="Nombre">
+    <credix-input-field [control]="newAccountForm.controls.name" class="add-account__input" label="Nombre">
     </credix-input-field>
-
-    <credix-input-field [control]="newAccountForm.controls.favName" class="forgot-pass-form__input"
-      label="Nombre del favorito"></credix-input-field>
+    <credix-checkbox-button label="Guardar como favorito" (emitCheckBox)="emit($event)"  [checked]="isChecked"></credix-checkbox-button>
+    <credix-input-field [control]="newAccountForm.controls.favName" class="add-account__input"
+      label="Nombre del favorito" *ngIf="showFavorite"></credix-input-field>
 
     <credix-button (click)="submit()" [disabled]="newAccountForm.invalid" class="w-100" text="Añadir">
     </credix-button>

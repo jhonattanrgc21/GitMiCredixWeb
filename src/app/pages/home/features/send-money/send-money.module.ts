@@ -27,6 +27,7 @@ import {SendMoneyService} from './send-money.service';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
 import { ModalAddIbanComponent } from './first-step/modal-add-iban/modal-add-iban.component';
+import {CredixCheckboxButtonModule} from '../../../../shared/components/credix-checkbox-button/credix-checkbox-button.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -65,6 +66,7 @@ const routes: Routes = [
     CredixShareButtonModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(maskConfig),
+    CredixCheckboxButtonModule
   ],
   providers: [SendMoneyService]
 })
