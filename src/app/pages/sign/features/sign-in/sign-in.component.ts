@@ -26,8 +26,6 @@ export class SignInComponent implements OnInit {
     {
       otp: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
-  hide = true;
-  identificationMask = '0-0000-0000';
   sessionActivateModal: MatDialogRef<any>;
   newDeviceModal: MatDialogRef<any>;
   showErrorMessage = false;
@@ -76,10 +74,6 @@ export class SignInComponent implements OnInit {
         }
       }
     );
-  }
-
-  hasError(controlName: string, errorName: string) {
-    return this.signInformGroup.controls[controlName].hasError(errorName);
   }
 
   open(modal: 'sign-up' | 'forgot-pass' | 'session-activate' | 'new-device') {
