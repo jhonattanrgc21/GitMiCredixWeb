@@ -1,0 +1,47 @@
+.movements {
+
+  &__table {
+    ::ng-deep.mat-header-row {
+      background: #F0F0F0 !important;
+    }
+
+    mat-header-cell:first-of-type {
+      justify-content: flex-start !important;
+    }
+
+    mat-cell:first-of-type {
+      text-align: left !important;
+    }
+
+    mat-header-cell, mat-cell {
+
+      &:first-child {
+        flex: 20% !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        color: #6F7071;
+      }
+
+      &:nth-child(2) {
+        flex: 28% !important;
+      }
+
+      &:nth-child(3) {
+        flex: 20% !important;
+      }
+
+      &:nth-child(4) {
+        flex: 12% !important;
+        color: #6F7071;
+      }
+
+      &:last-child {
+        flex: 20% !important;
+        justify-content: flex-end !important;
+        text-align: right !important;
+      }
+    }
+  }
+
+
+}

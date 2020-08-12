@@ -1,0 +1,21 @@
+<div [class.is-hidden]="hideToolbar" class="movements-toolbar">
+  <mat-form-field class="movements-toolbar__field">
+    <mat-label>Tarjeta a consultar</mat-label>
+    <mat-select [formControl]="cardFormControl" disableOptionCentering
+                disableRipple panelClass="select-cards-movements-panel">
+      <mat-select-trigger fxLayout="row" fxLayoutAlign="flex-start flex-start">
+        <mat-icon [svgIcon]="cardFormControl.value.category == 'Principal' ? 'redCard' : 'additionalCards'"
+                  class="movements-toolbar__field__card-icon"></mat-icon>
+        <div fxLayout="column">
+          <span><strong>{{cardFormControl.value.name}}</strong></span>
+          <span>{{cardFormControl.value.typeCard}} {{selectedCardNumber}}</span>
+        </div>
+      </mat-select-trigger>
+      <mat-option *ngFor="let card of cards; let last = last" [value]="card">
+        <mat-icon [svgIcon]="card.category === 'Principal' ? 'redCard' : 'additionalCards'" class="mr-8px"></mat-icon>
+        <span>{{card.typeCard}} {{card.name}}</span>
+        <mat-divider *ngIf="!last" class="w-100"></mat-divider>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

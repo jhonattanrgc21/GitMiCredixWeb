@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Movement} from '../../../../../shared/models/Movement';
 import {ConvertStringDateToDate} from '../../../../../shared/utils';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-movements',
@@ -14,7 +15,7 @@ export class MovementsComponent implements OnInit {
   };
   displayedColumns: string[] = ['date', 'commerce', 'amount'];
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
@@ -22,5 +23,9 @@ export class MovementsComponent implements OnInit {
 
   convertStringDateToDate(value: string): Date {
     return ConvertStringDateToDate(value);
+  }
+
+  goToMovements() {
+    this.router.navigate(['/home/movements-&-account-statement']);
   }
 }

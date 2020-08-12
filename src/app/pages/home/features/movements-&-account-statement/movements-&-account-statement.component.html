@@ -1,0 +1,126 @@
+<div class="movements-account-statement" fxLayout="column">
+
+  <div class="movements-account-statement__header" fxLayout="column" fxLayoutGap="16px">
+    <h1>Movimientos</h1>
+
+    <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+
+    <router-outlet name="toolbar"></router-outlet>
+  </div>
+
+  <router-outlet></router-outlet>
+
+  <!-- <div fxLayout="column" fxLayoutGap="16px" *ngIf="selectTab == 2">
+     <credix-tab (selectionEvent)="currencyTabSelected($event)" [tabs]="currencyTabs"></credix-tab>
+     <form [formGroup]="consultForm"
+           fxLayout="row"
+           class=""
+           fxLayoutGap="150px">
+       <mat-form-field appearance="standard">
+         <mat-label>Fecha</mat-label>
+         <mat-select formControlName="dateEdc" (selectionChange)="select($event)" [(value)]="selectedYearMonth">
+           <mat-option *ngFor="let dateEdcSelects of dateEdcSelect" [value]="dateEdcSelects">
+             {{ dateEdcSelects.yearMonth | dateFormatter: 'yearMonth'}}
+           </mat-option>
+         </mat-select>
+       </mat-form-field>
+     </form>
+     <div fxLayout="row" class="movement__information" fxLayoutGap="119px">
+       <div fxLayout="column" fxLayoutGap="64px">
+         <ul class="movement__list">
+           <li fxLayoutGap="183px"><label>Pago mínimo</label> <span>{{simbolCurrency + minimumPayment}}</span></li>
+           <li fxLayoutGap="277px"><label>Pago de contado</label> <span>{{simbolCurrency + cashPayment}}</span></li>
+           <li fxLayoutGap="315px"><label>Fecha máxima de pago</label>
+             <span>{{maximumPaymentDate | dateFormatter: 'alphanumeric'}}</span></li>
+         </ul>
+       </div>
+     </div>
+     <div fxLayout="row" class="movement__information" fxLayoutGap="119px">
+       <credix-link-button (click)="downloadEdc()" text="Descargar estado de cuenta"></credix-link-button>
+     </div>
+   </div>
+
+   <div class="tables" fxLayout="column" fxLayoutGap="16px" *ngIf="selectTab == 1">
+
+     <mat-table [dataSource]="movementDataSource | paginate: { itemsPerPage: 10, currentPage: p }">
+
+       <ng-container matColumnDef="date">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
+         <mat-cell *matCellDef="let element"
+                   credixCell> {{element.originDate | dateFormatter: 'alphanumeric'}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="commerce">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
+         <mat-cell *matCellDef="let element" credixCell> {{element.establishmentName}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="amount">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell> Monto</mat-header-cell>
+         <mat-cell *matCellDef="let element"
+                   credixCell> {{element.currencySimbol + ' ' + element.originAmount}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="quotas">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell> Cuotas</mat-header-cell>
+         <mat-cell *matCellDef="let element" credixCell> {{element.quota}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="extend">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell></mat-header-cell>
+         <mat-cell *matCellDef="let element" credixCell>
+           <credix-link-button *ngIf="element.quantifiableMovement" text="Ampliar plazo"></credix-link-button>
+         </mat-cell>
+       </ng-container>
+
+       <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
+       <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
+     </mat-table>
+
+     <credix-paginator (pageChange)="p = $event" [autoHide]="true" [maxSize]="8"></credix-paginator>
+   </div>
+
+   <div class="tables" fxLayout="column" fxLayoutGap="16px" *ngIf="selectTab == 2">
+
+     <mat-table [dataSource]="edcDataSource | paginate: { itemsPerPage: 10, currentPage: q }">
+
+       <ng-container matColumnDef="date">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
+         <mat-cell *matCellDef="let element"
+                   credixCell> {{element.movementDate| dateFormatter: 'alphanumeric'}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="commerce">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
+         <mat-cell *matCellDef="let element" credixCell> {{element.referenceName}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="amount">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell> Monto</mat-header-cell>
+         <mat-cell *matCellDef="let element" credixCell> {{simbolCurrency + element.amount}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="quotas">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell> Cuotas</mat-header-cell>
+         <mat-cell *matCellDef="let element" credixCell> Cuota {{element.quotaNumberLiquidated}}
+           de  {{element.quantityQuota}}</mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="saldo">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell>Saldo pendiente</mat-header-cell>
+         <mat-cell *matCellDef="let element" credixCell> {{simbolCurrency + element.pendingCapital}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="tasa">
+         <mat-header-cell *matHeaderCellDef credixHeaderCell>Tasa</mat-header-cell>
+         <mat-cell *matCellDef="let element" credixCell> {{element.RatePlanCharge}}%</mat-cell>
+       </ng-container>
+
+       <mat-header-row *matHeaderRowDef="edcDisplayedColumns, sticky: true" credixHeaderRow></mat-header-row>
+       <mat-row *matRowDef="let row; columns: edcDisplayedColumns;" credixRow></mat-row>
+     </mat-table>
+
+     <credix-paginator (pageChange)="q = $event" [autoHide]="true" [maxSize]="8"></credix-paginator>
+   </div>
+ -->
+</div>

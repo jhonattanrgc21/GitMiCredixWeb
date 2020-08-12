@@ -14,8 +14,9 @@ const routes: Routes = [
         loadChildren: () => import('./features/landing/landing.module.js').then(m => m.LandingModule)
       },
       {
-        path: 'movements-state-account',
-        loadChildren: () => import('./features/movements-state-account/movements-state-account.module.js').then( m => m.MovementsStateAccountModule)
+        path: 'movements-&-account-statement',
+        loadChildren: () => import('./features/movements-&-account-statement/movements-&-account-statement.module.js')
+          .then(m => m.MovementsAccountStatementModule)
       },
       {
         path: 'awards',

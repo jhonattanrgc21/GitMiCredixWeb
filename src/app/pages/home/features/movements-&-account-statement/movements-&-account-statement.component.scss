@@ -1,3 +1,12 @@
+.movements-account-statement {
+
+  &__header {
+    background: #ffffff;
+    padding: 16px;
+  }
+
+}
+
 .movement {
   background: #ffffff 0% 0% no-repeat padding-box;
   width: 877px;
@@ -19,12 +28,14 @@
       }
     }
   }
+
   &__information {
     padding-left: 101px;
     padding-right: 99px;
     padding-top: 32.5px;
   }
 }
+
 .movement-card {
   width: 382px;
   height: 555px;
