@@ -6,7 +6,7 @@ import {DatePipe} from '@angular/common';
 })
 export class DateFormatterPipe implements PipeTransform {
 
-  transform(date: Date | string, format: 'numeric' | 'alphanumeric' = 'numeric', locale: string = 'es'): string {
+  transform(date: Date | string, format: 'numeric' | 'alphanumeric' | 'yearMonth' = 'numeric', locale: string = 'es'): string {
     let returnDate;
 
     if (date instanceof Date) {
@@ -20,8 +20,10 @@ export class DateFormatterPipe implements PipeTransform {
 
     if (format === 'numeric') {
       return new DatePipe(locale).transform(returnDate, 'dd/MM/yyyy');
-    } else {
+    } else if(format === 'alphanumeric'){
       return `${returnDate.getDate()} ${this.getAlphaNumericMonth(returnDate.getMonth())} ${returnDate.getFullYear()}`;
+    } else {
+      return `${this.getAlphaNumericMonth(returnDate.getMonth())} ${returnDate.getFullYear()}`;
     }
   }
 

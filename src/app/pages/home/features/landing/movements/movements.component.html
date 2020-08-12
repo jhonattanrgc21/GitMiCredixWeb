@@ -23,6 +23,6 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
   </mat-table>
 
-  <credix-link-button *ngIf="movements && movements.length > 0" fxFlexAlign="flex-end"
+  <credix-link-button *ngIf="movements && movements.length > 0" route="/home/movements-state-account" fxFlexAlign="flex-end"
                       text="Ver más"></credix-link-button>
 </mat-card>
