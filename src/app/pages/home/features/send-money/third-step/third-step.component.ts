@@ -18,7 +18,7 @@ import { SendMoneyService } from "../send-money.service";
 })
 export class ThirdStepComponent implements OnInit, OnChanges {
   @Input() codeControl: FormControl = new FormControl(null);
-  @Input() account: FavoriteIbanAccount;
+  @Input() account;
   @Input() timeLimit: number;
   @Input() amount: number;
   @Input() commissionRate: number;
@@ -43,9 +43,8 @@ export class ThirdStepComponent implements OnInit, OnChanges {
     } else {
       this.quotaAmountView = 0;
     }
-
     this.iva = this.commission * 0.13;
-    this.total = this.quotaAmountView + this.commission + this.iva;
+    this.total = this.quotaAmountView + this.commission;
     this.totalEmitEvent.emit(this.total);
   }
 

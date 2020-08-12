@@ -8,6 +8,7 @@ import { ModalService } from "../../../../../core/services/modal.service";
 import { ModalAddIbanComponent } from "./modal-add-iban/modal-add-iban.component";
 
 
+
 @Component({
   selector: "app-first-step",
   templateUrl: "./first-step.component.html",
@@ -16,11 +17,13 @@ import { ModalAddIbanComponent } from "./modal-add-iban/modal-add-iban.component
 export class FirstStepComponent implements OnInit {
   @Input() favoriteAccountControl: FormControl;
   @Output() currencyPrefixEvent = new EventEmitter();
+  @Output() typeDestinationEvent = new EventEmitter();
   currencies: Currency[] = [];
   favoritesAccounts: FavoriteIbanAccount[] = [];
   showSecondContent = false;
   showFavoriteAccountsSelect = false;
   info;
+  showDetails = false;
 
   constructor(
     private globalRequestsService: GlobalRequestsService,
@@ -55,9 +58,14 @@ export class FirstStepComponent implements OnInit {
   }
 
   accountRadioButtonChange(event: { value: string; checked: boolean }) {
+    this.typeDestinationEvent.emit(event.value);
     this.showFavoriteAccountsSelect = event.value === "1";
     if (event.value === "2") {
+      this.showDetails = true;
       this.openModal(this.info);
+
+    }else{
+      this.showDetails = false;
     }
   }
 
@@ -66,7 +74,7 @@ export class FirstStepComponent implements OnInit {
       {
         component: ModalAddIbanComponent,
         title: "Añadir cuenta IBAN",
-        data:{info: this.info}
+        data:{info: info}
       },
       {
         width: 380,
@@ -79,6 +87,7 @@ export class FirstStepComponent implements OnInit {
     this.modalService.addAccountChange.subscribe(info=>{
       this.info = info;
       console.log(info);
+      this.favoriteAccountControl.setValue(info);
     })
   }
 }

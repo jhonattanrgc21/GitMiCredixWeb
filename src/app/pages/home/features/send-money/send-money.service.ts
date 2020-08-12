@@ -25,7 +25,7 @@ export class SendMoneyService {
   getQuotaByProduct() {
     return this.httpService
       .post("canales", this.getQuotaByProductUri, {
-        channelId: 1,
+        channelId: 102,
         productId: 3,
       })
       .pipe(

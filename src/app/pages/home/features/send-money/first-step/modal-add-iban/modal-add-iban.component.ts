@@ -22,18 +22,17 @@ export class ModalAddIbanComponent implements OnInit {
   identificationMask = "0-0000-0000";
   showFavorite = false;
   isChecked = false;
-  showDetails = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,private httpService: HttpService, private modalService: ModalService) {}
 
   newAccountForm: FormGroup = new FormGroup({
-    ibanAccount: new FormControl(this.data.data.info ? this.data.data.info.ibanAccount.value : "", [Validators.required]),
-    identType: new FormControl(this.data.data.info ? this.data.data.info.identType.value : "", [Validators.required]),
-    identNumber: new FormControl({ value: this.data.data.info ? this.data.data.info.identNumber.value : "", disabled: !this.data.data.info }, [
+    ibanAccount: new FormControl(this.data.data.info ? this.data.data.info.ibanAccount : "", [Validators.required]),
+    identType: new FormControl(this.data.data.info ? this.data.data.info.identType : "", [Validators.required]),
+    identNumber: new FormControl({ value: this.data.data.info ? this.data.data.info.identification : "", disabled: !this.data.data.info }, [
       Validators.required,
     ]),
-    name: new FormControl(this.data.data.info ? this.data.data.info.name.value : "", [Validators.required]),
-    favName: new FormControl(this.data.data.info ? this.data.data.info.favName.value : ""),
+    name: new FormControl(this.data.data.info ? this.data.data.info.aliasName : "", [Validators.required]),
+    favName: new FormControl(this.data.data.info ? this.data.data.info.favName : ""),
   });
 
   ngOnInit(): void {
@@ -55,7 +54,14 @@ export class ModalAddIbanComponent implements OnInit {
           this.showDetails = true;
         });
     }*/
-    this.modalService.addAccountChange.emit(this.newAccountForm.controls);
+    this.modalService.addAccountChange.emit({
+      aliasName: this.newAccountForm.controls.name.value,
+      ibanAccount: this.newAccountForm.controls.ibanAccount.value,
+      identification: this.newAccountForm.controls.identNumber.value,
+      identType: this.newAccountForm.controls.identType.value,
+      favName: this.newAccountForm.controls.favName.value,
+      ibanBank: 'Banco Nacional'
+    });
   }
 
   getIdentificationTypes() {

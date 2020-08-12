@@ -10,7 +10,9 @@
     width: 100%;
     border: 1px solid #E9E9E9;
   }
-
+  &__edit-button{
+    text-align: end;
+  }
   &__favorites {
     width: calc(100% - 20px);
 

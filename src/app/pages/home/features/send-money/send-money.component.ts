@@ -5,10 +5,12 @@ import { SendMoneyService } from "./send-money.service";
 import { ModalService } from "../../../../core/services/modal.service";
 import { HttpService } from "../../../../core/services/http.service";
 import {Router} from '@angular/router';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: "app-send-money",
   templateUrl: "./send-money.component.html",
   styleUrls: ["./send-money.component.scss"],
+  providers: [DatePipe]
 })
 export class SendMoneyComponent implements OnInit, AfterViewInit {
   informationForm: FormGroup = new FormGroup({
@@ -16,7 +18,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   });
   amountAndQuotaForm: FormGroup = new FormGroup({
     amount: new FormControl(null, [Validators.required]),
-    quotas: new FormControl(1, [Validators.required]),
+    quotas: new FormControl(3, [Validators.required]),
     detail: new FormControl(null, [Validators.required]),
   });
   confirmForm: FormGroup = new FormGroup({
@@ -40,6 +42,8 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   ibanOrigin;
   sendMoneyUri = "channels/senddirect";
   done = false;
+  todayString: string;
+  typeDestination;
 
   @ViewChild("sendMoneyStepper") stepper: CdkStepper;
 
@@ -47,8 +51,11 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     private sendMoneyService: SendMoneyService,
     private modalService: ModalService,
     private httpService: HttpService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private datePipe: DatePipe
+  ) {
+    this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+  }
 
   ngOnInit(): void {
     this.getIbanAcount();
@@ -82,20 +89,12 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   next() {
-    this.selectedIndex++;
+    this.selectedIndex < 3 && this.selectedIndex++ ;
     if (this.selectedIndex === 2) {
       this.buttonText = "Transferir";
     }
     if (this.selectedIndex === 3) {
-      const response = this.modalService.confirmationPopup(
-        "¿Desea realizar esta transferencia?",
-        ""
-      );
-      response.subscribe((res) => {
-        if (res) {
-          this.sendMoney();
-        }
-      });
+      this.openConfirmationModal();
     }
 
     this.stepper.next();
@@ -111,34 +110,45 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   getIbanAcount(){
     this.httpService.post("canales", this.getIbanAccountUri, {channelId : 102}).subscribe(res=>{
       this.ibanOrigin = res.ibanAccountList[0].ibanAccountNumber;
-      console.log(this.ibanOrigin);
     })
   }
 
   sendMoney() {
-    console.log('listo');
+    //console.log(this.typeDestination);
     this.done = true;
-    /*this.httpService
+    this.httpService
       .post("canales",  this.sendMoneyUri, {
         channelId : 102,
-        ibanOrigin : "CR30042207010035388205",
-        crcId : 188,
-        esbId : 10,
-        creationDate : "2020-08-11",
-        amountTransfer : 16754,
-        ibanDestinity: "CR16010200009183253589",
-        typeDestinationId : 1,
-        nameDestination : "María",
-        period : "3",
+        ibanOrigin : this.ibanOrigin,
+        crcId : this.currencyPrefix ==='$'? 840 : 188,
+        esbId : 50126,
+        creationDate : this.todayString,
+        amountTransfer : this.amountAndQuotaForm.controls.amount.value,
+        ibanDestinity: this.informationForm.controls.account.value.ibanAccount,
+        typeDestinationId : this.typeDestination,
+        nameDestination : this.informationForm.controls.account.value.aliasName,
+        period : this.amountAndQuotaForm.controls.quotas.value,
         detail : "Transacción pendiente.",
-        commissionAmount : 2000,
-        totalAmount : 30000,
-        identification: "1-1-7020460",
+        commissionAmount : this.commission,
+        totalAmount : this.total,
+        identification: this.informationForm.controls.account.value.identification,
         trsId : 1,
         credixCode: this.confirmForm.controls.code.value
   }).subscribe(resp=>{
         console.log(resp);
-    })*/
+    })
+  }
+
+  openConfirmationModal(){
+    const response = this.modalService.confirmationPopup(
+      "¿Desea realizar esta transferencia?",
+      ""
+    );
+    response.subscribe((res) => {
+      if (res) {
+        this.sendMoney();
+      }
+    });
   }
 
   goHome(){

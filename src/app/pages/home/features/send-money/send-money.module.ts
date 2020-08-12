@@ -28,6 +28,7 @@ import {CredixResultNotificationModule} from '../../../../shared/components/cred
 import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
 import { ModalAddIbanComponent } from './first-step/modal-add-iban/modal-add-iban.component';
 import {CredixCheckboxButtonModule} from '../../../../shared/components/credix-checkbox-button/credix-checkbox-button.module';
+import { ModalDetailsComponent } from './second-step/modal-details/modal-details.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -42,7 +43,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SendMoneyComponent, FirstStepComponent, SecondStepComponent, ThirdStepComponent, ModalAddIbanComponent],
+  declarations: [SendMoneyComponent, FirstStepComponent, SecondStepComponent, ThirdStepComponent, ModalAddIbanComponent, ModalDetailsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

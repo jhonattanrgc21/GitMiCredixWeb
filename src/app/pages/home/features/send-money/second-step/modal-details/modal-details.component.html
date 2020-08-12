@@ -1,0 +1,32 @@
+<div fxLayout="column" fxLayoutGap="8px">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span>Monto a transferir</span>
+    <credix-numeric-block [prefix]="data.data.currencyCode"
+                                [value]="data.data.amount"
+                                class="tr" fontSize="16"
+                                fontWeight="bold"></credix-numeric-block>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span>Comisión ({{data.data.comissionRate}}%)</span>
+    <credix-numeric-block [prefix]="data.data.currencyCode"
+                                [value]="data.data.comission"
+                                class="tr" fontSize="16"
+                                fontWeight="bold"></credix-numeric-block>
+  </div>
+  <mat-divider class="ml-20px"></mat-divider>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span>Total</span>
+    <credix-numeric-block [prefix]="data.data.currencyCode"
+                                [value]="data.data.amount"
+                                class="tr" fontSize="16"
+                                fontWeight="bold"></credix-numeric-block>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span class="bg">{{data.data.quotas}} Cuotas de</span>
+    <credix-numeric-block [prefix]="data.data.currencyCode"
+                                [value]="data.data.qAmount"
+                                class="tr bg-numeric-block" fontSize="24"
+                                fontWeight="bold"></credix-numeric-block>
+  </div>
+</div>
