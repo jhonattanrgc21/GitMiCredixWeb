@@ -1,36 +1,64 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CdkStepper} from '@angular/cdk/stepper';
-import {SendMoneyService} from './send-money.service';
-
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { CdkStepper } from "@angular/cdk/stepper";
+import { SendMoneyService } from "./send-money.service";
+import { ModalService } from "../../../../core/services/modal.service";
+import { HttpService } from "../../../../core/services/http.service";
+import {Router} from '@angular/router';
+import { DatePipe } from '@angular/common';
 @Component({
-  selector: 'app-send-money',
-  templateUrl: './send-money.component.html',
-  styleUrls: ['./send-money.component.scss']
+  selector: "app-send-money",
+  templateUrl: "./send-money.component.html",
+  styleUrls: ["./send-money.component.scss"],
+  providers: [DatePipe]
 })
 export class SendMoneyComponent implements OnInit, AfterViewInit {
   informationForm: FormGroup = new FormGroup({
-    account: new FormControl(null, [Validators.required])
+    account: new FormControl(null, [Validators.required]),
   });
   amountAndQuotaForm: FormGroup = new FormGroup({
     amount: new FormControl(null, [Validators.required]),
-    quotas: new FormControl(1, [Validators.required]),
-    detail: new FormControl(null, [Validators.required])
+    quotas: new FormControl(3, [Validators.required]),
+    detail: new FormControl(null, [Validators.required]),
   });
   confirmForm: FormGroup = new FormGroup({
-    code: new FormControl(null, [Validators.required])
+    code: new FormControl(null, [Validators.required]),
   });
   selectedIndex = 0;
   disableButton = true;
   currencyPrefix: string;
-  buttonText = 'Continuar';
-  @ViewChild('sendMoneyStepper') stepper: CdkStepper;
+  buttonText = "Continuar";
+  commissionRate: number;
+  listQuotas: [];
+  quotaDetail = {
+    commissionRate: 2,
+    quota: 0,
+    description: "",
+    id: 1,
+  };
+  commission: number;
+  total: number;
+  getIbanAccountUri = "account/getibanaccount";
+  ibanOrigin;
+  sendMoneyUri = "channels/senddirect";
+  done = false;
+  todayString: string;
+  typeDestination;
 
-  constructor(private sendMoneyService: SendMoneyService) {
+  @ViewChild("sendMoneyStepper") stepper: CdkStepper;
+
+  constructor(
+    private sendMoneyService: SendMoneyService,
+    private modalService: ModalService,
+    private httpService: HttpService,
+    private router: Router,
+    private datePipe: DatePipe
+  ) {
+    this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
   ngOnInit(): void {
-
+    this.getIbanAcount();
   }
 
   ngAfterViewInit(): void {
@@ -39,21 +67,21 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
 
   setEnableButton() {
     switch (this.selectedIndex) {
-      case 0 :
+      case 0:
         this.disableButton = this.informationForm.invalid;
-        this.informationForm.valueChanges.subscribe(value => {
+        this.informationForm.valueChanges.subscribe((value) => {
           this.disableButton = this.informationForm.invalid;
         });
         break;
       case 1:
         this.disableButton = this.amountAndQuotaForm.invalid;
-        this.amountAndQuotaForm.valueChanges.subscribe(value => {
+        this.amountAndQuotaForm.valueChanges.subscribe((value) => {
           this.disableButton = this.amountAndQuotaForm.invalid;
         });
         break;
       case 2:
         this.disableButton = this.confirmForm.invalid;
-        this.confirmForm.valueChanges.subscribe(value => {
+        this.confirmForm.valueChanges.subscribe((value) => {
           this.disableButton = this.confirmForm.invalid;
         });
         break;
@@ -61,9 +89,12 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   next() {
-    this.selectedIndex++;
+    this.selectedIndex < 3 && this.selectedIndex++ ;
     if (this.selectedIndex === 2) {
-      this.buttonText = 'Transferir';
+      this.buttonText = "Transferir";
+    }
+    if (this.selectedIndex === 3) {
+      this.openConfirmationModal();
     }
 
     this.stepper.next();
@@ -76,4 +107,52 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     this.setEnableButton();
   }
 
+  getIbanAcount(){
+    this.httpService.post("canales", this.getIbanAccountUri, {channelId : 102}).subscribe(res=>{
+      this.ibanOrigin = res.ibanAccountList[0].ibanAccountNumber;
+    })
+  }
+
+  sendMoney() {
+    //console.log(this.typeDestination);
+    this.done = true;
+    this.httpService
+      .post("canales",  this.sendMoneyUri, {
+        channelId : 102,
+        ibanOrigin : this.ibanOrigin,
+        crcId : this.currencyPrefix ==='$'? 840 : 188,
+        esbId : 50126,
+        creationDate : this.todayString,
+        amountTransfer : this.amountAndQuotaForm.controls.amount.value,
+        ibanDestinity: this.informationForm.controls.account.value.ibanAccount,
+        typeDestinationId : this.typeDestination,
+        nameDestination : this.informationForm.controls.account.value.aliasName,
+        period : this.amountAndQuotaForm.controls.quotas.value,
+        detail : "Transacción pendiente.",
+        commissionAmount : this.commission,
+        totalAmount : this.total,
+        identification: this.informationForm.controls.account.value.identification,
+        trsId : 1,
+        credixCode: this.confirmForm.controls.code.value
+  }).subscribe(resp=>{
+        console.log(resp);
+    })
+  }
+
+  openConfirmationModal(){
+    const response = this.modalService.confirmationPopup(
+      "¿Desea realizar esta transferencia?",
+      ""
+    );
+    response.subscribe((res) => {
+      if (res) {
+        this.sendMoney();
+      }
+    });
+  }
+
+  goHome(){
+    this.router.navigate(['/home']).then();
+  }
 }
+

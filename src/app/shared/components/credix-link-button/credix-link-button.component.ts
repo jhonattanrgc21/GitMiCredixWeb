@@ -11,6 +11,7 @@ export class CredixLinkButtonComponent implements OnInit {
   @Input() text = '';
   @Input() route = '';
   @Input() target = '_blank';
+  @Input() change;
 
   constructor() {
   }

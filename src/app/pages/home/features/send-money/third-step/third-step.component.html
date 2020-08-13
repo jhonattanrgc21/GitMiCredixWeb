@@ -57,11 +57,11 @@
           </td>
         </tr>
         <tr class="third-step__table-row">
-          <td>Comisión (5%)</td>
+          <td>Comisión ({{commissionRate}}%)</td>
           <td>
             <credix-numeric-block [prefix]="currencyPrefix" fontSize="16"
                                   fontWeight="bold"
-                                  value="2.000,00"></credix-numeric-block>
+                                  [value]="commission"></credix-numeric-block>
           </td>
         </tr>
         <tr class="third-step__table-row border-bottom">
@@ -69,7 +69,7 @@
           <td>
             <credix-numeric-block [prefix]="currencyPrefix" fontSize="16"
                                   fontWeight="bold"
-                                  value="1.000,000"></credix-numeric-block>
+                                  [value]="iva"></credix-numeric-block>
           </td>
         </tr>
         </tbody>
@@ -79,8 +79,8 @@
 
       <div fxLayout="row">
         <span fxFlex="50">Total</span>
-        <credix-numeric-block class="tr" fontSize="16" fontWeight="bold"
-                              fxFlex="50" value="103.000,00"></credix-numeric-block>
+        <credix-numeric-block class="tr" fontSize="16" fontWeight="bold" [prefix]="currencyPrefix"
+                              fxFlex="50" [value]="total"></credix-numeric-block>
       </div>
 
     </div>
