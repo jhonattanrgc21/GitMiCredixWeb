@@ -1,15 +1,16 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { CdkStepper } from "@angular/cdk/stepper";
-import { SendMoneyService } from "./send-money.service";
-import { ModalService } from "../../../../core/services/modal.service";
-import { HttpService } from "../../../../core/services/http.service";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {CdkStepper} from '@angular/cdk/stepper';
+import {SendMoneyService} from './send-money.service';
+import {ModalService} from '../../../../core/services/modal.service';
+import {HttpService} from '../../../../core/services/http.service';
 import {Router} from '@angular/router';
-import { DatePipe } from '@angular/common';
+import {DatePipe} from '@angular/common';
+
 @Component({
-  selector: "app-send-money",
-  templateUrl: "./send-money.component.html",
-  styleUrls: ["./send-money.component.scss"],
+  selector: 'app-send-money',
+  templateUrl: './send-money.component.html',
+  styleUrls: ['./send-money.component.scss'],
   providers: [DatePipe]
 })
 export class SendMoneyComponent implements OnInit, AfterViewInit {
@@ -27,25 +28,25 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   selectedIndex = 0;
   disableButton = true;
   currencyPrefix: string;
-  buttonText = "Continuar";
+  buttonText = 'Continuar';
   commissionRate: number;
   listQuotas: [];
   quotaDetail = {
     commissionRate: 2,
     quota: 0,
-    description: "",
+    description: '',
     id: 1,
   };
   commission: number;
   total: number;
-  getIbanAccountUri = "account/getibanaccount";
+  getIbanAccountUri = 'account/getibanaccount';
   ibanOrigin;
-  sendMoneyUri = "channels/senddirect";
+  sendMoneyUri = 'channels/senddirect';
   done = false;
   todayString: string;
   typeDestination;
 
-  @ViewChild("sendMoneyStepper") stepper: CdkStepper;
+  @ViewChild('sendMoneyStepper') stepper: CdkStepper;
 
   constructor(
     private sendMoneyService: SendMoneyService,
@@ -89,9 +90,9 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   next() {
-    this.selectedIndex < 3 && this.selectedIndex++ ;
+    this.selectedIndex < 3 && this.selectedIndex++;
     if (this.selectedIndex === 2) {
-      this.buttonText = "Transferir";
+      this.buttonText = 'Transferir';
     }
     if (this.selectedIndex === 3) {
       this.openConfirmationModal();
@@ -107,51 +108,45 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     this.setEnableButton();
   }
 
-  getIbanAcount(){
-    this.httpService.post("canales", this.getIbanAccountUri, {channelId : 102}).subscribe(res=>{
+  getIbanAcount() {
+    this.httpService.post('canales', this.getIbanAccountUri, {channelId: 102}).subscribe(res => {
       this.ibanOrigin = res.ibanAccountList[0].ibanAccountNumber;
-    })
+    });
   }
 
   sendMoney() {
-    //console.log(this.typeDestination);
     this.done = true;
     this.httpService
-      .post("canales",  this.sendMoneyUri, {
-        channelId : 102,
-        ibanOrigin : this.ibanOrigin,
-        crcId : this.currencyPrefix ==='$'? 840 : 188,
-        esbId : 50126,
-        creationDate : this.todayString,
-        amountTransfer : this.amountAndQuotaForm.controls.amount.value,
+      .post('canales', this.sendMoneyUri, {
+        channelId: 102,
+        ibanOrigin: this.ibanOrigin,
+        crcId: this.currencyPrefix === '$' ? 840 : 188,
+        esbId: 50126,
+        creationDate: this.todayString,
+        amountTransfer: this.amountAndQuotaForm.controls.amount.value,
         ibanDestinity: this.informationForm.controls.account.value.ibanAccount,
-        typeDestinationId : this.typeDestination,
-        nameDestination : this.informationForm.controls.account.value.aliasName,
-        period : this.amountAndQuotaForm.controls.quotas.value,
-        detail : "Transacción pendiente.",
-        commissionAmount : this.commission,
-        totalAmount : this.total,
+        typeDestinationId: this.typeDestination,
+        nameDestination: this.informationForm.controls.account.value.aliasName,
+        period: this.amountAndQuotaForm.controls.quotas.value,
+        detail: 'Transacción pendiente.',
+        commissionAmount: this.commission,
+        totalAmount: this.total,
         identification: this.informationForm.controls.account.value.identification,
-        trsId : 1,
+        trsId: 1,
         credixCode: this.confirmForm.controls.code.value
-  }).subscribe(resp=>{
-        console.log(resp);
-    })
+      }).subscribe();
   }
 
-  openConfirmationModal(){
-    const response = this.modalService.confirmationPopup(
-      "¿Desea realizar esta transferencia?",
-      ""
-    );
-    response.subscribe((res) => {
+  openConfirmationModal() {
+    this.modalService.confirmationPopup(
+      '¿Desea realizar esta transferencia?').subscribe((res) => {
       if (res) {
         this.sendMoney();
       }
     });
   }
 
-  goHome(){
+  goHome() {
     this.router.navigate(['/home']).then();
   }
 }

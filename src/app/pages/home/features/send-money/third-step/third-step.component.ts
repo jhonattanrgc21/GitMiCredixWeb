@@ -1,20 +1,11 @@
-import {
-  Component,
-  Input,
-  Output,
-  OnChanges,
-  EventEmitter,
-  OnInit,
-  SimpleChanges,
-} from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { FavoriteIbanAccount } from "../../../../../shared/models/favorite-iban-account";
-import { SendMoneyService } from "../send-money.service";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {SendMoneyService} from '../send-money.service';
 
 @Component({
-  selector: "app-third-step",
-  templateUrl: "./third-step.component.html",
-  styleUrls: ["./third-step.component.scss"],
+  selector: 'app-third-step',
+  templateUrl: './third-step.component.html',
+  styleUrls: ['./third-step.component.scss'],
 })
 export class ThirdStepComponent implements OnInit, OnChanges {
   @Input() codeControl: FormControl = new FormControl(null);
@@ -26,10 +17,11 @@ export class ThirdStepComponent implements OnInit, OnChanges {
   @Output() totalEmitEvent = new EventEmitter();
   @Input() commission: number;
   quotaAmountView: number;
-  total:number;
-  iva:number;
+  total: number;
+  iva: number;
 
-  constructor(private sendMoneyService: SendMoneyService) {}
+  constructor(private sendMoneyService: SendMoneyService) {
+  }
 
   ngOnInit(): void {
 

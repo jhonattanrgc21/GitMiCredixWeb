@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { SendMoneyService } from '../send-money.service';
-import { ModalService } from "../../../../../core/services/modal.service";
-import { ModalDetailsComponent } from './modal-details/modal-details.component';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {SendMoneyService} from '../send-money.service';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {ModalDetailsComponent} from './modal-details/modal-details.component';
 
 @Component({
   selector: 'app-second-step',
@@ -40,7 +40,7 @@ export class SecondStepComponent implements OnInit {
     this.quotasControl.valueChanges.subscribe(value => {
       this.computeQuotaAmount(this.amountToSendControl.value, value);
       this.quotaDetail = this.listQuotas.find(
-        (elem) => elem.quota == this.quotasControl.value
+        (elem) => elem.quota === this.quotasControl.value
       );
       this.commission = this.amountToSendControl.value * (this.quotaDetail?.commissionRate / 100);
       this.commissionEmitEvent.emit(this.commission);
@@ -48,7 +48,6 @@ export class SecondStepComponent implements OnInit {
     });
 
     this.getQuotas();
-    //this.getListQuotesByProduct();
   }
 
   computeQuotaAmount(amount: string, quota: number) {
@@ -66,21 +65,28 @@ export class SecondStepComponent implements OnInit {
       this.minQuota = listQuotas[0].quota;
       this.maxQuota = listQuotas[length - 1].quota;
       this.stepQuota = listQuotas[1].quota - listQuotas[0].quota;
-    })
+    });
   }
 
   openDetails() {
     this.modalService.open(
       {
         component: ModalDetailsComponent,
-        title: "Resumen general",
-        data: { currencyCode: this.currencyCode, amount: this.amountToSendControl.value, comission: this.commission, commissionRate: this.quotaDetail?.commissionRate, quotas: this.quotasControl.value, qAmount: this.quotaAmountView }
+        title: 'Resumen general',
+        data: {
+          currencyCode: this.currencyCode,
+          amount: this.amountToSendControl.value,
+          comission: this.commission,
+          commissionRate: this.quotaDetail?.commissionRate,
+          quotas: this.quotasControl.value,
+          qAmount: this.quotaAmountView
+        }
       },
       {
         width: 380,
         height: 301,
         disableClose: false,
-        panelClass: "add-account-panel",
+        panelClass: 'add-account-panel',
       },
       1
     );
