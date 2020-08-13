@@ -15,7 +15,7 @@
         <ngx-simplebar *ngIf="dataSource.length > 0" [options]="options" fxFlex="50">
         <ng-container matColumnDef="date">
           <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource">
+          <mat-cell *matCellDef="let element" credixCell>
             <credix-checkbox-button checked="false" disable="false" [value]="'d'"></credix-checkbox-button>
             {{element.date}}
           </mat-cell>
@@ -23,22 +23,22 @@
 
         <ng-container matColumnDef="commerce">
           <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource">{{element.commerce}} </mat-cell>
+          <mat-cell *matCellDef="let element" credixCell>{{element.commerce}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="amount">
           <mat-header-cell *matHeaderCellDef credixHeaderCell> Saldo pendiente </mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource">{{element.amount}} </mat-cell>
+          <mat-cell *matCellDef="let element" credixCell >{{element.amount}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="quotas">
           <mat-header-cell *matHeaderCellDef credixHeaderCell> Cuotas pendientes </mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource"> {{element.quotas}}</mat-cell>
+          <mat-cell *matCellDef="let element" credixCell > {{element.quotas}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="rate">
           <mat-header-cell *matHeaderCellDef credixHeaderCell> Tasa </mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource"> {{element.rate}}</mat-cell>
+          <mat-cell *matCellDef="let element" credixCell > {{element.rate}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
