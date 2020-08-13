@@ -54,13 +54,13 @@ export class PaymentPlacesComponent implements OnInit {
         this.contador += 1;
         paymentPlace.restrictions = resp.paymentPlace;
 
-        this.options.push({
+        this.options = [...this.options,{
           id: this.contador,
           priority: paymentPlace.priority,
           name: paymentPlace.name,
           img: paymentPlace.linkImage,
           restrictions: resp.paymentPlace
-        });
+        }];
 
       });
   }

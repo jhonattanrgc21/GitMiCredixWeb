@@ -28,7 +28,15 @@ const routes: Routes = [
       {
         path: 'send-money',
         loadChildren: () => import('./features/send-money/send-money.module.js').then(m => m.SendMoneyModule)
-      }
+      },
+      {
+        path: 'public-services',
+        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
+      },
+      {
+        path: 'cancellation',
+        loadChildren: () => import('./features/cancellation/cancellation.module.js').then(m => m.CancellationModule)
+      },
     ]
   }
 ];

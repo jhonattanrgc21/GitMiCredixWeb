@@ -1,0 +1,99 @@
+<div class="cancellation__banner-tab" fxLayout="row" fxLayoutGap="16px">
+  <mat-card credixCard fxFlex="100">
+    <h1>Cancelación anticipada</h1>
+    <p *ngIf="!showResponse">Cancele antes sus compras y utilice nuevamente su disponible.</p>
+    <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs" *ngIf="!showResponse"></credix-tab>
+    <div fxLayout="colu" fxLayoutAlign="start center" *ngIf="!showResponse">
+      <span>Saldo a favor</span>
+      <credix-numeric-block [prefix]="currencyCode" [value]="balance" class="tr" fontSize="24" fontWeight="bold">
+      </credix-numeric-block>
+    </div>
+
+    <div class="cancellation__table" fxLayout="column" fxLayoutGap="16px" *ngIf="!showResponse">
+
+      <mat-table [dataSource]="dataSource">
+        <ngx-simplebar *ngIf="dataSource.length > 0" [options]="options" fxFlex="50">
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource">
+            <credix-checkbox-button checked="false" disable="false" [value]="'d'"></credix-checkbox-button>
+            {{element.date}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="commerce">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource">{{element.commerce}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Saldo pendiente </mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource">{{element.amount}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="quotas">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Cuotas pendientes </mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource"> {{element.quotas}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rate">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Tasa </mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell *ngIf="dataSource"> {{element.rate}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
+      </ngx-simplebar>
+      </mat-table>
+
+      <!--<credix-result-notification status="info" title="No tiene consumos para cancelar anticipadamente en este momento.">
+      </credix-result-notification>-->
+
+      <!--| paginate: { itemsPerPage: 10, currentPage: p }<credix-paginator (pageChange)="p = $event" [autoHide]="true" [maxSize]="8"></credix-paginator>-->
+    </div>
+    <div *ngIf="showResponse && showSuccess">
+      <credix-result-notification  status="success" title="¡Éxito!"
+        message="Su solicitud fue ingresada correctamente. Esto puede tardar hasta 3 días hábiles en reflejarse en su cuenta.">
+      </credix-result-notification>
+      <mat-divider class="cancellation__divider full-width mt-16px mb-16px"></mat-divider>
+      <div fxLayout="row" fxLayoutAlign="space-between start" class="cancellation__data-info">
+        <div fxFlex="42%">
+          <p class="cancellation__data-info__text">Datos de la cancelación anticipada</p>
+        </div>
+        <div fxFlex="58%">
+          <div fxLayout="row" class="cancellation__data-info__row">
+            <div fxFlex="50%"><span>Monto cancelado</span></div>
+            <div fxFlex="50%" class="tr">
+              <credix-numeric-block [prefix]="currencyCode" [value]="88" class="tr" fontSize="16" fontWeight="bold">
+              </credix-numeric-block>
+            </div>
+          </div>
+          <div fxLayout="row" class="cancellation__data-info__row">
+            <div fxFlex="60%"><span>Consumos cancelados</span></div>
+            <div fxFlex="40%" class="tr">
+              <span class="cancellation__data-info__text">2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="space-between center" class="mt-70px">
+        <credix-share-button class="send-money__shrare-btn"></credix-share-button>
+      </div>
+    </div>
+
+    <div *ngIf="showResponse && !showSuccess">
+      <credix-result-notification  status="error" [title]="errorTitle"
+        [message]="errorDescrip">
+      </credix-result-notification>
+    </div>
+
+    <div class="cancellation__footer mt-16px" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+      <credix-button (buttonClick)="sendInfo()" [disabled]="disableButton" text="Aplicar" *ngIf="!showResponse">
+      </credix-button>
+      <credix-button (buttonClick)="sendInfo()" [disabled]="disableButton" text="Listo" *ngIf="showResponse">
+      </credix-button>
+    </div>
+  </mat-card>
+</div>
+
+
