@@ -67,8 +67,11 @@
 }
 
 ::ng-deep.new-device-panel {
+
   .credix-popup__title {
     line-height: 1 !important;
+    margin-bottom: 16px !important;
+    height: 77px !important;
   }
 }
 

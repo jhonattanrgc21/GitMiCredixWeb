@@ -42,12 +42,12 @@
 
 
 <ng-template #newDeviceTemplate>
-  <div class="h-100" fxLayout="column" fxLayoutAlign="space-between center">
-    <p class="mt-16px">
+  <div class="h-100" fxLayout="column" fxLayoutAlign="flex-start center">
+    <p class="mb-16px">
       Por su seguridad le hemos enviado un código de verificación vía SMS al teléfono registrado: {{phone}}.
     </p>
 
-    <form [formGroup]="newDeviceFormGroup" class="w-100">
+    <form [formGroup]="newDeviceFormGroup" class="w-100 mb-32px">
       <credix-code-input [(codeFormControl)]="g.otp" [length]="6">
       </credix-code-input>
       <mat-error *ngIf="showErrorMessage">
@@ -61,7 +61,9 @@
     </div>
 
 
-    <p class="mt-14px f-14px">
+    <span fxFlex></span>
+
+    <p class="mb-16px f-14px">
       Si este no es su teléfono o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX
       <credix-link-button text="2227-3349">()</credix-link-button>
       o visite una de nuestras sucursales para solicitar el cambio.
