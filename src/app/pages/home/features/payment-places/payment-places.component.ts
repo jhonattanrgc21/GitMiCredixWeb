@@ -12,7 +12,7 @@ export class PaymentPlacesComponent implements OnInit {
   contador = 0;
   tabs = [
     {id: 1, name: 'Comercios'},
-    {id: 2, name: 'Pago digitales'},
+    {id: 2, name: 'Pago por transferencia'},
   ];
   options = [];
   details = [{id: 1, name: 'Detalles 1'}];

@@ -49,12 +49,20 @@
   .credix-result-notification__title {
     font-size: 32px !important;
     line-height: 32px !important;
-    height: 79px !important;
+    height: auto !important;
     margin-bottom: 16px !important;
   }
 
   .credix-result-notification__message {
     width: 268px !important;
+  }
+
+  .credix-button {
+    height: 40px;
+
+    &:first-of-type {
+      margin-bottom: 22px;
+    }
   }
 }
 

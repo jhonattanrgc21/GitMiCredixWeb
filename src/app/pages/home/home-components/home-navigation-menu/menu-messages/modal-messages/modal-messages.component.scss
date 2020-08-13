@@ -12,10 +12,12 @@
 
       &:first-of-type {
         font-weight: bold;
+        width: 75%;
       }
 
       &:last-of-type {
         font-size: 12px;
+        width: 25%;
       }
     }
   }
@@ -28,6 +30,11 @@
 
   &__paginator {
     margin-left: 65px;
+
+    &__title {
+      font-size: 14px;
+      font-weight: bold;
+    }
 
     &__btn {
       width: 15px;
