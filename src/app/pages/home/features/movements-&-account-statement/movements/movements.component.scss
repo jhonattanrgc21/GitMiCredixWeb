@@ -3,6 +3,7 @@
   &__table {
     ::ng-deep.mat-header-row {
       background: #F0F0F0 !important;
+      top: 0 !important;
     }
 
     mat-header-cell:first-of-type {
