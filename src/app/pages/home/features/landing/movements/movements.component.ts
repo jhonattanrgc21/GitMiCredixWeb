@@ -10,9 +10,7 @@ import {Router} from '@angular/router';
 })
 export class MovementsComponent implements OnInit {
   @Input() movements: Movement[] = [];
-  @Input() movementsTags = {
-    titleTag: 'Movimientos'
-  };
+  @Input() movementsTags: any;
   displayedColumns: string[] = ['date', 'commerce', 'amount'];
 
   constructor(private router: Router) {

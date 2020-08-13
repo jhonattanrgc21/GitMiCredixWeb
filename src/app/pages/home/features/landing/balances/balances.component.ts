@@ -13,17 +13,7 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
 })
 export class BalancesComponent implements OnInit, OnChanges {
   @Input() balances: Balances;
-  @Input() balancesTag = {
-    creditLimitTag: 'Límite de crédito',
-    consumedTag: 'Consumido',
-    availableTag: 'Disponible',
-    increaseCreditLimitTag: 'Aumentar límite',
-    ibanAccountsTag: 'Cuentas IBAN',
-    colonesTag: 'Colones',
-    dollarsTag: 'Dólares',
-    colonesIbanCopiedTag: 'Cuenta IBAN en colones copiada',
-    dollarsIbanCopiedTag: 'Cuenta IBAN en dólares copiada',
-  };
+  @Input() balancesTag: any;
   @Output() cardChanged = new EventEmitter<number>();
   cardFormControl = new FormControl(null, []);
   cards: Card[];
