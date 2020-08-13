@@ -66,7 +66,7 @@
           </credix-button>
 
           <credix-button
-            (buttonClick)="continue()"
+            (buttonClick)="firstStepContinue()"
             [disabled]="responseToContinue != 'success'"
             text="Continuar"></credix-button>
         </div>
@@ -110,7 +110,9 @@
 
             <div fxLayout="column">
               <div class="marchamos__slider">
-                <credix-slider (valueChange)="getValueSlider($event)" [(value)]="value"
+                <credix-slider (valueChange)="getValueSlider($event)" 
+                              [(value)]="value"
+                              [max]="maxQuotes"
                               [instructions]="'Deseo dividir este pago en'" [units]="'Cuota'"></credix-slider>
               </div>
 
@@ -181,19 +183,16 @@
               </div>
               <credix-radio-button [checked]="false" [value]="1" label="Domicilio" name="a" (emitRadioButton)="getRadioButtonsChecked($event)"></credix-radio-button>
                 <div *ngIf="radioButtonsChangedValue === 1" class="marchamos__inputs-hidden" fxLayout="column">
-                  <credix-radio-button [checked]="true" [value]="'directionRegister'" label="Dirección registrada en Credix" name="b" (emitRadioButton)="newDirectionChecked($event)"></credix-radio-button>
+                  <credix-radio-button [checked]="domicile" [value]="'directionRegister'" label="Dirección registrada en Credix" name="b" (emitRadioButton)="newDirectionChecked($event)"></credix-radio-button>
                     <div *ngIf="!newDeliveryDirection || newDeliveryOption === 'directionRegister'" class="marchamos__delivery-pickup" fxLayout="column">
-                      <span> {{ownerPayer.payerName}} </span>
-                      <span> {{ownerPayer.payerPhone | mask: '0000-0000'}}</span>
-                      <div fxLayout="row" fxLayoutGap="2px">
-                        <span>{{ownerPayer.cantonDescription}}, </span>
-                        <span>{{ownerPayer.districtDescription}}, </span>
-                        <span>{{ownerPayer.provinceDescription}}, </span>
-                      </div>
+                      <span> {{domicileDescription.name}} </span>
+                      <span> {{domicileDescription.number | mask: '0000-0000'}}</span>
+                      <span>{{domicileDescription.detail}}</span>
+                       
                       <mat-divider></mat-divider>
                     </div>
                     <div fxLayout="row" fxLayoutGap="16px">
-                      <credix-radio-button [checked]="false" [value]="'newDirection'" label="User otra dirección" name="b" (emitRadioButton)="newDirectionChecked($event)"></credix-radio-button>
+                      <credix-radio-button [checked]="newDomicile" [value]="'newDirection'" label="User otra dirección" name="b" (emitRadioButton)="newDirectionChecked($event)"></credix-radio-button>
                       <credix-link-button *ngIf="newDeliveryDirection !== undefined && newDeliveryDirection !== '' && newDeliveryOption !== 'directionRegister'" class="marchamos__edit-delivery" text="Editar" (click)="editNewDirection(true)"></credix-link-button>
                     </div>
                       <div *ngIf="newDeliveryDirection && newDeliveryOption !== 'directionRegister'" class="marchamos__delivery-pickup" fxLayout="column">
@@ -247,25 +246,30 @@
         <div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="153px">
           <label>Resumen de pago</label>
           <ul class="marchamos__billing-list">
-            <li fxLayoutGap="206px"><label>Marchamo</label><span>₡ 114.996,00</span></li>
-            <li fxLayoutGap="231px"><label>Seguros</label><span>₡ 19.244,00</span></li>
-            <li fxLayoutGap="225px"><label>Comisión</label><span>₡ 10.000,00</span></li>
-            <li fxLayoutGap="278px"><label>IVA</label><span>₡ 1.000,00</span></li>
-            <mat-divider></mat-divider>
-            <li fxLayoutGap="247px"><label class="marchamos__total">Total</label><span>₡ 145.240,00</span></li>
+            <li fxLayoutGap="206px"><label>Marchamo</label><credix-numeric-block [value]="totalMount" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+            </li>
+            <li fxLayoutGap="231px"><label>Seguros</label><credix-numeric-block [value]="totalAmountItemsProducts" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+            </li>
+            <li fxLayoutGap="225px"><label>Comisión</label><credix-numeric-block [value]="commission" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+            </li>
+            <li fxLayoutGap="278px"><label>IVA</label><credix-numeric-block [value]="iva" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+            </li>
+            <mat-divider style="margin-bottom: 16.5px;"></mat-divider>
+            <li fxLayoutGap="247px"><label class="marchamos__total">Total</label><credix-numeric-block [value]="totalMount" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block></li>
           </ul>
         </div>
 
 
         <mat-divider></mat-divider>
 
-        <div fxLayout="row">
+        <div fxLayout="row" fxLayoutGap="104px">
           <div class="marchamos__credix-code" fxLayout="column">
-            <label>Código MiCredix</label>
-            <p>Ingrese el código generado en la aplicación
+            <label style="font-weight: bold; font-size: 16px;">Código MiCredix</label>
+            <p style="font-weight: normal; font-size: 14px;">Ingrese el código generado en la aplicación
               <credix-link-button text="Código MiCredix"></credix-link-button>
             </p>
           </div>
+
           <form [formGroup]="confirmForm">
             <credix-code-input
               [(codeFormControl)]="confirmControls.credixCode"
@@ -274,16 +278,17 @@
               errorMessage="Introduzca el codigo de confirmación">
             </credix-code-input>
           </form>
-
         </div>
         <mat-divider></mat-divider>
-        <div lass="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+        <div class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
           <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-          <credix-button (buttonClick)="submit()"
-                        text="Finalizar"></credix-button>
+          <credix-button (buttonClick)="confirmModal()"
+                        text="Pagar"></credix-button>
         </div>
       </cdk-step>
 
     </credix-stepper>
   </ngx-simplebar>
 </div>
+
+
