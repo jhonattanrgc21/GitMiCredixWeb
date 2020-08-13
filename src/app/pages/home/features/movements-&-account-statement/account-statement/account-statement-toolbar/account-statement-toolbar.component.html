@@ -1,1 +1,66 @@
-<p>account-statement-toolbar works!</p>
+<div [class.is-hidden]="hideToolbar" class="account-statement-toolbar" fxLayout="row">
+
+  <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-start" fxLayoutGap="16px">
+
+    <div fxLayout="row" fxLayoutGap="16px">
+      <mat-icon class="account-statement-toolbar__card-icon" svgIcon="redCard"></mat-icon>
+
+      <div class="account-statement-toolbar__user" fxLayout="column">
+        <span><strong>{{principalCard.name}}</strong></span>
+        <span>{{principalCard.typeCard}} {{cardNumberMasked}}</span>
+      </div>
+    </div>
+
+    <div class="relative" fxLayout="row" fxLayoutGap="16px">
+      <credix-switch (selectionEvent)="currencyChanged($event)" [offLabel]="switchValues[0]"
+                     [onLabel]="switchValues[1]"
+                     class="account-statement-toolbar__switch"></credix-switch>
+
+      <mat-form-field appearance="standard" class="account-statement-toolbar__calendar">
+        <mat-label>Fecha</mat-label>
+        <input [formControl]="dateControl" [value]="dateControl.value | dateFormatter: 'yearMonth'" matInput
+               readonly>
+        <input [matDatepicker]="picker" [max]="maxDate" [min]="minDate" matInput style="display: none">
+        <mat-datepicker-toggle [for]="picker" matSuffix>
+          <mat-icon matDatepickerToggleIcon svgIcon="calendar"></mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker
+                        (monthSelected)="chosenMonthHandler($event, picker)"
+                        (yearSelected)="chosenYearHandler($event)"
+                        panelClass="account-statement-datepicker"
+                        startView="multi-year"></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-end">
+    <table class="w-100">
+      <tbody>
+      <tr>
+        <td>Pago mínimo</td>
+        <td class="tr">
+          <credix-numeric-block [prefix]="currencySymbol"
+                                [value]="currentAccountStatement?.minimumPayment"
+                                fontWeight="bold"></credix-numeric-block>
+        </td>
+      </tr>
+      <tr>
+        <td>Pago de contado</td>
+        <td class="tr">
+          <credix-numeric-block [prefix]="currencySymbol"
+                                [value]="currentAccountStatement?.cashPayment"
+                                fontWeight="bold"></credix-numeric-block>
+        </td>
+      </tr>
+      <tr>
+        <td>Fecha máxima de pago</td>
+        <td class="tr">{{currentAccountStatement?.maximumPaymentDate | dateFormatter: 'alphanumeric'}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <credix-link-button class="tr" text="Descargar estado de cuenta"></credix-link-button>
+  </div>
+
+</div>

@@ -28,16 +28,21 @@ export class MovementsToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.selectedCardChanged();
     this.getScrollEvent();
+    this.getMovements();
   }
 
   selectedCardChanged() {
     this.cardFormControl.valueChanges.subscribe(value => {
       this.selectedCardNumber = MaskCard(this.cardFormControl.value.cardNumber);
-      this.movementsService.emitCardSelect(value.cardId);
+      this.getMovements(value.cardId);
     });
   }
 
   getScrollEvent() {
     this.scrollService.scrollEventObs.subscribe(offsetY => this.hideToolbar = offsetY > 10);
+  }
+
+  getMovements(cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId) {
+    this.movementsService.getMovements(cardId).subscribe(movements => this.movementsService.setDataSource(movements));
   }
 }

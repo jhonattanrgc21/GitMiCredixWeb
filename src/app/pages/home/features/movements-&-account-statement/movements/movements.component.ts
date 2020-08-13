@@ -16,15 +16,7 @@ export class MovementsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.movementsService.getMovements().subscribe(movements => this.movementDataSource = movements);
-    this.cardSelectedChanged();
-  }
-
-  cardSelectedChanged() {
-    this.movementsService.cardSelectedObs.subscribe(cardId => {
-      console.log(cardId);
-      this.movementsService.getMovements(cardId).subscribe(movements => this.movementDataSource = movements);
-    });
+    this.movementsService.dataSourceObs.subscribe(movements => this.movementDataSource = movements);
   }
 
 

@@ -14,6 +14,8 @@ import {AccountStatementComponent} from './account-statement/account-statement.c
 import {AccountStatementToolbarComponent} from './account-statement/account-statement-toolbar/account-statement-toolbar.component';
 import {MovementsToolbarComponent} from './movements/movements-toolbar/movements-toolbar.component';
 import {MovementsService} from './movements/movements.service';
+import {CredixSwitchModule} from '../../../../shared/components/credix-switch/credix-switch.module';
+import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
 
 const routes: Routes = [
   {
@@ -74,6 +76,8 @@ const routes: Routes = [
     TablesDirectivesModule,
     DateFormatterModule,
     CredixLinkButtonModule,
+    CredixSwitchModule,
+    CredixNumericBlockModule,
   ],
   providers: [
     MovementsService

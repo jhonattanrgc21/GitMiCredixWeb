@@ -46,32 +46,14 @@ export class MovementsAccountStatementComponent implements OnInit {
   constructor(private storageService: StorageService,
               private httpService: HttpService,
               private router: Router) {
-    this.cards = this.storageService.getCurrentCards();
-    this.cardFormControl.setValue(this.cards.find(card => card.category === 'Principal'));
   }
 
   ngOnInit(): void {
-    this.onCardChanged();
-  }
-
-  onCardChanged() {
-    this.cardFormControl.valueChanges.subscribe(card => {
-      this.cardChanged.emit(card.cardId);
-    });
-  }
-
-  formatPrincipalCard(value: string): string {
-    return `${value.substr(value.length - 8, 4)} ${value.substr(value.length - 4, value.length)}`;
   }
 
   tabSelected(tab) {
     this.selectTab = tab.id;
     this.router.navigate([`/home/movements-&-account-statement/${tab.id === 1 ? 'movements' : 'account-statement'}`]);
-    this.currencyTabSelected({id: 1, name: '₡ '});
-  }
-
-  assignDateSelect() {
-
   }
 
   currencyTabSelected(tab) {
