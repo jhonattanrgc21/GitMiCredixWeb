@@ -9,16 +9,7 @@ import {ConvertStringDateToDate} from '../../../../../shared/utils';
 })
 export class PaymentDetailsComponent implements OnInit, OnChanges {
   @Input() paymentDetails: PaymentDetails;
-  @Input() paymentDetailsTags = {
-    titleTag: 'Detalle de pago',
-    cutOffTag: 'Corte',
-    maxPaymentDateTag: 'Fecha máxima de pago',
-    colonesTag: 'Colones',
-    dollarsTag: 'Dólares',
-    minTag: 'Mínimo',
-    countedTag: 'Contado',
-    todayTag: 'Hoy'
-  };
+  @Input() paymentDetailsTags: any;
   startDate: Date;
   endDate: Date;
   today: Date;

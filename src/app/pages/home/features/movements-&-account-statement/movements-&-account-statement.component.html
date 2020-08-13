@@ -1,0 +1,12 @@
+<div class="movements-account-statement" fxLayout="column">
+
+  <div class="movements-account-statement__header" fxLayout="column" fxLayoutGap="16px">
+    <h1>Movimientos</h1>
+
+    <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+
+    <router-outlet name="toolbar"></router-outlet>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

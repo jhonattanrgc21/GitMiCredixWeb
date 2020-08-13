@@ -1,0 +1,75 @@
+.account-statement-toolbar {
+  width: 100%;
+  max-height: 200px;
+
+  &__card-icon {
+    width: 47px;
+    height: 32px;
+  }
+
+  &__user {
+    line-height: 1;
+  }
+
+  &__switch ::ng-deep {
+    .credix-switch {
+      width: 138px;
+      height: 42px;
+      border-radius: 4px;
+      padding: 4px 0;
+    }
+
+    .credix-switch__label {
+      padding: 6px;
+      height: 34px;
+      border-radius: 4px;
+
+      &:not(.is-checked):hover {
+        border-radius: 4px;
+      }
+    }
+
+    .credix-switch__selection {
+      height: 34px;
+      border-radius: 4px;
+    }
+
+  }
+
+  &__calendar {
+    position: absolute;
+    width: 119px;
+    height: 43px;
+    bottom: 16px;
+    right: -120px;
+
+    mat-icon {
+      width: 18px;
+      height: 20px;
+    }
+  }
+
+  ::ng-deep {
+    .mat-form-field-label {
+      color: #3e3e3e;
+    }
+
+    .mat-form-field.mat-focused, .mat-form-field-invalid {
+
+      .mat-form-field-label, .mat-form-field-ripple {
+        color: inherit;
+        background-color: inherit;
+      }
+    }
+  }
+
+  &.is-hidden {
+    max-height: 0;
+  }
+}
+
+::ng-deep.account-statement-datepicker {
+  .mat-calendar-period-button {
+    display: none !important;
+  }
+}

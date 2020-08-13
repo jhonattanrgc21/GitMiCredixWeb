@@ -13,9 +13,30 @@ export class LandingComponent implements OnInit {
   balances: Balances;
   awards: Awards[] = [];
   movements: Movement[] = [];
-  balancesTags: any;
-  paymentDetailsTags: any;
-  movementsTags: any;
+  balancesTags = {
+    creditLimitTag: 'Límite de crédito',
+    consumedTag: 'Consumido',
+    availableTag: 'Disponible',
+    increaseCreditLimitTag: 'Aumentar límite',
+    ibanAccountsTag: 'Cuentas IBAN',
+    colonesTag: 'Colones',
+    dollarsTag: 'Dólares',
+    colonesIbanCopiedTag: 'Cuenta IBAN en colones copiada',
+    dollarsIbanCopiedTag: 'Cuenta IBAN en dólares copiada',
+  };
+  paymentDetailsTags = {
+    titleTag: 'Detalle de pago',
+    cutOffTag: 'Corte',
+    maxPaymentDateTag: 'Fecha máxima de pago',
+    colonesTag: 'Colones',
+    dollarsTag: 'Dólares',
+    minTag: 'Mínimo',
+    countedTag: 'Contado',
+    todayTag: 'Hoy'
+  };
+  movementsTags = {
+    titleTag: 'Movimientos'
+  };
 
   constructor(private landingService: LandingService,
               private storageService: StorageService) {
@@ -76,7 +97,7 @@ export class LandingComponent implements OnInit {
 
   getHomeTags() {
     this.landingService.getHomeTags().subscribe(response => {
-      if (response.type === 'success') {
+      if (response.type === 'success' && response.tagsHome?.tags.length > 0) {
         this.balancesTags = {
           creditLimitTag: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.limitecredito').value,
           consumedTag: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.consumido').value,
