@@ -12,8 +12,10 @@ export class CredixSwitchComponent implements OnInit {
   @Input() disabled = false;
   @Output() selectionEvent: EventEmitter<Switch> = new EventEmitter<Switch>();
   option = 'off';
+  active: Switch;
 
   constructor() {
+    this.active = this.offLabel;
   }
 
   ngOnInit(): void {
@@ -21,7 +23,8 @@ export class CredixSwitchComponent implements OnInit {
 
   isOptionSelected(option: 'off' | 'on') {
     this.option = option;
-    this.selectionEvent.emit(option === 'off' ? this.offLabel : this.onLabel);
+    this.active = option === 'off' ? this.offLabel : this.onLabel;
+    this.selectionEvent.emit(this.active);
   }
 
 }
