@@ -221,3 +221,9 @@
 ::ng-deep.mat-divider {
   margin-top: 32px !important;
 }
+
+::ng-deep.mat-card {
+  .mat-divider-horizontal{
+    position: initial !important;
+  }
+}

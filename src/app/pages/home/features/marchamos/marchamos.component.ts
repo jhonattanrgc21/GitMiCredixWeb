@@ -224,7 +224,7 @@ export class MarchamosComponent implements OnInit {
   getValueSlider(event?) {
     this.value = event;
     this.getCommission(this.value);
-    (event > 0) ? this.quotesAmount = this.consultVehicle.amount / this.value : this.quotesAmount;
+    (event > 0) ? this.quotesAmount = this.quotesAmount / this.value : this.quotesAmount;
     this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
   }
 
@@ -330,8 +330,15 @@ export class MarchamosComponent implements OnInit {
           this.totalMount = response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
           this.billingHistorys = response.REQUESTRESULT.soaResultVehicleConsult.item;
           this.responseToContinue = response.type;
-          this.quotesAmount = this.consultVehicle.amount.replace('.', ',');
+
+          if (typeof this.consultVehicle.amount === 'string') {
+            this.quotesAmount = parseInt(this.consultVehicle.amount.replace('.', ''));
+          }else{
+            this.quotesAmount = this.consultVehicle.amount;
+          }
+
           console.log(this.quotesAmount);
+            
         (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
       });
     
@@ -400,7 +407,7 @@ export class MarchamosComponent implements OnInit {
         aditionalProducts: this.secureAndQuotesControls.aditionalProducts.value,
         amount: this.totalMount,
         authenticationNumberCommission: this.commission.toString(),
-        authenticationNumberMarchamo1: '000000',
+        authenticationNumberMarchamo1: this.secureAndQuotesControls.aditionalProducts.value,
         cardNumber: this.cardNumber,
         deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
         domicilePerson: '',
@@ -411,7 +418,7 @@ export class MarchamosComponent implements OnInit {
         firstPayment: 'Siguiente pago',
         ownerEmail: this.ownerPayer.email,
         payId: 'cgVJcuPB3k',
-        payerId: 114140321,
+        payerId: this.ownerPayer.payerId,
         period: 2020,
         phoneNumber: 88583435,
         plateClassId: parseInt(this.consultControls.vehicleType.value),
