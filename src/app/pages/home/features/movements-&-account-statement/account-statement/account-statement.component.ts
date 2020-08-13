@@ -7,7 +7,7 @@ import {AccountStatementService} from './account-statement.service';
   styleUrls: ['./account-statement.component.scss']
 })
 export class AccountStatementComponent implements OnInit {
-  accountStatementDataSource: AccountStatement[] = [];
+  accountStatementDataSource = [];
   displayColumns = ['date', 'commerce', 'amount', 'quotas', 'balance', 'rate'];
   p = 0;
   currencySymbol = '';
@@ -17,7 +17,6 @@ export class AccountStatementComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountStatementService.dataSourceObs.subscribe(accountStatement => this.accountStatementDataSource = accountStatement);
+    this.accountStatementService.currencySymbolObs.subscribe(currencySymbol => this.currencySymbol = currencySymbol);
   }
-
-
 }

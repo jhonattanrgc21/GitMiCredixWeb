@@ -8,8 +8,11 @@ import {Subject} from 'rxjs';
 })
 export class AccountStatementService {
   private getAccountStatementUri = 'channels/getstateaccount';
+  private downloadAccountStatementUri = 'channels/getbankaccountstatement';
   private dataSourceSub = new Subject<any[]>();
   dataSourceObs = this.dataSourceSub.asObservable();
+  private currencySymbolSub = new Subject<string>();
+  currencySymbolObs = this.currencySymbolSub.asObservable();
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -19,8 +22,20 @@ export class AccountStatementService {
     this.dataSourceSub.next(dataSource);
   }
 
+  setCurrencySymbol(symbol: string) {
+    this.currencySymbolSub.next(symbol);
+  }
+
   getAccountStatement(month: number, year: number) {
     return this.httpService.post('canales', this.getAccountStatementUri, {
+      accountNumber: this.storageService.getCurrentUser().accountNumber,
+      month,
+      year
+    });
+  }
+
+  downloadAccountStatement(month: number, year: number) {
+    return this.httpService.post('canales', this.downloadAccountStatementUri, {
       accountNumber: this.storageService.getCurrentUser().accountNumber,
       month,
       year

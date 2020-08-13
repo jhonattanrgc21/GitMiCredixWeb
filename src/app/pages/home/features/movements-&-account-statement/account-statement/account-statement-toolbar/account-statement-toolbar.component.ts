@@ -8,6 +8,7 @@ import {FormControl} from '@angular/forms';
 import {AccountStatementService} from '../account-statement.service';
 import {finalize} from 'rxjs/operators';
 import {ScrollService} from '../../../../../../core/services/scroll.service';
+import {CredixToastService} from '../../../../../../core/services/credix-toast.service';
 
 @Component({
   selector: 'app-account-statement-toolbar',
@@ -38,6 +39,7 @@ export class AccountStatementToolbarComponent implements OnInit {
   constructor(private accountStatementService: AccountStatementService,
               private storageService: StorageService,
               private scrollService: ScrollService,
+              private toastService: CredixToastService,
               private globalRequestsService: GlobalRequestsService) {
     this.principalCard = storageService.getCurrentCards().find(card => card.category === 'Principal');
     this.cardNumberMasked = MaskCard(this.principalCard.cardNumber);
@@ -45,6 +47,7 @@ export class AccountStatementToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrencies();
+    this.getScrollEvent();
   }
 
   getScrollEvent() {
@@ -87,8 +90,20 @@ export class AccountStatementToolbarComponent implements OnInit {
     });
   }
 
+
+  downloadAccountStatement() {
+    this.accountStatementService
+      .downloadAccountStatement(this.dateControl.value.getMonth() + 1, this.dateControl.value.getFullYear())
+      .subscribe(response => {
+        if (response.type === 'success') {
+          this.toastService.show({text: 'Estado de cuenta enviado', type: 'success'});
+        }
+      });
+  }
+
   currencyChanged(event) {
     this.currencySymbol = event.name;
+    this.accountStatementService.setCurrencySymbol(this.currencySymbol);
     this.crcId = event.id;
     this.currentAccountStatement = this.crcId === 188 ? this.colonesAccountStatement : this.dollarAccountStatement;
     this.accountStatementService.setDataSource(this.currentAccountStatement.movementList);

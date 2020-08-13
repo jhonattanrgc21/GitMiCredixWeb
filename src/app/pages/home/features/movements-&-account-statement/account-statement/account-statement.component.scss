@@ -14,9 +14,10 @@
     }
 
     mat-header-cell, mat-cell {
+      margin: 0 !important;
 
       &:first-child {
-        flex: 16% !important;
+        flex: 12% !important;
         justify-content: flex-start !important;
         text-align: left !important;
         color: #6F7071;
@@ -31,7 +32,7 @@
       }
 
       &:nth-child(4) {
-        flex: 13% !important;
+        flex: 17% !important;
         color: #6F7071;
       }
 
