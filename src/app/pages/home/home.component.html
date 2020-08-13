@@ -10,7 +10,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="home__content" fxLayout="column" fxLayoutAlign="center center">
-      <ngx-simplebar [options]="options" class="w-100" fxFlex="calc(100% - 106px)">
+      <ngx-simplebar #scrollBar [options]="options" class="w-100" fxFlex="calc(100% - 106px)">
         <main class="home__content__main">
           <router-outlet></router-outlet>
         </main>

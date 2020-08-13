@@ -1,0 +1,43 @@
+<div class="movements" fxLayout="column" fxLayoutGap="16px">
+
+  <mat-table [dataSource]="movementDataSource | paginate: { itemsPerPage: 15, currentPage: p }"
+             class="movements__table">
+
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
+      <mat-cell *matCellDef="let element"
+                credixCell> {{element.originDate | dateFormatter: 'alphanumeric'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="commerce">
+      <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
+      <mat-cell *matCellDef="let element" credixCell><strong>{{element.establishmentName}}</strong></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef credixHeaderCell> Monto</mat-header-cell>
+      <mat-cell *matCellDef="let element"
+                credixCell><strong>{{element.currencySimbol + ' ' + element.originAmount}}</strong></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="quotas">
+      <mat-header-cell *matHeaderCellDef credixHeaderCell> Cuotas</mat-header-cell>
+      <mat-cell *matCellDef="let element" credixCell>
+        <span *ngIf="element.quota !== 0">
+          {{element.quota === 1 ? 'A ' + element.quota + ' cuota' : 'A ' + element.quota + ' cuotas'}}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="extend">
+      <mat-header-cell *matHeaderCellDef credixHeaderCell></mat-header-cell>
+      <mat-cell *matCellDef="let element" credixCell>
+        <credix-link-button *ngIf="element.quantifiableMovement" text="Ampliar plazo"></credix-link-button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
+  </mat-table>
+
+  <credix-paginator (pageChange)="p = $event" [autoHide]="true" [maxSize]="8"></credix-paginator>
+</div>

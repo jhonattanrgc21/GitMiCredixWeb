@@ -1,4 +1,4 @@
-import {Injectable, TemplateRef} from '@angular/core';
+import {Injectable, TemplateRef, EventEmitter} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {CredixPopupComponent} from '../../shared/components/credix-popup/credix-popup.component';
 import {Observable} from 'rxjs';
@@ -7,6 +7,8 @@ import {CredixPopupAlternativeComponent} from '../../shared/components/credix-po
 
 @Injectable()
 export class ModalService {
+
+  public addAccountChange = new EventEmitter()
 
   constructor(private dialog: MatDialog) {
   }

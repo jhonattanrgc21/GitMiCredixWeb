@@ -1,0 +1,28 @@
+.add-account-panel{
+  ::ng-deep .credix-popup__title{
+    font-size: 31px;
+  }
+}
+
+::ng-deep.credix-popup__title {
+  font-size: 31px;
+  margin-bottom: 16px !important;
+}
+
+.add-account{
+  &__select {
+    height: 38px !important;
+    margin-bottom: 20px !important;
+  }
+
+  &__input {
+    height: 38px;
+    margin-bottom: 20px;
+  }
+  credix-checkbox-button{
+    margin-top: 16px;
+  }
+  credix-button{
+    margin-top: 16px;
+  }
+}

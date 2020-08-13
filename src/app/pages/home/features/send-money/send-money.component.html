@@ -1,39 +1,94 @@
-<mat-card [class.full-height]="selectedIndex == 2" class="send-money" credixCard fxLayout="column"
-          fxLayoutGap="16px">
+<mat-card [class.full-height]="selectedIndex == 2" class="send-money" credixCard fxLayout="column" fxLayoutGap="16px">
   <h1>Enviar dinero</h1>
 
-  <credix-stepper #sendMoneyStepper class="send-money__stepper">
-
-    <cdk-step [stepControl]="informationForm"
-              fxLayout="column"
-              label="Información">
+  <credix-stepper #sendMoneyStepper class="send-money__stepper" *ngIf="!done">
+    <cdk-step [stepControl]="informationForm" fxLayout="column" label="Información">
       <app-first-step (currencyPrefixEvent)="currencyPrefix = $event"
-                      [favoriteAccountControl]="informationForm.controls.account"></app-first-step>
+        [favoriteAccountControl]="informationForm.controls.account"
+        (typeDestinationEvent)="typeDestination = $event"
+        typeDestination></app-first-step>
     </cdk-step>
 
-    <cdk-step [stepControl]="amountAndQuotaForm"
-              fxLayout="column"
-              label="Monto y plazo">
+    <cdk-step [stepControl]="amountAndQuotaForm" fxLayout="column" label="Monto y plazo">
       <app-second-step [amountToSendControl]="amountAndQuotaForm.controls.amount"
-                       [detailsControl]="amountAndQuotaForm.controls.detail"
-                       [quotasControl]="amountAndQuotaForm.controls.quotas"></app-second-step>
+        [detailsControl]="amountAndQuotaForm.controls.detail" [quotasControl]="amountAndQuotaForm.controls.quotas"
+        (commissionRateEmitEvent)="commissionRate = $event" (commissionEmitEvent)="commission = $event"
+        [currencyCode]="currencyPrefix">
+      </app-second-step>
     </cdk-step>
 
-    <cdk-step [stepControl]="confirmForm"
-              fxLayout="column"
-              label="Confirmación">
+    <cdk-step [stepControl]="confirmForm" fxLayout="column" label="Confirmación">
       <app-third-step [account]="informationForm.controls.account.value"
-                      [amount]="amountAndQuotaForm.controls.amount.value"
-                      [codeControl]="confirmForm.controls.code"
-                      [currencyPrefix]="currencyPrefix"
-                      [timeLimit]="amountAndQuotaForm.controls.quotas.value"></app-third-step>
+        [amount]="amountAndQuotaForm.controls.amount.value" [codeControl]="confirmForm.controls.code"
+        [currencyPrefix]="currencyPrefix" [timeLimit]="amountAndQuotaForm.controls.quotas.value"
+        [commissionRate]="commissionRate" (totalEmitEvent)="total = $event" [commission]="commission"></app-third-step>
     </cdk-step>
-
   </credix-stepper>
 
-  <div class="send-money__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" text="Atras" type="secondary"></credix-button>
-    <credix-button (buttonClick)="next()" [disabled]="disableButton" [text]="buttonText"></credix-button>
+  <div *ngIf="done">
+    <credix-result-notification status="success" title="¡Éxito!"
+      message="Su transferencia ha sido procesado correctamente.">
+    </credix-result-notification>
+    <mat-divider class="send-money__divider full-width mt-16px mb-16px"></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="space-between start" class="send-money__data-info">
+      <div fxFlex="42%">
+        <span class="send-money__data-info__text">Datos de la transferencia</span>
+      </div>
+      <div fxFlex="58%">
+        <div fxLayout="row" class="send-money__data-info__row">
+          <div fxFlex="30%"><span>Monto</span></div>
+          <div fxFlex="70%" class="send-money__data-info__col">
+            <credix-numeric-block [prefix]="currencyPrefix" [value]="amountAndQuotaForm.controls.amount.value"
+              class="tr" fontSize="16" fontWeight="bold"></credix-numeric-block>
+          </div>
+        </div>
+        <div fxLayout="row" class="send-money__data-info__row">
+          <div fxFlex="30%"><span>Cuotas</span></div>
+          <div fxFlex="70%" class="send-money__data-info__col">
+            <span class="send-money__data-info__text">{{
+              amountAndQuotaForm.controls.quotas.value
+            }}</span>
+          </div>
+        </div>
+        <div fxLayout="row" class="send-money__data-info__row">
+          <div fxFlex="30%"><span>Nombre</span></div>
+          <div fxFlex="70%" class="send-money__data-info__col">
+            <span class="send-money__data-info__text">{{
+              informationForm.controls.account.value.aliasName
+            }}</span>
+          </div>
+        </div>
+        <div fxLayout="row" class="send-money__data-info__row">
+          <div fxFlex="30%"><span>Cuenta</span></div>
+          <div fxFlex="70%" class="send-money__data-info__col">
+            <span class="send-money__data-info__text">{{
+              informationForm.controls.account.value.ibanAccount
+            }}</span>
+          </div>
+        </div>
+        <div fxLayout="row" class="send-money__data-info__row">
+          <div fxFlex="30%"><span>Entidad</span></div>
+          <div fxFlex="70%" class="send-money__data-info__col">
+            <span class="send-money__data-info__text">{{
+              informationForm.controls.account.value.ibanBank
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="space-between center">
+      <credix-link-button class="tr" text="Ampliar plazo"></credix-link-button>
+      <credix-share-button class="send-money__shrare-btn"></credix-share-button>
+    </div>
   </div>
 
+  <div class="send-money__footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <div *ngIf="!done" fxLayoutGap="16px">
+      <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" text="Atras" type="secondary"></credix-button>
+      <credix-button (buttonClick)="next()" [disabled]="disableButton" [text]="buttonText"></credix-button>
+    </div>
+    <div *ngIf="done">
+      <credix-button text="Listo" (buttonClick)="goHome()"></credix-button>
+    </div>
+  </div>
 </mat-card>

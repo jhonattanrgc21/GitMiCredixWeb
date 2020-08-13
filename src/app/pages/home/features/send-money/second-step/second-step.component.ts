@@ -1,5 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {SendMoneyService} from '../send-money.service';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {ModalDetailsComponent} from './modal-details/modal-details.component';
 
 @Component({
   selector: 'app-second-step',
@@ -11,9 +14,22 @@ export class SecondStepComponent implements OnInit {
   @Input() quotasControl: FormControl = new FormControl(null);
   @Input() detailsControl: FormControl = new FormControl(null);
   @Input() currencyCode = '';
+  @Output() commissionRateEmitEvent = new EventEmitter();
+  @Output() commissionEmitEvent = new EventEmitter();
+  listQuotas = [];
   quotaAmountView = 0;
+  maxQuota = 0;
+  minQuota = 0;
+  stepQuota = 0;
+  commission: number;
+  quotaDetail = {
+    commissionRate: 0,
+    quota: 0,
+    description: '',
+    id: 1,
+  };
 
-  constructor() {
+  constructor(private sendMoneyService: SendMoneyService, private modalService: ModalService) {
   }
 
   ngOnInit(): void {
@@ -23,7 +39,15 @@ export class SecondStepComponent implements OnInit {
 
     this.quotasControl.valueChanges.subscribe(value => {
       this.computeQuotaAmount(this.amountToSendControl.value, value);
+      this.quotaDetail = this.listQuotas.find(
+        (elem) => elem.quota === this.quotasControl.value
+      );
+      this.commission = this.amountToSendControl.value * (this.quotaDetail?.commissionRate / 100);
+      this.commissionEmitEvent.emit(this.commission);
+      this.commissionRateEmitEvent.emit(this.quotaDetail?.commissionRate);
     });
+
+    this.getQuotas();
   }
 
   computeQuotaAmount(amount: string, quota: number) {
@@ -32,5 +56,39 @@ export class SecondStepComponent implements OnInit {
     } else {
       this.quotaAmountView = 0;
     }
+  }
+
+  getQuotas() {
+    this.sendMoneyService.getQuotaByProduct().subscribe(listQuotas => {
+      this.listQuotas = listQuotas;
+      const length = listQuotas.length;
+      this.minQuota = listQuotas[0].quota;
+      this.maxQuota = listQuotas[length - 1].quota;
+      this.stepQuota = listQuotas[1].quota - listQuotas[0].quota;
+    });
+  }
+
+  openDetails() {
+    this.modalService.open(
+      {
+        component: ModalDetailsComponent,
+        title: 'Resumen general',
+        data: {
+          currencyCode: this.currencyCode,
+          amount: this.amountToSendControl.value,
+          comission: this.commission,
+          commissionRate: this.quotaDetail?.commissionRate,
+          quotas: this.quotasControl.value,
+          qAmount: this.quotaAmountView
+        }
+      },
+      {
+        width: 380,
+        height: 301,
+        disableClose: false,
+        panelClass: 'add-account-panel',
+      },
+      1
+    );
   }
 }
