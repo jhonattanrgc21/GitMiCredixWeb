@@ -90,7 +90,6 @@ export class AccountStatementToolbarComponent implements OnInit {
     });
   }
 
-
   downloadAccountStatement() {
     this.accountStatementService
       .downloadAccountStatement(this.dateControl.value.getMonth() + 1, this.dateControl.value.getFullYear())
