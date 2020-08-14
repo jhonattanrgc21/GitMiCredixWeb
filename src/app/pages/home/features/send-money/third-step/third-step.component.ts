@@ -14,10 +14,10 @@ export class ThirdStepComponent implements OnInit, OnChanges {
   @Input() amount: number;
   @Input() commissionRate: number;
   @Input() currencyPrefix: string;
-  @Output() totalEmitEvent = new EventEmitter();
+  @Input() total : number;
   @Input() commission: number;
   quotaAmountView: number;
-  total: number;
+
   iva: number;
 
   constructor(private sendMoneyService: SendMoneyService) {
@@ -36,8 +36,6 @@ export class ThirdStepComponent implements OnInit, OnChanges {
       this.quotaAmountView = 0;
     }
     this.iva = this.commission * 0.13;
-    this.total = this.quotaAmountView + this.commission;
-    this.totalEmitEvent.emit(this.total);
   }
 
 }

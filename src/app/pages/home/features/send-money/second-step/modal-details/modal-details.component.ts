@@ -11,6 +11,7 @@ export class ModalDetailsComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
+
   }
 
 }
