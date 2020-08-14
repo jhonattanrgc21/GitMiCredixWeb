@@ -1,19 +1,16 @@
 .modal-response-sign-up {
+  height: 100%;
 
-  &__response-button {
+  ::ng-deep {
+    .credix-result-notification__icon {
+      width: 70px !important;
+      height: 70px !important;
+      margin-bottom: 40px !important;
+    }
+
+  }
+
+  &__button {
     width: 100%;
-  }
-}
-
-
-::ng-deep.modal-response-sign-up-panel .sign-in-result-panel {
-  .credix-result-notification__icon {
-    width: 70px !important;
-    height: 70px !important;
-    margin-bottom: 40px !important;
-  }
-
-  .credix-result-notification__message {
-    width: 96px !important;
   }
 }

@@ -20,8 +20,6 @@ export class SignUpComponent implements OnInit {
   identificationTypes: IdentificationType[];
   cellNumber: string;
   identificationMask = '0-0000-0000';
-  hideNewPassword = true;
-  hideConfirmPassword = true;
   userId: number;
   responseResult = {
     message: '',
@@ -36,8 +34,9 @@ export class SignUpComponent implements OnInit {
     identification: new FormControl({value: null, disabled: true}, [Validators.required])
   });
 
-  newUserSecondStepForm: FormGroup = new FormGroup(
-    {credixCode: new FormControl('', [])});
+  newUserSecondStepForm: FormGroup = new FormGroup({
+    credixCode: new FormControl('', [Validators.required])
+  });
 
   newUserThirdStepForm: FormGroup = new FormGroup({
     newPassword: new FormControl(null, [Validators.required]),
@@ -62,7 +61,7 @@ export class SignUpComponent implements OnInit {
     return this.newUserSecondStepForm.controls;
   }
 
-  get fThirstyControls() {
+  get fThirdControls() {
     return this.newUserThirdStepForm.controls;
   }
 
@@ -89,7 +88,6 @@ export class SignUpComponent implements OnInit {
   }
 
   nextStep() {
-    this.stepper.selectedIndex = this.stepper.selectedIndex + 1;
     this.stepper.next();
   }
 
@@ -155,7 +153,6 @@ export class SignUpComponent implements OnInit {
     this.sendIdentification();
   }
 
-
   sendPasswordSecurity() {
     this.httpService.post('canales', 'security/validateonetimepassword',
       {
@@ -184,8 +181,8 @@ export class SignUpComponent implements OnInit {
       channelId: 102,
       typeIncome: 1,
       validateToken: 1,
-      newPassword: CryptoJS.SHA256(this.fThirstyControls.newPassword.value),
-      confirmPassword: CryptoJS.SHA256(this.fThirstyControls.confirmPassword.value),
+      newPassword: CryptoJS.SHA256(this.fThirdControls.newPassword.value),
+      confirmPassword: CryptoJS.SHA256(this.fThirdControls.confirmPassword.value),
       usernameSecurity: 'sts_sac',
       passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
       uuid: '12311515615614515616',

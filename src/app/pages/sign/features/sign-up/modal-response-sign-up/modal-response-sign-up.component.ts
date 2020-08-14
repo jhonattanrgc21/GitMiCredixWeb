@@ -12,7 +12,6 @@ export class ModalResponseSignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   close() {
