@@ -40,4 +40,24 @@ export class SendMoneyService {
       );
   }
 
+  addFavAccount(name, account, identType, ident, code){
+    return this.httpService.post('canales', 'iban/saveFavoriteAccountIBAN', {
+      aliasName : name,
+      ibanAccount : account,
+      typeIdentificacionId : identType,
+      identification : ident,
+      codeCredix : code,
+      channelId : 102
+    })
+    .pipe(
+      map((response) => {
+        if (response.type === 'success' && response.listQuota) {
+          return response.listQuota;
+        } else {
+          return [];
+        }
+      })
+    );
+  }
+
 }
