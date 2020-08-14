@@ -24,7 +24,8 @@ export class PopupMarchamosDetailComponent implements OnInit {
 
   calculateTotalAmount(){
     this.billingHistorys.forEach(values => {
-      this.totalAmount = this.totalAmount + values.itemAmount;
+      this.totalAmount = this.totalAmount + values.itemCurrentAmount;
+      console.log(this.totalAmount);
     });
   }
 

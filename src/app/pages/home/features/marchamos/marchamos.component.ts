@@ -101,7 +101,7 @@ export class MarchamosComponent implements OnInit {
   domicileDescription: any;
 
   vehicleInformation: boolean;
-  totalMount:number | string;  //'₡ 114.996,00'
+  totalMount:any;  //'₡ 114.996,00'
   value:number = 1;
   popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent | any>;
   popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
@@ -136,6 +136,7 @@ export class MarchamosComponent implements OnInit {
   informationApplicant: any;
   domicile: boolean = false;
   newDomicile: boolean = false;
+  promoStatus: any;
 
   options = {autoHide: false, scrollbarMinSize: 100};
 
@@ -201,8 +202,6 @@ export class MarchamosComponent implements OnInit {
     this.getCardValues();
     this.getUserAplicantAccountNumber();
     this.getListQuotesByProduct();
-    
-    // this.totalAmountItemsProducts = this.totalAmountItemsProducts + this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
   }
 
   
@@ -223,8 +222,13 @@ export class MarchamosComponent implements OnInit {
 
   getValueSlider(event?) {
     this.value = event;
+    console.log(this.amountValue);
     this.getCommission(this.value);
-    (event > 0) ? this.quotesAmount = this.quotesAmount / this.value : this.quotesAmount;
+     if(typeof this.amountValue === 'string') {
+      (event > 0) ? this.quotesAmount = parseInt(this.amountValue.replace('.', '')) / this.value : this.quotesAmount;
+    }else{
+      (event > 0) ? this.quotesAmount = this.amountValue.amount / this.value : this.quotesAmount;
+    }
     this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
   }
 
@@ -271,7 +275,7 @@ export class MarchamosComponent implements OnInit {
     if (event.value === 1 && event.checked) {
       if (this.addressAplicant[0].addressType.id === 2){
         this.domicile = true;
-        this.domicileDescription = {
+        this.domicileDescription={
           name: this.informationApplicant.printName,
           detail: this.addressAplicant[0].detail,
           province: this.informationApplicant.addressApplicant[0].province.description,
@@ -330,15 +334,7 @@ export class MarchamosComponent implements OnInit {
           this.totalMount = response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
           this.billingHistorys = response.REQUESTRESULT.soaResultVehicleConsult.item;
           this.responseToContinue = response.type;
-
-          if (typeof this.consultVehicle.amount === 'string') {
-            this.quotesAmount = parseInt(this.consultVehicle.amount.replace('.', ''));
-          }else{
-            this.quotesAmount = this.consultVehicle.amount;
-          }
-
-          console.log(this.quotesAmount);
-            
+           (typeof this.totalMount === 'string') ? this.quotesAmount = parseInt(this.totalMount.replace('.', '')) : this.quotesAmount = this.totalMount;
         (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
       });
     
@@ -373,21 +369,15 @@ export class MarchamosComponent implements OnInit {
   getCommission(commission:number){
     this.httpService.post('marchamos', 'pay/calculatecommission',{
       channelId: 101,
-      amount:this.amountValue,
+      amount:(typeof this.amountValue === 'string') ? parseInt(this.amountValue.replace(',', '')) : this.amountValue ,
       commissionQuotasId: commission
     }).subscribe(response => { 
       console.log(response);
-      switch (response.result) {
-        case '10000.0':
-          this.commission = 10000;
-          break;
-        case '20000.0':
-          this.commission = 20000;
-          break;
-        default:
-          this.commission = 0; 
-          break;
+      if (typeof response.result === 'string') {
+        this.commission = parseInt(response.result.replace('.',''));
+        this.iva = parseInt(response.iva.replace('.',''));
       }
+  
     });
   }
 
@@ -397,38 +387,46 @@ export class MarchamosComponent implements OnInit {
     channelId : 107,
     accountNumber:this.storageService.getCurrentUser().accountNumber.toString()
   })
-  .subscribe(response => {console.log(response)});
+  .subscribe(response => {
+     this.promoStatus = {
+       promoStatusId:response.promoStatus.paymentList[0].promoStatus,
+       paymentDate: response.promoStatus.paymentList[0].paymentDate
+     }
+  });
   }
 
   secureToPay(data?) {
+  
     this.httpService.post('marchamos', 'pay/soapay',
       {
         channelId: 101,
         aditionalProducts: this.secureAndQuotesControls.aditionalProducts.value,
-        amount: this.totalMount,
+        amount: this.amountValue,
         authenticationNumberCommission: this.commission.toString(),
         authenticationNumberMarchamo1: this.secureAndQuotesControls.aditionalProducts.value,
         cardNumber: this.cardNumber,
         deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
-        domicilePerson: '',
-        domicilePhone: '',
-        domicilePlace: '',
+        domicilePerson: this.contactToConfirm.name,
+        domicilePhone: this.contactToConfirm.phone,
+        domicilePlace:  this.placeOfRetreat.description,
         email: this.pickUpControls.email.value,
         extraCardStatus: '0',
-        firstPayment: 'Siguiente pago',
+        firstPayment: this.promoStatus.paymentDate,
         ownerEmail: this.ownerPayer.email,
-        payId: 'cgVJcuPB3k',
+        payId: this.consultVehicle.payId,
         payerId: this.ownerPayer.payerId,
-        period: 2020,
-        phoneNumber: 88583435,
+        period: this.consultVehicle.period,
+        phoneNumber: this.consultVehicle.contactPhone,
         plateClassId: parseInt(this.consultControls.vehicleType.value),
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
-        promoStatus: 0,
-        quotasId: 2,
+        promoStatus: this.promoStatus.promoStatusId,
+        quotasId: this.secureAndQuotesControls.quotesToPay.value,
         requiredBill: '1',
-        transactionTypeId: 1
+        transactionTypeId: this.commission
       })
-      .subscribe();
+      .subscribe(response =>{
+        console.log(response);
+      });
   }
 
   showDetail() {
@@ -465,7 +463,7 @@ export class MarchamosComponent implements OnInit {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe( event => 
       {
         console.log(event);
-        
+
       });
   }
 
@@ -474,7 +472,7 @@ export class MarchamosComponent implements OnInit {
       marchamos: this.totalMount,
       itemsProductsAmount:[this.amountItemsProducts],
       commission: this.commission,
-      billingHistory: this.billingHistorys,
+      iva: this.iva,
       quotesToPay:[
         {
           quotes: this.value,
@@ -499,7 +497,7 @@ export class MarchamosComponent implements OnInit {
 
 
   getContactToConfirm(){
-    if (!this.newDeliveryDirection) {
+    if (!this.newDeliveryDirection || this.newDeliveryDirection === undefined) {
         this.contactToConfirm = {
           name: this.domicileDescription.name,
           email: this.pickUpControls.email.value,
@@ -600,9 +598,6 @@ export class MarchamosComponent implements OnInit {
       this.continue();
       this.getContactToConfirm();
       this.getPlaceOfRetreat();
-      this.dataForPayResumen.forEach(values =>{
-        values.billingHistory.map(value => { (value.itemPayCode === 22 && value.itemDescription === 'IVA') ? this.iva = value.itemCurrentAmount: this.iva;});
-      });
   }
 
   submit() {

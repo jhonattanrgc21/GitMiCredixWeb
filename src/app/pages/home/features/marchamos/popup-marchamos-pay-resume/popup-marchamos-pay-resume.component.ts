@@ -21,9 +21,9 @@ export class PopupMarchamosPayResumeComponent implements OnInit {
   ngOnInit(): void {
     this.data.data.forEach(values => {
       console.log(values);
-      values.billingHistory.map(value => { (value.itemPayCode === 22 && value.itemDescription === 'IVA') ? this.iva = value.itemCurrentAmount: this.iva;});
+      this.iva = (typeof values.iva === 'string') ? parseInt(values.iva) : values.iva;
       this.comission = values.commission;
-      this.marchamo = values.marchamos;
+      this.marchamo = (typeof values.marchamos === 'string') ? parseInt(values.marchamos.replace('.','')): values.marchamos,
       this.quotesToPay = values.quotesToPay;
       values.itemsProductsAmount.forEach(values => {
         this.totalAmountItemsProducts = this.totalAmountItemsProducts + values.moreProtectionAmount + values.responsabilityCivilAmount + values.roadAsistanceAmount;
