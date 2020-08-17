@@ -5,7 +5,7 @@
   <h1 class="marchamos__title">Marchamo</h1>
   <ngx-simplebar [options]="options" class="w-100" fxFlex="calc(100% - 106px)">
 
-    <credix-stepper #stepper class="marchamos__stepper">
+    <credix-stepper *ngIf="!responseResultPay" #stepper class="marchamos__stepper">
       <cdk-step [label]="'Consultar'"
                 [stepControl]="consultForm"
                 fxLayout="column"
@@ -113,6 +113,7 @@
               <div class="marchamos__slider">
                 <credix-slider (valueChange)="getValueSlider($event)" 
                               [(value)]="value"
+                              [min]="minQuotes"
                               [max]="maxQuotes"
                               [instructions]="'Deseo dividir este pago en'" [units]="'Cuota'"></credix-slider>
               </div>
@@ -144,6 +145,7 @@
         <div class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
           <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
           <credix-button (click)="getValuesSecondStep()"
+                        [disabled]="secureAndQuotesForm.get('aditionalProducts').value === []"
                         text="Continuar"></credix-button>
         </div>
       </cdk-step>
@@ -267,7 +269,7 @@
           <div class="marchamos__credix-code" fxLayout="column">
             <label style="font-weight: bold; font-size: 16px;">Código MiCredix</label>
             <p style="font-weight: normal; font-size: 14px;">Ingrese el código generado en la aplicación
-              <credix-link-button text="Código MiCredix"></credix-link-button>
+              <credix-link-button text="Código MiCredix >"></credix-link-button>
             </p>
           </div>
 
@@ -289,7 +291,54 @@
       </cdk-step>
 
     </credix-stepper>
+    
+    <div *ngIf="responseResultPay" class="marchamos__container-response" fxLayout="column">
+      <credix-result-notification  
+      [message]="messageToPay" 
+      [status]="responseToPay"
+      [title]="titleToPay"></credix-result-notification>
+
+      <mat-divider></mat-divider>
+      <div fxLayout="row" fxLayoutGap="65px" style="margin-top: 24.5px;">
+        
+        <span style="font-weight: bold; font-size: 16px;">Datos del Pago</span>
+          <div fxLayout="column" fxLayoutGap="8px">
+
+            <div fxLayout="row" fxLayoutGap="41px">
+              <label>Monto</label>
+              <span style="font-weight: bold; font-size: 16px;">{{totalMount}} </span>
+            </div>
+            <div fxLayout="row" fxLayoutGap="107px">
+              <label>Cuotas</label>
+              <span style="font-weight: bold; font-size: 16px;">{{value}} </span>
+            </div>
+            <div fxLayout="row" fxLayoutGap="65px">
+              <label>Placa</label>
+              <span style="font-weight: bold; font-size: 16px;">{{consultVehicle.plateNumber}} </span>
+            </div>
+            <div fxLayout="row" fxLayoutGap="42px">
+              <label>Fecha</label>
+              <span style="font-weight: bold; font-size: 16px;"> {{secureAndQuotesControls.firstCouteToPayIn.value}} </span>
+          </div>
+
+        </div>
+      </div>
+
+          <credix-share-button class="marchamos__shared-button"
+          fxLayoutAlign="center"
+          description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
+          url="https://www.credix.com/somos-uno/"></credix-share-button>
+
+            <mat-divider ></mat-divider>
+            <credix-button 
+            fxLayoutAlign="flex-end"
+            (buttonClick)="responseResultPay = !responseResultPay"
+            text="Realizar otro pago"></credix-button>
+    </div>
+    
   </ngx-simplebar>
+
 </mat-card>
+
 
 

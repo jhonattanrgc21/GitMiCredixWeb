@@ -49,51 +49,51 @@ export class MarchamosComponent implements OnInit {
   wishPayFirstCouteIn: any[] = [
     {
       description: 'Enero ' + (this.actualDate.getFullYear() + 1),
-      value: 'enero'
+      value: 'Enero ' + (this.actualDate.getFullYear() + 1)
     },
     {
       description: 'Febrero ' + (this.actualDate.getFullYear() + 1),
-      value: 'febrero'
+      value: 'Febrero ' + (this.actualDate.getFullYear() + 1)
     },
     {
-      description: 'Marzo' + (this.actualDate.getFullYear() + 1),
-      value: 'marzo'
+      description: 'Marzo ' + (this.actualDate.getFullYear() + 1),
+      value: 'Marzo ' + (this.actualDate.getFullYear() + 1)
     },
     {
       description: 'Abril '+ (this.actualDate.getFullYear() + 1),
-      value: 'abril'
+      value: 'Abril '+ (this.actualDate.getFullYear() + 1)
     },
     {
       description: 'Mayo ' + (this.actualDate.getFullYear() + 1),
-      value: 'mayo'
+      value: 'Mayo ' + (this.actualDate.getFullYear() + 1)
     },
     {
       description: 'Junio ' + (this.actualDate.getFullYear() + 1),
-      value: 'junio'
+      value: 'Junio ' + (this.actualDate.getFullYear() + 1)
     },
     {
       description: 'Julio ' + (this.actualDate.getFullYear() + 1),
-      value: 'julio'
+      value: 'Julio ' + (this.actualDate.getFullYear() + 1)
     },
     {
       description: 'Agosto ' + (this.actualDate.getFullYear() + 1),
-      value: 'agosto'
+      value: 'Agosto ' + (this.actualDate.getFullYear() + 1)
     },
     {
       description: 'Septiembre 2020',
-      value: 'septiembre'
+      value: 'Septiembre 2020'
     },
     {
       description: 'Octubre 2020',
-      value: 'octubre'
+      value: 'Octubre 2020'
     },
     {
       description: 'Noviembre 2020',
-      value: 'noviembre'
+      value: 'Noviembre 2020'
     },
     {
       description: 'Diciembre 2020',
-      value: 'diciembre'
+      value: 'Diciembre 2020'
     }
   ];
   newDeliveryDirection: any;
@@ -128,6 +128,7 @@ export class MarchamosComponent implements OnInit {
   };
   dataForPayResumen:any[] = [];
   maxQuotes: number;
+  minQuotes: number;
 
   iva: number = 0;
   totalAmountItemsProducts: number = 0;
@@ -137,6 +138,10 @@ export class MarchamosComponent implements OnInit {
   domicile: boolean = false;
   newDomicile: boolean = false;
   promoStatus: any;
+  responseResultPay: boolean = false;
+  responseToPay: string;
+  messageToPay: string;
+  titleToPay: string;
 
   options = {autoHide: false, scrollbarMinSize: 100};
 
@@ -202,6 +207,22 @@ export class MarchamosComponent implements OnInit {
     this.getCardValues();
     this.getUserAplicantAccountNumber();
     this.getListQuotesByProduct();
+    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount + this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
+    console.log(this.totalAmountItemsProducts);
+  }
+
+
+
+  getUserAplicantAccountNumber(){
+    this.httpService.post('canales', 'applicant/finduserapplicantaccountnumber', {
+      channelId:102,
+      accountNumber: this.storageService.getCurrentUser().accountNumber
+    }).subscribe( response => {
+      console.log(response);
+      this.pickUpControls.email.setValue(response.informationApplicant.applicant.email);
+      this.informationApplicant = response.informationApplicant.applicant;
+      this.addressAplicant = response.informationApplicant.applicant.addressApplicant;
+    });
   }
 
   
@@ -272,10 +293,19 @@ export class MarchamosComponent implements OnInit {
 
   getRadioButtonsChecked(event){
     this.radioButtonsChangedValue = event.value;
+
+    if (event.value === 2 && event.checked) {
+      this.domicileDescription = {
+        name: this.informationApplicant.printName,
+        number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
+      }
+    }
+
+
     if (event.value === 1 && event.checked) {
       if (this.addressAplicant[0].addressType.id === 2){
         this.domicile = true;
-        this.domicileDescription={
+        this.domicileDescription= {
           name: this.informationApplicant.printName,
           detail: this.addressAplicant[0].detail,
           province: this.informationApplicant.addressApplicant[0].province.description,
@@ -301,23 +331,14 @@ export class MarchamosComponent implements OnInit {
   getListQuotesByProduct(){
     this.httpService.post('canales', 'customerservice/listquotabyproduct',{channelId: 102, productId: 2})
     .subscribe(response => { 
-      this.value = response.listQuota.shift().quota;
+      this.minQuotes = response.listQuota.shift().quota;
+      this.value = this.minQuotes;
       this.maxQuotes = response.listQuota.slice(response.listQuota.lastIndexOf())[0].quota;
       (this.value > 0) ? this.quotesToPayOfAmount = true : false;
     });
   }
 
-  getUserAplicantAccountNumber(){
-    this.httpService.post('canales', 'applicant/finduserapplicantaccountnumber', {
-      channelId:102,
-      accountNumber: this.storageService.getCurrentUser().accountNumber
-    }).subscribe( response => {
-      console.log(response);
-      this.pickUpControls.email.setValue(response.informationApplicant.applicant.email);
-      this.informationApplicant = response.informationApplicant.applicant;
-      this.addressAplicant = response.informationApplicant.applicant.addressApplicant;
-    });
-  }
+  
 
   consult() {
     this.httpService.post('marchamos', 'pay/vehicleconsult', {
@@ -399,11 +420,9 @@ export class MarchamosComponent implements OnInit {
   
     this.httpService.post('marchamos', 'pay/soapay',
       {
-        channelId: 101,
-        aditionalProducts: this.secureAndQuotesControls.aditionalProducts.value,
+        channelId: 107,
+        aditionalProducts: [],
         amount: this.amountValue,
-        authenticationNumberCommission: this.commission.toString(),
-        authenticationNumberMarchamo1: this.secureAndQuotesControls.aditionalProducts.value,
         cardNumber: this.cardNumber,
         deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
         domicilePerson: this.contactToConfirm.name,
@@ -412,7 +431,6 @@ export class MarchamosComponent implements OnInit {
         email: this.pickUpControls.email.value,
         extraCardStatus: '0',
         firstPayment: this.promoStatus.paymentDate,
-        ownerEmail: this.ownerPayer.email,
         payId: this.consultVehicle.payId,
         payerId: this.ownerPayer.payerId,
         period: this.consultVehicle.period,
@@ -420,12 +438,17 @@ export class MarchamosComponent implements OnInit {
         plateClassId: parseInt(this.consultControls.vehicleType.value),
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
         promoStatus: this.promoStatus.promoStatusId,
-        quotasId: this.secureAndQuotesControls.quotesToPay.value,
-        requiredBill: '1',
-        transactionTypeId: this.commission
+        quotas: this.secureAndQuotesControls.quotesToPay.value,
+        transactionTypeId: 1
       })
       .subscribe(response =>{
         console.log(response);
+        if(response.type){
+          this.responseResultPay = !this.responseResultPay;
+        }
+        this.responseToPay = response.type;
+        this.messageToPay = response.message;
+        this.titleToPay = response.title;
       });
   }
 
@@ -463,7 +486,9 @@ export class MarchamosComponent implements OnInit {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe( event => 
       {
         console.log(event);
-
+        if(event){
+          this.secureToPay();
+        }
       });
   }
 
@@ -600,9 +625,7 @@ export class MarchamosComponent implements OnInit {
       this.getPlaceOfRetreat();
   }
 
-  submit() {
-
-  }
+  
 }
 
 

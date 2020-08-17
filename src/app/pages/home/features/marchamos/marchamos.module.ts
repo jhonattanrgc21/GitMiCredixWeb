@@ -25,6 +25,8 @@ import { PopupMarchamosNewDirectionComponent } from './popup-marchamos-new-direc
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { PopupMarchamosPayResumeComponent } from './popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
 import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
+import { CredixResultNotificationModule } from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
+import { CredixShareButtonModule } from 'src/app/shared/components/credix-share-button/credix-share-button.module';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -55,6 +57,8 @@ const routes: Routes = [
     CredixLinkButtonModule,
     CredixCodeInputModule,
     CredixNumericBlockModule,
+    CredixResultNotificationModule,
+    CredixShareButtonModule,
     CdkStepperModule,
     StepperModule,
     CredixRadioButtonModule,
