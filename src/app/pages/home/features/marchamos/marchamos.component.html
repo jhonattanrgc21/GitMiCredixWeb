@@ -292,14 +292,14 @@
 
     </credix-stepper>
     
-    <div *ngIf="responseResultPay" class="marchamos__container-response" fxLayout="column">
+    <div *ngIf="responseResultPay" class="marchamos__container-response" fxLayout="column" >
       <credix-result-notification  
       [message]="messageToPay" 
       [status]="responseToPay"
       [title]="titleToPay"></credix-result-notification>
 
       <mat-divider></mat-divider>
-      <div fxLayout="row" fxLayoutGap="65px" style="margin-top: 24.5px;">
+      <div fxLayout="row" fxLayoutGap="65px" style="margin-top: 24.5px;" fxLayoutAlign="center">
         
         <span style="font-weight: bold; font-size: 16px;">Datos del Pago</span>
           <div fxLayout="column" fxLayoutGap="8px">
@@ -316,7 +316,7 @@
               <label>Placa</label>
               <span style="font-weight: bold; font-size: 16px;">{{consultVehicle.plateNumber}} </span>
             </div>
-            <div fxLayout="row" fxLayoutGap="42px">
+            <div fxLayout="row" fxLayoutGap="47px">
               <label>Fecha</label>
               <span style="font-weight: bold; font-size: 16px;"> {{secureAndQuotesControls.firstCouteToPayIn.value}} </span>
           </div>
@@ -329,8 +329,9 @@
           description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
           url="https://www.credix.com/somos-uno/"></credix-share-button>
 
-            <mat-divider ></mat-divider>
+            <mat-divider class="marchamos__divider-response"></mat-divider>
             <credix-button 
+            class="marchamos__buttons"
             fxLayoutAlign="flex-end"
             (buttonClick)="responseResultPay = !responseResultPay"
             text="Realizar otro pago"></credix-button>

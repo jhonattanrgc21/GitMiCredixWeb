@@ -220,6 +220,10 @@
   &__shared-button{
     margin-top: 44px;
   }
+
+  &__divider-response{
+    width: 100vw !important;
+  }
 }
 
 ::ng-deep.mat-divider {
