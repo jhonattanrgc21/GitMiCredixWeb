@@ -6,7 +6,7 @@ import { IdentificationType } from "../../../../../../shared/models/Identificati
 import { getIdentificationMaskByType } from "../../../../../../shared/utils";
 import { ModalService } from "../../../../../../core/services/modal.service";
 import { SendMoneyService } from "../../send-money.service";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { CredixToastService } from "../../../../../../core/services/credix-toast.service";
 
 @Component({
@@ -25,7 +25,8 @@ export class ModalAddIbanComponent implements OnInit {
     private httpService: HttpService,
     private modalService: ModalService,
     private sendMoney: SendMoneyService,
-    public toastService: CredixToastService
+    public toastService: CredixToastService,
+    public dialogRef: MatDialogRef<ModalAddIbanComponent>
   ) {}
 
   newAccountForm: FormGroup = new FormGroup({
@@ -83,7 +84,7 @@ export class ModalAddIbanComponent implements OnInit {
             this.toastService.show({ text, type });
           });
       }
-      this.modalService.addAccountChange.emit({
+      this.dialogRef.close({
         aliasName: aliasName,
         ibanAccount: ibanAccount,
         identification: identification,

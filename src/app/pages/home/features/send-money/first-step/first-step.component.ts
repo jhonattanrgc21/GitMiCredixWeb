@@ -85,10 +85,11 @@ export class FirstStepComponent implements OnInit {
       1
     );
 
-    this.modalService.addAccountChange.subscribe(info => {
+    modal.afterClosed().subscribe(info => {
       console.log(info);
       this.info = info;
       this.favoriteAccountControl.setValue(info);
     });
+
   }
 }
