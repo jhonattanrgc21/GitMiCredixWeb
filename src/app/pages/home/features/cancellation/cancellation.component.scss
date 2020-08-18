@@ -4,6 +4,15 @@
     margin-left: 180px;
   }
 
+  &__table{
+    &__scroll{
+      height: 400px;
+      //width: 291px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+
   &__data-info {
     margin: 24px 164px 16px 164px;
 

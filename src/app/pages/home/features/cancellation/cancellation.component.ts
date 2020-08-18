@@ -20,60 +20,9 @@ export class CancellationComponent implements OnInit {
     "rate",
   ];
   dataSource: TableElement[];
-  prueba = [
-    {
-      id: 1,
-      date: "29 Oct 19",
-      commerce: "Nombre del comercio",
-      amount: "100.00",
-      quotas: "cuota 1 de 12",
-      rate: "#.#%",
-    },
-    {
-      id: 2,
-      date: "30 Oct 19",
-      commerce: "2Nombre corto",
-      amount: "2100.00",
-      quotas: "2cuota 1 de 12",
-      rate: "3#.#%",
-    },
-    {
-      id: 3,
-      date: "31 Oct 19",
-      commerce: "3Nombre largo del comercio",
-      amount: "3100.00",
-      quotas: "3cuota 1 de 12",
-      rate: "2#.#%",
-    },
-  ];
-  prueba2 = [
-    {
-      id: 1,
-      date: "29 Oct 19x",
-      commerce: "Nombre del comerciox",
-      amount: "100.00",
-      quotas: "cuota 1 de 12",
-      rate: "#.#%",
-    },
-    {
-      id: 2,
-      date: "29 Oct 19x",
-      commerce: "Nombre cortxo",
-      amount: "100.00x",
-      quotas: "cuota 1 de 12",
-      rate: "#.#%",
-    },
-    {
-      id: 3,
-      date: "29 Oct 19x",
-      commerce: "Nombre largo del comerciox",
-      amount: "100.00",
-      quotas: "cuota 1 de 12",
-      rate: "#.#%",
-    },
-  ];
   currencyCode = "₡";
   balance = 1000;
+  check = true;
   p = 0;
   disableButton = false;
   showResponse = false;
@@ -94,36 +43,20 @@ export class CancellationComponent implements OnInit {
   constructor(private httpService: HttpService, private router: Router) {}
 
   ngOnInit(): void {
-    this.getOptionsToCancel();
-    console.log(this.selection);
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.length;
-    return numSelected == numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.dataSource.forEach((row) => this.selection.select(row));
+    this.checkFuntionallity();
   }
 
   tabSelected(tab) {
     if (tab.id === 1) {
       this.currencyCode = "₡";
       this.balance = 1000;
-      this.dataSource = this.prueba;
+      this.dataSource = this.quotasToCancel;
       this.selection.clear();
-      //this.dataSource = this.quotasToCancel;
     } else {
       this.currencyCode = "$";
       this.balance = this.balanceD;
-      this.dataSource = this.prueba2;
+      this.dataSource = this.quotasToCancel$;
       this.selection.clear();
-      //this.dataSource = this.quotasToCancel$;
     }
   }
 
@@ -133,14 +66,15 @@ export class CancellationComponent implements OnInit {
         channelId: 102,
       })
       .subscribe((res) => {
-        this.showResponse = true;
         if (res.titleOne !== "Éxito") {
+          this.showResponse = true;
           this.errorTitle = res.titleOne;
           this.errorDescrip = res.descriptionOne;
+          this.showSuccess = false;
+        } else {
+          this.showResponse = false;
+          this.getOptionsToCancel();
         }
-        res.titleOne === "Éxito"
-          ? (this.showSuccess = true)
-          : (this.showSuccess = false);
       });
   }
 
@@ -164,6 +98,8 @@ export class CancellationComponent implements OnInit {
                 amount: elem.saldoPendiente,
                 quotas: elem.cuotasPendientes,
                 rate: elem.tasa,
+                currencyId: elem.currencyId,
+                pdvId: elem.pdvId,
               },
             ];
           });
@@ -178,49 +114,56 @@ export class CancellationComponent implements OnInit {
                 amount: elem.saldoPendiente,
                 quotas: elem.cuotasPendientes,
                 rate: elem.tasa,
+                currencyId: elem.currencyId,
+                pdvId: elem.pdvId,
               },
             ];
           });
         } else {
-          //this.empty = true;
+          this.empty = true;
         }
       });
   }
 
   cancel() {
-    this.httpService.post("canales", "account/saveadvancepayments", {
-      channelId: 101,
-      saldoInicial: "70.000,00",
-      saldoFinal: "70.000,00",
-      advancePaymentList: [
+    let paymentList = [];
+    this.selection.selected.forEach((el) => {
+      paymentList = [
+        ...paymentList,
         {
-          pdvId: "33378",
-          fechaOrigen: "2019-05-29",
-          saldoPendiente: "70.000,00",
-          tasa: "2",
-          cuotasPendientes: 3,
-          currencyId: 188,
+          pdvId: el.pdvId,
+          fechaOrigen: el.date,
+          saldoPendiente: el.amount,
+          tasa: el.rate,
+          cuotasPendientes: el.quotas,
+          currencyId: el.currencyId,
         },
-        {
-          pdvId: "33580",
-          fechaOrigen: "2019-12-23",
-          saldoPendiente: "21.866,67",
-          tasa: "0",
-          cuotasPendientes: 1,
-          currencyId: 188,
-        },
-      ],
+      ];
     });
+    this.httpService
+      .post("canales", "account/saveadvancepayments", {
+        channelId: 102,
+        saldoInicial: this.currencyCode === "₡" ? this.balanceC : this.balanceD,
+        saldoFinal: this.balance,
+        advancePaymentList: paymentList,
+      })
+      .subscribe((resp) => {
+        this.showResponse = true;
+        if (resp.type === "success") {
+          this.showSuccess = true;
+        } else {
+          this.showSuccess = false;
+          this.errorTitle = resp.titleOne;
+          this.errorDescrip = resp.descriptionOne;
+        }
+      });
   }
 
   change(event, row) {
-    console.log(parseInt(row.amount), this.balance)
     this.selection.toggle(row);
     if (event.checked) {
-      console.log('-',this.balance - parseInt(row.amount))
       this.balance = this.balance - parseInt(row.amount);
     } else {
-      console.log('+',this.balance + parseInt(row.amount))
       this.balance = this.balance + parseInt(row.amount);
     }
   }

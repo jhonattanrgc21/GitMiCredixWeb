@@ -5,4 +5,6 @@ export interface TableElement {
   amount: string;
   quotas: string;
   rate: string;
+  currencyId: number,
+  pdvId: number
 }

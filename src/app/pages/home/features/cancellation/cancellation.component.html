@@ -16,19 +16,21 @@
 
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null"
+            <!--<mat-checkbox (change)="$event ? masterToggle() : null"
                           [checked]="selection.hasValue() && isAllSelected()"
                           [indeterminate]="selection.hasValue() && !isAllSelected()">
-            </mat-checkbox>
+            </mat-checkbox>-->
           </th>
           <td mat-cell *matCellDef="let row">
             <mat-checkbox (click)="$event.stopPropagation()"
                           (change)="change($event, row)"
-                          [checked]="selection.isSelected(row)">
+                          [checked]="selection.isSelected(row)"
+                          disabled="{{row.amount > balance}}"
+                          >
             </mat-checkbox>
           </td>
         </ng-container>
-
+        <ngx-simplebar [options]="options" class="cancellation__table__scroll">
         <ng-container matColumnDef="date">
           <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
           <mat-cell *matCellDef="let element" credixCell>
@@ -56,10 +58,10 @@
           <mat-cell *matCellDef="let element" credixCell> {{element.rate && element.rate}}</mat-cell>
         </ng-container>
 
-
+      </ngx-simplebar>
 
         <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)" credixRow>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow>
         </mat-row>
 
 
@@ -107,7 +109,7 @@
     </div>
 
     <div class="cancellation__footer mt-16px" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="checkFuntionallity()" [disabled]="empty" text="Aplicar" *ngIf="!showResponse">
+      <credix-button (buttonClick)="cancel()" [disabled]="empty || !this.selection.selected.length" text="Aplicar" *ngIf="!showResponse">
       </credix-button>
       <credix-button (buttonClick)="done()" [disabled]="disableButton" text="Listo" *ngIf="showResponse">
       </credix-button>
