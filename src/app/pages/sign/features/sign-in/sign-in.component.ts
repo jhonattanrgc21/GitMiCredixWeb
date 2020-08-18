@@ -31,6 +31,8 @@ export class SignInComponent implements OnInit {
   showErrorMessage = false;
   forward = false;
   phone = '';
+  hide = true;
+
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
   @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
 

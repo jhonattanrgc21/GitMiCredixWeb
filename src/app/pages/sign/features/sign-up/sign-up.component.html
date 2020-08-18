@@ -8,13 +8,13 @@
             fxLayoutGap="space-between">
 
         <div class="modal-new-user__first-form__input-wrapper" fxLayout="column">
-          <credix-select [control]="newUserFirstStepForm.controls.typeIdentification" label="Tipo de identificación">
+          <credix-select formControlName="typeIdentification" label="Tipo de identificación">
             <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
               {{identificationType.description}}
             </mat-option>
           </credix-select>
 
-          <credix-input-field [control]="newUserFirstStepForm.controls.identification" [mask]="identificationMask"
+          <credix-input-field [mask]="identificationMask" formControlName="identification"
                               focusLabel="Identificación"
                               label="Digite su identificación"></credix-input-field>
         </div>
@@ -63,14 +63,17 @@
     <cdk-step [label]="'Clave'" [stepControl]="newUserThirdStepForm">
       <form [formGroup]="newUserThirdStepForm" class="modal-new-user__third-form" fxLayout="column">
 
-        <credix-input-password [control]="newUserThirdStepForm.controls.newPassword" [tooltipWidth]="296"
-                               class="modal-new-user__third-form__input-pass"
-                               focusLabel="Clave"
-                               label="Digite su clave"
-                               tooltipOffsetY="2">
-        </credix-input-password>
+        <credix-input-field [credixPasswordFieldTooltip]="newUserThirdStepForm.controls.newPassword"
+                            [tooltipWidth]="296" [type]="hide ? 'password' : 'text'"
+                            class="modal-new-user__third-form__input-pass" focusLabel="Clave"
+                            formControlName="newPassword"
+                            label="Digite su clave"
+                            panelClass="sign-in-password-panel"
+                            tooltipOffsetY="2">
+          <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+        </credix-input-field>
 
-        <credix-input-field [control]="newUserThirdStepForm.controls.confirmPassword"
+        <credix-input-field formControlName="confirmPassword"
                             class="modal-new-user__third-form__input-pass"
                             focusLabel="Clave" label="Confirme su nueva clave"
                             type="password"></credix-input-field>

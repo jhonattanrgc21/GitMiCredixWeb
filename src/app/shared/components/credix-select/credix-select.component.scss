@@ -47,13 +47,15 @@
     }
   }
 
-  ::ng-deep &.mat-form-field-invalid {
+  ::ng-deep &.mat-warn {
 
     .mat-form-field-label {
       color: #FF4965 !important;
     }
 
     .mat-form-field-ripple {
+      transform: scaleX(1);
+      opacity: 1;
       background-color: #FF4965 !important;
     }
   }
