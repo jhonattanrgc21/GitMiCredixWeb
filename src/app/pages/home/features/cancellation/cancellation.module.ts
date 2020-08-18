@@ -26,6 +26,7 @@ import {CredixNumericBlockModule} from '../../../../shared/components/credix-num
 import {CredixCheckboxButtonModule} from '../../../../shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import {CredixResultNotificationModule} from "../../../../shared/components/credix-result-notification/credix-result-notification.module";
 import {SimplebarAngularModule} from 'simplebar-angular';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 const routes: Routes = [
   {
@@ -60,7 +61,8 @@ const routes: Routes = [
     CredixCheckboxButtonModule,
     CredixResultNotificationModule,
     MatDividerModule,
-    SimplebarAngularModule
+    SimplebarAngularModule,
+    MatCheckboxModule
 
   ],
   providers: [ModalService]

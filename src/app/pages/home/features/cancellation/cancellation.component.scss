@@ -28,6 +28,14 @@
     }
   }
 
+  &__succResp{
+    margin-top: 63px;
+  }
+
+  &__errResp{
+    margin-top: 133px;
+  }
+
   &__footer {
     width: 100%;
     position: absolute;
@@ -38,10 +46,17 @@
   }
 }
 
+
+
 :host ::ng-deep .mat-table {
   margin-top: 17px !important;
   margin-left: -16px !important;
   margin-right: -16px !important;
+}
+
+:host ::ng-deep credix-result-notification{
+  width: 294px;
+  margin: 61px auto 0 auto;
 }
 
 :host ::ng-deep .credix-tab {
@@ -51,6 +66,9 @@
 :host ::ng-deep .credix-result-notification__message {
   width: 470px;
 }
+
+
+
 @media screen and (max-width: 1199px) {
   .cancellation {
     &__banner-tab {
@@ -66,5 +84,16 @@
     &__data-info {
       margin: 24px 100px 16px 87px;
     }
+    &__succResp{
+      margin-top: 175px;
+    }
+    &__errResp{
+      margin-top: 246px;
+    }
+  }
+
+
+  :host ::ng-deep credix-result-notification{
+    margin: 160px auto 160px auto;
   }
 }
