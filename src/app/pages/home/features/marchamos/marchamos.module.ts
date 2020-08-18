@@ -21,6 +21,12 @@ import {CredixRadioButtonModule} from '../../../../shared/components/credix-radi
 import {CredixLinkButtonModule} from 'src/app/shared/components/credix-link-button/credix-link-button.module';
 import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
+import {PopupMarchamosNewDirectionComponent} from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
+import {SimplebarAngularModule} from 'simplebar-angular';
+import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
+import {CredixNumericBlockModule} from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
+import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
+import {CredixShareButtonModule} from 'src/app/shared/components/credix-share-button/credix-share-button.module';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -35,7 +41,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent, PopupMarchamosDetailComponent],
+  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent],
   entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,
@@ -50,9 +56,13 @@ const routes: Routes = [
     CredixSliderModule,
     CredixLinkButtonModule,
     CredixCodeInputModule,
+    CredixNumericBlockModule,
+    CredixResultNotificationModule,
+    CredixShareButtonModule,
     CdkStepperModule,
     StepperModule,
     CredixRadioButtonModule,
+    SimplebarAngularModule,
     NgxMaskModule.forRoot(maskConfig)
   ],
   providers: [
