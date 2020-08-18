@@ -13,7 +13,7 @@
       <app-second-step [amountToSendControl]="amountAndQuotaForm.controls.amount"
         [detailsControl]="amountAndQuotaForm.controls.detail" [quotasControl]="amountAndQuotaForm.controls.quotas"
         (commissionRateEmitEvent)="commissionRate = $event" (commissionEmitEvent)="commission = $event"
-        [currencyCode]="currencyPrefix">
+        [currencyCode]="currencyPrefix" (totalEmitEvent)="total = $event">
       </app-second-step>
     </cdk-step>
 
@@ -21,7 +21,7 @@
       <app-third-step [account]="informationForm.controls.account.value"
         [amount]="amountAndQuotaForm.controls.amount.value" [codeControl]="confirmForm.controls.code"
         [currencyPrefix]="currencyPrefix" [timeLimit]="amountAndQuotaForm.controls.quotas.value"
-        [commissionRate]="commissionRate" (totalEmitEvent)="total = $event" [commission]="commission"></app-third-step>
+        [commissionRate]="commissionRate" [total]="total" [commission]="commission"></app-third-step>
     </cdk-step>
   </credix-stepper>
 

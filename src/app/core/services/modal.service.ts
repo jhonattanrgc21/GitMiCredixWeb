@@ -8,8 +8,6 @@ import {CredixPopupAlternativeComponent} from '../../shared/components/credix-po
 @Injectable()
 export class ModalService {
 
-  public addAccountChange = new EventEmitter()
-
   constructor(private dialog: MatDialog) {
   }
 

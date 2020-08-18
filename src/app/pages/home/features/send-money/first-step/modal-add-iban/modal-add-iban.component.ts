@@ -1,16 +1,13 @@
 import { Component, OnInit, Inject } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { finalize } from "rxjs/operators";
 import { HttpService } from "src/app/core/services/http.service";
 import { IdentificationType } from "../../../../../../shared/models/IdentificationType";
 import { getIdentificationMaskByType } from "../../../../../../shared/utils";
 import { ModalService } from "../../../../../../core/services/modal.service";
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { SendMoneyService } from "../../send-money.service";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { CredixToastService } from "../../../../../../core/services/credix-toast.service";
 
 @Component({
   selector: "app-modal-add-iban",
@@ -23,16 +20,40 @@ export class ModalAddIbanComponent implements OnInit {
   showFavorite = false;
   isChecked = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data,private httpService: HttpService, private modalService: ModalService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data,
+    private httpService: HttpService,
+    private modalService: ModalService,
+    private sendMoney: SendMoneyService,
+    public toastService: CredixToastService,
+    public dialogRef: MatDialogRef<ModalAddIbanComponent>
+  ) {}
 
   newAccountForm: FormGroup = new FormGroup({
-    ibanAccount: new FormControl(this.data.data.info ? this.data.data.info.ibanAccount : "", [Validators.required]),
-    identType: new FormControl(this.data.data.info ? this.data.data.info.identType : "", [Validators.required]),
-    identNumber: new FormControl({ value: this.data.data.info ? this.data.data.info.identification : "", disabled: !this.data.data.info }, [
-      Validators.required,
-    ]),
-    name: new FormControl(this.data.data.info ? this.data.data.info.aliasName : "", [Validators.required]),
-    favName: new FormControl(this.data.data.info ? this.data.data.info.favName : ""),
+    ibanAccount: new FormControl(
+      this.data.data.info ? this.data.data.info.ibanAccount : "",
+      [Validators.required]
+    ),
+    identType: new FormControl(
+      this.data.data.info ? this.data.data.info.identType : "",
+      [Validators.required]
+    ),
+    identNumber: new FormControl(
+      {
+        value: this.data.data.info ? this.data.data.info.identification : "",
+        disabled: !this.data.data.info,
+      },
+      [Validators.required]
+    ),
+    name: new FormControl(
+      this.data.data.info ? this.data.data.info.aliasName : "",
+      [Validators.required]
+    ),
+    favName: new FormControl(
+      this.data.data.info ? this.data.data.info.favName : "",
+      this.showFavorite && [Validators.required]
+    ),
+    code: new FormControl("", this.showFavorite && [Validators.required]),
   });
 
   ngOnInit(): void {
@@ -40,28 +61,38 @@ export class ModalAddIbanComponent implements OnInit {
   }
 
   submit() {
-   /* if (this.newAccountForm.valid) {
-      this.httpService
-        .post("canales", "iban/saveFavoriteAccountIBAN", {
-          aliasName: this.newAccountForm.controls.name.value,
-          ibanAccount: this.newAccountForm.controls.ibanAccount.value,
-          typeIdentificacionId: this.newAccountForm.controls.identType.value,
-          identification: this.newAccountForm.controls.identNumber.value,
-          codeCredix: "1213",
-          channelId: 102,
-        })
-        .subscribe((res) => {
-          this.showDetails = true;
-        });
-    }*/
-    this.modalService.addAccountChange.emit({
-      aliasName: this.newAccountForm.controls.name.value,
-      ibanAccount: this.newAccountForm.controls.ibanAccount.value,
-      identification: this.newAccountForm.controls.identNumber.value,
-      identType: this.newAccountForm.controls.identType.value,
-      favName: this.newAccountForm.controls.favName.value,
-      ibanBank: 'Banco Nacional'
-    });
+    if (this.newAccountForm.valid) {
+      const aliasName = this.newAccountForm.controls.name.value;
+      const ibanAccount = this.newAccountForm.controls.ibanAccount.value;
+      const identification = this.newAccountForm.controls.identNumber.value;
+      const identType = this.newAccountForm.controls.identType.value;
+      const favName = this.newAccountForm.controls.favName.value;
+      const ibanBank = "Banco Nacional";
+      if (this.showFavorite) {
+        this.sendMoney
+          .addFavAccount(
+            favName,
+            ibanAccount,
+            identType,
+            identification,
+            this.newAccountForm.controls.code.value
+          )
+          .subscribe((res) => {
+            console.log(res);
+            const text = res.message;
+            const type = res.type;
+            this.toastService.show({ text, type });
+          });
+      }
+      this.dialogRef.close({
+        aliasName: aliasName,
+        ibanAccount: ibanAccount,
+        identification: identification,
+        identType: identType,
+        favName: favName,
+        ibanBank: ibanBank,
+      });
+    }
   }
 
   getIdentificationTypes() {
