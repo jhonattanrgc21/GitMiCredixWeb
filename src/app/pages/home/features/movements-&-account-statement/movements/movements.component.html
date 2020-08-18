@@ -11,13 +11,14 @@
 
     <ng-container matColumnDef="commerce">
       <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
-      <mat-cell *matCellDef="let element" credixCell><strong>{{element.establishmentName}}</strong></mat-cell>
+      <mat-cell *matCellDef="let element" [class.is-green]="element.movementType == 'Pago'" credixCell>
+        <strong>{{element.establishmentName}}</strong></mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="amount">
       <mat-header-cell *matHeaderCellDef credixHeaderCell> Monto</mat-header-cell>
-      <mat-cell *matCellDef="let element"
-                credixCell><strong>{{element.currencySimbol + ' ' + element.originAmount}}</strong></mat-cell>
+      <mat-cell *matCellDef="let element" [class.is-green]="element.movementType == 'Pago'" credixCell>
+        <strong>{{element.currencySimbol + ' ' + element.originAmount}}</strong></mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="quotas">
