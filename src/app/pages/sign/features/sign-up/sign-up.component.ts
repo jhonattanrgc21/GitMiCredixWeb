@@ -10,6 +10,7 @@ import {CredixToastService} from 'src/app/core/services/credix-toast.service';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {getIdentificationMaskByType} from '../../../../shared/utils';
 import {ModalResponseSignUpComponent} from './modal-response-sign-up/modal-response-sign-up.component';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -133,6 +134,10 @@ export class SignUpComponent implements OnInit {
         console.log(response);
         if (!response.registereduser && response.type === 'success') {
           this.nextStep();
+        } else {
+          this.dialogRef.close();
+          this.modalService.open({component: ForgotPasswordComponent, title: '¿Olvidó su clave?'},
+          {width: 376, height: 663, disableClose: true})
         }
       });
   }
