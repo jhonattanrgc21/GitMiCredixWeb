@@ -136,7 +136,7 @@ export class SignUpComponent implements OnInit {
       .pipe(finalize(() => this.sendIdentification()))
       .subscribe(response => {
         console.log(response);
-        if (response.type === 'success') {
+        if (!response.registereduser && response.type === 'success') {
           this.nextStep();
         }
       });
