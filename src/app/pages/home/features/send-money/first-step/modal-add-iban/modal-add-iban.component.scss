@@ -1,6 +1,17 @@
+
 .add-account-panel{
   ::ng-deep .credix-popup__title{
     font-size: 31px;
+  }
+}
+
+.add-account-div{
+
+
+  &__btn{
+    position: absolute;
+    bottom: 32px;
+    width: 300px;
   }
 }
 
@@ -19,6 +30,11 @@
     height: 38px;
     margin-bottom: 20px;
   }
+
+  &__input1{
+    border: none ;
+  }
+
   credix-checkbox-button{
     margin-top: 16px;
   }

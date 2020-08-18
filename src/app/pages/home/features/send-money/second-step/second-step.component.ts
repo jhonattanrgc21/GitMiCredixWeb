@@ -16,12 +16,14 @@ export class SecondStepComponent implements OnInit {
   @Input() currencyCode = '';
   @Output() commissionRateEmitEvent = new EventEmitter();
   @Output() commissionEmitEvent = new EventEmitter();
+  @Output() totalEmitEvent = new EventEmitter();
   listQuotas = [];
   quotaAmountView = 0;
   maxQuota = 0;
   minQuota = 0;
+  total = 0;
   stepQuota = 0;
-  commission: number;
+  commission: number = 0;
   quotaDetail = {
     commissionRate: 0,
     quota: 0,
@@ -35,19 +37,26 @@ export class SecondStepComponent implements OnInit {
   ngOnInit(): void {
     this.amountToSendControl.valueChanges.subscribe(value => {
       this.computeQuotaAmount(value, this.quotasControl.value);
+      this.change();
     });
 
     this.quotasControl.valueChanges.subscribe(value => {
       this.computeQuotaAmount(this.amountToSendControl.value, value);
-      this.quotaDetail = this.listQuotas.find(
-        (elem) => elem.quota === this.quotasControl.value
-      );
-      this.commission = this.amountToSendControl.value * (this.quotaDetail?.commissionRate / 100);
-      this.commissionEmitEvent.emit(this.commission);
-      this.commissionRateEmitEvent.emit(this.quotaDetail?.commissionRate);
+      this.change();
     });
 
     this.getQuotas();
+  }
+
+  change(){
+    this.quotaDetail = this.listQuotas.find(
+      (elem) => elem.quota === this.quotasControl.value
+    );
+    this.commission = this.amountToSendControl.value * (this.quotaDetail?.commissionRate / 100);
+    this.total = this.commission + parseInt(this.amountToSendControl.value);
+    this.commissionEmitEvent.emit(this.commission);
+    this.commissionRateEmitEvent.emit(this.quotaDetail?.commissionRate);
+    this.totalEmitEvent.emit(this.total);
   }
 
   computeQuotaAmount(amount: string, quota: number) {
@@ -77,9 +86,10 @@ export class SecondStepComponent implements OnInit {
           currencyCode: this.currencyCode,
           amount: this.amountToSendControl.value,
           comission: this.commission,
-          commissionRate: this.quotaDetail?.commissionRate,
+          commissionRate: this.quotaDetail ? this.quotaDetail?.commissionRate : 0,
           quotas: this.quotasControl.value,
-          qAmount: this.quotaAmountView
+          qAmount: this.quotaAmountView,
+          total: this.total
         }
       },
       {

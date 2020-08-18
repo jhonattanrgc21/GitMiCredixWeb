@@ -18,6 +18,7 @@ import {CredixResultNotificationModule} from '../../shared/components/credix-res
 import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
+import { SendMoneyService } from './features/send-money/send-money.service';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -43,7 +44,8 @@ const maskConfig: Partial<IConfig> = {
   ],
   providers: [
     HomeService,
-    ModalService
+    ModalService,
+    SendMoneyService
   ]
 })
 export class HomeModule {
