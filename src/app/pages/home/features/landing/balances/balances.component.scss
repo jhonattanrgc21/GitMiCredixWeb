@@ -3,10 +3,21 @@
   height: 555px;
 
   &__cards-select {
-    width: 200px;
+    width: 174px;
     height: 24px;
     margin-top: 16px;
     margin-bottom: 50px;
+
+    &__trigger {
+
+      span.is-additional {
+        width: 106px;
+        margin-right: 0 !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+      }
+    }
   }
 
   &__card-icon {
@@ -52,31 +63,48 @@
         width: 17px;
         height: 20px;
         vertical-align: baseline;
+
+        &.is-green {
+          color: #19D27E;
+        }
       }
     }
   }
 }
 
-:host ::ng-deep.mat-select-value-text {
-  display: inline-block;
-  height: 24px;
+:host ::ng-deep.mat-select-value {
+  display: contents;
 
-  mat-select-trigger {
-    display: flex;
-    align-items: center;
+  .mat-select-value-text {
+    display: inline-block;
+    height: 24px;
 
+    mat-select-trigger {
+      display: flex;
+      align-items: center;
+
+    }
   }
 }
 
-:host ::ng-deep.mat-select-arrow {
-  opacity: 0;
+:host ::ng-deep.mat-select-arrow-wrapper {
+  display: none;
 }
 
 ::ng-deep.select-cards-panel {
+  width: 218px !important;
   min-width: 100% !important;
+
+  .mat-option-text {
+    width: 100%;
+  }
 
   mat-option {
     background: #ffffff !important;
+
+    &:hover {
+      background: #FAFAFA !important;
+    }
   }
 }
 

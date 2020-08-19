@@ -11,8 +11,7 @@
   &__divider {
     width: 100%;
     border: 1px solid #E9E9E9;
-    margin-top: 20px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
 
   &__table-header-row {
@@ -22,6 +21,11 @@
 
   &__table-row {
     color: #3E3E3E;
+
+    &:nth-child(2) {
+      height: 44px;
+      padding-bottom: 20px;
+    }
 
     td:first-of-type {
       font-size: 16px;
