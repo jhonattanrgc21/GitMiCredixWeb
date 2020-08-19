@@ -9,7 +9,8 @@
          [maxLength]="maxLength"
          [minLength]="minLength"
          [type]="type"
-         autocomplete="off" matInput/>
+         autocomplete="off" class="credix-input-field__input"
+         matInput/>
   <input (blur)="onTouch()"
          *ngIf="mask"
          [mask]="mask"
@@ -17,7 +18,8 @@
          [maxLength]="maxLength"
          [type]="type"
          [minLength]="minLength"
-         autocomplete="off" matInput/>
+         autocomplete="off" class="credix-input-field__input"
+         matInput/>
   <div matSuffix>
     <ng-content select="[suffix]">
     </ng-content>

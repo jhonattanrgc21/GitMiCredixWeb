@@ -21,6 +21,8 @@ export class BalancesComponent implements OnInit, OnChanges {
   limit: number;
   available: number;
   prefix = '₡';
+  isCopyingColonesIban = false;
+  isCopyingDollarsIban = false;
 
   constructor(private storageService: StorageService,
               private toastService: CredixToastService) {
@@ -42,12 +44,15 @@ export class BalancesComponent implements OnInit, OnChanges {
     return `${value.substr(value.length - 8, 4)} ${value.substr(value.length - 4, value.length)}`;
   }
 
-  copyIbanAccount(text: string) {
+  copyIbanAccount(text: string, crcId: 188 | 840) {
+    crcId === 188 ? this.isCopyingColonesIban = true : this.isCopyingDollarsIban = true;
     this.toastService.show({text, type: 'success'});
+    setTimeout(() => crcId === 188 ? this.isCopyingColonesIban = false : this.isCopyingDollarsIban = false, 3000);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.balances) {
+      console.log(this.balances);
       this.limit = ConvertStringAmountToNumber(this.balances.limit);
       this.available = ConvertStringAmountToNumber(this.balances.available);
       this.consumed = ConvertStringAmountToNumber(this.balances.consumed);

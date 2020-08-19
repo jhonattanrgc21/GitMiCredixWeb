@@ -71,6 +71,11 @@
     }
   }
 
+  &__input {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   &__error {
     position: absolute;
     bottom: -1.2rem;
