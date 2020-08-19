@@ -69,6 +69,10 @@
               height: 20px;
               vertical-align: middle;
               cursor: pointer;
+
+              &.is-green {
+                color: #19D27E;
+              }
             }
           }
 

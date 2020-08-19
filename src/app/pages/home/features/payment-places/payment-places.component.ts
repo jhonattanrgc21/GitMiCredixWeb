@@ -9,7 +9,7 @@ import {CredixToastService} from '../../../../core/services/credix-toast.service
 })
 export class PaymentPlacesComponent implements OnInit {
   paymentPlaces: string[];
-  contador = 0;
+  counter = 0;
   tabs = [
     {id: 1, name: 'Pagos digitales'},
     {id: 2, name: 'Comercios'},
@@ -17,7 +17,7 @@ export class PaymentPlacesComponent implements OnInit {
   options = [];
   details = [{id: 1, name: 'Detalles 1'}];
   tabShow = 0;
-  tooltip = 'Copiar';
+  copyId = 0;
 
   constructor(private httpService: HttpService, private toastService: CredixToastService) {
   }
@@ -51,11 +51,11 @@ export class PaymentPlacesComponent implements OnInit {
       name: paymentPlace.name
     })
       .subscribe(resp => {
-        this.contador += 1;
+        this.counter += 1;
         paymentPlace.restrictions = resp.paymentPlace;
 
         this.options.push({
-          id: this.contador,
+          id: this.counter,
           priority: paymentPlace.priority,
           name: paymentPlace.name,
           img: paymentPlace.linkImage,
@@ -65,8 +65,10 @@ export class PaymentPlacesComponent implements OnInit {
       });
   }
 
-  copyIbanAccount(text: string) {
+  copyIbanAccount(text: string, id: 1 | 2 | 3 | 4) {
+    this.copyId = id;
     this.toastService.show({text, type: 'success'});
+    setTimeout(() => this.copyId = 0, 3000);
   }
 
 }
