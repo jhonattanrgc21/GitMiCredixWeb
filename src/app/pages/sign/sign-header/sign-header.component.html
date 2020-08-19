@@ -22,26 +22,29 @@
   </button>
 </header>
 
-<header *ngIf="isTablet" [class.is-close]="close" class="sign__header-tablet" fxLayout="row">
+<header *ngIf="isTablet" [class.is-close]="close" class="sign__header-tablet" fxLayout="row" fxLayoutAlign="center center">
 
-  <mat-icon class="sign__header-tablet__icon" svgIcon="mobile_icon"></mat-icon>
-
-  <div class="sign__header-tablet__content" fxFlex fxLayout="column" fxLayoutAlign="center flex-start">
-    <div class="sign__header-tablet__msg" fxLayout="column">
-      <span>App MiCredix</span>
-      <span>Descargue la aplicación móvil para tener acceso a sus finanzas</span>
-    </div>
-    <div class="sign__header-tablet__buttons">
-      <button [fxHide]="deviceInfo.os !== 'Android'" fxShow mat-button>
-        <img alt="Google Play Store" src="assets/images/google-play-badge.png">
-      </button>
-      <button [fxHide]="(deviceInfo.os !== 'Mac')" fxShow mat-button>
-        <img alt="App Store" src="assets/images/appStore.png">
-      </button>
+  <div div fxLayout="row" fxLayoutAlign="center center">
+    <mat-icon class="sign__header-tablet__icon" svgIcon="mobile_icon"></mat-icon>
+    <div class="sign__header-tablet__content" fxFlex fxLayout="column" fxLayoutAlign="center flex-start">
+      <div class="sign__header-tablet__msg" fxLayout="column">
+        <span>App MiCredix</span>
+        <span>Descargue la aplicación móvil para tener acceso a sus finanzas</span>
+      </div>
+      <div class="sign__header-tablet__buttons">
+        <button [fxHide]="deviceInfo.os !== 'Android'" fxShow mat-button>
+          <img alt="Google Play Store" src="assets/images/google-play-badge.png">
+        </button>
+        <button [fxHide]="(deviceInfo.os !== 'Mac')" fxShow mat-button>
+          <img alt="App Store" src="assets/images/appStore.png">
+        </button>
+      </div>
     </div>
   </div>
 
-  <button (click)="close = true" class="sign__header-tablet__close-btn" fxFlexAlign="center" mat-icon-button>
+
+
+  <button (click)="close = true" class="sign__header-tablet__close-btn" fxFlexAlign="center end" mat-icon-button>
     <mat-icon svgIcon="cancel"></mat-icon>
   </button>
 </header>
