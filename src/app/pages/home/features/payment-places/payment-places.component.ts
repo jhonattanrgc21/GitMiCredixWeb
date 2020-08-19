@@ -11,12 +11,12 @@ export class PaymentPlacesComponent implements OnInit {
   paymentPlaces: string[];
   contador = 0;
   tabs = [
-    {id: 1, name: 'Comercios'},
-    {id: 2, name: 'Pago por transferencia'},
+    {id: 1, name: 'Pagos digitales'},
+    {id: 2, name: 'Comercios'},
   ];
   options = [];
   details = [{id: 1, name: 'Detalles 1'}];
-  tabShow = 1;
+  tabShow = 0;
   tooltip = 'Copiar';
 
   constructor(private httpService: HttpService, private toastService: CredixToastService) {
@@ -28,9 +28,9 @@ export class PaymentPlacesComponent implements OnInit {
 
   tabSelected(tab) {
     if (tab.id === 1) {
-      this.tabShow = 1;
-    } else {
       this.tabShow = 0;
+    } else {
+      this.tabShow = 1;
     }
   }
 
