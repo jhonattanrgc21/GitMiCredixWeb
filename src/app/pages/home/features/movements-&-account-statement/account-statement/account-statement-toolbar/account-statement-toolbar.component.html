@@ -38,7 +38,7 @@
     <table class="w-100">
       <tbody>
       <tr>
-        <td>Pago mínimo</td>
+        <td style="padding-left: 56px;">Pago mínimo</td>
         <td class="tr">
           <credix-numeric-block [prefix]="currencySymbol"
                                 [value]="currentAccountStatement?.minimumPayment"
@@ -46,7 +46,7 @@
         </td>
       </tr>
       <tr>
-        <td>Pago de contado</td>
+        <td style="padding-left: 56px;">Pago de contado</td>
         <td class="tr">
           <credix-numeric-block [prefix]="currencySymbol"
                                 [value]="currentAccountStatement?.cashPayment"
@@ -54,7 +54,7 @@
         </td>
       </tr>
       <tr>
-        <td>Fecha máxima de pago</td>
+        <td style="padding-left: 56px;">Fecha máxima de pago</td>
         <td class="tr">{{currentAccountStatement?.maximumPaymentDate | dateFormatter: 'alphanumeric'}}</td>
       </tr>
       </tbody>
