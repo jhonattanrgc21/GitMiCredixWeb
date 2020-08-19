@@ -17,7 +17,7 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from '@
 export class CredixInputFieldComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() label: string;
   @Input() focusLabel: string;
-  @Input() mask;
+  @Input() mask: string;
   @Input() minLength = 1;
   @Input() maxLength = 100;
   @Input() type: 'text' | 'password' = 'text';

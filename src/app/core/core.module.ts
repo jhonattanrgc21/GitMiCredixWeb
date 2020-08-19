@@ -14,8 +14,7 @@ import {IConfig, NgxMaskModule} from 'ngx-mask';
 const maskConfig: Partial<IConfig> = {
   validation: false,
   decimalMarker: ',',
-  thousandSeparator: '.',
-  dropSpecialCharacters: true
+  thousandSeparator: '.'
 };
 
 @NgModule({

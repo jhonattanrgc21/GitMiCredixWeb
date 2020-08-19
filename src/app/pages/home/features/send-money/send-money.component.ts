@@ -1,16 +1,16 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { CdkStepper } from "@angular/cdk/stepper";
-import { SendMoneyService } from "./send-money.service";
-import { ModalService } from "../../../../core/services/modal.service";
-import { Router } from "@angular/router";
-import { DatePipe } from "@angular/common";
-import { CredixToastService } from "../../../../core/services/credix-toast.service";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {CdkStepper} from '@angular/cdk/stepper';
+import {SendMoneyService} from './send-money.service';
+import {ModalService} from '../../../../core/services/modal.service';
+import {Router} from '@angular/router';
+import {DatePipe} from '@angular/common';
+import {CredixToastService} from '../../../../core/services/credix-toast.service';
 
 @Component({
-  selector: "app-send-money",
-  templateUrl: "./send-money.component.html",
-  styleUrls: ["./send-money.component.scss"],
+  selector: 'app-send-money',
+  templateUrl: './send-money.component.html',
+  styleUrls: ['./send-money.component.scss'],
   providers: [DatePipe],
 })
 export class SendMoneyComponent implements OnInit, AfterViewInit {
@@ -28,25 +28,16 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   selectedIndex = 0;
   disableButton = true;
   currencyPrefix: string;
-  buttonText = "Continuar";
+  buttonText = 'Continuar';
   commissionRate: number;
-  listQuotas: [];
-  quotaDetail = {
-    commissionRate: 2,
-    quota: 0,
-    description: "",
-    id: 1,
-  };
   commission: number;
   total: number;
-  getIbanAccountUri = "account/getibanaccount";
   ibanOrigin;
-  sendMoneyUri = "channels/senddirect";
-  done = false;
   todayString: string;
+  done = false;
   typeDestination;
 
-  @ViewChild("sendMoneyStepper") stepper: CdkStepper;
+  @ViewChild('sendMoneyStepper') stepper: CdkStepper;
 
   constructor(
     private sendMoneyService: SendMoneyService,
@@ -55,11 +46,11 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     private datePipe: DatePipe,
     public toastService: CredixToastService
   ) {
-    this.todayString = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+    this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
   ngOnInit(): void {
-    this.getIbanAcount();
+    this.getIbanAccount();
   }
 
   ngAfterViewInit(): void {
@@ -70,19 +61,19 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     switch (this.selectedIndex) {
       case 0:
         this.disableButton = this.informationForm.invalid;
-        this.informationForm.valueChanges.subscribe((value) => {
+        this.informationForm.valueChanges.subscribe(() => {
           this.disableButton = this.informationForm.invalid;
         });
         break;
       case 1:
         this.disableButton = this.amountAndQuotaForm.invalid;
-        this.amountAndQuotaForm.valueChanges.subscribe((value) => {
+        this.amountAndQuotaForm.valueChanges.subscribe(() => {
           this.disableButton = this.amountAndQuotaForm.invalid;
         });
         break;
       case 2:
         this.disableButton = this.confirmForm.invalid;
-        this.confirmForm.valueChanges.subscribe((value) => {
+        this.confirmForm.valueChanges.subscribe(() => {
           this.disableButton = this.confirmForm.invalid;
         });
         break;
@@ -91,8 +82,9 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
 
   next() {
     this.selectedIndex < 3 && this.selectedIndex++;
+
     if (this.selectedIndex === 2) {
-      this.buttonText = "Transferir";
+      this.buttonText = 'Transferir';
     }
     if (this.selectedIndex === 3) {
       this.openConfirmationModal();
@@ -108,74 +100,41 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     this.setEnableButton();
   }
 
-  getIbanAcount() {
+  getIbanAccount() {
     this.sendMoneyService.getIbanAccount().subscribe((res) => {
-      if (res.type === "success") {
+      if (res.type === 'success') {
         this.ibanOrigin = res.ibanAccountList[0].ibanAccountNumber;
-        console.log(this.ibanOrigin);
       }
     });
   }
 
   sendMoney() {
-    const ibanOrigin = this.ibanOrigin;
-    const crcId = this.currencyPrefix === "$" ? 840 : 188;
-    const creationDate = this.todayString;
-    const amountTransfer = this.amountAndQuotaForm.controls.amount.value;
-    const ibanDestinity = this.informationForm.controls.account.value
-      .ibanAccount;
-    const typeDestinationId = this.typeDestination;
-    const nameDestination = this.informationForm.controls.account.value
-      .aliasName;
-    const period = this.amountAndQuotaForm.controls.quotas.value;
-    const commissionAmount = this.commission;
-    const totalAmount = this.total;
-    const identification = this.informationForm.controls.account.value
-      .identification;
-    const credixCode = this.confirmForm.controls.code.value;
-    console.log(
-      ibanOrigin,
-      crcId,
-      creationDate,
-      amountTransfer,
-      ibanDestinity,
-      typeDestinationId,
-      nameDestination,
-      period,
-      commissionAmount,
-      totalAmount,
-      identification,
-      credixCode
-    );
-    this.sendMoneyService
-      .sendMoney(
-        ibanOrigin,
-        crcId,
-        creationDate,
-        amountTransfer,
-        ibanDestinity,
-        typeDestinationId,
-        nameDestination,
-        period,
-        commissionAmount,
-        totalAmount,
-        identification,
-        credixCode
-      )
-      .subscribe((res) => {
-        console.log(res);
-        const text = res.message;
-        const type = res.type;
-        this.toastService.show({ text, type });
-        if (res.type === "success") {
-          this.done = true;
-        }
-      });
+    this.sendMoneyService.sendMoney(
+      this.ibanOrigin,
+      this.currencyPrefix === '$' ? 840 : 188,
+      this.todayString,
+      this.amountAndQuotaForm.controls.amount.value,
+      this.informationForm.controls.account.value.ibanAccount,
+      this.typeDestination,
+      this.informationForm.controls.account.value.aliasName,
+      this.amountAndQuotaForm.controls.quotas.value,
+      this.commission,
+      this.total,
+      this.informationForm.controls.account.value.identification,
+      this.confirmForm.controls.code.value
+    ).subscribe((res) => {
+      const text = res.message;
+      const type = res.type;
+      this.toastService.show({text, type});
+      if (res.type === 'success') {
+        this.done = true;
+      }
+    });
   }
 
   openConfirmationModal() {
     this.modalService
-      .confirmationPopup("¿Desea realizar esta transferencia?")
+      .confirmationPopup('¿Desea realizar esta transferencia?')
       .subscribe((res) => {
         if (res) {
           this.sendMoney();
@@ -184,6 +143,6 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   goHome() {
-    this.router.navigate(["/home"]).then();
+    this.router.navigate(['/home']).then();
   }
 }

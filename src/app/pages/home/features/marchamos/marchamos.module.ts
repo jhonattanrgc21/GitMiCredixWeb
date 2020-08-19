@@ -13,7 +13,6 @@ import {ModalService} from 'src/app/core/services/modal.service';
 import {CredixStepperModule} from 'src/app/shared/components/credix-stepper/credix-stepper.module';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {StepperModule} from 'src/app/shared/directives/stepper/stepper.module';
-import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {CredixFormsModule} from 'src/app/shared/directives/credix-forms/credix-forms.module';
 import {CredixCheckboxButtonModule} from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import {CredixSliderModule} from 'src/app/shared/components/credix-slider/credix-slider.module';
@@ -27,11 +26,7 @@ import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/pop
 import {CredixNumericBlockModule} from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixShareButtonModule} from 'src/app/shared/components/credix-share-button/credix-share-button.module';
-
-
-const maskConfig: Partial<IConfig> = {
-  validation: false,
-};
+import {NgxMaskModule} from 'ngx-mask';
 
 const routes: Routes = [
   {
@@ -41,7 +36,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent],
+  declarations: [
+    MarchamosComponent,
+    PopupMarchamosDetailComponent,
+    PopupMarchamosNewDirectionComponent,
+    PopupMarchamosPayResumeComponent],
   entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,
@@ -63,7 +62,7 @@ const routes: Routes = [
     StepperModule,
     CredixRadioButtonModule,
     SimplebarAngularModule,
-    NgxMaskModule.forRoot(maskConfig)
+    NgxMaskModule
   ],
   providers: [
     HttpService,

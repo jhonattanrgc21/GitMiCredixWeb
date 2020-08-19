@@ -23,13 +23,8 @@ export class SecondStepComponent implements OnInit {
   minQuota = 0;
   total = 0;
   stepQuota = 0;
-  commission: number = 0;
-  quotaDetail = {
-    commissionRate: 0,
-    quota: 0,
-    description: '',
-    id: 1,
-  };
+  commission = 0;
+  quotaDetail = {commissionRate: 0, quota: 0, description: '', id: 1};
 
   constructor(private sendMoneyService: SendMoneyService, private modalService: ModalService) {
   }
@@ -48,12 +43,12 @@ export class SecondStepComponent implements OnInit {
     this.getQuotas();
   }
 
-  change(){
+  change() {
     this.quotaDetail = this.listQuotas.find(
       (elem) => elem.quota === this.quotasControl.value
     );
     this.commission = this.amountToSendControl.value * (this.quotaDetail?.commissionRate / 100);
-    this.total = this.commission + parseInt(this.amountToSendControl.value);
+    this.total = this.commission + (+this.amountToSendControl.value);
     this.commissionEmitEvent.emit(this.commission);
     this.commissionRateEmitEvent.emit(this.quotaDetail?.commissionRate);
     this.totalEmitEvent.emit(this.total);
@@ -92,13 +87,7 @@ export class SecondStepComponent implements OnInit {
           total: this.total
         }
       },
-      {
-        width: 380,
-        height: 301,
-        disableClose: false,
-        panelClass: 'add-account-panel',
-      },
-      1
+      {width: 380, height: 301, disableClose: false, panelClass: 'details-panel'}, 1
     );
   }
 }
