@@ -6,6 +6,14 @@ import {VehicleType} from 'src/app/shared/models/vehicleType.models';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {MatDialogRef} from '@angular/material/dialog';
 import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
+import {ConsultVehicle} from 'src/app/shared/models/consultVehicle.models';
+import {Item} from 'src/app/shared/models/item.model';
+import {PopupMarchamosNewDirectionComponent} from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
+import {DeliveryPlace} from 'src/app/shared/models/deliveryPlace.model';
+import {StorageService} from 'src/app/core/services/storage.service';
+import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
+import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
+import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
 
 @Component({
   selector: 'app-marchamos',
@@ -14,237 +22,127 @@ import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marc
 })
 export class MarchamosComponent implements OnInit {
 
-  vehicleType: VehicleType[] = [
+  actualDate: Date = new Date();
+  vehicleType: VehicleType[];
+  consultVehicle: ConsultVehicle;
+  deliveryPlaces: DeliveryPlace[];
+  ownerPayer: OwnerPayer;
+  billingHistorys: BillingHistory[];
+  itemProduct: Item[] = [
     {
-      description: 'ALAJUELA BUS',
-      type: 1
+      responseDescription: 'Responsabilidad civil',
+      responseCode: 15,
+      productCode: 5
     },
     {
-      description: 'ALAJUELA PUBLICO',
-      type: 2
+      responseDescription: 'Asistencia en carretera',
+      responseCode: 15,
+      productCode: 6
     },
     {
-      description: 'BICIMOTOS',
-      type: 3
-    },
-    {
-      description: 'CARGA PESADA',
-      type: 4
-    },
-    {
-      description: 'CARTAGO BUS',
-      type: 5
-    },
-    {
-      description: 'CARGA LIVIANA',
-      type: 6
-    },
-    {
-      description: 'CARTAGO PUBLICO',
-      type: 7
-    },
-    {
-      description: 'CRUZ ROJA COSTARRICENSE',
-      type: 8
-    },
-    {
-      description: 'DISCAPACITADO',
-      type: 9
-    },
-    {
-      description: 'EQUIPO ESPECIAL',
-      type: 10
-    },
-    {
-      description: 'EXPORTACION',
-      type: 11
-    },
-    {
-      description: 'GUANACASTE BUS',
-      type: 12
-    },
-    {
-      description: 'GUANACASTE PUBLICO',
-      type: 13
-    },
-    {
-      description: 'HEREDIA BUS',
-      type: 14
-    },
-    {
-      description: 'HEREDIA PUBLICO',
-      type: 15
-    },
-    {
-      description: 'LIMON BUS',
-      type: 16
-    },
-    {
-      description: 'LIMITACIONES FISICAS PERMANENTES',
-      type: 17
-    },
-    {
-      description: 'LIMON PUBLICO',
-      type: 18
-    },
-    {
-      description: 'MUDIAL DE FUTBOL FEMENINO 2014',
-      type: 19
-    },
-    {
-      description: 'MOTOS',
-      type: 20
-    },
-    {
-      description: 'PARTICULAR',
-      type: 21
-    },
-    {
-      description: 'PUNTARENAS BUS',
-      type: 22
-    },
-    {
-      description: 'PENSIONADO',
-      type: 23
-    },
-    {
-      description: 'PUNTARENAS PUBLICO',
-      type: 24
-    },
-    {
-      description: 'SAN JOSE BUS',
-      type: 25
-    },
-    {
-      description: 'SAN JOSE PUBLICO',
-      type: 26
-    },
-    {
-      description: 'TAXI ALAJUELA',
-      type: 27
-    },
-    {
-      description: 'AEROPUERTO INTERNACIONAL JUAN SANTAMARIA',
-      type: 28
-    },
-    {
-      description: 'PERMISO DE TAXI',
-      type: 29
-    },
-    {
-      description: 'TAXI CARTAGO',
-      type: 30
-    },
-    {
-      description: 'TAXI GUANACASTE',
-      type: 31
-    },
-    {
-      description: 'TAXI HEREDIA',
-      type: 32
-    },
-    {
-      description: 'TAXI LIMON',
-      type: 33
-    },
-    {
-      description: 'TAXI PUNTARENAS',
-      type: 34
-    },
-    {
-      description: 'TAXI SAN JOSE',
-      type: 35
-    },
-    {
-      description: 'TURISMO',
-      type: 36
-    },
-    {
-      description: 'CLASE TEMPORAL PARA EL PERIODO 2016',
-      type: 37
-    },
-    {
-      description: 'CLASE TEMPORAL PARA EL PERIODO 2017',
-      type: 38
-    },
-    {
-      description: 'CLASE TEMPORAL PARA EL PERIODO 2018',
-      type: 39
-    },
-    {
-      description: 'EMBAJADA DE ESTADOS UNIDOS',
-      type: 40
-    },
-    {
-      description: 'VEHICULO ESPECIAL',
-      type: 41
-    },
-    {
-      description: 'VEHICULO HISTORICO',
-      type: 42
-    },
-    {
-      description: 'ZONAS FRANCAS DE EXPORTACION',
-      type: 43
+      responseDescription: 'Mas protección',
+      responseCode: 15,
+      productCode: 8
     }
   ];
   wishPayFirstCouteIn: any[] = [
     {
-      description: 'Enero 2020',
-      value: 'enero'
+      description: 'Enero ' + (this.actualDate.getFullYear() + 1),
+      value: 'Enero ' + (this.actualDate.getFullYear() + 1)
     },
     {
-      description: 'Febrero 2020',
-      value: 'febrero'
+      description: 'Febrero ' + (this.actualDate.getFullYear() + 1),
+      value: 'Febrero ' + (this.actualDate.getFullYear() + 1)
     },
     {
-      description: 'Marzo 2020',
-      value: 'marzo'
+      description: 'Marzo ' + (this.actualDate.getFullYear() + 1),
+      value: 'Marzo ' + (this.actualDate.getFullYear() + 1)
     },
     {
-      description: 'Abril 2020',
-      value: 'abril'
+      description: 'Abril ' + (this.actualDate.getFullYear() + 1),
+      value: 'Abril ' + (this.actualDate.getFullYear() + 1)
     },
     {
-      description: 'Mayo 2020',
-      value: 'mayo'
+      description: 'Mayo ' + (this.actualDate.getFullYear() + 1),
+      value: 'Mayo ' + (this.actualDate.getFullYear() + 1)
     },
     {
-      description: 'Junio 2020',
-      value: 'junio'
+      description: 'Junio ' + (this.actualDate.getFullYear() + 1),
+      value: 'Junio ' + (this.actualDate.getFullYear() + 1)
     },
     {
-      description: 'Julio 2020',
-      value: 'julio'
+      description: 'Julio ' + (this.actualDate.getFullYear() + 1),
+      value: 'Julio ' + (this.actualDate.getFullYear() + 1)
     },
     {
-      description: 'Agosto 2020',
-      value: 'agosto'
+      description: 'Agosto ' + (this.actualDate.getFullYear() + 1),
+      value: 'Agosto ' + (this.actualDate.getFullYear() + 1)
     },
     {
       description: 'Septiembre 2020',
-      value: 'septiembre'
+      value: 'Septiembre 2020'
     },
     {
       description: 'Octubre 2020',
-      value: 'octubre'
+      value: 'Octubre 2020'
     },
     {
       description: 'Noviembre 2020',
-      value: 'noviembre'
+      value: 'Noviembre 2020'
     },
     {
-      description: 'diciembre 2020',
-      value: 'diciembre'
+      description: 'Diciembre 2020',
+      value: 'Diciembre 2020'
     }
   ];
-  vehicleInformation: boolean;
-  totalMount = '₡ 114.996,00';
-  value = 1;
-  popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent>;
-  isChecked = false;
-  sliderChangedValue = false;
+  newDeliveryDirection: any;
+  newDeliveryOption: string;
+  domicileDescription: any;
 
+  vehicleInformation: boolean;
+  totalMount: any;  //'₡ 114.996,00'
+  value: number = 1;
+  popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent | any>;
+  popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
+  popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
+  isChecked: boolean = false;
+  quotesToPayOfAmount: boolean = false;
+  quotesAmount: number;
+  radioButtonsChangedValue: any;
+
+  amountItemsProducts: any = {
+    responsabilityCivilAmount: 8745.00,
+    roadAsistanceAmount: 3359.00,
+    moreProtectionAmount: 7140.00
+  };
+  commission: number = 0;
+  responseToContinue: string;
+  contactToConfirm: any = {
+    name: '',
+    email: '',
+    phone: ''
+  };
+  placeOfRetreat: any = {
+    placeDescription: ''
+  };
+  dataForPayResumen: any[] = [];
+  maxQuotes: number;
+  minQuotes: number;
+
+  iva: number = 0;
+  totalAmountItemsProducts: number = 0;
+  cardNumber: string;
+  addressAplicant: any[] = [];
+  informationApplicant: any;
+  domicile: boolean = false;
+  newDomicile: boolean = false;
+  promoStatus: any;
+  responseResultPay: boolean = false;
+  responseToPay: string;
+  messageToPay: string;
+  titleToPay: string;
+
+  options = {autoHide: false, scrollbarMinSize: 100};
 
   consultForm: FormGroup = new FormGroup({
     vehicleType: new FormControl('', [Validators.required]),
@@ -253,13 +151,14 @@ export class MarchamosComponent implements OnInit {
 
   secureAndQuotesForm: FormGroup = new FormGroup({
     aditionalProducts: new FormArray([]),
-    quotesToPay: new FormControl('', []),
-    firstCouteToPayIn: new FormControl('', [Validators.required])
+    quotesToPay: new FormControl(''),
+    firstCouteToPayIn: new FormControl('')
   });
 
   pickUpForm: FormGroup = new FormGroup({
-    email: new FormControl('', []),
-    pickUp: new FormControl('', [])
+    email: new FormControl('', [Validators.email]),
+    pickUp: new FormControl('', []),
+    domicile: new FormArray([])
   });
 
   confirmForm: FormGroup = new FormGroup({
@@ -272,7 +171,8 @@ export class MarchamosComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private modalService: ModalService,
-    private element: ElementRef
+    private element: ElementRef,
+    private storageService: StorageService
   ) {
   }
 
@@ -292,20 +192,36 @@ export class MarchamosComponent implements OnInit {
     return this.confirmForm.controls;
   }
 
-  ngOnInit(): void {
-    this.getVehicleType();
+  get amountValue() {
+    return this.totalMount;
   }
 
-  consult() {
-    this.httpService.post('marchamos', 'pay/vehicleconsult', {
-      channelId: 107,
-      plateClassId: this.consultControls.vehicleType.value.toString(),
-      plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
-      aditionalProducts: []
-    })
-      .subscribe(response => console.log(response));
-    this.vehicleInformation = true;
+
+  ngOnInit(): void {
+    this.getVehicleType();
+    this.getPickUpStore();
+    this.getOwnersPayerInfo();
+    this.getPromo();
+    this.getCardValues();
+    this.getUserAplicantAccountNumber();
+    this.getListQuotesByProduct();
+    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount + this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
+    console.log(this.totalAmountItemsProducts);
   }
+
+
+  getUserAplicantAccountNumber() {
+    this.httpService.post('canales', 'applicant/finduserapplicantaccountnumber', {
+      channelId: 102,
+      accountNumber: this.storageService.getCurrentUser().accountNumber
+    }).subscribe(response => {
+      console.log(response);
+      this.pickUpControls.email.setValue(response.informationApplicant.applicant.email);
+      this.informationApplicant = response.informationApplicant.applicant;
+      this.addressAplicant = response.informationApplicant.applicant.addressApplicant;
+    });
+  }
+
 
   continue() {
     this.stepper.next();
@@ -315,21 +231,35 @@ export class MarchamosComponent implements OnInit {
     this.isChecked = event;
   }
 
+  getCardValues() {
+    this.storageService.getCurrentCards().forEach(cardValues => {
+      this.cardNumber = cardValues.cardNumber;
+    });
+  }
+
   getValueSlider(event?) {
-    console.log(event);
     this.value = event;
+    console.log(this.amountValue);
+    this.getCommission(this.value);
+    if (typeof this.amountValue === 'string') {
+      (event > 0) ? this.quotesAmount = parseInt(this.amountValue.replace('.', '')) / this.value : this.quotesAmount;
+    } else {
+      (event > 0) ? this.quotesAmount = this.amountValue.amount / this.value : this.quotesAmount;
+    }
+    this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
   }
 
   getValueCheckBoxes(event: any) {
-    console.log(event);
     const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
 
     if (event.checked) {
-      checkArray.push(new FormControl(event.source.value));
+      checkArray.push(new FormGroup({
+        productCode: new FormControl(event.value)
+      }));
     } else {
-      let index = 0;
-      checkArray.controls.forEach((item: FormControl) => {
-        if (item.value === event.source.value) {
+      let index: number = 0;
+      checkArray.controls.forEach((item: FormGroup) => {
+        if (item.value.productCode === event.value) {
           checkArray.removeAt(index);
           return;
         }
@@ -338,57 +268,358 @@ export class MarchamosComponent implements OnInit {
     }
   }
 
-  getVehicleType() {
-    this.httpService.post('marchamos', 'pay/platetypes', {channelId: 102}).subscribe(response => console.log(response));
+  getValueOfCheckBoxAll(event) {
+    const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
+
+    if (event.value === 10 && event.checked) {
+      this.allChecked(event.checked);
+      for (const product of this.itemProduct) {
+        checkArray.push(
+          new FormGroup({
+            productCode: new FormControl(product.productCode)
+          }));
+        checkArray.removeAt(3);
+      }
+    } else {
+      this.allChecked(event.checked);
+      checkArray.controls.splice(0, this.itemProduct.length);
+      checkArray.setValue([]);
+    }
   }
 
-  secureToPay() {
+  getRadioButtonsChecked(event) {
+    this.radioButtonsChangedValue = event.value;
+
+    if (event.value === 2 && event.checked) {
+      this.domicileDescription = {
+        name: this.informationApplicant.printName,
+        number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
+      };
+    }
+
+
+    if (event.value === 1 && event.checked) {
+      if (this.addressAplicant[0].addressType.id === 2) {
+        this.domicile = true;
+        this.domicileDescription = {
+          name: this.informationApplicant.printName,
+          detail: this.addressAplicant[0].detail,
+          province: this.informationApplicant.addressApplicant[0].province.description,
+          canton: this.informationApplicant.addressApplicant[0].canton.description,
+          distric: this.informationApplicant.addressApplicant[0].district.description,
+          number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
+        };
+      } else {
+        this.newDirection();
+      }
+    }
+  }
+
+  newDirectionChecked(event) {
+    if (event.value === 'newDirection' && event.checked) {
+      this.newDirection();
+    }
+
+
+    this.newDeliveryOption = event.value;
+  }
+
+  getListQuotesByProduct() {
+    this.httpService.post('canales', 'customerservice/listquotabyproduct', {channelId: 102, productId: 2})
+      .subscribe(response => {
+        this.minQuotes = response.listQuota.shift().quota;
+        this.value = this.minQuotes;
+        this.maxQuotes = response.listQuota.slice(response.listQuota.lastIndexOf())[0].quota;
+        (this.value > 0) ? this.quotesToPayOfAmount = true : false;
+      });
+  }
+
+
+  consult() {
+    this.httpService.post('marchamos', 'pay/vehicleconsult', {
+      channelId: 107,
+      plateClassId: this.consultControls.vehicleType.value.toString(),
+      plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
+      aditionalProducts: [
+        ''
+      ]
+    })
+      .subscribe(response => {
+        console.log(response);
+        this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
+        this.totalMount = response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
+        this.billingHistorys = response.REQUESTRESULT.soaResultVehicleConsult.item;
+        this.responseToContinue = response.type;
+        (typeof this.totalMount === 'string') ? this.quotesAmount = parseInt(this.totalMount.replace('.', '')) : this.quotesAmount = this.totalMount;
+        (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
+      });
+
+  }
+
+  getOwnersPayerInfo() {
+    this.httpService.post('marchamos', 'owners/payerinfo', {
+      channelId: 107,
+      payerId: null,
+      accountNumber: this.storageService.getCurrentUser().accountNumber
+    })
+      .subscribe(response => {
+        console.log(response);
+        this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
+      });
+  }
+
+  getVehicleType() {
+    this.httpService.post('marchamos', 'pay/platetypes', {channelId: 102})
+      .subscribe(response => {
+        this.vehicleType = response.plateTypesList;
+      });
+  }
+
+  getPickUpStore() {
+    this.httpService.post('marchamos', 'pay/deliveryplaces', {channelId: 102})
+      .subscribe(response => {
+        this.deliveryPlaces = response.deliveryPlacesList.filter(x => x.id !== 6);
+      });
+  }
+
+  getCommission(commission: number) {
+    this.httpService.post('marchamos', 'pay/calculatecommission', {
+      channelId: 101,
+      amount: (typeof this.amountValue === 'string') ? parseInt(this.amountValue.replace(',', '')) : this.amountValue,
+      commissionQuotasId: commission
+    }).subscribe(response => {
+      console.log(response);
+      if (typeof response.result === 'string') {
+        this.commission = parseInt(response.result.replace('.', ''));
+        this.iva = parseInt(response.iva.replace('.', ''));
+      }
+
+    });
+  }
+
+  getPromo() {
+    this.httpService.post('marchamos', 'pay/promoapply',
+      {
+        channelId: 107,
+        accountNumber: this.storageService.getCurrentUser().accountNumber.toString()
+      })
+      .subscribe(response => {
+        this.promoStatus = {
+          promoStatusId: response.promoStatus.paymentList[0].promoStatus,
+          paymentDate: response.promoStatus.paymentList[0].paymentDate
+        };
+      });
+  }
+
+  secureToPay(data?) {
+
     this.httpService.post('marchamos', 'pay/soapay',
       {
-        channelId: 101,
+        channelId: 107,
         aditionalProducts: [],
-        amount: 1690727,
-        authenticationNumberCommission: '0000',
-        authenticationNumberMarchamo1: '000000',
-        cardNumber: 289534,
-        deliveryPlaceId: 1,
-        domicilePerson: '',
-        domicilePhone: '',
-        domicilePlace: '',
-        email: 'luisporteperez@GMAIL.COM',
+        amount: this.amountValue,
+        cardNumber: this.cardNumber,
+        deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
+        domicilePerson: this.contactToConfirm.name,
+        domicilePhone: this.contactToConfirm.phone,
+        domicilePlace: this.placeOfRetreat.description,
+        email: this.pickUpControls.email.value,
         extraCardStatus: '0',
-        firstPayment: 'Siguiente pago',
-        ownerEmail: 'luisporteperez@GMAIL.COM',
-        payId: 'cgVJcuPB3k',
-        payerId: 114140321,
-        period: 2020,
-        phoneNumber: 88583435,
+        firstPayment: this.promoStatus.paymentDate,
+        payId: this.consultVehicle.payId,
+        payerId: this.ownerPayer.payerId,
+        period: this.consultVehicle.period,
+        phoneNumber: this.consultVehicle.contactPhone,
         plateClassId: parseInt(this.consultControls.vehicleType.value),
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
-        promoStatus: 0,
-        quotasId: 2,
-        requiredBill: '1',
+        promoStatus: this.promoStatus.promoStatusId,
+        quotas: this.secureAndQuotesControls.quotesToPay.value,
         transactionTypeId: 1
       })
-      .subscribe();
+      .subscribe(response => {
+        console.log(response);
+        if (response.type) {
+          this.responseResultPay = !this.responseResultPay;
+        }
+        this.responseToPay = response.type;
+        this.messageToPay = response.message;
+        this.titleToPay = response.title;
+      });
   }
 
-  showDetail(data?: any) {
+  showDetail() {
     this.popupShowDetail = this.modalService.open({
       component: PopupMarchamosDetailComponent,
       hideCloseButton: false,
-      data
-    }, {width: 376, height: 368, disableClose: false});
+      title: 'Detalle del marchamo',
+      data: this.billingHistorys
+    }, {width: 380, height: 673, disableClose: false});
     this.popupShowDetail.afterClosed();
     // .subscribe(modal => this.responseResult.message = modal.message);
   }
 
-  payWithQuotesAndSecure() {
+  newDirection(data?: any) {
+    this.popupNewDirection = this.modalService.open({
+      component: PopupMarchamosNewDirectionComponent,
+      hideCloseButton: false,
+      title: 'Nueva dirección de entrega',
+      data: data
+    }, {width: 380, height: 614, disableClose: false});
+    this.popupNewDirection.afterClosed().subscribe(values => {
+      this.newDeliveryDirection = {
+        canton: values.canton,
+        distric: values.distric,
+        exactlyDirection: values.exactlyDirection,
+        personReceive: values.personReceive,
+        phoneNumber: values.phoneNumber,
+        province: values.province
+      };
+    });
+  }
 
+  confirmModal() {
+    this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(event => {
+      console.log(event);
+      if (event) {
+        this.secureToPay();
+      }
+    });
+  }
+
+  payResume() {
+    this.dataForPayResumen = [{
+      marchamos: this.totalMount,
+      itemsProductsAmount: [this.amountItemsProducts],
+      commission: this.commission,
+      iva: this.iva,
+      quotesToPay: [
+        {
+          quotes: this.value,
+          quotesAmount: this.quotesAmount
+        }
+      ]
+    }];
+    this.popupPayResume = this.modalService.open({
+      component: PopupMarchamosPayResumeComponent,
+      hideCloseButton: false,
+      title: 'Resumen del pago',
+      data: this.dataForPayResumen
+    }, {width: 380, height: 417, disableClose: false});
+    this.popupPayResume.afterClosed();
+  }
+
+  editNewDirection(edit: boolean) {
+    if (edit) {
+      this.newDirection(this.newDeliveryDirection);
+    }
   }
 
 
-  submit() {
-
+  getContactToConfirm() {
+    if (!this.newDeliveryDirection || this.newDeliveryDirection === undefined) {
+      this.contactToConfirm = {
+        name: this.domicileDescription.name,
+        email: this.pickUpControls.email.value,
+        phone: this.domicileDescription.number
+      };
+    } else if (this.newDeliveryDirection && this.newDeliveryDirection !== undefined) {
+      this.contactToConfirm = {
+        name: this.newDeliveryDirection.personReceive,
+        email: this.pickUpControls.email.value,
+        phone: this.newDeliveryDirection.phoneNumber
+      };
+    } else {
+      this.contactToConfirm;
+    }
   }
+
+  getPlaceOfRetreat() {
+    console.log(this.radioButtonsChangedValue);
+    (this.radioButtonsChangedValue === 2) ? this.isPickUp() : this.isDelivery();
+  }
+
+  firstStepContinue() {
+    this.quotesAmount = this.quotesAmount / this.value;
+    this.continue();
+  }
+
+  getValuesSecondStep() {
+    if (this.secureAndQuotesForm.value) {
+      console.log(this.secureAndQuotesForm.value);
+      this.continue();
+    }
+    this.dataForPayResumen = [{
+      marchamos: this.totalMount,
+      itemsProductsAmount: [this.amountItemsProducts],
+      commission: this.commission,
+      billingHistory: this.billingHistorys,
+      quotesToPay: [
+        {
+          quotes: this.value,
+          quotesAmount: this.quotesAmount
+        }
+      ]
+    }];
+  }
+
+  getValuesThirstyStep() {
+    console.log(this.pickUpForm.value);
+    // console.log(object);
+    this.continue();
+    this.getContactToConfirm();
+    this.getPlaceOfRetreat();
+  }
+
+  private isPickUp() {
+    switch (this.pickUpControls.pickUp.value) {
+      case 1:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL TIBÁS'
+        };
+        break;
+      case 2:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL BELÉN'
+        };
+        break;
+      case 3:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL ESCAZÚ'
+        };
+        break;
+      case 4:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL TIBÁS'
+        };
+        break;
+      case 5:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL DESAMPARADOS'
+        };
+        break;
+      case 7:
+        this.placeOfRetreat = {
+          placeDescription: 'ADMINISTRATIVO'
+        };
+        break;
+    }
+  }
+
+  private isDelivery() {
+    if (this.newDeliveryOption === 'directionRegister' || !this.newDeliveryDirection) {
+      this.placeOfRetreat = {
+        placeDescription: this.domicileDescription.detail
+      };
+    } else if (this.newDeliveryOption === 'newDirection' && this.newDeliveryDirection) {
+      this.placeOfRetreat = {
+        placeDescription: this.newDeliveryDirection.exactlyDirection
+      };
+    } else {
+      return;
+    }
+  }
+
+
 }
+
+

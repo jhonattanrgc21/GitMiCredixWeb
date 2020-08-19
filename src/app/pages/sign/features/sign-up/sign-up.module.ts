@@ -22,7 +22,6 @@ import {ModalResponseSignUpComponent} from './modal-response-sign-up/modal-respo
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
-import {CredixInputPasswordModule} from '../../../../shared/components/credix-input-password/credix-input-password.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -54,8 +53,7 @@ const routes: Routes = [
     MatStepperModule,
     NgxMaskModule.forRoot(maskConfig),
     CredixSelectModule,
-    CredixInputFieldModule,
-    CredixInputPasswordModule,
+    CredixInputFieldModule
   ],
   providers: [
     HttpService,

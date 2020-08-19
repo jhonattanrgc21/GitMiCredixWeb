@@ -9,12 +9,21 @@ import {HttpService} from './services/http.service';
 import {SecurityService} from './services/security.service';
 import {StorageService} from './services/storage.service';
 import {GlobalRequestsService} from './services/global-requests.service';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+  decimalMarker: ',',
+  thousandSeparator: '.',
+  dropSpecialCharacters: true
+};
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxMaskModule.forRoot(maskConfig)
   ],
   providers: [
     CustomIconLoaderService,

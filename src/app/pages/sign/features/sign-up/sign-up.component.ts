@@ -20,6 +20,7 @@ export class SignUpComponent implements OnInit {
   identificationTypes: IdentificationType[];
   cellNumber: string;
   identificationMask = '0-0000-0000';
+  hide = true;
   userId: number;
   responseResult = {
     message: '',

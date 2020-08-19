@@ -14,8 +14,6 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
-import {CredixInputPasswordModule} from '../../../../shared/components/credix-input-password/credix-input-password.module';
-
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -43,8 +41,7 @@ const routes: Routes = [
     CredixCardsModule,
     CredixResultNotificationModule,
     CredixCodeInputModule,
-    CredixInputFieldModule,
-    CredixInputPasswordModule
+    CredixInputFieldModule
   ],
   providers: [ModalService]
 })
