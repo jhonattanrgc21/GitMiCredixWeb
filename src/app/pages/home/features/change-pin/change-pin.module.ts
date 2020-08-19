@@ -11,12 +11,13 @@ import {CredixConfirmationPopupModule} from '../../../../shared/components/credi
 import {ModalService} from '../../../../core/services/modal.service';
 import {SharedModule} from '../../../../shared/shared.module';
 import {CredixFormsModule} from '../../../../shared/directives/credix-forms/credix-forms.module';
-import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
+import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
 import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltips/credix-tooltips.module';
+import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 
 const routes: Routes = [
   {
@@ -42,7 +43,8 @@ const routes: Routes = [
     CredixCodeInputModule,
     CredixInputFieldModule,
     ReactiveFormsModule,
-    CredixTooltipsModule
+    CredixTooltipsModule,
+    CredixResultNotificationModule
 
   ],
   providers: [ModalService]

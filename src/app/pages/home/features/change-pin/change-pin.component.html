@@ -1,21 +1,21 @@
 <div class="changePin">
   <mat-card credixCard fxFlex="100">
   <h1>Cambiar PIN</h1>
-  <div class="changePin__content">
+  <div class="changePin__content" *ngIf="!showResponse">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <span class="changePin__content__title">Nuevo Pin</span>
       <div fxLayout="column" class="tr">
         <form [formGroup]="changePinForm">
-        <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.password"
+        <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.pin"
                           [type]="hide ? 'password' : 'text'" class="changePin__input"
-                          focusLabel="Clave" formControlName="password" label="Nuevo PIN"
+                          focusLabel="Clave" formControlName="pin" label="Nuevo PIN"
                           panelClass="sign-in-password-panel"
-                          tooltipOffsetY="2" toolType="2" maxLength="4"
+                          tooltipOffsetY="2" tooltipType="pin" maxLength="4"
                           minLength="4">
         <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
       </credix-input-field>
 
-      <credix-input-field class="changePin__input" formControlName="confirmPassword"
+      <credix-input-field class="changePin__input" formControlName="confirmpin"
                           label="Confirme su nuevo PIN"
                           [type]="type" maxLength="4" minLength="4">
         <mat-icon (click)="hide = !hide; type = hide === true ? 'password': 'text'"
@@ -37,9 +37,15 @@
       </credix-code-input>
     </form>
     </div>
-    <div class="changePin__content__footer tr">
-      <credix-button (buttonClick)="next()" [disabled]="changePinForm.invalid" text="confirmar"></credix-button>
-    </div>
   </div>
+
+  <credix-result-notification *ngIf="showResponse" [status]="resType" [title]="respTitle"
+      [message]="respMsg">
+    </credix-result-notification>
+
+    <div class="changePin__content__footer tr">
+      <credix-button (buttonClick)="confirm()" [disabled]="changePinForm.invalid" text="Confirmar" *ngIf="!showResponse"></credix-button>
+      <credix-button (buttonClick)="done()" text="Listo" *ngIf="showResponse"></credix-button>
+    </div>
 </mat-card>
 </div>

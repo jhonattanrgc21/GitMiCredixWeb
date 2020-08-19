@@ -22,12 +22,13 @@ import {ValidationErrors} from '@angular/forms';
 export class CredixPasswordFieldTooltipComponent implements OnInit {
 
   @Input() errors: ValidationErrors | null;
-  @Input() toolType: number;
+  @Input() tooltipType : 'password' | 'pin'  = 'password';
 
   constructor() {
   }
 
   ngOnInit(): void {
+
   }
 
 }

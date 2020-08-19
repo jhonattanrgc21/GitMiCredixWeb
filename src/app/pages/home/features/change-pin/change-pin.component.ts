@@ -1,47 +1,87 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import * as CryptoJS from 'crypto-js';
-import {HttpService} from 'src/app/core/services/http.service';
-
+import { Component, OnInit } from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from "@angular/forms";
+import * as CryptoJS from "crypto-js";
+import { HttpService } from "../../../../core/services/http.service";
+import { ModalService } from "../../../../core/services/modal.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-change-pin',
-  templateUrl: './change-pin.component.html',
-  styleUrls: ['./change-pin.component.scss']
+  selector: "app-change-pin",
+  templateUrl: "./change-pin.component.html",
+  styleUrls: ["./change-pin.component.scss"],
 })
 export class ChangePinComponent implements OnInit {
   hide = true;
-  type = 'password';
+  type = "password";
+  showResponse: boolean = false;
+  respTitle: string;
+  resType: string;
+  respMsg: string;
 
   changePinForm: FormGroup = new FormGroup(
     {
-      password: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl('', [Validators.required]),
-      code: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      pin: new FormControl("", [Validators.required]),
+      confirmpin: new FormControl("", [
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
+      code: new FormControl("", [Validators.required, Validators.minLength(6)]),
     },
-    {validators: this.passwordValidator}
+    { validators: this.pinValidator }
   );
 
-  constructor() { }
+  constructor(
+    private modalService: ModalService,
+    private httpService: HttpService,
+    private router: Router,
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  passwordValidator(control: FormGroup): ValidationErrors | null {
-    const password = control.get('password');
-    const repeatPassword = control.get('confirmPassword');
-    if (repeatPassword.errors && !repeatPassword.errors.passwordError) {
+  pinValidator(control: FormGroup): ValidationErrors | null {
+    const pin = control.get("pin");
+    const repeatpin = control.get("confirmpin");
+    if (repeatpin.errors && !repeatpin.errors.pinError) {
       return;
     }
-    if (password.value !== repeatPassword.value) {
-      repeatPassword.setErrors({passwordError: true});
+    if (pin.value !== repeatpin.value) {
+      repeatpin.setErrors({ pinError: true });
     } else {
-      repeatPassword.setErrors(null);
+      repeatpin.setErrors(null);
     }
   }
 
-  next(){
-
+  confirm() {
+    this.modalService
+      .confirmationPopup("¿Desea realizar este cambio?")
+      .subscribe((res) => {
+        if (res) {
+          this.changePin();
+        }
+      });
   }
 
+  changePin() {
+    this.httpService
+      .post("canales", "security/modifysecuritykey", {
+        newSecurityKey: CryptoJS.SHA256(this.changePinForm.get("pin").value),
+        codeCredix: this.changePinForm.get("code").value,
+        channelId: 102,
+      })
+      .subscribe((resp) => {
+        this.showResponse = true;
+        this.respTitle = resp.titleOne;
+        this.resType = resp.type;
+        this.respMsg = resp.descriptionOne;
+      });
+  }
+
+  done(){
+    this.router.navigate(["/home"]).then();
+  }
 }
