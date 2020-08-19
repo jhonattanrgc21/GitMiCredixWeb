@@ -3,7 +3,6 @@ import {StorageService} from '../../../../../../core/services/storage.service';
 import {Card} from '../../../../../../shared/models/card.model';
 import {MaskCard} from '../../../../../../shared/utils/MaskCard';
 import {GlobalRequestsService} from '../../../../../../core/services/global-requests.service';
-import {MatDatepicker} from '@angular/material/datepicker';
 import {FormControl} from '@angular/forms';
 import {AccountStatementService} from '../account-statement.service';
 import {finalize} from 'rxjs/operators';
@@ -20,15 +19,11 @@ export class AccountStatementToolbarComponent implements OnInit {
   principalCard: Card;
   cardNumberMasked = '';
   dateControl = new FormControl(null);
-  cashPayment = '';
-  minimumPayment = '';
   currencySymbol = '';
   currentAccountStatement: AccountStatement;
   colonesAccountStatement: AccountStatement;
   dollarAccountStatement: AccountStatement;
-  minDate = new Date();
-  maxDate = new Date();
-  datepickerYear: number;
+  accountStatementDates: [{ id: number; date: Date }?] = [];
   crcId: number;
   accountStatementQuantity = 0;
   switchValues: { id: number, name: string }[] = [
@@ -52,6 +47,13 @@ export class AccountStatementToolbarComponent implements OnInit {
 
   getScrollEvent() {
     this.scrollService.scrollEventObs.subscribe(offsetY => this.hideToolbar = offsetY > 10);
+  }
+
+  onDateChanges() {
+    this.dateControl.valueChanges.subscribe(value => {
+      const date = this.accountStatementDates[value].date;
+      this.getAccountStatement(date.getMonth() + 1, date.getFullYear());
+    });
   }
 
   getCurrencies() {
@@ -78,11 +80,18 @@ export class AccountStatementToolbarComponent implements OnInit {
         this.accountStatementQuantity = +response.quantityEdc;
 
         if (!month && !year) {
-          this.minDate = new Date(response.yearMonth.substr(0, 4),
-            response.yearMonth.substr(4, 2) - 1 - this.accountStatementQuantity, 1);
-          this.maxDate = new Date(response.yearMonth.substr(0, 4),
-            response.yearMonth.substr(4, 2) - 1, 1);
-          this.dateControl.setValue(this.maxDate);
+          const maxMonth = response.yearMonth.substr(4, 2) - 1;
+          const maxYear = response.yearMonth.substr(0, 4);
+          this.accountStatementDates.push({id: 0, date: new Date(maxYear, maxMonth, 1)});
+
+          for (let i = 1; i <= this.accountStatementQuantity; i++) {
+            const date = new Date(maxYear, maxMonth, 1);
+            date.setMonth(maxMonth - i);
+            this.accountStatementDates.push({id: i, date});
+          }
+
+          this.dateControl.setValue(0);
+          this.onDateChanges();
         }
 
         this.accountStatementService.setDataSource(this.currentAccountStatement.movementList);
@@ -107,18 +116,6 @@ export class AccountStatementToolbarComponent implements OnInit {
     this.currentAccountStatement = this.crcId === 188 ? this.colonesAccountStatement : this.dollarAccountStatement;
     this.accountStatementService.setDataSource(this.currentAccountStatement.movementList);
   }
-
-  chosenYearHandler(event: Date) {
-    this.datepickerYear = event.getFullYear();
-  }
-
-  chosenMonthHandler(event: Date, datepicker: MatDatepicker<any>) {
-    const date = new Date(this.datepickerYear, event.getMonth(), 1);
-    this.dateControl.setValue(date);
-    datepicker.close();
-    this.getAccountStatement(date.getMonth() + 1, date.getFullYear());
-  }
-
 }
 
 interface AccountStatement {

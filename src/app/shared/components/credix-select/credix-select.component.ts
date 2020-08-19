@@ -34,7 +34,7 @@ export class CredixSelectComponent implements OnInit, AfterViewInit, ControlValu
   }
 
   set value(value) {
-    if (value) {
+    if (value != null) {
       this._value = value;
       this.propagateChange(this._value);
     }
