@@ -1,11 +1,12 @@
 <div [class.is-open]="open" class="menu_messages" fxLayout="column">
-  <div class="menu_messages__fixed-container" fxLayout="row" fxLayoutAlign="flex-start center">
+  <a (click)="openMessages()" class="menu_messages__fixed-container" fxLayout="row"
+     fxLayoutAlign="flex-start center" mat-button>
     <span class="menu-items menu_messages__fixed-container__label--color" fxFlex>Mensajes</span>
 
-    <button (click)="openMessages()" mat-icon-button>
+    <button mat-icon-button>
       <mat-icon [svgIcon]="hasNewMessage ? 'messages_active_btn' : 'messages'"></mat-icon>
     </button>
-  </div>
+  </a>
 
   <ngx-simplebar *ngIf="messages.length > 0 else noMessagesTemplate" [options]="options"
                  class="menu_messages__overlay-scrollbar" fxLayout="column">

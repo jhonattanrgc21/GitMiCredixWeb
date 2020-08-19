@@ -1,10 +1,13 @@
 .credix-numeric-block {
+  color: inherit;
 
   &__integer {
     font-size: 1em;
+    color: inherit;
   }
 
   &__decimal {
     font-size: 0.8em;
+    color: inherit;
   }
 }

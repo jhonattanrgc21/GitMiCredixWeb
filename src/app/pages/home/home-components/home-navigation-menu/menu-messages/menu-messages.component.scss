@@ -25,6 +25,14 @@
     height: 61px;
     z-index: 1;
 
+    ::ng-deep.mat-button-wrapper {
+      width: 100%;
+
+      span {
+        text-align: left;
+      }
+    }
+
     &__label--color {
       color: #696d6f;
     }

@@ -6,7 +6,7 @@
     <hr *ngIf="!first" class="menu-options__line">
     <button (click)="menuClick(menu, index)"
             class="menu-options__menu menu-options__button menu-items">
-      <span [class.is-home]="first" class="menu-label">{{menu.name}}</span>
+      <span class="menu-label">{{menu.name}}</span>
       <mat-icon *ngIf="!first && menu.submenus"
                 [svgIcon]="menuSelected == menu.id && openSubmenu ? 'expand' : 'collapse'"
                 class="menu-options__menu-arrow"></mat-icon>

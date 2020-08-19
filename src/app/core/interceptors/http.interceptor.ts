@@ -6,6 +6,7 @@ import {StorageService} from '../services/storage.service';
 import {CredixToastService} from '../services/credix-toast.service';
 import {LoadingSpinnerService} from '../services/loading-spinner.service';
 import {environment} from '../../../environments/environment';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class HttpRequestsResponseInterceptor implements HttpInterceptor {
@@ -17,7 +18,8 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
 
   constructor(private storageService: StorageService,
               private toastService: CredixToastService,
-              private loadingSpinnerService: LoadingSpinnerService) {
+              private loadingSpinnerService: LoadingSpinnerService,
+              private router: Router) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -62,6 +64,10 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
             if (message) {
               this.toastService.show({text: message, type: 'error'});
             }
+          }
+
+          if (event.body.status === 401) {
+            this.router.navigate(['/']);
           }
         }
         return event;

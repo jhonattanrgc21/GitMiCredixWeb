@@ -12,8 +12,8 @@
 
 .digital-payments {
   &__content {
-      margin: 40px 0 0 106px;
-      padding-right: 93px;
+    margin: 40px 0 0 90px;
+    padding-right: 90px;
 
     ::ng-deep .credix-link-button {
       vertical-align: middle !important;
@@ -64,10 +64,15 @@
             padding: 0;
 
             mat-icon {
-              color: #E42313;
+              color: #e42313;
               width: 17px;
               height: 20px;
-              vertical-align: baseline;
+              vertical-align: middle;
+              cursor: pointer;
+
+              &.is-green {
+                color: #19D27E;
+              }
             }
           }
 
@@ -99,12 +104,18 @@
   margin-right: -16px;
 }
 
-@media screen and (max-width: 1199px) {
+.pto {
+  margin-left: -4px !important;
+}
+.no-mb {
+  padding-bottom: 0px !important;
+}
 
+@media screen and (max-width: 1199px) {
   .digital-payments {
     &__content {
-      margin: 40px 0 0 64px;
-      padding-right: 64px;
+      margin: 40px 0px 0 48px;
+      padding-right: 48px;
 
       &__text {
         padding-right: 16px;
@@ -119,8 +130,13 @@
         &__inner-option {
           width: 350px;
         }
-
       }
     }
+  }
+  .pto {
+    display: none;
+    margin-top: -25px;
+    position: relative;
+    right: -350px;
   }
 }

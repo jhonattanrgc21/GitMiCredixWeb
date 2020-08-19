@@ -1,6 +1,6 @@
 <div [class.is-hidden]="hideToolbar" class="account-statement-toolbar" fxLayout="row">
 
-  <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-start" fxLayoutGap="16px">
+  <div fxFlex="60" fxLayout="column" fxLayoutAlign="flex-start flex-start" fxLayoutGap="16px">
 
     <div fxLayout="row" fxLayoutGap="16px">
       <mat-icon class="account-statement-toolbar__card-icon" svgIcon="redCard"></mat-icon>
@@ -34,11 +34,11 @@
 
   </div>
 
-  <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-end">
+  <div fxFlex="40" fxLayout="column" fxLayoutAlign="flex-start flex-end">
     <table class="w-100">
       <tbody>
       <tr>
-        <td>Pago mínimo</td>
+        <td style="padding-left: 56px;">Pago mínimo</td>
         <td class="tr">
           <credix-numeric-block [prefix]="currencySymbol"
                                 [value]="currentAccountStatement?.minimumPayment"
@@ -46,7 +46,7 @@
         </td>
       </tr>
       <tr>
-        <td>Pago de contado</td>
+        <td style="padding-left: 56px;">Pago de contado</td>
         <td class="tr">
           <credix-numeric-block [prefix]="currencySymbol"
                                 [value]="currentAccountStatement?.cashPayment"
@@ -54,7 +54,7 @@
         </td>
       </tr>
       <tr>
-        <td>Fecha máxima de pago</td>
+        <td style="padding-left: 56px;">Fecha máxima de pago</td>
         <td class="tr">{{currentAccountStatement?.maximumPaymentDate | dateFormatter: 'alphanumeric'}}</td>
       </tr>
       </tbody>
