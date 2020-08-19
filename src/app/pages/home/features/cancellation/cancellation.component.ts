@@ -66,6 +66,7 @@ export class CancellationComponent implements OnInit {
         channelId: 102,
       })
       .subscribe((res) => {
+        console.log(res);
         if (res.titleOne !== "Éxito") {
           this.showResponse = true;
           this.errorTitle = res.titleOne;
