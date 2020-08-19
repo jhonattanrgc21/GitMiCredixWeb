@@ -21,6 +21,7 @@ import {IConfig, NgxMaskModule} from 'ngx-mask';
 import { SendMoneyService } from './features/send-money/send-money.service';
 
 
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -30,7 +31,7 @@ const maskConfig: Partial<IConfig> = {
     HomeComponent,
     HomeNavigationMenuComponent, MenuOptionComponent, MenuHeaderComponent, MenuMessagesComponent, ModalMessagesComponent,
     HomeToolbarComponent,
-    HomeFooterComponent],
+    HomeFooterComponent,],
   imports: [
     CommonModule,
     HomeRoutingModule,

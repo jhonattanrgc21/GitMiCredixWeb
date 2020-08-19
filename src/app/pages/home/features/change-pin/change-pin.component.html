@@ -1,0 +1,45 @@
+<div class="changePin">
+  <mat-card credixCard fxFlex="100">
+  <h1>Cambiar PIN</h1>
+  <div class="changePin__content">
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+      <span class="changePin__content__title">Nuevo Pin</span>
+      <div fxLayout="column" class="tr">
+        <form [formGroup]="changePinForm">
+        <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.password"
+                          [type]="hide ? 'password' : 'text'" class="changePin__input"
+                          focusLabel="Clave" formControlName="password" label="Nuevo PIN"
+                          panelClass="sign-in-password-panel"
+                          tooltipOffsetY="2" toolType="2" maxLength="4"
+                          minLength="4">
+        <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+      </credix-input-field>
+
+      <credix-input-field class="changePin__input" formControlName="confirmPassword"
+                          label="Confirme su nuevo PIN"
+                          [type]="type" maxLength="4" minLength="4">
+        <mat-icon (click)="hide = !hide; type = hide === true ? 'password': 'text'"
+                  [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+      </credix-input-field>
+    </form>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="space-between start" class="mt-16px">
+      <div fxLayout="column">
+        <span class="changePin__content__title">Código MiCredix</span>
+        <span class="changePin__content__msg">Ingrese el código generado en la aplicación <credix-link-button
+          route="https://play.google.com/store/apps/details?id=com.Mobtion.Credix.Credixcel&hl=es_419" text="Código MiCredix >"></credix-link-button></span>
+      </div>
+      <form [formGroup]="changePinForm">
+      <credix-code-input [(codeFormControl)]="changePinForm.controls.code" [length]="6" class="changePin__code tr"
+                         errorMessage="Ingrése código MiCredix">
+      </credix-code-input>
+    </form>
+    </div>
+    <div class="changePin__content__footer tr">
+      <credix-button (buttonClick)="next()" [disabled]="changePinForm.invalid" text="confirmar"></credix-button>
+    </div>
+  </div>
+</mat-card>
+</div>
