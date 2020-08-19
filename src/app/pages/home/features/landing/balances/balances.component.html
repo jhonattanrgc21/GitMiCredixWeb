@@ -1,22 +1,19 @@
-<mat-card class="balances-card" credixCard fxLayout="column" fxLayoutAlign="start center">
+<mat-card class="balances-card" credixCard fxLayout="column" fxLayoutAlign="flex-start center">
   <h2 class="w-100">Saldos</h2>
 
   <mat-select [formControl]="cardFormControl" class="balances-card__cards-select" disableOptionCentering
               disableRipple panelClass="select-cards-panel">
-    <mat-select-trigger>
-      <div *ngIf="cardFormControl.value.category == 'Principal'" fxLayout="row" fxLayoutAlign="center center"
-           fxLayoutGap="8px">
-        <mat-icon class="balances-card__card-icon" svgIcon="redCard"></mat-icon>
-        <span class="mr-8px">{{cardFormControl.value.typeCard}}</span>
-        <span>{{formatPrincipalCard(cardFormControl.value.cardNumber)}}</span>
-        <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
-      </div>
-      <div *ngIf="cardFormControl.value.category != 'Principal'" fxLayout="row" fxLayoutAlign="center center"
-           fxLayoutGap="8px">
-        <mat-icon class="balances-card__card-icon" svgIcon="additionalCards"></mat-icon>
-        <span>{{cardFormControl.value.name}}</span>
-        <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
-      </div>
+    <mat-select-trigger class="balances-card__cards-select__trigger" fxLayout="row"
+                        fxLayoutAlign="center center" fxLayoutGap="8px">
+      <mat-icon [svgIcon]="cardFormControl.value.category == 'Principal' ? 'redCard' : 'additionalCards'"
+                class="balances-card__card-icon"></mat-icon>
+      <span [class.is-additional]="cardFormControl.value.category != 'Principal'" class="mr-8px">
+        {{cardFormControl.value.category == 'Principal' ? cardFormControl.value.typeCard : cardFormControl.value.name}}
+      </span>
+      <span *ngIf="cardFormControl.value.category == 'Principal'">
+          {{formatPrincipalCard(cardFormControl.value.cardNumber)}}
+      </span>
+      <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
     </mat-select-trigger>
     <mat-option *ngFor="let card of cards; let last = last" [value]="card">
       <mat-icon [svgIcon]="card.category === 'Principal' ? 'redCard' : 'additionalCards'" class="mr-8px"></mat-icon>
@@ -28,7 +25,6 @@
   <credix-gauge [label]="balancesTag.availableTag" [max]="limit" [min]="0" [prefix]="prefix" [value]="available">
     <credix-numeric-block [prefix]="prefix" [value]="available" fontSize="20" fontWeight="bold"></credix-numeric-block>
   </credix-gauge>
-
 
   <div class="w-100" fxLayout="row">
     <div fxFlex="40" fxLayout="column" fxLayoutAlign="flex-start flex-start">
@@ -51,17 +47,19 @@
     <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
       <span>{{balancesTag.colonesTag}}</span>
       <span>CR00000000000000000001</span>
-      <button (click)="copyIbanAccount(balancesTag.colonesIbanCopiedTag)" cdkCopyToClipboard="CR00000000000000000001"
+      <button (click)="copyIbanAccount(balancesTag.colonesIbanCopiedTag, 188)"
+              cdkCopyToClipboard="CR00000000000000000001"
               mat-icon-button>
-        <mat-icon svgIcon="content-copy"></mat-icon>
+        <mat-icon [class.is-green]="isCopyingColonesIban" svgIcon="content-copy"></mat-icon>
       </button>
     </div>
     <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
       <span>{{balancesTag.dollarsTag}}</span>
       <span>CR00000000000000000002</span>
-      <button (click)="copyIbanAccount(balancesTag.dollarsIbanCopiedTag)" cdkCopyToClipboard="CR00000000000000000002"
+      <button (click)="copyIbanAccount(balancesTag.dollarsIbanCopiedTag, 840)"
+              cdkCopyToClipboard="CR00000000000000000002"
               mat-icon-button>
-        <mat-icon svgIcon="content-copy"></mat-icon>
+        <mat-icon [class.is-green]="isCopyingDollarsIban" svgIcon="content-copy"></mat-icon>
       </button>
     </div>
   </div>

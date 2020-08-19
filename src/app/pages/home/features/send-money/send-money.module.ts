@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
-import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {SendMoneyComponent} from './send-money.component';
 import {MatCardModule} from '@angular/material/card';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
@@ -26,14 +25,9 @@ import {CredixCodeInputModule} from '../../../../shared/components/credix-code-i
 import {SendMoneyService} from './send-money.service';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
-import { ModalAddIbanComponent } from './first-step/modal-add-iban/modal-add-iban.component';
+import {ModalAddIbanComponent} from './first-step/modal-add-iban/modal-add-iban.component';
 import {CredixCheckboxButtonModule} from '../../../../shared/components/credix-checkbox-button/credix-checkbox-button.module';
-import { ModalDetailsComponent } from './second-step/modal-details/modal-details.component';
-
-const maskConfig: Partial<IConfig> = {
-  validation: false,
-};
-
+import {ModalDetailsComponent} from './second-step/modal-details/modal-details.component';
 
 const routes: Routes = [
   {
@@ -43,7 +37,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SendMoneyComponent, FirstStepComponent, SecondStepComponent, ThirdStepComponent, ModalAddIbanComponent, ModalDetailsComponent],
+  declarations: [
+    SendMoneyComponent,
+    FirstStepComponent,
+    SecondStepComponent,
+    ThirdStepComponent,
+    ModalAddIbanComponent,
+    ModalDetailsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -66,7 +66,6 @@ const routes: Routes = [
     CredixResultNotificationModule,
     CredixShareButtonModule,
     ReactiveFormsModule,
-    NgxMaskModule.forRoot(maskConfig),
     CredixCheckboxButtonModule
   ],
   providers: [SendMoneyService]

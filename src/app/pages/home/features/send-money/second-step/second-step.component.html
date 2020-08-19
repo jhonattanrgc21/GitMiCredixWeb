@@ -3,7 +3,7 @@
   <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
     <span class="tl" fxFlex="30"><strong>Monto a enviar</strong></span>
 
-    <credix-input-field [control]="amountToSendControl" class="second-step__input" label="Monto" mask="separator">
+    <credix-input-field [formControl]="amountToSendControl" class="second-step__input" label="Monto" mask="separator">
     </credix-input-field>
   </div>
 
@@ -42,7 +42,7 @@
 
     <span class="tl" fxFlex="30"><strong>Detalle</strong></span>
 
-    <credix-input-field [control]="detailsControl" class="second-step__input" label="Detalle"></credix-input-field>
+    <credix-input-field [formControl]="detailsControl" class="second-step__input" label="Detalle"></credix-input-field>
   </div>
 
 </div>

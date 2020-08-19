@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FlexModule} from '@angular/flex-layout';
-import {IConfig, NgxMaskModule} from 'ngx-mask';
 
 import {ForgotPasswordComponent} from './forgot-password.component';
 import {ModalService} from '../../../../core/services/modal.service';
@@ -16,11 +15,6 @@ import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
-import {CredixInputPasswordModule} from '../../../../shared/components/credix-input-password/credix-input-password.module';
-
-const maskConfig: Partial<IConfig> = {
-  validation: false,
-};
 
 const routes: Routes = [
   {
@@ -42,11 +36,9 @@ const routes: Routes = [
     CredixTooltipsModule,
     CredixFormsModule,
     CredixCodeInputModule,
-    NgxMaskModule.forRoot(maskConfig),
     CredixLinkButtonModule,
     CredixSelectModule,
-    CredixInputFieldModule,
-    CredixInputPasswordModule
+    CredixInputFieldModule
 
   ],
   providers: [ModalService]

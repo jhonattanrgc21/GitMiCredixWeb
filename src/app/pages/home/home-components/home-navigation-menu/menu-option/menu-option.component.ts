@@ -14,6 +14,9 @@ export class MenuOptionComponent implements OnInit {
   menuSelected = 1;
   submenuSelected = 0;
   openSubmenu = false;
+  activeMenu = 1;
+  preActiveMenu = 0;
+  activeSubmenu = 0;
 
   constructor(private router: Router,
               private homeService: HomeService,
@@ -30,19 +33,24 @@ export class MenuOptionComponent implements OnInit {
     this.homeNavigationMenuService.closeSubmenuObs.subscribe(() => this.openSubmenu = false);
   }
 
-  menuClick(menu: Menu, index: number) {
-    this.openSubmenu = menu.submenus && this.menuSelected === menu.id ? !this.openSubmenu : true;
-    this.menuSelected = menu.id;
-
+  menuClick(menuId: number, route: string, submenus: number, isFirst: boolean) {
     this.homeNavigationMenuService.closeMessages();
+    this.openSubmenu = this.preActiveMenu === menuId ? !this.openSubmenu : !isFirst;
+    this.preActiveMenu = menuId;
 
-    if (menu.route) {
-      this.router.navigate([menu.route]);
+    if (submenus === null || submenus === 0) {
+      this.activeMenu = menuId;
+      this.activeSubmenu = 0;
+    }
+
+    if (route) {
+      this.router.navigate([route]);
     }
   }
 
-  submenuClick(id: number, route: string) {
-    this.submenuSelected = id;
+  submenuClick(menuId: number, submenuId: number, route: string) {
+    this.activeMenu = menuId;
+    this.activeSubmenu = submenuId;
     this.router.navigate([route]);
   }
 }

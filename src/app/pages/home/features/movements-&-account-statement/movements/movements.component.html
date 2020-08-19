@@ -17,8 +17,11 @@
 
     <ng-container matColumnDef="amount">
       <mat-header-cell *matHeaderCellDef credixHeaderCell> Monto</mat-header-cell>
-      <mat-cell *matCellDef="let element" [class.is-green]="element.movementType == 'Pago'" credixCell>
-        <strong>{{element.currencySimbol + ' ' + element.originAmount}}</strong></mat-cell>
+      <mat-cell *matCellDef="let element"
+                [class.is-green]="element.movementType == 'Pago'" credixCell>
+        <credix-numeric-block [prefix]="element.currencySimbol" [value]="element.originAmount" fontSize="16"
+                              fontWeight="bold"></credix-numeric-block>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="quotas">

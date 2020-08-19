@@ -1,20 +1,21 @@
 <ngx-simplebar [options]="options" class="menu-options" fxLayout="column">
   <div *ngFor="let menu of menus, let index = index, let first = first"
        [ngClass]="{
-        'is-selected' : menuSelected == menu.id,
-        'is-open' : menuSelected == menu.id && openSubmenu }">
+        'is-active' : activeMenu == menu.id,
+        'is-pre-active' : preActiveMenu == menu.id,
+        'is-open' : preActiveMenu == menu.id && openSubmenu }">
     <hr *ngIf="!first" class="menu-options__line">
-    <button (click)="menuClick(menu, index)"
+    <button (click)="menuClick(menu.id, menu.route, menu.submenus?.length, first)"
             class="menu-options__menu menu-options__button menu-items">
-      <span [class.is-home]="first" class="menu-label">{{menu.name}}</span>
+      <span class="menu-label">{{menu.name}}</span>
       <mat-icon *ngIf="!first && menu.submenus"
-                [svgIcon]="menuSelected == menu.id && openSubmenu ? 'expand' : 'collapse'"
+                [svgIcon]="preActiveMenu == menu.id && openSubmenu ? 'expand' : 'collapse'"
                 class="menu-options__menu-arrow"></mat-icon>
     </button>
-    <div [class.is-open]="menuSelected == menu.id && openSubmenu" class="menu-options__submenus">
+    <div [class.is-open]="preActiveMenu == menu.id && openSubmenu" class="menu-options__submenus">
       <ng-container *ngFor="let submenu of menu.submenus, let last = last">
-        <button (click)="submenuClick(submenu.id, submenu.route)"
-                [class.is-selected]="submenuSelected == submenu.id"
+        <button (click)="submenuClick(menu.id, submenu.id, submenu.route)"
+                [class.is-active]="activeSubmenu == submenu.id"
                 class="menu-options__button menu-options__submenu">
           <mat-icon [svgIcon]="submenu.icon" class="submenu-icon"></mat-icon>
           <span class="submenu-label">{{submenu.name}}</span>

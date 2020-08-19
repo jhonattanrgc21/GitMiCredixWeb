@@ -1,7 +1,13 @@
-<mat-form-field [class.has-value]="control.value" appearance="standard"
+<mat-form-field [class.has-value]="value != null"
+                [color]="ngControl.invalid && ngControl.touched ? 'warn' : 'primary'"
+                appearance="standard"
                 class="credix-select">
   <mat-label>{{label}}</mat-label>
-  <mat-select [formControl]="control" [panelClass]="['credix-select-panel', panelClass]">
+  <mat-select (blur)="onTouch()"
+              (selectionChange)="onSelect($event)"
+              [disabled]="disabled"
+              [panelClass]="['credix-select-panel', panelClass]"
+              [value]="value">
     <mat-option *ngFor="let option of options" [value]="option.value">
       {{ option.viewValue }}
     </mat-option>

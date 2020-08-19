@@ -7,19 +7,12 @@ import {CredixButtonModule} from '../../../../shared/components/credix-button/cr
 import {ReactiveFormsModule} from '@angular/forms';
 import {CredixFormsModule} from '../../../../shared/directives/credix-forms/credix-forms.module';
 import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltips/credix-tooltips.module';
-import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {ModalService} from '../../../../core/services/modal.service';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
-import {CredixInputPasswordModule} from '../../../../shared/components/credix-input-password/credix-input-password.module';
-
-
-const maskConfig: Partial<IConfig> = {
-  validation: false,
-};
 
 const routes: Routes = [
   {
@@ -38,13 +31,11 @@ const routes: Routes = [
     ReactiveFormsModule,
     CredixFormsModule,
     CredixTooltipsModule,
-    NgxMaskModule.forRoot(maskConfig),
     CredixLinkButtonModule,
     CredixCardsModule,
     CredixResultNotificationModule,
     CredixCodeInputModule,
-    CredixInputFieldModule,
-    CredixInputPasswordModule
+    CredixInputFieldModule
   ],
   providers: [ModalService]
 })

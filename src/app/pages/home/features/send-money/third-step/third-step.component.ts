@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {SendMoneyService} from '../send-money.service';
 
 @Component({
   selector: 'app-third-step',
@@ -14,13 +13,12 @@ export class ThirdStepComponent implements OnInit, OnChanges {
   @Input() amount: number;
   @Input() commissionRate: number;
   @Input() currencyPrefix: string;
-  @Input() total : number;
+  @Input() total: number;
   @Input() commission: number;
   quotaAmountView: number;
-
   iva: number;
 
-  constructor(private sendMoneyService: SendMoneyService) {
+  constructor() {
   }
 
   ngOnInit(): void {

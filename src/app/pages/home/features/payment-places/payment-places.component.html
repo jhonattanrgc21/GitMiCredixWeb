@@ -13,8 +13,7 @@
         <div fxFlex="60%">
           <p class="digital-payments__content__text">Realice un pase de dinero para pagar su tarjeta al número de SINPE
             Móvil de Credix:
-            <credix-link-button route="" text="8927-3349"></credix-link-button>
-            .
+            <credix-link-button route="" text="8927-3349"></credix-link-button><span class="pto">.</span>
           </p>
         </div>
       </div>
@@ -30,22 +29,22 @@
             </div>
             <div class="digital-payments__content__option__inner-option__content" fxFlex="75%">
               <span>CR91010200009093845399</span>
-              <button (click)="copyIbanAccount('Cuenta copiada')"
+              <button (click)="copyIbanAccount('Cuenta copiada', 1)"
                       cdkCopyToClipboard="CR91010200009093845399" mat-icon-button>
-                <mat-icon svgIcon="content-copy"></mat-icon>
+                <mat-icon [class.is-green]="copyId == 1" svgIcon="content-copy"></mat-icon>
               </button>
             </div>
           </div>
-          <div class="digital-payments__content__option__inner-option" fxLayout="row">
+          <div class="digital-payments__content__option__inner-option no-mb" fxLayout="row">
             <div class="digital-payments__content__option__inner-option__title" fxFlex="25%">
               <p>Dólares</p>
             </div>
             <div class="digital-payments__content__option__inner-option__content" fxFlex="75%">
               <span>CR31010200009093845703</span>
 
-              <button (click)="copyIbanAccount('Cuenta copiada')"
+              <button (click)="copyIbanAccount('Cuenta copiada', 2)"
                       cdkCopyToClipboard="CR31010200009093845703" mat-icon-button>
-                <mat-icon svgIcon="content-copy"></mat-icon>
+                <mat-icon [class.is-green]="copyId == 2" svgIcon="content-copy"></mat-icon>
               </button>
 
             </div>
@@ -81,9 +80,9 @@
             </div>
             <div class="digital-payments__content__option__inner-option__content" fxFlex="75%">
               <span>CR91010200009093845399</span>
-              <button (click)="copyIbanAccount('Cuenta copiada')"
+              <button (click)="copyIbanAccount('Cuenta copiada', 3)"
                       cdkCopyToClipboard="CR91010200009093845399" mat-icon-button>
-                <mat-icon svgIcon="content-copy"></mat-icon>
+                <mat-icon [class.is-green]="copyId == 3" svgIcon="content-copy"></mat-icon>
               </button>
 
             </div>
@@ -94,9 +93,9 @@
             </div>
             <div class="digital-payments__content__option__inner-option__content" fxFlex="75%">
               <span>CR31010200009093845703</span>
-              <button (click)="copyIbanAccount('Cuenta copiada')"
+              <button (click)="copyIbanAccount('Cuenta copiada', 4)"
                       cdkCopyToClipboard="CR31010200009093845703" mat-icon-button>
-                <mat-icon svgIcon="content-copy"></mat-icon>
+                <mat-icon [class.is-green]="copyId == 4" svgIcon="content-copy"></mat-icon>
               </button>
 
             </div>

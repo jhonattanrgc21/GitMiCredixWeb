@@ -7,8 +7,10 @@
 
   &__list {
     list-style: none;
+    width: 380px;
+    text-overflow: ellipsis;
 
-    li {
+    div {
       label {
         font-weight: normal;
         font-size: 16px;
@@ -16,6 +18,7 @@
 
       span {
         font-weight: bold;
+        width: 50%;
       }
     }
   }
@@ -91,16 +94,9 @@
     margin: 16px;
   }
 
-  &__title {
-    font-weight: bold;
-    font-size: 32px/47px;
-    margin: 16px;
-  }
-
-
   &__billing {
     margin-top: 32.5px;
-    margin-right: 101px;
+    margin-left: 101px;
     margin-bottom: 16.5px;
 
     label {
@@ -111,7 +107,7 @@
 
     &-pickup {
       margin-top: 16.5px;
-      margin-right: 101px;
+      margin-left: 101px;
       margin-bottom: 16.5px;
 
       label {
@@ -127,9 +123,14 @@
 
     &-information {
       margin-top: 16.5px;
-      margin-right: 101px;
+      margin-left: 101px;
       font-weight: bold;
       font-size: 16px/22px;
+    }
+
+    &-list {
+      list-style: none;
+      font-size: 16px;
     }
   }
 
@@ -164,6 +165,7 @@
 
   &__inputs-hidden {
     margin-top: 12px;
+    margin-left: 16px;
 
     ::ng-deep.mat-form-field {
       width: 322px;
@@ -202,11 +204,36 @@
   }
 
   &__credix-code {
-    width: 208px;
-    margin-right: 64px;
+    width: 220px;
+    margin-left: 101px;
+  }
+
+  &__delivery-pickup {
+    width: 210px;
+    margin-left: 24px;
+  }
+
+  &__edit {
+    &-delivery {
+      margin-top: 2px;
+    }
+  }
+
+  &__shared-button {
+    margin-top: 44px;
+  }
+
+  &__divider-response {
+    width: 100vw !important;
   }
 }
 
 ::ng-deep.mat-divider {
   margin-top: 32px !important;
+}
+
+::ng-deep.mat-card {
+  .mat-divider-horizontal {
+    position: initial !important;
+  }
 }

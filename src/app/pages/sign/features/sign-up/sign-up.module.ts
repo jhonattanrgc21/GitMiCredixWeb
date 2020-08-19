@@ -12,7 +12,6 @@ import {CdkStepperModule} from '@angular/cdk/stepper';
 import {StepperModule} from 'src/app/shared/directives/stepper/stepper.module';
 import {CredixFormsModule} from 'src/app/shared/directives/credix-forms/credix-forms.module';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
-import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {CustomIconLoaderService} from 'src/app/core/services/custom-icon-loader.service';
 import {CredixTooltipsModule} from 'src/app/shared/directives/credix-tooltips/credix-tooltips.module';
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
@@ -22,11 +21,6 @@ import {ModalResponseSignUpComponent} from './modal-response-sign-up/modal-respo
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
-import {CredixInputPasswordModule} from '../../../../shared/components/credix-input-password/credix-input-password.module';
-
-const maskConfig: Partial<IConfig> = {
-  validation: false,
-};
 
 const routes: Routes = [
   {
@@ -36,7 +30,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SignUpComponent, CredixStepperSignUpComponent, ModalResponseSignUpComponent],
+  declarations: [
+    SignUpComponent,
+    CredixStepperSignUpComponent,
+    ModalResponseSignUpComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -52,10 +49,8 @@ const routes: Routes = [
     StepperModule,
     CdkStepperModule,
     MatStepperModule,
-    NgxMaskModule.forRoot(maskConfig),
     CredixSelectModule,
-    CredixInputFieldModule,
-    CredixInputPasswordModule,
+    CredixInputFieldModule
   ],
   providers: [
     HttpService,

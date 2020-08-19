@@ -81,7 +81,7 @@
       color: #b5b5b5
     }
 
-    &:hover, &.is-selected {
+    &:hover, &.is-active {
       .submenu-label {
         font-weight: bold;
       }
@@ -92,7 +92,7 @@
     }
   }
 
-  .is-selected {
+  .is-active, .is-pre-active {
 
     &.is-open {
       background-color: #ffffff;
@@ -101,9 +101,15 @@
     .menu-label {
       margin-left: 2px;
       padding-left: 14px;
-      border-left: 2px solid #e42313;
       color: #3E3E3E;
       font-size: 24px;
+    }
+  }
+
+  .is-active {
+
+    .menu-label {
+      border-left: 2px solid #e42313;
     }
   }
 }

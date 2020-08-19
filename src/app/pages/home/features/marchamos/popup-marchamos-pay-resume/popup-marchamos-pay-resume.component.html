@@ -1,0 +1,25 @@
+<div class="popup-pay-resume" fxLayout="column" fxLayoutGap="16px">
+  <div fxLayout="row" fxLayoutGap="144px"><span>Marchamo</span>
+    <credix-numeric-block [value]="marchamo" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+  <div fxLayout="row" fxLayoutGap="169px"><span>Seguros</span>
+    <credix-numeric-block [value]="totalAmountItemsProducts" fontSize="16" fontWeight="bold"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+  <div fxLayout="row" fxLayoutGap="163px"><span>Comisión</span>
+    <credix-numeric-block [value]="comission" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+  <div fxLayout="row" fxLayoutGap="209px"><span>IVA*</span>
+    <credix-numeric-block [value]="iva" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxLayoutGap="182px"><span>Total</span>
+    <credix-numeric-block [value]="totalAmount" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+  <p>* IVA y comisión se cargarán en el próximo estado de cuenta.</p>
+  <div *ngFor="let quotes of quotesToPay" class="quotes" fxLayout="row" fxLayoutGap="90px"><span>{{quotes.quotes}}
+    Cuotas de</span>
+    <credix-numeric-block [value]="quotes.quotesAmount" fontSize="16" fontWeight="bold"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+</div>
