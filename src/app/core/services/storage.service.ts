@@ -32,10 +32,6 @@ export class StorageService {
     localStorage.removeItem('token');
   }
 
-  getIdentification() {
-    return localStorage.getItem('identification');
-  }
-
   getCurrentUser(): User {
     return JSON.parse(localStorage.getItem('user')) as User;
   }
@@ -50,6 +46,14 @@ export class StorageService {
 
   clearCurrentCard() {
     localStorage.removeItem('card');
+  }
+
+  getIdentification(): string {
+    return localStorage.getItem('identification');
+  }
+
+  clearIdentification(): void {
+    localStorage.removeItem('identification');
   }
 
   getCurrentToken(): string {

@@ -37,6 +37,10 @@ const routes: Routes = [
       {
         path: 'report-transference',
         loadChildren: () => import('./features/report-transference/report-transference.module.js').then(m => m.ReportTransferenceModule)
+      },
+      {
+        path: 'personal-credit',
+        loadChildren: () => import('./features/personal-credit/personal-credit.module.js').then(m => m.PersonalCreditModule)
       }
     ]
   }
