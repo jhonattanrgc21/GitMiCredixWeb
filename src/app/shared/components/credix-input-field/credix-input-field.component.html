@@ -1,4 +1,4 @@
-<mat-form-field [class.has-value]="control.value && control.value.length > 0"
+<mat-form-field [class.has-value]="control.value != null"
                 [color]="ngControl.invalid && ngControl.touched && controlType !== 'password' ? 'warn' : 'primary'"
                 appearance="standard"
                 class="credix-input-field">
@@ -6,14 +6,17 @@
   <input (blur)="onTouch()"
          *ngIf="!mask"
          [formControl]="control"
+         (click)="inputClickEvent.emit($event)"
          [maxLength]="maxLength"
          [minLength]="minLength"
          [type]="type"
          [readonly]="readonly"
+         [value]="displayValue"
          autocomplete="off" class="credix-input-field__input"
          matInput/>
   <input (blur)="onTouch()"
          *ngIf="mask"
+         [value]="displayValue"
          [mask]="mask"
          [formControl]="control"
          [maxLength]="maxLength"
