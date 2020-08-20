@@ -20,6 +20,7 @@ export class CredixInputFieldComponent implements OnInit, OnChanges, ControlValu
   @Input() mask: string;
   @Input() minLength = 1;
   @Input() maxLength = 100;
+  @Input() readonly = false;
   @Input() type: 'text' | 'password' = 'text';
   controlType: 'text' | 'password' = 'text';
   control = new FormControl(null);
