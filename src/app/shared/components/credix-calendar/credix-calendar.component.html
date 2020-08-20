@@ -1,0 +1,71 @@
+<div class="credix-calendar" fxLayout="column">
+
+  <div class="credix-calendar__header" fxLayout="column">
+    <span>Fecha inicial</span>
+
+    <span>{{date.getFullYear()}}</span>
+
+    <span>{{dayOfWeek + ', ' + date.getDate() + ' ' + month}}</span>
+  </div>
+
+  <div class="credix-calendar__toolbar" fxLayout="row" fxLayoutAlign='space-between center'>
+    <button (click)="previousMonth()" mat-icon-button>
+      <svg height="12.948" viewBox="0 0 8 12.948" width="8" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.585,17.421l-4.948-4.948,4.948-4.948L15.06,6,8.585,12.472l6.474,6.474Z"
+              transform="translate(-8.585 -5.998)"/>
+      </svg>
+
+    </button>
+
+    <span>{{longMonth + ' ' + date.getFullYear()}}</span>
+
+    <button (click)="nextMonth()" mat-icon-button>
+      <svg height="12.948" viewBox="0 0 8 12.948" width="8" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.585,17.421l4.948-4.948L8.585,7.524,10.111,6l6.474,6.474-6.474,6.474Z"
+              transform="translate(-8.585 -5.998)"/>
+      </svg>
+
+    </button>
+
+  </div>
+
+  <div class="credix-calendar__days-row" fxLayout="row" fxLayoutAlign="space-between center">
+    <span>D</span>
+    <span>L</span>
+    <span>M</span>
+    <span>M</span>
+    <span>J</span>
+    <span>V</span>
+    <span>S</span>
+  </div>
+
+  <div *ngFor="let week of weeks" class="credix-calendar__days" fxLayout="row" fxLayoutAlign="space-between center">
+    <a (click)="activeDay = week[0]" [ngClass]="{'is-hidden' : week[0] == 0,'is-active' : activeDay == week[0]}">
+      {{week[0]}}
+    </a>
+    <a (click)="activeDay = week[1]" [ngClass]="{'is-hidden' : week[1] == 0,'is-active' : activeDay == week[1]}">
+      {{week[1]}}
+    </a>
+    <a (click)="activeDay = week[2]" [ngClass]="{'is-hidden' : week[2] == 0,'is-active' : activeDay == week[2]}">
+      {{week[2]}}
+    </a>
+    <a (click)="activeDay = week[3]" [ngClass]="{'is-hidden' : week[3] == 0,'is-active' : activeDay == week[3]}">
+      {{week[3]}}
+    </a>
+    <a (click)="activeDay = week[4]" [ngClass]="{'is-hidden' : week[4] == 0,'is-active' : activeDay == week[4]}">
+      {{week[4]}}
+    </a>
+    <a (click)="activeDay = week[5]" [ngClass]="{'is-hidden' : week[5] == 0,'is-active' : activeDay == week[5]}">
+      {{week[5]}}
+    </a>
+    <a (click)="activeDay = week[6]" [ngClass]="{'is-hidden' : week[6] == 0,'is-active' : activeDay == week[6]}">
+      {{week[6]}}
+    </a>
+  </div>
+
+  <div class="credix-calendar__footer" fxLayout="row" fxLayoutGap="24px">
+    <a (click)="close()">Cancelar</a>
+    <a (click)="submit()">Listo</a>
+  </div>
+
+</div>

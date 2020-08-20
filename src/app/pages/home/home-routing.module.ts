@@ -33,6 +33,10 @@ const routes: Routes = [
       {
         path: 'send-money',
         loadChildren: () => import('./features/send-money/send-money.module.js').then(m => m.SendMoneyModule)
+      },
+      {
+        path: 'report-transference',
+        loadChildren: () => import('./features/report-transference/report-transference.module.js').then(m => m.ReportTransferenceModule)
       }
     ]
   }

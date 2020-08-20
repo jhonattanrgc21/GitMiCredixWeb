@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-payment-places',
@@ -19,7 +20,9 @@ export class PaymentPlacesComponent implements OnInit {
   tabShow = 0;
   copyId = 0;
 
-  constructor(private httpService: HttpService, private toastService: CredixToastService) {
+  constructor(private httpService: HttpService,
+              private toastService: CredixToastService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -69,6 +72,10 @@ export class PaymentPlacesComponent implements OnInit {
     this.copyId = id;
     this.toastService.show({text, type: 'success'});
     setTimeout(() => this.copyId = 0, 3000);
+  }
+
+  goToReportTransference() {
+    this.router.navigate(['/home/report-transference']);
   }
 
 }
