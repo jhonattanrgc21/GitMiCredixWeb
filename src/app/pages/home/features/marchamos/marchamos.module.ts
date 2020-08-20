@@ -27,6 +27,10 @@ import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/pop
 import {CredixNumericBlockModule} from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixShareButtonModule} from 'src/app/shared/components/credix-share-button/credix-share-button.module';
+import { FirstStepComponent } from './first-step/first-step.component';
+import { CredixSelectModule } from 'src/app/shared/components/credix-select/credix-select.module';
+import { CredixInputFieldModule } from 'src/app/shared/components/credix-input-field/credix-input-field.module';
+import { ConsultInformationComponent } from './consult-information/consult-information.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -41,7 +45,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent],
+  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent, FirstStepComponent, ConsultInformationComponent],
   entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,
@@ -59,6 +63,8 @@ const routes: Routes = [
     CredixNumericBlockModule,
     CredixResultNotificationModule,
     CredixShareButtonModule,
+    CredixSelectModule,
+    CredixInputFieldModule,
     CdkStepperModule,
     StepperModule,
     CredixRadioButtonModule,

@@ -12,52 +12,12 @@
                 fxLayoutAlign="space-around">
 
         <div class="marchamos__container">
-          <form [formGroup]="consultForm"
-                class="marchamos__form--step-1"
-                fxLayout="row"
-                fxLayoutGap="150px">
-            <h3 class="marchamos__sub-title">Vehículo a consultar</h3>
-
-            <div class="marchamos__inputs" fxLayout="column">
-              <mat-form-field appearance="standard">
-                <mat-label>Tipo de vehículo</mat-label>
-                <mat-select formControlName="vehicleType">
-                  <mat-option *ngFor="let vehicleTypes of vehicleType" [value]="vehicleTypes.type">
-                    {{ vehicleTypes.description}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="fill" credixTextField onFocusLabel="Placa">
-                <mat-label>
-                  Número de placa
-                </mat-label>
-                <input formControlName="plateNumber" mask="AAAAAAAA" matInput type="text">
-              </mat-form-field>
-
-            </div>
-
-          </form>
+         
+          <marchamo-first-step [consultForm]="consultForm">
+          </marchamo-first-step>
           <mat-divider *ngIf="vehicleInformation"></mat-divider>
-          <div *ngIf="vehicleInformation" class="marchamos__information" fxLayout="row" fxLayoutGap="119px">
-            <h3 class="marchamos__sub-title"
-                fxFlex="50">Información del vehículo</h3>
-            <div fxLayout="column" fxLayoutGap="64px">
-              <div class="marchamos__list" fxLayout="column">
-                <div fxLayout="row" fxLayoutGap="183px"><label>Propietario</label>
-                  <span>{{consultVehicle.ownerName}}</span></div>
-                <div fxLayout="row" fxLayoutGap="277px"><label>Marca</label>
-                  <span>{{consultVehicle.brandDescription}}</span></div>
-                <div fxLayout="row" fxLayoutGap="315px"><label>Año</label> <span>{{consultVehicle.yearModel}}</span>
-                </div>
-                <div fxLayout="row" fxLayoutGap="224px"><label>Períodos adeudados</label>
-                  <span>{{consultVehicle.owedYears}}</span></div>
-                <div fxLayout="row" fxLayoutGap="207px"><label>Período (s) a pagar</label>
-                  <span>{{consultVehicle.period}}</span></div>
-              </div>
-            </div>
-          </div>
-
+          <consult-information *ngIf="vehicleInformation" [consultVehicle]="consultVehicle">
+          </consult-information>
         </div>
 
         <mat-divider></mat-divider>

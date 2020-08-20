@@ -23,7 +23,7 @@ import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/pop
 export class MarchamosComponent implements OnInit {
 
   actualDate: Date = new Date();
-  vehicleType: VehicleType[];
+ 
   consultVehicle: ConsultVehicle;
   deliveryPlaces: DeliveryPlace[];
   ownerPayer: OwnerPayer;
@@ -171,7 +171,6 @@ export class MarchamosComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private modalService: ModalService,
-    private element: ElementRef,
     private storageService: StorageService
   ) {
   }
@@ -197,8 +196,7 @@ export class MarchamosComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
-    this.getVehicleType();
+  ngOnInit(): void {  
     this.getPickUpStore();
     this.getOwnersPayerInfo();
     this.getPromo();
@@ -368,12 +366,7 @@ export class MarchamosComponent implements OnInit {
       });
   }
 
-  getVehicleType() {
-    this.httpService.post('marchamos', 'pay/platetypes', {channelId: 102})
-      .subscribe(response => {
-        this.vehicleType = response.plateTypesList;
-      });
-  }
+
 
   getPickUpStore() {
     this.httpService.post('marchamos', 'pay/deliveryplaces', {channelId: 102})
