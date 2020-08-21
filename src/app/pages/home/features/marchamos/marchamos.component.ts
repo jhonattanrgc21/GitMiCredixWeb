@@ -25,7 +25,7 @@ export class MarchamosComponent implements OnInit {
   // actualDate: Date = new Date();
  
   consultVehicle: ConsultVehicle;
-  deliveryPlaces: DeliveryPlace[];
+  // deliveryPlaces: DeliveryPlace[];
   ownerPayer: OwnerPayer;
   billingHistorys: BillingHistory[];
   // itemProduct: Item[] = [
@@ -97,19 +97,19 @@ export class MarchamosComponent implements OnInit {
   //   }
   // ];
   newDeliveryDirection: any;
-  newDeliveryOption: string;
-  domicileDescription: any;
+  // newDeliveryOption: string;
+  // domicileDescription: any;
 
   vehicleInformation: boolean;
   totalMount: any;  //'₡ 114.996,00'
   value: number = 1;
   // popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent | any>;
-  popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
+  // popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
   // popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
   // isChecked: boolean = false;
   // quotesToPayOfAmount: boolean = false;
   quotesAmount: number;
-  radioButtonsChangedValue: any;
+  // radioButtonsChangedValue: any;
 
   amountItemsProducts: {responsabilityCivilAmount:number, roadAsistanceAmount: number, moreProtectionAmount:number} = {
     responsabilityCivilAmount: 8745.00,
@@ -123,7 +123,7 @@ export class MarchamosComponent implements OnInit {
     email: '',
     phone: ''
   };
-  placeOfRetreat: any = {
+  placeOfRetreat: {placeDescription: string} = {
     placeDescription: ''
   };
   dataForPayResumen: any[] = [];
@@ -135,8 +135,8 @@ export class MarchamosComponent implements OnInit {
   cardNumber: string;
   addressAplicant: any[] = [];
   informationApplicant: any;
-  domicile: boolean = false;
-  newDomicile: boolean = false;
+  // domicile: boolean = false;
+  // newDomicile: boolean = false;
   promoStatus: any;
   responseResultPay: boolean = false;
   responseToPay: string;
@@ -158,7 +158,7 @@ export class MarchamosComponent implements OnInit {
   });
 
   pickUpForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.email]),
+    email: new FormControl('', [Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
     pickUp: new FormControl('', []),
     domicile: new FormArray([])
   });
@@ -199,7 +199,6 @@ export class MarchamosComponent implements OnInit {
 
 
   ngOnInit(): void {  
-    this.getPickUpStore();
     this.getOwnersPayerInfo();
     this.getPromo();
     this.getCardValues();
@@ -239,6 +238,14 @@ export class MarchamosComponent implements OnInit {
   getDataOfQuotes(event){
     this.commission = event.commission;
     this.iva = event.iva;
+  }
+
+  getDataOfDelivery(event){
+    console.log(event);
+  }
+
+  getPlaceOfRetreatData(event){
+    console.log(event);
   }
 
   // getValueSlider(event?) {
@@ -291,42 +298,42 @@ export class MarchamosComponent implements OnInit {
   //   }
   // }
 
-  getRadioButtonsChecked(event) {
-    this.radioButtonsChangedValue = event.value;
+  // getRadioButtonsChecked(event) {
+  //   this.radioButtonsChangedValue = event.value;
 
-    if (event.value === 2 && event.checked) {
-      this.domicileDescription = {
-        name: this.informationApplicant.printName,
-        number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
-      };
-    }
-
-
-    if (event.value === 1 && event.checked) {
-      if (this.addressAplicant[0].addressType.id === 2) {
-        this.domicile = true;
-        this.domicileDescription = {
-          name: this.informationApplicant.printName,
-          detail: this.addressAplicant[0].detail,
-          province: this.informationApplicant.addressApplicant[0].province.description,
-          canton: this.informationApplicant.addressApplicant[0].canton.description,
-          distric: this.informationApplicant.addressApplicant[0].district.description,
-          number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
-        };
-      } else {
-        this.newDirection();
-      }
-    }
-  }
-
-  newDirectionChecked(event) {
-    if (event.value === 'newDirection' && event.checked) {
-      this.newDirection();
-    }
+  //   if (event.value === 2 && event.checked) {
+  //     this.domicileDescription = {
+  //       name: this.informationApplicant.printName,
+  //       number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
+  //     };
+  //   }
 
 
-    this.newDeliveryOption = event.value;
-  }
+  //   if (event.value === 1 && event.checked) {
+  //     if (this.addressAplicant[0].addressType.id === 2) {
+  //       this.domicile = true;
+  //       this.domicileDescription = {
+  //         name: this.informationApplicant.printName,
+  //         detail: this.addressAplicant[0].detail,
+  //         province: this.informationApplicant.addressApplicant[0].province.description,
+  //         canton: this.informationApplicant.addressApplicant[0].canton.description,
+  //         distric: this.informationApplicant.addressApplicant[0].district.description,
+  //         number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
+  //       };
+  //     } else {
+  //       this.newDirection();
+  //     }
+  //   }
+  // }
+
+  // newDirectionChecked(event) {
+  //   if (event.value === 'newDirection' && event.checked) {
+  //     this.newDirection();
+  //   }
+
+
+  //   this.newDeliveryOption = event.value;
+  // }
 
   // getListQuotesByProduct() {
   //   this.httpService.post('canales', 'customerservice/listquotabyproduct', {channelId: 102, productId: 2})
@@ -374,12 +381,12 @@ export class MarchamosComponent implements OnInit {
 
 
 
-  getPickUpStore() {
-    this.httpService.post('marchamos', 'pay/deliveryplaces', {channelId: 102})
-      .subscribe(response => {
-        this.deliveryPlaces = response.deliveryPlacesList.filter(x => x.id !== 6);
-      });
-  }
+  // getPickUpStore() {
+  //   this.httpService.post('marchamos', 'pay/deliveryplaces', {channelId: 102})
+  //     .subscribe(response => {
+  //       this.deliveryPlaces = response.deliveryPlacesList.filter(x => x.id !== 6);
+  //     });
+  // }
 
   // getCommission(commission: number) {
   //   this.httpService.post('marchamos', 'pay/calculatecommission', {
@@ -457,24 +464,24 @@ export class MarchamosComponent implements OnInit {
   //   // .subscribe(modal => this.responseResult.message = modal.message);
   // }
 
-  newDirection(data?: any) {
-    this.popupNewDirection = this.modalService.open({
-      component: PopupMarchamosNewDirectionComponent,
-      hideCloseButton: false,
-      title: 'Nueva dirección de entrega',
-      data: data
-    }, {width: 380, height: 614, disableClose: false});
-    this.popupNewDirection.afterClosed().subscribe(values => {
-      this.newDeliveryDirection = {
-        canton: values.canton,
-        distric: values.distric,
-        exactlyDirection: values.exactlyDirection,
-        personReceive: values.personReceive,
-        phoneNumber: values.phoneNumber,
-        province: values.province
-      };
-    });
-  }
+  // newDirection(data?: any) {
+  //   this.popupNewDirection = this.modalService.open({
+  //     component: PopupMarchamosNewDirectionComponent,
+  //     hideCloseButton: false,
+  //     title: 'Nueva dirección de entrega',
+  //     data: data
+  //   }, {width: 380, height: 614, disableClose: false});
+  //   this.popupNewDirection.afterClosed().subscribe(values => {
+  //     this.newDeliveryDirection = {
+  //       canton: values.canton,
+  //       distric: values.distric,
+  //       exactlyDirection: values.exactlyDirection,
+  //       personReceive: values.personReceive,
+  //       phoneNumber: values.phoneNumber,
+  //       province: values.province
+  //     };
+  //   });
+  // }
 
   confirmModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(event => {
@@ -507,11 +514,11 @@ export class MarchamosComponent implements OnInit {
   //   this.popupPayResume.afterClosed();
   // }
 
-  editNewDirection(edit: boolean) {
-    if (edit) {
-      this.newDirection(this.newDeliveryDirection);
-    }
-  }
+  // editNewDirection(edit: boolean) {
+  //   if (edit) {
+  //     this.newDirection(this.newDeliveryDirection);
+  //   }
+  // }
 
 
   getContactToConfirm() {
@@ -532,10 +539,10 @@ export class MarchamosComponent implements OnInit {
     }
   }
 
-  getPlaceOfRetreat() {
-    console.log(this.radioButtonsChangedValue);
-    (this.radioButtonsChangedValue === 2) ? this.isPickUp() : this.isDelivery();
-  }
+  // getPlaceOfRetreat() {
+  //   console.log(this.radioButtonsChangedValue);
+  //   (this.radioButtonsChangedValue === 2) ? this.isPickUp() : this.isDelivery();
+  // }
 
   firstStepContinue() {
     this.quotesAmount = this.quotesAmount / this.value;

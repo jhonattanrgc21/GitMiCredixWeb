@@ -165,7 +165,15 @@
             </div>
           </div> -->
           <mat-divider class="marchamos__places-divider"></mat-divider>
-          <div class="marchamos__bottom-row" fxLayout="row" fxLayoutGap="191px">
+
+          <thirsty-step-place-of-retreat 
+          [(pickUp)]="pickUpControls.pickUp"
+          [informationApplicant]="informationApplicant"
+          [addressAplicant]="addressAplicant"
+          (dataDelivery)="getDataOfDelivery($event)"
+           (placeOfRetreatChanged)="getPlaceOfRetreatData($event)"
+          ></thirsty-step-place-of-retreat>
+          <!-- <div class="marchamos__bottom-row" fxLayout="row" fxLayoutGap="191px">
             <h3 class="marchamos__sub-title">Lugar de retiro</h3>
 
             <div class="marchamos__radio-button" fxLayout="column">
@@ -215,7 +223,7 @@
               </div>
 
             </div>
-          </div>
+          </div> -->
           <!-- <mat-divider class="marchamos__divider-footer"></mat-divider>
           <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px" class="marchamos__buttons-footer">
             <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
