@@ -33,6 +33,8 @@ import { CredixInputFieldModule } from 'src/app/shared/components/credix-input-f
 import { ConsultInformationComponent } from './consult-information/consult-information.component';
 import { SecondStepMarchamoComponent } from './second-step-marchamo/second-step-marchamo.component';
 import { SecondStepOptionalInsurancesComponent } from './second-step-optional-insurances/second-step-optional-insurances.component';
+import { SecondStepQuotesComponent } from './second-step-quotes/second-step-quotes.component';
+import { ThirstyStepEmailRegisteredComponent } from './thirsty-step-email-registered/thirsty-step-email-registered.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -47,7 +49,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent, FirstStepComponent, ConsultInformationComponent, SecondStepMarchamoComponent, SecondStepOptionalInsurancesComponent],
+  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent, FirstStepComponent, ConsultInformationComponent, SecondStepMarchamoComponent, SecondStepOptionalInsurancesComponent, SecondStepQuotesComponent, ThirstyStepEmailRegisteredComponent],
   entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,

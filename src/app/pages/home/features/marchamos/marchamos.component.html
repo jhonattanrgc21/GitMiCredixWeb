@@ -62,7 +62,7 @@
           [(aditionalProducts)]="secureAndQuotesControls.aditionalProducts"
           [amountItemsProducts]="amountItemsProducts">
         </second-step-optional-insurances>
-        
+
           <!-- <div class="marchamos__payment-information secure" fxLayout="row">
             <label class="marchamos__label-2">Seguros opcionales</label>
             <div fxLayout="column" style="margin-right: 215px;">
@@ -86,7 +86,15 @@
             </div>
           </div> -->
           <mat-divider></mat-divider>
-          <div class="marchamos__payment-information secure" fxLayout="row">
+          <second-step-quotes 
+          [totalMount]="totalMount"
+          [quotesAmount]="quotesAmount"
+          [amountItemsProducts]="amountItemsProducts"
+          [(firstCouteToPayIn)]="secureAndQuotesControls.firstCouteToPayIn"
+          [(quotesToPay)]="secureAndQuotesControls.quotesToPay"
+          (dataQuotes)="getDataOfQuotes($event)"
+          ></second-step-quotes>
+          <!-- <div class="marchamos__payment-information secure" fxLayout="row">
             <label class="marchamos__label-3">Cuotas</label>
 
             <div fxLayout="column">
@@ -114,12 +122,12 @@
               <credix-numeric-block [value]="quotesAmount" fontSize="24" fontWeight="bold" prefix="₡"
                                     style="font-size: 24px !important; margin-bottom: 4px;"></credix-numeric-block>
               <!-- <span style="font-size: 24px !important; margin-bottom: 4px;">₡ 114.996,00</span> -->
-              <credix-link-button (click)="payResume()" style="margin-bottom: 64px;"
+              <!-- <credix-link-button (click)="payResume()" style="margin-bottom: 64px;"
                                   text="Ver detalles"></credix-link-button>
               <credix-numeric-block *ngIf="quotesToPayOfAmount" [value]="commission" fontSize="16" fontWeight="bold"
                                     prefix="₡"></credix-numeric-block>
             </div>
-          </div>
+          </div> -->
 
 
         </form>
@@ -135,7 +143,12 @@
 
       <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
         <form [formGroup]="pickUpForm" class="marchamos__form--step-1" fxLayout="column" fxLayoutGap="150px">
-          <div class="marchamos__top-row" fxLayout="row" fxLayoutGap="163px">
+         
+          <thirsty-step-email-registered
+          [email]="email"
+          [emailRegistered]="pickUpControls.email"
+          ></thirsty-step-email-registered>
+          <!-- <div class="marchamos__top-row" fxLayout="row" fxLayoutGap="163px">
             <h3 class="marchamos__sub-title__first">Correo electrónico</h3>
 
             <div class="marchamos__inputs__first" fxLayout="column">
@@ -150,7 +163,7 @@
               </mat-form-field>
 
             </div>
-          </div>
+          </div> -->
           <mat-divider class="marchamos__places-divider"></mat-divider>
           <div class="marchamos__bottom-row" fxLayout="row" fxLayoutGap="191px">
             <h3 class="marchamos__sub-title">Lugar de retiro</h3>

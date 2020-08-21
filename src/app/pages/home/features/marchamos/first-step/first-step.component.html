@@ -10,7 +10,7 @@
             <credix-select
                 class="first-step__select"
                 label="Tipo de vehículo"
-                formControlName="vehicleType">
+                [formControl]="vehicleType">
                 <mat-option *ngFor="let vehicleTypes of vehicleType" [value]="vehicleTypes.type">
                     {{ vehicleTypes.description}}
                 </mat-option>

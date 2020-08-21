@@ -22,7 +22,7 @@ import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/pop
 })
 export class MarchamosComponent implements OnInit {
 
-  actualDate: Date = new Date();
+  // actualDate: Date = new Date();
  
   consultVehicle: ConsultVehicle;
   deliveryPlaces: DeliveryPlace[];
@@ -46,56 +46,56 @@ export class MarchamosComponent implements OnInit {
   //   }
   // ];
 
-  wishPayFirstCouteIn: any[] = [
-    {
-      description: 'Enero ' + (this.actualDate.getFullYear() + 1),
-      value: 'Enero ' + (this.actualDate.getFullYear() + 1)
-    },
-    {
-      description: 'Febrero ' + (this.actualDate.getFullYear() + 1),
-      value: 'Febrero ' + (this.actualDate.getFullYear() + 1)
-    },
-    {
-      description: 'Marzo ' + (this.actualDate.getFullYear() + 1),
-      value: 'Marzo ' + (this.actualDate.getFullYear() + 1)
-    },
-    {
-      description: 'Abril ' + (this.actualDate.getFullYear() + 1),
-      value: 'Abril ' + (this.actualDate.getFullYear() + 1)
-    },
-    {
-      description: 'Mayo ' + (this.actualDate.getFullYear() + 1),
-      value: 'Mayo ' + (this.actualDate.getFullYear() + 1)
-    },
-    {
-      description: 'Junio ' + (this.actualDate.getFullYear() + 1),
-      value: 'Junio ' + (this.actualDate.getFullYear() + 1)
-    },
-    {
-      description: 'Julio ' + (this.actualDate.getFullYear() + 1),
-      value: 'Julio ' + (this.actualDate.getFullYear() + 1)
-    },
-    {
-      description: 'Agosto ' + (this.actualDate.getFullYear() + 1),
-      value: 'Agosto ' + (this.actualDate.getFullYear() + 1)
-    },
-    {
-      description: 'Septiembre 2020',
-      value: 'Septiembre 2020'
-    },
-    {
-      description: 'Octubre 2020',
-      value: 'Octubre 2020'
-    },
-    {
-      description: 'Noviembre 2020',
-      value: 'Noviembre 2020'
-    },
-    {
-      description: 'Diciembre 2020',
-      value: 'Diciembre 2020'
-    }
-  ];
+  // wishPayFirstCouteIn: any[] = [
+  //   {
+  //     description: 'Enero ' + (this.actualDate.getFullYear() + 1),
+  //     value: 'Enero ' + (this.actualDate.getFullYear() + 1)
+  //   },
+  //   {
+  //     description: 'Febrero ' + (this.actualDate.getFullYear() + 1),
+  //     value: 'Febrero ' + (this.actualDate.getFullYear() + 1)
+  //   },
+  //   {
+  //     description: 'Marzo ' + (this.actualDate.getFullYear() + 1),
+  //     value: 'Marzo ' + (this.actualDate.getFullYear() + 1)
+  //   },
+  //   {
+  //     description: 'Abril ' + (this.actualDate.getFullYear() + 1),
+  //     value: 'Abril ' + (this.actualDate.getFullYear() + 1)
+  //   },
+  //   {
+  //     description: 'Mayo ' + (this.actualDate.getFullYear() + 1),
+  //     value: 'Mayo ' + (this.actualDate.getFullYear() + 1)
+  //   },
+  //   {
+  //     description: 'Junio ' + (this.actualDate.getFullYear() + 1),
+  //     value: 'Junio ' + (this.actualDate.getFullYear() + 1)
+  //   },
+  //   {
+  //     description: 'Julio ' + (this.actualDate.getFullYear() + 1),
+  //     value: 'Julio ' + (this.actualDate.getFullYear() + 1)
+  //   },
+  //   {
+  //     description: 'Agosto ' + (this.actualDate.getFullYear() + 1),
+  //     value: 'Agosto ' + (this.actualDate.getFullYear() + 1)
+  //   },
+  //   {
+  //     description: 'Septiembre 2020',
+  //     value: 'Septiembre 2020'
+  //   },
+  //   {
+  //     description: 'Octubre 2020',
+  //     value: 'Octubre 2020'
+  //   },
+  //   {
+  //     description: 'Noviembre 2020',
+  //     value: 'Noviembre 2020'
+  //   },
+  //   {
+  //     description: 'Diciembre 2020',
+  //     value: 'Diciembre 2020'
+  //   }
+  // ];
   newDeliveryDirection: any;
   newDeliveryOption: string;
   domicileDescription: any;
@@ -103,11 +103,11 @@ export class MarchamosComponent implements OnInit {
   vehicleInformation: boolean;
   totalMount: any;  //'₡ 114.996,00'
   value: number = 1;
-  popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent | any>;
+  // popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent | any>;
   popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
-  popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
+  // popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
   // isChecked: boolean = false;
-  quotesToPayOfAmount: boolean = false;
+  // quotesToPayOfAmount: boolean = false;
   quotesAmount: number;
   radioButtonsChangedValue: any;
 
@@ -127,8 +127,8 @@ export class MarchamosComponent implements OnInit {
     placeDescription: ''
   };
   dataForPayResumen: any[] = [];
-  maxQuotes: number;
-  minQuotes: number;
+  // maxQuotes: number;
+  // minQuotes: number;
 
   iva: number = 0;
   totalAmountItemsProducts: number = 0;
@@ -142,6 +142,7 @@ export class MarchamosComponent implements OnInit {
   responseToPay: string;
   messageToPay: string;
   titleToPay: string;
+  email: string;
 
   options = {autoHide: false, scrollbarMinSize: 100};
 
@@ -203,7 +204,7 @@ export class MarchamosComponent implements OnInit {
     this.getPromo();
     this.getCardValues();
     this.getUserAplicantAccountNumber();
-    this.getListQuotesByProduct();
+    // this.getListQuotesByProduct();
     this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount + this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
     console.log(this.totalAmountItemsProducts);
   }
@@ -214,8 +215,7 @@ export class MarchamosComponent implements OnInit {
       channelId: 102,
       accountNumber: this.storageService.getCurrentUser().accountNumber
     }).subscribe(response => {
-      console.log(response);
-      this.pickUpControls.email.setValue(response.informationApplicant.applicant.email);
+      this.email = response.informationApplicant.applicant.email;
       this.informationApplicant = response.informationApplicant.applicant;
       this.addressAplicant = response.informationApplicant.applicant.addressApplicant;
     });
@@ -236,17 +236,22 @@ export class MarchamosComponent implements OnInit {
     });
   }
 
-  getValueSlider(event?) {
-    this.value = event;
-    console.log(this.amountValue);
-    this.getCommission(this.value);
-    if (typeof this.amountValue === 'string') {
-      (event > 0) ? this.quotesAmount = parseInt(this.amountValue.replace('.', '')) / this.value : this.quotesAmount;
-    } else {
-      (event > 0) ? this.quotesAmount = this.amountValue.amount / this.value : this.quotesAmount;
-    }
-    this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
+  getDataOfQuotes(event){
+    this.commission = event.commission;
+    this.iva = event.iva;
   }
+
+  // getValueSlider(event?) {
+  //   this.value = event;
+  //   console.log(this.amountValue);
+  //   this.getCommission(this.value);
+  //   if (typeof this.amountValue === 'string') {
+  //     (event > 0) ? this.quotesAmount = parseInt(this.amountValue.replace('.', '')) / this.value : this.quotesAmount;
+  //   } else {
+  //     (event > 0) ? this.quotesAmount = this.amountValue.amount / this.value : this.quotesAmount;
+  //   }
+  //   this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
+  // }
 
   // getValueCheckBoxes(event: any) {
   //   const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
@@ -323,15 +328,15 @@ export class MarchamosComponent implements OnInit {
     this.newDeliveryOption = event.value;
   }
 
-  getListQuotesByProduct() {
-    this.httpService.post('canales', 'customerservice/listquotabyproduct', {channelId: 102, productId: 2})
-      .subscribe(response => {
-        this.minQuotes = response.listQuota.shift().quota;
-        this.value = this.minQuotes;
-        this.maxQuotes = response.listQuota.slice(response.listQuota.lastIndexOf())[0].quota;
-        (this.value > 0) ? this.quotesToPayOfAmount = true : false;
-      });
-  }
+  // getListQuotesByProduct() {
+  //   this.httpService.post('canales', 'customerservice/listquotabyproduct', {channelId: 102, productId: 2})
+  //     .subscribe(response => {
+  //       this.minQuotes = response.listQuota.shift().quota;
+  //       this.value = this.minQuotes;
+  //       this.maxQuotes = response.listQuota.slice(response.listQuota.lastIndexOf())[0].quota;
+  //       (this.value > 0) ? this.quotesToPayOfAmount = true : false;
+  //     });
+  // }
 
 
   consult() {
@@ -376,20 +381,20 @@ export class MarchamosComponent implements OnInit {
       });
   }
 
-  getCommission(commission: number) {
-    this.httpService.post('marchamos', 'pay/calculatecommission', {
-      channelId: 101,
-      amount: (typeof this.amountValue === 'string') ? parseInt(this.amountValue.replace(',', '')) : this.amountValue,
-      commissionQuotasId: commission
-    }).subscribe(response => {
-      console.log(response);
-      if (typeof response.result === 'string') {
-        this.commission = parseInt(response.result.replace('.', ''));
-        this.iva = parseInt(response.iva.replace('.', ''));
-      }
+  // getCommission(commission: number) {
+  //   this.httpService.post('marchamos', 'pay/calculatecommission', {
+  //     channelId: 101,
+  //     amount: (typeof this.amountValue === 'string') ? parseInt(this.amountValue.replace(',', '')) : this.amountValue,
+  //     commissionQuotasId: commission
+  //   }).subscribe(response => {
+  //     console.log(response);
+  //     if (typeof response.result === 'string') {
+  //       this.commission = parseInt(response.result.replace('.', ''));
+  //       this.iva = parseInt(response.iva.replace('.', ''));
+  //     }
 
-    });
-  }
+  //   });
+  // }
 
   getPromo() {
     this.httpService.post('marchamos', 'pay/promoapply',
@@ -441,16 +446,16 @@ export class MarchamosComponent implements OnInit {
       });
   }
 
-  showDetail() {
-    this.popupShowDetail = this.modalService.open({
-      component: PopupMarchamosDetailComponent,
-      hideCloseButton: false,
-      title: 'Detalle del marchamo',
-      data: this.billingHistorys
-    }, {width: 380, height: 673, disableClose: false});
-    this.popupShowDetail.afterClosed();
-    // .subscribe(modal => this.responseResult.message = modal.message);
-  }
+  // showDetail() {
+  //   this.popupShowDetail = this.modalService.open({
+  //     component: PopupMarchamosDetailComponent,
+  //     hideCloseButton: false,
+  //     title: 'Detalle del marchamo',
+  //     data: this.billingHistorys
+  //   }, {width: 380, height: 673, disableClose: false});
+  //   this.popupShowDetail.afterClosed();
+  //   // .subscribe(modal => this.responseResult.message = modal.message);
+  // }
 
   newDirection(data?: any) {
     this.popupNewDirection = this.modalService.open({
@@ -480,27 +485,27 @@ export class MarchamosComponent implements OnInit {
     });
   }
 
-  payResume() {
-    this.dataForPayResumen = [{
-      marchamos: this.totalMount,
-      itemsProductsAmount: [this.amountItemsProducts],
-      commission: this.commission,
-      iva: this.iva,
-      quotesToPay: [
-        {
-          quotes: this.value,
-          quotesAmount: this.quotesAmount
-        }
-      ]
-    }];
-    this.popupPayResume = this.modalService.open({
-      component: PopupMarchamosPayResumeComponent,
-      hideCloseButton: false,
-      title: 'Resumen del pago',
-      data: this.dataForPayResumen
-    }, {width: 380, height: 417, disableClose: false});
-    this.popupPayResume.afterClosed();
-  }
+  // payResume() {
+  //   this.dataForPayResumen = [{
+  //     marchamos: this.totalMount,
+  //     itemsProductsAmount: [this.amountItemsProducts],
+  //     commission: this.commission,
+  //     iva: this.iva,
+  //     quotesToPay: [
+  //       {
+  //         quotes: this.value,
+  //         quotesAmount: this.quotesAmount
+  //       }
+  //     ]
+  //   }];
+  //   this.popupPayResume = this.modalService.open({
+  //     component: PopupMarchamosPayResumeComponent,
+  //     hideCloseButton: false,
+  //     title: 'Resumen del pago',
+  //     data: this.dataForPayResumen
+  //   }, {width: 380, height: 417, disableClose: false});
+  //   this.popupPayResume.afterClosed();
+  // }
 
   editNewDirection(edit: boolean) {
     if (edit) {
