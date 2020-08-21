@@ -40,7 +40,11 @@
 
       <cdk-step [label]="'Seguros y. cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
 
-        <div class="marchamos__payment-information" fxLayout="row">
+        <second-step-marchamo 
+          [totalMount]="totalMount"
+          [billingHistorys]="billingHistorys"
+        ></second-step-marchamo>
+        <!-- <div class="marchamos__payment-information" fxLayout="row">
           <label class="marchamos__label-1">Marchamo</label>
           <span class="marchamos__payment-span">Monto al cobro</span>
           <div class="marchamos__prices" fxLayout="column">
@@ -48,12 +52,18 @@
                                   prefix="₡"></credix-numeric-block>
             <credix-link-button (click)="showDetail()" text="Ver detalles"></credix-link-button>
           </div>
-        </div>
+        </div> -->
 
 
         <mat-divider></mat-divider>
         <form [formGroup]="secureAndQuotesForm">
-          <div class="marchamos__payment-information secure" fxLayout="row">
+
+          <second-step-optional-insurances
+          [(aditionalProducts)]="secureAndQuotesControls.aditionalProducts"
+          [amountItemsProducts]="amountItemsProducts">
+        </second-step-optional-insurances>
+        
+          <!-- <div class="marchamos__payment-information secure" fxLayout="row">
             <label class="marchamos__label-2">Seguros opcionales</label>
             <div fxLayout="column" style="margin-right: 215px;">
               <credix-checkbox-button
@@ -74,7 +84,7 @@
               <credix-numeric-block [value]="amountItemsProducts.moreProtectionAmount" fontSize="16" fontWeight="bold"
                                     prefix="₡"></credix-numeric-block>
             </div>
-          </div>
+          </div> -->
           <mat-divider></mat-divider>
           <div class="marchamos__payment-information secure" fxLayout="row">
             <label class="marchamos__label-3">Cuotas</label>

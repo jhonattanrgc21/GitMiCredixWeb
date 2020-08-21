@@ -1,0 +1,9 @@
+<div class="marchamos__payment-information" fxLayout="row">
+    <label class="marchamos__label-1">Marchamo</label>
+    <span class="marchamos__payment-span">Monto al cobro</span>
+    <div class="marchamos__prices" fxLayout="column">
+      <credix-numeric-block [value]="totalMount" fontSize="20" fontWeight="bold"
+                            prefix="₡"></credix-numeric-block>
+      <credix-link-button (click)="showDetail()" text="Ver detalles"></credix-link-button>
+    </div>
+  </div>

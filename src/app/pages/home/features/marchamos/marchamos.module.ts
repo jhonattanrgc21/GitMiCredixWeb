@@ -31,6 +31,8 @@ import { FirstStepComponent } from './first-step/first-step.component';
 import { CredixSelectModule } from 'src/app/shared/components/credix-select/credix-select.module';
 import { CredixInputFieldModule } from 'src/app/shared/components/credix-input-field/credix-input-field.module';
 import { ConsultInformationComponent } from './consult-information/consult-information.component';
+import { SecondStepMarchamoComponent } from './second-step-marchamo/second-step-marchamo.component';
+import { SecondStepOptionalInsurancesComponent } from './second-step-optional-insurances/second-step-optional-insurances.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -45,7 +47,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent, FirstStepComponent, ConsultInformationComponent],
+  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent, FirstStepComponent, ConsultInformationComponent, SecondStepMarchamoComponent, SecondStepOptionalInsurancesComponent],
   entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,

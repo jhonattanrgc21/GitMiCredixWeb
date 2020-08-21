@@ -1,0 +1,22 @@
+<div class="marchamos__payment-information secure" fxLayout="row">
+    <label class="marchamos__label-2">Seguros opcionales</label>
+    <div fxLayout="column" style="margin-right: 215px;">
+      <credix-checkbox-button
+        (emitCheckBox)="getValueCheckBoxes($event)"
+        *ngFor="let item of itemProduct"
+        [checked]="isChecked"
+        [label]="item.responseDescription"
+        [value]="item.productCode"></credix-checkbox-button>
+      <credix-checkbox-button (emitCheckBox)="getValueOfCheckBoxAll($event)" [value]="10"
+                              label="Todos"></credix-checkbox-button>
+
+    </div>
+    <div class="marchamos__prices" fxLayout="column">
+      <credix-numeric-block [value]="amountItemsProducts.responsabilityCivilAmount" fontSize="16"
+                            fontWeight="bold" prefix="₡"></credix-numeric-block>
+      <credix-numeric-block [value]="amountItemsProducts.roadAsistanceAmount" fontSize="16" fontWeight="bold"
+                            prefix="₡"></credix-numeric-block>
+      <credix-numeric-block [value]="amountItemsProducts.moreProtectionAmount" fontSize="16" fontWeight="bold"
+                            prefix="₡"></credix-numeric-block>
+    </div>
+  </div>

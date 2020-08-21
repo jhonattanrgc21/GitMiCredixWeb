@@ -28,23 +28,24 @@ export class MarchamosComponent implements OnInit {
   deliveryPlaces: DeliveryPlace[];
   ownerPayer: OwnerPayer;
   billingHistorys: BillingHistory[];
-  itemProduct: Item[] = [
-    {
-      responseDescription: 'Responsabilidad civil',
-      responseCode: 15,
-      productCode: 5
-    },
-    {
-      responseDescription: 'Asistencia en carretera',
-      responseCode: 15,
-      productCode: 6
-    },
-    {
-      responseDescription: 'Mas protección',
-      responseCode: 15,
-      productCode: 8
-    }
-  ];
+  // itemProduct: Item[] = [
+  //   {
+  //     responseDescription: 'Responsabilidad civil',
+  //     responseCode: 15,
+  //     productCode: 5
+  //   },
+  //   {
+  //     responseDescription: 'Asistencia en carretera',
+  //     responseCode: 15,
+  //     productCode: 6
+  //   },
+  //   {
+  //     responseDescription: 'Mas protección',
+  //     responseCode: 15,
+  //     productCode: 8
+  //   }
+  // ];
+
   wishPayFirstCouteIn: any[] = [
     {
       description: 'Enero ' + (this.actualDate.getFullYear() + 1),
@@ -105,12 +106,12 @@ export class MarchamosComponent implements OnInit {
   popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent | any>;
   popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
   popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
-  isChecked: boolean = false;
+  // isChecked: boolean = false;
   quotesToPayOfAmount: boolean = false;
   quotesAmount: number;
   radioButtonsChangedValue: any;
 
-  amountItemsProducts: any = {
+  amountItemsProducts: {responsabilityCivilAmount:number, roadAsistanceAmount: number, moreProtectionAmount:number} = {
     responsabilityCivilAmount: 8745.00,
     roadAsistanceAmount: 3359.00,
     moreProtectionAmount: 7140.00
@@ -225,9 +226,9 @@ export class MarchamosComponent implements OnInit {
     this.stepper.next();
   }
 
-  allChecked(event?: any) {
-    this.isChecked = event;
-  }
+  // allChecked(event?: any) {
+  //   this.isChecked = event;
+  // }
 
   getCardValues() {
     this.storageService.getCurrentCards().forEach(cardValues => {
@@ -247,43 +248,43 @@ export class MarchamosComponent implements OnInit {
     this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
   }
 
-  getValueCheckBoxes(event: any) {
-    const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
+  // getValueCheckBoxes(event: any) {
+  //   const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
 
-    if (event.checked) {
-      checkArray.push(new FormGroup({
-        productCode: new FormControl(event.value)
-      }));
-    } else {
-      let index: number = 0;
-      checkArray.controls.forEach((item: FormGroup) => {
-        if (item.value.productCode === event.value) {
-          checkArray.removeAt(index);
-          return;
-        }
-        index++;
-      });
-    }
-  }
+  //   if (event.checked) {
+  //     checkArray.push(new FormGroup({
+  //       productCode: new FormControl(event.value)
+  //     }));
+  //   } else {
+  //     let index: number = 0;
+  //     checkArray.controls.forEach((item: FormGroup) => {
+  //       if (item.value.productCode === event.value) {
+  //         checkArray.removeAt(index);
+  //         return;
+  //       }
+  //       index++;
+  //     });
+  //   }
+  // }
 
-  getValueOfCheckBoxAll(event) {
-    const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
+  // getValueOfCheckBoxAll(event) {
+  //   const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
 
-    if (event.value === 10 && event.checked) {
-      this.allChecked(event.checked);
-      for (const product of this.itemProduct) {
-        checkArray.push(
-          new FormGroup({
-            productCode: new FormControl(product.productCode)
-          }));
-        checkArray.removeAt(3);
-      }
-    } else {
-      this.allChecked(event.checked);
-      checkArray.controls.splice(0, this.itemProduct.length);
-      checkArray.setValue([]);
-    }
-  }
+  //   if (event.value === 10 && event.checked) {
+  //     this.allChecked(event.checked);
+  //     for (const product of this.itemProduct) {
+  //       checkArray.push(
+  //         new FormGroup({
+  //           productCode: new FormControl(product.productCode)
+  //         }));
+  //       checkArray.removeAt(3);
+  //     }
+  //   } else {
+  //     this.allChecked(event.checked);
+  //     checkArray.controls.splice(0, this.itemProduct.length);
+  //     checkArray.setValue([]);
+  //   }
+  // }
 
   getRadioButtonsChecked(event) {
     this.radioButtonsChangedValue = event.value;
