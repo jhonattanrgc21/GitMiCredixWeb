@@ -6,7 +6,6 @@ import {map} from 'rxjs/operators';
 export class SendMoneyService {
   getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
   getQuotaByProductUri = 'customerservice/listquotabyproduct';
-  getIbanAccountUri = 'account/getibanaccount';
   sendMoneyUri = 'channels/senddirect';
 
 
@@ -42,9 +41,7 @@ export class SendMoneyService {
       );
   }
 
-  getIbanAccount() {
-    return this.httpService.post('canales', this.getIbanAccountUri, {channelId: 102});
-  }
+
 
   addFavAccount(name, account, identType, ident, code) {
     return this.httpService.post('canales', 'iban/saveFavoriteAccountIBAN', {

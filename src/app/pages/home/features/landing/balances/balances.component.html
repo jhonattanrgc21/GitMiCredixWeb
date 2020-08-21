@@ -46,7 +46,7 @@
   <div class="w-100" fxLayout="column" fxLayoutGap="4px">
     <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
       <span>{{balancesTag.colonesTag}}</span>
-      <span>CR00000000000000000001</span>
+      <span>{{ibanOriginC ? ibanOriginC : 'CR00000000000000000001'}}</span>
       <button (click)="copyIbanAccount(balancesTag.colonesIbanCopiedTag, 188)"
               cdkCopyToClipboard="CR00000000000000000001"
               mat-icon-button>
@@ -55,7 +55,7 @@
     </div>
     <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
       <span>{{balancesTag.dollarsTag}}</span>
-      <span>CR00000000000000000002</span>
+      <span>{{ibanOrigin$ ? ibanOrigin$ : 'CR00000000000000000002'}}</span>
       <button (click)="copyIbanAccount(balancesTag.dollarsIbanCopiedTag, 840)"
               cdkCopyToClipboard="CR00000000000000000002"
               mat-icon-button>

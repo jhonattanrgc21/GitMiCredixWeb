@@ -17,6 +17,7 @@ export class GlobalRequestsService {
   private identificationTypesUri = 'global/identification-types';
   private accountSummaryUri = 'channels/accountsummary';
   private getQuotasUri = 'customerservice/listquotabyproduct';
+  private getIbanAccountUri = 'account/getibanaccount';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -106,6 +107,10 @@ export class GlobalRequestsService {
     }
 
     return this.quotas;
+  }
+
+  getIbanAccount() {
+    return this.httpService.post('canales', this.getIbanAccountUri, {channelId: 102});
   }
 
 }
