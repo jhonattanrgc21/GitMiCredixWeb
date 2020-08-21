@@ -22,94 +22,17 @@ import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/pop
 })
 export class MarchamosComponent implements OnInit {
 
-  // actualDate: Date = new Date();
  
   consultVehicle: ConsultVehicle;
-  // deliveryPlaces: DeliveryPlace[];
   ownerPayer: OwnerPayer;
   billingHistorys: BillingHistory[];
-  // itemProduct: Item[] = [
-  //   {
-  //     responseDescription: 'Responsabilidad civil',
-  //     responseCode: 15,
-  //     productCode: 5
-  //   },
-  //   {
-  //     responseDescription: 'Asistencia en carretera',
-  //     responseCode: 15,
-  //     productCode: 6
-  //   },
-  //   {
-  //     responseDescription: 'Mas protección',
-  //     responseCode: 15,
-  //     productCode: 8
-  //   }
-  // ];
-
-  // wishPayFirstCouteIn: any[] = [
-  //   {
-  //     description: 'Enero ' + (this.actualDate.getFullYear() + 1),
-  //     value: 'Enero ' + (this.actualDate.getFullYear() + 1)
-  //   },
-  //   {
-  //     description: 'Febrero ' + (this.actualDate.getFullYear() + 1),
-  //     value: 'Febrero ' + (this.actualDate.getFullYear() + 1)
-  //   },
-  //   {
-  //     description: 'Marzo ' + (this.actualDate.getFullYear() + 1),
-  //     value: 'Marzo ' + (this.actualDate.getFullYear() + 1)
-  //   },
-  //   {
-  //     description: 'Abril ' + (this.actualDate.getFullYear() + 1),
-  //     value: 'Abril ' + (this.actualDate.getFullYear() + 1)
-  //   },
-  //   {
-  //     description: 'Mayo ' + (this.actualDate.getFullYear() + 1),
-  //     value: 'Mayo ' + (this.actualDate.getFullYear() + 1)
-  //   },
-  //   {
-  //     description: 'Junio ' + (this.actualDate.getFullYear() + 1),
-  //     value: 'Junio ' + (this.actualDate.getFullYear() + 1)
-  //   },
-  //   {
-  //     description: 'Julio ' + (this.actualDate.getFullYear() + 1),
-  //     value: 'Julio ' + (this.actualDate.getFullYear() + 1)
-  //   },
-  //   {
-  //     description: 'Agosto ' + (this.actualDate.getFullYear() + 1),
-  //     value: 'Agosto ' + (this.actualDate.getFullYear() + 1)
-  //   },
-  //   {
-  //     description: 'Septiembre 2020',
-  //     value: 'Septiembre 2020'
-  //   },
-  //   {
-  //     description: 'Octubre 2020',
-  //     value: 'Octubre 2020'
-  //   },
-  //   {
-  //     description: 'Noviembre 2020',
-  //     value: 'Noviembre 2020'
-  //   },
-  //   {
-  //     description: 'Diciembre 2020',
-  //     value: 'Diciembre 2020'
-  //   }
-  // ];
+  
   newDeliveryDirection: any;
-  // newDeliveryOption: string;
-  // domicileDescription: any;
 
   vehicleInformation: boolean;
   totalMount: any;  //'₡ 114.996,00'
   value: number = 1;
-  // popupShowDetail: MatDialogRef<PopupMarchamosDetailComponent | any>;
-  // popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
-  // popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
-  // isChecked: boolean = false;
-  // quotesToPayOfAmount: boolean = false;
   quotesAmount: number;
-  // radioButtonsChangedValue: any;
 
   amountItemsProducts: {responsabilityCivilAmount:number, roadAsistanceAmount: number, moreProtectionAmount:number} = {
     responsabilityCivilAmount: 8745.00,
@@ -118,7 +41,7 @@ export class MarchamosComponent implements OnInit {
   };
   commission: number = 0;
   responseToContinue: string;
-  contactToConfirm: any = {
+  contactToConfirm: {name:string,email: string, phone:string} = {
     name: '',
     email: '',
     phone: ''
@@ -127,6 +50,7 @@ export class MarchamosComponent implements OnInit {
     placeDescription: ''
   };
   dataForPayResumen: any[] = [];
+  dataPayResume:{totalMount: any, totalAmountItemsProducts: number, iva: number, commission: number}
   // maxQuotes: number;
   // minQuotes: number;
 
@@ -143,6 +67,10 @@ export class MarchamosComponent implements OnInit {
   messageToPay: string;
   titleToPay: string;
   email: string;
+
+  resultPay:{messageToPay: string, responseToPay:string, titleToPay:string};
+  dataPay: {totalMount:any, value:number,plateNumber:string,firstCouteToPayIn: string}
+
 
   options = {autoHide: false, scrollbarMinSize: 100};
 
@@ -225,9 +153,7 @@ export class MarchamosComponent implements OnInit {
     this.stepper.next();
   }
 
-  // allChecked(event?: any) {
-  //   this.isChecked = event;
-  // }
+  
 
   getCardValues() {
     this.storageService.getCurrentCards().forEach(cardValues => {
@@ -247,103 +173,6 @@ export class MarchamosComponent implements OnInit {
   getPlaceOfRetreatData(event){
     console.log(event);
   }
-
-  // getValueSlider(event?) {
-  //   this.value = event;
-  //   console.log(this.amountValue);
-  //   this.getCommission(this.value);
-  //   if (typeof this.amountValue === 'string') {
-  //     (event > 0) ? this.quotesAmount = parseInt(this.amountValue.replace('.', '')) / this.value : this.quotesAmount;
-  //   } else {
-  //     (event > 0) ? this.quotesAmount = this.amountValue.amount / this.value : this.quotesAmount;
-  //   }
-  //   this.secureAndQuotesControls.quotesToPay.patchValue(this.quotesAmount);
-  // }
-
-  // getValueCheckBoxes(event: any) {
-  //   const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
-
-  //   if (event.checked) {
-  //     checkArray.push(new FormGroup({
-  //       productCode: new FormControl(event.value)
-  //     }));
-  //   } else {
-  //     let index: number = 0;
-  //     checkArray.controls.forEach((item: FormGroup) => {
-  //       if (item.value.productCode === event.value) {
-  //         checkArray.removeAt(index);
-  //         return;
-  //       }
-  //       index++;
-  //     });
-  //   }
-  // }
-
-  // getValueOfCheckBoxAll(event) {
-  //   const checkArray: FormArray = this.secureAndQuotesForm.get('aditionalProducts') as FormArray;
-
-  //   if (event.value === 10 && event.checked) {
-  //     this.allChecked(event.checked);
-  //     for (const product of this.itemProduct) {
-  //       checkArray.push(
-  //         new FormGroup({
-  //           productCode: new FormControl(product.productCode)
-  //         }));
-  //       checkArray.removeAt(3);
-  //     }
-  //   } else {
-  //     this.allChecked(event.checked);
-  //     checkArray.controls.splice(0, this.itemProduct.length);
-  //     checkArray.setValue([]);
-  //   }
-  // }
-
-  // getRadioButtonsChecked(event) {
-  //   this.radioButtonsChangedValue = event.value;
-
-  //   if (event.value === 2 && event.checked) {
-  //     this.domicileDescription = {
-  //       name: this.informationApplicant.printName,
-  //       number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
-  //     };
-  //   }
-
-
-  //   if (event.value === 1 && event.checked) {
-  //     if (this.addressAplicant[0].addressType.id === 2) {
-  //       this.domicile = true;
-  //       this.domicileDescription = {
-  //         name: this.informationApplicant.printName,
-  //         detail: this.addressAplicant[0].detail,
-  //         province: this.informationApplicant.addressApplicant[0].province.description,
-  //         canton: this.informationApplicant.addressApplicant[0].canton.description,
-  //         distric: this.informationApplicant.addressApplicant[0].district.description,
-  //         number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
-  //       };
-  //     } else {
-  //       this.newDirection();
-  //     }
-  //   }
-  // }
-
-  // newDirectionChecked(event) {
-  //   if (event.value === 'newDirection' && event.checked) {
-  //     this.newDirection();
-  //   }
-
-
-  //   this.newDeliveryOption = event.value;
-  // }
-
-  // getListQuotesByProduct() {
-  //   this.httpService.post('canales', 'customerservice/listquotabyproduct', {channelId: 102, productId: 2})
-  //     .subscribe(response => {
-  //       this.minQuotes = response.listQuota.shift().quota;
-  //       this.value = this.minQuotes;
-  //       this.maxQuotes = response.listQuota.slice(response.listQuota.lastIndexOf())[0].quota;
-  //       (this.value > 0) ? this.quotesToPayOfAmount = true : false;
-  //     });
-  // }
 
 
   consult() {
@@ -381,28 +210,6 @@ export class MarchamosComponent implements OnInit {
 
 
 
-  // getPickUpStore() {
-  //   this.httpService.post('marchamos', 'pay/deliveryplaces', {channelId: 102})
-  //     .subscribe(response => {
-  //       this.deliveryPlaces = response.deliveryPlacesList.filter(x => x.id !== 6);
-  //     });
-  // }
-
-  // getCommission(commission: number) {
-  //   this.httpService.post('marchamos', 'pay/calculatecommission', {
-  //     channelId: 101,
-  //     amount: (typeof this.amountValue === 'string') ? parseInt(this.amountValue.replace(',', '')) : this.amountValue,
-  //     commissionQuotasId: commission
-  //   }).subscribe(response => {
-  //     console.log(response);
-  //     if (typeof response.result === 'string') {
-  //       this.commission = parseInt(response.result.replace('.', ''));
-  //       this.iva = parseInt(response.iva.replace('.', ''));
-  //     }
-
-  //   });
-  // }
-
   getPromo() {
     this.httpService.post('marchamos', 'pay/promoapply',
       {
@@ -428,7 +235,7 @@ export class MarchamosComponent implements OnInit {
         deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
         domicilePerson: this.contactToConfirm.name,
         domicilePhone: this.contactToConfirm.phone,
-        domicilePlace: this.placeOfRetreat.description,
+        domicilePlace: this.placeOfRetreat.placeDescription,
         email: this.pickUpControls.email.value,
         extraCardStatus: '0',
         firstPayment: this.promoStatus.paymentDate,
@@ -447,41 +254,21 @@ export class MarchamosComponent implements OnInit {
         if (response.type) {
           this.responseResultPay = !this.responseResultPay;
         }
-        this.responseToPay = response.type;
-        this.messageToPay = response.message;
-        this.titleToPay = response.title;
+        this.resultPay ={
+          messageToPay: response.message,
+          responseToPay: response.type,
+          titleToPay: response.title
+        }
+
+        this.dataPay = {
+          totalMount:this.totalMount,
+          value: this.secureAndQuotesControls.quotesToPay.value,
+          plateNumber: this.consultVehicle.plateNumber,
+          firstCouteToPayIn: this.secureAndQuotesControls.firstCouteToPayIn.value
+        }
       });
   }
 
-  // showDetail() {
-  //   this.popupShowDetail = this.modalService.open({
-  //     component: PopupMarchamosDetailComponent,
-  //     hideCloseButton: false,
-  //     title: 'Detalle del marchamo',
-  //     data: this.billingHistorys
-  //   }, {width: 380, height: 673, disableClose: false});
-  //   this.popupShowDetail.afterClosed();
-  //   // .subscribe(modal => this.responseResult.message = modal.message);
-  // }
-
-  // newDirection(data?: any) {
-  //   this.popupNewDirection = this.modalService.open({
-  //     component: PopupMarchamosNewDirectionComponent,
-  //     hideCloseButton: false,
-  //     title: 'Nueva dirección de entrega',
-  //     data: data
-  //   }, {width: 380, height: 614, disableClose: false});
-  //   this.popupNewDirection.afterClosed().subscribe(values => {
-  //     this.newDeliveryDirection = {
-  //       canton: values.canton,
-  //       distric: values.distric,
-  //       exactlyDirection: values.exactlyDirection,
-  //       personReceive: values.personReceive,
-  //       phoneNumber: values.phoneNumber,
-  //       province: values.province
-  //     };
-  //   });
-  // }
 
   confirmModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(event => {
@@ -492,57 +279,6 @@ export class MarchamosComponent implements OnInit {
     });
   }
 
-  // payResume() {
-  //   this.dataForPayResumen = [{
-  //     marchamos: this.totalMount,
-  //     itemsProductsAmount: [this.amountItemsProducts],
-  //     commission: this.commission,
-  //     iva: this.iva,
-  //     quotesToPay: [
-  //       {
-  //         quotes: this.value,
-  //         quotesAmount: this.quotesAmount
-  //       }
-  //     ]
-  //   }];
-  //   this.popupPayResume = this.modalService.open({
-  //     component: PopupMarchamosPayResumeComponent,
-  //     hideCloseButton: false,
-  //     title: 'Resumen del pago',
-  //     data: this.dataForPayResumen
-  //   }, {width: 380, height: 417, disableClose: false});
-  //   this.popupPayResume.afterClosed();
-  // }
-
-  // editNewDirection(edit: boolean) {
-  //   if (edit) {
-  //     this.newDirection(this.newDeliveryDirection);
-  //   }
-  // }
-
-
-  getContactToConfirm() {
-    if (!this.newDeliveryDirection || this.newDeliveryDirection === undefined) {
-      this.contactToConfirm = {
-        name: this.domicileDescription.name,
-        email: this.pickUpControls.email.value,
-        phone: this.domicileDescription.number
-      };
-    } else if (this.newDeliveryDirection && this.newDeliveryDirection !== undefined) {
-      this.contactToConfirm = {
-        name: this.newDeliveryDirection.personReceive,
-        email: this.pickUpControls.email.value,
-        phone: this.newDeliveryDirection.phoneNumber
-      };
-    } else {
-      this.contactToConfirm;
-    }
-  }
-
-  // getPlaceOfRetreat() {
-  //   console.log(this.radioButtonsChangedValue);
-  //   (this.radioButtonsChangedValue === 2) ? this.isPickUp() : this.isDelivery();
-  // }
 
   firstStepContinue() {
     this.quotesAmount = this.quotesAmount / this.value;
@@ -572,57 +308,6 @@ export class MarchamosComponent implements OnInit {
     console.log(this.pickUpForm.value);
     // console.log(object);
     this.continue();
-    this.getContactToConfirm();
-    this.getPlaceOfRetreat();
-  }
-
-  private isPickUp() {
-    switch (this.pickUpControls.pickUp.value) {
-      case 1:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL TIBÁS'
-        };
-        break;
-      case 2:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL BELÉN'
-        };
-        break;
-      case 3:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL ESCAZÚ'
-        };
-        break;
-      case 4:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL TIBÁS'
-        };
-        break;
-      case 5:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL DESAMPARADOS'
-        };
-        break;
-      case 7:
-        this.placeOfRetreat = {
-          placeDescription: 'ADMINISTRATIVO'
-        };
-        break;
-    }
-  }
-
-  private isDelivery() {
-    if (this.newDeliveryOption === 'directionRegister' || !this.newDeliveryDirection) {
-      this.placeOfRetreat = {
-        placeDescription: this.domicileDescription.detail
-      };
-    } else if (this.newDeliveryOption === 'newDirection' && this.newDeliveryDirection) {
-      this.placeOfRetreat = {
-        placeDescription: this.newDeliveryDirection.exactlyDirection
-      };
-    } else {
-      return;
-    }
   }
 
 

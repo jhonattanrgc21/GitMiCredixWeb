@@ -36,6 +36,9 @@ import { SecondStepOptionalInsurancesComponent } from './second-step-optional-in
 import { SecondStepQuotesComponent } from './second-step-quotes/second-step-quotes.component';
 import { ThirstyStepEmailRegisteredComponent } from './thirsty-step-email-registered/thirsty-step-email-registered.component';
 import { ThirstyStepPlaceOfRetreatComponent } from './thirsty-step-place-of-retreat/thirsty-step-place-of-retreat.component';
+import { FourStepConfirmContactComponent } from './four-step-confirm-contact/four-step-confirm-contact.component';
+import { FourStepConfirmPayResumeComponent } from './four-step-confirm-pay-resume/four-step-confirm-pay-resume.component';
+import { ResultPayResumeComponent } from './result-pay-resume/result-pay-resume.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -50,7 +53,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent, FirstStepComponent, ConsultInformationComponent, SecondStepMarchamoComponent, SecondStepOptionalInsurancesComponent, SecondStepQuotesComponent, ThirstyStepEmailRegisteredComponent, ThirstyStepPlaceOfRetreatComponent],
+  declarations: [MarchamosComponent, PopupMarchamosDetailComponent, PopupMarchamosNewDirectionComponent, PopupMarchamosPayResumeComponent, FirstStepComponent, ConsultInformationComponent, SecondStepMarchamoComponent, SecondStepOptionalInsurancesComponent, SecondStepQuotesComponent, ThirstyStepEmailRegisteredComponent, ThirstyStepPlaceOfRetreatComponent, FourStepConfirmContactComponent, FourStepConfirmPayResumeComponent, ResultPayResumeComponent],
   entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,

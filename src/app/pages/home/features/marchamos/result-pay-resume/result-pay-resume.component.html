@@ -1,0 +1,45 @@
+<div *ngIf="responseResultPay" class="marchamos__container-response" fxLayout="column">
+    <credix-result-notification
+      [message]="resultPay.messageToPay"
+      [status]="resultPay.responseToPay"
+      [title]="resultPay.titleToPay"></credix-result-notification>
+
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="65px" style="margin-top: 24.5px;">
+
+      <span style="font-weight: bold; font-size: 16px;">Datos del Pago</span>
+      <div fxLayout="column" fxLayoutGap="8px">
+
+        <div fxLayout="row" fxLayoutGap="41px">
+          <label>Monto</label>
+          <span style="font-weight: bold; font-size: 16px;">{{dataPay.totalMount}} </span>
+        </div>
+        <div fxLayout="row" fxLayoutGap="107px">
+          <label>Cuotas</label>
+          <span style="font-weight: bold; font-size: 16px;">{{dataPay.value}} </span>
+        </div>
+        <div fxLayout="row" fxLayoutGap="65px">
+          <label>Placa</label>
+          <span style="font-weight: bold; font-size: 16px;">{{dataPay.plateNumber}}</span>
+        </div>
+        <div fxLayout="row" fxLayoutGap="47px">
+          <label>Fecha</label>
+          <span
+            style="font-weight: bold; font-size: 16px;"> {{dataPay.firstCouteToPayIn}} </span>
+        </div>
+
+      </div>
+    </div>
+
+    <credix-share-button class="marchamos__shared-button"
+                         description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
+                         fxLayoutAlign="center"
+                         url="https://www.credix.com/somos-uno/"></credix-share-button>
+
+    <mat-divider class="marchamos__divider-response"></mat-divider>
+    <credix-button
+      (buttonClick)="doAnotherPay()"
+      class="marchamos__buttons"
+      fxLayoutAlign="flex-end"
+      text="Realizar otro pago"></credix-button>
+  </div>

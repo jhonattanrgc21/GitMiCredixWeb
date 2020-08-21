@@ -241,7 +241,8 @@
 
       <cdk-step [label]="'Confirmar'">
 
-        <div class="marchamos__billing" fxLayout="row">
+        <four-step-confirm-contact [contactToConfirm]="contactToConfirm"></four-step-confirm-contact>
+        <!-- <div class="marchamos__billing" fxLayout="row">
           <label>Contacto</label>
 
           <div class="marchamos__billing-contact" fxLayout="column">
@@ -249,7 +250,7 @@
             <span>{{contactToConfirm.email}}</span>
             <span>{{contactToConfirm.phone | mask: '0000-0000'}}</span>
           </div>
-        </div>
+        </div> -->
 
         <mat-divider></mat-divider>
 
@@ -261,7 +262,9 @@
         <mat-divider></mat-divider>
 
 
-        <div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="153px">
+        <four-step-confirm-pay-resume
+        [dataPayResume]="dataPayResume"></four-step-confirm-pay-resume>
+        <!-- <div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="153px">
           <label>Resumen de pago</label>
           <ul class="marchamos__billing-list">
             <li fxLayoutGap="206px"><label>Marchamo</label>
@@ -285,7 +288,7 @@
                                     prefix="₡"></credix-numeric-block>
             </li>
           </ul>
-        </div>
+        </div> -->
 
 
         <mat-divider></mat-divider>
@@ -317,7 +320,13 @@
 
     </credix-stepper>
 
-    <div *ngIf="responseResultPay" class="marchamos__container-response" fxLayout="column">
+    <result-pay-resume 
+      *ngIf="responseResultPay"
+      [resultPay]="resultPay"
+      [dataPay]="dataPay"
+      [(responseResultPay)]="responseResultPay"
+    ></result-pay-resume>
+    <!-- <div *ngIf="responseResultPay" class="marchamos__container-response" fxLayout="column">
       <credix-result-notification
         [message]="messageToPay"
         [status]="responseToPay"
@@ -361,7 +370,7 @@
         class="marchamos__buttons"
         fxLayoutAlign="flex-end"
         text="Realizar otro pago"></credix-button>
-    </div>
+    </div> -->
 
   </ngx-simplebar>
 
