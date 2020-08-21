@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {MatSlider} from '@angular/material/slider';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -15,16 +16,32 @@ export class CredixSliderComponent implements OnInit {
   @Input() instructions = 'Instrucciones';
   @Input() units = 'Unidades';
   @Input() value = 1;
+  @Output() inputChange = new EventEmitter<number>();
   @Output() valueChange = new EventEmitter<number>();
+  @ViewChild(MatSlider) slider: MatSlider;
+  @ViewChild('minWrapper', {read: ElementRef, static: true}) minWrapper: ElementRef;
+  @ViewChild('maxWrapper', {read: ElementRef, static: true}) maxWrapper: ElementRef;
+  showMinWrapper = false;
+  showMaxWrapper = false;
 
   constructor() {
   }
 
   ngOnInit(): void {
+    this.showMinWrapper = !!this.minWrapper.nativeElement.innerHTML;
+    this.showMaxWrapper = !!this.maxWrapper.nativeElement.innerHTML;
   }
 
-  valueChangeEvent(event, eventType: number) {
-    this.value = eventType === 1 ? event : event.value;
+  valueChangeEvent(event) {
+    this.value = event.value;
     this.valueChange.emit(this.value);
+  }
+
+  inputChangeEvent(event) {
+    this.value = event.value;
+    this.inputChange.emit(this.value);
+  }
+
+  check(event) {
   }
 }

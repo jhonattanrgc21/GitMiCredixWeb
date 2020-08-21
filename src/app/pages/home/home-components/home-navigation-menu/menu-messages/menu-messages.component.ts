@@ -4,6 +4,7 @@ import {ModalMessagesComponent} from './modal-messages/modal-messages.component'
 import {Message} from '../../../../../shared/models/Message';
 import {HomeService} from '../../../home.service';
 import {ModalService} from '../../../../../core/services/modal.service';
+import {GoHomeService} from '../../../../../core/services/go-home.service';
 
 @Component({
   selector: 'app-menu-messages',
@@ -13,18 +14,18 @@ import {ModalService} from '../../../../../core/services/modal.service';
 export class MenuMessagesComponent implements OnInit {
   open = false;
   messages: Message[] = [];
-  testMessages = TESTING_MESSAGES;
   hasNewMessage = false;
   options = {autoHide: false, scrollbarMinSize: 100};
 
   constructor(private homeService: HomeService,
               private homeNavigationMenuService: HomeNavigationMenuService,
+              private goHomeService: GoHomeService,
               private modalService: ModalService) {
   }
 
   ngOnInit(): void {
     this.getMessages();
-    this.homeService.goHomeObs.subscribe(() => this.open = false);
+    this.goHomeService.goHomeObs.subscribe(() => this.open = false);
     this.homeNavigationMenuService.closeMessagesObs.subscribe(() => this.open = false);
   }
 
@@ -69,84 +70,3 @@ export class MenuMessagesComponent implements OnInit {
     });
   }
 }
-
-export const TESTING_MESSAGES: Message[] = [
-  {
-    creationDate: '2020-07-29',
-    expirationDate: '2020-08-27',
-    id: 170232,
-    image: 'https://mi-credix.s3.us-west-2.amazonaws.com/images/image-1596038703503.png',
-    previewImage: '',
-    readDate: null,
-    sentDate: '2020-07-29',
-    status: 'Enviado',
-    text: 'Cuerpo del mensaje',
-    title: 'Promocion Alisss',
-    type: 'Media'
-  },
-  {
-    creationDate: '2020-07-29',
-    expirationDate: '2020-08-27',
-    id: 170232,
-    image: 'https://mi-credix.s3.us-west-2.amazonaws.com/images/image-1596038703503.png',
-    previewImage: '',
-    readDate: null,
-    sentDate: '2020-07-29',
-    status: 'Enviado',
-    text: 'Cuerpo del mensaje',
-    title: 'Promocion Alisss',
-    type: 'Media'
-  },
-  {
-    creationDate: '2020-07-29',
-    expirationDate: '2020-08-27',
-    id: 170232,
-    image: 'https://mi-credix.s3.us-west-2.amazonaws.com/images/image-1596038703503.png',
-    previewImage: '',
-    readDate: null,
-    sentDate: '2020-07-29',
-    status: 'Enviado',
-    text: 'Cuerpo del mensaje',
-    title: 'Promocion Alisss',
-    type: 'Media'
-  },
-  {
-    creationDate: '2020-07-29',
-    expirationDate: '2020-08-27',
-    id: 170232,
-    image: 'https://mi-credix.s3.us-west-2.amazonaws.com/images/image-1596038703503.png',
-    previewImage: '',
-    readDate: null,
-    sentDate: '2020-07-29',
-    status: 'Enviado',
-    text: 'Cuerpo del mensaje',
-    title: 'Promocion Alisss',
-    type: 'Media'
-  },
-  {
-    creationDate: '2020-07-29',
-    expirationDate: '2020-08-27',
-    id: 170232,
-    image: 'https://mi-credix.s3.us-west-2.amazonaws.com/images/image-1596038703503.png',
-    previewImage: '',
-    readDate: null,
-    sentDate: '2020-07-29',
-    status: 'Enviado',
-    text: 'Cuerpo del mensaje',
-    title: 'Promocion Alisss',
-    type: 'Media'
-  },
-  {
-    creationDate: '2020-07-29',
-    expirationDate: '2020-08-27',
-    id: 170232,
-    image: 'https://mi-credix.s3.us-west-2.amazonaws.com/images/image-1596038703503.png',
-    previewImage: '',
-    readDate: null,
-    sentDate: '2020-07-29',
-    status: 'Enviado',
-    text: 'Cuerpo del mensaje',
-    title: 'Promocion Alisss',
-    type: 'Media'
-  }
-];

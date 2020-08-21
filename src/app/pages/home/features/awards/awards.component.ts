@@ -75,7 +75,6 @@ export class AwardsComponent implements OnInit {
         return response.json;
       }))
       .subscribe((response) => {
-        console.log(response);
         response.forEach((award) => {
           if (award.completed) {
             this.completed.push(award);

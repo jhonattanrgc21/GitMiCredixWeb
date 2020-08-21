@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {LandingService} from './landing.service';
 import {Movement} from '../../../../shared/models/Movement';
 import {StorageService} from '../../../../core/services/storage.service';
+import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
+import {AccountSummary} from '../../../../shared/models/account-summary';
+import {GoHomeService} from '../../../../core/services/go-home.service';
 
 @Component({
   selector: 'app-landing',
@@ -10,7 +13,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 })
 export class LandingComponent implements OnInit {
   paymentDetails: PaymentDetails;
-  balances: Balances;
+  accountSummary: AccountSummary;
   awards: Awards[] = [];
   movements: Movement[] = [];
   balancesTags = {
@@ -39,7 +42,10 @@ export class LandingComponent implements OnInit {
   };
 
   constructor(private landingService: LandingService,
+              private goHomeService: GoHomeService,
+              private globalRequestsService: GlobalRequestsService,
               private storageService: StorageService) {
+    this.goHomeService.goHome();
   }
 
   ngOnInit(): void {
@@ -78,21 +84,9 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  getAccountsSummary(cardId: number = this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId) {
-    this.landingService.getAccountSummary(cardId).subscribe(response => {
-      if (response.type === 'success') {
-        this.balances = {
-          available: response.compracuotasdisp,
-          limit: response.compra,
-          consumed: response.consumed
-        };
-      } else {
-        this.balances = {
-          available: '0',
-          limit: '0',
-          consumed: '0'
-        };
-      }
+  getAccountsSummary(cardId?: number) {
+    this.globalRequestsService.getAccountSummary(cardId).subscribe(response => {
+      this.accountSummary = response;
     });
   }
 
@@ -145,12 +139,6 @@ export interface PaymentDetails {
   minPaymentDollars: string;
   cashPaymentColones: string;
   cashPaymentDollars: string;
-}
-
-export interface Balances {
-  available: string;
-  limit: string;
-  consumed: string;
 }
 
 export interface Awards {

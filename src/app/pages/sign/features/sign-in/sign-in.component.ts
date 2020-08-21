@@ -65,7 +65,7 @@ export class SignInComponent implements OnInit {
       typeIncome: 2
     }).subscribe(data => {
         if (data.titleOne === 'success') {
-          this.storageService.setCurrentSession(data);
+          this.storageService.setCurrentSession(data, this.signInformGroup.get('identification').value);
           this.deviceInfo();
         } else if (data.titleOne === 'warn') {
           if (data.json.message === 'El usuario ya tiene una sesion activa') {

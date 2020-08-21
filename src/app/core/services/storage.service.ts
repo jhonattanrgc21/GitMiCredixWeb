@@ -5,14 +5,12 @@ import {Card} from '../../shared/models/card.model';
 @Injectable()
 export class StorageService {
   public user: User;
-  private localStorageService;
   private card: Card[] = [];
 
   constructor() {
-    this.localStorageService = localStorage;
   }
 
-  setCurrentSession(data: any): void {
+  setCurrentSession(data: any, identification: string): void {
     this.user = {
       userId: data.json.userId,
       aplId: data.json.aplId,
@@ -22,14 +20,16 @@ export class StorageService {
       aplicantName: data.json.aplicantName
     };
     this.card = data.json.cardNumberList;
-    this.localStorageService.setItem('user', JSON.stringify(this.user));
-    this.localStorageService.setItem('card', JSON.stringify(this.card));
+    localStorage.setItem('identification', identification);
+    localStorage.setItem('user', JSON.stringify(this.user));
+    localStorage.setItem('card', JSON.stringify(this.card));
   }
 
   removeCurrentSession(): void {
-    this.localStorageService.removeItem('user');
-    this.localStorageService.removeItem('card');
-    this.localStorageService.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('identification');
+    localStorage.removeItem('card');
+    localStorage.removeItem('token');
   }
 
   getCurrentUser(): User {
@@ -46,6 +46,14 @@ export class StorageService {
 
   clearCurrentCard() {
     localStorage.removeItem('card');
+  }
+
+  getIdentification(): string {
+    return localStorage.getItem('identification');
+  }
+
+  clearIdentification(): void {
+    localStorage.removeItem('identification');
   }
 
   getCurrentToken(): string {

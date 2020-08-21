@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -6,7 +6,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
   templateUrl: './modal-awards.component.html',
   styleUrls: ['./modal-awards.component.scss'],
 })
-export class ModalAwardsComponent implements OnInit {
+export class ModalAwardsComponent implements OnInit, AfterViewInit {
   @ViewChild('footer') footer: TemplateRef<any>;
   currentAward: number;
   awardLength = 0;
@@ -24,7 +24,6 @@ export class ModalAwardsComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
 
   ngAfterViewInit(): void {
     this.data.footer = this.footer;

@@ -2,9 +2,9 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {FormControl} from '@angular/forms';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {Card} from '../../../../../shared/models/card.model';
-import {Balances} from '../landing.component';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
+import {AccountSummary} from '../../../../../shared/models/account-summary';
 
 @Component({
   selector: 'app-balances',
@@ -12,8 +12,18 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
   styleUrls: ['./balances.component.scss']
 })
 export class BalancesComponent implements OnInit, OnChanges {
-  @Input() balances: Balances;
-  @Input() balancesTag: any;
+  @Input() accountSummary: AccountSummary;
+  @Input() balancesTag = {
+    creditLimitTag: 'Límite de crédito',
+    consumedTag: 'Consumido',
+    availableTag: 'Disponible',
+    increaseCreditLimitTag: 'Aumentar límite',
+    ibanAccountsTag: 'Cuentas IBAN',
+    colonesTag: 'Colones',
+    dollarsTag: 'Dólares',
+    colonesIbanCopiedTag: 'Cuenta IBAN en colones copiada',
+    dollarsIbanCopiedTag: 'Cuenta IBAN en dólares copiada',
+  };
   @Output() cardChanged = new EventEmitter<number>();
   cardFormControl = new FormControl(null, []);
   cards: Card[];
@@ -51,11 +61,10 @@ export class BalancesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.balances) {
-      console.log(this.balances);
-      this.limit = ConvertStringAmountToNumber(this.balances.limit);
-      this.available = ConvertStringAmountToNumber(this.balances.available);
-      this.consumed = ConvertStringAmountToNumber(this.balances.consumed);
+    if (changes.accountSummary) {
+      this.limit = ConvertStringAmountToNumber(this.accountSummary.limit);
+      this.available = ConvertStringAmountToNumber(this.accountSummary.available);
+      this.consumed = ConvertStringAmountToNumber(this.accountSummary.consumed);
     }
   }
 }

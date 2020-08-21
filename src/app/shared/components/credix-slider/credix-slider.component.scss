@@ -2,12 +2,13 @@
 
   &__slider {
     width: 100%;
+    pointer-events: none;
   }
 
   &__footer {
     margin-top: -10px;
 
-    span {
+    span, ::ng-deep.credix-numeric-block__integer, ::ng-deep.credix-numeric-block__decimal {
       color: #7B7B7B;
       font-weight: bold;
     }
@@ -43,6 +44,7 @@
     }
 
     .mat-accent .mat-slider-thumb {
+      pointer-events: all;
       height: 32px;
       width: 32px;
       background-color: #F1F1F1;
@@ -112,5 +114,9 @@
         bottom: 1px;
       }
     }
+  }
+
+  .is-hidden {
+    display: none;
   }
 }

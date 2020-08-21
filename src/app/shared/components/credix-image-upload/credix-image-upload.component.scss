@@ -1,0 +1,15 @@
+.credix-image-upload {
+  height: 24px;
+  width: 158px;
+  color: #239DF7;
+  font-size: 1em;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__input {
+    display: none;
+  }
+}
