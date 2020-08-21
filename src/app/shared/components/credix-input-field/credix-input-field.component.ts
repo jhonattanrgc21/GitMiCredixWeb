@@ -1,4 +1,4 @@
-import {Component, forwardRef, HostListener, Injector, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, forwardRef, HostListener, Injector, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
 
 @Component({
@@ -17,11 +17,14 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from '@
 export class CredixInputFieldComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() label: string;
   @Input() focusLabel: string;
-  @Input() mask;
+  @Input() mask: string;
+  @Input() displayValue: any;
   @Input() minLength = 1;
   @Input() maxLength = 100;
+  @Input() readonly = false;
   @Input() type: 'text' | 'password' = 'text';
   controlType: 'text' | 'password' = 'text';
+  @Output() inputClickEvent = new EventEmitter();
   control = new FormControl(null);
   viewLabel: string;
   ngControl;
@@ -32,6 +35,7 @@ export class CredixInputFieldComponent implements OnInit, OnChanges, ControlValu
   ngOnInit(): void {
     this.ngControl = this.injector.get(NgControl);
     this.control.valueChanges.subscribe(value => this.propagateChange(value));
+    this.displayValue = this.control.value;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

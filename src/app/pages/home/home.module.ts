@@ -17,13 +17,7 @@ import {ModalService} from '../../core/services/modal.service';
 import {CredixResultNotificationModule} from '../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
-import {IConfig, NgxMaskModule} from 'ngx-mask';
-import { SendMoneyService } from './features/send-money/send-money.service';
-
-
-const maskConfig: Partial<IConfig> = {
-  validation: false,
-};
+import {SendMoneyService} from './features/send-money/send-money.service';
 
 @NgModule({
   declarations: [
@@ -39,8 +33,7 @@ const maskConfig: Partial<IConfig> = {
     CredixShareButtonModule,
     CredixResultNotificationModule,
     CredixPopupAlternativeModule,
-    SimplebarAngularModule,
-    NgxMaskModule.forRoot(maskConfig),
+    SimplebarAngularModule
   ],
   providers: [
     HomeService,

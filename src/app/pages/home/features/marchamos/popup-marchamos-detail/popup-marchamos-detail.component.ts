@@ -10,7 +10,7 @@ import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
 export class PopupMarchamosDetailComponent implements OnInit {
 
   billingHistorys: BillingHistory[];
-  totalAmount: number = 0;
+  totalAmount = 0;
   totalAmountString: string;
 
   constructor(public dialogRef: MatDialogRef<PopupMarchamosDetailComponent>, @Inject(MAT_DIALOG_DATA) public data) {

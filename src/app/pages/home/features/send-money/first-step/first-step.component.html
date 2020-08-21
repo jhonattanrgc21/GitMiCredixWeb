@@ -4,7 +4,7 @@
 
     <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)" *ngFor="let currency of currencies"
-        [label]="currency.description" name="currency" [value]="currency"></credix-radio-button>
+                           [label]="currency.description" [value]="currency" name="currency"></credix-radio-button>
     </div>
   </div>
 
@@ -19,7 +19,7 @@
                              value="1"></credix-radio-button>
 
         <credix-select *ngIf="showFavoriteAccountsSelect" class="first-step__favorites__select ml-20px"
-                       formControl="favoriteAccountControl" label="Cuentas favoritas">
+                       [formControl]="favoriteAccountControl" label="Cuentas favoritas">
           <mat-option *ngFor="let favoriteAccount of favoritesAccounts" [value]="favoriteAccount">
             {{ favoriteAccount.aliasName }} - {{ favoriteAccount.ibanAccount }}
           </mat-option>
@@ -32,31 +32,28 @@
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span>Nombre</span>
             <span><strong>{{
-                favoriteAccountControl.value.aliasName
+              favoriteAccountControl.value.aliasName
               }}</strong></span>
           </div>
         </div>
 
-        <mat-divider *ngIf="favoriteAccountControl.value && showFavoriteAccountsSelect" class="first-step__divider ml-20px mt-16px"></mat-divider>
+        <mat-divider *ngIf="favoriteAccountControl.value && showFavoriteAccountsSelect"
+                     class="first-step__divider ml-20px mt-16px"></mat-divider>
       </div>
 
       <div>
         <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="Otra cuenta" name="accountType"
-          value="2"></credix-radio-button>
+                             value="2"></credix-radio-button>
 
         <div *ngIf="info && showDetails" class="ml-20px mt-16px" fxLayout="column" fxLayoutGap="8px">
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span>Nombre</span>
-            <span><strong>{{
-                info.aliasName
-              }}</strong></span>
+            <span><strong>{{info.aliasName}}</strong></span>
           </div>
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span>Identificación</span>
-            <span><strong>{{
-              info.identification
-              }}</strong></span>
+            <span><strong>{{info.identification}}</strong></span>
           </div>
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span>Entidad</span>
@@ -64,11 +61,10 @@
           </div>
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span>IBAN</span>
-            <span><strong>{{
-              info.ibanAccount
-              }}</strong></span>
+            <span><strong>{{info.ibanAccount}}</strong></span>
           </div>
-          <credix-link-button text="Editar" (click)="openModal(info)" class="first-step__edit-button"></credix-link-button>
+          <credix-link-button (click)="openModal(info)" class="first-step__edit-button"
+                              text="Editar"></credix-link-button>
         </div>
       </div>
     </div>

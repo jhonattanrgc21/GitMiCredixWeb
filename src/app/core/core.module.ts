@@ -10,12 +10,12 @@ import {SecurityService} from './services/security.service';
 import {StorageService} from './services/storage.service';
 import {GlobalRequestsService} from './services/global-requests.service';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
+import {GoHomeService} from './services/go-home.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
   decimalMarker: ',',
-  thousandSeparator: '.',
-  dropSpecialCharacters: true
+  thousandSeparator: '.'
 };
 
 @NgModule({
@@ -31,6 +31,7 @@ const maskConfig: Partial<IConfig> = {
     HttpService,
     SecurityService,
     GlobalRequestsService,
+    GoHomeService,
     StorageService,
     AuthorizationGuard,
     {provide: HTTP_INTERCEPTORS, useClass: HttpRequestsResponseInterceptor, multi: true}

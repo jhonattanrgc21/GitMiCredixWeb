@@ -39,8 +39,7 @@
   &__calendar {
     position: absolute;
     width: 119px;
-    height: 43px;
-    bottom: 16px;
+    bottom: -20px;
     right: -120px;
 
     mat-icon {
@@ -50,8 +49,25 @@
   }
 
   ::ng-deep {
+
     .mat-form-field-label {
       color: #3e3e3e;
+    }
+
+    .mat-form-field-infix {
+      padding-top: 4px !important;
+    }
+
+    .mat-select-arrow {
+      border-left: 15px solid transparent !important;
+      border-right: none !important;
+      border-top: 15px solid transparent !important;
+      border-image-source: url('src/assets/images/icons/calendar.svg') !important;
+      border-image-repeat: stretch !important;
+    }
+
+    .mat-select:not(.mat-select-empty) .mat-select-arrow-wrapper {
+      transform: translateY(0) !important;
     }
 
     .mat-form-field.mat-focused, .mat-form-field-invalid {
@@ -65,11 +81,5 @@
 
   &.is-hidden {
     max-height: 0;
-  }
-}
-
-::ng-deep.account-statement-datepicker {
-  .mat-calendar-period-button {
-    display: none !important;
   }
 }

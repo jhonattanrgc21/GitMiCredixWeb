@@ -1,0 +1,133 @@
+<div class="personal-credit-first-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="personal-credit-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
+
+    <span class="tl"><strong>Monto</strong></span>
+
+    <credix-slider (inputChange)="amountControl.setValue($event)"
+                   (valueChange)="amountControl.setValue($event)"
+                   [max]="cardLimit"
+                   [min]="100000"
+                   [step]="sliderStep"
+                   [value]="amountControl.value"
+                   class="credix-slider--no-units"
+                   instructions="Deseo Solicitar">
+      <credix-numeric-block [value]="amountControl.value"
+                            fontWeight="bold"
+                            min prefix="₡"></credix-numeric-block>
+      <credix-numeric-block [value]="cardLimit"
+                            fontWeight="bold"
+                            max prefix="₡"></credix-numeric-block>
+    </credix-slider>
+
+    <credix-numeric-block [value]="amountControl.value" class="tr"
+                          fontSize="24"
+                          fontWeight="bold"
+                          fxFlex="22"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+
+  <mat-divider class="personal-credit-first-step__divider"></mat-divider>
+
+  <div class="personal-credit-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span class="tl"><strong>Plazo</strong></span>
+
+    <credix-slider (inputChange)="termControl.setValue($event)"
+                   (valueChange)="termControl.setValue($event)"
+                   [max]="termSliderMax"
+                   [min]="termSliderMin"
+                   [step]="termSliderStep"
+                   [value]="termControl.value"
+                   instructions="Por un período de"
+                   units="Meses"></credix-slider>
+
+    <div fxFlex="22" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
+      <span>Cuotas de:</span>
+
+      <credix-numeric-block [value]="personalCreditSummary?.quota"
+                            class="tr"
+                            fontSize="24"
+                            fontWeight="bold"
+                            prefix="₡"></credix-numeric-block>
+
+      <credix-link-button (click)="openSummary()" text="Ver detalle"></credix-link-button>
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #summaryTemplate>
+  <table class="w-100">
+    <tbody>
+    <tr>
+      <td>Monto solicitado</td>
+      <td class="tr">
+        <credix-numeric-block
+          [value]="amountControl.value"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </td>
+    </tr>
+    <tr>
+      <td>Seguro de desempleo</td>
+      <td class="tr">
+        <credix-numeric-block
+          [value]="personalCreditSummary?.interestSecure"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </td>
+    </tr>
+    <tr>
+      <td>Comisión (5%)</td>
+      <td class="tr">
+        <credix-numeric-block
+          [value]="personalCreditSummary?.commission"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </td>
+    </tr>
+    <tr>
+      <td>Interés (24,46% Anual)</td>
+      <td class="tr">
+        <credix-numeric-block
+          [value]="personalCreditSummary?.interest"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </td>
+    </tr>
+    <tr>
+      <td>IVA*</td>
+      <td class="tr">
+        <credix-numeric-block
+          [value]="ivaAmount"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <mat-divider class="personal-credit-first-step__divider"></mat-divider>
+
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span class="tl">Total</span>
+
+    <credix-numeric-block [value]="personalCreditSummary?.totalPay"
+                          class="tr"
+                          fontWeight="bold"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+
+  <p style="margin: 16px 0 28px 0; color: #707070;">* IVA y comisión se cargarán en el próximo estado de cuenta.</p>
+
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span class="tl" style="font-size: 20px;">Cuotas de</span>
+
+    <credix-numeric-block [value]="personalCreditSummary?.quota"
+                          class="tr"
+                          fontSize="24"
+                          fontWeight="bold"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+</ng-template>

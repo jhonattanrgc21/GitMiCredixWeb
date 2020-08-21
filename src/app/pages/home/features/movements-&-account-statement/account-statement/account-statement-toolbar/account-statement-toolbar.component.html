@@ -16,20 +16,11 @@
                      [onLabel]="switchValues[1]"
                      class="account-statement-toolbar__switch"></credix-switch>
 
-      <mat-form-field appearance="standard" class="account-statement-toolbar__calendar">
-        <mat-label>Fecha</mat-label>
-        <input [formControl]="dateControl" [value]="dateControl.value | dateFormatter: 'yearMonth'" matInput
-               readonly>
-        <input [matDatepicker]="picker" [max]="maxDate" [min]="minDate" matInput style="display: none">
-        <mat-datepicker-toggle [for]="picker" matSuffix>
-          <mat-icon matDatepickerToggleIcon svgIcon="calendar"></mat-icon>
-        </mat-datepicker-toggle>
-        <mat-datepicker #picker
-                        (monthSelected)="chosenMonthHandler($event, picker)"
-                        (yearSelected)="chosenYearHandler($event)"
-                        panelClass="account-statement-datepicker"
-                        startView="multi-year"></mat-datepicker>
-      </mat-form-field>
+      <credix-select [formControl]="dateControl" class="account-statement-toolbar__calendar" label="Fecha">
+        <mat-option *ngFor="let accountStatementDate of accountStatementDates" [value]="accountStatementDate.id">
+          {{ accountStatementDate.date | dateFormatter: 'yearMonth' }}
+        </mat-option>
+      </credix-select>
     </div>
 
   </div>

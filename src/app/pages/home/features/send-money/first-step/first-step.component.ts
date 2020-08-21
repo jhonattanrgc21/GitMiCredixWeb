@@ -70,25 +70,12 @@ export class FirstStepComponent implements OnInit {
   }
 
   openModal(info) {
-    const modal = this.modalService.open(
-      {
-        component: ModalAddIbanComponent,
-        title: 'Añadir cuenta IBAN',
-        data: {info}
-      },
-      {
-        width: 380,
-        height: 584,
-        disableClose: false,
-        panelClass: 'add-account-panel',
-      },
-      1
-    );
+    const modal = this.modalService.open({component: ModalAddIbanComponent, title: 'Añadir cuenta IBAN', data: {info}},
+      {width: 380, height: 584, disableClose: false, panelClass: 'add-account-panel'}, 1);
 
-    modal.afterClosed().subscribe(info => {
-      console.log(info);
-      this.info = info;
-      this.favoriteAccountControl.setValue(info);
+    modal.afterClosed().subscribe(result => {
+      this.info = result;
+      this.favoriteAccountControl.setValue(result);
     });
 
   }

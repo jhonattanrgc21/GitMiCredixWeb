@@ -12,6 +12,7 @@ export class SignComponent implements OnInit {
     this.storageService.clearCurrentToken();
     this.storageService.clearCurrentUser();
     this.storageService.clearCurrentCard();
+    this.storageService.clearIdentification();
   }
 
   ngOnInit(): void {

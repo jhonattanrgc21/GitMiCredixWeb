@@ -23,11 +23,11 @@ export class ForgotPasswordComponent implements OnInit {
   submitted = false;
   forgotPassForm: FormGroup = new FormGroup(
     {
-      identType: new FormControl('', [Validators.required]),
-      identNumber: new FormControl({value: '', disabled: true}, [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl('', [Validators.required]),
-      code: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      identType: new FormControl(null, [Validators.required]),
+      identNumber: new FormControl({value: null, disabled: true}, [Validators.required]),
+      password: new FormControl(null, [Validators.required]),
+      confirmPassword: new FormControl(null, [Validators.required]),
+      code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     },
     {validators: this.passwordValidator}
   );

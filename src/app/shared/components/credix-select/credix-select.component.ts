@@ -1,4 +1,16 @@
-import {AfterViewInit, Component, ContentChildren, forwardRef, Injector, Input, OnInit, QueryList} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ContentChildren,
+  forwardRef,
+  HostListener,
+  Injector,
+  Input,
+  OnChanges,
+  OnInit,
+  QueryList,
+  SimpleChanges
+} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
 import {MatOption} from '@angular/material/core';
 
@@ -15,17 +27,15 @@ import {MatOption} from '@angular/material/core';
     }
   ]
 })
-export class CredixSelectComponent implements OnInit, AfterViewInit, ControlValueAccessor {
+export class CredixSelectComponent implements OnInit, AfterViewInit, OnChanges, ControlValueAccessor {
   @Input() label: string;
+  @Input() focusLabel: string;
   @Input() panelClass = '';
   @Input() disabled = false;
   @ContentChildren(MatOption) queryOptions: QueryList<MatOption>;
   options: any[];
+  viewLabel: string;
   ngControl;
-
-  constructor(public injector: Injector) {
-  }
-
   // tslint:disable-next-line:variable-name
   private _value: any;
 
@@ -34,10 +44,17 @@ export class CredixSelectComponent implements OnInit, AfterViewInit, ControlValu
   }
 
   set value(value) {
-    if (value) {
+    if (value != null) {
       this._value = value;
       this.propagateChange(this._value);
     }
+  }
+
+  constructor(public injector: Injector) {
+  }
+
+  ngOnInit(): void {
+    this.ngControl = this.injector.get(NgControl);
   }
 
   ngAfterViewInit(): void {
@@ -48,8 +65,18 @@ export class CredixSelectComponent implements OnInit, AfterViewInit, ControlValu
     });
   }
 
-  ngOnInit(): void {
-    this.ngControl = this.injector.get(NgControl);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.label) {
+      this.viewLabel = this.label;
+    }
+  }
+
+  @HostListener('focusin') onFocusIn() {
+    this.viewLabel = this.focusLabel || this.label;
+  }
+
+  @HostListener('focusout') onFocusOut() {
+    this.viewLabel = this.value != null && this.focusLabel ? this.focusLabel : this.label;
   }
 
   setOptions() {

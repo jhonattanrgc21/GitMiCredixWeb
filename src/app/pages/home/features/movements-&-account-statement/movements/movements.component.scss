@@ -1,6 +1,9 @@
 .movements {
 
   &__table {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
     ::ng-deep.mat-header-row {
       background: #F0F0F0 !important;
       top: 0 !important;

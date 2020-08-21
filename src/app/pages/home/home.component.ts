@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.breakpointChanged();
+    this.checkScreenBreakpoint();
   }
 
   ngAfterViewInit(): void {
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.scrollService.emitScroll(this.scrollBar.SimpleBar.getScrollElement().scrollTop));
   }
 
-  breakpointChanged() {
+  checkScreenBreakpoint() {
     this.breakpointObserver
       .observe(['(max-width: 1199px)'])
       .subscribe((state: BreakpointState) => {
