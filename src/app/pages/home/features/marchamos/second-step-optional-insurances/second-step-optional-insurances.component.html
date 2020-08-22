@@ -1,5 +1,5 @@
-<div class="marchamos__payment-information secure" fxLayout="row">
-    <label class="marchamos__label-2">Seguros opcionales</label>
+<div class="optional-insurances" fxLayout="row">
+    <label class="optional-insurances__label">Seguros opcionales</label>
     <div fxLayout="column" style="margin-right: 215px;">
       <credix-checkbox-button
         (emitCheckBox)="getValueCheckBoxes($event)"
@@ -11,7 +11,7 @@
                               label="Todos"></credix-checkbox-button>
 
     </div>
-    <div class="marchamos__prices" fxLayout="column">
+    <div class="optional-insurances__prices" fxLayout="column">
       <credix-numeric-block [value]="amountItemsProducts.responsabilityCivilAmount" fontSize="16"
                             fontWeight="bold" prefix="₡"></credix-numeric-block>
       <credix-numeric-block [value]="amountItemsProducts.roadAsistanceAmount" fontSize="16" fontWeight="bold"

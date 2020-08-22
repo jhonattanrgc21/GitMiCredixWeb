@@ -1,14 +1,14 @@
-<div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="153px">
+<div class="pay-resume" fxLayout="row" fxLayoutGap="153px">
     <h3 
     class="sub-title"
     fxFlex="50">Resumen de pago</h3>
     
-    <div fxFlex="60" fxLayout="column" fxLayoutAlign="flex-start flex-end" class="marchamos__billing-list">
+    <div fxFlex="60" fxLayout="column" fxLayoutAlign="flex-start flex-end" class="pay-resume__billing">
         <table class="w-100">
             <tbody>
                     <tr>
                         <td>Marchamo</td>
-                        <td><credix-numeric-block 
+                        <td style="margin-left: 206px;"><credix-numeric-block 
                             [value]="dataPayResume.totalMount" 
                             fontSize="16" 
                             fontWeight="bold"
@@ -17,7 +17,7 @@
                     </tr>
                 <tr>
                     <td>Seguros</td>
-                    <td>
+                    <td style="margin-left: 231px;">
                         <credix-numeric-block 
                         [value]="dataPayResume.totalAmountItemsProducts" 
                         fontSize="16" 
@@ -27,7 +27,7 @@
                 </tr>
             <tr>
                 <td>Comisión</td>
-                <td>
+                <td style="margin-left: 225px;">
                     <credix-numeric-block 
                     [value]="dataPayResume.commission" 
                     fontSize="16" 
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td>IVA</td>
-                <td>
+                <td style="margin-left: 278px;">
                     <credix-numeric-block 
                     [value]="dataPayResume.iva" 
                     fontSize="16" 
@@ -47,7 +47,7 @@
             </tr>
                 <mat-divider style="margin-bottom: 16.5px;"></mat-divider>
                 <tr>
-                    <td class="marchamos__total">Total</td>
+                    <td class="pay-resume__total">Total</td>
                     <td><credix-numeric-block 
                         [value]="dataPayResume.totalMount" 
                         fontSize="16" 

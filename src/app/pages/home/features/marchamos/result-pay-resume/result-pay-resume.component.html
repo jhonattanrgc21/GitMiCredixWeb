@@ -1,4 +1,4 @@
-<div class="marchamos__container-response" fxLayout="column">
+<div class="container-response" fxLayout="column">
     <credix-result-notification
       [message]="resultPay.messageToPay"
       [status]="resultPay.responseToPay"
@@ -31,15 +31,15 @@
       </div>
     </div>
 
-    <credix-share-button class="marchamos__shared-button"
+    <credix-share-button class="container-response__shared-button"
                          description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
                          fxLayoutAlign="center"
                          url="https://www.credix.com/somos-uno/"></credix-share-button>
 
-    <mat-divider class="marchamos__divider-response"></mat-divider>
+    <mat-divider class="container-response__divider-response"></mat-divider>
     <credix-button
       (buttonClick)="doAnotherPay()"
-      class="marchamos__buttons"
+      class="container-response__buttons"
       fxLayoutAlign="flex-end"
       text="Realizar otro pago"></credix-button>
   </div>

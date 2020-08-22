@@ -1,0 +1,14 @@
+.pay-resume{
+    margin-top: 32.5px;
+    margin-left: 101px;
+    margin-bottom: 16.5px;
+    &__sub-title {
+        font-weight: bold;
+        font-size: 16px !important;
+    }
+
+    &__total {
+        font-weight: bold;
+        font-size: 16px;
+      }
+}

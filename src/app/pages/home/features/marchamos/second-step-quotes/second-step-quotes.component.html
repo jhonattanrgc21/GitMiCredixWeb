@@ -1,8 +1,8 @@
-<div class="marchamos__payment-information secure" fxLayout="row">
-    <label class="marchamos__label-3">Cuotas</label>
+<div class="quotes" fxLayout="row">
+    <label class="quotes__label">Cuotas</label>
 
     <div fxLayout="column">
-      <div class="marchamos__slider">
+      <div class="quotes__slider">
         <credix-slider (valueChange)="getValueSlider($event)"
                        [(value)]="value"
                        [instructions]="'Deseo dividir este pago en'"
@@ -13,7 +13,7 @@
       <label *ngIf="quotesToPayOfAmount" class="marchamos__label-4">Comisión</label>
 
       <credix-select *ngIf="quotesToPayOfAmount" 
-      class="marchamos__select" 
+      class="quotes__select" 
       label="Deseo pagar la primera cuota en"
       [formControl]="firstCouteToPayIn">
           <mat-option *ngFor="let firstCoute of wishPayFirstCouteIn" [value]="firstCoute.value">
@@ -22,7 +22,7 @@
     </credix-select>
     </div>
 
-    <div class="marchamos__prices" fxLayout="column">
+    <div class="quotes__prices" fxLayout="column">
       <credix-numeric-block [value]="quotesAmount" fontSize="24" fontWeight="bold" prefix="₡"
                             style="font-size: 24px !important; margin-bottom: 4px;"></credix-numeric-block>
       <!-- <span style="font-size: 24px !important; margin-bottom: 4px;">₡ 114.996,00</span> -->
