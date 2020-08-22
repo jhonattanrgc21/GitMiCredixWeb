@@ -50,7 +50,13 @@ export class MarchamosComponent implements OnInit {
     placeDescription: ''
   };
   dataForPayResumen: any[] = [];
-  dataPayResume:{totalMount: any, totalAmountItemsProducts: number, iva: number, commission: number}
+  dataPayResume:{totalMount: any, totalAmountItemsProducts: number, iva: number, commission: number} =
+  {
+    totalMount:0,
+    totalAmountItemsProducts:0,
+    iva:0,
+    commission:0
+  };
   // maxQuotes: number;
   // minQuotes: number;
 
@@ -192,6 +198,8 @@ export class MarchamosComponent implements OnInit {
         this.responseToContinue = response.type;
         (typeof this.totalMount === 'string') ? this.quotesAmount = parseInt(this.totalMount.replace('.', '')) : this.quotesAmount = this.totalMount;
         (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
+        
+     
       });
 
   }
@@ -283,6 +291,7 @@ export class MarchamosComponent implements OnInit {
   firstStepContinue() {
     this.quotesAmount = this.quotesAmount / this.value;
     this.continue();
+    
   }
 
   getValuesSecondStep() {
@@ -290,24 +299,31 @@ export class MarchamosComponent implements OnInit {
       console.log(this.secureAndQuotesForm.value);
       this.continue();
     }
-    this.dataForPayResumen = [{
-      marchamos: this.totalMount,
-      itemsProductsAmount: [this.amountItemsProducts],
-      commission: this.commission,
-      billingHistory: this.billingHistorys,
-      quotesToPay: [
-        {
-          quotes: this.value,
-          quotesAmount: this.quotesAmount
-        }
-      ]
-    }];
+    // this.dataForPayResumen = [{
+    //   marchamos: this.totalMount,
+    //   itemsProductsAmount: [this.amountItemsProducts],
+    //   commission: this.commission,
+    //   billingHistory: this.billingHistorys,
+    //   quotesToPay: [
+    //     {
+    //       quotes: this.value,
+    //       quotesAmount: this.quotesAmount
+    //     }
+    //   ]
+    // }];
+
   }
 
   getValuesThirstyStep() {
     console.log(this.pickUpForm.value);
     // console.log(object);
     this.continue();
+    this.dataPayResume = {
+      totalMount:this.totalMount,
+      totalAmountItemsProducts: this.totalAmountItemsProducts,
+      commission:this.commission,
+      iva: this.iva
+  }
   }
 
 

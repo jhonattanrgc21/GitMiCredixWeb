@@ -21,6 +21,9 @@ export class FirstStepComponent implements OnInit {
     this.getVehicleType();
   }
 
+  get consultControls() {
+    return this.consultForm.controls;
+  }
 
   getVehicleType() {
     this.httpService.post('marchamos', 'pay/platetypes', {channelId: 102})
