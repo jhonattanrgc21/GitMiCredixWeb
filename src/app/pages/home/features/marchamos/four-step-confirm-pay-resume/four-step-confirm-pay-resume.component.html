@@ -1,0 +1,63 @@
+<div class="pay-resume" fxLayout="row" fxLayoutGap="153px">
+  <h3
+    class="sub-title"
+    fxFlex="50">Resumen de pago</h3>
+
+  <div class="pay-resume__billing" fxFlex="60" fxLayout="column" fxLayoutAlign="flex-start flex-end">
+    <table class="w-100">
+      <tbody>
+      <tr>
+        <td>Marchamo</td>
+        <td style="margin-left: 206px;">
+          <credix-numeric-block
+            [value]="dataPayResume.totalMount"
+            fontSize="16"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </td>
+      </tr>
+      <tr>
+        <td>Seguros</td>
+        <td style="margin-left: 231px;">
+          <credix-numeric-block
+            [value]="dataPayResume.totalAmountItemsProducts"
+            fontSize="16"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </td>
+      </tr>
+      <tr>
+        <td>Comisión</td>
+        <td style="margin-left: 225px;">
+          <credix-numeric-block
+            [value]="dataPayResume.commission"
+            fontSize="16"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </td>
+      </tr>
+      <tr>
+        <td>IVA</td>
+        <td style="margin-left: 278px;">
+          <credix-numeric-block
+            [value]="dataPayResume.iva"
+            fontSize="16"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </td>
+      </tr>
+      <mat-divider style="margin-bottom: 16.5px;"></mat-divider>
+      <tr>
+        <td class="pay-resume__total">Total</td>
+        <td>
+          <credix-numeric-block
+            [value]="dataPayResume.totalMount"
+            fontSize="16"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
