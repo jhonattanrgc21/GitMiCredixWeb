@@ -12,52 +12,12 @@
                 fxLayoutAlign="space-around">
 
         <div class="marchamos__container">
-          <form [formGroup]="consultForm"
-                class="marchamos__form--step-1"
-                fxLayout="row"
-                fxLayoutGap="150px">
-            <h3 class="marchamos__sub-title">Vehículo a consultar</h3>
 
-            <div class="marchamos__inputs" fxLayout="column">
-              <mat-form-field appearance="standard">
-                <mat-label>Tipo de vehículo</mat-label>
-                <mat-select formControlName="vehicleType">
-                  <mat-option *ngFor="let vehicleTypes of vehicleType" [value]="vehicleTypes.type">
-                    {{ vehicleTypes.description}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="fill" credixTextField onFocusLabel="Placa">
-                <mat-label>
-                  Número de placa
-                </mat-label>
-                <input formControlName="plateNumber" mask="AAAAAAAA" matInput type="text">
-              </mat-form-field>
-
-            </div>
-
-          </form>
+          <marchamo-first-step [consultForm]="consultForm">
+          </marchamo-first-step>
           <mat-divider *ngIf="vehicleInformation"></mat-divider>
-          <div *ngIf="vehicleInformation" class="marchamos__information" fxLayout="row" fxLayoutGap="119px">
-            <h3 class="marchamos__sub-title"
-                fxFlex="50">Información del vehículo</h3>
-            <div fxLayout="column" fxLayoutGap="64px">
-              <div class="marchamos__list" fxLayout="column">
-                <div fxLayout="row" fxLayoutGap="183px"><label>Propietario</label>
-                  <span>{{consultVehicle.ownerName}}</span></div>
-                <div fxLayout="row" fxLayoutGap="277px"><label>Marca</label>
-                  <span>{{consultVehicle.brandDescription}}</span></div>
-                <div fxLayout="row" fxLayoutGap="315px"><label>Año</label> <span>{{consultVehicle.yearModel}}</span>
-                </div>
-                <div fxLayout="row" fxLayoutGap="224px"><label>Períodos adeudados</label>
-                  <span>{{consultVehicle.owedYears}}</span></div>
-                <div fxLayout="row" fxLayoutGap="207px"><label>Período (s) a pagar</label>
-                  <span>{{consultVehicle.period}}</span></div>
-              </div>
-            </div>
-          </div>
-
+          <consult-information *ngIf="vehicleInformation" [consultVehicle]="consultVehicle">
+          </consult-information>
         </div>
 
         <mat-divider></mat-divider>
@@ -78,9 +38,12 @@
         </div>
       </cdk-step>
 
-      <cdk-step [label]="'Seguros y. cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
+      <cdk-step [label]="'Seguros y cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
 
-        <div class="marchamos__payment-information" fxLayout="row">
+        <second-step-marchamo
+          [billingHistorys]="billingHistorys"
+          [totalMount]="totalMount"></second-step-marchamo>
+        <!-- <div class="marchamos__payment-information" fxLayout="row">
           <label class="marchamos__label-1">Marchamo</label>
           <span class="marchamos__payment-span">Monto al cobro</span>
           <div class="marchamos__prices" fxLayout="column">
@@ -88,69 +51,25 @@
                                   prefix="₡"></credix-numeric-block>
             <credix-link-button (click)="showDetail()" text="Ver detalles"></credix-link-button>
           </div>
-        </div>
-
+        </div> -->
 
         <mat-divider></mat-divider>
         <form [formGroup]="secureAndQuotesForm">
-          <div class="marchamos__payment-information secure" fxLayout="row">
-            <label class="marchamos__label-2">Seguros opcionales</label>
-            <div fxLayout="column" style="margin-right: 215px;">
-              <credix-checkbox-button
-                (emitCheckBox)="getValueCheckBoxes($event)"
-                *ngFor="let item of itemProduct"
-                [checked]="isChecked"
-                [label]="item.responseDescription"
-                [value]="item.productCode"></credix-checkbox-button>
-              <credix-checkbox-button (emitCheckBox)="getValueOfCheckBoxAll($event)" [value]="10"
-                                      label="Todos"></credix-checkbox-button>
 
-            </div>
-            <div class="marchamos__prices" fxLayout="column">
-              <credix-numeric-block [value]="amountItemsProducts.responsabilityCivilAmount" fontSize="16"
-                                    fontWeight="bold" prefix="₡"></credix-numeric-block>
-              <credix-numeric-block [value]="amountItemsProducts.roadAsistanceAmount" fontSize="16" fontWeight="bold"
-                                    prefix="₡"></credix-numeric-block>
-              <credix-numeric-block [value]="amountItemsProducts.moreProtectionAmount" fontSize="16" fontWeight="bold"
-                                    prefix="₡"></credix-numeric-block>
-            </div>
-          </div>
+          <second-step-optional-insurances
+            [(aditionalProducts)]="secureAndQuotesControls.aditionalProducts"
+            [amountItemsProducts]="amountItemsProducts">
+          </second-step-optional-insurances>
+
           <mat-divider></mat-divider>
-          <div class="marchamos__payment-information secure" fxLayout="row">
-            <label class="marchamos__label-3">Cuotas</label>
-
-            <div fxLayout="column">
-              <div class="marchamos__slider">
-                <credix-slider (valueChange)="getValueSlider($event)"
-                               [(value)]="value"
-                               [instructions]="'Deseo dividir este pago en'"
-                               [max]="maxQuotes"
-                               [min]="minQuotes" [units]="'Cuota'"></credix-slider>
-              </div>
-
-              <label *ngIf="quotesToPayOfAmount" class="marchamos__label-4">Comisión</label>
-
-              <mat-form-field *ngIf="quotesToPayOfAmount" appearance="standard" class="marchamos__select">
-                <mat-label>Deseo pagar la primera cuota en</mat-label>
-                <mat-select formControlName="firstCouteToPayIn">
-                  <mat-option *ngFor="let firstCoute of wishPayFirstCouteIn" [value]="firstCoute.value">
-                    {{ firstCoute.description}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div class="marchamos__prices" fxLayout="column">
-              <credix-numeric-block [value]="quotesAmount" fontSize="24" fontWeight="bold" prefix="₡"
-                                    style="font-size: 24px !important; margin-bottom: 4px;"></credix-numeric-block>
-              <!-- <span style="font-size: 24px !important; margin-bottom: 4px;">₡ 114.996,00</span> -->
-              <credix-link-button (click)="payResume()" style="margin-bottom: 64px;"
-                                  text="Ver detalles"></credix-link-button>
-              <credix-numeric-block *ngIf="quotesToPayOfAmount" [value]="commission" fontSize="16" fontWeight="bold"
-                                    prefix="₡"></credix-numeric-block>
-            </div>
-          </div>
-
+          <second-step-quotes
+            (dataQuotes)="getDataOfQuotes($event)"
+            [(firstCouteToPayIn)]="secureAndQuotesControls.firstCouteToPayIn"
+            [(quotesToPay)]="secureAndQuotesControls.quotesToPay"
+            [amountItemsProducts]="amountItemsProducts"
+            [quotesAmount]="quotesAmount"
+            [totalMount]="totalMount"
+          ></second-step-quotes>
 
         </form>
         <mat-divider></mat-divider>
@@ -165,7 +84,12 @@
 
       <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
         <form [formGroup]="pickUpForm" class="marchamos__form--step-1" fxLayout="column" fxLayoutGap="150px">
-          <div class="marchamos__top-row" fxLayout="row" fxLayoutGap="163px">
+
+          <thirsty-step-email-registered
+            [emailRegistered]="pickUpControls.email"
+            [email]="email"
+          ></thirsty-step-email-registered>
+          <!-- <div class="marchamos__top-row" fxLayout="row" fxLayoutGap="163px">
             <h3 class="marchamos__sub-title__first">Correo electrónico</h3>
 
             <div class="marchamos__inputs__first" fxLayout="column">
@@ -180,9 +104,17 @@
               </mat-form-field>
 
             </div>
-          </div>
+          </div> -->
           <mat-divider class="marchamos__places-divider"></mat-divider>
-          <div class="marchamos__bottom-row" fxLayout="row" fxLayoutGap="191px">
+
+          <thirsty-step-place-of-retreat
+            (dataDelivery)="getDataOfDelivery($event)"
+            (placeOfRetreatChanged)="getPlaceOfRetreatData($event)"
+            [(pickUp)]="pickUpControls.pickUp"
+            [addressAplicant]="addressAplicant"
+            [informationApplicant]="informationApplicant"
+          ></thirsty-step-place-of-retreat>
+          <!-- <div class="marchamos__bottom-row" fxLayout="row" fxLayoutGap="191px">
             <h3 class="marchamos__sub-title">Lugar de retiro</h3>
 
             <div class="marchamos__radio-button" fxLayout="column">
@@ -232,7 +164,7 @@
               </div>
 
             </div>
-          </div>
+          </div> -->
           <!-- <mat-divider class="marchamos__divider-footer"></mat-divider>
           <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px" class="marchamos__buttons-footer">
             <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
@@ -250,7 +182,8 @@
 
       <cdk-step [label]="'Confirmar'">
 
-        <div class="marchamos__billing" fxLayout="row">
+        <four-step-confirm-contact [contactToConfirm]="contactToConfirm"></four-step-confirm-contact>
+        <!-- <div class="marchamos__billing" fxLayout="row">
           <label>Contacto</label>
 
           <div class="marchamos__billing-contact" fxLayout="column">
@@ -258,7 +191,7 @@
             <span>{{contactToConfirm.email}}</span>
             <span>{{contactToConfirm.phone | mask: '0000-0000'}}</span>
           </div>
-        </div>
+        </div> -->
 
         <mat-divider></mat-divider>
 
@@ -270,7 +203,9 @@
         <mat-divider></mat-divider>
 
 
-        <div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="153px">
+        <four-step-confirm-pay-resume
+          [dataPayResume]="dataPayResume"></four-step-confirm-pay-resume>
+        <!-- <div class="marchamos__billing-information" fxLayout="row" fxLayoutGap="153px">
           <label>Resumen de pago</label>
           <ul class="marchamos__billing-list">
             <li fxLayoutGap="206px"><label>Marchamo</label>
@@ -294,7 +229,7 @@
                                     prefix="₡"></credix-numeric-block>
             </li>
           </ul>
-        </div>
+        </div> -->
 
 
         <mat-divider></mat-divider>
@@ -319,14 +254,22 @@
         <mat-divider></mat-divider>
         <div class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
           <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-          <credix-button (buttonClick)="confirmModal()"
-                         text="Pagar"></credix-button>
+          <credix-button
+            (buttonClick)="confirmModal()"
+            [disabled]="!confirmControls.credixCode.value"
+            text="Pagar"></credix-button>
         </div>
       </cdk-step>
 
     </credix-stepper>
 
-    <div *ngIf="responseResultPay" class="marchamos__container-response" fxLayout="column">
+    <result-pay-resume
+      *ngIf="responseResultPay"
+      [(responseResultPay)]="responseResultPay"
+      [dataPay]="dataPay"
+      [resultPay]="resultPay"
+    ></result-pay-resume>
+    <!-- <div *ngIf="responseResultPay" class="marchamos__container-response" fxLayout="column">
       <credix-result-notification
         [message]="messageToPay"
         [status]="responseToPay"
@@ -370,7 +313,7 @@
         class="marchamos__buttons"
         fxLayoutAlign="flex-end"
         text="Realizar otro pago"></credix-button>
-    </div>
+    </div> -->
 
   </ngx-simplebar>
 

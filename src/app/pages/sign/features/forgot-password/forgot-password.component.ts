@@ -69,10 +69,10 @@ export class ForgotPasswordComponent implements OnInit {
             channelId: 102,
             password: CryptoJS.SHA256(
               this.forgotPassForm.get('password').value
-            ),
+            ).toString(),
             passwordConfirmation: CryptoJS.SHA256(
               this.forgotPassForm.get('confirmPassword').value
-            ),
+            ).toString(),
           }
         )
         .pipe(
