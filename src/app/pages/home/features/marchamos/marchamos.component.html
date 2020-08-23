@@ -1,6 +1,9 @@
 <mat-card
   class="marchamos"
-  [class.height-step-2]="stepper.selectedIndex === 1"
+  [class.height-step-1]="stepperIndex === 0" 
+  [class.height-step-2]="stepperIndex === 1"
+  [class.height-step-3]="stepperIndex === 2"
+  [class.height-step-4]="stepperIndex === 3"  
   fxLayout="column">
   <h1 class="marchamos__title">Marchamo</h1>
 

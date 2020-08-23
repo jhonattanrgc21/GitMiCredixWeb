@@ -1,7 +1,7 @@
 .marchamos {
   background: #ffffff 0% 0% no-repeat padding-box;
   width: 877px;
-  height: 662px;
+  
   // padding: 40px !important;
   border-radius: 8px;
 
@@ -143,4 +143,17 @@
   .mat-divider-horizontal {
     position: initial !important;
   }
+}
+
+.height-step-1{
+  height: 662px;
+}
+.height-step-2{
+  height: 685px;
+}
+.height-step-3{
+  height: 662px;
+}
+.height-step-4{
+  height: 741px;
 }

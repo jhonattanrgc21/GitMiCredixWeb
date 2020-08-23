@@ -2,18 +2,11 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpService} from 'src/app/core/services/http.service';
 import {ModalService} from 'src/app/core/services/modal.service';
-import {VehicleType} from 'src/app/shared/models/vehicleType.models';
 import {CdkStepper} from '@angular/cdk/stepper';
-import {MatDialogRef} from '@angular/material/dialog';
-import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
 import {ConsultVehicle} from 'src/app/shared/models/consultVehicle.models';
-import {Item} from 'src/app/shared/models/item.model';
-import {PopupMarchamosNewDirectionComponent} from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
-import {DeliveryPlace} from 'src/app/shared/models/deliveryPlace.model';
 import {StorageService} from 'src/app/core/services/storage.service';
 import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
 import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
-import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
 
 @Component({
   selector: 'app-marchamos',

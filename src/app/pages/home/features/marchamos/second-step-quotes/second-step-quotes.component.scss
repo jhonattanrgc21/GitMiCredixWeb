@@ -1,14 +1,19 @@
 .quotes{
-    padding-left: 101px;
-    padding-right: 99px;
+    padding-left: 17px;
+    padding-right: 32px;
     padding-top: 16.5px;
+
+    &__label{
+      margin-right: 179px;
+      font-size: 16px;
+      font-weight: bold;
+    }
     &__slider {
-        margin-right: 67px;
-        width: 280px;
+        width: 266px;
         margin-bottom: 32px;
       }
       &__select {
-        width: 280px;
+        width: 265px;
       }
       &__prices{
           
