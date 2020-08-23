@@ -29,10 +29,9 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
   @Input() addressAplicant: any[] = [];
 
   @Input() pickUp: FormControl;
-  @Output() pickUpChanged: EventEmitter<FormControl> = new EventEmitter<FormControl>(); 
 
   @Output() dataDelivery: EventEmitter<any> = new EventEmitter<any>();
-  @Output() placeOfRetreatChanged: EventEmitter<{placeDescription: string}> = new EventEmitter<{placeDescription: string}>(); 
+  @Output() placeOfRetreatChanged: EventEmitter<any> = new EventEmitter<any>(); 
 
   constructor(private httpService: HttpService, private modalService: ModalService) { }
 
@@ -150,7 +149,7 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
         };
         break;
     }
-    this.placeOfRetreatChanged.emit(this.placeOfRetreat);
+    this.placeOfRetreatChanged.emit({placeDescription:this.placeOfRetreat.placeDescription});
   }
 
   private isDelivery() {
@@ -165,6 +164,6 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
     } else {
       return;
     }
-    this.placeOfRetreatChanged.emit(this.placeOfRetreat);
+    this.placeOfRetreatChanged.emit({placeDescription:this.placeOfRetreat.placeDescription});
   }
 }

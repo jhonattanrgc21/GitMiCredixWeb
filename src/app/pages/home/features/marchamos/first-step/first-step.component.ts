@@ -13,7 +13,6 @@ export class FirstStepComponent implements OnInit {
   vehicleType: VehicleType[];
 
   @Input() consultForm: FormGroup;
-  @Output() consultFormChange: EventEmitter<FormGroup>;
 
   constructor(private httpService: HttpService) { }
 

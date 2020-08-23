@@ -12,7 +12,6 @@ export class ThirstyStepEmailRegisteredComponent implements OnInit {
   @Input() email: string;
 
   @Input() emailRegistered: FormControl;
-  @Output() emailRegisteredChanged: EventEmitter<FormControl> = new EventEmitter<FormControl>();
 
   constructor() { }
 

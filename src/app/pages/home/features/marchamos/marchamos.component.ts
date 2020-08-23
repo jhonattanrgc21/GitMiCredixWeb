@@ -57,6 +57,7 @@ export class MarchamosComponent implements OnInit {
     iva:0,
     commission:0
   };
+  stepperIndex: number = 0;
   // maxQuotes: number;
   // minQuotes: number;
 
@@ -139,7 +140,7 @@ export class MarchamosComponent implements OnInit {
     this.getUserAplicantAccountNumber();
     // this.getListQuotesByProduct();
     this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount + this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
-    console.log(this.totalAmountItemsProducts);
+
   }
 
 
@@ -157,6 +158,7 @@ export class MarchamosComponent implements OnInit {
 
   continue() {
     this.stepper.next();
+    this.stepperIndex = this.stepper.selectedIndex;
   }
 
   

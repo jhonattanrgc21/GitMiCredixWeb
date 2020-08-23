@@ -82,9 +82,7 @@ export class SecondStepQuotesComponent implements OnInit {
 
   // FormControls
   @Input() firstCouteToPayIn: FormControl;
-  @Output() firstCouteToPayInChanged: EventEmitter<FormControl> = new EventEmitter<FormControl>();
   @Input() quotesToPay: FormControl;
-  @Output() quotesToPayChanged: EventEmitter<FormControl> = new EventEmitter<FormControl>();
 
   // dataEmit
   @Output() dataQuotes: EventEmitter<any> = new EventEmitter<any>();
