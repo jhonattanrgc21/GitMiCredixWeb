@@ -127,7 +127,8 @@
           <div class="marchamos__credix-code" fxLayout="column">
             <label style="font-weight: bold; font-size: 16px;">Código MiCredix</label>
             <p style="font-weight: normal; font-size: 14px;">Ingrese el código generado en la aplicación
-              <credix-link-button text="Código MiCredix >"></credix-link-button>
+              <credix-link-button text="Código MiCredix"></credix-link-button>
+              <mat-icon svgIcon="chevron_right" style="width: 6px; height: 10px; fill:#239DF7"></mat-icon>
             </p>
           </div>
 
@@ -156,7 +157,8 @@
       *ngIf="responseResultPay"
       [resultPay]="resultPay"
       [dataPay]="dataPay"
-      [(responseResultPay)]="responseResultPay"
+      [responseResultPay]="responseResultPay"
+      (responseResultPayChanged)="getAnotherPay($event)"
     ></result-pay-resume>
   
 </mat-card>

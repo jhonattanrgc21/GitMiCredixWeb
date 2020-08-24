@@ -68,6 +68,8 @@ export class MarchamosComponent implements OnInit {
   titleToPay: string;
   email: string;
 
+  isPickUpStore:boolean = false;
+
   resultPay:{messageToPay: string, responseToPay:string, titleToPay:string};
   dataPay: {totalMount:any, value:number,plateNumber:string,firstCouteToPayIn: string}
 
@@ -80,9 +82,9 @@ export class MarchamosComponent implements OnInit {
   });
 
   secureAndQuotesForm: FormGroup = new FormGroup({
-    aditionalProducts: new FormArray([]),
+    aditionalProducts: new FormArray([],{validators: Validators.required}),
     quotesToPay: new FormControl(''),
-    firstCouteToPayIn: new FormControl('')
+    firstCouteToPayIn: new FormControl('', [Validators.required])
   });
 
   pickUpForm: FormGroup = new FormGroup({
@@ -165,12 +167,14 @@ export class MarchamosComponent implements OnInit {
   getDataOfQuotes(event){
     this.commission = event.commission;
     this.iva = event.iva;
+    this.value = event.quotes;
   }
 
   getDataOfDelivery(event){
     console.log(event);
+    this.isPickUpStore = event.isPickUpStore;
 
-    if (event.isPickUpStore) {
+    if (this.isPickUpStore) {
       this.contactToConfirm =  {
         name: event.data.name,
         email:this.pickUpControls.email.value,
@@ -200,6 +204,9 @@ export class MarchamosComponent implements OnInit {
   }
 
 
+  getAnotherPay(event){
+    this.responseResultPay = event;
+  }
 
   consult() {
     this.httpService.post('marchamos', 'pay/vehicleconsult', {
@@ -252,8 +259,8 @@ export class MarchamosComponent implements OnInit {
       });
   }
 
-  secureToPay(data?) {
-
+  secureToPay() {
+    
     this.httpService.post('marchamos', 'pay/soapay',
       {
         channelId: 107,
@@ -274,7 +281,7 @@ export class MarchamosComponent implements OnInit {
         plateClassId: parseInt(this.consultControls.vehicleType.value),
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
         promoStatus: this.promoStatus.promoStatusId,
-        quotas: this.secureAndQuotesControls.quotesToPay.value,
+        quotas: this.value,
         transactionTypeId: 1
       })
       .subscribe(response => {
@@ -290,7 +297,7 @@ export class MarchamosComponent implements OnInit {
 
         this.dataPay = {
           totalMount:this.totalMount,
-          value: this.secureAndQuotesControls.quotesToPay.value,
+          value: this.value,
           plateNumber: this.consultVehicle.plateNumber,
           firstCouteToPayIn: this.secureAndQuotesControls.firstCouteToPayIn.value
         }
@@ -300,7 +307,6 @@ export class MarchamosComponent implements OnInit {
 
   confirmModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(event => {
-      console.log(event);
       if (event) {
         this.secureToPay();
       }
@@ -330,7 +336,9 @@ export class MarchamosComponent implements OnInit {
         commission:this.commission,
         iva: this.iva
     }
-    this.isPickUp();
+    if (this.isPickUpStore) {
+      this.isPickUp();  
+    }
   }
 
 

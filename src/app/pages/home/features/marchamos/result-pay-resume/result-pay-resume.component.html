@@ -12,11 +12,11 @@
 
         <div fxLayout="row" fxLayoutGap="41px">
           <label>Monto</label>
-          <span style="font-weight: bold; font-size: 16px;">{{dataPay.totalMount}} </span>
+          <credix-numeric-block [value]="dataPay.totalMount" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
         </div>
         <div fxLayout="row" fxLayoutGap="107px">
           <label>Cuotas</label>
-          <span style="font-weight: bold; font-size: 16px;">{{dataPay.value}} </span>
+          <span style="font-weight: bold; font-size: 16px;">{{dataPay.value}}</span>
         </div>
         <div fxLayout="row" fxLayoutGap="65px">
           <label>Placa</label>
@@ -38,7 +38,7 @@
 
     <mat-divider class="container-response__divider-response"></mat-divider>
     <credix-button
-      (buttonClick)="doAnotherPay()"
+      (click)="doAnotherPay()"
       class="container-response__buttons"
       fxLayoutAlign="flex-end"
       text="Realizar otro pago"></credix-button>

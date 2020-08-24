@@ -102,7 +102,7 @@ export class SecondStepQuotesComponent implements OnInit {
       (event > 0) ? this.quotesAmount = this.totalMount / this.value : this.quotesAmount;
     }
     this.quotesToPay.patchValue(this.quotesAmount);
-    this.dataQuotes.emit({iva: this.iva, commission: this.commission});
+    this.dataQuotes.emit({iva: this.iva, commission: this.commission, quotes:this.value});
   }
 
   getCommission(commission: number) {
