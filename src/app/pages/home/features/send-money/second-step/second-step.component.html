@@ -7,7 +7,7 @@
     </credix-input-field>
   </div>
 
-  <mat-divider class="second-step__divider full-width mt-16px mb-16px"></mat-divider>
+  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
 
   <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
 
@@ -16,13 +16,13 @@
     <div fxFlex fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <credix-slider (valueChange)="quotasControl.setValue($event)" [value]="quotasControl.value"
-          class="second-step__slider" [max]="maxQuota" [min]="minQuota" [step]="stepQuota"
-          instructions="Deseo dividir este pago en" units="Coutas"></credix-slider>
+                       [max]="maxQuota" [min]="minQuota" [step]="stepQuota" class="second-step__slider"
+                       instructions="Deseo dividir este pago en" units="coutas"></credix-slider>
 
 
         <div fxLayout="column">
           <credix-numeric-block [prefix]="currencyCode" [value]="quotaAmountView" class="tr" fontSize="24"
-            fontWeight="bold"></credix-numeric-block>
+                                fontWeight="bold"></credix-numeric-block>
           <credix-link-button class="tr" text="Ver detalle" (click)="openDetails()"></credix-link-button>
         </div>
       </div>
@@ -36,7 +36,7 @@
 
   </div>
 
-  <mat-divider class="second-step__divider full-width mt-16px mb-16px"></mat-divider>
+  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
 
   <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
 

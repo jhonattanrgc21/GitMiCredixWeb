@@ -1,45 +1,33 @@
-
-.add-account-panel {
-  ::ng-deep .credix-popup__title {
-    font-size: 31px;
-  }
-}
-
-.add-account-div {
-
-
-  &__btn {
-    position: absolute;
-    bottom: 32px;
-    width: 300px;
-  }
-}
-
-::ng-deep.credix-popup__title {
-  font-size: 31px;
-  margin-bottom: 16px !important;
-}
-
 .add-account {
-  &__select {
-    height: 38px !important;
-    margin-bottom: 20px !important;
-  }
+  height: 100%;
 
-  &__input {
-    height: 38px;
-    margin-bottom: 20px;
-  }
+  &__form {
+    height: 100%;
+    position: relative;
 
-  &__input1 {
-    border: none;
-  }
+    &__select {
+      height: 38px !important;
+      margin-bottom: 20px !important;
+    }
 
-  credix-checkbox-button {
-    margin-top: 16px;
-  }
+    &__input {
+      height: 38px;
+      margin-bottom: 20px;
+    }
 
-  credix-button {
-    margin-top: 16px;
+    &__button {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}
+
+::ng-deep.add-account-panel {
+
+  .credix-popup__title {
+    font-size: 31px;
+    line-height: 30px;
+    margin-bottom: 16px;
   }
 }

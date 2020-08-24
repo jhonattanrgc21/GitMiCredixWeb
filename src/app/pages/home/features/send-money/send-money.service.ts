@@ -4,10 +4,10 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class SendMoneyService {
-  getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
-  getQuotaByProductUri = 'customerservice/listquotabyproduct';
-  getIbanAccountUri = 'account/getibanaccount';
-  sendMoneyUri = 'channels/senddirect';
+  private getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
+  private getQuotaByProductUri = 'customerservice/listquotabyproduct';
+  private getIbanAccountUri = 'account/getibanaccount';
+  private sendMoneyUri = 'channels/senddirect';
 
 
   constructor(private httpService: HttpService) {

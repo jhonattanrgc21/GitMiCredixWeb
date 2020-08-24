@@ -8,6 +8,7 @@ import {ModalService} from '../../../../../../core/services/modal.service';
 import {SendMoneyService} from '../../send-money.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CredixToastService} from '../../../../../../core/services/credix-toast.service';
+import {GlobalRequestsService} from '../../../../../../core/services/global-requests.service';
 
 @Component({
   selector: 'app-modal-add-iban',
@@ -20,19 +21,21 @@ export class ModalAddIbanComponent implements OnInit {
   showFavorite = false;
   isChecked = false;
   newAccountForm: FormGroup = new FormGroup({
-    ibanAccount: new FormControl(this.data.data.info ? this.data.data.info.ibanAccount : '', [Validators.required]),
-    identType: new FormControl(this.data.data.info ? this.data.data.info.identType : '', [Validators.required]),
+    ibanAccount: new FormControl(this.data.data.info ? this.data.data.info.ibanAccount : null, [Validators.required]),
+    identType: new FormControl(this.data.data.info ? this.data.data.info.identType : null, [Validators.required]),
     identNumber: new FormControl({
-      value: this.data.data.info ? this.data.data.info.identification : '',
+      value: this.data.data.info ? this.data.data.info.identification : null,
       disabled: !this.data.data.info
     }, [Validators.required]),
-    name: new FormControl(this.data.data.info ? this.data.data.info.aliasName : '', [Validators.required]),
-    favName: new FormControl(this.data.data.info ? this.data.data.info.favName : '', this.showFavorite && [Validators.required]),
-    code: new FormControl('', this.showFavorite && [Validators.required]),
+    name: new FormControl(this.data.data.info ? this.data.data.info.aliasName : null, [Validators.required]),
+    favName: new FormControl(this.data.data.info ? this.data.data.info.favName : null,
+      this.showFavorite && [Validators.required]),
+    code: new FormControl(null, this.showFavorite && [Validators.required]),
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,
               private httpService: HttpService,
+              private globalRequestsService: GlobalRequestsService,
               private modalService: ModalService,
               private sendMoney: SendMoneyService,
               public toastService: CredixToastService,
@@ -43,8 +46,32 @@ export class ModalAddIbanComponent implements OnInit {
     this.getIdentificationTypes();
   }
 
+  getIdentificationTypes() {
+    this.globalRequestsService.getIdentificationTypes()
+      .pipe(finalize(() => this.identificationTypeChanged()))
+      .subscribe(identificationTypes => this.identificationTypes = identificationTypes);
+  }
+
+  identificationTypeChanged() {
+    this.newAccountForm.controls.identType.valueChanges.subscribe((value) => {
+      if (value !== null) {
+        this.identificationMask = getIdentificationMaskByType(
+          this.identificationTypes.find((identificationType) => identificationType.id === value).value).mask;
+        this.newAccountForm.controls.identNumber.reset(null, {emitEvent: false,});
+        this.newAccountForm.controls.identNumber.enable();
+      } else {
+        this.newAccountForm.controls.identNumber.disable();
+      }
+    });
+  }
+
+  onCheckboxChanged(event) {
+    this.showFavorite = event.checked;
+  }
+
   submit() {
     if (this.newAccountForm.valid) {
+
       if (this.showFavorite) {
         this.sendMoney
           .addFavAccount(this.newAccountForm.controls.favName.value,
@@ -69,39 +96,4 @@ export class ModalAddIbanComponent implements OnInit {
     }
   }
 
-  getIdentificationTypes() {
-    this.httpService
-      .post('canales', 'global/identification-types', {
-        channelId: 102,
-      })
-      .pipe(finalize(() => this.identificationTypeChanged()))
-      .subscribe(
-        (response) =>
-          (this.identificationTypes = response.identificationTypes.filter(
-            (idt) => idt.id > 0
-          ))
-      );
-  }
-
-  identificationTypeChanged() {
-    this.newAccountForm.controls.identType.valueChanges.subscribe((value) => {
-      if (value !== null) {
-        this.identificationMask = getIdentificationMaskByType(
-          this.identificationTypes.find(
-            (identificationType) => identificationType.id === value
-          ).value
-        ).mask;
-        this.newAccountForm.controls.identNumber.reset(null, {
-          emitEvent: false,
-        });
-        this.newAccountForm.controls.identNumber.enable();
-      } else {
-        this.newAccountForm.controls.identNumber.disable();
-      }
-    });
-  }
-
-  emit(event: { value: string; checked: boolean }) {
-    event.checked ? (this.showFavorite = true) : (this.showFavorite = false);
-  }
 }
