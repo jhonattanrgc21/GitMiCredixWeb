@@ -6,6 +6,7 @@
 
     ::ng-deep.mat-header-row {
       background: #F0F0F0 !important;
+      top: 0 !important;
     }
 
     mat-header-cell:first-of-type {
@@ -21,7 +22,7 @@
 
       &:first-child {
         flex: 12% !important;
-        justify-content: flex-start !important;
+        justify-content: center !important;
         text-align: left !important;
         color: #6F7071;
       }
