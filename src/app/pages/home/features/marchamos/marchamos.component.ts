@@ -67,6 +67,7 @@ export class MarchamosComponent implements OnInit {
   messageToPay: string;
   titleToPay: string;
   email: string;
+  ownerEmail: string;
 
   isPickUpStore:boolean = false;
 
@@ -159,7 +160,7 @@ export class MarchamosComponent implements OnInit {
   
 
   getCardValues() {
-    this.storageService.getCurrentCard().forEach(cardValues => {
+    this.storageService.getCurrentCards().forEach(cardValues => {
       this.cardNumber = cardValues.cardNumber;
     });
   }
@@ -240,6 +241,7 @@ export class MarchamosComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
         this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
+        this.ownerEmail = this.ownerPayer.email;
       });
   }
 
@@ -268,10 +270,13 @@ export class MarchamosComponent implements OnInit {
         amount: (typeof this.totalMount === 'string') ? parseInt(this.totalMount.replace('.', '')) : this.totalMount,
         cardNumber: this.cardNumber,
         deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
+        authenticationNumberCommission : "0000",
+        authenticationNumberMarchamo1 : "000000",
         domicilePerson: this.contactToConfirm.name,
         domicilePhone: this.contactToConfirm.phone,
         domicilePlace: this.placeOfRetreat.placeDescription,
-        email: this.pickUpControls.email.value,
+        email: (this.email !== null) ? this.email : this.ownerEmail,
+        ownerEmail: (this.email !== null) ? this.email : this.ownerEmail,
         extraCardStatus: '0',
         firstPayment: this.promoStatus.paymentDate,
         payId: this.consultVehicle.payId,
@@ -281,8 +286,9 @@ export class MarchamosComponent implements OnInit {
         plateClassId: parseInt(this.consultControls.vehicleType.value),
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
         promoStatus: this.promoStatus.promoStatusId,
-        quotas: this.value,
-        transactionTypeId: 1
+        quotasId: this.value,
+        transactionTypeId: 1,
+        requiredBill: '1'
       })
       .subscribe(response => {
         console.log(response);
