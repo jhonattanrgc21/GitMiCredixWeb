@@ -18,7 +18,7 @@
 
       &.info {
         display: block;
-        margin-bottom: 18px;
+        margin-bottom: 52px;
       }
     }
   }
@@ -28,7 +28,7 @@
     &__input-wrapper {
       :nth-child(1) {
         height: 38px;
-        margin-bottom: 16px;
+        margin-bottom: 18px;
       }
     }
   }
@@ -45,19 +45,16 @@
   }
 
   &__button {
-    width: 100%;
+    width: 296px;
+    bottom: 40px;
+    position: absolute;
+  }
+}
 
-    &.step-one {
-      margin-top: 90px;
-    }
+::ng-deep.sign-up-panel {
 
-    &.step-two {
-      margin-top: 2px;
-      margin-bottom: 40px;
-    }
-
-    &.step-three {
-      margin-top: 132px;
-    }
+  .credix-popup__title {
+    margin-bottom: 16px !important;
+    line-height: 30px !important;
   }
 }

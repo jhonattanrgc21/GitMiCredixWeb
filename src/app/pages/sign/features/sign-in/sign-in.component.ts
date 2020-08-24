@@ -82,7 +82,7 @@ export class SignInComponent implements OnInit {
     switch (modal) {
       case 'sign-up':
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
-          {width: 376, minHeight: 623, disableClose: true});
+          {width: 376, minHeight: 623, disableClose: true, panelClass: 'sign-up-panel'});
         break;
       case 'forgot-pass':
         this.modalService.open({component: ForgotPasswordComponent, title: '¿Olvidó su clave?'},
