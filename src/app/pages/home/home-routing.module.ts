@@ -41,6 +41,10 @@ const routes: Routes = [
       {
         path: 'personal-credit',
         loadChildren: () => import('./features/personal-credit/personal-credit.module.js').then(m => m.PersonalCreditModule)
+      },
+      {
+        path: 'extend-term',
+        loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule)
       }
     ]
   }

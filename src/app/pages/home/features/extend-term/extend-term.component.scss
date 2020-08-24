@@ -1,0 +1,12 @@
+.extend-term{
+  h1 {
+    margin-bottom: 6px;
+  }
+  ::ng-deep.navigation-table__header{
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-top: 30px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+}
