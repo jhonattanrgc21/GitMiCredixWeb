@@ -2,8 +2,86 @@
   <mat-card credixCard fxFlex="100">
     <h1>Ampliar plazo de compra</h1>
     <p>Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
-    <credix-navigation-table [headers]="['Consumos', 'Ampliación']"
-                             [options]="options"></credix-navigation-table>
+    <credix-navigation-table
+      [headers]="['Consumos', 'Ampliación']"
+      [options]="options"
+    ></credix-navigation-table>
 
+    <div *ngIf="showResponse && showSuccess" class="extend-term__succResp">
+      <credix-result-notification
+        [status]="resType"
+        title="{{resType === 'success' ? '¡Éxito!' : 'Ops...' }}"
+        [message]="message"
+      >
+      </credix-result-notification>
+      <mat-divider
+        class="extend-term__divider full-width mt-16px mb-16px"
+      ></mat-divider>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="space-between start"
+        class="extend-term__data-info"
+      >
+        <div fxFlex="42%">
+          <p class="extend-term__data-info__text">
+            Datos de la ampliación
+          </p>
+        </div>
+        <div fxFlex="58%">
+          <div fxLayout="row" class="extend-term__data-info__row">
+            <div fxFlex="50%"><span>Comercio</span></div>
+            <div fxFlex="50%" class="tr">
+              <span class="extend-term__data-info__text">2</span>
+            </div>
+          </div>
+          <div fxLayout="row" class="extend-term__data-info__row">
+            <div fxFlex="60%"><span>Cuota nueva</span></div>
+            <div fxFlex="40%" class="tr">
+              <credix-numeric-block
+                [prefix]="currencyCode"
+                [value]="88"
+                class="tr"
+                fontSize="16"
+                fontWeight="bold"
+              >
+              </credix-numeric-block>
+            </div>
+          </div>
+          <div fxLayout="row" class="extend-term__data-info__row">
+            <div fxFlex="50%"><span>Plazo nuevo</span></div>
+            <div fxFlex="50%" class="tr">
+              <span class="extend-term__data-info__text">2</span>
+            </div>
+          </div>
+          <div fxLayout="row" class="extend-term__data-info__row">
+            <div fxFlex="60%"><span>Fecha</span></div>
+            <div fxFlex="40%" class="tr">
+              <span class="extend-term__data-info__text">2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        fxLayout="column"
+        fxLayoutAlign="space-between center"
+        class="mt-70px"
+      >
+        <credix-share-button
+          class="send-money__shrare-btn"
+        ></credix-share-button>
+      </div>
+    </div>
+
+    <!-- <credix-result-notification *ngIf="empty" status="info"
+        title="No tiene consumos para cancelar anticipadamente en este momento.">
+      </credix-result-notification> -->
+
+
+    <div class="extend-term__footer mt-16px" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+      <credix-button (buttonClick)="cancel()" [disabled]="empty || !this.selection.selected.length" text="Ampliar Plazo" *ngIf="!showResponse">
+      </credix-button>
+      <credix-button (buttonClick)="done()" [disabled]="disableButton" text="Listo" *ngIf="showResponse">
+      </credix-button>
+    </div>
   </mat-card>
 </div>
