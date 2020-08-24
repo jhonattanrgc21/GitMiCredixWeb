@@ -56,7 +56,7 @@ export class MarchamosComponent implements OnInit {
 
   iva: number = 0;
   totalAmountItemsProducts: number = 0;
-  cardNumber: string;
+  cardId: number;
   addressAplicant: any[] = [];
   informationApplicant: any;
   // domicile: boolean = false;
@@ -161,7 +161,7 @@ export class MarchamosComponent implements OnInit {
 
   getCardValues() {
     this.storageService.getCurrentCards().forEach(cardValues => {
-      this.cardNumber = cardValues.cardNumber;
+      this.cardId = cardValues.cardId;
     });
   }
 
@@ -268,7 +268,7 @@ export class MarchamosComponent implements OnInit {
         channelId: 107,
         aditionalProducts: [],
         amount: (typeof this.totalMount === 'string') ? parseInt(this.totalMount.replace('.', '')) : this.totalMount,
-        cardNumber: this.cardNumber,
+        cardNumber: this.cardId,
         deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
         authenticationNumberCommission : "0000",
         authenticationNumberMarchamo1 : "000000",
