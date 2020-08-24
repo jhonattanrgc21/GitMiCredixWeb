@@ -187,8 +187,15 @@ export class MarchamosComponent implements OnInit {
       }
     }
 
-    if() {
-      
+    if(event.newDirection) {
+      this.placeOfRetreat = {
+        placeDescription: event.data.exactlyDirection,
+      }
+      this.contactToConfirm = {
+        name: event.data.personReceive,
+        email:this.pickUpControls.email.value,
+        phone: event.data.phoneNumber
+      }
     }
   }
 
@@ -251,7 +258,7 @@ export class MarchamosComponent implements OnInit {
       {
         channelId: 107,
         aditionalProducts: [],
-        amount: this.amountValue,
+        amount: this.totalMount,
         cardNumber: this.cardNumber,
         deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
         domicilePerson: this.contactToConfirm.name,
@@ -312,24 +319,10 @@ export class MarchamosComponent implements OnInit {
       console.log(this.secureAndQuotesForm.value);
       this.continue();
     }
-    // this.dataForPayResumen = [{
-    //   marchamos: this.totalMount,
-    //   itemsProductsAmount: [this.amountItemsProducts],
-    //   commission: this.commission,
-    //   billingHistory: this.billingHistorys,
-    //   quotesToPay: [
-    //     {
-    //       quotes: this.value,
-    //       quotesAmount: this.quotesAmount
-    //     }
-    //   ]
-    // }];
-
   }
 
   getValuesThirstyStep() {
     console.log(this.pickUpForm.value);
-    // console.log(object);
     this.continue();
       this.dataPayResume = {
         totalMount:this.totalMount,
@@ -373,20 +366,6 @@ export class MarchamosComponent implements OnInit {
         break;
     }
   }
-
-  // private isDelivery(data) {
-  //   if (data === 'directionRegister' || !this.data) {
-  //     this.placeOfRetreat = {
-  //       placeDescription: this.domicileDescription.detail
-  //     };
-  //   } else if (data === 'newDirection' && data) {
-  //     this.placeOfRetreat = {
-  //       placeDescription: this.newDeliveryDirection.exactlyDirection
-  //     };
-  //   } else {
-  //     return;
-  //   }
-  // }
 
 }
 

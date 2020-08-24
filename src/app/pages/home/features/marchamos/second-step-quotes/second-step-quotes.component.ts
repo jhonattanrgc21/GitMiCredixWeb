@@ -111,7 +111,6 @@ export class SecondStepQuotesComponent implements OnInit {
       amount: (typeof this.totalMount === 'string') ? parseInt(this.totalMount.replace(',', '')) : this.totalMount,
       commissionQuotasId: commission
     }).subscribe(response => {
-      console.log(response);
       if (typeof response.result === 'string') {
         this.commission = parseInt(response.result.replace('.', ''));
         this.iva = parseInt(response.iva.replace('.', ''));

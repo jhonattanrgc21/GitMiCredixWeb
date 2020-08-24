@@ -16,7 +16,6 @@ export class ThirstyStepEmailRegisteredComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.email);
     if (this.email !== undefined) {
       this.emailRegistered.setValue(this.email);  
     }
