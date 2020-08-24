@@ -12,6 +12,7 @@
   }
 
   &__switch ::ng-deep {
+
     .credix-switch {
       width: 138px;
       height: 42px;
@@ -80,6 +81,11 @@
   }
 
   &.is-hidden {
-    max-height: 0;
+    height: 0;
+
+    .account-statement-toolbar__user-card, .account-statement-toolbar__switch,
+    .account-statement-toolbar__calendar, .account-statement-toolbar__table {
+      display: none !important;
+    }
   }
 }
