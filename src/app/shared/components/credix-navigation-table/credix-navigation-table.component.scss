@@ -19,6 +19,11 @@
     background-color: #ffffff;
     min-height: 478px;
 
+    &__date{
+      font-size: 14px;
+      color: #6F7071;
+    }
+
     &__left {
       border-right: 1px solid #e9e9e9;
       padding: 16px;
@@ -73,6 +78,16 @@
       }
     }
 
+    &__label3 {
+      font-size: 16px;
+      color: #3e3e3e;
+
+      &.is-selected {
+        font-weight: bold;
+      }
+    }
+
+
     &__arrow {
       height: fit-content;
 
@@ -112,9 +127,34 @@
       }
     }
   }
+
+
+  &__table3{
+
+    margin: 16.5px 148px 0 148px;
+
+
+    &__title{
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
 }
 
 :host ::ng-deep.credix-link-button {
   font-weight: normal !important;
   vertical-align: super;
+}
+
+
+@media screen and (max-width: 1199px) {
+
+  .navigation-table {
+    &__table3{
+
+      margin: 16px 86px 0 86px;
+    }
+  }
+
+
 }

@@ -2,7 +2,7 @@
   <mat-card credixCard fxFlex="100">
     <h1>Lugares de pago</h1>
     <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
-    <credix-navigation-table *ngIf="tabShow" [details]="details" [headers]="['Comercios', 'Información del comercio']"
+    <credix-navigation-table *ngIf="tabShow" [headers]="['Comercios', 'Información del comercio']"
                              [options]="options"></credix-navigation-table>
 
     <div *ngIf="!tabShow" class="digital-payments__content">

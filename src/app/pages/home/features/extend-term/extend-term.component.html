@@ -1,13 +1,13 @@
 <div class="extend-term">
   <mat-card credixCard fxFlex="100">
     <h1>Ampliar plazo de compra</h1>
-    <p>Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
+    <p *ngIf="!showResponse">Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
     <credix-navigation-table
-      [headers]="['Consumos', 'Ampliación']"
-      [options]="options"
+      [headers]="['Consumos', 'Ampliación']" [type]="3"
+      [options]="options" *ngIf="!showResponse"
     ></credix-navigation-table>
 
-    <div *ngIf="showResponse && showSuccess" class="extend-term__succResp">
+    <div *ngIf="showResponse" class="extend-term__succResp">
       <credix-result-notification
         [status]="resType"
         title="{{resType === 'success' ? '¡Éxito!' : 'Ops...' }}"
@@ -21,6 +21,7 @@
         fxLayout="row"
         fxLayoutAlign="space-between start"
         class="extend-term__data-info"
+        *ngIf="resType === 'success'"
       >
         <div fxFlex="42%">
           <p class="extend-term__data-info__text">
@@ -64,10 +65,9 @@
       <div
         fxLayout="column"
         fxLayoutAlign="space-between center"
-        class="mt-70px"
       >
         <credix-share-button
-          class="send-money__shrare-btn"
+        *ngIf="resType === 'success'"
         ></credix-share-button>
       </div>
     </div>
@@ -78,9 +78,9 @@
 
 
     <div class="extend-term__footer mt-16px" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="cancel()" [disabled]="empty || !this.selection.selected.length" text="Ampliar Plazo" *ngIf="!showResponse">
+      <credix-button (buttonClick)="openConfirmationModal()" text="Ampliar Plazo" *ngIf="!showResponse">
       </credix-button>
-      <credix-button (buttonClick)="done()" [disabled]="disableButton" text="Listo" *ngIf="showResponse">
+      <credix-button (buttonClick)="done()" text="Listo" *ngIf="showResponse">
       </credix-button>
     </div>
   </mat-card>

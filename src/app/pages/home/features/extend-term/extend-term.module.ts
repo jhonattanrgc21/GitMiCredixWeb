@@ -21,6 +21,10 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
+import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
+import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {MatDividerModule} from '@angular/material/divider';
+
 
 const routes: Routes = [
   {
@@ -50,7 +54,10 @@ const routes: Routes = [
     CredixLinkButtonModule,
     ClipboardModule,
     MatTooltipModule,
-    MatButtonModule
+    MatButtonModule,
+    CredixNumericBlockModule,
+    CredixResultNotificationModule,
+    MatDividerModule
   ],
   providers: [ModalService]
 })
