@@ -23,6 +23,7 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
   placeOfRetreat: {placeDescription: string} = {
     placeDescription: ''
   };
+  isPickUpStore: boolean = false;
   private popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
   
   @Input() informationApplicant: any;
@@ -47,13 +48,19 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
   }
 
   getRadioButtonsChecked(event) {
-    this.radioButtonsChangedValue = event.value;
 
+    this.radioButtonsChangedValue = event.value;
+    this.getPlaceOfRetreat();
+    
     if (event.value === 2 && event.checked) {
       this.domicileDescription = {
         name: this.informationApplicant.printName,
         number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
       };
+      this.isPickUpStore = true;
+      
+    }else{
+      this.isPickUpStore = false;
     }
 
 
@@ -73,7 +80,7 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
       }
     }
 
-    this.dataDelivery.emit(this.domicileDescription);
+    this.dataDelivery.emit({data:this.domicileDescription, isPickUpStore:this.isPickUpStore});
   }
 
   newDirectionChecked(event) {
@@ -101,7 +108,7 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
         phoneNumber: values.phoneNumber,
         province: values.province
       };
-      this.dataDelivery.emit(this.newDeliveryDirection);
+      this.dataDelivery.emit({data:this.newDeliveryDirection, isPickUpStore:this.isPickUpStore});
     });
   }
 
