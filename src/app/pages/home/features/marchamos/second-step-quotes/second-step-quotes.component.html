@@ -1,0 +1,34 @@
+<div class="quotes" fxLayout="row">
+  <label class="quotes__label">Cuotas</label>
+
+  <div fxLayout="column">
+    <div class="quotes__slider">
+      <credix-slider (valueChange)="getValueSlider($event)"
+                     [(value)]="value"
+                     [instructions]="'Deseo dividir este pago en'"
+                     [max]="maxQuotes"
+                     [min]="minQuotes" [units]="'Cuota'"></credix-slider>
+    </div>
+
+    <label *ngIf="quotesToPayOfAmount" class="marchamos__label-4">Comisión</label>
+
+    <credix-select *ngIf="quotesToPayOfAmount"
+                   [formControl]="firstCouteToPayIn"
+                   class="quotes__select"
+                   label="Deseo pagar la primera cuota en">
+      <mat-option *ngFor="let firstCoute of wishPayFirstCouteIn" [value]="firstCoute.value">
+        {{ firstCoute.description}}
+      </mat-option>
+    </credix-select>
+  </div>
+
+  <div class="quotes__prices" fxLayout="column">
+    <credix-numeric-block [value]="quotesAmount" fontSize="24" fontWeight="bold" prefix="₡"
+                          style="font-size: 24px !important; margin-bottom: 4px;"></credix-numeric-block>
+    <!-- <span style="font-size: 24px !important; margin-bottom: 4px;">₡ 114.996,00</span> -->
+    <credix-link-button (click)="payResume()" style="margin-bottom: 64px;"
+                        text="Ver detalles"></credix-link-button>
+    <credix-numeric-block *ngIf="quotesToPayOfAmount" [value]="commission" fontSize="16" fontWeight="bold"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+</div>
