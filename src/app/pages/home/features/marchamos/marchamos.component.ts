@@ -169,11 +169,29 @@ export class MarchamosComponent implements OnInit {
 
   getDataOfDelivery(event){
     console.log(event);
+
+    if (event.isPickUpStore) {
+      this.contactToConfirm =  {
+        name: event.data.name,
+        email:this.pickUpControls.email.value,
+        phone:event.data.number
+      }
+    }else {
+      this.contactToConfirm = {
+        name: event.data.name,
+        email:this.pickUpControls.email.value,
+        phone:event.data.number
+      }
+      this.placeOfRetreat = {
+        placeDescription: event.data.detail
+      }
+    }
+
+    if() {
+      
+    }
   }
 
-  getPlaceOfRetreatData(event){
-    console.log(event);
-  }
 
 
   consult() {
@@ -313,14 +331,62 @@ export class MarchamosComponent implements OnInit {
     console.log(this.pickUpForm.value);
     // console.log(object);
     this.continue();
-    this.dataPayResume = {
-      totalMount:this.totalMount,
-      totalAmountItemsProducts: this.totalAmountItemsProducts,
-      commission:this.commission,
-      iva: this.iva
-  }
+      this.dataPayResume = {
+        totalMount:this.totalMount,
+        totalAmountItemsProducts: this.totalAmountItemsProducts,
+        commission:this.commission,
+        iva: this.iva
+    }
+    this.isPickUp();
   }
 
+
+  private isPickUp() {
+    switch (this.pickUpControls.pickUp.value) {
+      case 1: this.placeOfRetreat = {
+        placeDescription:'SUCURSAL TIBÁS'
+      }
+      break;
+      case 2:
+        this.placeOfRetreat = {
+          placeDescription:'SUCURSAL BELÉN'
+      }
+      break;
+      case 3:
+        this.placeOfRetreat = {
+          placeDescription:'SUCURSAL ESCAZÚ'
+        }
+        break;
+      case 4:
+        this.placeOfRetreat = {
+        placeDescription: 'SUCURSAL TIBÁS'
+      }
+      break;
+      case 5:this.placeOfRetreat = {
+        placeDescription: 'SUCURSAL DESAMPARADOS'
+      }
+      break;
+      case 7:
+        this.placeOfRetreat = {
+          placeDescription:'ADMINISTRATIVO'
+        }
+        break;
+    }
+  }
+
+  // private isDelivery(data) {
+  //   if (data === 'directionRegister' || !this.data) {
+  //     this.placeOfRetreat = {
+  //       placeDescription: this.domicileDescription.detail
+  //     };
+  //   } else if (data === 'newDirection' && data) {
+  //     this.placeOfRetreat = {
+  //       placeDescription: this.newDeliveryDirection.exactlyDirection
+  //     };
+  //   } else {
+  //     return;
+  //   }
+  // }
 
 }
 
