@@ -166,7 +166,6 @@ export class MarchamosComponent implements OnInit {
   }
 
   getDataOfQuotes(event){
-    console.log(event);
     this.commission = event.commission;
     this.iva = event.iva;
     this.value = event.quotes;
@@ -217,7 +216,15 @@ export class MarchamosComponent implements OnInit {
       plateClassId: this.consultControls.vehicleType.value.toString(),
       plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
       aditionalProducts: [
-        ''
+        {
+          productCode: 5
+        },
+        {
+          productCode: 6
+        },
+        {
+          productCode: 8
+        }
       ]
     })
       .subscribe(response => {
