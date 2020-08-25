@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { Router } from "@angular/router";
 import {ConvertStringDateToDate} from '../../utils';
+
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,6 +13,8 @@ export class CredixNavigationTableComponent implements OnInit {
   @Input() headers = ["", ""];
   @Input() options = [];
   @Input() type: string;
+  @Output() optionEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() quotaEvent: EventEmitter<any> = new EventEmitter<any>();
 
   optionSelected = {
     id: 0,
@@ -55,6 +58,8 @@ export class CredixNavigationTableComponent implements OnInit {
     this.changedQuotas = this.optionSelected.subOptions.find(
       (el) => el.quotaTo === this.quotas
     );
+    this.optionEvent.emit(this.optionSelected);
+    this.quotaEvent.emit(this.changedQuotas);
   }
 
   subOptionClick(navigation: string) {
@@ -70,5 +75,6 @@ export class CredixNavigationTableComponent implements OnInit {
     this.changedQuotas = this.optionSelected.subOptions.find(
       (el) => el.quotaTo === e
     );
+    this.quotaEvent.emit(this.changedQuotas);
   }
 }

@@ -20,11 +20,11 @@
         <div *ngIf="!option.icon && !option.img" class="w-100">
           <div fxLayout="row" fxLayoutAlign="space-between center">
             <p [class.is-selected]="optionSelected.id  == option.id" class="navigation-table__option__label3">
-              {{option.name | titlecase }}</p>
+              {{ (option.name.length > 10) ? (option.name | titlecase | slice:0:10 )+'...' : (option.name | titlecase) }}</p>
             <p class="tr navigation-table__content__date">
               {{convertStringDateToDate(option.originDate) | dateFormatter: 'alphanumeric'}}</p>
           </div>
-          <p>
+          <p class="navigation-table__content__subtitle3">
             <credix-numeric-block [prefix]="option.originCurrency" [value]="option.originAmount" fontSize="16"
               fontWeight="bold"></credix-numeric-block> a {{option.totalPlanQuota}} Cuotas
           </p>
@@ -48,8 +48,14 @@
 
       <div *ngIf="optionSelected.subOptions && !optionSelected.icon && optionSelected.id"
         class="navigation-table__table3">
-        <p class="navigation-table__table3__title">{{ optionSelected.name | titlecase }}</p>
-        <p>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <p class="navigation-table__table3__title" >
+            {{ (optionSelected.name.length > 25) ? (optionSelected.name | titlecase | slice:0:25 )+'...' : (optionSelected.name | titlecase) }}</p>
+          <p class="tr navigation-table__content__date-smaller">
+            {{optionSelected.originDate}}</p>
+        </div>
+        <p class="navigation-table__content__subtitle3">
           <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="optionSelected.originAmount"
             fontSize="14" fontWeight="bold"></credix-numeric-block> a {{optionSelected.totalPlanQuota}} Cuotas
         </p>
@@ -67,7 +73,7 @@
           <p class="navigation-table__table3__title mt-24px mb-16px">Modifique su plazo</p>
           <credix-slider (valueChange)="changeQuotas($event)" [value]="quotas" class="mb-16px" [max]="24" [min]="6"
             [step]="1" instructions="Deseo ampliar este pago a" units="Cuotas"></credix-slider>
-          <div fxLayout="row" class="mb-16px">
+          <div fxLayout="row" class="mb-16px mt-16px">
             <div fxFlex="40%">
               <p>Plazo nuevo</p>
             </div>

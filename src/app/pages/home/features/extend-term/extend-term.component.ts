@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { HttpService } from "../../../../core/services/http.service";
 import { ModalService } from "../../../../core/services/modal.service";
 import { Router } from "@angular/router";
@@ -9,10 +9,12 @@ import { StorageService } from "../../../../core/services/storage.service";
   styleUrls: ["./extend-term.component.scss"],
 })
 export class ExtendTermComponent implements OnInit {
+  @Input() optionSelected;
+  @Input() quotaSelected;
   options = [
     {
       id: 1,
-      name: "AEROPOST WEB",
+      name: "AEROPOST WEBdsfdgffdffgffgdgfgdfg",
       cardId: 289534,
       totalPlanQuota: 3,
       accountNumber: 17188340,
@@ -44,7 +46,7 @@ export class ExtendTermComponent implements OnInit {
     },
     {
       id: 2,
-      name: "AEROPOST WEB",
+      name: "AEROPOST WEB Maria",
       cardId: 289534,
       totalPlanQuota: 3,
       accountNumber: 17188340,
@@ -90,6 +92,7 @@ export class ExtendTermComponent implements OnInit {
   resType: string = "success";
   showResponse = false;
   currencyCode: string = "$";
+  empty: boolean = false;
 
   constructor(
     private storageService: StorageService,
@@ -113,6 +116,7 @@ export class ExtendTermComponent implements OnInit {
         console.log(res);
         if (res.result) {
           this.allowedMovements = res.result;
+          this.empty = false;
           this.allowedMovements.forEach(async (elem, i) => {
             let quotaAmount = parseInt(elem.originAmount) / parseInt(elem.totalPlanQuota);
             await this.calculateQuota(elem.movementId);
@@ -133,6 +137,8 @@ export class ExtendTermComponent implements OnInit {
               },
             ];
           });
+        }else{
+          //this.empty = true;
         }
       });
   }
@@ -155,12 +161,12 @@ export class ExtendTermComponent implements OnInit {
     this.httpService
       .post("canales", "channels/savequotification", {
         channelId: 102,
-        cardId: 289534,
-        feeAmount: 3000,
-        newQuota: 6,
+        cardId: this.optionSelected.cardId,
+        feeAmount: this.quotaSelected.feeAmount,
+        newQuota: this.quotaSelected.quotaTo,
         statusId: 1,
-        movementId: "189896138-4",
-        userIdCreate: 55012,
+        movementId: this.optionSelected.movementId,
+        userIdCreate: this.storageService.getCurrentUser().userId,
       })
       .subscribe((res) => {
         console.log(res);
@@ -170,13 +176,19 @@ export class ExtendTermComponent implements OnInit {
   }
 
   openConfirmationModal() {
-    this.modalService
+    if(this.quotaSelected){
+      this.modalService
       .confirmationPopup("¿Desea ampliar el plazo de este pago?")
       .subscribe((res) => {
         if (res) {
           this.showResponse = true;
+          this.saveQuota();
         }
       });
+    }else{
+
+    }
+
   }
 
   done() {
