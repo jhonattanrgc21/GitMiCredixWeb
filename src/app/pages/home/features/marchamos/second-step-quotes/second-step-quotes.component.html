@@ -4,10 +4,12 @@
     <div fxLayout="column" style="margin-right: 89px;">
       <div class="quotes__slider">
         <credix-slider (valueChange)="getValueSlider($event)"
-                       [(value)]="value"
+                       [value]="quotesToPay.value"
                        [instructions]="'Deseo dividir este pago en'"
                        [max]="maxQuotes"
-                       [min]="minQuotes" [units]="'Cuota'"></credix-slider>
+                       [min]="minQuotes"
+                       [step]="stepQuota" 
+                       [units]="'Cuota'"></credix-slider>
         </div>
 
       <label *ngIf="quotesToPayOfAmount" class="marchamos__label-4">Comisión</label>

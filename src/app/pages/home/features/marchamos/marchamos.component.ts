@@ -68,7 +68,7 @@ export class MarchamosComponent implements OnInit {
   titleToPay: string;
   email: string;
   ownerEmail: string;
-
+  quotasId:number = 0;
   isPickUpStore:boolean = false;
 
   resultPay:{messageToPay: string, responseToPay:string, titleToPay:string};
@@ -83,9 +83,9 @@ export class MarchamosComponent implements OnInit {
   });
 
   secureAndQuotesForm: FormGroup = new FormGroup({
-    aditionalProducts: new FormArray([],{validators: Validators.required}),
-    quotesToPay: new FormControl(''),
-    firstCouteToPayIn: new FormControl('', [Validators.required])
+    aditionalProducts: new FormArray([]),
+    quotesToPay: new FormControl(0),
+    firstCouteToPayIn: new FormControl('')
   });
 
   pickUpForm: FormGroup = new FormGroup({
@@ -166,9 +166,11 @@ export class MarchamosComponent implements OnInit {
   }
 
   getDataOfQuotes(event){
+    console.log(event);
     this.commission = event.commission;
     this.iva = event.iva;
     this.value = event.quotes;
+    this.quotasId = event.id;
   }
 
   getDataOfDelivery(event){
@@ -265,7 +267,7 @@ export class MarchamosComponent implements OnInit {
     
     this.httpService.post('marchamos', 'pay/soapay',
       {
-        channelId: 107,
+        channelId: 102,
         aditionalProducts: [],
         amount: (typeof this.totalMount === 'string') ? parseInt(this.totalMount.replace('.', '')) : this.totalMount,
         cardNumber: this.cardId,
@@ -286,7 +288,7 @@ export class MarchamosComponent implements OnInit {
         plateClassId: parseInt(this.consultControls.vehicleType.value),
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
         promoStatus: this.promoStatus.promoStatusId,
-        quotasId: this.value,
+        quotasId: this.quotasId,
         transactionTypeId: 1,
         requiredBill: '1'
       })
