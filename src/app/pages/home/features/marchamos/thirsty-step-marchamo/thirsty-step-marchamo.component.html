@@ -1,0 +1,95 @@
+<div class="marchamo-thirsty-step" fxLayout="column">
+    
+<div class="mb-16px" fxLayout="row">
+    <h3 class="first-column">Correo electrónico</h3>
+  
+    <div class="second-column" fxLayout="column">
+      <credix-input-field
+        [formControl]="pickUpForm.controls.email"
+        label="Correo registrado"
+      ></credix-input-field>
+    </div>
+  </div>
+
+  <mat-divider class="mb-16px"></mat-divider>
+
+<div class="place-of-retreat" fxLayout="row">
+
+    <h3 class="place-of-retreat__sub-title">Lugar de retiro</h3>
+  
+    <div class="place-of-retreat__radio-button" fxLayout="column">
+      <credix-radio-button (emitRadioButton)="getRadioButtonsChecked($event)"
+                           [checked]="false"
+                           [value]="2"
+                           label="Sucursales Credix"
+                           name="a"></credix-radio-button>
+  
+      <div *ngIf="radioButtonsChangedValue === 2" class="place-of-retreat__inputs-hidden">
+  
+        <credix-select
+          [formControl]="pickUpForm.controls.pickUp"
+          class="place-of-retreat__inputs-hidden__select"
+          label="Seleccione la más cercana">
+  
+          <mat-option *ngFor="let delivery of deliveryPlaces" [value]="delivery.id">
+            {{delivery.description}}
+          </mat-option>
+  
+        </credix-select>
+  
+      </div>
+      <credix-radio-button (emitRadioButton)="getRadioButtonsChecked($event)"
+                           [checked]="false"
+                           [value]="1"
+                           label="Domicilio"
+                           name="a">
+      </credix-radio-button>
+  
+      <div *ngIf="radioButtonsChangedValue === 1" class="place-of-retreat__inputs-hidden" fxLayout="column">
+  
+        <credix-radio-button (emitRadioButton)="newDirectionChecked($event)" [checked]="domicile"
+                             [value]="'directionRegister'"
+                             label="Dirección registrada en Credix"
+                             name="b">
+        </credix-radio-button>
+  
+        <div *ngIf="!newDeliveryDirection || newDeliveryOption === 'directionRegister'"
+             class="place-of-retreat__delivery-pickup" fxLayout="column">
+  
+            <span> {{domicileDescription.name}} </span>
+            <span> {{domicileDescription.number | mask: '0000-0000'}}</span>
+            <span> {{domicileDescription.detail}}</span>
+  
+          <mat-divider></mat-divider>
+  
+        </div>
+  
+        <div fxLayout="row" fxLayoutGap="16px">
+  
+          <credix-radio-button (emitRadioButton)="newDirectionChecked($event)" [checked]="newDomicile"
+                               [value]="'newDirection'"
+                               label="User otra dirección"
+                               name="b"></credix-radio-button>
+  
+          <credix-link-button (click)="editNewDirection()"
+                              *ngIf="newDeliveryDirection !== undefined && newDeliveryDirection !== null && newDeliveryOption !== 'directionRegister'"
+                              class="place-of-retreat__edit-delivery" text="Editar"></credix-link-button>
+  
+        </div>
+  
+        <div *ngIf="newDeliveryDirection && newDeliveryOption !== 'directionRegister'"
+             class="place-of-retreat__delivery-pickup"
+             fxLayout="column">
+  
+          <span style="font-weight: bold; font-size: 16px">{{newDeliveryDirection.personReceive}}</span>
+          <span style="font-weight: bold; font-size: 16px">{{newDeliveryDirection.phoneNumber | mask: '0000-0000'}}</span>
+          <p>{{newDeliveryDirection.exactlyDirection}}</p>
+  
+          <mat-divider *ngIf="newDeliveryDirection && newDeliveryOption !== 'directionRegister'"></mat-divider>
+        </div>
+  
+      </div>
+  
+    </div>
+  </div>
+</div>

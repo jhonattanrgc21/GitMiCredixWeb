@@ -29,7 +29,21 @@ export class MarchamosService {
     return this._ivaAndCommission.asObservable();
   }
 
-  consult() {
+  // 3er paso de marchamo
+  private _domicileDescription = new Subject<{ name: string, detail?:string, province?: number,canton?: number,distric?: number, number: number}>();
+
+
+  get domicileDescription(): Observable <{ name: string, number: number, detail?:string, province?: number,canton?: number,distric?: number}>{
+    return this._domicileDescription.asObservable();
+  }
+
+  private _newDeliveryDirection = new Subject<{ personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number }>();
+
+  get newDeliveryDirection(): Observable <{ personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number }> {
+    return this._newDeliveryDirection.asObservable();
+  }
+
+consult() {
     this._consultMarchamos.next();
   }
 
@@ -39,5 +53,13 @@ export class MarchamosService {
 
   emitIvaAndCommission(iva: number, commission: number) {
     this._ivaAndCommission.next({iva, commission});
+  }
+
+  emitDomicileDescription(name: string, number: number, detail?:string, province?: number,canton?: number,distric?: number){
+    this._domicileDescription.next({name, detail , province, canton, distric, number});
+  }
+
+  emitNewDeliveryDirection(personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number){
+    this._newDeliveryDirection.next({ personReceive, phoneNumber, exactlyDirection, province,canton,distric});
   }
 }

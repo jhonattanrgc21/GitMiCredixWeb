@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChange, SimpleChanges} from '@angular/core';
 import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {PopupMarchamosDetailComponent} from '../popup-marchamos-detail/popup-marchamos-detail.component';
@@ -13,13 +13,14 @@ import {MarchamosService} from '../marchamos.service';
   templateUrl: './second-step-marchamo.component.html',
   styleUrls: ['./second-step-marchamo.component.scss']
 })
-export class SecondStepMarchamoComponent implements OnInit {
+export class SecondStepMarchamoComponent implements OnInit, OnChanges {
   @Input() secureAndQuotesForm = new FormGroup({
     additionalProducts: new FormArray([]),
     quota: new FormControl(null),
     quotaId: new FormControl(null),
     firstQuotaDate: new FormControl(null)
   });
+  @Input() isActive:boolean = false;
   totalAmount = 0;
   billingHistories: BillingHistory[];
   isChecked = false;
@@ -118,8 +119,14 @@ export class SecondStepMarchamoComponent implements OnInit {
     this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
       this.totalAmount = value.consultVehicle.amount;
       this.billingHistories = value.billingHistories;
-      this.getQuotasByProduct();
+      
     });
+  }
+
+  ngOnChanges(changes:SimpleChanges){
+    if(changes.isActive && this.isActive){
+      this.getQuotasByProduct();
+    }
   }
 
   showMarchamoDetail() {

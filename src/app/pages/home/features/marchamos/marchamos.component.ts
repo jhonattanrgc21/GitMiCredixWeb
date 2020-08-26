@@ -76,7 +76,7 @@ export class MarchamosComponent implements OnInit {
     domicile: new FormArray([])
   });
   confirmForm: FormGroup = new FormGroup({
-    credixCode: new FormControl('', [Validators.required])
+    credixCode: new FormControl(null, [Validators.required])
   });
   @ViewChild('stepper') stepper: CdkStepper;
 

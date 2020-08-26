@@ -39,6 +39,7 @@ import {ResultPayResumeComponent} from './result-pay-resume/result-pay-resume.co
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {MarchamosService} from './marchamos.service';
+import { ThirstyStepMarchamoComponent } from './thirsty-step-marchamo/thirsty-step-marchamo.component';
 
 const routes: Routes = [
   {
@@ -62,7 +63,8 @@ const routes: Routes = [
     ThirstyStepPlaceOfRetreatComponent,
     FourStepConfirmContactComponent,
     FourStepConfirmPayResumeComponent,
-    ResultPayResumeComponent
+    ResultPayResumeComponent,
+    ThirstyStepMarchamoComponent
   ],
   entryComponents: [MarchamosComponent],
   imports: [

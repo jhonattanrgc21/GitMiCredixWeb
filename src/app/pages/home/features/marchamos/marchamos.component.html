@@ -8,26 +8,23 @@
   <credix-stepper #stepper class="marchamos__stepper">
 
     <cdk-step [stepControl]="consultForm" fxLayout="column" label="Consultar">
-      <app-marchamo-first-step [consultForm]="consultForm">
+      <app-marchamo-first-step 
+      [consultForm]="consultForm">
       </app-marchamo-first-step>
     </cdk-step>
 
     <cdk-step [label]="'Seguros y cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
-      <app-second-step-marchamo [secureAndQuotesForm]="secureAndQuotesForm"></app-second-step-marchamo>
+      <app-second-step-marchamo [secureAndQuotesForm]="secureAndQuotesForm"
+      [isActive]="stepperIndex === 2"></app-second-step-marchamo>
     </cdk-step>
 
     <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
-      <thirsty-step-email-registered
-        *ngIf="email !== undefined"
-        [emailRegistered]="pickUpControls.email"
-        [email]="email"></thirsty-step-email-registered>
-      <mat-divider class="marchamos__places-divider"></mat-divider>
-
-      <thirsty-step-place-of-retreat
-        (dataDelivery)="getDataOfDelivery($event)"
-        [addressAplicant]="addressAplicant"
-        [informationApplicant]="informationApplicant"
-        [pickUp]="pickUpControls.pickUp"></thirsty-step-place-of-retreat>
+     
+      <app-thirsty-step-marchamo 
+        [pickUpForm]="pickUpForm"
+        [isActive]="stepperIndex === 2"
+      ></app-thirsty-step-marchamo>
+     
     </cdk-step>
 
     <cdk-step [label]="'Confirmar'">
