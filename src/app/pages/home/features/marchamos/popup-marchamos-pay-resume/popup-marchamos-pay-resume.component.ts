@@ -12,7 +12,7 @@ export class PopupMarchamosPayResumeComponent implements OnInit {
   totalAmountItemsProducts: number = 0;
   comission: number;
   marchamo: number;
-  quotesToPay: any[] = [];
+  quotesToPay: {quotes:number, quotesAmount: number} = {quotes:0, quotesAmount:0};
   totalAmount: number = 0;
 
   constructor(public dialogRef: MatDialogRef<PopupMarchamosPayResumeComponent>,

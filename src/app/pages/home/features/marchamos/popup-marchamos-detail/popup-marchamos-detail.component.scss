@@ -1,16 +1,15 @@
 .popup-detail {
   div {
-    margin-bottom: 8px;
-
+    
     p {
-      width: 156px;
-      height: 46px;
+      width: 168px;
+      min-height: 46px;
       font-weight: normal;
       font-size: 16px;
+     
     }
     .billing-amount{
-      width: 85px;
-      height: 24px;
+      margin-left: 64px;
     }
 
     span {

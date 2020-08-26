@@ -1,12 +1,46 @@
 .popup-pay-resume {
-  margin-bottom: 24px;
-
   p {
     width: 315px;
   }
+  
 
   .quotes {
     font-weight: normal;
     font-size: 20px;
+    span{
+      margin-right: 120px;
+    }
+  }
+  .detail{
+    &-1{
+      span{
+        width: 77px;
+        margin-right: 144px;
+      }
+    }
+    &-2{
+      span{
+        width: 62px;
+        margin-right: 158px;
+      }
+    }
+    &-3{
+      span{
+        width: 68px;
+        margin-right: 152px;
+      }
+    }
+    &-4{
+      span{
+        width: 31px;
+        margin-right: 189px;
+      }
+    }
+    &-5{
+      span{
+          width: 39px;
+          margin-right: 178px;      
+        }
+    }
   }
 }

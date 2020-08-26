@@ -148,12 +148,7 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
         itemsProductsAmount: [this.amountItemsProducts],
         commission: this.commission,
         iva: this.iva,
-        quotesToPay: [
-          {
-            quotes: this.secureAndQuotesForm.controls.quota,
-            quotesAmount: this.amountPerQuota
-          }
-        ]
+        quotesToPay: {quotes: this.secureAndQuotesForm.controls.quota.value, quotesAmount: this.amountPerQuota}
       }]
     }, {width: 380, height: 417, disableClose: false});
   }
