@@ -20,7 +20,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   amountAndQuotaForm: FormGroup = new FormGroup({
     amount: new FormControl(null, [Validators.required]),
     quotas: new FormControl(3, [Validators.required]),
-    detail: new FormControl(null, [Validators.required]),
+    detail: new FormControl(null, []),
   });
   confirmForm: FormGroup = new FormGroup({
     code: new FormControl(null, [Validators.required]),
@@ -28,7 +28,6 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   selectedIndex = 0;
   disableButton = true;
   currencyPrefix: string;
-  buttonText = 'Continuar';
   commissionRate: number;
   commission: number;
   total: number;
@@ -81,16 +80,19 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   next() {
-    this.selectedIndex < 3 && this.selectedIndex++;
+    if (this.selectedIndex < 3) {
+      this.stepper.next();
+      this.selectedIndex++;
+    }
 
     if (this.selectedIndex === 2) {
-      this.buttonText = 'Transferir';
+      this.confirmForm.controls.code.reset(null, [Validators.required]);
     }
+
     if (this.selectedIndex === 3) {
       this.openConfirmationModal();
     }
 
-    this.stepper.next();
     this.setEnableButton();
   }
 
@@ -138,6 +140,8 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
       .subscribe((res) => {
         if (res) {
           this.sendMoney();
+        } else {
+          this.selectedIndex = 2;
         }
       });
   }

@@ -6,8 +6,6 @@ import {FlexModule} from '@angular/flex-layout';
 import {SharedModule} from '../../../../shared/shared.module';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {HttpService} from 'src/app/core/services/http.service';
-import {CustomIconLoaderService} from 'src/app/core/services/custom-icon-loader.service';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {CredixStepperModule} from 'src/app/shared/components/credix-stepper/credix-stepper.module';
 import {CdkStepperModule} from '@angular/cdk/stepper';
@@ -38,6 +36,9 @@ import {ThirstyStepPlaceOfRetreatComponent} from './thirsty-step-place-of-retrea
 import {FourStepConfirmContactComponent} from './four-step-confirm-contact/four-step-confirm-contact.component';
 import {FourStepConfirmPayResumeComponent} from './four-step-confirm-pay-resume/four-step-confirm-pay-resume.component';
 import {ResultPayResumeComponent} from './result-pay-resume/result-pay-resume.component';
+import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {MarchamosService} from './marchamos.service';
 
 const routes: Routes = [
   {
@@ -86,11 +87,12 @@ const routes: Routes = [
     StepperModule,
     CredixRadioButtonModule,
     SimplebarAngularModule,
-    NgxMaskModule
+    NgxMaskModule,
+    CredixCardsModule,
+    CredixDividerModule
   ],
   providers: [
-    HttpService,
-    CustomIconLoaderService,
+    MarchamosService,
     ModalService
   ]
 

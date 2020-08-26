@@ -1,4 +1,4 @@
-.sign__header, .sign__header-tablet {
+.sign__header {
   height: 80px;
   width: 100vw;
   position: absolute;
@@ -40,6 +40,9 @@
   }
 
   &__close-btn {
+    position: absolute;
+    top: 24px;
+    right: 32px;
     width: 32px;
     height: 32px;
     background: #E9E9E9;
@@ -55,30 +58,30 @@
     height: 0 !important;
     padding: 0;
   }
-
 }
 
-.sign__header-tablet {
-  height: 140px !important;
+@media screen and (max-width: 1199px) {
+  .sign__header {
+    height: 140px !important;
 
-  &__icon {
-    margin-top: -58px !important;
+    &__icon {
+      margin-top: -58px !important;
+    }
+
+    &__msg {
+      margin-top: -23px;
+    }
+
+    &__buttons {
+      position: relative;
+      bottom: -19px;
+    }
+
+    &__close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
   }
 
-  &__msg {
-    margin-top: -23px;
-  }
-
-  &__buttons {
-    position: relative;
-    bottom: -19px;
-  }
-
-  &__close-btn {
-    margin-left: 0 !important;
-    position: relative !important;
-    top: -38px;
-    right: -16px;
-
-  }
 }

@@ -28,6 +28,7 @@ import {CredixShareButtonModule} from '../../../../shared/components/credix-shar
 import {ModalAddIbanComponent} from './first-step/modal-add-iban/modal-add-iban.component';
 import {CredixCheckboxButtonModule} from '../../../../shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import {ModalDetailsComponent} from './second-step/modal-details/modal-details.component';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 
 const routes: Routes = [
   {
@@ -66,7 +67,8 @@ const routes: Routes = [
     CredixResultNotificationModule,
     CredixShareButtonModule,
     ReactiveFormsModule,
-    CredixCheckboxButtonModule
+    CredixCheckboxButtonModule,
+    CredixDividerModule
   ],
   providers: [SendMoneyService]
 })

@@ -23,13 +23,15 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
   placeOfRetreat: { placeDescription: string } = {
     placeDescription: ''
   };
+  isPickUpStore: boolean = false;
+  private popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
+
   @Input() informationApplicant: any;
   @Input() addressAplicant: any[] = [];
+
   @Input() pickUp: FormControl;
-  @Output() pickUpChanged: EventEmitter<FormControl> = new EventEmitter<FormControl>();
+
   @Output() dataDelivery: EventEmitter<any> = new EventEmitter<any>();
-  @Output() placeOfRetreatChanged: EventEmitter<{ placeDescription: string }> = new EventEmitter<{ placeDescription: string }>();
-  private popupNewDirection: MatDialogRef<PopupMarchamosNewDirectionComponent | any>;
 
   constructor(private httpService: HttpService, private modalService: ModalService) {
   }
@@ -46,6 +48,7 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
   }
 
   getRadioButtonsChecked(event) {
+
     this.radioButtonsChangedValue = event.value;
 
     if (event.value === 2 && event.checked) {
@@ -53,6 +56,10 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
         name: this.informationApplicant.printName,
         number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
       };
+      this.isPickUpStore = true;
+      this.dataDelivery.emit({data: this.domicileDescription, isPickUpStore: this.isPickUpStore});
+    } else {
+      this.isPickUpStore = false;
     }
 
 
@@ -67,12 +74,13 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
           distric: this.informationApplicant.addressApplicant[0].district.description,
           number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
         };
+        this.dataDelivery.emit({data: this.domicileDescription, isPickUpStore: this.isPickUpStore});
       } else {
         this.newDirection();
       }
     }
 
-    this.dataDelivery.emit(this.domicileDescription);
+
   }
 
   newDirectionChecked(event) {
@@ -100,7 +108,7 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
         phoneNumber: values.phoneNumber,
         province: values.province
       };
-      this.dataDelivery.emit(this.newDeliveryDirection);
+      this.dataDelivery.emit({data: this.newDeliveryDirection, isPickUpStore: this.isPickUpStore, newDirection: true});
     });
   }
 
@@ -110,59 +118,8 @@ export class ThirstyStepPlaceOfRetreatComponent implements OnInit {
     }
   }
 
-  getPlaceOfRetreat() {
-    (this.radioButtonsChangedValue === 2) ? this.isPickUp() : this.isDelivery();
+  getValue(event) {
+    console.log(event);
   }
 
-
-  private isPickUp() {
-    switch (this.pickUp.value) {
-      case 1:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL TIBÁS'
-        };
-        break;
-      case 2:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL BELÉN'
-        };
-        break;
-      case 3:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL ESCAZÚ'
-        };
-        break;
-      case 4:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL TIBÁS'
-        };
-        break;
-      case 5:
-        this.placeOfRetreat = {
-          placeDescription: 'SUCURSAL DESAMPARADOS'
-        };
-        break;
-      case 7:
-        this.placeOfRetreat = {
-          placeDescription: 'ADMINISTRATIVO'
-        };
-        break;
-    }
-    this.placeOfRetreatChanged.emit(this.placeOfRetreat);
-  }
-
-  private isDelivery() {
-    if (this.newDeliveryOption === 'directionRegister' || !this.newDeliveryDirection) {
-      this.placeOfRetreat = {
-        placeDescription: this.domicileDescription.detail
-      };
-    } else if (this.newDeliveryOption === 'newDirection' && this.newDeliveryDirection) {
-      this.placeOfRetreat = {
-        placeDescription: this.newDeliveryDirection.exactlyDirection
-      };
-    } else {
-      return;
-    }
-    this.placeOfRetreatChanged.emit(this.placeOfRetreat);
-  }
 }

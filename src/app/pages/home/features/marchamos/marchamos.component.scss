@@ -1,9 +1,23 @@
 .marchamos {
-  background: #ffffff 0% 0% no-repeat padding-box;
-  width: 877px;
+  position: relative;
   height: 662px;
-  // padding: 40px !important;
-  border-radius: 8px;
+
+  &--second-step-height {
+    height: 685px;
+  }
+
+  &__title {
+    margin-bottom: 16px;
+  }
+
+  &__footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #E9E9E9;
+    padding: 16px;
+  }
 
   &__list {
     list-style: none;
@@ -49,12 +63,6 @@
     }
   }
 
-  &__title {
-    font-weight: bold;
-    font-size: 32px/47px;
-    margin: 16px;
-  }
-
   &__billing {
     margin-top: 32.5px;
     margin-left: 101px;
@@ -95,11 +103,6 @@
     }
   }
 
-
-  &__stepper {
-    margin: 16px;
-  }
-
   &__buttons {
     margin: 16px 0;
   }
@@ -135,12 +138,24 @@
   }
 }
 
-::ng-deep.mat-divider {
-  margin-top: 32px !important;
+.height-step-1 {
+  height: 662px;
 }
 
-::ng-deep.mat-card {
-  .mat-divider-horizontal {
-    position: initial !important;
+.height-step-2 {
+  height: 685px;
+}
+
+.height-step-3 {
+  height: 662px;
+}
+
+.height-step-4 {
+  height: 741px;
+}
+
+@media screen and (max-width: 1199px) {
+  .marchamos {
+    min-height: 886px;
   }
 }

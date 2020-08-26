@@ -26,7 +26,7 @@
     </table>
   </div>
 
-  <mat-divider class="third-step__divider mt-16px mb-16px"></mat-divider>
+  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
 
   <div class="third-step__content" fxLayout="row" fxLayoutGap="space-between">
 
@@ -57,7 +57,7 @@
           </td>
         </tr>
         <tr class="third-step__table-row">
-          <td>Comisión ({{commissionRate}}%)</td>
+          <td>Comisión ({{commissionRate}}%)*</td>
           <td>
             <credix-numeric-block [prefix]="currencyPrefix" fontSize="16"
                                   fontWeight="bold"
@@ -75,7 +75,7 @@
         </tbody>
       </table>
 
-      <mat-divider class="third-step__divider full-width mt-8px mb-8px"></mat-divider>
+      <mat-divider class="mt-8px mb-8px" credixDivider></mat-divider>
 
       <div fxLayout="row">
         <span fxFlex="50">Total</span>
@@ -87,7 +87,7 @@
 
   </div>
 
-  <mat-divider class="third-step__divider full-width mt-16px mb-16px"></mat-divider>
+  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
 
   <div class="third-step__content" fxLayout="row" fxLayoutAlign="space-between">
 

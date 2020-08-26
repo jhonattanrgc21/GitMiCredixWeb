@@ -47,9 +47,7 @@ export class FirstStepComponent implements OnInit {
   getFavoritesAccounts() {
     this.sendMoneyService
       .getFavoritesAccounts()
-      .subscribe((favoritesAccounts) => {
-        this.favoritesAccounts = favoritesAccounts;
-      });
+      .subscribe((favoritesAccounts) => this.favoritesAccounts = favoritesAccounts);
   }
 
   currencyRadioButtonChange(event: { value: Currency; checked: boolean }) {
@@ -60,6 +58,7 @@ export class FirstStepComponent implements OnInit {
   accountRadioButtonChange(event: { value: string; checked: boolean }) {
     this.typeDestinationEvent.emit(event.value);
     this.showFavoriteAccountsSelect = event.value === '1';
+
     if (event.value === '2') {
       this.showDetails = true;
       this.openModal(this.info);
@@ -71,7 +70,7 @@ export class FirstStepComponent implements OnInit {
 
   openModal(info) {
     const modal = this.modalService.open({component: ModalAddIbanComponent, title: 'Añadir cuenta IBAN', data: {info}},
-      {width: 380, height: 584, disableClose: false, panelClass: 'add-account-panel'}, 1);
+      {width: 380, height: 535, disableClose: false, panelClass: 'add-account-panel'}, 1);
 
     modal.afterClosed().subscribe(result => {
       this.info = result;

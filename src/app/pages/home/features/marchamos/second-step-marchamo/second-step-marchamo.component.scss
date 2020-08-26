@@ -1,19 +1,28 @@
-.second-step-marchamo {
-  padding-left: 101px;
-  padding-right: 99px;
-  padding-top: 16.5px;
+.marchamo-second-step {
+  padding: 0 84px;
 
-  &__label {
-    font-weight: bold;
-    font-size: 16px;
-    margin-right: 121px;
+  .first-column {
+    width: 30%;
   }
 
-  &__payment-span {
-    margin-right: 282px;
+  .second-column {
+    width: 280px;
   }
 
-  &__prices {
+  .third-column {
+    align-items: flex-end;
+    flex: 1;
+  }
+}
 
+
+@media screen and (max-width: 1199px) {
+
+  .marchamo-second-step {
+    padding: 0;
+  }
+
+  .second-column {
+    width: 265px;
   }
 }

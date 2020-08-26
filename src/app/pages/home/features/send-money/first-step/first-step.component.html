@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <mat-divider *ngIf="showSecondContent" class="first-step__divider full-width mt-16px mb-16px"></mat-divider>
+  <mat-divider *ngIf="showSecondContent" class="mt-16px mb-16px" credixDivider></mat-divider>
 
   <div *ngIf="showSecondContent" class="first-step__content" fxLayout="row">
     <span class="tl" fxFlex="40"><strong>Cuenta a transferir</strong></span>
@@ -37,8 +37,8 @@
           </div>
         </div>
 
-        <mat-divider *ngIf="favoriteAccountControl.value && showFavoriteAccountsSelect"
-                     class="first-step__divider ml-20px mt-16px"></mat-divider>
+        <mat-divider *ngIf="favoriteAccountControl.value && showFavoriteAccountsSelect" class="ml-20px mt-16px"
+                     credixDivider></mat-divider>
       </div>
 
       <div>
