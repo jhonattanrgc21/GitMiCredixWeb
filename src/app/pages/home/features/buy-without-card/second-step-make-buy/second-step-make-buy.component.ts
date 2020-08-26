@@ -31,4 +31,13 @@ export class SecondStepMakeBuyComponent implements OnInit {
     });
   }
 
+  getUserAplicantAccountNumber() {
+    this.httpService.post('canales', 'applicant/finduserapplicantaccountnumber', {
+      channelId: 102,
+      accountNumber: this.storageService.getCurrentUser().accountNumber
+    }).subscribe(response => {
+      console.log(response);
+    });
+  }
+
 }

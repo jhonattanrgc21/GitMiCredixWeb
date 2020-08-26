@@ -176,44 +176,44 @@ export class MarchamosComponent implements OnInit {
     });
   }
 
-  getDataOfQuotes(event) {
-    this.commission = event.commission;
-    this.iva = event.iva;
-    this.value = event.quotes;
-    this.quotasId = event.id;
-  }
+  // getDataOfQuotes(event) {
+  //   this.commission = event.commission;
+  //   this.iva = event.iva;
+  //   this.value = event.quotes;
+  //   this.quotasId = event.id;
+  // }
 
-  getDataOfDelivery(event) {
-    this.isPickUpStore = event.isPickUpStore;
+  // getDataOfDelivery(event) {
+  //   this.isPickUpStore = event.isPickUpStore;
 
-    if (this.isPickUpStore) {
-      this.contactToConfirm = {
-        name: event.data.name,
-        email: this.pickUpControls.email.value,
-        phone: event.data.number
-      };
-    } else {
-      this.contactToConfirm = {
-        name: event.data.name,
-        email: this.pickUpControls.email.value,
-        phone: event.data.number
-      };
-      this.placeOfRetreat = {
-        placeDescription: event.data.detail
-      };
-    }
+  //   if (this.isPickUpStore) {
+  //     this.contactToConfirm = {
+  //       name: event.data.name,
+  //       email: this.pickUpControls.email.value,
+  //       phone: event.data.number
+  //     };
+  //   } else {
+  //     this.contactToConfirm = {
+  //       name: event.data.name,
+  //       email: this.pickUpControls.email.value,
+  //       phone: event.data.number
+  //     };
+  //     this.placeOfRetreat = {
+  //       placeDescription: event.data.detail
+  //     };
+  //   }
 
-    if (event.newDirection) {
-      this.placeOfRetreat = {
-        placeDescription: event.data.exactlyDirection,
-      };
-      this.contactToConfirm = {
-        name: event.data.personReceive,
-        email: this.pickUpControls.email.value,
-        phone: event.data.phoneNumber
-      };
-    }
-  }
+  //   if (event.newDirection) {
+  //     this.placeOfRetreat = {
+  //       placeDescription: event.data.exactlyDirection,
+  //     };
+  //     this.contactToConfirm = {
+  //       name: event.data.personReceive,
+  //       email: this.pickUpControls.email.value,
+  //       phone: event.data.phoneNumber
+  //     };
+  //   }
+  // }
 
   getAnotherPay(event) {
     this.responseResultPay = event;
