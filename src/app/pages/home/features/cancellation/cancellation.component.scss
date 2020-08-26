@@ -7,7 +7,6 @@
   &__table{
     &__scroll{
       height: 400px;
-      //width: 291px;
       overflow-y: auto;
       overflow-x: hidden;
     }
@@ -55,7 +54,9 @@
   }
 }
 
-
+.disabledRow{
+  color: #D2D2D2;
+}
 
 :host ::ng-deep .mat-table {
   margin-top: 17px !important;
@@ -65,7 +66,7 @@
 
 :host ::ng-deep credix-result-notification{
   width: 294px;
-  margin: 61px auto 0 auto;
+  margin: 35px auto 0 auto;
 }
 
 :host ::ng-deep .credix-tab {
@@ -76,7 +77,56 @@
   width: 470px;
 }
 
+:host ::ng-deep th.mat-header-cell, td.mat-cell, td.mat-footer-cell{
+    border-bottom-width: 0px !important;
+}
+:host ::ng-deep td.mat-cell:last-of-type{
+  padding-right: 0 !important;
+  border-bottom-style: none !important;
+}
 
+:host ::ng-deep mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type{
+  padding-left: 0px !important;
+}
+
+:host ::ng-deep th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type{
+  padding-right: 0px !important;
+}
+
+.credix-checkbox {
+  width: 20px;
+  height: 20px;
+  text-align: left;
+  font: normal 16px/24px;
+  letter-spacing: 0;
+  color: #3E3E3E;
+
+  &.mat-checkbox-checked.mat-accent {
+    ::ng-deep.mat-checkbox-background {
+      background: #3E3E3E 0 0 no-repeat padding-box;
+      border-radius: 4px;
+    }
+  }
+
+  &.mat-checkbox-disabled.mat-checkbox-checked {
+    ::ng-deep.mat-checkbox-background {
+      background: #D2D2D2 0 0 no-repeat padding-box;
+    }
+  }
+
+  &.mat-checkbox-disabled {
+    ::ng-deep.mat-checkbox-label {
+      text-align: left;
+      font: normal 16px/24px;
+      letter-spacing: 0;
+      color: #D2D2D2;
+    }
+  }
+
+  ::ng-deep.mat-checkbox-frame {
+    border-radius: 4px;
+  }
+}
 
 @media screen and (max-width: 1199px) {
   .cancellation {
@@ -101,8 +151,7 @@
     }
   }
 
-
   :host ::ng-deep credix-result-notification{
-    margin: 160px auto 160px auto;
+    margin: 134px auto 134px auto;
   }
 }

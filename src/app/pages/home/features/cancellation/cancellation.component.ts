@@ -3,6 +3,8 @@ import { HttpService } from "../../../../core/services/http.service";
 import { TableElement } from "../../../../shared/models/table.model";
 import { Router } from "@angular/router";
 import { SelectionModel } from "@angular/cdk/collections";
+import { ConvertStringDateToDate } from "../../../../shared/utils";
+import { SlicePipe } from "@angular/common";
 
 @Component({
   selector: "app-cancellation",
@@ -21,7 +23,7 @@ export class CancellationComponent implements OnInit {
   ];
   dataSource: TableElement[];
   currencyCode = "₡";
-  balance = 1000;
+  balance: number = 0;
   check = true;
   p = 0;
   disableButton = false;
@@ -32,24 +34,30 @@ export class CancellationComponent implements OnInit {
   errorDescrip;
   quotasToCancel$ = [];
   quotasToCancel = [];
-  balanceC = 0;
-  balanceD = 0;
+  balanceC: number = 0;
+  balanceD: number = 0;
+  cancelledTotal: number = 0;
+  paymentList = [];
   empty = false;
   tabs = [
     { id: 1, name: "Colones" },
     { id: 2, name: "Dólares" },
   ];
+  checked = false;
 
   constructor(private httpService: HttpService, private router: Router) {}
 
   ngOnInit(): void {
-    this.checkFuntionallity();
+    //this.checkFuntionallity();
+    this.getOptionsToCancel();
+    this.balance = this.balanceC;
+    this.dataSource = this.quotasToCancel;
   }
 
   tabSelected(tab) {
     if (tab.id === 1) {
       this.currencyCode = "₡";
-      this.balance = 1000;
+      this.balance = this.balanceC;
       this.dataSource = this.quotasToCancel;
       this.selection.clear();
     } else {
@@ -74,21 +82,21 @@ export class CancellationComponent implements OnInit {
           this.showSuccess = false;
         } else {
           this.showResponse = false;
-          this.getOptionsToCancel();
+          //this.getOptionsToCancel();
         }
       });
   }
 
   getOptionsToCancel() {
-    this.httpService
+    /*this.httpService
       .post("canales", "account/pendingquotes", {
         channelId: 102,
       })
       .subscribe((res) => {
         console.log(res);
         if (res.type === "success") {
-          this.balanceC = res.SaldoDisponibleColones;
-          this.balanceD = res.SaldoDisponibleDolares;
+          this.balanceC = this.changeFormat(res.SaldoDisponibleColones);
+          this.balanceD = this.changeFormat(res.SaldoDisponibleDolares);
           res.CuotasDolares.forEach((elem, i) => {
             this.quotasToCancel$ = [
               ...this.quotasToCancel$,
@@ -123,14 +131,83 @@ export class CancellationComponent implements OnInit {
         } else {
           this.empty = true;
         }
-      });
+      });*/
+    this.balanceC = this.changeFormat("695.522,81");
+    this.balanceD = this.changeFormat("0,00");
+    this.quotasToCancel$ = [
+      ...this.quotasToCancel$,
+      {
+        id: 1,
+        quotas: 2,
+        currencyId: 188,
+        date: "2020-01-25",
+        commerce: "CUOTIFICACION",
+        amount: "695.522,81",
+        rate: 0,
+        pdvId: 17825,
+      },
+      {
+        id: 2,
+        quotas: 2,
+        currencyId: 188,
+        date: "2020-01-25",
+        commerce: "CUOTIFICACION",
+        amount: "12.221,881",
+        rate: 0,
+        pdvId: 17825,
+      },
+      {
+        id: 3,
+        quotas: 2,
+        currencyId: 188,
+        date: "2020-01-25",
+        commerce: "CUOTIFICACION",
+        amount: "700.522,81",
+        rate: 0,
+        pdvId: 17825,
+
+      },
+    ]
+    this.quotasToCancel = [
+        ...this.quotasToCancel,
+        {
+          id: 1,
+          quotas: 2,
+          currencyId: 188,
+          date: "2020-01-25",
+          commerce: "CUOTIFICACION",
+          amount: "695.522,81",
+          rate: 0,
+          pdvId: 17825,
+        },
+        {
+          id: 2,
+          quotas: 2,
+          currencyId: 188,
+          date: "2020-01-25",
+          commerce: "CUOTIFICACION",
+          amount: "12.221,881",
+          rate: 0,
+          pdvId: 17825,
+        },
+        {
+          id: 3,
+          quotas: 2,
+          currencyId: 188,
+          date: "2020-01-25",
+          commerce: "CUOTIFICACION",
+          amount: "700.522,81",
+          rate: 0,
+          pdvId: 17825,
+
+        },
+      ];
   }
 
   cancel() {
-    let paymentList = [];
     this.selection.selected.forEach((el) => {
-      paymentList = [
-        ...paymentList,
+      this.paymentList = [
+        ...this.paymentList,
         {
           pdvId: el.pdvId,
           fechaOrigen: el.date,
@@ -140,15 +217,18 @@ export class CancellationComponent implements OnInit {
           currencyId: el.currencyId,
         },
       ];
+      this.cancelledTotal += this.changeFormat(el.amount);
     });
+
     this.httpService
       .post("canales", "account/saveadvancepayments", {
         channelId: 102,
         saldoInicial: this.currencyCode === "₡" ? this.balanceC : this.balanceD,
         saldoFinal: this.balance,
-        advancePaymentList: paymentList,
+        advancePaymentList: this.paymentList,
       })
       .subscribe((resp) => {
+        console.log(resp);
         this.showResponse = true;
         if (resp.type === "success") {
           this.showSuccess = true;
@@ -162,15 +242,28 @@ export class CancellationComponent implements OnInit {
 
   change(event, row) {
     this.selection.toggle(row);
+    this.checked = event.checked;
+    let amount = this.changeFormat(row.amount);
     if (event.checked) {
-      this.balance = this.balance - parseInt(row.amount);
+      this.balance = this.balance - amount;
     } else {
-      this.balance = this.balance + parseInt(row.amount);
+      this.balance = this.balance + amount;
     }
   }
 
   done() {
-    console.log(this.selection);
     this.router.navigate(["/home"]).then();
+  }
+
+  convertStringDateToDate(value: string): Date {
+    let date =
+      value.slice(8, 10) + "/" + value.slice(5, 7) + "/" + value.slice(0, 4);
+    return ConvertStringDateToDate(date);
+  }
+
+  changeFormat(value) {
+    let removeDot = value.replace(".", "");
+    let finalString = removeDot.replace(",", ".");
+    return Number(finalString);
   }
 }
