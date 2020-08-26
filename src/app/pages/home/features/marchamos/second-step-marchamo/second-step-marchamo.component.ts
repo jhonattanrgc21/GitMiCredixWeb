@@ -120,6 +120,7 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
       this.totalAmount = value.consultVehicle.amount;
       this.billingHistories = value.billingHistories;
     });
+    this.marchamosService.emitAmountItemsProducts(this.amountItemsProducts.responsabilityCivilAmount,this.amountItemsProducts.roadAsistanceAmount, this.amountItemsProducts.moreProtectionAmount);
   }
 
   ngOnChanges(changes:SimpleChanges){

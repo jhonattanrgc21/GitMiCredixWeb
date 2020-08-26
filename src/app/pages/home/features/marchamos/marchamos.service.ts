@@ -15,6 +15,11 @@ export class MarchamosService {
     return this._consultMarchamos.asObservable();
   }
 
+  private _amountItemsProducts = new Subject<{ responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number }>();
+
+  get amountItemsProducts(): Observable<{ responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number }>{
+    return this._amountItemsProducts.asObservable();
+  }
   // tslint:disable-next-line:variable-name
   private _consultVehicleAndBillingHistory = new Subject<{ consultVehicle: ConsultVehicle, billingHistories: BillingHistory[] }>();
 
@@ -30,16 +35,16 @@ export class MarchamosService {
   }
 
   // 3er paso de marchamo
-  private _domicileDescription = new Subject<{ name: string, detail?:string, province?: number,canton?: number,distric?: number, number: number}>();
+  private _domicileDescription = new Subject<{ name: string, detail?:string, province?: number,canton?: number,distric?: number, number: number, email:string}>();
 
 
-  get domicileDescription(): Observable <{ name: string, number: number, detail?:string, province?: number,canton?: number,distric?: number}>{
+  get domicileDescription(): Observable <{ name: string, number: number, email:string, detail?:string, province?: number,canton?: number,distric?: number}>{
     return this._domicileDescription.asObservable();
   }
 
-  private _newDeliveryDirection = new Subject<{ personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number }>();
+  private _newDeliveryDirection = new Subject<{ personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number, email:string }>();
 
-  get newDeliveryDirection(): Observable <{ personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number }> {
+  get newDeliveryDirection(): Observable <{ personReceive: string, phoneNumber: number, email:string, exactlyDirection?:string, province?: number,canton?: number,distric?: number }> {
     return this._newDeliveryDirection.asObservable();
   }
 
@@ -61,15 +66,19 @@ consult() {
     this._ivaAndCommission.next({iva, commission});
   }
 
-  emitDomicileDescription(name: string, number: number, detail?:string, province?: number,canton?: number,distric?: number, email?:string){
-    this._domicileDescription.next({name, detail , province, canton, distric, number});
+  emitDomicileDescription(name: string, number: number,  email:string,detail?:string, province?: number,canton?: number,distric?: number){
+    this._domicileDescription.next({name, detail , province, canton, distric, number, email});
   }
 
-  emitNewDeliveryDirection(personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number, email?:string){
-    this._newDeliveryDirection.next({ personReceive, phoneNumber, exactlyDirection, province,canton,distric});
+  emitNewDeliveryDirection(personReceive: string, phoneNumber: number, email:string, exactlyDirection?:string, province?: number,canton?: number,distric?: number){
+    this._newDeliveryDirection.next({ personReceive, phoneNumber, exactlyDirection, province,canton,distric, email});
   }
 
   emitPickUpStoreId(pickUpId:number){
     this._pickUpStoreId.next({pickUpId});
+  }
+
+  emitAmountItemsProducts(responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number ){
+    this._amountItemsProducts.next({responsabilityCivilAmount, roadAsistanceAmount, moreProtectionAmount});
   }
 }
