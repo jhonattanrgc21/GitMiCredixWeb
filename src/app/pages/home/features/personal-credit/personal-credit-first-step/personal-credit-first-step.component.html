@@ -4,15 +4,14 @@
 
     <span class="tl"><strong>Monto</strong></span>
 
-    <credix-slider (inputChange)="amountControl.setValue($event)"
-                   (valueChange)="amountControl.setValue($event)"
-                   [max]="cardLimit"
-                   [min]="100000"
-                   [step]="sliderStep"
-                   [value]="amountControl.value"
+    <credix-slider (inputChange)="getAmount($event)"
+                   (valueChange)="getAmount($event)"
+                   [max]="amountSliderMax"
+                   [min]="amountSliderMin"
+                   [step]="amountSliderStep"
                    class="credix-slider--no-units"
                    instructions="Deseo Solicitar">
-      <credix-numeric-block [value]="amountControl.value"
+      <credix-numeric-block [value]="100000"
                             fontWeight="bold"
                             min prefix="₡"></credix-numeric-block>
       <credix-numeric-block [value]="cardLimit"
@@ -32,12 +31,14 @@
   <div class="personal-credit-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <span class="tl"><strong>Plazo</strong></span>
 
-    <credix-slider (inputChange)="termControl.setValue($event)"
-                   (valueChange)="termControl.setValue($event)"
+    <credix-slider (inputChange)="getQuota($event)"
+                   (valueChange)="getQuota($event)"
+                   [displayMax]="termSliderDisplayMax"
+                   [displayMin]="termSliderDisplayMin"
+                   [displayValue]="termSliderDisplayValue"
                    [max]="termSliderMax"
                    [min]="termSliderMin"
                    [step]="termSliderStep"
-                   [value]="termControl.value"
                    instructions="Por un período de"
                    units="Meses"></credix-slider>
 
