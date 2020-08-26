@@ -47,6 +47,9 @@ export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
     private storageService: StorageService) { }
 
   ngOnInit(): void {
+    this.pickUpForm.controls.pickUp.valueChanges.subscribe(value => {
+     this.marchamoService.emitPickUpStoreId(value);
+    });
   }
   ngOnChanges(changes:SimpleChanges){
     if(changes.isActive && this.isActive){
@@ -67,7 +70,6 @@ export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
       channelId: 102,
       accountNumber: this.storageService.getCurrentUser().accountNumber
     }).subscribe(response => {
-      console.log(response);
       this.pickUpForm.controls.email.setValue(response.informationApplicant.applicant.email);
       this.informationApplicant = response.informationApplicant.applicant;
       this.addressAplicant = response.informationApplicant.applicant.addressApplicant;
@@ -98,21 +100,29 @@ export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
         this.newDeliveryDirection.exactlyDirection, 
         this.newDeliveryDirection.province,
         this.newDeliveryDirection.canton,
-        this.newDeliveryDirection.distric
+        this.newDeliveryDirection.distric,
+        this.pickUpForm.controls.email.value
         );
     });
   }
 
   getRadioButtonsChecked(event) {
 
+    let pickUpId:number;
     this.radioButtonsChangedValue = event.value;
 
+    
+
     if (event.value === 2 && event.checked) {
-      this.domicileDescription = {
-        name: this.informationApplicant.printName,
-        number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
-      };
-      this.marchamoService.emitDomicileDescription(this.domicileDescription.name,this.domicileDescription.number);
+          this.domicileDescription = {
+            name: this.informationApplicant.printName,
+            number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
+          };
+
+          this.marchamoService.emitDomicileDescription(
+            this.domicileDescription.name,
+            this.domicileDescription.number,
+            this.pickUpForm.controls.email.value);  
     }
 
 
@@ -127,7 +137,13 @@ export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
           distric: this.informationApplicant.addressApplicant[0].district.description,
           number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
         };
-        this.marchamoService.emitDomicileDescription(this.domicileDescription.name,this.domicileDescription.number,this.domicileDescription.detail, this.domicileDescription.province, this.domicileDescription.canton,this.domicileDescription.distric);
+        this.marchamoService.emitDomicileDescription(this.domicileDescription.name,
+          this.domicileDescription.number,
+          this.domicileDescription.detail, 
+          this.domicileDescription.province,
+           this.domicileDescription.canton,
+           this.domicileDescription.distric, 
+           this.pickUpForm.controls.email.value);
       } else {
         this.newDirection();
       }

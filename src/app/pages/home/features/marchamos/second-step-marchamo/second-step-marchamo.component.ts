@@ -119,7 +119,6 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
     this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
       this.totalAmount = value.consultVehicle.amount;
       this.billingHistories = value.billingHistories;
-      
     });
   }
 

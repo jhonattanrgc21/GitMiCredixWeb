@@ -43,6 +43,12 @@ export class MarchamosService {
     return this._newDeliveryDirection.asObservable();
   }
 
+  private _pickUpStoreId =  new Subject<{ pickUpId:number}>();
+
+  get pickUpStoreId() : Observable<{ pickUpId:number}>{
+    return this._pickUpStoreId.asObservable();
+  }
+
 consult() {
     this._consultMarchamos.next();
   }
@@ -55,11 +61,15 @@ consult() {
     this._ivaAndCommission.next({iva, commission});
   }
 
-  emitDomicileDescription(name: string, number: number, detail?:string, province?: number,canton?: number,distric?: number){
+  emitDomicileDescription(name: string, number: number, detail?:string, province?: number,canton?: number,distric?: number, email?:string){
     this._domicileDescription.next({name, detail , province, canton, distric, number});
   }
 
-  emitNewDeliveryDirection(personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number){
+  emitNewDeliveryDirection(personReceive: string, phoneNumber: number, exactlyDirection?:string, province?: number,canton?: number,distric?: number, email?:string){
     this._newDeliveryDirection.next({ personReceive, phoneNumber, exactlyDirection, province,canton,distric});
+  }
+
+  emitPickUpStoreId(pickUpId:number){
+    this._pickUpStoreId.next({pickUpId});
   }
 }
