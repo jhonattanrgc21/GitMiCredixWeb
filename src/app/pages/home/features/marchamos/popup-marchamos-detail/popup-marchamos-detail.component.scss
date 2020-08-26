@@ -3,9 +3,14 @@
     margin-bottom: 8px;
 
     p {
-      width: 50%;
+      width: 156px;
+      height: 46px;
       font-weight: normal;
       font-size: 16px;
+    }
+    .billing-amount{
+      width: 85px;
+      height: 24px;
     }
 
     span {
@@ -18,8 +23,14 @@
     margin-top: 8.24px;
 
     span {
+      width: 45px;
+      height: 29px;
       font-weight: bold;
       font-size: 16px;
+    }
+    .total-number{
+      width: 143px;
+      height: 35px;
     }
   }
 }

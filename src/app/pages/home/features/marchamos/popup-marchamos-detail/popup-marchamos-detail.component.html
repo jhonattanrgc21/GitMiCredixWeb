@@ -1,12 +1,16 @@
 <div class="popup-detail" fxLayout="column">
-  <div *ngFor="let billing of billingHistorys" fxLayout="row" fxLayoutGap="64px">
-    <p>{{billing.itemDescription}}</p>
-    <credix-numeric-block [value]="billing.itemAmount" fontSize="16" fontWeight="bold"
-                          prefix="₡"></credix-numeric-block>
+  <div *ngFor="let billing of billingHistorys" fxLayout="row">
+    <p class="mb-16px">{{billing.itemDescription}}</p>
+    <credix-numeric-block 
+    class="billing-amount"    
+    [value]="billing.itemAmount" 
+    fontSize="16" 
+    fontWeight="bold"
+    prefix="₡"></credix-numeric-block>
   </div>
-  <mat-divider></mat-divider>
+  <mat-divider class=""></mat-divider>
   <div class="popup-detail__total-mount" fxLayout="row" fxLayoutGap="176px">
     <span>Total</span>
-    <credix-numeric-block [value]="totalAmount" fontSize="16" fontWeight="bold" prefix="₡"></credix-numeric-block>
+    <credix-numeric-block class="total-number" [value]="totalAmount" fontSize="24" fontWeight="bold" prefix="₡"></credix-numeric-block>
   </div>
 </div>
