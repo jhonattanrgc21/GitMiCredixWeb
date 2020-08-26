@@ -68,20 +68,26 @@ export class SecondStepQuotesComponent implements OnInit {
   minQuotes: number;
   value: number;
   commission: number = 0;
+  stepQuota: number = 0;
   iva: number;
+  listQuotas: any[] = [];
+  private dataForPayResumen: any[] = [];
   quotesToPayOfAmount: boolean = false;
+
+
+  private popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
+
+
   @Input() totalMount: any;
   @Input() quotesAmount: number;
   @Input() amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number };
+
   // FormControls
   @Input() firstCouteToPayIn: FormControl;
-  @Output() firstCouteToPayInChanged: EventEmitter<FormControl> = new EventEmitter<FormControl>();
   @Input() quotesToPay: FormControl;
-  @Output() quotesToPayChanged: EventEmitter<FormControl> = new EventEmitter<FormControl>();
+
   // dataEmit
   @Output() dataQuotes: EventEmitter<any> = new EventEmitter<any>();
-  private dataForPayResumen: any[] = [];
-  private popupPayResume: MatDialogRef<PopupMarchamosPayResumeComponent | any>;
 
   constructor(private httpService: HttpService, private modalService: ModalService) {
   }
@@ -92,14 +98,19 @@ export class SecondStepQuotesComponent implements OnInit {
 
   getValueSlider(event?) {
     this.value = event;
+    this.quotesToPay.patchValue(this.value);
+
+    let id = this.listQuotas.find(element => element.quota === event).id;
+
+
     this.getCommission(this.value);
     if (typeof this.totalMount === 'string') {
       (event > 0) ? this.quotesAmount = parseInt(this.totalMount.replace('.', '')) / this.value : this.quotesAmount;
     } else {
       (event > 0) ? this.quotesAmount = this.totalMount / this.value : this.quotesAmount;
     }
-    this.quotesToPay.patchValue(this.quotesAmount);
-    this.dataQuotes.emit({iva: this.iva, commission: this.commission});
+
+    this.dataQuotes.emit({iva: this.iva, commission: this.commission, quotes: this.value, id: id});
   }
 
   getCommission(commission: number) {
@@ -120,10 +131,13 @@ export class SecondStepQuotesComponent implements OnInit {
   getListQuotesByProduct() {
     this.httpService.post('canales', 'customerservice/listquotabyproduct', {channelId: 102, productId: 2})
       .subscribe(response => {
-        this.minQuotes = response.listQuota.shift().quota;
-        this.value = this.minQuotes;
-        this.maxQuotes = response.listQuota.slice(response.listQuota.lastIndexOf())[0].quota;
-        (this.value > 0) ? this.quotesToPayOfAmount = true : false;
+        this.listQuotas = response.listQuota;
+        const length = response.listQuota.length;
+        this.minQuotes = response.listQuota[0].quota;
+        this.maxQuotes = response.listQuota[length - 1].quota;
+        this.stepQuota = response.listQuota[1].quota - response.listQuota[0].quota;
+
+        (response.listQuota[0].quota > 0) ? this.quotesToPayOfAmount = true : false;
       });
   }
 

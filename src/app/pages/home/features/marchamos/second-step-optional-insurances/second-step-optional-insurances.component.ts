@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {Item} from 'src/app/shared/models/item.model';
 
@@ -8,7 +8,6 @@ import {Item} from 'src/app/shared/models/item.model';
   styleUrls: ['./second-step-optional-insurances.component.scss']
 })
 export class SecondStepOptionalInsurancesComponent implements OnInit {
-
   itemProduct: Item[] = [
     {
       responseDescription: 'Responsabilidad civil',
@@ -31,7 +30,6 @@ export class SecondStepOptionalInsurancesComponent implements OnInit {
   @Input() amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number };
 
   @Input() aditionalProducts: FormArray;
-  @Output() aditionalProductsChanged: EventEmitter<FormArray> = new EventEmitter<FormArray>();
 
   constructor() {
   }

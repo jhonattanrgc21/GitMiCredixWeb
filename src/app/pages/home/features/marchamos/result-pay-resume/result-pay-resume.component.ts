@@ -18,10 +18,10 @@ export class ResultPayResumeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.responseResultPay);
   }
 
   doAnotherPay() {
-    this.responseResultPay = !this.responseResultPay;
-    this.responseResultPayChanged.emit(this.responseResultPay);
+    this.responseResultPayChanged.emit(!this.responseResultPay);
   }
 }

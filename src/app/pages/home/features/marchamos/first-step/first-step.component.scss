@@ -1,13 +1,25 @@
-.first-step {
-  padding-left: 101px;
-  padding-right: 99px;
-  padding-top: 32.5px;
-
-  &__select {
-    width: 380px;
-  }
+.marchamo-first-step {
+  padding: 0 84px;
 
   &__input {
     width: 380px;
+    height: 43px;
+
+    &:last-of-type {
+      margin-bottom: 7px;
+    }
+  }
+
+  &__table {
+    td {
+      width: 100px;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .marchamo-first-step {
+    padding: 0 78px;
   }
 }

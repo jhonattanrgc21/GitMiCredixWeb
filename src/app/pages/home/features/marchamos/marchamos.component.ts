@@ -3,10 +3,11 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpService} from 'src/app/core/services/http.service';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {CdkStepper} from '@angular/cdk/stepper';
-import {ConsultVehicle} from 'src/app/shared/models/consultVehicle.models';
 import {StorageService} from 'src/app/core/services/storage.service';
 import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
 import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
+import {MarchamosService} from './marchamos.service';
+import {ConsultVehicle} from '../../../../shared/models/consultVehicle.models';
 
 @Component({
   selector: 'app-marchamos',
@@ -14,25 +15,18 @@ import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
   styleUrls: ['./marchamos.component.scss']
 })
 export class MarchamosComponent implements OnInit {
-
-
-  consultVehicle: ConsultVehicle;
   ownerPayer: OwnerPayer;
-  billingHistorys: BillingHistory[];
-
-  newDeliveryDirection: any;
-
+  billingHistories: BillingHistory[];
+  consultVehicle: ConsultVehicle;
   vehicleInformation: boolean;
-  totalMount: any;  //'₡ 114.996,00'
-  value: number = 1;
+  value = 1;
   quotesAmount: number;
-
   amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
     responsabilityCivilAmount: 8745.00,
     roadAsistanceAmount: 3359.00,
     moreProtectionAmount: 7140.00
   };
-  commission: number = 0;
+  commission = 0;
   responseToContinue: string;
   contactToConfirm: { name: string, email: string, phone: string } = {
     name: '',
@@ -50,58 +44,46 @@ export class MarchamosComponent implements OnInit {
       iva: 0,
       commission: 0
     };
-  // maxQuotes: number;
-  // minQuotes: number;
-
-  iva: number = 0;
-  totalAmountItemsProducts: number = 0;
-  cardNumber: string;
+  stepperIndex = 0;
+  iva = 0;
+  totalAmountItemsProducts = 0;
+  cardId: number;
   addressAplicant: any[] = [];
   informationApplicant: any;
-  // domicile: boolean = false;
-  // newDomicile: boolean = false;
   promoStatus: any;
-  responseResultPay: boolean = false;
-  responseToPay: string;
-  messageToPay: string;
-  titleToPay: string;
+  responseResultPay = false;
   email: string;
-
+  ownerEmail: string;
+  quotasId = 0;
+  isPickUpStore = false;
   resultPay: { messageToPay: string, responseToPay: string, titleToPay: string };
   dataPay: { totalMount: any, value: number, plateNumber: string, firstCouteToPayIn: string };
-
-
   options = {autoHide: false, scrollbarMinSize: 100};
-
+  disableButton = true;
   consultForm: FormGroup = new FormGroup({
-    vehicleType: new FormControl('', [Validators.required]),
-    plateNumber: new FormControl('', [Validators.required])
+    vehicleType: new FormControl(null, [Validators.required]),
+    plateNumber: new FormControl(null, [Validators.required])
   });
-
   secureAndQuotesForm: FormGroup = new FormGroup({
-    aditionalProducts: new FormArray([]),
-    quotesToPay: new FormControl(''),
-    firstCouteToPayIn: new FormControl('')
+    additionalProducts: new FormArray([]),
+    quota: new FormControl(null, [Validators.required]),
+    quotaId: new FormControl(null, [Validators.required]),
+    firstQuotaDate: new FormControl(null, [Validators.required])
   });
-
   pickUpForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
-    pickUp: new FormControl('', []),
+    email: new FormControl(null, [Validators.email]),
+    pickUp: new FormControl(null, []),
     domicile: new FormArray([])
   });
-
   confirmForm: FormGroup = new FormGroup({
     credixCode: new FormControl('', [Validators.required])
   });
-
-
   @ViewChild('stepper') stepper: CdkStepper;
 
-  constructor(
-    private httpService: HttpService,
-    private modalService: ModalService,
-    private storageService: StorageService
-  ) {
+  constructor(private httpService: HttpService,
+              private marchamosService: MarchamosService,
+              private modalService: ModalService,
+              private storageService: StorageService) {
   }
 
   get consultControls() {
@@ -120,21 +102,15 @@ export class MarchamosComponent implements OnInit {
     return this.confirmForm.controls;
   }
 
-  get amountValue() {
-    return this.totalMount;
-  }
-
-
   ngOnInit(): void {
-    this.getOwnersPayerInfo();
-    this.getPromo();
-    this.getCardValues();
-    this.getUserAplicantAccountNumber();
-    // this.getListQuotesByProduct();
-    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount + this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
-    console.log(this.totalAmountItemsProducts);
+    this.checkNextStep();
+    /* this.getOwnersPayerInfo();
+     this.getPromo();
+     this.getCardValues();
+     this.getUserAplicantAccountNumber();*/
+    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount +
+      this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
   }
-
 
   getUserAplicantAccountNumber() {
     this.httpService.post('canales', 'applicant/finduserapplicantaccountnumber', {
@@ -147,54 +123,130 @@ export class MarchamosComponent implements OnInit {
     });
   }
 
-
   continue() {
     this.stepper.next();
+    this.stepperIndex = this.stepper.selectedIndex;
+    this.disableButton = true;
+    this.checkNextStep();
   }
 
+  back() {
+    this.stepper.previous();
+    this.stepperIndex = this.stepper.selectedIndex;
+    this.checkNextStep();
+  }
+
+  checkNextStep() {
+    switch (this.stepperIndex) {
+      case 0:
+        this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
+          this.consultVehicle = value.consultVehicle;
+          this.billingHistories = value.billingHistories;
+          this.disableButton = this.consultVehicle === null && this.billingHistories == null;
+        });
+        break;
+      case 1:
+        this.secureAndQuotesForm.valueChanges.subscribe(() => {
+          this.disableButton = this.secureAndQuotesForm.invalid;
+        });
+
+        this.marchamosService.ivaAndCommission.subscribe(value => {
+          this.iva = value.iva;
+          this.commission = value.commission;
+        });
+        break;
+      case 2:
+        this.pickUpForm.valueChanges
+          .subscribe(() => {
+            this.disableButton = this.pickUpForm.invalid;
+          });
+        break;
+      case 3:
+        this.confirmForm.valueChanges
+          .subscribe(() => {
+            this.disableButton = this.confirmForm.invalid;
+          });
+        break;
+    }
+  }
 
   getCardValues() {
     this.storageService.getCurrentCards().forEach(cardValues => {
-      this.cardNumber = cardValues.cardNumber;
+      this.cardId = cardValues.cardId;
     });
   }
 
   getDataOfQuotes(event) {
     this.commission = event.commission;
     this.iva = event.iva;
+    this.value = event.quotes;
+    this.quotasId = event.id;
   }
 
   getDataOfDelivery(event) {
-    console.log(event);
+    this.isPickUpStore = event.isPickUpStore;
+
+    if (this.isPickUpStore) {
+      this.contactToConfirm = {
+        name: event.data.name,
+        email: this.pickUpControls.email.value,
+        phone: event.data.number
+      };
+    } else {
+      this.contactToConfirm = {
+        name: event.data.name,
+        email: this.pickUpControls.email.value,
+        phone: event.data.number
+      };
+      this.placeOfRetreat = {
+        placeDescription: event.data.detail
+      };
+    }
+
+    if (event.newDirection) {
+      this.placeOfRetreat = {
+        placeDescription: event.data.exactlyDirection,
+      };
+      this.contactToConfirm = {
+        name: event.data.personReceive,
+        email: this.pickUpControls.email.value,
+        phone: event.data.phoneNumber
+      };
+    }
   }
 
-  getPlaceOfRetreatData(event) {
-    console.log(event);
+  getAnotherPay(event) {
+    this.responseResultPay = event;
   }
-
 
   consult() {
+    this.marchamosService.consult();
+  }
+
+  /*consult() {
     this.httpService.post('marchamos', 'pay/vehicleconsult', {
       channelId: 107,
       plateClassId: this.consultControls.vehicleType.value.toString(),
       plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
       aditionalProducts: [
-        ''
+        {
+          productCode: 5
+        },
+        {
+          productCode: 6
+        },
+        {
+          productCode: 8
+        }
       ]
-    })
-      .subscribe(response => {
-        console.log(response);
-        this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
-        this.totalMount = response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
-        this.billingHistorys = response.REQUESTRESULT.soaResultVehicleConsult.item;
-        this.responseToContinue = response.type;
-        (typeof this.totalMount === 'string') ? this.quotesAmount = parseInt(this.totalMount.replace('.', '')) : this.quotesAmount = this.totalMount;
-        (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
-
-
-      });
-
-  }
+    }).subscribe(response => {
+      this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
+      this.totalMount = response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
+      this.billingHistorys = response.REQUESTRESULT.soaResultVehicleConsult.item;
+      this.quotesAmount = typeof this.totalMount === 'string' ? +this.totalMount.replace('.', '') : this.totalMount;
+      this.vehicleInformation = response.type === 'success' ? !this.vehicleInformation : this.vehicleInformation;
+    });
+  }*/
 
   getOwnersPayerInfo() {
     this.httpService.post('marchamos', 'owners/payerinfo', {
@@ -203,12 +255,10 @@ export class MarchamosComponent implements OnInit {
       accountNumber: this.storageService.getCurrentUser().accountNumber
     })
       .subscribe(response => {
-        console.log(response);
         this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
+        this.ownerEmail = this.ownerPayer.email;
       });
   }
-
-
 
   getPromo() {
     this.httpService.post('marchamos', 'pay/promoapply',
@@ -224,33 +274,35 @@ export class MarchamosComponent implements OnInit {
       });
   }
 
-  secureToPay(data?) {
-
+  secureToPay() {
     this.httpService.post('marchamos', 'pay/soapay',
       {
-        channelId: 107,
+        channelId: 102,
         aditionalProducts: [],
-        amount: this.amountValue,
-        cardNumber: this.cardNumber,
+        amount: this.consultVehicle.amount,
+        cardNumber: this.cardId,
         deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
+        authenticationNumberCommission: '0000',
+        authenticationNumberMarchamo1: '000000',
         domicilePerson: this.contactToConfirm.name,
         domicilePhone: this.contactToConfirm.phone,
         domicilePlace: this.placeOfRetreat.placeDescription,
-        email: this.pickUpControls.email.value,
+        email: (this.email !== null) ? this.email : this.ownerEmail,
+        ownerEmail: (this.email !== null) ? this.email : this.ownerEmail,
         extraCardStatus: '0',
         firstPayment: this.promoStatus.paymentDate,
         payId: this.consultVehicle.payId,
         payerId: this.ownerPayer.payerId,
         period: this.consultVehicle.period,
         phoneNumber: this.consultVehicle.contactPhone,
-        plateClassId: parseInt(this.consultControls.vehicleType.value),
+        plateClassId: +this.consultControls.vehicleType.value,
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
         promoStatus: this.promoStatus.promoStatusId,
-        quotas: this.secureAndQuotesControls.quotesToPay.value,
-        transactionTypeId: 1
+        quotasId: this.quotasId,
+        transactionTypeId: 1,
+        requiredBill: '1'
       })
       .subscribe(response => {
-        console.log(response);
         if (response.type) {
           this.responseResultPay = !this.responseResultPay;
         }
@@ -261,63 +313,75 @@ export class MarchamosComponent implements OnInit {
         };
 
         this.dataPay = {
-          totalMount: this.totalMount,
-          value: this.secureAndQuotesControls.quotesToPay.value,
+          totalMount: this.consultVehicle.amount,
+          value: this.value,
           plateNumber: this.consultVehicle.plateNumber,
           firstCouteToPayIn: this.secureAndQuotesControls.firstCouteToPayIn.value
         };
       });
   }
 
-
   confirmModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(event => {
-      console.log(event);
       if (event) {
         this.secureToPay();
       }
     });
   }
 
-
-  firstStepContinue() {
-    this.quotesAmount = this.quotesAmount / this.value;
-    this.continue();
-
-  }
-
   getValuesSecondStep() {
     if (this.secureAndQuotesForm.value) {
-      console.log(this.secureAndQuotesForm.value);
       this.continue();
     }
-    // this.dataForPayResumen = [{
-    //   marchamos: this.totalMount,
-    //   itemsProductsAmount: [this.amountItemsProducts],
-    //   commission: this.commission,
-    //   billingHistory: this.billingHistorys,
-    //   quotesToPay: [
-    //     {
-    //       quotes: this.value,
-    //       quotesAmount: this.quotesAmount
-    //     }
-    //   ]
-    // }];
-
   }
 
   getValuesThirstyStep() {
-    console.log(this.pickUpForm.value);
-    // console.log(object);
     this.continue();
     this.dataPayResume = {
-      totalMount: this.totalMount,
+      totalMount: this.consultVehicle.amount,
       totalAmountItemsProducts: this.totalAmountItemsProducts,
       commission: this.commission,
       iva: this.iva
     };
+    if (this.isPickUpStore) {
+      this.isPickUp();
+    }
   }
 
+  private isPickUp() {
+    switch (this.pickUpControls.pickUp.value) {
+      case 1:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL TIBÁS'
+        };
+        break;
+      case 2:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL BELÉN'
+        };
+        break;
+      case 3:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL ESCAZÚ'
+        };
+        break;
+      case 4:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL TIBÁS'
+        };
+        break;
+      case 5:
+        this.placeOfRetreat = {
+          placeDescription: 'SUCURSAL DESAMPARADOS'
+        };
+        break;
+      case 7:
+        this.placeOfRetreat = {
+          placeDescription: 'ADMINISTRATIVO'
+        };
+        break;
+    }
+  }
 
 }
 

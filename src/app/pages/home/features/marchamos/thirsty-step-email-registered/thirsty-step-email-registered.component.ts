@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -12,13 +12,14 @@ export class ThirstyStepEmailRegisteredComponent implements OnInit {
   @Input() email: string;
 
   @Input() emailRegistered: FormControl;
-  @Output() emailRegisteredChanged: EventEmitter<FormControl> = new EventEmitter<FormControl>();
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.emailRegistered.setValue(this.email);
+    if (this.email !== undefined) {
+      this.emailRegistered.setValue(this.email);
+    }
   }
 
 }

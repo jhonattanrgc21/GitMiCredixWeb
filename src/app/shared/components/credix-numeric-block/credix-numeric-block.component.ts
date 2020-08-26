@@ -27,7 +27,7 @@ export class CredixNumericBlockComponent implements OnInit, OnChanges {
         this.decimalValue = this.value.split(',')[1] ? this.value.split(',')[1].substring(0, 1) : '00';
       } else {
         this.integerValue = Math.trunc(this.value).toLocaleString('es');
-        this.decimalValue = (this.value + '').split('.')[1] ? (this.value + '').split('.')[1].substring(0, 1) : '00';
+        this.decimalValue = (this.value + '').split('.')[1] ? (this.value + '').split('.')[1].substring(0, 2) : '00';
       }
 
       if (this.decimalValue.length === 1) {
