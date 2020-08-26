@@ -82,7 +82,7 @@ export const menus: Menu[] = [
       {id: 11, name: 'Datos personales', route: '/home', icon: 'personal_data'},
       {id: 12, name: 'Gestionar favoritos', route: '/home', icon: 'favorites'},
       {id: 13, name: 'Cambiar clave', route: '/home', icon: 'change_password'},
-      {id: 14, name: 'Cambiar PIN', route: '/home', icon: 'asterisk'},
+      {id: 14, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk'},
       {id: 15, name: 'Aumentar límite de crédito', route: '/home', icon: 'cash'},
       {id: 16, name: 'Tarjetas adicionales', route: '/home', icon: 'credit-card-plus'}
     ]
