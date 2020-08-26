@@ -41,6 +41,11 @@ const routes: Routes = [
       {
         path: 'personal-credit',
         loadChildren: () => import('./features/personal-credit/personal-credit.module.js').then(m => m.PersonalCreditModule)
+        
+      },
+      {
+        path: 'buy-without-card',
+        loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule)
       }
     ]
   }
