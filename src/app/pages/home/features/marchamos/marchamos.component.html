@@ -15,16 +15,15 @@
 
     <cdk-step [label]="'Seguros y cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
       <app-second-step-marchamo [secureAndQuotesForm]="secureAndQuotesForm"
-      [isActive]="stepperIndex === 2"></app-second-step-marchamo>
+      [isActive]="(stepperIndex === 1)"></app-second-step-marchamo>
     </cdk-step>
 
     <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
      
       <app-thirsty-step-marchamo 
         [pickUpForm]="pickUpForm"
-        [isActive]="stepperIndex === 2"
+        [isActive]="(stepperIndex === 2)"
       ></app-thirsty-step-marchamo>
-     
     </cdk-step>
 
     <cdk-step [label]="'Confirmar'">
