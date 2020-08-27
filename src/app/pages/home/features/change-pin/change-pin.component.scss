@@ -1,9 +1,6 @@
 .change-pin {
-
-  mat-card {
-    position: relative;
-    height: 662px;
-  }
+  position: relative;
+  height: 662px;
 
   &__content {
     margin: 32px 85px 0 85px;
@@ -52,10 +49,7 @@
 
 @media screen and (max-width: 1199px) {
   .change-pin {
-
-    mat-card {
-      height: 886px;
-    }
+    height: 886px;
 
     &__content {
       margin: 40px 78px 0 78px;
