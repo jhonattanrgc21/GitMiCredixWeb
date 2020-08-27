@@ -15,11 +15,15 @@ export class GlobalRequestsService {
   accountSummary: Observable<AccountSummary>;
   quotas: Observable<number[]>;
   ibanAccounts: Observable<IbanAccount[]>;
+  userApplicantInfo: Observable<any>;
+  userApplicantProfileImage: Observable<string>;
   private currenciesUri = 'global/currencies';
   private identificationTypesUri = 'global/identification-types';
   private accountSummaryUri = 'channels/accountsummary';
   private getQuotasUri = 'customerservice/listquotabyproduct';
   private getIbanAccountUri = 'account/getibanaccount';
+  private userApplicantInfoUri = 'applicant/finduserapplicantaccountnumber';
+  private getApplicantProfilePhotoUri = 'applicant/getProfilePhotoApplicant';
 
   constructor(
     private httpService: HttpService,
@@ -106,7 +110,7 @@ export class GlobalRequestsService {
     if (!this.quotas) {
       this.quotas = this.httpService
         .post('canales', this.getQuotasUri, {
-          productId,
+          productId
         })
         .pipe(
           publishReplay(1),
@@ -127,7 +131,7 @@ export class GlobalRequestsService {
   getIbanAccounts(): Observable<IbanAccount[]> {
     if (!this.ibanAccounts) {
       this.ibanAccounts = this.httpService
-        .post('canales', this.getIbanAccountUri, {channelId: 102})
+        .post('canales', this.getIbanAccountUri)
         .pipe(publishReplay(1),
           refCount(),
           map((response) => {
@@ -139,5 +143,33 @@ export class GlobalRequestsService {
           }));
     }
     return this.ibanAccounts;
+  }
+
+  getUserApplicantInfo(accountNumber: number): Observable<any> {
+    if (!this.userApplicantInfo) {
+      this.userApplicantInfo = this.httpService
+        .post('canales', this.userApplicantInfoUri, {accountNumber})
+        .pipe(publishReplay(1),
+          refCount(),
+          map((response) => {
+            if (response.type === 'success') {
+              return response.informationApplicant;
+            } else {
+              return null;
+            }
+          })
+        );
+    }
+    return this.userApplicantInfo;
+  }
+
+  getApplicantProfilePhoto() {
+    if (!this.userApplicantProfileImage) {
+      this.userApplicantProfileImage = this.httpService.post('canales', this.getApplicantProfilePhotoUri, {
+        identification: this.storageService.getIdentification()
+      }).pipe(map(response => response.imgBase64));
+    }
+
+    return this.userApplicantProfileImage;
   }
 }
