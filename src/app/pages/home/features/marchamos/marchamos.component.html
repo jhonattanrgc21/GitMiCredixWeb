@@ -53,8 +53,11 @@
                      text="Consultar"
                      type="secondary"></credix-button>
       <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="continue()" [disabled]="disableButton"
-                     [text]="stepperIndex >= 3 ? 'Transferir' : 'Continuar'"></credix-button>
+      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 3" [disabled]="disableButton"
+                     [text]="'Continuar'"></credix-button>
+      <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton"
+                     [text]="'Transferir'"></credix-button>
+      
     </div>
   </div>
 </mat-card>

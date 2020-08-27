@@ -7,6 +7,8 @@ import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {HttpService} from '../../../../../core/services/http.service';
 import {PopupMarchamosPayResumeComponent} from '../popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
 import {MarchamosService} from '../marchamos.service';
+import { StorageService } from 'src/app/core/services/storage.service';
+import { OwnerPayer } from 'src/app/shared/models/ownerPayer.model';
 
 @Component({
   selector: 'app-second-step-marchamo',
@@ -23,6 +25,7 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
   @Input() isActive:boolean = false;
   totalAmount = 0;
   billingHistories: BillingHistory[];
+  ownerPayer: OwnerPayer;
   isChecked = false;
   max = 0;
   min = 0;
@@ -108,7 +111,8 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
 
   constructor(private httpService: HttpService,
               private marchamosService: MarchamosService,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private storageService: StorageService) {
   }
 
   get additionalProducts() {
@@ -118,7 +122,6 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
       this.totalAmount = value.consultVehicle.amount;
-      console.log(this.totalAmount);
       this.billingHistories = value.billingHistories;
     });
   }
@@ -127,6 +130,7 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
     if(changes.isActive && this.isActive){
       this.getQuotasByProduct();
       this.marchamosService.emitAmountItemsProducts(this.amountItemsProducts.responsabilityCivilAmount,this.amountItemsProducts.roadAsistanceAmount, this.amountItemsProducts.moreProtectionAmount);
+      this.getOwnersPayerInfo();
     }
   }
 
@@ -234,12 +238,23 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
       amount: this.totalAmount,
       commissionQuotasId: quotasId
     }).subscribe(response => {
-      console.log(response);
       if (typeof response.result === 'string') {
         this.commission = +response.result.replace('.', '');
         this.iva = +response.iva.replace('.', '');
         this.marchamosService.emitIvaAndCommission(this.iva, this.commission);
       }
     });
+  }
+
+  getOwnersPayerInfo() {
+    this.httpService.post('marchamos', 'owners/payerinfo', {
+      channelId: 107,
+      payerId: null,
+      accountNumber: this.storageService.getCurrentUser().accountNumber
+    })
+      .subscribe(response => {
+        this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
+        this.marchamosService.emitOwnerPayerInfo(this.ownerPayer);
+      });
   }
 }

@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {ConsultVehicle} from '../../../../shared/models/consultVehicle.models';
 import {BillingHistory} from '../../../../shared/models/billingHistory.models';
+import {OwnerPayer} from '../../../../shared/models/ownerPayer.model';
+
 
 @Injectable()
 export class MarchamosService {
@@ -20,6 +22,14 @@ export class MarchamosService {
   get amountItemsProducts(): Observable<{ responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number }>{
     return this._amountItemsProducts.asObservable();
   }
+
+  private _ownerPayerInfo = new Subject<{ ownerPayer: OwnerPayer}>();
+
+  get ownerPayerInfo() {
+    return this._ownerPayerInfo.asObservable();
+  }
+  
+
   // tslint:disable-next-line:variable-name
   private _consultVehicleAndBillingHistory = new Subject<{ consultVehicle: ConsultVehicle, billingHistories: BillingHistory[] }>();
 
@@ -60,6 +70,10 @@ consult() {
 
   emitConsultVehicleAndHistory(consultVehicle: ConsultVehicle, billingHistories: BillingHistory[]) {
     this._consultVehicleAndBillingHistory.next({consultVehicle, billingHistories});
+  }
+
+  emitOwnerPayerInfo(ownerPayer: OwnerPayer){
+    this._ownerPayerInfo.next({ownerPayer});
   }
 
   emitIvaAndCommission(iva: number, commission: number) {

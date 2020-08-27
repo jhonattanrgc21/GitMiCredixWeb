@@ -27,14 +27,7 @@ import {NgxMaskModule} from 'ngx-mask';
 import {FirstStepComponent} from './first-step/first-step.component';
 import {CredixSelectModule} from 'src/app/shared/components/credix-select/credix-select.module';
 import {CredixInputFieldModule} from 'src/app/shared/components/credix-input-field/credix-input-field.module';
-import {ConsultInformationComponent} from './consult-information/consult-information.component';
 import {SecondStepMarchamoComponent} from './second-step-marchamo/second-step-marchamo.component';
-import {SecondStepOptionalInsurancesComponent} from './second-step-optional-insurances/second-step-optional-insurances.component';
-import {SecondStepQuotesComponent} from './second-step-quotes/second-step-quotes.component';
-import {ThirstyStepEmailRegisteredComponent} from './thirsty-step-email-registered/thirsty-step-email-registered.component';
-import {ThirstyStepPlaceOfRetreatComponent} from './thirsty-step-place-of-retreat/thirsty-step-place-of-retreat.component';
-import {FourStepConfirmContactComponent} from './four-step-confirm-contact/four-step-confirm-contact.component';
-import {FourStepConfirmPayResumeComponent} from './four-step-confirm-pay-resume/four-step-confirm-pay-resume.component';
 import {ResultPayResumeComponent} from './result-pay-resume/result-pay-resume.component';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
@@ -56,14 +49,7 @@ const routes: Routes = [
     PopupMarchamosNewDirectionComponent,
     PopupMarchamosPayResumeComponent,
     FirstStepComponent,
-    ConsultInformationComponent,
     SecondStepMarchamoComponent,
-    SecondStepOptionalInsurancesComponent,
-    SecondStepQuotesComponent,
-    ThirstyStepEmailRegisteredComponent,
-    ThirstyStepPlaceOfRetreatComponent,
-    FourStepConfirmContactComponent,
-    FourStepConfirmPayResumeComponent,
     ResultPayResumeComponent,
     ThirstyStepMarchamoComponent,
     FourStepMarchamoComponent
