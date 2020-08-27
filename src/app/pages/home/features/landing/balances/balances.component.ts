@@ -68,9 +68,10 @@ export class BalancesComponent implements OnInit, OnChanges {
 
   getIbanAccounts() {
     this.globalService.getIbanAccounts().subscribe(ibanAccounts => {
-      this.colonesIbanAccount = ibanAccounts[0];
-      this.dollarsIbanAccount = ibanAccounts[1];
-      console.log(ibanAccounts);
+      if (ibanAccounts.length > 0) {
+        this.colonesIbanAccount = ibanAccounts[0];
+        this.dollarsIbanAccount = ibanAccounts[1];
+      }
     });
   }
 

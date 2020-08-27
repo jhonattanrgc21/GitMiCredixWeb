@@ -107,8 +107,10 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
 
   getIbanAccounts() {
     this.globalService.getIbanAccounts().subscribe(ibanAccounts => {
-      this.ibanOriginC = ibanAccounts[0].ibanAccountNumber;
-      this.ibanOrigin$ = ibanAccounts[1].ibanAccountNumber;
+      if (ibanAccounts.length > 0) {
+        this.ibanOriginC = ibanAccounts[0].ibanAccountNumber;
+        this.ibanOrigin$ = ibanAccounts[1].ibanAccountNumber;
+      }
     });
   }
 
