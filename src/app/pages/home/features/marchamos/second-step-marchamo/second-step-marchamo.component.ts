@@ -118,14 +118,15 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
       this.totalAmount = value.consultVehicle.amount;
+      console.log(this.totalAmount);
       this.billingHistories = value.billingHistories;
     });
-    this.marchamosService.emitAmountItemsProducts(this.amountItemsProducts.responsabilityCivilAmount,this.amountItemsProducts.roadAsistanceAmount, this.amountItemsProducts.moreProtectionAmount);
   }
 
   ngOnChanges(changes:SimpleChanges){
     if(changes.isActive && this.isActive){
       this.getQuotasByProduct();
+      this.marchamosService.emitAmountItemsProducts(this.amountItemsProducts.responsabilityCivilAmount,this.amountItemsProducts.roadAsistanceAmount, this.amountItemsProducts.moreProtectionAmount);
     }
   }
 
@@ -213,7 +214,7 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
     this.secureAndQuotesForm.controls.quota.setValue(value);
     this.showQuotaPaymentSelect = value > 1;
     this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas.find(element => element.quota === value).id);
-    this.getCommission(value);
+    this.getCommission(this.quotas.find(element => element.quota === value).id);
     this.computeAmountPerQuota(value);
 
     //  this.dataQuotes.emit({iva: this.iva, commission: this.commission, quotes: this.value, id: id});
@@ -227,12 +228,13 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
     }
   }
 
-  getCommission(commission: number) {
+  getCommission(quotasId: number) {
     this.httpService.post('marchamos', 'pay/calculatecommission', {
-      channelId: 101,
+      channelId: 102,
       amount: this.totalAmount,
-      commissionQuotasId: commission
+      commissionQuotasId: quotasId
     }).subscribe(response => {
+      console.log(response);
       if (typeof response.result === 'string') {
         this.commission = +response.result.replace('.', '');
         this.iva = +response.iva.replace('.', '');

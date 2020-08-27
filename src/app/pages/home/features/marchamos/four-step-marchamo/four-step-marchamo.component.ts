@@ -15,12 +15,18 @@ export class FourStepMarchamoComponent implements OnInit, OnChanges {
     email: ''
   };
 
+  total:number = 0;
+
+  amountTotalProducts: number = 0;
   place:{placeDescription: string}={
     placeDescription:''
   }
   totalAmount:number = 0;
 
-  ivaAndCommission: { iva: number, commission:number};
+  ivaAndCommission: { iva: number, commission:number} = {
+    iva:0,
+    commission:0
+  };
 
   @Input()  confirmForm: FormGroup = new FormGroup({
     credixCode: new FormControl(null, [Validators.required])
@@ -35,7 +41,6 @@ export class FourStepMarchamoComponent implements OnInit, OnChanges {
       this.ivaAndCommission =  {iva: value.iva, commission:value.commission};
     });
     this.marchamosService.domicileDescription.subscribe(value => {
-      console.log(value);
       this.contactConfirm = {name: value.name, phone:value.number, email: value.email};
       this.place = {placeDescription: value.detail};
     });
@@ -49,6 +54,11 @@ export class FourStepMarchamoComponent implements OnInit, OnChanges {
     this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
       this.totalAmount = value.consultVehicle.amount;
     });
+    this.marchamosService.amountItemsProducts.subscribe(value => {
+      console.log(value);
+      this.amountTotalProducts = this.amountTotalProducts + value.moreProtectionAmount + value.responsabilityCivilAmount + value.roadAsistanceAmount;
+    });
+    this.getTotalSum();
   }
   ngOnChanges(changes: SimpleChanges){
     if (changes.isActive && this.isActive) {
@@ -90,6 +100,10 @@ export class FourStepMarchamoComponent implements OnInit, OnChanges {
         };
         break;
     }
+  }
+
+  getTotalSum(){
+    this.total = this.total + this.totalAmount + this.amountTotalProducts + this.ivaAndCommission.iva + this.ivaAndCommission.commission;
   }
 
 }

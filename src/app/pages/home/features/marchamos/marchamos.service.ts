@@ -35,7 +35,7 @@ export class MarchamosService {
   }
 
   // 3er paso de marchamo
-  private _domicileDescription = new Subject<{ name: string, detail?:string, province?: number,canton?: number,distric?: number, number: number, email:string}>();
+  private _domicileDescription = new Subject<{ name: string, number: number, email:string, detail?:string, province?: number,canton?: number,distric?: number}>();
 
 
   get domicileDescription(): Observable <{ name: string, number: number, email:string, detail?:string, province?: number,canton?: number,distric?: number}>{
@@ -66,8 +66,8 @@ consult() {
     this._ivaAndCommission.next({iva, commission});
   }
 
-  emitDomicileDescription(name: string, number: number,  email:string,detail?:string, province?: number,canton?: number,distric?: number){
-    this._domicileDescription.next({name, detail , province, canton, distric, number, email});
+  emitDomicileDescription(name: string, number: number, email:string, detail?:string, province?: number,canton?: number,distric?: number){
+    this._domicileDescription.next({name, number, email , detail, province, canton, distric});
   }
 
   emitNewDeliveryDirection(personReceive: string, phoneNumber: number, email:string, exactlyDirection?:string, province?: number,canton?: number,distric?: number){

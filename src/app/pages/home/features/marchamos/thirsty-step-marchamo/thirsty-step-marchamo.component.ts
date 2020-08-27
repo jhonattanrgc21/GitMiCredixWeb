@@ -97,18 +97,18 @@ export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
       this.marchamoService.emitNewDeliveryDirection(
         this.newDeliveryDirection.personReceive,
         this.newDeliveryDirection.phoneNumber,
+        this.pickUpForm.controls.email.value,
         this.newDeliveryDirection.exactlyDirection, 
         this.newDeliveryDirection.province,
         this.newDeliveryDirection.canton,
         this.newDeliveryDirection.distric,
-        this.pickUpForm.controls.email.value
+        
         );
     });
   }
 
   getRadioButtonsChecked(event) {
 
-    let pickUpId:number;
     this.radioButtonsChangedValue = event.value;
 
     
@@ -119,10 +119,7 @@ export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
             number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
           };
 
-          this.marchamoService.emitDomicileDescription(
-            this.domicileDescription.name,
-            this.domicileDescription.number,
-            this.pickUpForm.controls.email.value);  
+          this.marchamoService.emitDomicileDescription(this.domicileDescription.name,this.domicileDescription.number,this.pickUpForm.controls.email.value);  
     }
 
 
@@ -137,13 +134,7 @@ export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
           distric: this.informationApplicant.addressApplicant[0].district.description,
           number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
         };
-        this.marchamoService.emitDomicileDescription(this.domicileDescription.name,
-          this.domicileDescription.number,
-          this.domicileDescription.detail, 
-          this.domicileDescription.province,
-           this.domicileDescription.canton,
-           this.domicileDescription.distric, 
-           this.pickUpForm.controls.email.value);
+        this.marchamoService.emitDomicileDescription(this.domicileDescription.name,this.domicileDescription.number,this.pickUpForm.controls.email.value,this.domicileDescription.detail,this.domicileDescription.province,this.domicileDescription.canton,this.domicileDescription.distric);
       } else {
         this.newDirection();
       }
