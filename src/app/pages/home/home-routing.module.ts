@@ -48,7 +48,7 @@ const routes: Routes = [
       },
       {
         path: 'personal-info',
-        loadChildren: () => import('./features/personal-info/personal-info.module.js').then(m => m.PersonalInfoModule)
+        loadChildren: () => import('./features/personal-info-management/personal-info-management.module.js').then(m => m.PersonalInfoManagementModule)
       }
     ]
   }

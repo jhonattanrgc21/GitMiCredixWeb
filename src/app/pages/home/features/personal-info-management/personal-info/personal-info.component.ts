@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {StorageService} from '../../../../core/services/storage.service';
+import {StorageService} from '../../../../../core/services/storage.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
-import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
-import {PersonalInfoService} from './personal-info.service';
-import {CredixToastService} from '../../../../core/services/credix-toast.service';
+import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
+import {PersonalInfoManagementService} from '../personal-info-management.service';
+import {CredixToastService} from '../../../../../core/services/credix-toast.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-personal-info',
@@ -21,10 +22,11 @@ export class PersonalInfoComponent implements OnInit {
   profilePhoto = 'assets/images/avatar.png';
   os: string;
 
-  constructor(private personalInfoService: PersonalInfoService,
+  constructor(private personalInfoService: PersonalInfoManagementService,
               private globalRequestsService: GlobalRequestsService,
               private storageService: StorageService,
               private toastService: CredixToastService,
+              private router: Router,
               private deviceService: DeviceDetectorService) {
     this.name = storageService.getCurrentUser().aplicantName;
     this.os = this.deviceService.getDeviceInfo().os;
@@ -36,12 +38,11 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   edit() {
-
+    this.router.navigate(['/home/personal-info/edit']);
   }
 
   getApplicantProfilePhoto() {
     this.globalRequestsService.getApplicantProfilePhoto().subscribe(profilePhoto => {
-      console.log(profilePhoto);
       this.profilePhoto = profilePhoto ? `data:image/png;base64,${profilePhoto}` : 'assets/images/avatar.png';
     });
   }
