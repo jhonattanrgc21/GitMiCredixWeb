@@ -58,11 +58,11 @@ export class FourStepMarchamoComponent implements OnInit, OnChanges {
       console.log(value);
       this.amountTotalProducts = this.amountTotalProducts + value.moreProtectionAmount + value.responsabilityCivilAmount + value.roadAsistanceAmount;
     });
-    this.getTotalSum();
+    
   }
   ngOnChanges(changes: SimpleChanges){
     if (changes.isActive && this.isActive) {
-     
+      this.getTotalSum();
     }
   }
 

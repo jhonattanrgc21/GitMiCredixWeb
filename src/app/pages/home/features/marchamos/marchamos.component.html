@@ -1,4 +1,6 @@
-<mat-card *ngIf="!responseResultPay else resultTemplate" [class.marchamos--second-step-height]="stepperIndex === 1"
+<mat-card *ngIf="!responseResultPay else resultTemplate" 
+          [class.marchamos--second-step-height]="stepperIndex === 1"
+          [class.marchamos--four-step-height]="stepperIndex === 3"
           class="marchamos"
           credixCard
           fxLayout="column">
@@ -33,16 +35,6 @@
         [isActive]="(stepperIndex === 3)"
       ></app-four-step-marchamo>
 
-
-
-      <!-- <mat-divider></mat-divider>
-      <div class="marchamos__buttons" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-        <credix-button [stepper]="stepper" credixStepperPrevious text="Atras" type="secondary"></credix-button>
-        <credix-button
-          (buttonClick)="confirmModal()"
-          [disabled]="!confirmControls.credixCode.value"
-          text="Pagar"></credix-button>
-      </div> -->
     </cdk-step>
 
   </credix-stepper>

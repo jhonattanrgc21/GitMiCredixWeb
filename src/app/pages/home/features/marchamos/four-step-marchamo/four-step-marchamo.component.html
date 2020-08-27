@@ -1,5 +1,5 @@
 <div class="four-step-marchamo">
-    <div class="confirm" fxLayout="row" fxLayoutAlign="space-between">
+    <div class="confirm mb-16px" fxLayout="row" fxLayoutAlign="space-between">
         <label class="column-1">Contacto</label>
     
         <div class="confirm__billing-contact" fxLayout="column">
@@ -9,72 +9,72 @@
         </div>
     </div>
     
-    <mat-divider class="mb-16px"></mat-divider>
+<mat-divider class="mb-16px"></mat-divider>
     
-    <div class="confirm__place" fxLayout="row" fxLayoutAlign="space-between">
+    <div class="confirm__place mb-16px" fxLayout="row" fxLayoutAlign="space-between">
         <label>Lugar de retiro</label>
-        <p>{{place.placeDescription}}</p>
+        <p style="margin-left: -8px;">{{place.placeDescription}}</p>
     </div>
   
 <mat-divider class="mb-16px"></mat-divider>
 
 
-    <div class="pay-resume" fxLayout="row" fxLayoutAlign="space-between">
+    <div class="pay-resume mb-16px" fxLayout="row" fxLayoutAlign="space-between">
         <span class="tl"><strong>Resumen de pago</strong></span>
 
-    <div class="pay-resume__billing"  fxFlex="380px" fxLayout="column" fxLayoutGap="8px">
-        
-        <div fxLayout="row" fxLayoutAlign="space-between">
-            <span>Marchamo</span>
-            <credix-numeric-block
-                [value]="totalAmount"
-                fontSize="16"
-                fontWeight="bold"
-                prefix="₡">
-            </credix-numeric-block>
+        <div class="pay-resume__billing"  fxFlex="380px" fxLayout="column" fxLayoutGap="8px">
+            
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <span>Marchamo</span>
+                <credix-numeric-block
+                    [value]="totalAmount"
+                    fontSize="16"
+                    fontWeight="bold"
+                    prefix="₡">
+                </credix-numeric-block>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <span>Seguros</span>
+                <credix-numeric-block
+                    [value]="amountTotalProducts"
+                    fontSize="16"
+                    fontWeight="bold"
+                    prefix="₡">
+                </credix-numeric-block>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <span>Comisión</span>
+                <credix-numeric-block
+                    [value]="ivaAndCommission.commission"
+                    fontSize="16"
+                    fontWeight="bold"
+                    prefix="₡"></credix-numeric-block>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <span>IVA</span>
+                <credix-numeric-block
+                    [value]="ivaAndCommission.iva"
+                    fontSize="16"
+                    fontWeight="bold"
+                    prefix="₡">
+                </credix-numeric-block>
+            </div>
+            <mat-divider class="mb-16px" credixDivider></mat-divider>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <span class="tl"><strong>Total</strong></span>
+                <credix-numeric-block
+                    [value]="total"
+                    fontSize="16"
+                    fontWeight="bold"
+                    prefix="₡"></credix-numeric-block>
+            </div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="space-between">
-            <span>Seguros</span>
-            <credix-numeric-block
-                [value]="amountTotalProducts"
-                fontSize="16"
-                fontWeight="bold"
-                prefix="₡">
-            </credix-numeric-block>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="space-between">
-            <span>Comisión</span>
-            <credix-numeric-block
-                [value]="ivaAndCommission.commission"
-                fontSize="16"
-                fontWeight="bold"
-                prefix="₡"></credix-numeric-block>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="space-between">
-            <span>IVA</span>
-            <credix-numeric-block
-                [value]="ivaAndCommission.iva"
-                fontSize="16"
-                fontWeight="bold"
-                prefix="₡">
-            </credix-numeric-block>
-        </div>
-        <mat-divider class="mb-16px" credixDivider></mat-divider>
-        <div fxLayout="row" fxLayoutAlign="space-between">
-            <span class="tl"><strong>Total</strong></span>
-            <credix-numeric-block
-                [value]="total"
-                fontSize="16"
-                fontWeight="bold"
-                prefix="₡"></credix-numeric-block>
-        </div>
-    </div>
     </div>
 
 <mat-divider class="mb-16px"></mat-divider>
 
 
-    <div fxLayout="row" fxLayoutGap="104px">
+    <div class="mb-16px" fxLayout="row" fxLayoutGap="104px">
         <div class="marchamos__credix-code" fxLayout="column">
         <label style="font-weight: bold; font-size: 16px;">Código MiCredix</label>
         <p style="font-weight: normal; font-size: 14px;">Ingrese el código generado en la aplicación

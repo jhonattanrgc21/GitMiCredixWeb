@@ -58,7 +58,7 @@ export class MarchamosComponent implements OnInit {
   responseResultPay = false;
   quotasId = 0;
   isPickUpStore = false;
-  resultPay: { messageToPay: string, responseToPay: string, titleToPay: string };
+  resultPay: { messageToPay: string, responseToPay: string};
   dataPay: { totalMount: any, quotas: number, plateNumber: string, firstCouteToPayIn: string };
   options = {autoHide: false, scrollbarMinSize: 100};
   disableButton = true;
@@ -108,16 +108,6 @@ export class MarchamosComponent implements OnInit {
     this.checkNextStep();
     this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount +
       this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
-  }
-
-  getUserAplicantAccountNumber() {
-    this.httpService.post('canales', 'applicant/finduserapplicantaccountnumber', {
-      channelId: 102,
-      accountNumber: this.storageService.getCurrentUser().accountNumber
-    }).subscribe(response => {
-      this.informationApplicant = response.informationApplicant.applicant;
-      this.addressAplicant = response.informationApplicant.applicant.addressApplicant;
-    });
   }
 
   continue() {
@@ -205,7 +195,6 @@ export class MarchamosComponent implements OnInit {
         accountNumber: this.storageService.getCurrentUser().accountNumber.toString()
       })
       .subscribe(response => {
-        console.log(response);
         this.promoStatus = {
           promoStatusId: response.promoStatus.paymentList[0].promoStatus,
           paymentDate: response.promoStatus.paymentList[0].paymentDate
@@ -217,7 +206,7 @@ export class MarchamosComponent implements OnInit {
     this.httpService.post('marchamos', 'pay/soapay',
       {
         channelId: 102,
-        aditionalProducts: [],
+        aditionalProducts: this.secureAndQuotesControls.additionalProducts.value,
         amount: this.consultVehicle.amount,
         cardNumber: this.cardId,
         deliveryPlaceId: (this.pickUpControls.pickUp.value === null) ? 1 : this.pickUpControls.pickUp.value,
@@ -237,23 +226,23 @@ export class MarchamosComponent implements OnInit {
         plateClassId: +this.consultControls.vehicleType.value,
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
         promoStatus: this.promoStatus.promoStatusId,
-        quotasId: this.pickUpControls.quotaId.value,
+        quotasId: this.secureAndQuotesControls.quotaId.value,
         transactionTypeId: 1,
         requiredBill: '1'
       })
       .subscribe(response => {
+        console.log(response);
         if (response.type) {
           this.responseResultPay = !this.responseResultPay;
         }
         this.resultPay = {
           messageToPay: response.message,
           responseToPay: response.type,
-          titleToPay: response.title
         };
 
         this.dataPay = {
           totalMount: this.consultVehicle.amount,
-          quotas: this.pickUpControls.quota.value,
+          quotas: this.secureAndQuotesControls.quota.value,
           plateNumber: this.consultVehicle.plateNumber,
           firstCouteToPayIn: this.secureAndQuotesControls.firstCouteToPayIn.value
         };
