@@ -50,8 +50,8 @@ export class ModalAddIbanComponent implements OnInit {
     this.newAccountForm.valueChanges.subscribe(val => {
       if(val.ibanAccount && val.identType && val.identNumber){
         if(val.ibanAccount.length === 22 && val.identNumber.length === 9){
-          console.log('listo');
           this.sendMoneyService.getAccountByIbanNumber(val.identNumber, val.ibanAccount).subscribe((res) => {
+            console.log(res);
             if (res.type === 'success') {
               //this.ibanOrigin = res.ibanAccountList[0].ibanAccountNumber;
             }
