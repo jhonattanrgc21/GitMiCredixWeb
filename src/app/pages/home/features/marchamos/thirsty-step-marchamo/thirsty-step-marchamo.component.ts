@@ -121,18 +121,18 @@ export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
 
           this.marchamoService.emitDomicileDescription(this.domicileDescription.name,this.domicileDescription.number,this.pickUpForm.controls.email.value);  
     }
-
+    
 
     if (event.value === 1 && event.checked) {
-      if (this.addressAplicant[0].addressType.id === 2) {
+      if (this.addressAplicant.find(add => add.addressType.id = 2)) {
         this.domicile = true;
         this.domicileDescription = {
           name: this.informationApplicant.printName,
-          detail: this.addressAplicant[0].detail,
-          province: this.informationApplicant.addressApplicant[0].province.description,
-          canton: this.informationApplicant.addressApplicant[0].canton.description,
-          distric: this.informationApplicant.addressApplicant[0].district.description,
-          number: (this.informationApplicant.phoneApplicant[0].phoneType.id === 1) ? this.informationApplicant.phoneApplicant[0].phone : ''
+          detail: this.addressAplicant.find(add => add.addressType.id = 2).detail,
+          province: this.addressAplicant.find(add => add.addressType.id = 2).province.description,
+          canton: this.addressAplicant.find(add => add.addressType.id = 2).canton.description,
+          distric: this.addressAplicant.find(add => add.addressType.id = 2).district.description,
+          number: (this.informationApplicant.phoneApplicant.find(pho => pho.phoneType.id = 1)) ? this.informationApplicant.phoneApplicant.find(pho => pho.phoneType.id = 1).phone : ''
         };
         this.marchamoService.emitDomicileDescription(this.domicileDescription.name,this.domicileDescription.number,this.pickUpForm.controls.email.value,this.domicileDescription.detail,this.domicileDescription.province,this.domicileDescription.canton,this.domicileDescription.distric);
       } else {

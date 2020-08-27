@@ -20,6 +20,14 @@ export class MarchamosComponent implements OnInit {
   consultVehicle: ConsultVehicle;
   vehicleInformation: boolean;
   quotesAmount: number;
+  responseToPay : { messageToPay: string, responseToPay: string , totalMount: number, quotas:number, plateNumber:string, firstCouteToPayIn:string} ={
+    messageToPay:'',
+    responseToPay:'',
+    totalMount:0,
+    quotas:0,
+    plateNumber:'',
+    firstCouteToPayIn:''
+  };
   amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
     responsabilityCivilAmount: 8745.00,
     roadAsistanceAmount: 3359.00,
@@ -58,8 +66,6 @@ export class MarchamosComponent implements OnInit {
   responseResultPay = false;
   quotasId = 0;
   isPickUpStore = false;
-  resultPay: { messageToPay: string, responseToPay: string};
-  dataPay: { totalMount: any, quotas: number, plateNumber: string, firstCouteToPayIn: string };
   options = {autoHide: false, scrollbarMinSize: 100};
   disableButton = true;
   consultForm: FormGroup = new FormGroup({
@@ -235,16 +241,13 @@ export class MarchamosComponent implements OnInit {
         if (response.type) {
           this.responseResultPay = !this.responseResultPay;
         }
-        this.resultPay = {
-          messageToPay: response.message,
-          responseToPay: response.type,
-        };
-
-        this.dataPay = {
-          totalMount: this.consultVehicle.amount,
-          quotas: this.secureAndQuotesControls.quota.value,
-          plateNumber: this.consultVehicle.plateNumber,
-          firstCouteToPayIn: this.secureAndQuotesControls.firstCouteToPayIn.value
+        this.responseToPay = {
+          messageToPay:response.message,
+          responseToPay:response.type, 
+          totalMount: this.consultVehicle.amount, 
+          quotas: +this.secureAndQuotesControls.quota.value,
+          plateNumber:this.consultVehicle.plateNumber,
+          firstCouteToPayIn:this.secureAndQuotesControls.firstQuotaDate.value
         };
       });
   }
@@ -257,6 +260,10 @@ export class MarchamosComponent implements OnInit {
         this.stepperIndex = 3;
       }
     });
+  }
+
+  doAnotherPay() {
+   this.responseResultPay = !this.responseResultPay;
   }
 
 

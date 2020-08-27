@@ -55,7 +55,6 @@ export class FourStepMarchamoComponent implements OnInit, OnChanges {
       this.totalAmount = value.consultVehicle.amount;
     });
     this.marchamosService.amountItemsProducts.subscribe(value => {
-      console.log(value);
       this.amountTotalProducts = this.amountTotalProducts + value.moreProtectionAmount + value.responsabilityCivilAmount + value.roadAsistanceAmount;
     });
     

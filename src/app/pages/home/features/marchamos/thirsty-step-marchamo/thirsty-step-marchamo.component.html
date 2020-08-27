@@ -56,8 +56,8 @@
         <div *ngIf="!newDeliveryDirection || newDeliveryOption === 'directionRegister'"
              class="place-of-retreat__delivery-pickup" fxLayout="column">
   
-            <span> {{domicileDescription.name}} </span>
-            <span> {{domicileDescription.number | mask: '0000-0000'}}</span>
+            <span style="font-size: 16px;"> <strong>{{domicileDescription.name}} </strong></span>
+            <span style="font-size: 16px;"> <strong>{{domicileDescription.number | mask: '0000-0000'}}</strong></span>
             <span> {{domicileDescription.detail}}</span>
   
           <mat-divider></mat-divider>

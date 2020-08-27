@@ -1,27 +1,28 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges} from '@angular/core';
+import { MarchamosService } from '../marchamos.service';
 
 @Component({
   selector: 'result-pay-resume',
   templateUrl: './result-pay-resume.component.html',
   styleUrls: ['./result-pay-resume.component.scss']
 })
-export class ResultPayResumeComponent implements OnInit {
+export class ResultPayResumeComponent implements OnInit,OnChanges {
 
 
-  @Input() resultPay: { messageToPay: string, responseToPay: string, titleToPay: string };
-  @Input() dataPay: { totalMount: any, value: number, plateNumber: string, firstCouteToPayIn: string };
+  @Input() resultPay: {messageToPay: string, responseToPay: string, totalMount:number,quotes:number, plateNumber:string, firstCouteToPayIn:string};
 
-  @Input() responseResultPay: boolean;
-  @Output() responseResultPayChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() responseResultPay: boolean = false;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    console.log(this.responseResultPay);
   }
 
-  doAnotherPay() {
-    this.responseResultPayChanged.emit(!this.responseResultPay);
+  ngOnChanges(changes: SimpleChanges){
+    if (changes.responseResultPay && this.responseResultPay) {
+     
+    }
   }
+
 }

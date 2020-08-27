@@ -10,12 +10,15 @@ export class MarchamosService {
   constructor() {
   }
 
+
   // tslint:disable-next-line:variable-name
   private _consultMarchamos = new Subject();
 
   get consultMarchamos(): Observable<any> {
     return this._consultMarchamos.asObservable();
   }
+
+
 
   private _amountItemsProducts = new Subject<{ responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number }>();
 
@@ -67,6 +70,7 @@ export class MarchamosService {
 consult() {
     this._consultMarchamos.next();
   }
+
 
   emitConsultVehicleAndHistory(consultVehicle: ConsultVehicle, billingHistories: BillingHistory[]) {
     this._consultVehicleAndBillingHistory.next({consultVehicle, billingHistories});
