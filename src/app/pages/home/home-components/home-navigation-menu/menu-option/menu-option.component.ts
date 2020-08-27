@@ -79,7 +79,7 @@ export const menus: Menu[] = [
   },
   {
     id: 4, name: 'Mi cuenta', submenus: [
-      {id: 11, name: 'Datos personales', route: '/home', icon: 'personal_data'},
+      {id: 11, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data'},
       {id: 12, name: 'Gestionar favoritos', route: '/home', icon: 'favorites'},
       {id: 13, name: 'Cambiar clave', route: '/home', icon: 'change_password'},
       {id: 14, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk'},
