@@ -1,6 +1,6 @@
 <div class="add-account h-100" fxLayout="column" fxLayoutGap="19px">
 
-  <form [formGroup]="newAccountForm" class="add-account__form" fxLayout="column">
+  <form [formGroup]="newAccountForm" class="add-account__form" fxLayout="column" >
 
     <credix-input-field class="add-account__form__input" formControlName="ibanAccount"
                         label="Cuenta IBAN"></credix-input-field>
@@ -14,7 +14,7 @@
     <credix-input-field [mask]="identificationMask" class="add-account__form__input"
                         formControlName="identNumber" label="Número de Identificación"></credix-input-field>
 
-    <div class="mt-16px mb-24px" fxLayout="row" fxLayoutAlign="space-between">
+    <div class="mt-16px mb-24px" fxLayout="row" fxLayoutAlign="space-between" >
       <span>Nombre</span>
       <span></span>
     </div>
@@ -22,7 +22,7 @@
     <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event)" label="Guardar como favorito"
                             [checked]="isChecked"></credix-checkbox-button>
 
-    <credix-input-field class="add-account__form__input" formControlName="favName"
+    <credix-input-field *ngIf="showFavorite" class="add-account__form__input" formControlName="favName"
                         label="Nombre del favorito"></credix-input-field>
 
     <credix-button (click)="submit()" [disabled]="newAccountForm.invalid" class="add-account__form__button"

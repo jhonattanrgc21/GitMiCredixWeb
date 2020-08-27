@@ -8,6 +8,7 @@ export class SendMoneyService {
   private getQuotaByProductUri = 'customerservice/listquotabyproduct';
   private getIbanAccountUri = 'account/getibanaccount';
   private sendMoneyUri = 'channels/senddirect';
+  private getAccountByIbanNumberUri = 'account/getinformationibanaccount';
 
 
   constructor(private httpService: HttpService) {
@@ -78,6 +79,14 @@ export class SendMoneyService {
         trsId: 1,
         credixCode
       });
+  }
+
+  getAccountByIbanNumber(identification, ibanAccount){
+    return this.httpService.post('canales', this.getAccountByIbanNumberUri, {
+        channelId : 102,
+        identification : identification,
+        ibanAccount : ibanAccount
+    })
   }
 
 }

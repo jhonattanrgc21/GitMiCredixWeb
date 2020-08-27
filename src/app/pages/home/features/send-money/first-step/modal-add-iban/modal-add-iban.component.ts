@@ -27,10 +27,8 @@ export class ModalAddIbanComponent implements OnInit {
       value: this.data.data.info ? this.data.data.info.identification : null,
       disabled: !this.data.data.info
     }, [Validators.required]),
-    name: new FormControl(this.data.data.info ? this.data.data.info.aliasName : null, [Validators.required]),
     favName: new FormControl(this.data.data.info ? this.data.data.info.favName : null,
       this.showFavorite && [Validators.required]),
-    code: new FormControl(null, this.showFavorite && [Validators.required]),
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,
@@ -39,11 +37,28 @@ export class ModalAddIbanComponent implements OnInit {
               private modalService: ModalService,
               private sendMoney: SendMoneyService,
               public toastService: CredixToastService,
-              public dialogRef: MatDialogRef<ModalAddIbanComponent>) {
+              public dialogRef: MatDialogRef<ModalAddIbanComponent>,
+              private sendMoneyService: SendMoneyService) {
   }
 
   ngOnInit(): void {
     this.getIdentificationTypes();
+    this.onChanges();
+  }
+
+  onChanges(): void {
+    this.newAccountForm.valueChanges.subscribe(val => {
+      if(val.ibanAccount && val.identType && val.identNumber){
+        if(val.ibanAccount.length === 22 && val.identNumber.length === 9){
+          console.log('listo');
+          this.sendMoneyService.getAccountByIbanNumber(val.identNumber, val.ibanAccount).subscribe((res) => {
+            if (res.type === 'success') {
+              //this.ibanOrigin = res.ibanAccountList[0].ibanAccountNumber;
+            }
+          });
+        }
+      }
+    });
   }
 
   getIdentificationTypes() {
@@ -71,19 +86,6 @@ export class ModalAddIbanComponent implements OnInit {
 
   submit() {
     if (this.newAccountForm.valid) {
-
-      if (this.showFavorite) {
-        this.sendMoney
-          .addFavAccount(this.newAccountForm.controls.favName.value,
-            this.newAccountForm.controls.ibanAccount.value,
-            this.newAccountForm.controls.identType.value,
-            this.newAccountForm.controls.identNumber.value,
-            this.newAccountForm.controls.code.value).subscribe((res) => {
-          const text = res.message;
-          const type = res.type;
-          this.toastService.show({text, type});
-        });
-      }
 
       this.dialogRef.close({
         aliasName: this.newAccountForm.controls.name.value,
