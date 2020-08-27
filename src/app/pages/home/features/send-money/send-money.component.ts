@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {SendMoneyService} from './send-money.service';
 import {ModalService} from '../../../../core/services/modal.service';
+import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
 import {Router} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
@@ -31,7 +32,8 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   commissionRate: number;
   commission: number;
   total: number;
-  ibanOrigin;
+  ibanOriginC: string;
+  ibanOrigin$: string;
   todayString: string;
   done = false;
   typeDestination;
@@ -43,13 +45,14 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     private modalService: ModalService,
     private router: Router,
     private datePipe: DatePipe,
-    public toastService: CredixToastService
+    public toastService: CredixToastService,
+    public globalService: GlobalRequestsService
   ) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
   ngOnInit(): void {
-    this.getIbanAccount();
+    this.getIbanAccounts();
   }
 
   ngAfterViewInit(): void {
@@ -102,17 +105,16 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     this.setEnableButton();
   }
 
-  getIbanAccount() {
-    this.sendMoneyService.getIbanAccount().subscribe((res) => {
-      if (res.type === 'success') {
-        this.ibanOrigin = res.ibanAccountList[0].ibanAccountNumber;
-      }
+  getIbanAccounts() {
+    this.globalService.getIbanAccounts().subscribe(ibanAccounts => {
+      this.ibanOriginC = ibanAccounts[0].ibanAccountNumber;
+      this.ibanOrigin$ = ibanAccounts[1].ibanAccountNumber;
     });
   }
 
   sendMoney() {
     this.sendMoneyService.sendMoney(
-      this.ibanOrigin,
+      this.currencyPrefix === '$' ? this.ibanOrigin$ : this.ibanOriginC,
       this.currencyPrefix === '$' ? 840 : 188,
       this.todayString,
       this.amountAndQuotaForm.controls.amount.value,

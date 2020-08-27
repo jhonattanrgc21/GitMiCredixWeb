@@ -5,6 +5,8 @@ import {Card} from '../../../../../shared/models/card.model';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {AccountSummary} from '../../../../../shared/models/account-summary';
+import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
+import {IbanAccount} from '../../../../../shared/models/iban-account';
 
 @Component({
   selector: 'app-balances',
@@ -33,15 +35,19 @@ export class BalancesComponent implements OnInit, OnChanges {
   prefix = '₡';
   isCopyingColonesIban = false;
   isCopyingDollarsIban = false;
+  colonesIbanAccount: IbanAccount;
+  dollarsIbanAccount: IbanAccount;
 
   constructor(private storageService: StorageService,
-              private toastService: CredixToastService) {
+              private toastService: CredixToastService,
+              public globalService: GlobalRequestsService) {
     this.cards = this.storageService.getCurrentCards();
     this.cardFormControl.setValue(this.cards.find(card => card.category === 'Principal'));
   }
 
   ngOnInit(): void {
     this.onCardChanged();
+    this.getIbanAccounts();
   }
 
   onCardChanged() {
@@ -58,6 +64,14 @@ export class BalancesComponent implements OnInit, OnChanges {
     crcId === 188 ? this.isCopyingColonesIban = true : this.isCopyingDollarsIban = true;
     this.toastService.show({text, type: 'success'});
     setTimeout(() => crcId === 188 ? this.isCopyingColonesIban = false : this.isCopyingDollarsIban = false, 3000);
+  }
+
+  getIbanAccounts() {
+    this.globalService.getIbanAccounts().subscribe(ibanAccounts => {
+      this.colonesIbanAccount = ibanAccounts[0];
+      this.dollarsIbanAccount = ibanAccounts[1];
+      console.log(ibanAccounts);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
