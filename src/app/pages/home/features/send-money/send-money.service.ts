@@ -62,22 +62,22 @@ export class SendMoneyService {
             nameDestination, period, commissionAmount, totalAmount, identification, credixCode) {
     return this.httpService
       .post('canales', this.sendMoneyUri, {
-        channelId: 102,//
-        ibanOrigin,//
-        crcId,//
-        esbId: 50126,///
-        creationDate,//
-        amountTransfer,//
-        ibanDestinity,//
-        typeDestinationId,//
-        nameDestination,//
-        period,//
-        detail: 'Transacción pendiente.',//
-        commissionAmount,//
-        totalAmount,//
-        identification,//
-        trsId: 1,//
-        credixCode//
+        channelId: 102,
+        ibanOrigin,
+        crcId,
+        esbId: 50126,
+        creationDate,
+        amountTransfer,
+        ibanDestinity,
+        typeDestinationId,
+        nameDestination,
+        period,
+        detail: 'Transacción pendiente.',
+        commissionAmount,
+        totalAmount,
+        identification,
+        trsId: 1,
+        credixCode
       });
   }
 

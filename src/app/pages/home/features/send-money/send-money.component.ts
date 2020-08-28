@@ -122,7 +122,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
       this.commission,
       this.total,
       this.informationForm.controls.account.value.identification,
-      this.confirmForm.controls.code.value)
+      this.confirmForm.controls.code.value);
     this.sendMoneyService
       .sendMoney(
         this.ibanOrigin,
