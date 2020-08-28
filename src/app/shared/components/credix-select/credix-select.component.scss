@@ -15,6 +15,10 @@
     padding-bottom: 16px !important;
   }
 
+  ::ng-deep &.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1rem) scale(0.75);
+  }
+
   &.has-value ::ng-deep {
 
     .mat-form-field-infix {

@@ -20,6 +20,7 @@ import {MatOptionModule} from '@angular/material/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {EmailMaskModule} from '../../../../shared/pipes/email-mask/email-mask.module';
 import {PhoneMaskModule} from '../../../../shared/pipes/phone-mask/phone-mask.module';
+import {CredixTextareaFieldModule} from '../../../../shared/components/credix-textarea-field/credix-textarea-field.module';
 
 const routes: Routes = [
   {
@@ -52,7 +53,8 @@ const routes: Routes = [
     MatOptionModule,
     ReactiveFormsModule,
     EmailMaskModule,
-    PhoneMaskModule
+    PhoneMaskModule,
+    CredixTextareaFieldModule
   ],
   providers: [
     PersonalInfoManagementService
