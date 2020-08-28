@@ -15,7 +15,8 @@ import {GoHomeService} from './services/go-home.service';
 const maskConfig: Partial<IConfig> = {
   validation: false,
   decimalMarker: ',',
-  thousandSeparator: '.'
+  thousandSeparator: '.',
+  specialCharacters: ['(', ')', '-', '*', '[', ']', ' ', '@', '"', '\'', '+', '.', ',', '=', '/']
 };
 
 @NgModule({
