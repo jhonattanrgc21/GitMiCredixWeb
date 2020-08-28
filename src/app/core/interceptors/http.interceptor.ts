@@ -59,11 +59,11 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
           }
 
           if ((event.body.titleOne === 'error' || event.body.type === 'error')) {
-            const message = event.body.message ? event.body.message : event.body.json.message;
+            // const message = event.body.message ? event.body.message : event.body.json.message;
 
-            if (message) {
-              this.toastService.show({text: message, type: 'error'});
-            }
+            // if (message) {
+            //   this.toastService.show({text: message, type: 'error'});
+            // }
           }
 
           if (event.body.status === 401) {

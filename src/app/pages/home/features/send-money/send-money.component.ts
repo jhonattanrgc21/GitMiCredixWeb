@@ -138,11 +138,12 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   saveNewAccount() {
+    console.log(this.informationForm.controls);
     this.sendMoneyService.addFavAccount(
-        this.informationForm.controls.favName.value,
-        this.informationForm.controls.ibanAccount.value,
-        this.informationForm.controls.identType.value,
-        this.informationForm.controls.identNumber.value,
+        this.informationForm.controls.account.value.favName,
+        this.informationForm.controls.account.value.ibanAccount,
+        this.informationForm.controls.account.value.identType,
+        this.informationForm.controls.account.value.identification,
         this.confirmForm.controls.code.value
       ).subscribe((res) => {
         console.log(res);
@@ -157,8 +158,11 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
       .confirmationPopup("¿Desea realizar esta transferencia?")
       .subscribe((res) => {
         if (res) {
-          this.saveNewAccount();
+          if(this.informationForm.controls.account.value.favName){
+            this.saveNewAccount();
+          }
           this.sendMoney();
+
         } else {
           this.selectedIndex = 2;
         }

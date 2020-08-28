@@ -23,6 +23,7 @@ export class FirstStepComponent implements OnInit {
   showFavoriteAccountsSelect = false;
   info;
   showDetails = false;
+  currency;
 
   constructor(
     private globalRequestsService: GlobalRequestsService,
@@ -53,6 +54,8 @@ export class FirstStepComponent implements OnInit {
   currencyRadioButtonChange(event: { value: Currency; checked: boolean }) {
     this.showSecondContent = true;
     this.currencyPrefixEvent.emit(event.value.currency);
+    this.currency = event.value.currency;
+    console.log(this.currency);
   }
 
   accountRadioButtonChange(event: { value: string; checked: boolean }) {
@@ -69,7 +72,7 @@ export class FirstStepComponent implements OnInit {
   }
 
   openModal(info) {
-    const modal = this.modalService.open({component: ModalAddIbanComponent, title: 'Añadir cuenta IBAN', data: {info}},
+    const modal = this.modalService.open({component: ModalAddIbanComponent, title: 'Añadir cuenta IBAN', data: {info, currency: this.currency},},
       {width: 380, height: 535, disableClose: false, panelClass: 'add-account-panel'}, 1);
 
     modal.afterClosed().subscribe(result => {

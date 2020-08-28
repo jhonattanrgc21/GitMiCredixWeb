@@ -81,11 +81,13 @@ export class SendMoneyService {
       });
   }
 
-  getAccountByIbanNumber(identification, ibanAccount){
+  getAccountByIbanNumber(identification, ibanAccount, currencyValidationTag){
     return this.httpService.post('canales', this.getAccountByIbanNumberUri, {
         channelId : 102,
         identification : identification,
-        ibanAccount : ibanAccount
+        ibanAccount : ibanAccount,
+        currencyValidationTag: currencyValidationTag,
+        bankValidationTag:1
     })
   }
 
