@@ -11,7 +11,8 @@ export class ResultPayResumeComponent implements OnInit,OnChanges {
 
   @Input() resultPay: {messageToPay: string, responseToPay: string, totalMount:number,quotes:number, plateNumber:string, firstCouteToPayIn:string};
 
-  @Input() responseResultPay: boolean = false;
+  @Input() responseResultPay: boolean;
+  @Output() responseResultPayChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() {
   }
@@ -24,5 +25,9 @@ export class ResultPayResumeComponent implements OnInit,OnChanges {
      
     }
   }
+
+  doAnotherPay() {
+    this.responseResultPayChanged.emit(!this.responseResultPay);
+   }
 
 }

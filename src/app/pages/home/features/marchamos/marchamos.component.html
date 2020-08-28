@@ -1,4 +1,4 @@
-<mat-card *ngIf="!responseResultPay" 
+<mat-card *ngIf="!responseResultPay else resultTemplate" 
           [class.marchamos--second-step-height]="stepperIndex === 1"
           [class.marchamos--four-step-height]="stepperIndex === 3"
           class="marchamos"
@@ -49,20 +49,22 @@
                      [text]="'Continuar'"></credix-button>
       <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton"
                      [text]="'Transferir'"></credix-button>
-      <credix-button  *ngIf="responseResultPay"
-                     (click)="doAnotherPay()"
-                     text="Realizar otro pago"></credix-button>
+      
     </div>
   </div>
-
-
-  <result-pay-resume
-    *ngIf="responseResultPay" 
-    [responseResultPay]="responseResultPay"
-    [resultPay]="responseToPay">
-  </result-pay-resume>
 </mat-card>
 
+<ng-template #resultTemplate>
 
-  
+  <mat-card class="marchamos__pay" credixCard fxLayout="column">
 
+    <h1 class="marchamos__title">Marchamo</h1>
+
+    <result-pay-resume
+      [responseResultPay]="responseResultPay"
+      [resultPay]="responseToPay"
+      (responseResultPayChanged)="getAnotherPay($event)"
+      >
+    </result-pay-resume>
+  </mat-card>
+</ng-template>

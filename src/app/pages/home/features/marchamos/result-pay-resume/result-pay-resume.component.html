@@ -31,11 +31,16 @@
     </div>
   </div>
 
-  <!-- <credix-share-button class="container-response__shared-button"
+  <credix-share-button class="container-response__shared-button"
                        description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
                        fxLayoutAlign="center"
-                       url="https://www.credix.com/somos-uno/"></credix-share-button> -->
-
+                       url="https://www.credix.com/somos-uno/"></credix-share-button>
+                      
+              <div class="response__footer" fxLayout="row" fxLayoutAlign="flex-end">
+                      
+                       <credix-button  *ngIf="responseResultPay"
+                       (click)="doAnotherPay()"
+                       text="Realizar otro pago"></credix-button>
 
  
 </div>

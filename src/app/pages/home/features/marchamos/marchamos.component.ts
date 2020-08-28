@@ -245,7 +245,7 @@ export class MarchamosComponent implements OnInit {
           messageToPay:response.message,
           responseToPay:response.type, 
           totalMount: this.consultVehicle.amount, 
-          quotas: +this.secureAndQuotesControls.quota.value,
+          quotas: this.secureAndQuotesControls.quota.value,
           plateNumber:this.consultVehicle.plateNumber,
           firstCouteToPayIn:this.secureAndQuotesControls.firstQuotaDate.value
         };
@@ -262,9 +262,7 @@ export class MarchamosComponent implements OnInit {
     });
   }
 
-  doAnotherPay() {
-   this.responseResultPay = !this.responseResultPay;
-  }
+ 
 
 
 
