@@ -9,7 +9,7 @@ import { MarchamosService } from '../marchamos.service';
 export class ResultPayResumeComponent implements OnInit,OnChanges {
 
 
-  @Input() resultPay: {messageToPay: string, responseToPay: string, totalMount:number,quotes:number, plateNumber:string, firstCouteToPayIn:string};
+  @Input() resultPay: {messageToPay: string, responseToPay: string , totalMount: number, quotas:number, plateNumber:string, firstCouteToPayIn:string};
 
   @Input() responseResultPay: boolean;
   @Output() responseResultPayChanged: EventEmitter<boolean> = new EventEmitter<boolean>();

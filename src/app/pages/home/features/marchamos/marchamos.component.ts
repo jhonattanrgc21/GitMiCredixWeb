@@ -185,6 +185,7 @@ export class MarchamosComponent implements OnInit {
 
   getAnotherPay(event) {
     this.responseResultPay = event;
+    (!this.responseResultPay) ? this.stepperIndex = 0 : this.stepperIndex = 3;
   }
 
   consult() {

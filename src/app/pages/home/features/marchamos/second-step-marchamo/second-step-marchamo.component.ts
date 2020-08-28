@@ -218,10 +218,8 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
     this.secureAndQuotesForm.controls.quota.setValue(value);
     this.showQuotaPaymentSelect = value > 1;
     this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas.find(element => element.quota === value).id);
-    this.getCommission(this.quotas.find(element => element.quota === value).id);
+    this.getCommission(this.quotas.find(element => element.quota === value).quota);
     this.computeAmountPerQuota(value);
-
-    //  this.dataQuotes.emit({iva: this.iva, commission: this.commission, quotes: this.value, id: id});
   }
 
   computeAmountPerQuota(quota: number) {
@@ -232,15 +230,16 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
     }
   }
 
-  getCommission(quotasId: number) {
+  getCommission(quotas: number) {
     this.httpService.post('marchamos', 'pay/calculatecommission', {
       channelId: 102,
       amount: this.totalAmount,
-      commissionQuotasId: quotasId
+      commissionQuotasId: quotas
     }).subscribe(response => {
+      console.log(response);
       if (typeof response.result === 'string') {
-        this.commission = +response.result.replace('.', '');
-        this.iva = +response.iva.replace('.', '');
+        this.commission = +response.result.replace('.', '').replace(',','.');
+        this.iva = +response.iva.replace('.', '').replace(',','.');
         this.marchamosService.emitIvaAndCommission(this.iva, this.commission);
       }
     });

@@ -16,7 +16,7 @@
       </div>
       <div fxLayout="row" fxLayoutGap="107px">
         <label>Cuotas</label>
-        <span style="font-weight: bold; font-size: 16px;">{{resultPay.quotes}}</span>
+        <span style="font-weight: bold; font-size: 16px;">{{resultPay.quotas}}</span>
       </div>
       <div fxLayout="row" fxLayoutGap="65px">
         <label>Placa</label>
@@ -31,16 +31,16 @@
     </div>
   </div>
 
-  <credix-share-button class="container-response__shared-button"
-                       description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
-                       fxLayoutAlign="center"
-                       url="https://www.credix.com/somos-uno/"></credix-share-button>
-                      
-              <div class="response__footer" fxLayout="row" fxLayoutAlign="flex-end">
-                      
-                       <credix-button  *ngIf="responseResultPay"
-                       (click)="doAnotherPay()"
-                       text="Realizar otro pago"></credix-button>
-
- 
-</div>
+                    <credix-share-button class="container-response__shared-button mb-32px"
+                                        description="Con tu donación estarás ayudando a alimentar a 100.000 familias afectadas por el COVID-19"
+                                        fxLayoutAlign="center"
+                                        url="https://www.credix.com/somos-uno/">
+                      </credix-share-button>
+              <mat-divider class="mb-16px"></mat-divider>       
+              
+              <div class="response__footer" fxLayout="row" fxLayoutAlign="flex-end">        
+                       <credix-button
+                        (click)="doAnotherPay()"
+                        text="Realizar otro pago">
+                      </credix-button>
+              </div>

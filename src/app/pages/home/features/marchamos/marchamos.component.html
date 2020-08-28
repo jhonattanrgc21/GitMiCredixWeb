@@ -41,7 +41,7 @@
 
   <div class="marchamos__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="consult()" *ngIf="stepperIndex == 0" [disabled]="consultForm.invalid"
+      <credix-button (buttonClick)="consult()" *ngIf="stepperIndex === 0" [disabled]="consultForm.invalid"
                      text="Consultar"
                      type="secondary"></credix-button>
       <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" text="Atrás" type="secondary"></credix-button>

@@ -36,7 +36,7 @@ export class FirstStepComponent implements OnInit {
       channelId: 107,
       plateClassId: this.consultForm.controls.vehicleType.value.toString(),
       plateNumber: this.consultForm.controls.plateNumber.value.toUpperCase(),
-      /* aditionalProducts: [
+      aditionalProducts: [
          {
            productCode: 5
          },
@@ -46,7 +46,7 @@ export class FirstStepComponent implements OnInit {
          {
            productCode: 8
          }
-       ]*/
+       ]
     }).subscribe(response => {
       this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
       this.consultVehicle.amount = typeof response.REQUESTRESULT.soaResultVehicleConsult.header.amount === 'string' ?
