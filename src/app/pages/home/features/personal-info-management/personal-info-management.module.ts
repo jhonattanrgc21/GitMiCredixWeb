@@ -11,6 +11,15 @@ import {CredixDividerModule} from '../../../../shared/directives/credix-divider/
 import {CredixImageUploadModule} from '../../../../shared/components/credix-image-upload/credix-image-upload.module';
 import {PersonalInfoManagementService} from './personal-info-management.service';
 import {PersonalInfoEditorComponent} from './personal-info-editor/personal-info-editor.component';
+import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
+import {MatIconModule} from '@angular/material/icon';
+import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
+import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
+import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
+import {MatOptionModule} from '@angular/material/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {EmailMaskModule} from '../../../../shared/pipes/email-mask/email-mask.module';
+import {PhoneMaskModule} from '../../../../shared/pipes/phone-mask/phone-mask.module';
 
 const routes: Routes = [
   {
@@ -34,7 +43,16 @@ const routes: Routes = [
     CredixButtonModule,
     MatDividerModule,
     CredixDividerModule,
-    CredixImageUploadModule
+    CredixImageUploadModule,
+    CredixLinkButtonModule,
+    MatIconModule,
+    CredixCodeInputModule,
+    CredixInputFieldModule,
+    CredixSelectModule,
+    MatOptionModule,
+    ReactiveFormsModule,
+    EmailMaskModule,
+    PhoneMaskModule
   ],
   providers: [
     PersonalInfoManagementService

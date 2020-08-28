@@ -22,7 +22,7 @@ export class PersonalInfoComponent implements OnInit {
   profilePhoto = 'assets/images/avatar.png';
   os: string;
 
-  constructor(private personalInfoService: PersonalInfoManagementService,
+  constructor(private personalInfoManagementService: PersonalInfoManagementService,
               private globalRequestsService: GlobalRequestsService,
               private storageService: StorageService,
               private toastService: CredixToastService,
@@ -56,9 +56,10 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   changeProfilePhoto(image: string, format: string, size: number) {
-    this.personalInfoService.saveApplicantProfilePhoto(image, format, size).subscribe(response => {
+    this.personalInfoManagementService.saveApplicantProfilePhoto(image, format, size).subscribe(response => {
       if (response.type === 'success') {
         this.getApplicantProfilePhoto();
+        this.globalRequestsService.userApplicantProfileImage = null;
       }
     });
   }
@@ -67,29 +68,26 @@ export class PersonalInfoComponent implements OnInit {
     this.globalRequestsService.getUserApplicantInfo(this.storageService.getCurrentUser().accountNumber)
       .subscribe(applicantInfo => {
         if (applicantInfo) {
-          this.email = this.maskEmail(applicantInfo.applicant.email);
-          this.phoneNumber = this.maskPhoneNumber(applicantInfo.applicant.phoneApplicant[0].phone.toString());
+          console.log(applicantInfo);
+          this.email = applicantInfo.applicant.email;
+          this.phoneNumber = applicantInfo.applicant.phoneApplicant.find(phone => phone.phoneType.id = 1).phone;
           this.nationality = applicantInfo.applicant.country.description;
-          this.typeIncome = applicantInfo.applicant.typeIncomeApplicant;
+          this.typeIncome = applicantInfo.applicant.typeIncomeApplicant.description;
           this.occupation = applicantInfo.applicant.personApplicant.occupation.description;
           this.address = applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).detail;
+
+          this.personalInfoManagementService.applicantInfo = {
+            email: this.email,
+            phoneNumber: this.phoneNumber,
+            country: applicantInfo.applicant.country?.id,
+            occupation: applicantInfo.applicant.personApplicant.occupation?.id,
+            addressDetail: this.address,
+            incomeType: applicantInfo.applicant.typeIncomeApplicant?.id,
+            province: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).province.id,
+            canton: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).canton.id,
+            district: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).district.id
+          };
         }
       });
-  }
-
-  maskEmail(email: string): string {
-    const prefix = email.split('@')[0];
-    const suffix = email.split('@')[1];
-    let prefixMasked = prefix.charAt(0);
-    for (let i = 1; i < prefix.length - 1; i++) {
-      prefixMasked = prefixMasked + '*';
-    }
-    return `${prefixMasked}${prefix.charAt(prefix.length - 1)}@${suffix}`;
-  }
-
-  maskPhoneNumber(phone: string): string {
-    const prefix = phone.substring(0, 4);
-    const suffix = phone.substring(4, 8);
-    return `${prefix.charAt(0)}${prefix.charAt(1)}**-**${suffix.charAt(2)}${suffix.charAt(3)}`;
   }
 }

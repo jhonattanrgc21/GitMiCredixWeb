@@ -22,12 +22,12 @@
       <div class="personal-info__content__right-wrapper" fxLayout="column" fxLayoutGap="8px">
         <div fxLayout="row">
           <span fxFlex="40">Correo</span>
-          <span class="tr truncate" fxFlex="60"><strong>{{email}}</strong></span>
+          <span class="tr truncate" fxFlex="60"><strong>{{email | emailMask}}</strong></span>
         </div>
 
         <div fxLayout="row">
           <span fxFlex="40">Teléfono</span>
-          <span class="tr truncate" fxFlex="60"><strong>{{phoneNumber}}</strong></span>
+          <span class="tr truncate" fxFlex="60"><strong>{{phoneNumber | phoneMask}}</strong></span>
         </div>
 
         <div fxLayout="row">
