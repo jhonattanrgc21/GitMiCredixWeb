@@ -111,6 +111,18 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   sendMoney() {
+    console.log(this.ibanOrigin,
+      this.currencyPrefix === "$" ? 840 : 188,
+      this.todayString,
+      this.amountAndQuotaForm.controls.amount.value,
+      this.informationForm.controls.account.value.ibanAccount,
+      this.typeDestination,
+      this.informationForm.controls.account.value.aliasName,
+      this.amountAndQuotaForm.controls.quotas.value,
+      this.commission,
+      this.total,
+      this.informationForm.controls.account.value.identification,
+      this.confirmForm.controls.code.value)
     this.sendMoneyService
       .sendMoney(
         this.ibanOrigin,
