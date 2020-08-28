@@ -1,4 +1,4 @@
-<mat-form-field [class.has-value]="control.value != null"
+<mat-form-field [class.has-value]="control.value != null && control.value != ''"
                 [color]="ngControl.invalid && ngControl.touched && controlType !== 'password' ? 'warn' : 'primary'"
                 appearance="standard"
                 class="credix-input-field">

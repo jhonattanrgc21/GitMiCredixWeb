@@ -35,7 +35,6 @@ export class CredixInputFieldComponent implements OnInit, OnChanges, ControlValu
   ngOnInit(): void {
     this.ngControl = this.injector.get(NgControl);
     this.control.valueChanges.subscribe(value => this.propagateChange(value));
-    this.displayValue = this.control.value;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
