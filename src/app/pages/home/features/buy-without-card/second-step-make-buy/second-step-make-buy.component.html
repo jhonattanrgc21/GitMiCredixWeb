@@ -1,5 +1,5 @@
-<div class="make-buy" fxLayout="row">
-    <span>Tarjeta</span>
+<div class="make-buy" fxLayout="row" fxLayoutAlign="space-between">
+    <span><strong>Tarjeta</strong></span>
     
 <!-- 
     <credix-select
@@ -13,11 +13,12 @@
 
         
 </div>
+
+<mat-divider class="mb-16px"></mat-divider>
 <div fxLayout="row">
     <span>PIN de compra/pago</span>
 
     <div fxLayout="column" fxLayoutGap="14px">
         <span> {{barCode}}</span>
-        <ejs-barcodegenerator style="display: block;"  #barcode id="barcode" width="200px" height="150px" mode="SVG" type="Codabar" value="123456789"></ejs-barcodegenerator>
     </div>
 </div>

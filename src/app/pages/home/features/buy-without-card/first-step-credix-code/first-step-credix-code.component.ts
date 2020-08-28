@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
+import { HttpService } from 'src/app/core/services/http.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'first-step-credix-code',
@@ -9,11 +11,25 @@ import { FormControl } from '@angular/forms';
 export class FirstStepCredixCodeComponent implements OnInit {
 
 
-  @Input() credixCode: FormControl = new FormControl();
+  @Input() credixCode: FormControl = new FormControl(null,[Validators.required]);
 
-  constructor() { }
+
+  constructor(private httpService: HttpService,
+              private storageService: StorageService) {  }
 
   ngOnInit(): void {
+    this.getUserAplicantAccountNumber();
   }
 
+
+  getUserAplicantAccountNumber() {
+    this.httpService.post('canales', 'applicant/finduserapplicantaccountnumber', {
+      channelId: 102,
+      accountNumber: this.storageService.getCurrentUser().accountNumber
+    }).subscribe(response => {
+      console.log(response);
+    });
+  }
+
+  
 }

@@ -24,6 +24,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { BarcodeGeneratorAllModule,QRCodeGeneratorAllModule,DataMatrixGeneratorAllModule } from '@syncfusion/ej2-angular-barcode-generator';
 import { FirstStepCredixCodeComponent } from './first-step-credix-code/first-step-credix-code.component';
 import { SecondStepMakeBuyComponent } from './second-step-make-buy/second-step-make-buy.component';
+import { BuyWithoutCardService } from './buy-without-card.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -63,6 +64,9 @@ const routes: Routes = [
     BarcodeGeneratorAllModule, 
     QRCodeGeneratorAllModule,
     DataMatrixGeneratorAllModule
+  ],
+  providers:[
+    BuyWithoutCardService
   ]
 })
 export class BuyWithoutCardModule { }

@@ -12,7 +12,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 export class BuyWithoutCardComponent implements OnInit {
 
   barCode: any = 1234567890; //output in template 12-34-56-78-90
-  
+  stepperIndex:number = 0;
 
   credixCode: FormControl = new FormControl(null,[Validators.required]);
   card: FormControl = new FormControl(null,[Validators.required]);
@@ -29,31 +29,28 @@ export class BuyWithoutCardComponent implements OnInit {
 
   continue(){
     this.stepper.next();
+    this.stepperIndex = this.stepper.selectedIndex;
+  }
+
+  back(){
+
   }
 
   generatePin(){
     this.httpService.post('canales','touchandpay/generatepin',
     {
       channelId:102,
-      cardId:this.storageService.getCurrentCards()[0].cardId,
+      cardId: this.storageService.getCurrentCards()[0].cardId,
       userId: this.storageService.getCurrentUser().userId,
       credixCode: this.credixCode.value.toString()
     })
     .subscribe(response => {
-      this.continue();
       console.log(response);
     });
   }
 
-  getCardListByIdentification(){
-    this.httpService.post('canales','account/cardlistbyidentification',
-    {
-      channelId:102,
-      identification:''
-    })
-    .subscribe(response => {
-      console.log(response);
-    });
-  }
+ 
+
+  
 
 }

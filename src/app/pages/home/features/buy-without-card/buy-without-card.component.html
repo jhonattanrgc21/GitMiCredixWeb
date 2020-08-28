@@ -9,8 +9,9 @@
         fxLayout="column"
         label="Código MiCredix">
 
-        <first-step-credix-code fxFlex="80"
-            [credixCode]="credixCode"></first-step-credix-code>   
+        <first-step-credix-code
+            [credixCode]="credixCode">
+        </first-step-credix-code>   
 
         </cdk-step>
 
@@ -18,8 +19,12 @@
         fxLayout="column"
         label="Código MiCredix">
 
-        <second-step-make-buy></second-step-make-buy>
-            
+        <second-step-make-buy
+          [isActive]="(stepperIndex === 1)"
+        
+        >
+
+        </second-step-make-buy>
             </cdk-step>
 
         </credix-stepper>
@@ -33,7 +38,7 @@
             <credix-button 
                     fxLayoutAlign="flex-end"
                     [disabled]="!credixCode.valid"
-                    (click)="generatePin()"
+                    (click)="continue()"
                     text="Continuar">
             </credix-button>
     </div>
