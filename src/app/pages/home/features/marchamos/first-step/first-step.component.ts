@@ -33,7 +33,7 @@ export class FirstStepComponent implements OnInit {
 
   consult() {
     this.httpService.post('marchamos', 'pay/vehicleconsult', {
-      channelId: 107,
+      channelId: 102,
       plateClassId: this.consultForm.controls.vehicleType.value.toString(),
       plateNumber: this.consultForm.controls.plateNumber.value.toUpperCase(),
       aditionalProducts: [

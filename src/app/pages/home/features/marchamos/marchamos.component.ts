@@ -238,7 +238,6 @@ export class MarchamosComponent implements OnInit {
         requiredBill: '1'
       })
       .subscribe(response => {
-        console.log(response);
         if (response.type) {
           this.responseResultPay = !this.responseResultPay;
         }

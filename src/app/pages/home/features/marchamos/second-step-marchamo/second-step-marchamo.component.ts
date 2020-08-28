@@ -236,7 +236,6 @@ export class SecondStepMarchamoComponent implements OnInit, OnChanges {
       amount: this.totalAmount,
       commissionQuotasId: quotas
     }).subscribe(response => {
-      console.log(response);
       if (typeof response.result === 'string') {
         this.commission = +response.result.replace('.', '').replace(',','.');
         this.iva = +response.iva.replace('.', '').replace(',','.');
