@@ -37,15 +37,15 @@ export class FirstStepComponent implements OnInit {
       plateClassId: this.consultForm.controls.vehicleType.value.toString(),
       plateNumber: this.consultForm.controls.plateNumber.value.toUpperCase(),
       aditionalProducts: [
-         {
-           productCode: 5
-         },
-         {
-           productCode: 6
-         },
-         {
-           productCode: 8
-         }
+        //  {
+        //    productCode: 5
+        //  },
+        //  {
+        //    productCode: 6
+        //  },
+        //  {
+        //    productCode: 8
+        //  }
        ]
     }).subscribe(response => {
       this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
