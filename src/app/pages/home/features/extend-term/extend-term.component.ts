@@ -11,81 +11,82 @@ import { StorageService } from "../../../../core/services/storage.service";
 export class ExtendTermComponent implements OnInit {
   @Input() optionSelected;
   @Input() quotaSelected;
-  options = [
-    {
-      id: 1,
-      name: "AEROPOST WEBdsfdgffdffgffgdgfgdfg",
-      cardId: 289534,
-      totalPlanQuota: 3,
-      accountNumber: 17188340,
-      movementId: "189896138-4",
-      originDate: "17/04/2020",
-      originAmount: "85.000",
-      originCurrency: "¢",
-      quotaAmount: 28300,
-      subOptions: [
-        {
-          feeAmount: "3.000",
-          feePercentage: 4,
-          quotaTo: 6,
-          amountPerQuota: "12.500",
-          quotaFrom: 3,
-          financedPlan: 0,
-          purchaseAmount: "75.000"
-        },
-        {
-          feeAmount: "9.000",
-          feePercentage: 12,
-          quotaTo: 12,
-          amountPerQuota: "6.250",
-          quotaFrom: 3,
-          financedPlan: 0,
-          purchaseAmount: "75.000"
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "AEROPOST WEB Maria",
-      cardId: 289534,
-      totalPlanQuota: 3,
-      accountNumber: 17188340,
-      movementId: "189896138-4",
-      originDate: "17/04/2020",
-      originAmount: "85.000",
-      originCurrency: "¢",
-      quotaAmount: 28300,
-      subOptions: [
-        {
-          feeAmount: "3.000",
-          feePercentage: 4,
-          quotaTo: 6,
-          amountPerQuota: "12.500",
-          quotaFrom: 3,
-          financedPlan: 0,
-          purchaseAmount: "75.000"
-        },
-        {
-          feeAmount: "9.000",
-          feePercentage: 12,
-          quotaTo: 12,
-          amountPerQuota: "6.250",
-          quotaFrom: 3,
-          financedPlan: 0,
-          purchaseAmount: "75.000"
-        },
-        {
-          feeAmount: "15.000",
-          feePercentage: 20,
-          quotaTo: 18,
-          amountPerQuota: "4.166,67",
-          quotaFrom: 3,
-          financedPlan: 0,
-          purchaseAmount: "75.000"
-        }
-      ],
-    },
-  ];
+  options = [];
+  // options = [
+  //   {
+  //     id: 1,
+  //     name: "AEROPOST WEBdsfdgffdffgffgdgfgdfg",
+  //     cardId: 289534,
+  //     totalPlanQuota: 3,
+  //     accountNumber: 17188340,
+  //     movementId: "189896138-4",
+  //     originDate: "17/04/2020",
+  //     originAmount: "85.000",
+  //     originCurrency: "¢",
+  //     quotaAmount: 28300,
+  //     subOptions: [
+  //       {
+  //         feeAmount: "3.000",
+  //         feePercentage: 4,
+  //         quotaTo: 6,
+  //         amountPerQuota: "12.500",
+  //         quotaFrom: 3,
+  //         financedPlan: 0,
+  //         purchaseAmount: "75.000"
+  //       },
+  //       {
+  //         feeAmount: "9.000",
+  //         feePercentage: 12,
+  //         quotaTo: 12,
+  //         amountPerQuota: "6.250",
+  //         quotaFrom: 3,
+  //         financedPlan: 0,
+  //         purchaseAmount: "75.000"
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "AEROPOST WEB Maria",
+  //     cardId: 289534,
+  //     totalPlanQuota: 3,
+  //     accountNumber: 17188340,
+  //     movementId: "189896138-4",
+  //     originDate: "17/04/2020",
+  //     originAmount: "85.000",
+  //     originCurrency: "¢",
+  //     quotaAmount: 28300,
+  //     subOptions: [
+  //       {
+  //         feeAmount: "3.000",
+  //         feePercentage: 4,
+  //         quotaTo: 6,
+  //         amountPerQuota: "12.500",
+  //         quotaFrom: 3,
+  //         financedPlan: 0,
+  //         purchaseAmount: "75.000"
+  //       },
+  //       {
+  //         feeAmount: "9.000",
+  //         feePercentage: 12,
+  //         quotaTo: 12,
+  //         amountPerQuota: "6.250",
+  //         quotaFrom: 3,
+  //         financedPlan: 0,
+  //         purchaseAmount: "75.000"
+  //       },
+  //       {
+  //         feeAmount: "15.000",
+  //         feePercentage: 20,
+  //         quotaTo: 18,
+  //         amountPerQuota: "4.166,67",
+  //         quotaFrom: 3,
+  //         financedPlan: 0,
+  //         purchaseAmount: "75.000"
+  //       }
+  //     ],
+  //   },
+  // ];
   allowedMovements;
   quotaList: [];
   message: string = "El plazo de su compra ha sido extendido correctamente.";
@@ -114,7 +115,7 @@ export class ExtendTermComponent implements OnInit {
       })
       .subscribe((res) => {
         console.log(res);
-        if (res.result) {
+        if (res.result.length) {
           this.allowedMovements = res.result;
           this.empty = false;
           this.allowedMovements.forEach(async (elem, i) => {
@@ -138,7 +139,7 @@ export class ExtendTermComponent implements OnInit {
             ];
           });
         }else{
-          //this.empty = true;
+          this.empty = true;
         }
       });
   }
