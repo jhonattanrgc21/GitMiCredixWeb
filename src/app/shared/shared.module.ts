@@ -108,9 +108,7 @@ import {RouterModule} from '@angular/router';
     MatStepperModule,
     FlexModule,
     ReactiveFormsModule
-  ],
-
-
+  ]
 })
 
 export class SharedModule {

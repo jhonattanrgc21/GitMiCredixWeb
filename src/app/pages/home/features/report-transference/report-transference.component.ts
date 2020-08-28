@@ -69,7 +69,7 @@ export class ReportTransferenceComponent implements OnInit {
         amount: +this.reportTransferenceGroup.controls.amount.value,
         paymentDate: `${paymentDate.getFullYear()}-${paymentDate.getMonth() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getMonth() + 1}-${paymentDate.getDate() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getDate() + 1}`,
         imagebase64: this.image ? this.image.file.split(',')[1] : null,
-        imageType: this.image ? this.image.type.substring(6, this.image.type.length) : null
+        imageType: this.image ? this.image.type : null
       }).subscribe(response => {
         this.toastService.show({text: response.message, type: response.type});
         this.done = true;

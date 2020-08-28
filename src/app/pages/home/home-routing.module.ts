@@ -45,6 +45,10 @@ const routes: Routes = [
       {
         path: 'change-pin',
         loadChildren: () => import('./features/change-pin/change-pin.module.js').then(m => m.ChangePinModule)
+      },
+      {
+        path: 'personal-info',
+        loadChildren: () => import('./features/personal-info-management/personal-info-management.module.js').then(m => m.PersonalInfoManagementModule)
       }
     ]
   }

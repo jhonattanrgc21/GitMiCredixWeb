@@ -3,27 +3,21 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from '@
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'credix-input-field',
-  templateUrl: './credix-input-field.component.html',
-  styleUrls: ['./credix-input-field.component.scss'],
+  selector: 'credix-textarea-field',
+  templateUrl: './credix-textarea-field.component.html',
+  styleUrls: ['./credix-textarea-field.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CredixInputFieldComponent),
+      useExisting: forwardRef(() => CredixTextareaFieldComponent),
       multi: true
     }
   ]
 })
-export class CredixInputFieldComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class CredixTextareaFieldComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() label: string;
   @Input() focusLabel: string;
-  @Input() mask: string;
-  @Input() displayValue: any;
-  @Input() minLength = 1;
-  @Input() maxLength = 100;
   @Input() readonly = false;
-  @Input() type: 'text' | 'password' = 'text';
-  controlType: 'text' | 'password' = 'text';
   @Output() inputClickEvent = new EventEmitter();
   control = new FormControl(null);
   viewLabel: string;
@@ -40,10 +34,6 @@ export class CredixInputFieldComponent implements OnInit, OnChanges, ControlValu
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.label) {
       this.viewLabel = this.label;
-    }
-
-    if (changes.type?.firstChange) {
-      this.controlType = this.type;
     }
   }
 

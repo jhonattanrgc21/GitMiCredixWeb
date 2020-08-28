@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CredixInputFieldComponent} from './credix-input-field.component';
+import {CredixTextareaFieldComponent} from './credix-textarea-field.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -15,9 +15,9 @@ const maskConfig: Partial<IConfig> = {
 };
 
 @NgModule({
-  declarations: [CredixInputFieldComponent],
+  declarations: [CredixTextareaFieldComponent],
   exports: [
-    CredixInputFieldComponent
+    CredixTextareaFieldComponent
   ],
   imports: [
     CommonModule,
@@ -28,5 +28,5 @@ const maskConfig: Partial<IConfig> = {
     MatIconModule
   ]
 })
-export class CredixInputFieldModule {
+export class CredixTextareaFieldModule {
 }

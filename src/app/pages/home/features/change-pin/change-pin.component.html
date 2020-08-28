@@ -1,56 +1,54 @@
-<div class="change-pin">
-  <mat-card credixCard fxFlex="100">
-    <h1>Cambiar PIN</h1>
-    <div *ngIf="!showResponse" class="change-pin__content">
-      <div fxLayout="row" fxLayoutAlign="space-between start">
-        <span class="change-pin__content__title">Nuevo Pin</span>
-        <div class="tr" fxLayout="column">
-          <form [formGroup]="changePinForm">
-            <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.pin"
-                                [type]="hide ? 'password' : 'text'" class="change-pin__input"
-                                focusLabel="Clave" formControlName="pin" label="Nuevo PIN"
-                                mask="0000"
-                                panelClass="sign-in-password-panel" tooltipOffsetY="20" tooltipType="pin">
-              <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
-            </credix-input-field>
+<mat-card class="change-pin" credixCard fxFlex="100">
+  <h1>Cambiar PIN</h1>
+  <div *ngIf="!showResponse" class="change-pin__content">
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+      <span class="change-pin__content__title">Nuevo Pin</span>
+      <div class="tr" fxLayout="column">
+        <form [formGroup]="changePinForm">
+          <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.pin"
+                              [type]="hide ? 'password' : 'text'" class="change-pin__input"
+                              focusLabel="Clave" formControlName="pin" label="Nuevo PIN"
+                              mask="0000"
+                              panelClass="sign-in-password-panel" tooltipOffsetY="20" tooltipType="pin">
+            <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+          </credix-input-field>
 
-            <credix-input-field [type]="type" class="change-pin__input"
-                                formControlName="confirPpin"
-                                label="Confirme su nuevo PIN" mask="0000">
-              <mat-icon (click)="hide = !hide; type = hide === true ? 'password': 'text'"
-                        [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
-            </credix-input-field>
-          </form>
-        </div>
+          <credix-input-field [type]="type" class="change-pin__input"
+                              formControlName="confirPpin"
+                              label="Confirme su nuevo PIN" mask="0000">
+            <mat-icon (click)="hide = !hide; type = hide === true ? 'password': 'text'"
+                      [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+          </credix-input-field>
+        </form>
       </div>
-      <mat-divider></mat-divider>
-      <div class="mt-16px" fxLayout="row" fxLayoutAlign="space-between start">
-        <div fxLayout="column">
-          <span class="change-pin__content__title">Código MiCredix</span>
-          <span class="change-pin__content__msg">Ingrese el código generado en la aplicación
+    </div>
+    <mat-divider></mat-divider>
+    <div class="mt-16px" fxLayout="row" fxLayoutAlign="space-between start">
+      <div fxLayout="column">
+        <span class="change-pin__content__title">Código MiCredix</span>
+        <span class="change-pin__content__msg">Ingrese el código generado en la aplicación
           <credix-link-button
             route="https://play.google.com/store/apps/details?id=com.Mobtion.Credix.Credixcel&hl=es_419">
         Código MiCredix
         <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
       </credix-link-button>
           </span>
-        </div>
-        <form [formGroup]="changePinForm">
-          <credix-code-input [(codeFormControl)]="changePinForm.controls.code" [length]="6" class="change-pin__code tr"
-                             errorMessage="Ingrése código MiCredix">
-          </credix-code-input>
-        </form>
       </div>
+      <form [formGroup]="changePinForm">
+        <credix-code-input [(codeFormControl)]="changePinForm.controls.code" [length]="6" class="change-pin__code tr"
+                           errorMessage="Ingrése código MiCredix">
+        </credix-code-input>
+      </form>
     </div>
+  </div>
 
-    <credix-result-notification *ngIf="showResponse" [message]="respMsg" [status]="resType"
-                                [title]="respTitle">
-    </credix-result-notification>
+  <credix-result-notification *ngIf="showResponse" [message]="respMsg" [status]="resType"
+                              [title]="respTitle">
+  </credix-result-notification>
 
-    <div class="change-pin__content__footer tr">
-      <credix-button (buttonClick)="confirm()" *ngIf="!showResponse" [disabled]="changePinForm.invalid"
-                     text="Confirmar"></credix-button>
-      <credix-button (buttonClick)="done()" *ngIf="showResponse" text="Listo"></credix-button>
-    </div>
-  </mat-card>
-</div>
+  <div class="change-pin__content__footer tr">
+    <credix-button (buttonClick)="confirm()" *ngIf="!showResponse" [disabled]="changePinForm.invalid"
+                   text="Confirmar"></credix-button>
+    <credix-button (buttonClick)="done()" *ngIf="showResponse" text="Listo"></credix-button>
+  </div>
+</mat-card>

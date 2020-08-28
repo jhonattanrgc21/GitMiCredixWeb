@@ -1,0 +1,63 @@
+<mat-card class="personal-info" credixCard fxLayout="column">
+  <h1>Datos personales</h1>
+
+  <div class="personal-info__container">
+
+    <div class="personal-info__content" fxLayout="row" fxLayoutAlign="space-between">
+      <span><strong>Foto de perfil</strong></span>
+
+      <div class="personal-info__content__right-wrapper" fxLayout="row" fxLayoutGap="16px">
+        <img [src]="profilePhoto" alt="Credix World - Profile Image" class="personal-info__img">
+
+        <credix-image-upload (imageChanged)="onImageUploaded($event)" [os]="os" fxFlexAlign="center"
+                             label="Cambiar foto de perfil"></credix-image-upload>
+      </div>
+    </div>
+
+    <mat-divider credixDivider></mat-divider>
+
+    <div class="personal-info__content" fxLayout="row" fxLayoutAlign="space-between">
+      <span><strong>{{name}}</strong></span>
+
+      <div class="personal-info__content__right-wrapper" fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="row">
+          <span fxFlex="40">Correo</span>
+          <span class="tr truncate" fxFlex="60"><strong>{{email | emailMask}}</strong></span>
+        </div>
+
+        <div fxLayout="row">
+          <span fxFlex="40">Teléfono</span>
+          <span class="tr truncate" fxFlex="60"><strong>{{phoneNumber | phoneMask}}</strong></span>
+        </div>
+
+        <div fxLayout="row">
+          <span fxFlex="40">Nacionalidad</span>
+          <span class="tr truncate" fxFlex="60"><strong>{{nationality}}</strong></span>
+        </div>
+
+        <div fxLayout="row">
+          <span fxFlex="40">Origen de ingresos</span>
+          <span class="tr truncate" fxFlex="60"><strong>{{typeIncome}}</strong></span>
+        </div>
+
+        <div fxLayout="row">
+          <span fxFlex="40">Ocupación</span>
+          <span class="tr truncate" fxFlex="60"><strong>{{occupation}}</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider credixDivider></mat-divider>
+
+    <div class="personal-info__content" fxLayout="row" fxLayoutAlign="space-between">
+      <span><strong>Dirección</strong></span>
+
+      <p class="personal-info__content__right-wrapper">{{address}}</p>
+    </div>
+
+  </div>
+
+  <div class="personal-info__footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <credix-button (buttonClick)="edit()" text="Editar"></credix-button>
+  </div>
+</mat-card>

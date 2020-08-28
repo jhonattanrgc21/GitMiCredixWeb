@@ -7,19 +7,43 @@ import {AccountSummary} from '../../shared/models/account-summary';
 import {Currency} from '../../shared/models/currency';
 import {IdentificationType} from '../../shared/models/IdentificationType';
 import {IbanAccount} from '../../shared/models/iban-account';
+import {Country} from '../../shared/models/country';
+import {Province} from '../../shared/models/province';
+import {Canton} from '../../shared/models/canton';
+import {District} from '../../shared/models/district';
+import {Occupation} from '../../shared/models/occupation';
+import {IncomeType} from '../../shared/models/income-type';
 
 @Injectable()
 export class GlobalRequestsService {
   currencies: Observable<Currency[]>;
   identificationTypes: Observable<IdentificationType[]>;
+  countries: Observable<Country[]>;
+  provinces: Observable<Province[]>;
+  cantons: Observable<Canton[]>;
+  districts: Observable<District[]>;
+  occupations: Observable<Occupation[]>;
+  incomeTypes: Observable<IncomeType[]>;
   accountSummary: Observable<AccountSummary>;
   quotas: Observable<number[]>;
   ibanAccounts: Observable<IbanAccount[]>;
+  userApplicantInfo: Observable<any>;
+  userApplicantProfileImage: Observable<string>;
+  private provinceId: number;
+  private cantonId: number;
   private currenciesUri = 'global/currencies';
   private identificationTypesUri = 'global/identification-types';
+  private countriesUri = 'global/listcountries';
+  private provincesUri = 'global/listprovinces';
+  private cantonsUri = 'global/listcantons';
+  private districtsUri = 'global/listdistricts';
+  private occupationsUri = 'global/findalloccupation';
+  private incomeTypesUri = 'global/getTypeIncome';
   private accountSummaryUri = 'channels/accountsummary';
   private getQuotasUri = 'customerservice/listquotabyproduct';
   private getIbanAccountUri = 'account/getibanaccount';
+  private userApplicantInfoUri = 'applicant/finduserapplicantaccountnumber';
+  private getApplicantProfilePhotoUri = 'applicant/getProfilePhotoApplicant';
 
   constructor(
     private httpService: HttpService,
@@ -67,6 +91,94 @@ export class GlobalRequestsService {
     return this.identificationTypes;
   }
 
+  getCountries() {
+    if (!this.countries) {
+      this.countries = this.httpService
+        .post('canales', this.countriesUri)
+        .pipe(
+          publishReplay(1),
+          refCount()
+        );
+    }
+
+    return this.countries;
+  }
+
+  getProvinces() {
+    if (!this.provinces) {
+      this.provinces = this.httpService
+        .post('canales', this.provincesUri)
+        .pipe(
+          publishReplay(1),
+          refCount()
+        );
+    }
+
+    return this.provinces;
+  }
+
+  getCantons(provinceId: number) {
+    if (provinceId !== this.provinceId) {
+      this.cantons = null;
+    }
+
+    if (!this.cantons) {
+      this.provinceId = provinceId;
+      this.cantons = this.httpService
+        .post('canales', this.cantonsUri, {provinceId})
+        .pipe(
+          publishReplay(1),
+          refCount()
+        );
+    }
+
+    return this.cantons;
+  }
+
+  getDistricts(cantonId: number) {
+    if (cantonId !== this.cantonId) {
+      this.districts = null;
+    }
+
+    if (!this.districts) {
+      this.cantonId = cantonId;
+      this.districts = this.httpService
+        .post('canales', this.districtsUri, {cantonId})
+        .pipe(
+          publishReplay(1),
+          refCount()
+        );
+    }
+
+    return this.districts;
+  }
+
+  getOccupations() {
+    if (!this.occupations) {
+      this.occupations = this.httpService
+        .post('canales', this.occupationsUri)
+        .pipe(
+          publishReplay(1),
+          refCount()
+        );
+    }
+
+    return this.occupations;
+  }
+
+  getIncomeTypes() {
+    if (!this.incomeTypes) {
+      this.incomeTypes = this.httpService
+        .post('canales', this.incomeTypesUri)
+        .pipe(
+          publishReplay(1),
+          refCount()
+        );
+    }
+
+    return this.incomeTypes;
+  }
+
   getAccountSummary(
     cardId: number = this.storageService
       .getCurrentCards()
@@ -106,7 +218,7 @@ export class GlobalRequestsService {
     if (!this.quotas) {
       this.quotas = this.httpService
         .post('canales', this.getQuotasUri, {
-          productId,
+          productId
         })
         .pipe(
           publishReplay(1),
@@ -127,7 +239,7 @@ export class GlobalRequestsService {
   getIbanAccounts(): Observable<IbanAccount[]> {
     if (!this.ibanAccounts) {
       this.ibanAccounts = this.httpService
-        .post('canales', this.getIbanAccountUri, {channelId: 102})
+        .post('canales', this.getIbanAccountUri)
         .pipe(publishReplay(1),
           refCount(),
           map((response) => {
@@ -139,5 +251,34 @@ export class GlobalRequestsService {
           }));
     }
     return this.ibanAccounts;
+  }
+
+  getUserApplicantInfo(accountNumber: number): Observable<any> {
+    if (!this.userApplicantInfo) {
+      this.userApplicantInfo = this.httpService
+        .post('canales', this.userApplicantInfoUri, {accountNumber})
+        .pipe(publishReplay(1),
+          refCount(),
+          map((response) => {
+            if (response.type === 'success') {
+              return response.informationApplicant;
+            } else {
+              return null;
+            }
+          })
+        );
+    }
+    return this.userApplicantInfo;
+  }
+
+  getApplicantProfilePhoto() {
+    if (!this.userApplicantProfileImage) {
+      this.userApplicantProfileImage = this.httpService.post('canales', this.getApplicantProfilePhotoUri, {
+        identification: this.storageService.getIdentification()
+      }).pipe(publishReplay(1),
+        refCount(),
+        map(response => response.imgBase64));
+    }
+    return this.userApplicantProfileImage;
   }
 }
