@@ -111,18 +111,6 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   sendMoney() {
-    console.log(this.ibanOrigin,
-      this.currencyPrefix === "$" ? 840 : 188,
-      this.todayString,
-      this.amountAndQuotaForm.controls.amount.value,
-      this.informationForm.controls.account.value.ibanAccount,
-      this.typeDestination,
-      this.informationForm.controls.account.value.aliasName,
-      this.amountAndQuotaForm.controls.quotas.value,
-      this.commission,
-      this.total,
-      this.informationForm.controls.account.value.identification,
-      this.confirmForm.controls.code.value);
     this.sendMoneyService
       .sendMoney(
         this.ibanOrigin,
@@ -139,7 +127,6 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
         this.confirmForm.controls.code.value
       )
       .subscribe((res) => {
-        console.log(res);
         const text = res.message;
         const type = res.type;
         this.toastService.show({ text, type });
@@ -150,7 +137,6 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   saveNewAccount() {
-    console.log(this.informationForm.controls);
     this.sendMoneyService.addFavAccount(
         this.informationForm.controls.account.value.favName,
         this.informationForm.controls.account.value.ibanAccount,
@@ -158,7 +144,6 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
         this.informationForm.controls.account.value.identification,
         this.confirmForm.controls.code.value
       ).subscribe((res) => {
-        console.log(res);
         const text = res.message;
         const type = res.type;
         this.toastService.show({ text, type });

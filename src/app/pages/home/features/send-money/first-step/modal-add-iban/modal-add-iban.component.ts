@@ -65,7 +65,6 @@ export class ModalAddIbanComponent implements OnInit {
               this.data.data.currency === "$" ? "D" : "L"
             )
             .subscribe((res) => {
-              console.log(res);
               if (res.type === "success") {
                 this.newAccount = res;
               } else {

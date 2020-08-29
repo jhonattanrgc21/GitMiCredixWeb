@@ -55,7 +55,6 @@ export class FirstStepComponent implements OnInit {
     this.showSecondContent = true;
     this.currencyPrefixEvent.emit(event.value.currency);
     this.currency = event.value.currency;
-    console.log(this.currency);
   }
 
   accountRadioButtonChange(event: { value: string; checked: boolean }) {
