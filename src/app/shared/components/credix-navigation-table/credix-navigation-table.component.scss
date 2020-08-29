@@ -13,6 +13,12 @@
     }
   }
 
+  &__options {
+    height: calc(478px - 16px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   &__content {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -161,8 +167,11 @@
 
   .navigation-table {
     &__table3{
-
       margin: 16px 86px 0 86px;
+    }
+    &__options {
+      height: calc(700px - 16px);
+
     }
   }
 

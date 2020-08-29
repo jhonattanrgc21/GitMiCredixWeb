@@ -7,6 +7,7 @@ import {CredixLinkButtonModule} from '../credix-link-button/credix-link-button.m
 import {CredixSliderModule} from '../credix-slider/credix-slider.module';
 import {CredixNumericBlockModule} from '../credix-numeric-block/credix-numeric-block.module';
 import {DateFormatterModule} from '../../pipes/date-formatter/date-formatter.module';
+import {SimplebarAngularModule} from 'simplebar-angular';
 
 @NgModule({
   declarations: [CredixNavigationTableComponent],
@@ -20,7 +21,8 @@ import {DateFormatterModule} from '../../pipes/date-formatter/date-formatter.mod
     CredixLinkButtonModule,
     CredixSliderModule,
     CredixNumericBlockModule,
-    DateFormatterModule
+    DateFormatterModule,
+    SimplebarAngularModule
   ]
 })
 export class CredixNavigationTableModule {

@@ -6,7 +6,8 @@
   </div>
 
   <div class="navigation-table__content" fxLayout="row">
-    <div class="navigation-table__content__left" [ngClass]="type == '3' ? 'w-30': 'w-25'">
+    <ngx-simplebar [options]="optionsScroll" class="navigation-table__options" fxLayout="column" [ngClass]="type == '3' ? 'w-30': 'w-25'">
+    <div class="navigation-table__content__left w-100" >
       <button (click)="optionClick(option)" *ngFor="let option of options" class="navigation-table__option">
         <div *ngIf="!option.img && option.icon">
           <mat-icon [class.is-selected]="optionSelected.id  == option.id" [svgIcon]="option.icon"
@@ -32,6 +33,7 @@
         <span *ngIf="optionSelected.id == option.id" class="navigation-table__option__arrow"></span>
       </button>
     </div>
+  </ngx-simplebar>
 
 
 

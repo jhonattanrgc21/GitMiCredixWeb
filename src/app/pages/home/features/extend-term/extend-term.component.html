@@ -56,7 +56,7 @@
 
     <div [ngClass]="showResponse ? 'extend-term__footer mt-16px' : 'extend-term__footer1 mt-16px' " fxLayout="row"
       fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="openConfirmationModal()" text="Ampliar Plazo" *ngIf="!showResponse && !empty">
+      <credix-button (buttonClick)="openConfirmationModal()" text="Ampliar Plazo" *ngIf="!showResponse && this.quotaSelected">
       </credix-button>
       <credix-button (buttonClick)="done()" text="Listo" *ngIf="showResponse">
       </credix-button>

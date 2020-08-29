@@ -21,6 +21,7 @@
 
   &__succResp {
     margin-top: 27px;
+    margin-bottom: 27px;
   }
 
   &__divider {
@@ -29,7 +30,7 @@
   }
 
   &__data-info {
-    margin: 24.5px 220.5px 90px 220.5px;
+    margin: 24.5px 220.5px 63px 220.5px;
 
     &__text {
       font-size: 16px;
@@ -74,7 +75,6 @@
   h2{
     width: 286px;
   }
-  margin-top:120px;
 }
 
 :host ::ng-deep.navigation-table__option__arrow{
@@ -90,6 +90,7 @@
 
     &__succResp {
       margin-top: 133px;
+      margin-bottom: 133px;
     }
     &__divider {
       margin-right: 129px;
@@ -100,7 +101,4 @@
     }
   }
 
-  :host ::ng-deep.credix-result-notification{
-    margin-top:200px;
-  }
 }

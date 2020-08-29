@@ -12,83 +12,8 @@ export class ExtendTermComponent implements OnInit {
   @Input() optionSelected;
   @Input() quotaSelected;
   options = [];
-  // options = [
-  //   {
-  //     id: 1,
-  //     name: "AEROPOST WEBdsfdgffdffgffgdgfgdfg",
-  //     cardId: 289534,
-  //     totalPlanQuota: 3,
-  //     accountNumber: 17188340,
-  //     movementId: "189896138-4",
-  //     originDate: "17/04/2020",
-  //     originAmount: "85.000",
-  //     originCurrency: "¢",
-  //     quotaAmount: 28300,
-  //     subOptions: [
-  //       {
-  //         feeAmount: "3.000",
-  //         feePercentage: 4,
-  //         quotaTo: 6,
-  //         amountPerQuota: "12.500",
-  //         quotaFrom: 3,
-  //         financedPlan: 0,
-  //         purchaseAmount: "75.000"
-  //       },
-  //       {
-  //         feeAmount: "9.000",
-  //         feePercentage: 12,
-  //         quotaTo: 12,
-  //         amountPerQuota: "6.250",
-  //         quotaFrom: 3,
-  //         financedPlan: 0,
-  //         purchaseAmount: "75.000"
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "AEROPOST WEB Maria",
-  //     cardId: 289534,
-  //     totalPlanQuota: 3,
-  //     accountNumber: 17188340,
-  //     movementId: "189896138-4",
-  //     originDate: "17/04/2020",
-  //     originAmount: "85.000",
-  //     originCurrency: "¢",
-  //     quotaAmount: 28300,
-  //     subOptions: [
-  //       {
-  //         feeAmount: "3.000",
-  //         feePercentage: 4,
-  //         quotaTo: 6,
-  //         amountPerQuota: "12.500",
-  //         quotaFrom: 3,
-  //         financedPlan: 0,
-  //         purchaseAmount: "75.000"
-  //       },
-  //       {
-  //         feeAmount: "9.000",
-  //         feePercentage: 12,
-  //         quotaTo: 12,
-  //         amountPerQuota: "6.250",
-  //         quotaFrom: 3,
-  //         financedPlan: 0,
-  //         purchaseAmount: "75.000"
-  //       },
-  //       {
-  //         feeAmount: "15.000",
-  //         feePercentage: 20,
-  //         quotaTo: 18,
-  //         amountPerQuota: "4.166,67",
-  //         quotaFrom: 3,
-  //         financedPlan: 0,
-  //         purchaseAmount: "75.000"
-  //       }
-  //     ],
-  //   },
-  // ];
   allowedMovements;
-  quotaList: [];
+  quotaList;
   message: string = "El plazo de su compra ha sido extendido correctamente.";
   resType: string = "success";
   showResponse = false;
@@ -109,18 +34,17 @@ export class ExtendTermComponent implements OnInit {
   getAllowedMovements() {
     this.httpService
       .post("canales", "channels/allowedmovements", {
-        accountId: this.storageService.getCurrentUser().aplId,
+        accountId: this.storageService.getCurrentUser().actId,
         cardId: this.storageService.getCurrentCards()[0].cardId,
         channelId: 102,
       })
       .subscribe((res) => {
-        console.log(res);
         if (res.result.length) {
           this.allowedMovements = res.result;
           this.empty = false;
           this.allowedMovements.forEach(async (elem, i) => {
+            this.quotaList = await this.calculateQuota(elem.movementId, i);
             let quotaAmount = parseInt(elem.originAmount) / parseInt(elem.totalPlanQuota);
-            await this.calculateQuota(elem.movementId);
             this.options = [
               ...this.options,
               {
@@ -134,7 +58,6 @@ export class ExtendTermComponent implements OnInit {
                 originAmount: elem.originAmount,
                 originCurrency: elem.originCurrency.currency,
                 quotaAmount: quotaAmount,
-                subOptions: this.quotaList,
               },
             ];
           });
@@ -144,16 +67,16 @@ export class ExtendTermComponent implements OnInit {
       });
   }
 
-  calculateQuota(movementId) {
+  calculateQuota(movementId, i) {
+    console.log(this.options)
     this.httpService
       .post("canales", "channels/quotacalculator", {
         channelId: 102,
         movementId: movementId,
       })
       .subscribe((res) => {
-        console.log(res);
         if (res.type === "success") {
-          this.quotaList = res.listQuota;
+          this.options[i] = {...this.options[i], subOptions: res.listQuota}
         }
       });
   }
