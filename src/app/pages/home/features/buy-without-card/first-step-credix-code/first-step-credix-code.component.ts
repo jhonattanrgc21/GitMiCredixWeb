@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { HttpService } from 'src/app/core/services/http.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { BuyWithoutCardService } from '../buy-without-card.service';
 
 @Component({
   selector: 'first-step-credix-code',
@@ -15,7 +16,8 @@ export class FirstStepCredixCodeComponent implements OnInit {
 
 
   constructor(private httpService: HttpService,
-              private storageService: StorageService) {  }
+              private storageService: StorageService,
+              private buyWithOutCardService: BuyWithoutCardService) {  }
 
   ngOnInit(): void {
     this.getUserAplicantAccountNumber();
@@ -28,6 +30,7 @@ export class FirstStepCredixCodeComponent implements OnInit {
       accountNumber: this.storageService.getCurrentUser().accountNumber
     }).subscribe(response => {
       console.log(response);
+      this.buyWithOutCardService.emitIdentification(response.informationApplicant.applicant.identification);
     });
   }
 

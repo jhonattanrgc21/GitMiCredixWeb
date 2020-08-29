@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { FormControl } from '@angular/forms';
 import { HttpService } from 'src/app/core/services/http.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { BuyWithoutCardService } from '../buy-without-card.service';
 
 @Component({
   selector: 'second-step-make-buy',
@@ -10,27 +11,29 @@ import { StorageService } from 'src/app/core/services/storage.service';
 })
 export class SecondStepMakeBuyComponent implements OnInit, OnChanges {
 
-  @Input() barCode: number;
   @Input() card: FormControl = new FormControl();
   @Input() isActive: boolean;
 
-  @Input() cardData: any;
-  constructor(private httpService: HttpService, private storageService: StorageService) { }
+  constructor(private httpService: HttpService, 
+              private storageService: StorageService,
+              private buyWithOutCardService: BuyWithoutCardService) { }
 
   ngOnInit(): void {
-    
+    this.buyWithOutCardService.identification.subscribe(value => {
+      this.getCardListByIdentification(value.identification);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges){
     if (changes.isActive && this.isActive) {
-      this.getCardListByIdentification();  
+        
     }
   }
 
-  getCardListByIdentification(){
+  getCardListByIdentification(identification:string){
     this.httpService.post('canales', 'account/cardlistbyidentification',
     {
-      identification:'' ,
+      identification:identification,
 	    channelId: 102
     })
     .subscribe(response => {

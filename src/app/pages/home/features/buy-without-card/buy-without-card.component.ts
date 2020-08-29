@@ -24,16 +24,19 @@ export class BuyWithoutCardComponent implements OnInit {
     private storageService: StorageService) { }
 
   ngOnInit(): void {
-    console.log(this.stepper);
+    this.checkNextStep();
   }
 
   continue(){
     this.stepper.next();
     this.stepperIndex = this.stepper.selectedIndex;
+    this.checkNextStep();
   }
 
-  back(){
-
+  back() {
+    this.stepper.previous();
+    this.stepperIndex = this.stepper.selectedIndex;
+    this.checkNextStep();
   }
 
   generatePin(){
@@ -50,6 +53,15 @@ export class BuyWithoutCardComponent implements OnInit {
   }
 
  
+  checkNextStep() {
+    switch (this.stepperIndex) {
+      case 0:
+        break;
+      case 1:
+        this.generatePin();
+        break;
+    }
+  }
 
   
 
