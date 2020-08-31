@@ -3,9 +3,7 @@
      fxLayoutAlign="flex-start center" mat-button>
     <span class="menu-items menu_messages__fixed-container__label--color" fxFlex>Mensajes</span>
 
-    <button mat-icon-button>
-      <mat-icon [svgIcon]="hasNewMessage ? 'messages_active_btn' : 'messages'"></mat-icon>
-    </button>
+    <mat-icon [svgIcon]="hasNewMessage ? 'messages_active_btn' : 'messages'"></mat-icon>
   </a>
 
   <ngx-simplebar *ngIf="messages.length > 0 else noMessagesTemplate" [options]="options"

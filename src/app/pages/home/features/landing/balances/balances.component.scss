@@ -57,10 +57,14 @@
       font-weight: bold;
     }
 
-    button {
+    a {
       width: auto;
       height: 20px;
       line-height: 1 !important;
+
+      &:hover {
+        cursor: pointer;
+      }
 
       mat-icon {
         color: #E42313;
