@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ConsultInformationComponent} from './consult-information.component';
+import {SecondStepMakeBuyComponent} from './second-step-make-buy.component';
 
-describe('ConsultInformationComponent', () => {
-  let component: ConsultInformationComponent;
-  let fixture: ComponentFixture<ConsultInformationComponent>;
+describe('SecondStepMakeBuyComponent', () => {
+  let component: SecondStepMakeBuyComponent;
+  let fixture: ComponentFixture<SecondStepMakeBuyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConsultInformationComponent]
+      declarations: [SecondStepMakeBuyComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConsultInformationComponent);
+    fixture = TestBed.createComponent(SecondStepMakeBuyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

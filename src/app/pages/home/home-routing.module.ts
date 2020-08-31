@@ -48,7 +48,12 @@ const routes: Routes = [
       },
       {
         path: 'personal-info',
-        loadChildren: () => import('./features/personal-info-management/personal-info-management.module.js').then(m => m.PersonalInfoManagementModule)
+        loadChildren: () => import('./features/personal-info-management/personal-info-management.module.js')
+          .then(m => m.PersonalInfoManagementModule)
+      },
+      {
+        path: 'buy-without-card',
+        loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule)
       }
     ]
   }
