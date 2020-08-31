@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../core/services/storage.service';
+import {GlobalRequestsService} from '../../core/services/global-requests.service';
 
 @Component({
   selector: 'app-sign',
@@ -8,11 +9,13 @@ import {StorageService} from '../../core/services/storage.service';
 })
 export class SignComponent implements OnInit {
 
-  constructor(private storageService: StorageService) {
+  constructor(private storageService: StorageService,
+              private globalRequestsService: GlobalRequestsService) {
     this.storageService.clearCurrentToken();
     this.storageService.clearCurrentUser();
     this.storageService.clearCurrentCard();
     this.storageService.clearIdentification();
+    this.globalRequestsService.cleanCache();
   }
 
   ngOnInit(): void {

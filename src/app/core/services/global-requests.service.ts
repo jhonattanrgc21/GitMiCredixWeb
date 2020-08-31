@@ -283,4 +283,12 @@ export class GlobalRequestsService {
     }
     return this.userApplicantProfileImage;
   }
+
+  cleanCache() {
+    this.accountSummary = null;
+    this.quotas = null;
+    this.ibanAccounts = null;
+    this.userApplicantInfo = null;
+    this.userApplicantProfileImage = null;
+  }
 }

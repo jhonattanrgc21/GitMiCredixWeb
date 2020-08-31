@@ -68,13 +68,12 @@ export class PersonalInfoComponent implements OnInit {
     this.globalRequestsService.getUserApplicantInfo(this.storageService.getCurrentUser().accountNumber)
       .subscribe(applicantInfo => {
         if (applicantInfo) {
-          console.log(applicantInfo);
           this.email = applicantInfo.applicant.email;
-          this.phoneNumber = applicantInfo.applicant.phoneApplicant.find(phone => phone.phoneType.id = 1).phone;
-          this.nationality = applicantInfo.applicant.country.description;
-          this.typeIncome = applicantInfo.applicant.typeIncomeApplicant.description;
-          this.occupation = applicantInfo.applicant.personApplicant.occupation.description;
-          this.address = applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).detail;
+          this.phoneNumber = applicantInfo.applicant.phoneApplicant?.find(phone => phone.phoneType.id = 1).phone;
+          this.nationality = applicantInfo.applicant.country?.description;
+          this.typeIncome = applicantInfo.applicant.typeIncomeApplicant?.description;
+          this.occupation = applicantInfo.applicant.personApplicant?.occupation.description;
+          this.address = applicantInfo.applicant.addressApplicant?.find(add => add.addressType.id = 1).detail;
 
           this.personalInfoManagementService.applicantInfo = {
             email: this.email,
