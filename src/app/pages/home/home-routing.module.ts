@@ -49,6 +49,10 @@ const routes: Routes = [
       {
         path: 'personal-info',
         loadChildren: () => import('./features/personal-info-management/personal-info-management.module.js').then(m => m.PersonalInfoManagementModule)
+      },
+      {
+        path: 'change-password',
+        loadChildren: () => import('./features/change-password/change-password.module.js').then(m => m.ChangePasswordModule)
       }
     ]
   }

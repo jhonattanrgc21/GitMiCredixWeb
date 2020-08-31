@@ -19,6 +19,7 @@ import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {SendMoneyService} from './features/send-money/send-money.service';
 
+
 @NgModule({
   declarations: [
     HomeComponent,
