@@ -71,6 +71,10 @@ const routes: Routes = [
       {
         path: 'change-password',
         loadChildren: () => import('./features/change-password/change-password.module.js').then(m => m.ChangePasswordModule)
+      },
+      {
+        path: 'increase-limit',
+        loadChildren: () => import('./features/increase-limit/increase-limit.module.js').then(m => m.IncreaseLimitModule)
       }
     ]
   }

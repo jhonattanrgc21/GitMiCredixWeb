@@ -5,7 +5,6 @@ import {map} from 'rxjs/operators';
 @Injectable()
 export class SendMoneyService {
   private readonly getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
-  private readonly getQuotaByProductUri = 'customerservice/listquotabyproduct';
   private readonly sendMoneyUri = 'channels/senddirect';
   private readonly getAccountByIbanNumberUri = 'account/getinformationibanaccount';
 
