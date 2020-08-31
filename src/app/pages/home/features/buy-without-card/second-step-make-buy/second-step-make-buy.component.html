@@ -1,26 +1,26 @@
-<div class="make-buy" fxLayout="row" fxLayoutAlign="space-between">
-    <span><strong>Tarjeta</strong></span>
-    
-<!-- 
-    <credix-select
-        label="Tarjeta"
-        class="buy-without-card__card-select select"
-    >
-        <!-- <mat-option *ngFor="let  of " [value]="">
+<div class="make-buy" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+        <span><strong>Tarjeta</strong></span>
 
-        </mat-option> -->
-    <!-- </credix-select>  -->
-
+        <credix-select  [formControl]="card" label="Tarjeta" class="buy-without-card__card-select select">
+            <mat-option *ngFor="let card of cards" [value]="card.cardId">
+              {{card.cardNumber}}
+            </mat-option>
+        </credix-select>
+    </div>
 
     <mat-divider class="mb-16px"></mat-divider>
     <div fxLayout="row" fxLayoutAlign="space-between">
         <span><strong> PIN de compra/pago</strong></span>
-    
+
         <div fxLayout="column">
-            <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
     </div>
-    
+
 </div>
 
 

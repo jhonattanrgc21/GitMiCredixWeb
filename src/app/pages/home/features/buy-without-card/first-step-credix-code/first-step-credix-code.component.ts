@@ -30,9 +30,9 @@ export class FirstStepCredixCodeComponent implements OnInit {
       accountNumber: this.storageService.getCurrentUser().accountNumber
     }).subscribe(response => {
       console.log(response);
-      this.buyWithOutCardService.emitIdentification(response.informationApplicant.applicant.identification);
+      // this.buyWithOutCardService.emitIdentification(response.informationApplicant.applicant.identification);
     });
   }
 
-  
+
 }

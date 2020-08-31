@@ -7,16 +7,17 @@ export class BuyWithoutCardService {
   constructor() { }
 
 
-  private _identification = new Subject<{ identification: string}>();
+  // tslint:disable-next-line:variable-name
+  private _IdentificationAndName = new Subject<{ identification: string, name: string}>();
 
-  
-  get identification() : Observable<{identification: string}> {
-    return this._identification.asObservable();
+
+  get identification(): Observable<{ identification: string, name: string}> {
+    return this._IdentificationAndName.asObservable();
   }
 
-  emitIdentification(identification: string){
-    this._identification.next({identification});
+  emitIdentification(identification: string, name: string) {
+    this._IdentificationAndName.next({identification, name});
   }
-  
+
 
 }
