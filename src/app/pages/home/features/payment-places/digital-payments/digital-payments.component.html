@@ -1,0 +1,102 @@
+<div class="digital-payments" fxLayout="column" fxLayoutGap="16px">
+
+  <div class="digital-payments__option" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="244px"><strong>SINPE Móvil</strong></span>
+
+    <p class="digital-payments__option__right-content">
+      Realice un pase de dinero para pagar su tarjeta al número de SINPE
+      Móvil de Credix:
+      <credix-link-button>8927-3349</credix-link-button>
+      <span class="dot">.</span>
+    </p>
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="digital-payments__option" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="244px"><strong>Transferencia a sus cuentas IBAN</strong></span>
+
+    <div class="digital-payments__option__right-content" fxLayout="column" fxLayoutGap="16px">
+      <p>Pague mediante transferencia SINPE a las cuentas IBAN de su tarjeta.</p>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="58px">Colones</span>
+
+        <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+          <span>CR91010200009093845399</span>
+          <a (click)="copyIbanAccount('Cuenta copiada', 1)"
+             cdkCopyToClipboard="CR91010200009093845399">
+            <mat-icon [class.is-green]="copyId == 1" svgIcon="content-copy"></mat-icon>
+          </a>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="58px">Dólares</span>
+
+        <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+          <span>CR31010200009093845703</span>
+          <a (click)="copyIbanAccount('Cuenta copiada', 2)"
+             cdkCopyToClipboard="CR31010200009093845703">
+            <mat-icon [class.is-green]="copyId == 2" svgIcon="content-copy"></mat-icon>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="digital-payments__option" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="244px"><strong>Transferencia a cuentas IBAN de Credix</strong></span>
+
+    <div class="digital-payments__option__right-content" fxLayout="column" fxLayoutGap="16px">
+      <p>También puede realizar el pago de su tarjeta mediante transferencia SINPE a las cuentas IBAN de Credix.</p>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="150px">Cuenta a nombre de</p>
+        <p>Credix World S.A.</p>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="150px">Cédula jurídica</p>
+        <p>3-101-575885</p>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="58px">Colones</span>
+
+        <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+          <span>CR91010200009093845399</span>
+          <a (click)="copyIbanAccount('Cuenta copiada', 3)"
+             cdkCopyToClipboard="CR91010200009093845399">
+            <mat-icon [class.is-green]="copyId == 3" svgIcon="content-copy"></mat-icon>
+          </a>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="58px">Dólares</span>
+
+        <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+          <span>CR31010200009093845703</span>
+
+          <a (click)="copyIbanAccount('Cuenta copiada', 4)"
+             cdkCopyToClipboard="CR31010200009093845703">
+            <mat-icon [class.is-green]="copyId == 4" svgIcon="content-copy"></mat-icon>
+          </a>
+        </div>
+      </div>
+
+      <p>Al realizar el pago de su tarjeta por esta via, debe:</p>
+
+      <p>• Indicar en el detalle de la transferencia, su número de cuenta ubicado en el reverso de la tarjeta.</p>
+      <p>• Hacer el reporte de pago
+        <credix-link-button (click)="goToReportTransference()">aquí.</credix-link-button>
+      </p>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,64 @@
+.digital-payments {
+  margin-top: 8px;
+  padding: 0 84px;
+
+  .dot {
+    margin-left: -2px;
+  }
+
+  /*  ::ng-deep .credix-link-button {
+      vertical-align: middle !important;
+      font-weight: bold !important;
+    }*/
+
+  &__copy-icon {
+    color: #e42313;
+    width: 17px;
+    height: 20px;
+    padding-left: 16px;
+    vertical-align: middle;
+  }
+
+  &__option {
+
+    &__right-content {
+      width: 355px;
+    }
+
+    a {
+      width: auto;
+      height: 20px;
+      line-height: 1 !important;
+      background: none;
+      border: none;
+      padding: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      mat-icon {
+        color: #e42313;
+        width: 17px;
+        height: 20px;
+        vertical-align: middle;
+        cursor: pointer;
+
+        &.is-green {
+          color: #19D27E;
+        }
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+  .digital-payments {
+    padding: 0 48px;
+
+    &__option__right-content {
+      width: 330px;
+    }
+  }
+}
