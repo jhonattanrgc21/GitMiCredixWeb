@@ -13,6 +13,7 @@ import {Canton} from '../../shared/models/canton';
 import {District} from '../../shared/models/district';
 import {Occupation} from '../../shared/models/occupation';
 import {IncomeType} from '../../shared/models/income-type';
+import {Quota} from '../../shared/models/quota';
 
 @Injectable()
 export class GlobalRequestsService {
@@ -25,7 +26,7 @@ export class GlobalRequestsService {
   occupations: Observable<Occupation[]>;
   incomeTypes: Observable<IncomeType[]>;
   accountSummary: Observable<AccountSummary>;
-  quotas: Observable<number[]>;
+  quotas: Observable<Quota[]>;
   ibanAccounts: Observable<IbanAccount[]>;
   userApplicantInfo: Observable<any>;
   userApplicantProfileImage: Observable<string>;
@@ -214,7 +215,7 @@ export class GlobalRequestsService {
     return this.accountSummary;
   }
 
-  getQuotas(productId: number): Observable<number[]> {
+  getQuotas(productId: number): Observable<Quota[]> {
     if (!this.quotas) {
       this.quotas = this.httpService
         .post('canales', this.getQuotasUri, {
@@ -225,7 +226,8 @@ export class GlobalRequestsService {
           refCount(),
           map((response) => {
             if (response.type === 'success') {
-              return response.listQuota.map((q) => q.quota);
+              console.log(response);
+              return response.listQuota;
             } else {
               return [];
             }
