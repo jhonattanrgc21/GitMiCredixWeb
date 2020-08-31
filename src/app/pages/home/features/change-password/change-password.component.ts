@@ -4,6 +4,7 @@ import * as CryptoJS from 'crypto-js';
 import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
+import {StorageService} from '../../../../core/services/storage.service';
 
 @Component({
   selector: 'app-change-password',
@@ -17,6 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   respTitle: string;
   resType: string;
   respMsg: string;
+  identType;
 
   changePasswordForm: FormGroup = new FormGroup(
     {
@@ -29,14 +31,15 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(private modalService: ModalService,
     private httpService: HttpService,
-    private router: Router,) { }
+    private router: Router,private storageService: StorageService,) { }
 
   ngOnInit(): void {
+    this.getIdentType();
   }
 
   passwordValidator(control: FormGroup): ValidationErrors | null {
     const password = control.get('password');
-    const repeatPassword = control.get('confirmpassword');
+    const repeatPassword = control.get('confirmPassword');
     if (repeatPassword.errors && !repeatPassword.errors.passwordError) {
       return;
     }
@@ -45,6 +48,17 @@ export class ChangePasswordComponent implements OnInit {
     } else {
       repeatPassword.setErrors(null);
     }
+  }
+
+  getIdentType(){
+    this.httpService.post('canales', 'applicant/finduserapplicantidentification',
+    {
+      channelId: 102,
+	    identification: this.storageService.getIdentification()
+
+    }).subscribe(res=>{
+      this.identType = res.json.detail.applicant.identificationType.id;
+    })
   }
 
   confirm() {
@@ -59,12 +73,17 @@ export class ChangePasswordComponent implements OnInit {
 
   changepassword() {
     this.httpService
-      .post('canales', 'security/modifysecuritykey', {
-        newSecurityKey: CryptoJS.SHA256(this.changePasswordForm.get('password').value),
+      .post('canales', 'security/user/forgetusernameandpasswordbyidentification', {
+
         codeCredix: this.changePasswordForm.get('code').value,
-        channelId: 102,
+        typeIdentification : this.identType,
+        identification: this.storageService.getIdentification(),
+        channelId : 102,
+        password : CryptoJS.SHA256(this.changePasswordForm.get('password').value),
+        passwordConfirmation : CryptoJS.SHA256(this.changePasswordForm.get('password').value),
       })
       .subscribe((resp) => {
+        console.log()
         this.showResponse = true;
         this.respTitle = resp.titleOne;
         this.resType = resp.type;
