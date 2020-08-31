@@ -63,6 +63,10 @@ const routes: Routes = [
         path: 'anticipated-cancellation',
         loadChildren: () => import('./features/anticipated-cancellation/anticipated-cancellation.module.js')
           .then(m => m.AnticipatedCancellationModule)
+      },
+      {
+        path: 'extend-term',
+        loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule)
       }
     ]
   }
