@@ -29,6 +29,7 @@ import {ModalAddIbanComponent} from './send-money-first-step/modal-add-iban/moda
 import {CredixCheckboxButtonModule} from '../../../../shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import {ModalDetailsComponent} from './send-money-second-step/modal-details/modal-details.component';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {ModalService} from '../../../../core/services/modal.service';
 
 const routes: Routes = [
   {
@@ -71,7 +72,9 @@ const routes: Routes = [
     CredixCheckboxButtonModule,
     CredixDividerModule
   ],
-  providers: [SendMoneyService]
+  providers: [
+    SendMoneyService,
+    ModalService]
 })
 export class SendMoneyModule {
 }

@@ -59,11 +59,7 @@ export class ModalAddIbanComponent implements OnInit {
       if (val.ibanAccount && val.identType && val.identNumber) {
         if (val.ibanAccount.length === 22 && val.identNumber.length === 9) {
           this.sendMoneyService
-            .getAccountByIbanNumber(
-              val.identNumber,
-              val.ibanAccount,
-              this.data.data.currency === '$' ? 'D' : 'L'
-            )
+            .getAccountByIbanNumber(val.identNumber, val.ibanAccount, this.data.data.currency === '$' ? 'D' : 'L')
             .subscribe((res) => {
               if (res.type === 'success') {
                 this.newAccount = res;
