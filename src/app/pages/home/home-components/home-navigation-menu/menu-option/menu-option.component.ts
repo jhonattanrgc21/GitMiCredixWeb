@@ -27,6 +27,7 @@ export class MenuOptionComponent implements OnInit {
     this.goHomeService.goHomeObs.subscribe(() => {
       this.openSubmenu = false;
       this.activeSubmenu = 0;
+      this.preActiveMenu = 0;
       this.activeMenu = 1;
     });
 
