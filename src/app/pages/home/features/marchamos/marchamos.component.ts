@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpService} from 'src/app/core/services/http.service';
 import {ModalService} from 'src/app/core/services/modal.service';
@@ -18,15 +18,20 @@ export class MarchamosComponent implements OnInit {
   ownerPayer: OwnerPayer;
   billingHistories: BillingHistory[];
   consultVehicle: ConsultVehicle;
-  vehicleInformation: boolean;
-  quotesAmount: number;
-  responseToPay : { messageToPay: string, responseToPay: string , totalMount: number, quotas:number, plateNumber:string, firstCouteToPayIn:string} ={
-    messageToPay:'',
-    responseToPay:'',
-    totalMount:0,
-    quotas:0,
-    plateNumber:'',
-    firstCouteToPayIn:''
+  responseToPay: {
+    messageToPay: string,
+    responseToPay: string,
+    totalMount: number,
+    quotas: number,
+    plateNumber: string,
+    firstCouteToPayIn: string
+  } = {
+    messageToPay: '',
+    responseToPay: '',
+    totalMount: 0,
+    quotas: 0,
+    plateNumber: '',
+    firstCouteToPayIn: ''
   };
   amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
     responsabilityCivilAmount: 8745.00,
@@ -34,38 +39,18 @@ export class MarchamosComponent implements OnInit {
     moreProtectionAmount: 7140.00
   };
   commission = 0;
-  responseToContinue: string;
-  contactToConfirm: { name: string, email: string, phone: string } = {
-    name: '',
-    email: '',
-    phone: ''
-  };
-  placeOfRetreat: { placeDescription: string } = {
-    placeDescription: ''
-  };
-  dataForPayResumen: any[] = [];
-  dataPayResume: { totalMount: any, totalAmountItemsProducts: number, iva: number, commission: number } =
-    {
-      totalMount: 0,
-      totalAmountItemsProducts: 0,
-      iva: 0,
-      commission: 0
-    };
   stepperIndex = 0;
   iva = 0;
-  private domicile : {person:string, phone:number , place: string}= {
-    person:'',
-    phone:0,
-    place:''
-  }
+  private domicile: { person: string, phone: number, place: string } = {
+    person: '',
+    phone: 0,
+    place: ''
+  };
   totalAmountItemsProducts = 0;
   cardId: number;
-  addressAplicant: any[] = [];
   informationApplicant: any;
   promoStatus: any;
   responseResultPay = false;
-  quotasId = 0;
-  isPickUpStore = false;
   options = {autoHide: false, scrollbarMinSize: 100};
   disableButton = true;
   consultForm: FormGroup = new FormGroup({
@@ -118,9 +103,9 @@ export class MarchamosComponent implements OnInit {
 
   continue() {
     this.stepper.next();
-    this.stepperIndex = this.stepper.selectedIndex; 
+    this.stepperIndex = this.stepper.selectedIndex;
     this.disableButton = true;
-    this.checkNextStep(); 
+    this.checkNextStep();
   }
 
   back() {
@@ -163,14 +148,14 @@ export class MarchamosComponent implements OnInit {
           .subscribe(() => {
             this.disableButton = this.confirmForm.invalid;
           });
-          this.marchamosService.domicileDescription.subscribe(value =>{
+        this.marchamosService.domicileDescription.subscribe(value => {
             this.domicile = {
               person: value.name,
               phone: value.number,
               place: value.detail
-            }
+            };
           }
-          );
+        );
         break;
     }
   }
@@ -181,8 +166,6 @@ export class MarchamosComponent implements OnInit {
     });
   }
 
-  
-
   getAnotherPay(event) {
     this.responseResultPay = event;
     (!this.responseResultPay) ? this.stepperIndex = 0 : this.stepperIndex = 3;
@@ -191,9 +174,6 @@ export class MarchamosComponent implements OnInit {
   consult() {
     this.marchamosService.consult();
   }
-
-  
- 
 
   getPromo() {
     this.httpService.post('marchamos', 'pay/promoapply',
@@ -242,12 +222,12 @@ export class MarchamosComponent implements OnInit {
           this.responseResultPay = !this.responseResultPay;
         }
         this.responseToPay = {
-          messageToPay:response.message,
-          responseToPay:response.type, 
-          totalMount: this.consultVehicle.amount, 
+          messageToPay: response.message,
+          responseToPay: response.type,
+          totalMount: this.consultVehicle.amount,
           quotas: this.secureAndQuotesControls.quota.value,
-          plateNumber:this.consultVehicle.plateNumber,
-          firstCouteToPayIn:this.secureAndQuotesControls.firstQuotaDate.value
+          plateNumber: this.consultVehicle.plateNumber,
+          firstCouteToPayIn: this.secureAndQuotesControls.firstQuotaDate.value
         };
       });
   }
@@ -256,15 +236,11 @@ export class MarchamosComponent implements OnInit {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(event => {
       if (event) {
         this.secureToPay();
-      } else{
+      } else {
         this.stepperIndex = 3;
       }
     });
   }
-
- 
-
-
 
 
 }

@@ -1,40 +1,33 @@
-<mat-card *ngIf="!responseResultPay else resultTemplate" 
+<mat-card *ngIf="!responseResultPay else resultTemplate" class="marchamos"
           [class.marchamos--second-step-height]="stepperIndex === 1"
           [class.marchamos--four-step-height]="stepperIndex === 3"
-          class="marchamos"
-          credixCard
-          fxLayout="column">
+          credixCard fxLayout="column">
 
   <h1 class="marchamos__title">Marchamo</h1>
 
   <credix-stepper #stepper class="marchamos__stepper">
 
     <cdk-step [stepControl]="consultForm" fxLayout="column" label="Consultar">
-      <app-marchamo-first-step 
-      [consultForm]="consultForm">
+      <app-marchamo-first-step
+        [consultForm]="consultForm">
       </app-marchamo-first-step>
     </cdk-step>
 
     <cdk-step [label]="'Seguros y cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
       <app-second-step-marchamo [secureAndQuotesForm]="secureAndQuotesForm"
-      [isActive]="(stepperIndex === 1)"></app-second-step-marchamo>
+                                [isActive]="(stepperIndex === 1)"></app-second-step-marchamo>
     </cdk-step>
 
     <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
-     
-      <app-thirsty-step-marchamo 
+      <app-thirsty-step-marchamo
         [pickUpForm]="pickUpForm"
-        [isActive]="(stepperIndex === 2)"
-      ></app-thirsty-step-marchamo>
+        [isActive]="(stepperIndex === 2)"></app-thirsty-step-marchamo>
     </cdk-step>
 
     <cdk-step [label]="'Confirmar'" [stepControl]="confirmForm">
-
       <app-four-step-marchamo
         [confirmForm]="confirmForm"
-        [isActive]="(stepperIndex === 3)"
-      ></app-four-step-marchamo>
-
+        [isActive]="(stepperIndex === 3)"></app-four-step-marchamo>
     </cdk-step>
 
   </credix-stepper>
@@ -49,7 +42,7 @@
                      [text]="'Continuar'"></credix-button>
       <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton"
                      [text]="'Transferir'"></credix-button>
-      
+
     </div>
   </div>
 </mat-card>
@@ -63,8 +56,7 @@
     <result-pay-resume
       [responseResultPay]="responseResultPay"
       [resultPay]="responseToPay"
-      (responseResultPayChanged)="getAnotherPay($event)"
-      >
+      (responseResultPayChanged)="getAnotherPay($event)">
     </result-pay-resume>
   </mat-card>
 </ng-template>
