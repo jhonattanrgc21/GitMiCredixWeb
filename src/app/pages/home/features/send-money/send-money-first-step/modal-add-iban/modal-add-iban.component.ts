@@ -39,14 +39,13 @@ export class ModalAddIbanComponent implements OnInit {
       this.showFavorite && [Validators.required]
     ),
   });
-  newAccount;
+  newAccount: any;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data,
-    private globalRequestsService: GlobalRequestsService,
-    public toastService: CredixToastService,
-    public dialogRef: MatDialogRef<ModalAddIbanComponent>,
-    private sendMoneyService: SendMoneyService
+  constructor(@Inject(MAT_DIALOG_DATA) public data,
+              private globalRequestsService: GlobalRequestsService,
+              public toastService: CredixToastService,
+              public dialogRef: MatDialogRef<ModalAddIbanComponent>,
+              private sendMoneyService: SendMoneyService
   ) {
   }
 

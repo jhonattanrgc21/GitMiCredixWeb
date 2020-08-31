@@ -49,7 +49,7 @@
       <span>{{balancesTag.colonesTag}}</span>
       <span>{{colonesIbanAccount.ibanAccountNumber}}</span>
       <button (click)="copyIbanAccount(balancesTag.colonesIbanCopiedTag, 188)"
-              cdkCopyToClipboard="CR00000000000000000001"
+              [cdkCopyToClipboard]="colonesIbanAccount.ibanAccountNumber"
               mat-icon-button>
         <mat-icon [class.is-green]="isCopyingColonesIban" svgIcon="content-copy"></mat-icon>
       </button>
@@ -59,7 +59,7 @@
       <span>{{balancesTag.dollarsTag}}</span>
       <span>{{dollarsIbanAccount.ibanAccountNumber}}</span>
       <button (click)="copyIbanAccount(balancesTag.dollarsIbanCopiedTag, 840)"
-              cdkCopyToClipboard="CR00000000000000000002"
+              [cdkCopyToClipboard]="dollarsIbanAccount.ibanAccountNumber"
               mat-icon-button>
         <mat-icon [class.is-green]="isCopyingDollarsIban" svgIcon="content-copy"></mat-icon>
       </button>
