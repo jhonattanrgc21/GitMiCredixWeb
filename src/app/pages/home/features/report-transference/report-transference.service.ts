@@ -19,6 +19,5 @@ export class ReportTransferenceService {
     }).pipe(map(response => {
       return {type: response.type, message: response.descriptionOne};
     }));
-
   }
 }

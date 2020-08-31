@@ -69,7 +69,6 @@ export class LandingComponent implements OnInit {
       };
 
       this.movements = response.movements;
-      console.log(this.movements);
 
       if (response.listBanner) {
         response.listBanner.forEach(banner => {

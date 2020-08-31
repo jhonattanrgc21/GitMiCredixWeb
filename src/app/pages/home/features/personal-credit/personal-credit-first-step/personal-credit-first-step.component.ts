@@ -8,6 +8,11 @@ import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {finalize} from 'rxjs/operators';
 
 const MIN_AMOUNT = 100000;
+const CENTER_AMOUNT = 300000;
+const MAX_AMOUNT = 1000000;
+const FIRST_STEP = 10000;
+const SECOND_STEP = 50000;
+const THIRD_STEP = 100000;
 
 @Component({
   selector: 'app-personal-credit-first-step',
@@ -22,10 +27,16 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   personalCreditSummary: PersonalCreditSummary;
   personalCreditsSummaries: PersonalCreditSummary[];
   ivaAmount = 0;
-  sliderStep = 10000;
-  termSliderStep = 3;
+  quotas: number[] = [];
+  amountSliderStep = 1;
+  amountSliderMin = 0;
+  amountSliderMax = 1;
+  termSliderStep = 1;
   termSliderMin = 3;
   termSliderMax = 12;
+  termSliderDisplayMin = 1;
+  termSliderDisplayMax = 12;
+  termSliderDisplayValue = 0;
 
   constructor(private modalService: ModalService,
               private personalCreditService: PersonalCreditService,
@@ -34,13 +45,18 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getQuotas();
-    this.checkAmount();
     this.personalCreditService.emitAmountChanges(MIN_AMOUNT);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.amountControl.firstChange) {
-
+    if (changes.cardLimit) {
+      if (this.cardLimit >= MIN_AMOUNT && this.cardLimit < CENTER_AMOUNT) {
+        this.amountSliderMax = Math.trunc(this.cardLimit / FIRST_STEP);
+      } else if (this.cardLimit >= CENTER_AMOUNT && this.cardLimit < MAX_AMOUNT) {
+        this.amountSliderMax = 20 + Math.trunc((this.cardLimit - CENTER_AMOUNT) / SECOND_STEP);
+      } else {
+        this.amountSliderMax = 20 + 4 + Math.trunc((this.cardLimit - MAX_AMOUNT) / THIRD_STEP);
+      }
     }
   }
 
@@ -60,40 +76,36 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
     this.globalRequestsService.getQuotas(1)
       .pipe(finalize(() => this.getPersonalCreditsSummaries()))
       .subscribe(response => {
-        const quotas = response.sort((a, b) => a - b);
-        this.termSliderMin = quotas[0];
-        this.termSliderMax = quotas[quotas.length - 1];
-        this.termSliderStep = this.termSliderMin === 3 ? 3 : 6;
-        this.termControl.setValue(this.termSliderMin);
-        this.changeTermSliderStep();
+        this.quotas = response.sort((a, b) => a - b);
+        this.termSliderDisplayMin = this.quotas[0];
+        this.termSliderMin = 1;
+        this.termSliderDisplayMax = this.quotas[this.quotas.length - 1];
+        this.termSliderMax = this.quotas.length;
+        this.termSliderDisplayValue = this.termSliderDisplayMin;
+        this.termControl.setValue(this.termSliderDisplayValue);
       });
   }
 
-  checkAmount() {
-    this.amountControl.valueChanges.subscribe(value => {
-      this.personalCreditService.emitAmountChanges(value);
-      this.getPersonalCreditsSummaries();
+  getAmount(sliderValue) {
+    let amount = 0;
 
-      if (value >= 100000 && value < 300000) {
-        this.sliderStep = 10000;
-      } else if (value >= 300000 && value < 1000000) {
-        this.sliderStep = 50000;
-      } else {
-        this.sliderStep = 100000;
-      }
-    });
+    if (sliderValue <= 20) {
+      amount = MIN_AMOUNT + (sliderValue * FIRST_STEP);
+    } else if (sliderValue > 20 && sliderValue <= 34) {
+      amount = CENTER_AMOUNT + (SECOND_STEP * (sliderValue - 20));
+    } else {
+      amount = MAX_AMOUNT + (THIRD_STEP * (sliderValue - 34));
+    }
+
+    this.amountControl.setValue(amount);
+    this.personalCreditService.emitAmountChanges(amount);
+    this.getPersonalCreditsSummaries();
   }
 
-  changeTermSliderStep() {
-    this.termControl.valueChanges.subscribe(value => {
-      this.selectPersonalCreditSummary();
-
-      if (value > 3) {
-        this.termSliderStep = 6;
-      } else {
-        this.termSliderStep = 3;
-      }
-    });
+  getQuota(sliderValue) {
+    this.termSliderDisplayValue = this.quotas[sliderValue - 1];
+    this.termControl.setValue(this.termSliderDisplayValue);
+    this.selectPersonalCreditSummary();
   }
 
   openSummary() {

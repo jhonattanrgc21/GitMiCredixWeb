@@ -1,0 +1,102 @@
+<mat-card class="personal-info-editor" credixCard fxLayout="column">
+  <h1>Editar datos personales</h1>
+
+  <form [formGroup]="personalInfoFormGroup" class="personal-info-editor__container">
+
+    <div class="personal-info-editor__content" fxLayout="row" fxLayoutAlign="space-between">
+      <span><strong>{{name}}</strong></span>
+
+      <div class="personal-info-editor__content__right-wrapper" fxLayout="column">
+
+        <credix-input-field [displayValue]="hideEmailMask ? personalInfoFormGroup.controls.email.value
+                             : personalInfoFormGroup.controls.email.value | emailMask"
+                            class="personal-info-editor__input" formControlName="email"
+                            label="Correo">
+          <div *ngIf="personalInfoFormGroup.controls.email.errors?.email" error>Correo electrónico inválido</div>
+        </credix-input-field>
+
+        <credix-input-field [displayValue]="hidePhoneNumberMask ? personalInfoFormGroup.controls.phoneNumber.value
+                             : personalInfoFormGroup.controls.phoneNumber.value | phoneMask"
+                            class="personal-info-editor__input" formControlName="phoneNumber"
+                            label="Teléfono"
+                            maxLength="8">
+          <div *ngIf="personalInfoFormGroup.controls.phoneNumber.errors?.minLength" error>Teléfono inválido</div>
+        </credix-input-field>
+
+        <credix-select class="personal-info-editor__select" formControlName="country" label="Nacionalidad">
+          <mat-option *ngFor="let country of countries" [value]="country.id">
+            {{ country.description }}
+          </mat-option>
+        </credix-select>
+
+        <credix-select class="personal-info-editor__select" formControlName="incomeType" label="Origen de ingresos">
+          <mat-option *ngFor="let incomeType of incomeTypes" [value]="incomeType.id">
+            {{ incomeType.description }}
+          </mat-option>
+        </credix-select>
+
+        <credix-select class="personal-info-editor__select" formControlName="occupation" label="Ocupación">
+          <mat-option *ngFor="let occupation of occupations" [value]="occupation.id">
+            {{ occupation.description }}
+          </mat-option>
+        </credix-select>
+      </div>
+    </div>
+
+    <mat-divider credixDivider></mat-divider>
+
+    <div class="personal-info-editor__content mt-16px" fxLayout="row" fxLayoutAlign="space-between">
+      <span><strong>Dirección</strong></span>
+
+      <div class="personal-info-editor__content__right-wrapper" fxLayout="column" fxLayoutGap="16px">
+
+        <credix-select class="personal-info-editor__select" formControlName="province" label="Provincia">
+          <mat-option *ngFor="let province of provinces" [value]="province.id">
+            {{ province.description }}
+          </mat-option>
+        </credix-select>
+
+        <credix-select class="personal-info-editor__select" formControlName="canton" label="Cantón">
+          <mat-option *ngFor="let canton of cantons" [value]="canton.id">
+            {{ canton.description }}
+          </mat-option>
+        </credix-select>
+
+        <credix-select class="personal-info-editor__select" formControlName="district" label="Distrito">
+          <mat-option *ngFor="let district of districts" [value]="district.id">
+            {{ district.description }}
+          </mat-option>
+        </credix-select>
+
+        <credix-textarea-field class="personal-info-editor__input" formControlName="addressDetail" label="Detalle">
+        </credix-textarea-field>
+
+      </div>
+    </div>
+
+    <mat-divider credixDivider></mat-divider>
+
+    <div class="personal-info-editor__content mt-16px" fxLayout="row" fxLayoutAlign="space-between">
+      <div class="personal-info-editor__content__left-wrapper" fxLayout="column">
+        <span><strong>Código MiCredix</strong></span>
+        <p>Ingrese el código generado en la aplicación
+          <credix-link-button text="Código MiCredix"></credix-link-button>
+          <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
+        </p>
+      </div>
+
+      <credix-code-input [(codeFormControl)]="personalInfoFormGroup.controls.code"
+                         class="personal-info-editor__content__right-wrapper"
+                         errorMessage="Código erroneo"></credix-code-input>
+    </div>
+
+    <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+      <credix-button (buttonClick)="goBack()" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="edit()"
+                     [disabled]="personalInfoFormGroup.invalid || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)"
+                     text="Editar">
+      </credix-button>
+    </div>
+
+  </form>
+</mat-card>

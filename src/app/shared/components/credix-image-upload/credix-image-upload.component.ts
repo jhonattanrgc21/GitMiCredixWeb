@@ -50,7 +50,8 @@ export class CredixImageUploadComponent implements OnInit {
     const file: File = imageInput.files[0];
     const reader = new FileReader();
     reader.addEventListener('load', (event: any) => {
-      this.imageChanged.emit({file: event.target.result, name: file.name, size: file.size, type: file.type});
+      this.imageChanged.emit({file: event.target.result, name: file.name, size: file.size, type: file.type.split('image/')[1]});
+      this.imageInput.nativeElement.value = '';
     });
     reader.readAsDataURL(file);
   }

@@ -10,7 +10,8 @@ import {MatIconModule} from '@angular/material/icon';
 const maskConfig: Partial<IConfig> = {
   validation: false,
   decimalMarker: ',',
-  thousandSeparator: '.'
+  thousandSeparator: '.',
+  specialCharacters: ['(', ')', '-', '*', '[', ']', ' ', '@', '"', '\'', '+', '.', ',', '=', '/']
 };
 
 @NgModule({
