@@ -2,11 +2,11 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {FormControl} from '@angular/forms';
 
 @Component({
-  selector: 'app-third-step',
-  templateUrl: './third-step.component.html',
-  styleUrls: ['./third-step.component.scss'],
+  selector: 'app-send-money-third-step',
+  templateUrl: './send-money-third-step.component.html',
+  styleUrls: ['./send-money-third-step.component.scss'],
 })
-export class ThirdStepComponent implements OnInit, OnChanges {
+export class SendMoneyThirdStepComponent implements OnInit, OnChanges {
   @Input() codeControl: FormControl = new FormControl(null);
   @Input() account;
   @Input() timeLimit: number;

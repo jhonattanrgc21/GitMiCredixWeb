@@ -16,13 +16,13 @@
 
     <div class="mt-16px mb-24px" fxLayout="row" fxLayoutAlign="space-between">
       <span>Nombre</span>
-      <span></span>
+      <span>{{newAccount?.message.Nombre}}</span>
     </div>
 
     <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event)" label="Guardar como favorito"
                             [checked]="isChecked"></credix-checkbox-button>
 
-    <credix-input-field class="add-account__form__input" formControlName="favName"
+    <credix-input-field *ngIf="showFavorite" class="add-account__form__input" formControlName="favName"
                         label="Nombre del favorito"></credix-input-field>
 
     <credix-button (click)="submit()" [disabled]="newAccountForm.invalid" class="add-account__form__button"

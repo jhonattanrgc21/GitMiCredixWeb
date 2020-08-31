@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SecondStepComponent} from './second-step.component';
+import {SendMoneyThirdStepComponent} from './send-money-third-step.component';
 
-describe('SecondStepComponent', () => {
-  let component: SecondStepComponent;
-  let fixture: ComponentFixture<SecondStepComponent>;
+describe('ThirdStepComponent', () => {
+  let component: SendMoneyThirdStepComponent;
+  let fixture: ComponentFixture<SendMoneyThirdStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SecondStepComponent]
+      declarations: [SendMoneyThirdStepComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SecondStepComponent);
+    fixture = TestBed.createComponent(SendMoneyThirdStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

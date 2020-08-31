@@ -3,27 +3,30 @@
 
   <credix-stepper #sendMoneyStepper class="send-money__stepper" *ngIf="!done">
     <cdk-step [stepControl]="informationForm" fxLayout="column" label="Información">
-      <app-first-step (currencyPrefixEvent)="currencyPrefix = $event"
-                      (typeDestinationEvent)="typeDestination = $event"
-                      [favoriteAccountControl]="informationForm.controls.account"></app-first-step>
+      <app-send-money-first-step (currencyPrefixEvent)="currencyPrefix = $event"
+                                 (typeDestinationEvent)="typeDestination = $event"
+                                 [favoriteAccountControl]="informationForm.controls.account"></app-send-money-first-step>
     </cdk-step>
 
     <cdk-step [stepControl]="amountAndQuotaForm" fxLayout="column" label="Monto y plazo">
-      <app-second-step [amountToSendControl]="amountAndQuotaForm.controls.amount"
-                       (commissionEmitEvent)="commission = $event"
-                       (commissionRateEmitEvent)="commissionRate = $event"
-                       (totalEmitEvent)="total = $event" [currencyCode]="currencyPrefix"
-                       [detailsControl]="amountAndQuotaForm.controls.detail"
-                       [quotasControl]="amountAndQuotaForm.controls.quotas">
-      </app-second-step>
+      <app-send-money-second-step (commissionEmitEvent)="commission = $event"
+                                  (commissionRateEmitEvent)="commissionRate = $event"
+                                  (totalEmitEvent)="total = $event"
+                                  [amountToSendControl]="amountAndQuotaForm.controls.amount"
+                                  [currencyCode]="currencyPrefix"
+                                  [detailsControl]="amountAndQuotaForm.controls.detail"
+                                  [quotasControl]="amountAndQuotaForm.controls.quotas">
+      </app-send-money-second-step>
     </cdk-step>
 
     <cdk-step [stepControl]="confirmForm" fxLayout="column" label="Confirmación">
-      <app-third-step [account]="informationForm.controls.account.value"
-                      [amount]="amountAndQuotaForm.controls.amount.value" [codeControl]="confirmForm.controls.code"
-                      [commissionRate]="commissionRate" [commission]="commission"
-                      [currencyPrefix]="currencyPrefix" [timeLimit]="amountAndQuotaForm.controls.quotas.value"
-                      [total]="total"></app-third-step>
+      <app-send-money-third-step [account]="informationForm.controls.account.value"
+                                 [amount]="amountAndQuotaForm.controls.amount.value"
+                                 [codeControl]="confirmForm.controls.code"
+                                 [commissionRate]="commissionRate" [commission]="commission"
+                                 [currencyPrefix]="currencyPrefix"
+                                 [timeLimit]="amountAndQuotaForm.controls.quotas.value"
+                                 [total]="total"></app-send-money-third-step>
     </cdk-step>
   </credix-stepper>
 

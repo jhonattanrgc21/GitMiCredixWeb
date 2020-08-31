@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ModalAddIbanComponent } from './modal-add-iban.component';
+import {ModalAddIbanComponent} from './modal-add-iban.component';
 
 describe('ModalAddIbanComponent', () => {
   let component: ModalAddIbanComponent;

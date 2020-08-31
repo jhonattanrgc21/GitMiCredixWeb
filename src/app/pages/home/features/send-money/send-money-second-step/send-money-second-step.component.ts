@@ -5,11 +5,11 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {ModalDetailsComponent} from './modal-details/modal-details.component';
 
 @Component({
-  selector: 'app-second-step',
-  templateUrl: './second-step.component.html',
-  styleUrls: ['./second-step.component.scss']
+  selector: 'app-send-money-second-step',
+  templateUrl: './send-money-second-step.component.html',
+  styleUrls: ['./send-money-second-step.component.scss']
 })
-export class SecondStepComponent implements OnInit {
+export class SendMoneySecondStepComponent implements OnInit {
   @Input() amountToSendControl: FormControl = new FormControl(null);
   @Input() quotasControl: FormControl = new FormControl(null);
   @Input() detailsControl: FormControl = new FormControl(null);
