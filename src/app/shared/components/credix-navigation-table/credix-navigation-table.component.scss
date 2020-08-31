@@ -1,4 +1,5 @@
 .navigation-table {
+
   &__header {
     height: 40px;
     background-color: #f0f0f0;
@@ -14,7 +15,6 @@
   }
 
   &__options {
-    height: calc(478px - 16px);
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -24,21 +24,6 @@
     border-bottom-right-radius: 8px;
     background-color: #ffffff;
     min-height: 478px;
-
-    &__date {
-      font-size: 14px;
-      color: #6F7071;
-    }
-
-    &__date-smaller {
-      font-size: 12px;
-      color: #6F7071;
-    }
-
-
-    &__subtitle3 {
-      font-size: 14px;
-    }
 
     &__left {
       border-right: 1px solid #e9e9e9;
@@ -77,6 +62,7 @@
     }
 
     &__icon {
+      width: 16px;
       color: #b5b5b5;
 
       &.is-selected {
@@ -94,16 +80,6 @@
       }
     }
 
-    &__label3 {
-      font-size: 16px;
-      color: #3e3e3e;
-
-      &.is-selected {
-        font-weight: bold;
-      }
-    }
-
-
     &__arrow {
       height: fit-content;
 
@@ -115,66 +91,4 @@
       }
     }
   }
-
-  &__content-right {
-    margin-left: 28px;
-
-    &__title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 24px;
-    }
-
-    &__subtitle {
-      font-weight: bold;
-    }
-
-    &__info-list {
-      list-style: none;
-      padding-left: 21px;
-      font-size: 14px;
-    }
-
-    &__option {
-      padding: 16px 0;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid #e9e9e9;
-      }
-    }
-  }
-
-
-  &__table3 {
-
-    margin: 16.5px 148px 0 148px;
-
-
-    &__title {
-      font-size: 16px;
-      font-weight: bold;
-    }
-  }
-}
-
-:host ::ng-deep.credix-link-button {
-  font-weight: normal !important;
-  vertical-align: super;
-}
-
-
-@media screen and (max-width: 1199px) {
-
-  .navigation-table {
-    &__table3 {
-      margin: 16px 86px 0 86px;
-    }
-
-    &__options {
-      height: calc(700px - 16px);
-
-    }
-  }
-
-
 }

@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {ConvertStringDateToDate} from '../../utils';
 
-
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'credix-navigation-table',
@@ -10,7 +9,10 @@ import {ConvertStringDateToDate} from '../../utils';
   styleUrls: ['./credix-navigation-table.component.scss'],
 })
 export class CredixNavigationTableComponent implements OnInit {
-  @Input() headers = ['', ''];
+  @Input() headers: { label: string, width: string }[] = [
+    {label: 'left', width: '25%'},
+    {label: 'right', width: '75%'},
+  ];
   @Input() options = [];
   @Input() type: string;
   @Output() optionEvent: EventEmitter<any> = new EventEmitter<any>();
