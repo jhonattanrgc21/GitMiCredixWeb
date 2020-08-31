@@ -8,10 +8,10 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
 
 @Component({
   selector: 'app-marchamo-first-step',
-  templateUrl: './first-step.component.html',
-  styleUrls: ['./first-step.component.scss']
+  templateUrl: './marchamo-first-step.component.html',
+  styleUrls: ['./marchamo-first-step.component.scss']
 })
-export class FirstStepComponent implements OnInit {
+export class MarchamoFirstStepComponent implements OnInit {
   vehicleTypes: VehicleType[];
   consultVehicle: ConsultVehicle;
   @Input() consultForm: FormGroup;

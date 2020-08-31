@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {FourStepMarchamoComponent} from './four-step-marchamo.component';
+import {MarchamoSecondStepComponent} from './marchamo-second-step.component';
 
-describe('FourStepMarchamoComponent', () => {
-  let component: FourStepMarchamoComponent;
-  let fixture: ComponentFixture<FourStepMarchamoComponent>;
+describe('SecondStepMarchamoComponent', () => {
+  let component: MarchamoSecondStepComponent;
+  let fixture: ComponentFixture<MarchamoSecondStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FourStepMarchamoComponent]
+      declarations: [MarchamoSecondStepComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FourStepMarchamoComponent);
+    fixture = TestBed.createComponent(MarchamoSecondStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

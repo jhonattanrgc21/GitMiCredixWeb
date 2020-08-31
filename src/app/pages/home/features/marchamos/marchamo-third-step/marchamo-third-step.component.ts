@@ -8,11 +8,11 @@ import {HttpService} from 'src/app/core/services/http.service';
 import {StorageService} from 'src/app/core/services/storage.service';
 
 @Component({
-  selector: 'app-thirsty-step-marchamo',
-  templateUrl: './thirsty-step-marchamo.component.html',
-  styleUrls: ['./thirsty-step-marchamo.component.scss']
+  selector: 'app-marchamo-third-step',
+  templateUrl: './marchamo-third-step.component.html',
+  styleUrls: ['./marchamo-third-step.component.scss']
 })
-export class ThirstyStepMarchamoComponent implements OnInit, OnChanges {
+export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   deliveryPlaces: DeliveryPlace[];
   radioButtonsChangedValue: number;
   newDeliveryOption: string;

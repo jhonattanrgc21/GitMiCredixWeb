@@ -14,20 +14,20 @@
     </cdk-step>
 
     <cdk-step [label]="'Seguros y cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
-      <app-second-step-marchamo [isActive]="(stepperIndex === 1)"
-                                [secureAndQuotesForm]="secureAndQuotesForm"></app-second-step-marchamo>
+      <app-marchamo-second-step [isActive]="(stepperIndex === 1)"
+                                [secureAndQuotesForm]="secureAndQuotesForm"></app-marchamo-second-step>
     </cdk-step>
 
     <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
-      <app-thirsty-step-marchamo
+      <app-marchamo-third-step
         [isActive]="(stepperIndex === 2)"
-        [pickUpForm]="pickUpForm"></app-thirsty-step-marchamo>
+        [pickUpForm]="pickUpForm"></app-marchamo-third-step>
     </cdk-step>
 
     <cdk-step [label]="'Confirmar'" [stepControl]="confirmForm">
-      <app-four-step-marchamo
+      <app-marchamo-four-step
         [confirmForm]="confirmForm"
-        [isActive]="(stepperIndex === 3)"></app-four-step-marchamo>
+        [isActive]="(stepperIndex === 3)"></app-marchamo-four-step>
     </cdk-step>
 
   </credix-stepper>
@@ -58,5 +58,7 @@
       [responseResultPay]="responseResultPay"
       [resultPay]="responseToPay">
     </result-pay-resume>
+
   </mat-card>
+
 </ng-template>

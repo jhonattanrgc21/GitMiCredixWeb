@@ -11,11 +11,11 @@ import {StorageService} from 'src/app/core/services/storage.service';
 import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
 
 @Component({
-  selector: 'app-second-step-marchamo',
-  templateUrl: './second-step-marchamo.component.html',
-  styleUrls: ['./second-step-marchamo.component.scss']
+  selector: 'app-marchamo-second-step',
+  templateUrl: './marchamo-second-step.component.html',
+  styleUrls: ['./marchamo-second-step.component.scss']
 })
-export class SecondStepMarchamoComponent implements OnInit, OnChanges {
+export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   @Input() secureAndQuotesForm = new FormGroup({
     additionalProducts: new FormArray([]),
     quota: new FormControl(null),

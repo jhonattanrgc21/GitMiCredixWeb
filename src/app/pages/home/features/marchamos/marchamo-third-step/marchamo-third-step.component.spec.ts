@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ThirstyStepMarchamoComponent} from './thirsty-step-marchamo.component';
+import {MarchamoThirdStepComponent} from './marchamo-third-step.component';
 
 describe('ThirstyStepMarchamoComponent', () => {
-  let component: ThirstyStepMarchamoComponent;
-  let fixture: ComponentFixture<ThirstyStepMarchamoComponent>;
+  let component: MarchamoThirdStepComponent;
+  let fixture: ComponentFixture<MarchamoThirdStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ThirstyStepMarchamoComponent]
+      declarations: [MarchamoThirdStepComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ThirstyStepMarchamoComponent);
+    fixture = TestBed.createComponent(MarchamoThirdStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
