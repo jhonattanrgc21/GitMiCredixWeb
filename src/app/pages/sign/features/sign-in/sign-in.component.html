@@ -22,10 +22,10 @@
     </form>
 
     <span class="sign-in__card__sign-up-span">¿Nuevo en MiCredix?
-      <credix-link-button (click)="open('sign-up')" text="¡Regístrese aquí!"></credix-link-button>
+      <credix-link-button (click)="open('sign-up')">¡Regístrese aquí!</credix-link-button>
     </span>
 
-    <credix-link-button (click)="open('forgot-pass')" text="¿Olvidó su clave?"></credix-link-button>
+    <credix-link-button (click)="open('forgot-pass')">¿Olvidó su clave?</credix-link-button>
   </mat-card>
 
 </div>
@@ -60,7 +60,7 @@
 
     <div class="w-100" fxLayout="column" fxLayoutAlign="center center">
       <span>¿No ha recibido el código?</span>
-      <credix-link-button (click)="forwardOtp()" text="Enviar nuevamente"></credix-link-button>
+      <credix-link-button (click)="forwardOtp()">Enviar nuevamente</credix-link-button>
     </div>
 
 

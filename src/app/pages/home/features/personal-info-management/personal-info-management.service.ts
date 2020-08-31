@@ -4,7 +4,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 
 @Injectable()
 export class PersonalInfoManagementService {
-  private saveApplicantProfilePhotoUri = 'applicant/saveProfilePhotoApplicant';
+  private readonly saveApplicantProfilePhotoUri = 'applicant/saveProfilePhotoApplicant';
   applicantInfo: {
     email: string;
     phoneNumber: string;

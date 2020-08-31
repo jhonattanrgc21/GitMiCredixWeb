@@ -7,9 +7,9 @@ import {StorageService} from '../../../../core/services/storage.service';
 
 @Injectable()
 export class PersonalCreditService {
-  private personalCreditCommissionUri = 'customerservice/personalcreditcommission';
-  private savePersonalCreditUri = 'customerservice/savePersonalCredit';
-  private getIbanAccountInfoUri = 'account/getinformationibanaccount';
+  private readonly personalCreditCommissionUri = 'customerservice/personalcreditcommission';
+  private readonly savePersonalCreditUri = 'customerservice/savePersonalCredit';
+  private readonly getIbanAccountInfoUri = 'account/getinformationibanaccount';
   private personalCreditSummaryChangedSub: Subject<any> = new Subject<any>();
   private amountChangedSub: Subject<any> = new Subject<any>();
 
@@ -58,11 +58,7 @@ export class PersonalCreditService {
   }
 
   getPersonalCreditsSummaries(amount: number, typeId: number = 2) {
-    return this.httpService.post('canales', this.personalCreditCommissionUri,
-      {
-        typeId,
-        amount
-      })
+    return this.httpService.post('canales', this.personalCreditCommissionUri, {typeId, amount})
       .pipe(
         map(response => {
           if (response.type === 'success') {
