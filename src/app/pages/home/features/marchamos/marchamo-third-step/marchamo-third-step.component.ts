@@ -139,10 +139,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
         this.newDirection();
       }
     }
-
-
   }
-
 
   newDirectionChecked(event) {
     if (event.value === 'newDirection' && event.checked) {

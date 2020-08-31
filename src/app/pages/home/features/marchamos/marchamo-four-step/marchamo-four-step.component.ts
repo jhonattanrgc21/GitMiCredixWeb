@@ -35,20 +35,25 @@ export class MarchamoFourStepComponent implements OnInit, OnChanges {
     this.marchamosService.ivaAndCommission.subscribe(value => {
       this.ivaAndCommission = {iva: value.iva, commission: value.commission};
     });
+
     this.marchamosService.domicileDescription.subscribe(value => {
       this.contactConfirm = {name: value.name, phone: value.number, email: value.email};
       this.place = {placeDescription: value.detail};
     });
+
     this.marchamosService.newDeliveryDirection.subscribe(value => {
       this.contactConfirm = {name: value.personReceive, phone: value.phoneNumber, email: value.email};
       this.place = {placeDescription: value.exactlyDirection};
     });
+
     this.marchamosService.pickUpStoreId.subscribe(value => {
       this.pickUpStoreById(value.pickUpId);
     });
+
     this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
       this.totalAmount = value.consultVehicle.amount;
     });
+
     this.marchamosService.amountItemsProducts.subscribe(value => {
       this.amountTotalProducts =
         this.amountTotalProducts + value.moreProtectionAmount + value.responsabilityCivilAmount + value.roadAsistanceAmount;
