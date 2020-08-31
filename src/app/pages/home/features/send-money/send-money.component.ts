@@ -134,6 +134,8 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
         this.toastService.show({text, type});
         if (res.type === 'success') {
           this.done = true;
+        } else {
+          this.selectedIndex = 2;
         }
       });
   }
@@ -160,8 +162,8 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
           if (this.informationForm.controls.account.value.favName) {
             this.saveNewAccount();
           }
-          this.sendMoney();
 
+          this.sendMoney();
         } else {
           this.selectedIndex = 2;
         }

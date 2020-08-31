@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {SendMoneyService} from '../send-money.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {ModalDetailsComponent} from './modal-details/modal-details.component';
+import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 
 @Component({
   selector: 'app-send-money-second-step',
@@ -17,16 +18,21 @@ export class SendMoneySecondStepComponent implements OnInit {
   @Output() commissionRateEmitEvent = new EventEmitter();
   @Output() commissionEmitEvent = new EventEmitter();
   @Output() totalEmitEvent = new EventEmitter();
-  listQuotas = [];
+  quotas = [];
   quotaAmountView = 0;
-  maxQuota = 0;
-  minQuota = 0;
+  quotaSliderStep = 1;
+  quotaSliderMin = 3;
+  quotaSliderMax = 12;
+  quotaSliderDisplayMin = 1;
+  quotaSliderDisplayMax = 12;
+  quotaSliderDisplayValue = 0;
   total = 0;
-  stepQuota = 0;
   commission = 0;
   quotaDetail = {commissionRate: 0, quota: 0, description: '', id: 1};
 
-  constructor(private sendMoneyService: SendMoneyService, private modalService: ModalService) {
+  constructor(private sendMoneyService: SendMoneyService,
+              private globalRequestsService: GlobalRequestsService,
+              private modalService: ModalService) {
   }
 
   ngOnInit(): void {
@@ -44,7 +50,7 @@ export class SendMoneySecondStepComponent implements OnInit {
   }
 
   change() {
-    this.quotaDetail = this.listQuotas.find(
+    this.quotaDetail = this.quotas.find(
       (elem) => elem.quota === this.quotasControl.value
     );
     this.commission = this.amountToSendControl.value * (this.quotaDetail?.commissionRate / 100);
@@ -63,13 +69,20 @@ export class SendMoneySecondStepComponent implements OnInit {
   }
 
   getQuotas() {
-    this.sendMoneyService.getQuotaByProduct().subscribe(listQuotas => {
-      this.listQuotas = listQuotas;
-      const length = listQuotas.length;
-      this.minQuota = listQuotas[0].quota;
-      this.maxQuota = listQuotas[length - 1].quota;
-      this.stepQuota = listQuotas[1].quota - listQuotas[0].quota;
+    this.globalRequestsService.getQuotas(3).subscribe(quotas => {
+      this.quotas = quotas.sort((a, b) => a - b);
+      this.quotaSliderDisplayMin = this.quotas[0];
+      this.quotaSliderMin = 1;
+      this.quotaSliderDisplayMax = this.quotas[this.quotas.length - 1];
+      this.quotaSliderMax = this.quotas.length;
+      this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
+      this.quotasControl.setValue(this.quotaSliderDisplayValue);
     });
+  }
+
+  getQuota(sliderValue) {
+    this.quotaSliderDisplayValue = this.quotas[sliderValue - 1];
+    this.quotasControl.setValue(this.quotaSliderDisplayValue);
   }
 
   openDetails() {

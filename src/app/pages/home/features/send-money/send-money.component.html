@@ -12,8 +12,8 @@
       <app-send-money-second-step (commissionEmitEvent)="commission = $event"
                                   (commissionRateEmitEvent)="commissionRate = $event"
                                   (totalEmitEvent)="total = $event"
-                                  [amountToSendControl]="amountAndQuotaForm.controls.amount"
                                   [currencyCode]="currencyPrefix"
+                                  [amountToSendControl]="amountAndQuotaForm.controls.amount"
                                   [detailsControl]="amountAndQuotaForm.controls.detail"
                                   [quotasControl]="amountAndQuotaForm.controls.quotas">
       </app-send-money-second-step>
