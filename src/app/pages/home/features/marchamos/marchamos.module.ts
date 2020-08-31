@@ -24,21 +24,16 @@ import {CredixNumericBlockModule} from 'src/app/shared/components/credix-numeric
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixShareButtonModule} from 'src/app/shared/components/credix-share-button/credix-share-button.module';
 import {NgxMaskModule} from 'ngx-mask';
-import {FirstStepComponent} from './first-step/first-step.component';
+import {MarchamoFirstStepComponent} from './marchamo-first-step/marchamo-first-step.component';
 import {CredixSelectModule} from 'src/app/shared/components/credix-select/credix-select.module';
 import {CredixInputFieldModule} from 'src/app/shared/components/credix-input-field/credix-input-field.module';
-import {ConsultInformationComponent} from './consult-information/consult-information.component';
-import {SecondStepMarchamoComponent} from './second-step-marchamo/second-step-marchamo.component';
-import {SecondStepOptionalInsurancesComponent} from './second-step-optional-insurances/second-step-optional-insurances.component';
-import {SecondStepQuotesComponent} from './second-step-quotes/second-step-quotes.component';
-import {ThirstyStepEmailRegisteredComponent} from './thirsty-step-email-registered/thirsty-step-email-registered.component';
-import {ThirstyStepPlaceOfRetreatComponent} from './thirsty-step-place-of-retreat/thirsty-step-place-of-retreat.component';
-import {FourStepConfirmContactComponent} from './four-step-confirm-contact/four-step-confirm-contact.component';
-import {FourStepConfirmPayResumeComponent} from './four-step-confirm-pay-resume/four-step-confirm-pay-resume.component';
+import {MarchamoSecondStepComponent} from './marchamo-second-step/marchamo-second-step.component';
 import {ResultPayResumeComponent} from './result-pay-resume/result-pay-resume.component';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {MarchamosService} from './marchamos.service';
+import {MarchamoThirdStepComponent} from './marchamo-third-step/marchamo-third-step.component';
+import {MarchamoFourStepComponent} from './marchamo-four-step/marchamo-four-step.component';
 
 const routes: Routes = [
   {
@@ -53,16 +48,11 @@ const routes: Routes = [
     PopupMarchamosDetailComponent,
     PopupMarchamosNewDirectionComponent,
     PopupMarchamosPayResumeComponent,
-    FirstStepComponent,
-    ConsultInformationComponent,
-    SecondStepMarchamoComponent,
-    SecondStepOptionalInsurancesComponent,
-    SecondStepQuotesComponent,
-    ThirstyStepEmailRegisteredComponent,
-    ThirstyStepPlaceOfRetreatComponent,
-    FourStepConfirmContactComponent,
-    FourStepConfirmPayResumeComponent,
-    ResultPayResumeComponent
+    MarchamoFirstStepComponent,
+    MarchamoSecondStepComponent,
+    ResultPayResumeComponent,
+    MarchamoThirdStepComponent,
+    MarchamoFourStepComponent
   ],
   entryComponents: [MarchamosComponent],
   imports: [

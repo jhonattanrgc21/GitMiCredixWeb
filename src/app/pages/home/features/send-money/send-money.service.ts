@@ -4,10 +4,10 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class SendMoneyService {
-  getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
-  getQuotaByProductUri = 'customerservice/listquotabyproduct';
-  sendMoneyUri = 'channels/senddirect';
-
+  private readonly getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
+  private readonly getQuotaByProductUri = 'customerservice/listquotabyproduct';
+  private readonly sendMoneyUri = 'channels/senddirect';
+  private readonly getAccountByIbanNumberUri = 'account/getinformationibanaccount';
 
   constructor(private httpService: HttpService) {
   }
@@ -74,6 +74,16 @@ export class SendMoneyService {
         trsId: 1,
         credixCode
       });
+  }
+
+  getAccountByIbanNumber(identification, ibanAccount, currencyValidationTag) {
+    return this.httpService.post('canales', this.getAccountByIbanNumberUri, {
+      channelId: 102,
+      identification,
+      ibanAccount,
+      currencyValidationTag,
+      bankValidationTag: 1
+    });
   }
 
 }

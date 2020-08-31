@@ -1,0 +1,30 @@
+.buy-without-card {
+  width: 877px;
+  height: 662px;
+  border-radius: 8px;
+  position: relative;
+
+  &__card-select {
+    margin-top: 32.5px;
+
+    &.select {
+      margin-top: -24px;
+      width: 379px;
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #E9E9E9;
+    padding: 16px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .buy-without-card {
+    height: 886px;
+  }
+}

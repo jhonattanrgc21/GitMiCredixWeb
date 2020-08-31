@@ -66,3 +66,16 @@
   }
 
 }
+
+@media screen and (max-width: 1199px) {
+  .credix-stepper {
+
+    &__nav-bar__step {
+
+      &:not(:last-of-type) {
+        margin-right: 38px;
+      }
+    }
+  }
+
+}
