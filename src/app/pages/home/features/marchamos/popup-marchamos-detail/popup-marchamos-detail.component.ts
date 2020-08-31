@@ -17,7 +17,6 @@ export class PopupMarchamosDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
     this.billingHistorys = this.data.data;
     this.calculateTotalAmount();
   }
@@ -25,7 +24,6 @@ export class PopupMarchamosDetailComponent implements OnInit {
   calculateTotalAmount() {
     this.billingHistorys.forEach(values => {
       this.totalAmount = this.totalAmount + values.itemCurrentAmount;
-      console.log(this.totalAmount);
     });
   }
 

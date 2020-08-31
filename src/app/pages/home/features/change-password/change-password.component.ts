@@ -84,7 +84,6 @@ export class ChangePasswordComponent implements OnInit {
         passwordConfirmation: CryptoJS.SHA256(this.changePasswordForm.get('password').value),
       })
       .subscribe((resp) => {
-        console.log();
         this.showResponse = true;
         this.respTitle = resp.titleOne;
         this.resType = resp.type;

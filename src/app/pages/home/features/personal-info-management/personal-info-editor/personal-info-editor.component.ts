@@ -116,7 +116,6 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
   }
 
   getCanton(provinceId: number) {
-    console.log(1);
     this.globalRequestsService.getCantons(provinceId).subscribe(cantons => this.cantons = cantons);
   }
 
