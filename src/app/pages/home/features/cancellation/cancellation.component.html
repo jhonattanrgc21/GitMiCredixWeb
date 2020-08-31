@@ -113,7 +113,7 @@
     <div class="cancellation__footer mt-16px" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
       <credix-button (buttonClick)="cancel()" [disabled]="empty || !this.selection.selected.length" text="Aplicar" *ngIf="!showResponse">
       </credix-button>
-      <credix-button (buttonClick)="done()" [disabled]="disableButton" text="Listo" *ngIf="showResponse">
+      <credix-button (buttonClick)="done()" text="Listo" *ngIf="showResponse">
       </credix-button>
     </div>
   </mat-card>

@@ -4,7 +4,6 @@ import { TableElement } from "../../../../shared/models/table.model";
 import { Router } from "@angular/router";
 import { SelectionModel } from "@angular/cdk/collections";
 import { ConvertStringDateToDate } from "../../../../shared/utils";
-import { SlicePipe } from "@angular/common";
 
 @Component({
   selector: "app-cancellation",
@@ -48,10 +47,7 @@ export class CancellationComponent implements OnInit {
   constructor(private httpService: HttpService, private router: Router) {}
 
   ngOnInit(): void {
-    //this.checkFuntionallity();
-    this.getOptionsToCancel();
-    this.balance = this.balanceC;
-    this.dataSource = this.quotasToCancel;
+    this.checkFuntionallity();
   }
 
   tabSelected(tab) {
@@ -74,7 +70,6 @@ export class CancellationComponent implements OnInit {
         channelId: 102,
       })
       .subscribe((res) => {
-        console.log(res);
         if (res.titleOne !== "Éxito") {
           this.showResponse = true;
           this.errorTitle = res.titleOne;
@@ -82,18 +77,17 @@ export class CancellationComponent implements OnInit {
           this.showSuccess = false;
         } else {
           this.showResponse = false;
-          //this.getOptionsToCancel();
+          this.getOptionsToCancel();
         }
       });
   }
 
   getOptionsToCancel() {
-    /*this.httpService
+    this.httpService
       .post("canales", "account/pendingquotes", {
         channelId: 102,
       })
       .subscribe((res) => {
-        console.log(res);
         if (res.type === "success") {
           this.balanceC = this.changeFormat(res.SaldoDisponibleColones);
           this.balanceD = this.changeFormat(res.SaldoDisponibleDolares);
@@ -131,77 +125,7 @@ export class CancellationComponent implements OnInit {
         } else {
           this.empty = true;
         }
-      });*/
-    this.balanceC = this.changeFormat("695.522,81");
-    this.balanceD = this.changeFormat("0,00");
-    this.quotasToCancel$ = [
-      ...this.quotasToCancel$,
-      {
-        id: 1,
-        quotas: 2,
-        currencyId: 188,
-        date: "2020-01-25",
-        commerce: "CUOTIFICACION",
-        amount: "695.522,81",
-        rate: 0,
-        pdvId: 17825,
-      },
-      {
-        id: 2,
-        quotas: 2,
-        currencyId: 188,
-        date: "2020-01-25",
-        commerce: "CUOTIFICACION",
-        amount: "12.221,881",
-        rate: 0,
-        pdvId: 17825,
-      },
-      {
-        id: 3,
-        quotas: 2,
-        currencyId: 188,
-        date: "2020-01-25",
-        commerce: "CUOTIFICACION",
-        amount: "700.522,81",
-        rate: 0,
-        pdvId: 17825,
-
-      },
-    ]
-    this.quotasToCancel = [
-        ...this.quotasToCancel,
-        {
-          id: 1,
-          quotas: 2,
-          currencyId: 188,
-          date: "2020-01-25",
-          commerce: "CUOTIFICACION",
-          amount: "695.522,81",
-          rate: 0,
-          pdvId: 17825,
-        },
-        {
-          id: 2,
-          quotas: 2,
-          currencyId: 188,
-          date: "2020-01-25",
-          commerce: "CUOTIFICACION",
-          amount: "12.221,881",
-          rate: 0,
-          pdvId: 17825,
-        },
-        {
-          id: 3,
-          quotas: 2,
-          currencyId: 188,
-          date: "2020-01-25",
-          commerce: "CUOTIFICACION",
-          amount: "700.522,81",
-          rate: 0,
-          pdvId: 17825,
-
-        },
-      ];
+      });
   }
 
   cancel() {
@@ -228,7 +152,6 @@ export class CancellationComponent implements OnInit {
         advancePaymentList: this.paymentList,
       })
       .subscribe((resp) => {
-        console.log(resp);
         this.showResponse = true;
         if (resp.type === "success") {
           this.showSuccess = true;
