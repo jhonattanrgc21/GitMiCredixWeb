@@ -8,7 +8,7 @@
   <div class="navigation-table__content" fxLayout="row">
     <ngx-simplebar [ngClass]="type == '3' ? 'w-30': 'w-25'" [options]="optionsScroll" class="navigation-table__options"
                    fxLayout="column">
-      <div class="navigation-table__content__left w-100">
+      <div class="navigation-table__content__left">
         <button (click)="optionClick(option)" *ngFor="let option of options" class="navigation-table__option">
           <div *ngIf="!option.img && option.icon">
             <mat-icon [class.is-selected]="optionSelected.id  == option.id" [svgIcon]="option.icon"
