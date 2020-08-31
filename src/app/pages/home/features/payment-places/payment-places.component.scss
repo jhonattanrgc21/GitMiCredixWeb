@@ -55,13 +55,17 @@
             padding-right: 16px;
           }
 
-          button {
+          a {
             width: auto;
             height: 20px;
             line-height: 1 !important;
             background: none;
             border: none;
             padding: 0;
+
+            &:hover {
+              cursor: pointer;
+            }
 
             mat-icon {
               color: #e42313;

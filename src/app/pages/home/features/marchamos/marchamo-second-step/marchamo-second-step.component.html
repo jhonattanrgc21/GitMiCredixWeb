@@ -45,11 +45,16 @@
     <div class="mb-32px" fxLayout="row">
       <span class="first-column"><strong>Coutas</strong></span>
 
-      <credix-slider (valueChange)="onSliderChanged($event)" [instructions]="'Deseo dividir este pago en'"
-                     [max]="max"
-                     [min]="min"
-                     [step]="quotaValue"
-                     [units]="'Cuotas'"
+      <credix-slider (inputChange)="getQuota($event)"
+                     (valueChange)="getQuota($event)"
+                     [displayMax]="quotaSliderDisplayMax"
+                     [displayMin]="quotaSliderDisplayMin"
+                     [displayValue]="quotaSliderDisplayValue"
+                     [instructions]="'Deseo dividir este pago en'"
+                     [max]="quotaSliderMax"
+                     [min]="quotaSliderMin"
+                     [step]="quotaSliderStep"
+                     [units]="'cuotas'"
                      [value]="this.secureAndQuotesForm.controls.quota.value"
                      class="second-column"></credix-slider>
 

@@ -24,24 +24,6 @@ export class SendMoneyService {
     );
   }
 
-  getQuotaByProduct() {
-    return this.httpService
-      .post('canales', this.getQuotaByProductUri, {
-        channelId: 102,
-        productId: 3,
-      })
-      .pipe(
-        map((response) => {
-          if (response.type === 'success' && response.listQuota) {
-            return response.listQuota;
-          } else {
-            return [];
-          }
-        })
-      );
-  }
-
-
   addFavAccount(name, account, identType, ident, code) {
     return this.httpService.post('canales', 'iban/saveFavoriteAccountIBAN', {
       aliasName: name,

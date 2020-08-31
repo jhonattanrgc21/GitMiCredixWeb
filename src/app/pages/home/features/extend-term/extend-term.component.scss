@@ -1,0 +1,105 @@
+.hideNavTableContent {
+  ::ng-deep.navigation-table__content {
+    display: none !important;
+  }
+}
+
+.extend-term {
+  height: 662px;
+  position: relative;
+
+  h1 {
+    margin-bottom: 6px;
+  }
+
+  ::ng-deep.navigation-table__header {
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-top: 30px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  &__succResp {
+    margin-top: 27px;
+    margin-bottom: 27px;
+  }
+
+  &__divider {
+    margin-right: 199px;
+    margin-left: 199px;
+  }
+
+  &__data-info {
+    margin: 24.5px 220.5px 63px 220.5px;
+
+    &__text {
+      font-size: 16px;
+      font-weight: bold;
+      color: #3e3e3e;
+    }
+
+    &__row {
+      width: 208px;
+      padding-bottom: 10px;
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #e9e9e9;
+    padding: 16px;
+  }
+
+  &__footer1 {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 16px;
+  }
+}
+
+:host ::ng-deep.navigation-table__option {
+  padding: 16px 0px 16px 0 !important;
+}
+
+:host ::ng-deep.navigation-table__content {
+  margin-right: -16px;
+  margin-left: -16px;
+}
+
+:host ::ng-deep.credix-result-notification {
+  h2 {
+    width: 286px;
+  }
+}
+
+:host ::ng-deep.navigation-table__option__arrow {
+  position: relative;
+  bottom: 16px;
+}
+
+@media screen and (max-width: 1199px) {
+  .extend-term {
+    height: 886px;
+
+    &__succResp {
+      margin-top: 133px;
+      margin-bottom: 133px;
+    }
+
+    &__divider {
+      margin-right: 129px;
+      margin-left: 129px;
+    }
+
+    &__data-info {
+      margin: 24px 150.5px 90px 150.5px;
+    }
+  }
+
+}

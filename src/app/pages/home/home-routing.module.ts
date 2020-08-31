@@ -54,6 +54,19 @@ const routes: Routes = [
       {
         path: 'buy-without-card',
         loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule)
+      },
+      {
+        path: 'public-services',
+        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
+      },
+      {
+        path: 'anticipated-cancellation',
+        loadChildren: () => import('./features/anticipated-cancellation/anticipated-cancellation.module.js')
+          .then(m => m.AnticipatedCancellationModule)
+      },
+      {
+        path: 'extend-term',
+        loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule)
       }
     ]
   }

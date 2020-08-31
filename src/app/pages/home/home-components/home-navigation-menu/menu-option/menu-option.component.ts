@@ -27,6 +27,7 @@ export class MenuOptionComponent implements OnInit {
     this.goHomeService.goHomeObs.subscribe(() => {
       this.openSubmenu = false;
       this.activeSubmenu = 0;
+      this.preActiveMenu = 0;
       this.activeMenu = 1;
     });
 
@@ -61,7 +62,7 @@ export const menus: Menu[] = [
   },
   {
     id: 2, name: 'Pagar', submenus: [
-      {id: 1, name: 'Servicios', route: '/home', icon: 'public_services'},
+      {id: 1, name: 'Servicios', route: '/home/public-services', icon: 'public_services'},
       {id: 2, name: 'Pagar tarjeta', route: '/home', icon: 'pay'},
       {id: 3, name: 'Marchamo', route: '/home/marchamos', icon: 'car'},
       {id: 4, name: 'Enviar dinero', route: '/home/send-money', icon: 'transfer'},
@@ -73,8 +74,8 @@ export const menus: Menu[] = [
     id: 3, name: 'Productos', submenus: [
       {id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit'},
       {id: 8, name: 'Compra sin tarjeta', route: '/home', icon: 'code'},
-      {id: 9, name: 'Ampliar plazo de compra', route: '/home', icon: 'anticipated_canc'},
-      {id: 10, name: 'Cancelación anticipada', route: '/home', icon: 'anticipated_canc'}
+      {id: 9, name: 'Ampliar plazo de compra', route: '/home/extend-term', icon: 'anticipated_canc'},
+      {id: 10, name: 'Cancelación anticipada', route: '/home/anticipated-cancellation', icon: 'anticipated_canc'}
     ]
   },
   {

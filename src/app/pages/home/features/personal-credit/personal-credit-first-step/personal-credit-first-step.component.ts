@@ -6,6 +6,7 @@ import {GlobalRequestsService} from '../../../../../core/services/global-request
 import {PersonalCreditSummary} from '../../../../../shared/models/personal-credit-summary';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {finalize} from 'rxjs/operators';
+import {Quota} from '../../../../../shared/models/quota';
 
 const MIN_AMOUNT = 100000;
 const CENTER_AMOUNT = 300000;
@@ -27,7 +28,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   personalCreditSummary: PersonalCreditSummary;
   personalCreditsSummaries: PersonalCreditSummary[];
   ivaAmount = 0;
-  quotas: number[] = [];
+  quotas: Quota[] = [];
   amountSliderStep = 1;
   amountSliderMin = 0;
   amountSliderMax = 1;
@@ -76,10 +77,10 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
     this.globalRequestsService.getQuotas(1)
       .pipe(finalize(() => this.getPersonalCreditsSummaries()))
       .subscribe(response => {
-        this.quotas = response.sort((a, b) => a - b);
-        this.termSliderDisplayMin = this.quotas[0];
+        this.quotas = response.sort((a, b) => a.quota - b.quota);
+        this.termSliderDisplayMin = this.quotas[0].quota;
         this.termSliderMin = 1;
-        this.termSliderDisplayMax = this.quotas[this.quotas.length - 1];
+        this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quota;
         this.termSliderMax = this.quotas.length;
         this.termSliderDisplayValue = this.termSliderDisplayMin;
         this.termControl.setValue(this.termSliderDisplayValue);
@@ -87,7 +88,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   }
 
   getAmount(sliderValue) {
-    let amount = 0;
+    let amount: number;
 
     if (sliderValue <= 20) {
       amount = MIN_AMOUNT + (sliderValue * FIRST_STEP);
@@ -103,7 +104,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   }
 
   getQuota(sliderValue) {
-    this.termSliderDisplayValue = this.quotas[sliderValue - 1];
+    this.termSliderDisplayValue = this.quotas[sliderValue - 1].quota;
     this.termControl.setValue(this.termSliderDisplayValue);
     this.selectPersonalCreditSummary();
   }

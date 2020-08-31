@@ -9,6 +9,8 @@ import {PopupMarchamosPayResumeComponent} from '../popup-marchamos-pay-resume/po
 import {MarchamosService} from '../marchamos.service';
 import {StorageService} from 'src/app/core/services/storage.service';
 import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
+import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
+import {Quota} from '../../../../../shared/models/quota';
 
 @Component({
   selector: 'app-marchamo-second-step',
@@ -27,12 +29,15 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
   isChecked = false;
-  max = 0;
-  min = 0;
-  quotaValue = 1;
   step = 0;
   showQuotaPaymentSelect = false;
-  quotas = [];
+  quotas: Quota[] = [];
+  quotaSliderStep = 1;
+  quotaSliderMin = 3;
+  quotaSliderMax = 12;
+  quotaSliderDisplayMin = 1;
+  quotaSliderDisplayMax = 12;
+  quotaSliderDisplayValue = 0;
   amountPerQuota = 0;
   commission = 0;
   iva = 0;
@@ -109,8 +114,9 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     }
   ];
 
-  constructor(private httpService: HttpService,
-              private marchamosService: MarchamosService,
+  constructor(private marchamosService: MarchamosService,
+              private globalRequestsService: GlobalRequestsService,
+              private httpService: HttpService,
               private modalService: ModalService,
               private storageService: StorageService) {
   }
@@ -129,9 +135,9 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.isActive && this.isActive) {
       this.getQuotasByProduct();
+      this.getOwnersPayerInfo();
       this.marchamosService.emitAmountItemsProducts(this.amountItemsProducts.responsabilityCivilAmount,
         this.amountItemsProducts.roadAsistanceAmount, this.amountItemsProducts.moreProtectionAmount);
-      this.getOwnersPayerInfo();
     }
   }
 
@@ -201,26 +207,26 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   getQuotasByProduct() {
-    this.httpService.post('canales', 'customerservice/listquotabyproduct', {channelId: 102, productId: 2})
-      .subscribe(response => {
-        this.quotas = response.listQuota;
-        const length = response.listQuota.length;
-        this.min = response.listQuota[0].quota;
-        this.max = response.listQuota[length - 1].quota;
-        this.step = response.listQuota[1].quota - response.listQuota[0].quota;
-        this.showQuotaPaymentSelect = this.min > 1;
-        this.secureAndQuotesForm.controls.quota.setValue(this.min);
-        this.secureAndQuotesForm.controls.quotaId.setValue(response.listQuota[0].id);
-        this.computeAmountPerQuota(this.min);
-      });
+    this.globalRequestsService.getQuotas(2).subscribe(quotas => {
+      this.quotas = quotas.sort((a, b) => a.quota - b.quota);
+      this.quotaSliderDisplayMin = this.quotas[0].quota;
+      this.quotaSliderMin = 1;
+      this.quotaSliderDisplayMax = this.quotas[this.quotas.length - 1].quota;
+      this.quotaSliderMax = this.quotas.length;
+      this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
+      this.showQuotaPaymentSelect = this.quotaSliderDisplayMin > 1;
+      this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayValue);
+      this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[0].id);
+      this.computeAmountPerQuota(this.quotaSliderDisplayMin);
+    });
   }
 
-  onSliderChanged(value) {
-    this.secureAndQuotesForm.controls.quota.setValue(value);
-    this.showQuotaPaymentSelect = value > 1;
-    this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas.find(element => element.quota === value).id);
-    this.getCommission(this.quotas.find(element => element.quota === value).quota);
-    this.computeAmountPerQuota(value);
+  getQuota(sliderValue) {
+    this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quota;
+    this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayValue);
+    this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[sliderValue - 1].id);
+    this.getCommission(this.quotas.find(element => element.quota === this.quotaSliderDisplayValue).quota);
+    this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }
 
   computeAmountPerQuota(quota: number) {

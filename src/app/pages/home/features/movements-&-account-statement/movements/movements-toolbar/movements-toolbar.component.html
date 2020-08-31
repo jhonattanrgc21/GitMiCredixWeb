@@ -11,10 +11,9 @@
           <span>{{cardFormControl.value.typeCard}} {{selectedCardNumber}}</span>
         </div>
       </mat-select-trigger>
-      <mat-option *ngFor="let card of cards; let last = last" [value]="card">
+      <mat-option *ngFor="let card of cards; let last = last" [value]="card" class="movements-toolbar__options">
         <mat-icon [svgIcon]="card.category === 'Principal' ? 'redCard' : 'additionalCards'" class="mr-8px"></mat-icon>
         <span>{{card.typeCard}} {{card.name}}</span>
-        <mat-divider *ngIf="!last" class="w-100"></mat-divider>
       </mat-option>
     </mat-select>
   </mat-form-field>

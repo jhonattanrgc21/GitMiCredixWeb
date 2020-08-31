@@ -15,8 +15,14 @@
 
     <div fxFlex fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <credix-slider (valueChange)="quotasControl.setValue($event)" [value]="quotasControl.value"
-                       [max]="maxQuota" [min]="minQuota" [step]="stepQuota" class="second-step__slider"
+        <credix-slider (inputChange)="getQuota($event)"
+                       (valueChange)="getQuota($event)"
+                       [displayMax]="quotaSliderDisplayMax"
+                       [displayMin]="quotaSliderDisplayMin"
+                       [displayValue]="quotaSliderDisplayValue"
+                       [max]="quotaSliderMax"
+                       [min]="quotaSliderMin"
+                       [step]="quotaSliderStep" class="second-step__slider"
                        instructions="Deseo dividir este pago en" units="coutas"></credix-slider>
 
 

@@ -3,6 +3,10 @@
   height: 91px;
   padding: 0 !important;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   &__content {
     padding: 16px;
   }
