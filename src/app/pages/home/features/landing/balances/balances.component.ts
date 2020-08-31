@@ -7,6 +7,8 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
 import {AccountSummary} from '../../../../../shared/models/account-summary';
 import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {IbanAccount} from '../../../../../shared/models/iban-account';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-balances',
@@ -40,6 +42,8 @@ export class BalancesComponent implements OnInit, OnChanges {
 
   constructor(private storageService: StorageService,
               private toastService: CredixToastService,
+              private modalService: ModalService,
+              private router: Router,
               public globalService: GlobalRequestsService) {
     this.cards = this.storageService.getCurrentCards();
     this.cardFormControl.setValue(this.cards.find(card => card.category === 'Principal'));
@@ -48,6 +52,14 @@ export class BalancesComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.onCardChanged();
     this.getIbanAccounts();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.accountSummary) {
+      this.limit = ConvertStringAmountToNumber(this.accountSummary.limit);
+      this.available = ConvertStringAmountToNumber(this.accountSummary.available);
+      this.consumed = ConvertStringAmountToNumber(this.accountSummary.consumed);
+    }
   }
 
   onCardChanged() {
@@ -75,11 +87,12 @@ export class BalancesComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.accountSummary) {
-      this.limit = ConvertStringAmountToNumber(this.accountSummary.limit);
-      this.available = ConvertStringAmountToNumber(this.accountSummary.available);
-      this.consumed = ConvertStringAmountToNumber(this.accountSummary.consumed);
-    }
+  openIncreaseLimitModal() {
+    this.modalService.confirmationPopup('¿Desea solicitar el aumento de límite de crédito?').subscribe(response => {
+      if (response) {
+        this.router.navigate(['/home/increase-limit']);
+      }
+    });
   }
+
 }
