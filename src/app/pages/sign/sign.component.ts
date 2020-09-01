@@ -15,7 +15,7 @@ export class SignComponent implements OnInit {
     this.storageService.clearCurrentUser();
     this.storageService.clearCurrentCard();
     this.storageService.clearIdentification();
-    this.globalRequestsService.cleanCache();
+    this.globalRequestsService.clearCache();
   }
 
   ngOnInit(): void {

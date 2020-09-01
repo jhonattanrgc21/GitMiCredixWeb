@@ -14,9 +14,11 @@ import {District} from '../../shared/models/district';
 import {Occupation} from '../../shared/models/occupation';
 import {IncomeType} from '../../shared/models/income-type';
 import {Quota} from '../../shared/models/quota';
+import {DatePipe} from '@angular/common';
 
 @Injectable()
 export class GlobalRequestsService {
+  homeContent: Observable<any>;
   currencies: Observable<Currency[]>;
   identificationTypes: Observable<IdentificationType[]>;
   countries: Observable<Country[]>;
@@ -32,24 +34,41 @@ export class GlobalRequestsService {
   userApplicantProfileImage: Observable<string>;
   private provinceId: number;
   private cantonId: number;
-  private currenciesUri = 'global/currencies';
-  private identificationTypesUri = 'global/identification-types';
-  private countriesUri = 'global/listcountries';
-  private provincesUri = 'global/listprovinces';
-  private cantonsUri = 'global/listcantons';
-  private districtsUri = 'global/listdistricts';
-  private occupationsUri = 'global/findalloccupation';
-  private incomeTypesUri = 'global/getTypeIncome';
-  private accountSummaryUri = 'channels/accountsummary';
-  private getQuotasUri = 'customerservice/listquotabyproduct';
-  private getIbanAccountUri = 'account/getibanaccount';
-  private userApplicantInfoUri = 'applicant/finduserapplicantaccountnumber';
-  private getApplicantProfilePhotoUri = 'applicant/getProfilePhotoApplicant';
+  private readonly tagsHomePageUri = 'homepage/tagshomepage';
+  private readonly currenciesUri = 'global/currencies';
+  private readonly identificationTypesUri = 'global/identification-types';
+  private readonly countriesUri = 'global/listcountries';
+  private readonly provincesUri = 'global/listprovinces';
+  private readonly cantonsUri = 'global/listcantons';
+  private readonly districtsUri = 'global/listdistricts';
+  private readonly occupationsUri = 'global/findalloccupation';
+  private readonly incomeTypesUri = 'global/getTypeIncome';
+  private readonly accountSummaryUri = 'channels/accountsummary';
+  private readonly getQuotasUri = 'customerservice/listquotabyproduct';
+  private readonly getIbanAccountUri = 'account/getibanaccount';
+  private readonly userApplicantInfoUri = 'applicant/finduserapplicantaccountnumber';
+  private readonly getApplicantProfilePhotoUri = 'applicant/getProfilePhotoApplicant';
 
-  constructor(
-    private httpService: HttpService,
-    private storageService: StorageService
-  ) {
+  constructor(private httpService: HttpService,
+              private storageService: StorageService) {
+  }
+
+  getHomeContent(cardId: number) {
+    if (!this.homeContent) {
+      this.homeContent = this.httpService.post('canales', this.tagsHomePageUri, {
+        cardId,
+        userId: this.storageService.getCurrentUser().userId,
+        hour: new DatePipe('es').transform(new Date(), 'HH:MM')
+      })
+        .pipe(
+          publishReplay(1),
+          refCount(),
+          map(response => {
+            return response.json;
+          }));
+    }
+
+    return this.homeContent;
   }
 
   getCurrencies(): Observable<Currency[]> {
@@ -180,11 +199,7 @@ export class GlobalRequestsService {
     return this.incomeTypes;
   }
 
-  getAccountSummary(
-    cardId: number = this.storageService
-      .getCurrentCards()
-      .find((card) => card.category === 'Principal').cardId
-  ): Observable<AccountSummary> {
+  getAccountSummary(cardId: number): Observable<AccountSummary> {
     if (!this.accountSummary) {
       this.accountSummary = this.httpService
         .post('canales', this.accountSummaryUri, {
@@ -242,7 +257,8 @@ export class GlobalRequestsService {
     if (!this.ibanAccounts) {
       this.ibanAccounts = this.httpService
         .post('canales', this.getIbanAccountUri)
-        .pipe(publishReplay(1),
+        .pipe(
+          publishReplay(1),
           refCount(),
           map((response) => {
             if (response.type === 'success' && response.ibanAccountList) {
@@ -259,7 +275,8 @@ export class GlobalRequestsService {
     if (!this.userApplicantInfo) {
       this.userApplicantInfo = this.httpService
         .post('canales', this.userApplicantInfoUri, {accountNumber})
-        .pipe(publishReplay(1),
+        .pipe(
+          publishReplay(1),
           refCount(),
           map((response) => {
             if (response.type === 'success') {
@@ -277,18 +294,20 @@ export class GlobalRequestsService {
     if (!this.userApplicantProfileImage) {
       this.userApplicantProfileImage = this.httpService.post('canales', this.getApplicantProfilePhotoUri, {
         identification: this.storageService.getIdentification()
-      }).pipe(publishReplay(1),
+      }).pipe(
+        publishReplay(1),
         refCount(),
         map(response => response.imgBase64));
     }
     return this.userApplicantProfileImage;
   }
 
-  cleanCache() {
+  clearCache() {
     this.accountSummary = null;
     this.quotas = null;
     this.ibanAccounts = null;
     this.userApplicantInfo = null;
     this.userApplicantProfileImage = null;
+    this.homeContent = null;
   }
 }
