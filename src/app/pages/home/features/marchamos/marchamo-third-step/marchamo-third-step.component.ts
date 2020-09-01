@@ -13,6 +13,13 @@ import {StorageService} from 'src/app/core/services/storage.service';
   styleUrls: ['./marchamo-third-step.component.scss']
 })
 export class MarchamoThirdStepComponent implements OnInit, OnChanges {
+  @Input() pickUpForm: FormGroup = new FormGroup({
+    email: new FormControl(null, [Validators.email]),
+    pickUp: new FormControl(null, []),
+    domicile: new FormArray([])
+  });
+  @Input() isActive = false;
+  executed = false;
   deliveryPlaces: DeliveryPlace[];
   radioButtonsChangedValue: number;
   newDeliveryOption: string;
@@ -29,12 +36,6 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   domicileDescription: { name: string, detail?: string, province?: number, canton?: number, distric?: number, number: number } = null;
   addressAplicant: any[] = [];
   informationApplicant: any;
-  @Input() isActive = false;
-  @Input() pickUpForm: FormGroup = new FormGroup({
-    email: new FormControl(null, [Validators.email]),
-    pickUp: new FormControl(null, []),
-    domicile: new FormArray([])
-  });
 
   constructor(private httpService: HttpService,
               private modalService: ModalService,
@@ -49,7 +50,8 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.isActive && this.isActive) {
+    if (changes.isActive && this.isActive && !this.executed) {
+      this.executed = true;
       this.getPickUpStore();
       this.getUserAplicantAccountNumber();
     }

@@ -91,10 +91,6 @@ export class MarchamosComponent implements OnInit {
     return this.pickUpForm.controls;
   }
 
-  get confirmControls() {
-    return this.confirmForm.controls;
-  }
-
   ngOnInit(): void {
     this.checkNextStep();
     this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount +
@@ -104,7 +100,6 @@ export class MarchamosComponent implements OnInit {
   continue() {
     this.stepper.next();
     this.stepperIndex = this.stepper.selectedIndex;
-    this.disableButton = true;
     this.checkNextStep();
   }
 
@@ -117,13 +112,16 @@ export class MarchamosComponent implements OnInit {
   checkNextStep() {
     switch (this.stepperIndex) {
       case 0:
+        this.disableButton = !this.consultVehicle && !this.billingHistories;
         this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
           this.consultVehicle = value.consultVehicle;
           this.billingHistories = value.billingHistories;
-          this.disableButton = this.consultVehicle === null && this.billingHistories == null;
+          this.disableButton = !this.consultVehicle && !this.billingHistories;
         });
         break;
       case 1:
+        this.disableButton = this.secureAndQuotesForm.invalid;
+
         this.secureAndQuotesForm.valueChanges.subscribe(() => {
           this.disableButton = this.secureAndQuotesForm.invalid;
         });
@@ -132,38 +130,35 @@ export class MarchamosComponent implements OnInit {
           this.iva = value.iva;
           this.commission = value.commission;
         });
+
         this.marchamosService.ownerPayerInfo.subscribe(value => {
           this.ownerPayer = value.ownerPayer;
         });
+
         this.getPromo();
         break;
       case 2:
-        this.pickUpForm.valueChanges
-          .subscribe(() => {
-            this.disableButton = this.pickUpForm.invalid;
-          });
+        this.disableButton = this.pickUpForm.invalid;
+
+        this.pickUpForm.valueChanges.subscribe(() => {
+          this.disableButton = this.pickUpForm.invalid;
+        });
         break;
       case 3:
-        this.confirmForm.valueChanges
-          .subscribe(() => {
-            this.disableButton = this.confirmForm.invalid;
-          });
+        this.disableButton = this.confirmForm.invalid;
+        this.confirmForm.valueChanges.subscribe(() => {
+          this.disableButton = this.confirmForm.invalid;
+        });
+
         this.marchamosService.domicileDescription.subscribe(value => {
-            this.domicile = {
-              person: value.name,
-              phone: value.number,
-              place: value.detail
-            };
-          }
-        );
+          this.domicile = {
+            person: value.name,
+            phone: value.number,
+            place: value.detail
+          };
+        });
         break;
     }
-  }
-
-  getCardValues() {
-    this.storageService.getCurrentCards().forEach(cardValues => {
-      this.cardId = cardValues.cardId;
-    });
   }
 
   getAnotherPay(event) {

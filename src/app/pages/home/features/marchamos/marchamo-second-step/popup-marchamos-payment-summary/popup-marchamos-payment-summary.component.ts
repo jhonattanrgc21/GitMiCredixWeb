@@ -2,11 +2,11 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-popup-marchamos-pay-resume',
-  templateUrl: './popup-marchamos-pay-resume.component.html',
-  styleUrls: ['./popup-marchamos-pay-resume.component.scss']
+  selector: 'app-popup-marchamos-payment-summary',
+  templateUrl: './popup-marchamos-payment-summary.component.html',
+  styleUrls: ['./popup-marchamos-payment-summary.component.scss']
 })
-export class PopupMarchamosPayResumeComponent implements OnInit {
+export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   iva = 0;
   totalAmountItemsProducts = 0;
   comission: number;
@@ -14,7 +14,7 @@ export class PopupMarchamosPayResumeComponent implements OnInit {
   quotesToPay: { quotes: number, quotesAmount: number } = {quotes: 0, quotesAmount: 0};
   totalAmount = 0;
 
-  constructor(public dialogRef: MatDialogRef<PopupMarchamosPayResumeComponent>,
+  constructor(public dialogRef: MatDialogRef<PopupMarchamosPaymentSummaryComponent>,
               @Inject(MAT_DIALOG_DATA) public data) {
   }
 

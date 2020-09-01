@@ -1,23 +1,23 @@
 <div class="marchamo-second-step" fxLayout="column">
 
-  <div class="mb-16px" fxLayout="row">
-    <span class="first-column"><strong>Marchamo</strong></span>
+  <div class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="155px"><strong>Marchamo</strong></span>
 
-    <span class="second-column">Monto al cobro</span>
+    <span class="marchamo-second-step__content__middle">Monto al cobro</span>
 
-    <div class="third-column" fxLayout="column" fxLayoutGap="4px">
-      <credix-numeric-block [value]="totalAmount" fontSize="20" fontWeight="bold"
+    <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
+      <credix-numeric-block [value]="totalAmount" fontWeight="bold"
                             prefix="₡"></credix-numeric-block>
       <credix-link-button (click)="showMarchamoDetail()">Ver detalles</credix-link-button>
     </div>
   </div>
 
-  <mat-divider class="mb-16px" credixDivider></mat-divider>
+  <mat-divider credixDivider></mat-divider>
 
-  <div fxLayout="row">
-    <span class="first-column"><strong>Seguros opcionales</strong></span>
+  <div class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="155px"><strong>Seguros opcionales</strong></span>
 
-    <div class="second-column" fxLayout="column" fxLayoutGap="8px">
+    <div class="marchamo-second-step__content__middle" fxLayout="column" fxLayoutGap="8px">
       <credix-checkbox-button
         (emitCheckBox)="getValueCheckBoxes($event)"
         *ngFor="let item of itemProduct"
@@ -28,7 +28,7 @@
                               label="Todos"></credix-checkbox-button>
     </div>
 
-    <div class="third-column" fxLayout="column" fxLayoutGap="8px">
+    <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="8px">
       <credix-numeric-block [value]="amountItemsProducts.responsabilityCivilAmount" fontSize="16"
                             fontWeight="bold" prefix="₡"></credix-numeric-block>
       <credix-numeric-block [value]="amountItemsProducts.roadAsistanceAmount" fontSize="16" fontWeight="bold"
@@ -38,12 +38,12 @@
     </div>
   </div>
 
-  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
+  <mat-divider credixDivider></mat-divider>
 
-  <div fxLayout="column">
+  <div class="marchamo-second-step__content" fxLayout="column">
 
-    <div class="mb-32px" fxLayout="row">
-      <span class="first-column"><strong>Coutas</strong></span>
+    <div class="mb-32px" fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex="155px"><strong>Coutas</strong></span>
 
       <credix-slider (inputChange)="getQuota($event)"
                      (valueChange)="getQuota($event)"
@@ -54,27 +54,28 @@
                      [max]="quotaSliderMax"
                      [min]="quotaSliderMin"
                      [step]="quotaSliderStep"
-                     [units]="'cuotas'"
-                     [value]="this.secureAndQuotesForm.controls.quota.value"
-                     class="second-column"></credix-slider>
+                     class="marchamo-second-step__content__middle" units="cuotas"></credix-slider>
 
-      <div class="third-column" fxLayout="column" fxLayoutGap="4px">
+      <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
         <credix-numeric-block [value]="amountPerQuota" fontSize="24" fontWeight="bold"
                               prefix="₡"></credix-numeric-block>
         <credix-link-button (click)="showQuotaDetail()">Ver detalles</credix-link-button>
       </div>
     </div>
 
-    <div *ngIf="showQuotaPaymentSelect" class="mb-24px" fxLayout="row">
-      <span class="first-column"></span>
-      <span class="second-column tl">Comisión</span>
-      <span fxFlex></span>
-      <credix-numeric-block [value]="commission" fontWeight="bold" prefix="₡"></credix-numeric-block>
+    <div *ngIf="showQuotaPaymentSelect" class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex="155px"></span>
+      <span class="marchamo-second-step__content__middle">Comisión</span>
+
+      <div fxFlex="130px" fxLayout="row" fxLayoutAlign="flex-end">
+        <credix-numeric-block [value]="commission" fontWeight="bold" prefix="₡"></credix-numeric-block>
+      </div>
+
     </div>
 
     <div *ngIf="showQuotaPaymentSelect" fxLayout="row" fxLayoutAlign="center">
       <credix-select [formControl]="secureAndQuotesForm.controls.firstQuotaDate"
-                     class="second-column"
+                     class="marchamo-second-step__content__middle"
                      label="Deseo pagar la primera cuota en">
         <mat-option *ngFor="let firstPaymentDate of firstPaymentDates" [value]="firstPaymentDate.value">
           {{ firstPaymentDate.description}}

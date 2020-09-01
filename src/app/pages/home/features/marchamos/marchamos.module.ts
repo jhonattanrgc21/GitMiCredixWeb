@@ -15,11 +15,11 @@ import {CredixCheckboxButtonModule} from 'src/app/shared/components/credix-check
 import {CredixSliderModule} from 'src/app/shared/components/credix-slider/credix-slider.module';
 import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
 import {CredixLinkButtonModule} from 'src/app/shared/components/credix-link-button/credix-link-button.module';
-import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
+import {PopupMarchamosDetailComponent} from './marchamo-second-step/popup-marchamos-detail/popup-marchamos-detail.component';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
 import {PopupMarchamosNewDirectionComponent} from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
 import {SimplebarAngularModule} from 'simplebar-angular';
-import {PopupMarchamosPayResumeComponent} from './popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
+import {PopupMarchamosPaymentSummaryComponent} from './marchamo-second-step/popup-marchamos-payment-summary/popup-marchamos-payment-summary.component';
 import {CredixNumericBlockModule} from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixShareButtonModule} from 'src/app/shared/components/credix-share-button/credix-share-button.module';
@@ -28,12 +28,12 @@ import {MarchamoFirstStepComponent} from './marchamo-first-step/marchamo-first-s
 import {CredixSelectModule} from 'src/app/shared/components/credix-select/credix-select.module';
 import {CredixInputFieldModule} from 'src/app/shared/components/credix-input-field/credix-input-field.module';
 import {MarchamoSecondStepComponent} from './marchamo-second-step/marchamo-second-step.component';
-import {ResultPayResumeComponent} from './result-pay-resume/result-pay-resume.component';
+import {PaymentSummaryComponent} from './payment-summary/payment-summary.component';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {MarchamosService} from './marchamos.service';
 import {MarchamoThirdStepComponent} from './marchamo-third-step/marchamo-third-step.component';
-import {MarchamoFourStepComponent} from './marchamo-four-step/marchamo-four-step.component';
+import {MarchamoFourthStepComponent} from './marchamo-fourth-step/marchamo-fourth-step.component';
 
 const routes: Routes = [
   {
@@ -45,14 +45,10 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     MarchamosComponent,
-    PopupMarchamosDetailComponent,
-    PopupMarchamosNewDirectionComponent,
-    PopupMarchamosPayResumeComponent,
     MarchamoFirstStepComponent,
-    MarchamoSecondStepComponent,
-    ResultPayResumeComponent,
-    MarchamoThirdStepComponent,
-    MarchamoFourStepComponent
+    MarchamoSecondStepComponent, PopupMarchamosDetailComponent, PopupMarchamosPaymentSummaryComponent,
+    MarchamoThirdStepComponent, PopupMarchamosNewDirectionComponent,
+    MarchamoFourthStepComponent, PaymentSummaryComponent,
   ],
   entryComponents: [MarchamosComponent],
   imports: [

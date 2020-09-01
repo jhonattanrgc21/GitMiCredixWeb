@@ -3,11 +3,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MarchamosService} from '../marchamos.service';
 
 @Component({
-  selector: 'app-marchamo-four-step',
-  templateUrl: './marchamo-four-step.component.html',
-  styleUrls: ['./marchamo-four-step.component.scss']
+  selector: 'app-marchamo-fourth-step',
+  templateUrl: './marchamo-fourth-step.component.html',
+  styleUrls: ['./marchamo-fourth-step.component.scss']
 })
-export class MarchamoFourStepComponent implements OnInit, OnChanges {
+export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   contactConfirm: { name: string, phone: number, email: string } = {
     name: '',
     phone: 0,
