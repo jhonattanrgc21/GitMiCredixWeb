@@ -75,7 +75,15 @@ const routes: Routes = [
       {
         path: 'increase-limit',
         loadChildren: () => import('./features/increase-limit/increase-limit.module.js').then(m => m.IncreaseLimitModule)
-      }
+      },
+      {
+        path: 'favorites-management',
+        loadChildren: () => import('./features/favorites-management/favorites-management.module.js').then(m => m.FavoritesManagementModule)
+      },
+      {
+        path: 'additional-cards',
+        loadChildren: () => import('./features/additional-cards/additional-cards.module.js').then(m => m.AdditionalCardsModule)
+      },
     ]
   }
 ];
