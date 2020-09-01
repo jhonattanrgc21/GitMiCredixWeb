@@ -37,9 +37,6 @@ export class ShopsComponent implements OnInit {
         webPage: paymentPlaceDetail.webPage,
         paymentPlaceRestriction: paymentPlaceDetail.paymentPlaceRestriction
       };
-      console.log(paymentPlaceDetail);
-      console.log(this.paymentPlaceDetail);
-
     });
   }
 }
