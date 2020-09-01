@@ -24,6 +24,8 @@ export class SendMoneyFirstStepComponent implements OnInit {
   info;
   showDetails = false;
   currency;
+  checked1 = false;
+  checked2 = false;
 
   constructor(
     private globalRequestsService: GlobalRequestsService,
@@ -55,11 +57,20 @@ export class SendMoneyFirstStepComponent implements OnInit {
     this.showSecondContent = true;
     this.currencyPrefixEvent.emit(event.value.currency);
     this.currency = event.value.currency;
+    this.checked1 = false;
+    this.checked2 = false;
   }
 
   accountRadioButtonChange(event: { value: string; checked: boolean }) {
+    this.favoriteAccountControl.reset();
     this.typeDestinationEvent.emit(+event.value);
     this.showFavoriteAccountsSelect = event.value === '1';
+    if(event.value === '1'){
+      this.checked1 = event.checked;
+    }else{
+      this.checked2 = event.checked;
+    }
+
 
     if (event.value === '2') {
       this.showDetails = true;
