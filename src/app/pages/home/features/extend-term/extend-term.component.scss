@@ -61,6 +61,10 @@
     left: 0;
     padding: 16px;
   }
+
+  &__empty {
+    margin: auto;
+  }
 }
 
 :host ::ng-deep.navigation-table__option {
@@ -71,6 +75,12 @@
   margin-right: -16px;
   margin-left: -16px;
 }
+
+::ng-deep.simplebar-track.simplebar-horizontal {
+  height: 0 !important;
+  visibility: hidden;
+}
+
 
 :host ::ng-deep.credix-result-notification {
   h2 {
