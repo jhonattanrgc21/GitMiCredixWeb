@@ -72,7 +72,7 @@ export const menus: Menu[] = [
   {
     id: 3, name: 'Productos', submenus: [
       {id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit'},
-      {id: 8, name: 'Compra sin tarjeta', route: '/home', icon: 'code'},
+      {id: 8, name: 'Compra sin tarjeta', route: '/home/buy-without-card', icon: 'code'},
       {id: 9, name: 'Ampliar plazo de compra', route: '/home', icon: 'anticipated_canc'},
       {id: 10, name: 'Cancelación anticipada', route: '/home', icon: 'anticipated_canc'}
     ]

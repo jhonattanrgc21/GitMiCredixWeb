@@ -4,22 +4,38 @@
 
         <credix-select  [formControl]="card" label="Tarjeta" class="buy-without-card__card-select select">
             <mat-option *ngFor="let card of cards" [value]="card.cardId">
-              {{card.cardNumber}}
+              {{card.typeCard + ' ' + card.cardNumber}}
             </mat-option>
         </credix-select>
     </div>
 
     <mat-divider class="mb-16px"></mat-divider>
-    <div fxLayout="row" fxLayoutAlign="space-between">
-        <span><strong> PIN de compra/pago</strong></span>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span><strong> PIN de compra/pago</strong></span>
 
-        <div fxLayout="column">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+    <div>
+      <div fxLayout="column">
+        <span class="pin-code mb-14px" fxLayoutAlign="flex-end"><strong>{{pin}}</strong></span>
+        <span class="mb-14px" fxLayoutAlign="flex-end">
+            <ngx-barcode6
+              [bc-font-size]="16"
+              [bc-height]="50"
+              [bc-value]="pin"
+              [bc-width]="3"
+              bc-format="CODE128">
+            </ngx-barcode6>
+          </span>
+      </div>
+      <div fxLayout="column">
+        <div class="identification" fxLayout="row" fxLayoutAlign="space-between">
+          <label>Identificación</label> <span><strong>{{identification}}</strong></span>
         </div>
+        <div class="name" fxLayout="row" fxLayoutAlign="space-between">
+          <label>Nombre</label> <span><strong>{{name}}</strong></span>
+        </div>
+      </div>
     </div>
+  </div>
 
 </div>
 

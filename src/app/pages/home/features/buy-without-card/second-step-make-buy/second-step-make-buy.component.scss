@@ -1,4 +1,33 @@
 .make-buy{
-    padding: 0 84px;
+  padding: 0 84px;
+
+  .identification {
+    label {
+      width: 97px;
+    }
+
+    span {
+      width: 96px;
+    }
+  }
+
+  .name {
+    label {
+      width: 57px;
+    }
+
+    span {
+      width: 119px;
+    }
+  }
+
+  .pin-code {
+    width: 272px;
+    font-size: 37px;
+  }
+
+  .mb-14px {
+    margin-bottom: 14px !important;
+  }
 }
 

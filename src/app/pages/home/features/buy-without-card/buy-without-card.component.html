@@ -5,41 +5,39 @@
 
         <credix-stepper #buyWithOutCard class="buy-without-card__stepper">
 
-        <cdk-step [stepControl]="credixCode"
-        fxLayout="column"
-        label="Código MiCredix">
+          <cdk-step [stepControl]="codeCredix"
+                    fxLayout="column"
+                    label="Código MiCredix">
 
-        <first-step-credix-code
-            [credixCode]="credixCode">
-        </first-step-credix-code>
+            <first-step-credix-code
+              [credixCode]="codeCredix">
+            </first-step-credix-code>
+          </cdk-step>
 
-        </cdk-step>
-
-        <cdk-step [stepControl]="card"
-        fxLayout="column"
-        label="Código MiCredix">
+          <cdk-step [stepControl]="card"
+                    fxLayout="column"
+                    label="Código MiCredix">
 
 
-        <second-step-make-buy
+            <second-step-make-buy
           [isActive]="(stepperIndex === 1)">
-
         </second-step-make-buy>
             </cdk-step>
 
         </credix-stepper>
 
-    <div
+  <div
     class="buy-without-card__footer"
     fxLayout="row"
     fxLayoutAlign="flex-end"
     fxLayoutGap="16px">
     <mat-divider></mat-divider>
-            <credix-button
-                    fxLayoutAlign="flex-end"
-                    [disabled]="!credixCode.valid"
-                    (click)="continue()"
-                    text="Continuar">
-            </credix-button>
-    </div>
+    <credix-button
+      (click)="stepperIndex !== 1 ? getPin() : back()"
+      [disabled]="!codeCredix.valid"
+      [text]="stepperIndex !== 1 ? 'Continuar' : 'Listo' "
+      fxLayoutAlign="flex-end">
+    </credix-button>
+  </div>
 
 </mat-card>
