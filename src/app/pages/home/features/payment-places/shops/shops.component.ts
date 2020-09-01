@@ -11,7 +11,7 @@ import {PaymentPlaceDetail} from '../../../../../shared/models/payment-place-det
 export class ShopsComponent implements OnInit {
   tableHeaders = [
     {label: 'Comercios', width: '170px'},
-    {label: 'Información del comercio', width: '100%'}
+    {label: 'Información del comercio', width: 'auto'}
   ];
   paymentPlaces: PaymentPlace[];
   paymentPlaceDetail: PaymentPlaceDetail;
