@@ -1,28 +1,23 @@
 .marchamo-second-step {
   padding: 0 84px;
 
-  .first-column {
-    width: 30%;
-  }
+  &__content {
+    width: 100%;
+    padding: 16px 0;
 
-  .second-column {
-    width: 280px;
-  }
-
-  .third-column {
-    align-items: flex-end;
-    flex: 1;
+    &__middle {
+      width: 280px;
+    }
   }
 }
-
 
 @media screen and (max-width: 1199px) {
 
   .marchamo-second-step {
     padding: 0;
-  }
 
-  .second-column {
-    width: 265px;
+    &__content__middle {
+      width: 266px;
+    }
   }
 }

@@ -1,11 +1,11 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
 import {ModalService} from 'src/app/core/services/modal.service';
-import {PopupMarchamosDetailComponent} from '../popup-marchamos-detail/popup-marchamos-detail.component';
+import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
 import {Item} from '../../../../../shared/models/item.model';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {HttpService} from '../../../../../core/services/http.service';
-import {PopupMarchamosPayResumeComponent} from '../popup-marchamos-pay-resume/popup-marchamos-pay-resume.component';
+import {PopupMarchamosPaymentSummaryComponent} from './popup-marchamos-payment-summary/popup-marchamos-payment-summary.component';
 import {MarchamosService} from '../marchamos.service';
 import {StorageService} from 'src/app/core/services/storage.service';
 import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
@@ -25,6 +25,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     firstQuotaDate: new FormControl(null)
   });
   @Input() isActive = false;
+  executed = false;
   totalAmount = 0;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
@@ -133,7 +134,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.isActive && this.isActive) {
+    if (changes.isActive && this.isActive && !this.executed) {
+      this.executed = true;
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
       this.marchamosService.emitAmountItemsProducts(this.amountItemsProducts.responsabilityCivilAmount,
@@ -147,12 +149,12 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       hideCloseButton: false,
       title: 'Detalle del marchamo',
       data: this.billingHistories
-    }, {width: 380, height: 673, disableClose: false, panelClass: 'marchamo-detail-panel'});
+    }, {width: 384, height: 673, disableClose: false, panelClass: 'marchamo-detail-panel'});
   }
 
   showQuotaDetail() {
     this.modalService.open({
-      component: PopupMarchamosPayResumeComponent,
+      component: PopupMarchamosPaymentSummaryComponent,
       hideCloseButton: false,
       title: 'Resumen del pago',
       data: [{
@@ -162,7 +164,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         iva: this.iva,
         quotesToPay: {quotes: this.secureAndQuotesForm.controls.quota.value, quotesAmount: this.amountPerQuota}
       }]
-    }, {width: 380, height: 417, disableClose: false});
+    }, {width: 380, height: 417, disableClose: false, panelClass: 'marchamo-summary-panel'});
   }
 
   getValueCheckBoxes(event: any) {
@@ -215,7 +217,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.quotaSliderMax = this.quotas.length;
       this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
       this.showQuotaPaymentSelect = this.quotaSliderDisplayMin > 1;
-      this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayValue);
+      this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayMin);
       this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[0].id);
       this.computeAmountPerQuota(this.quotaSliderDisplayMin);
     });
@@ -225,6 +227,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quota;
     this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayValue);
     this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[sliderValue - 1].id);
+    console.log(this.secureAndQuotesForm.value);
     this.getCommission(this.quotas.find(element => element.quota === this.quotaSliderDisplayValue).quota);
     this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }

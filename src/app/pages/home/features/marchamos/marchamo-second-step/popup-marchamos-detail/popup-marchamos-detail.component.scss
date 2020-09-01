@@ -1,0 +1,30 @@
+.marchamos-detail {
+
+  &__billing-wrapper {
+    margin-bottom: 16px;
+
+    span:first-of-type {
+      text-transform: lowercase;
+    }
+  }
+
+  &__footer {
+    span:first-of-type {
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+}
+
+::ng-deep .marchamo-detail-panel {
+
+  .mat-dialog-container {
+    padding: 40px 32px 24px 32px;
+
+    .credix-popup__title {
+      font-size: 31px;
+      line-height: 30px;
+      margin-bottom: 16px;
+    }
+  }
+}

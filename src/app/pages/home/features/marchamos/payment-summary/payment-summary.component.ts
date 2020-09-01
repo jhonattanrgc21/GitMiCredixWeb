@@ -2,11 +2,11 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'result-pay-resume',
-  templateUrl: './result-pay-resume.component.html',
-  styleUrls: ['./result-pay-resume.component.scss']
+  selector: 'app-payment-summary',
+  templateUrl: './payment-summary.component.html',
+  styleUrls: ['./payment-summary.component.scss']
 })
-export class ResultPayResumeComponent implements OnInit, OnChanges {
+export class PaymentSummaryComponent implements OnInit, OnChanges {
   @Input() resultPay: {
     messageToPay: string,
     responseToPay: string,

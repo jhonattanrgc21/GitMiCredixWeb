@@ -1,42 +1,13 @@
-.marchamo-thirsty-step {
+.marchamo-third-step {
   padding: 0 84px;
 
-  .first-column {
-    width: 30%;
+  &__content {
+    width: 100%;
+    padding-top: 16px;
   }
 
-  .second-column {
-    width: 266px;
-    margin-left: 115px;
-  }
-
-  .place-of-retreat {
-    &__delivery-pickup {
-      width: 210px;
-      margin-left: 24px;
-    }
-
-    &__inputs-hidden {
-      margin-top: 12px;
-      width: 266px;
-
-      &__select {
-        width: 352px;
-      }
-    }
-
-    &__edit {
-      &-delivery {
-        margin-top: 2px;
-      }
-    }
-
-    &__sub-title {
-
-    }
-
-    &__radio-button {
-      margin-left: 191px;
-    }
+  &__sub-content {
+    margin-left: 28px;
+    width: 352px;
   }
 }

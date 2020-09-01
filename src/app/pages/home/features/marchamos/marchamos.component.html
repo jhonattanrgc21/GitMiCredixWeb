@@ -14,20 +14,20 @@
     </cdk-step>
 
     <cdk-step [label]="'Seguros y cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
-      <app-marchamo-second-step [isActive]="(stepperIndex === 1)"
+      <app-marchamo-second-step [isActive]="stepperIndex === 1"
                                 [secureAndQuotesForm]="secureAndQuotesForm"></app-marchamo-second-step>
     </cdk-step>
 
     <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
       <app-marchamo-third-step
-        [isActive]="(stepperIndex === 2)"
+        [isActive]="stepperIndex === 2"
         [pickUpForm]="pickUpForm"></app-marchamo-third-step>
     </cdk-step>
 
     <cdk-step [label]="'Confirmar'" [stepControl]="confirmForm">
-      <app-marchamo-four-step
+      <app-marchamo-fourth-step
         [confirmForm]="confirmForm"
-        [isActive]="(stepperIndex === 3)"></app-marchamo-four-step>
+        [isActive]="stepperIndex === 3"></app-marchamo-fourth-step>
     </cdk-step>
 
   </credix-stepper>
@@ -35,16 +35,15 @@
   <div class="marchamos__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
       <credix-button (buttonClick)="consult()" *ngIf="stepperIndex === 0" [disabled]="consultForm.invalid"
-                     text="Consultar"
-                     type="secondary"></credix-button>
+                     text="Consultar" type="secondary"></credix-button>
       <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" text="Atrás" type="secondary"></credix-button>
       <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 3" [disabled]="disableButton"
                      [text]="'Continuar'"></credix-button>
       <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton"
                      [text]="'Transferir'"></credix-button>
-
     </div>
   </div>
+
 </mat-card>
 
 <ng-template #resultTemplate>
@@ -53,11 +52,11 @@
 
     <h1 class="marchamos__title">Marchamo</h1>
 
-    <result-pay-resume
+    <app-payment-summary
       (responseResultPayChanged)="getAnotherPay($event)"
       [responseResultPay]="responseResultPay"
       [resultPay]="responseToPay">
-    </result-pay-resume>
+    </app-payment-summary>
 
   </mat-card>
 
