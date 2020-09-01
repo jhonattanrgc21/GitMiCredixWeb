@@ -16,8 +16,8 @@ import {GlobalRequestsService} from '../../../../../../core/services/global-requ
 export class ModalAddIbanComponent implements OnInit {
   identificationTypes: IdentificationType[];
   identificationMask = '0-0000-0000';
-  showFavorite = false;
-  isChecked = false;
+  showFavorite = this.data.data.info ? this.data.data.info.showFav : false;
+  isChecked = this.data.data.info ? this.data.data.info.showFav : false;
   newAccountForm: FormGroup = new FormGroup({
     ibanAccount: new FormControl(
       this.data.data.info ? this.data.data.info.ibanAccount : null,
@@ -39,7 +39,9 @@ export class ModalAddIbanComponent implements OnInit {
       this.showFavorite && [Validators.required]
     ),
   });
+
   newAccount: any;
+
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,
               private globalRequestsService: GlobalRequestsService,
@@ -56,7 +58,8 @@ export class ModalAddIbanComponent implements OnInit {
 
   onChanges(): void {
     this.newAccountForm.valueChanges.subscribe((val) => {
-      if (val.ibanAccount && val.identType && val.identNumber) {
+
+      if (val.ibanAccount && val.identType && val.identNumber && !val.favName) {
         if (val.ibanAccount.length === 22 && val.identNumber.length === 9) {
           this.sendMoneyService
             .getAccountByIbanNumber(
@@ -113,13 +116,15 @@ export class ModalAddIbanComponent implements OnInit {
 
   submit() {
     if (this.newAccountForm.valid) {
+      //console.log(this.newAccount.message.Nombre ? this.newAccount?.message.Nombre : this.data.data.info.aliasName);
       this.dialogRef.close({
-        aliasName: this.newAccount.message.Nombre,
+        aliasName: !this.data.data.info ? this.newAccount.message.Nombre : this.data.data.info.aliasName,
         ibanAccount: this.newAccountForm.controls.ibanAccount.value,
         identification: this.newAccountForm.controls.identNumber.value,
         identType: this.newAccountForm.controls.identType.value,
         favName: this.newAccountForm.controls.favName.value,
-        ibanBank: this.newAccount.ibanBank,
+        ibanBank: this.newAccount ? this.newAccount.ibanBank : this.data.data.info.ibanBank,
+        showFav: this.showFavorite,
       });
     }
   }

@@ -16,7 +16,7 @@
 
     <div class="mt-16px mb-24px" fxLayout="row" fxLayoutAlign="space-between">
       <span>Nombre</span>
-      <span>{{newAccount?.message.Nombre}}</span>
+      <span>{{data.data.info ? data.data.info.aliasName : newAccount?.message.Nombre}}</span>
     </div>
 
     <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event)" label="Guardar como favorito"
