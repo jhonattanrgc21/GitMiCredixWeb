@@ -9,29 +9,31 @@
         </credix-select>
     </div>
 
-    <mat-divider class="mb-16px"></mat-divider>
+    <mat-divider class="mb-32px"></mat-divider>
   <div fxLayout="row" fxLayoutAlign="space-between">
     <span><strong> PIN de compra/pago</strong></span>
 
     <div>
       <div fxLayout="column">
-        <span class="pin-code mb-14px" fxLayoutAlign="flex-end"><strong>{{pin}}</strong></span>
-        <span class="mb-14px" fxLayoutAlign="flex-end">
-            <ngx-barcode6
-              [bc-font-size]="16"
-              [bc-height]="50"
-              [bc-value]="pin"
-              [bc-width]="3"
-              bc-format="CODE128">
-            </ngx-barcode6>
-          </span>
+        <span class="pin-code mb-14px"><strong>{{pin}}</strong></span>
+        <div class="barcode mb-16px">
+          <ngx-barcode6
+            [bc-height]="50"
+            [bc-value]="pin"
+            [bc-width]="2"
+            bc-format="CODE128">
+          </ngx-barcode6>
+        </div>
       </div>
       <div fxLayout="column">
-        <div class="identification" fxLayout="row" fxLayoutAlign="space-between">
+        <div class="identification mb-16px" fxLayout="row" fxLayoutAlign="space-between">
           <label>Identificación</label> <span><strong>{{identification}}</strong></span>
         </div>
-        <div class="name" fxLayout="row" fxLayoutAlign="space-between">
+        <div class="name mb-16px" fxLayout="row" fxLayoutAlign="space-between">
           <label>Nombre</label> <span><strong>{{name}}</strong></span>
+        </div>
+        <div class="time mb-16px" fxLayout="row" fxLayoutAlign="space-between">
+          <label>Código expira en</label> <span><strong>{{lifeTimePin}}m:{{second}}s</strong></span>
         </div>
       </div>
     </div>

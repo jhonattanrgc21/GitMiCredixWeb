@@ -15,10 +15,6 @@
     label {
       width: 57px;
     }
-
-    span {
-      width: 119px;
-    }
   }
 
   .pin-code {
@@ -28,6 +24,10 @@
 
   .mb-14px {
     margin-bottom: 14px !important;
+  }
+
+  .barcode {
+    text-align: left;
   }
 }
 
