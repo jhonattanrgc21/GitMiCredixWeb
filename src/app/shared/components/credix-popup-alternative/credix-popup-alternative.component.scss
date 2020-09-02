@@ -41,6 +41,10 @@
       background: #F4F4F4;
       height: 425px;
       padding: 16px 20px 0 20px;
+
+      ::ng-deep .simplebar-content {
+        height: 100%;
+      }
     }
 
     &__footer {
