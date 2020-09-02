@@ -14,10 +14,11 @@
   </div>
 
   <div *ngIf="data.template" class="credix-alternative-popup__content">
-    <overlay-scrollbars [options]="scrollBarOptions" class="credix-alternative-popup__content__main">
-      <ng-container *ngTemplateOutlet="data.template, context: data.context">
-      </ng-container>
-    </overlay-scrollbars>
+    <ngx-simplebar #scrollBar [options]="options">
+      <div class="credix-alternative-popup__content__main">
+        <ng-container *ngTemplateOutlet="data.template, context: data.context"></ng-container>
+      </div>
+    </ngx-simplebar>
 
     <div class="credix-alternative-popup__content__footer">
       <ng-container *ngTemplateOutlet="data.footer">
@@ -26,14 +27,14 @@
   </div>
 
   <div *ngIf="data.component" class="credix-alternative-popup__content">
-    <overlay-scrollbars [options]="scrollBarOptions" class="credix-alternative-popup__content__main">
-      <ng-container *ngComponentOutlet="data.component">
-      </ng-container>
-    </overlay-scrollbars>
+    <ngx-simplebar #scrollBar [options]="options">
+      <div class="credix-alternative-popup__content__main">
+        <ng-container *ngComponentOutlet="data.component"></ng-container>
+      </div>
+    </ngx-simplebar>
 
     <div class="credix-alternative-popup__content__footer">
-      <ng-container *ngTemplateOutlet="data.footer">
-      </ng-container>
+      <ng-container *ngTemplateOutlet="data.footer"></ng-container>
     </div>
   </div>
 </div>

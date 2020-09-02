@@ -19,17 +19,12 @@ import {CredixLinkButtonModule} from 'src/app/shared/components/credix-link-butt
 import {MatIconModule} from '@angular/material/icon';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {IConfig, NgxMaskModule} from 'ngx-mask';
-// // Import ngx-barcode module
-import {BarcodeGeneratorAllModule, DataMatrixGeneratorAllModule, QRCodeGeneratorAllModule} from '@syncfusion/ej2-angular-barcode-generator';
-import {FirstStepCredixCodeComponent} from './first-step-credix-code/first-step-credix-code.component';
-import {SecondStepMakeBuyComponent} from './second-step-make-buy/second-step-make-buy.component';
+import {NgxMaskModule} from 'ngx-mask';
+import {NgxBarcode6Module} from 'ngx-barcode6';
+import {BuyWithoutCardFirstStepComponent} from './buy-without-card-first-step/buy-without-card-first-step.component';
+import {BuyWithoutCardSecondStepComponent} from './buy-without-card-second-step/buy-without-card-second-step.component';
 import {BuyWithoutCardService} from './buy-without-card.service';
-
-const maskConfig: Partial<IConfig> = {
-  validation: false,
-};
-
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 
 const routes: Routes = [
   {
@@ -39,7 +34,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [BuyWithoutCardComponent, FirstStepCredixCodeComponent, SecondStepMakeBuyComponent],
+  declarations: [BuyWithoutCardComponent, BuyWithoutCardFirstStepComponent, BuyWithoutCardSecondStepComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -60,10 +55,9 @@ const routes: Routes = [
     MatIconModule,
     CredixCodeInputModule,
     SharedModule,
-    NgxMaskModule.forRoot(maskConfig),
-    BarcodeGeneratorAllModule,
-    QRCodeGeneratorAllModule,
-    DataMatrixGeneratorAllModule
+    NgxMaskModule,
+    NgxBarcode6Module,
+    CredixDividerModule
   ],
   providers: [
     BuyWithoutCardService

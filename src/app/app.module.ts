@@ -8,7 +8,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CoreModule} from './core/core.module';
 import {CredixToastModule} from './shared/components/credix-toast';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import {BarcodeGeneratorAllModule, DataMatrixGeneratorAllModule, QRCodeGeneratorAllModule} from '@syncfusion/ej2-angular-barcode-generator';
 
 registerLocaleData(localeES, 'es');
 
@@ -22,10 +21,7 @@ registerLocaleData(localeES, 'es');
     AppRoutingModule,
     CredixToastModule,
     CoreModule,
-    NgxSpinnerModule,
-    BarcodeGeneratorAllModule,
-    QRCodeGeneratorAllModule,
-    DataMatrixGeneratorAllModule
+    NgxSpinnerModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'es'}

@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {FirstStepCredixCodeComponent} from './first-step-credix-code.component';
+import {BuyWithoutCardFirstStepComponent} from './buy-without-card-first-step.component';
 
 describe('FirstStepCredixCodeComponent', () => {
-  let component: FirstStepCredixCodeComponent;
-  let fixture: ComponentFixture<FirstStepCredixCodeComponent>;
+  let component: BuyWithoutCardFirstStepComponent;
+  let fixture: ComponentFixture<BuyWithoutCardFirstStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FirstStepCredixCodeComponent]
+      declarations: [BuyWithoutCardFirstStepComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FirstStepCredixCodeComponent);
+    fixture = TestBed.createComponent(BuyWithoutCardFirstStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

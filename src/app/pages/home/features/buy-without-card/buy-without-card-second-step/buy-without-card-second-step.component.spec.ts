@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SecondStepMakeBuyComponent} from './second-step-make-buy.component';
+import {BuyWithoutCardSecondStepComponent} from './buy-without-card-second-step.component';
 
 describe('SecondStepMakeBuyComponent', () => {
-  let component: SecondStepMakeBuyComponent;
-  let fixture: ComponentFixture<SecondStepMakeBuyComponent>;
+  let component: BuyWithoutCardSecondStepComponent;
+  let fixture: ComponentFixture<BuyWithoutCardSecondStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SecondStepMakeBuyComponent]
+      declarations: [BuyWithoutCardSecondStepComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SecondStepMakeBuyComponent);
+    fixture = TestBed.createComponent(BuyWithoutCardSecondStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

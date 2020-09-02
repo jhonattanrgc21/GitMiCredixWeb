@@ -1,0 +1,19 @@
+.buy-without-card-first-step {
+  margin-top: 32px;
+  padding: 0 84px;
+
+  &__input {
+    width: 380px;
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+  .buy-without-card-first-step {
+
+    &__input {
+      width: 266px;
+    }
+  }
+
+}

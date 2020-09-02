@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {HomeRoutingModule} from './home-routing.module';
 import {HomeComponent} from './home.component';
 import {SharedModule} from '../../shared/shared.module';
-import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
 import {HomeService} from './home.service';
 import {HomeNavigationMenuComponent} from './home-components/home-navigation-menu/home-navigation-menu.component';
 import {MenuOptionComponent} from './home-components/home-navigation-menu/menu-option/menu-option.component';
@@ -18,7 +17,6 @@ import {CredixResultNotificationModule} from '../../shared/components/credix-res
 import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
 
-
 @NgModule({
   declarations: [
     HomeComponent,
@@ -30,7 +28,6 @@ import {SimplebarAngularModule} from 'simplebar-angular';
     CommonModule,
     HomeRoutingModule,
     SharedModule,
-    OverlayscrollbarsModule,
     CredixShareButtonModule,
     CredixResultNotificationModule,
     CredixPopupAlternativeModule,
