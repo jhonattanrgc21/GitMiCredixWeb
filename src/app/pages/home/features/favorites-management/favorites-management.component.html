@@ -1,1 +1,8 @@
-<p>favorites-management works!</p>
+<mat-card class="favorites-management" credixCard fxLayout="column" fxLayoutGap="16px">
+  <h1>Gestionar favoritos</h1>
+
+  <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+
+  <router-outlet></router-outlet>
+
+</mat-card>

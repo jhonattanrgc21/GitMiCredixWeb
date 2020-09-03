@@ -1,0 +1,32 @@
+<div class="iban-accounts" fxLayout="column">
+
+  <credix-navigation-table [headers]="tableHeaders">
+    <div class="w-100 iban-accounts__list" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="9px" left>
+      <a class="iban-accounts__account-info-wrapper" fxLayoutAlign="center center">
+        <span>{{name}}</span>
+        <span fxLayout="row" fxLayoutAlign="space-between">{{accountNumber}}
+          <mat-icon style="fill: #E42313; width: 8px; height: 3px;" svgIcon="chevron_right"></mat-icon></span>
+      </a>
+      <mat-divider class="iban-accounts__footer" credixDivider></mat-divider>
+      <div class="iban-accounts__footer" fxLayoutAlign="center">
+        <credix-button (buttonClick)="addIbanAccount()" text="Añadir cuenta IBAN"></credix-button>
+      </div>
+    </div>
+
+    <div class="iban-accounts__right-content" fxLayout="column" fxLayoutAlign="center center" right>
+      <div fxLayout="column">
+        <span> <strong>Banco Nacional</strong></span>
+        <span class="mb-16px">{{accountNumber}}</span>
+        <credix-input-field [displayValue]="name" label="Nombre de favorito"></credix-input-field>
+      </div>
+
+      <mat-divider class="iban-accounts__footer" credixDivider></mat-divider>
+      <div class="iban-accounts__footer" fxLayoutAlign="flex-end">
+        <div fxLayoutGap="16px">
+          <credix-button (buttonClick)="save()" text="Guardar"></credix-button>
+          <credix-button (buttonClick)="delete()" text="Eliminar" type="secondary"></credix-button>
+        </div>
+      </div>
+    </div>
+  </credix-navigation-table>
+</div>
