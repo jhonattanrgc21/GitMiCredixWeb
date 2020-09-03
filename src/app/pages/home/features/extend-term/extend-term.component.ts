@@ -1,9 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {HttpService} from '../../../../core/services/http.service';
-import {ModalService} from '../../../../core/services/modal.service';
-import {Router} from '@angular/router';
-import {StorageService} from '../../../../core/services/storage.service';
-import {ConvertStringDateToDate} from '../../../../shared/utils';
+import { Component, Input, OnInit } from '@angular/core';
+import { HttpService } from '../../../../core/services/http.service';
+import { ModalService } from '../../../../core/services/modal.service';
+import { Router } from '@angular/router';
+import { StorageService } from '../../../../core/services/storage.service';
+import { ConvertStringDateToDate } from '../../../../shared/utils';
+
+
 
 @Component({
   selector: 'app-extend-term',
@@ -12,10 +14,10 @@ import {ConvertStringDateToDate} from '../../../../shared/utils';
 })
 export class ExtendTermComponent implements OnInit {
   tableHeaders = [
-    {label: 'Consumos', width: '30%'},
-    {label: 'Ampliación', width: '70%'}
+    { label: 'Consumos', width: '30%' },
+    { label: 'Ampliación', width: '70%' }
   ];
-  optionsScroll = {autoHide: false, scrollbarMinSize: 100};
+  optionsScroll = { autoHide: false, scrollbarMinSize: 100 };
   optionSelected = {
     id: 0,
     name: '',
@@ -68,6 +70,7 @@ export class ExtendTermComponent implements OnInit {
   showResponse = false;
   currencyCode = '$';
   empty = false;
+  movLength;
 
   constructor(
     private storageService: StorageService,
@@ -79,6 +82,7 @@ export class ExtendTermComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllowedMovements();
+
   }
 
   getOptionDetail(option) {
@@ -108,10 +112,10 @@ export class ExtendTermComponent implements OnInit {
         channelId: 102,
       })
       .subscribe((res) => {
-        console.log(res);
         if (res.result.length) {
           this.allowedMovements = res.result;
           this.empty = false;
+          this.movLength = res.result.length
 
           this.allowedMovements.forEach(async (elem, i) => {
             this.quotaList = await this.calculateQuota(elem.movementId, i);
@@ -132,6 +136,9 @@ export class ExtendTermComponent implements OnInit {
               },
             ];
           });
+
+
+
         } else {
           this.empty = true;
         }
@@ -156,7 +163,16 @@ export class ExtendTermComponent implements OnInit {
       })
       .subscribe((res) => {
         if (res.type === 'success') {
-          this.options[i] = {...this.options[i], subOptions: res.listQuota};
+          this.options[i] = { ...this.options[i], subOptions: res.listQuota };
+          if (i === this.movLength - 1) {
+            if (this.router.parseUrl(this.router.url).queryParams.q && this.options.length) {
+              const movementId = this.router.parseUrl(this.router.url).queryParams.q;
+              const option = this.options.find(mov => mov.movementId == movementId);
+              if (option) {
+                this.getOptionDetail(option);
+              }
+            }
+          }
         }
       });
   }
