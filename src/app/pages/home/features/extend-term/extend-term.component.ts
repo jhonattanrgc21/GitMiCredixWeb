@@ -3,6 +3,7 @@ import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
+import {ConvertStringDateToDate} from '../../../../shared/utils';
 
 @Component({
   selector: 'app-extend-term',
@@ -10,8 +11,55 @@ import {StorageService} from '../../../../core/services/storage.service';
   styleUrls: ['./extend-term.component.scss'],
 })
 export class ExtendTermComponent implements OnInit {
-  @Input() optionSelected;
-  @Input() quotaSelected;
+  tableHeaders = [
+    {label: 'Consumos', width: '30%'},
+    {label: 'Ampliación', width: '70%'}
+  ];
+  optionsScroll = {autoHide: false, scrollbarMinSize: 100};
+  optionSelected = {
+    id: 0,
+    name: '',
+    icon: '',
+    img: '',
+    cardId: 0,
+    totalPlanQuota: 0,
+    accountNumber: 0,
+    movementId: '',
+    originDate: '',
+    originAmount: '',
+    originCurrency: '',
+    quotaAmount: 0,
+    subOptions: [],
+    restrictions: {
+      linkFacebook: '',
+      name: '',
+      paymentPlaceRestriction: [],
+      webPage: '',
+    },
+  };
+
+  changedQuotas = {
+    feeAmount: '0',
+    feePercentage: 0,
+    quotaTo: 6,
+    amountPerQuota: '0',
+    quotaFrom: 3,
+    financedPlan: 0,
+    purchaseAmount: '0',
+  };
+
+
+  quotaSelected = {
+    feeAmount: '0',
+    feePercentage: 0,
+    quotaTo: 6,
+    amountPerQuota: '0',
+    quotaFrom: 3,
+    financedPlan: 0,
+    purchaseAmount: '0',
+  };
+
+  quotas = 6;
   options = [];
   allowedMovements;
   quotaList;
@@ -33,6 +81,25 @@ export class ExtendTermComponent implements OnInit {
     this.getAllowedMovements();
   }
 
+  getOptionDetail(option) {
+    this.optionSelected = option;
+    this.changedQuotas = this.optionSelected.subOptions.find(
+      (el) => el.quotaTo === this.quotas
+    );
+    this.quotaSelected = this.changedQuotas
+  }
+
+  changeQuotas(e) {
+    this.quotas = e;
+    this.changedQuotas = this.optionSelected.subOptions.find(
+      (el) => el.quotaTo === e
+    );
+    this.quotaSelected = this.changedQuotas;
+
+  }
+
+
+
   getAllowedMovements() {
     this.httpService
       .post('canales', 'channels/allowedmovements', {
@@ -48,7 +115,7 @@ export class ExtendTermComponent implements OnInit {
 
           this.allowedMovements.forEach(async (elem, i) => {
             this.quotaList = await this.calculateQuota(elem.movementId, i);
-            const quotaAmount = +elem.originAmount / +elem.totalPlanQuota;
+            const quotaAmount = this.changeFormat(elem.originAmount) / elem.totalPlanQuota;
             this.options = [
               ...this.options,
               {
@@ -70,6 +137,17 @@ export class ExtendTermComponent implements OnInit {
         }
       });
   }
+
+  convertStringDateToDate(value: string): Date {
+    return ConvertStringDateToDate(value);
+  }
+
+  changeFormat(value) {
+    const removeDot = value.replace('.', '');
+    const finalString = removeDot.replace(',', '.');
+    return Number(finalString);
+  }
+
 
   calculateQuota(movementId, i) {
     this.httpService
