@@ -22,12 +22,15 @@
           </div>
         </div>
 
-        <a (click)="deleteAdditionalCard()" class="additional-cards__card__delete">
+        <a (click)="openConfirmModal(additionalCard.cardId)" class="additional-cards__card__delete">
           <mat-icon svgIcon="delete"></mat-icon>
         </a>
       </div>
 
       <credix-slider class="additional-cards__slider"
+                     (inputChange)="enableButton($event, additionalCard.cardId)"
+                     (valueChange)="enableButton($event, additionalCard.cardId)"
+                     [value]="additionalCard.limitPercentage"
                      displayMax="100%"
                      displayMin="25%"
                      instructions="Límite asignado"
@@ -36,8 +39,9 @@
                      step="25"
                      units="%"></credix-slider>
 
-      <credix-button (click)="goToNewAdditionalCard()" class="additional-cards__card__button" fxFlexAlign="flex-end"
-                     text="Aplicar cambio"></credix-button>
+      <credix-button (click)="setNewCreditLimit()" [disabled]="cardId !== additionalCard.cardId"
+                     class="additional-cards__card__button"
+                     fxFlexAlign="flex-end" text="Aplicar cambio"></credix-button>
     </mat-card>
 
   </div>

@@ -5,26 +5,25 @@ import {Subject} from 'rxjs';
 @Injectable()
 export class AdditionalCardsManagementService {
   private readonly saveAdditionalCardUri = 'channels/saveadditionalcard';
+  personalInfo$ = this._personalInfo.asObservable();
+  pickUpPlace$ = this._pickUpPlace.asObservable();
 
   // tslint:disable-next-line:variable-name
   private _personalInfo = new Subject<PersonalInfo>();
-
-  personalInfo$ = this._personalInfo.asObservable();
-
   set personalInfo(personalInfo: PersonalInfo) {
     this._personalInfo.next(personalInfo);
   }
 
   // tslint:disable-next-line:variable-name
   private _pickUpPlace = new Subject<string>();
-
-  constructor(private httpService: HttpService) {
-  }
-
-  pickUpPlace$ = this._pickUpPlace.asObservable();
+  private readonly setCreditLimitUri = 'channels/setlimitnumberpercentage';
+  private readonly disableAdditionalCardUri = 'channels/deactivateadditionalcard';
 
   set pickUpPlace(pickUpPlace: string) {
     this._pickUpPlace.next(pickUpPlace);
+  }
+
+  constructor(private httpService: HttpService) {
   }
 
   saveAdditionalCard(name: string, lastNames: string, idIdentificationType: number, identification: string, phone: string, email: string,
@@ -41,6 +40,21 @@ export class AdditionalCardsManagementService {
         limitPercentage,
         retreatPlace,
         credixCode,
+      });
+  }
+
+  setCreditLimit(cardId: number, limitPercentage: number) {
+    return this.httpService
+      .post('canales', this.setCreditLimitUri, {
+        cardId,
+        limitPercentage
+      });
+  }
+
+  disableAdditionalCard(cardId: number) {
+    return this.httpService
+      .post('canales', this.disableAdditionalCardUri, {
+        cardId,
       });
   }
 }
