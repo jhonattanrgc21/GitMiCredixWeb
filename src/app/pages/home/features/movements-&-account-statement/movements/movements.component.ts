@@ -17,6 +17,7 @@ export class MovementsComponent implements OnInit {
 
   ngOnInit(): void {
     this.movementsService.dataSourceObs.subscribe(movements => this.movementDataSource = movements);
+
   }
 
 
