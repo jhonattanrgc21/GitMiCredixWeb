@@ -12,16 +12,15 @@ export class AdditionalCardsManagementService {
 
   // tslint:disable-next-line:variable-name
   private _pickUpPlace = new Subject<string>();
+  set pickUpPlace(pickUpPlace: string) {
+    this._pickUpPlace.next(pickUpPlace);
+  }
 
   private readonly saveAdditionalCardUri = 'channels/saveadditionalcard';
   private readonly setCreditLimitUri = 'channels/setlimitnumberpercentage';
   private readonly disableAdditionalCardUri = 'channels/deactivateadditionalcard';
   personalInfo$ = this._personalInfo.asObservable();
   pickUpPlace$ = this._pickUpPlace.asObservable();
-
-  set pickUpPlace(pickUpPlace: string) {
-    this._pickUpPlace.next(pickUpPlace);
-  }
 
   constructor(private httpService: HttpService) {
   }
