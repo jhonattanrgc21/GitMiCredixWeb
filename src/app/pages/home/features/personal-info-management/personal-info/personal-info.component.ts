@@ -59,7 +59,7 @@ export class PersonalInfoComponent implements OnInit {
     this.personalInfoManagementService.saveApplicantProfilePhoto(image, format, size).subscribe(response => {
       if (response.type === 'success') {
         this.getApplicantProfilePhoto();
-        this.globalRequestsService.userApplicantProfileImage = null;
+        this.globalRequestsService.clearUserApplicantProfileImage();
       }
     });
   }

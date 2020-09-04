@@ -81,8 +81,9 @@ const routes: Routes = [
         loadChildren: () => import('./features/favorites-management/favorites-management.module.js').then(m => m.FavoritesManagementModule)
       },
       {
-        path: 'additional-cards',
-        loadChildren: () => import('./features/additional-cards/additional-cards.module.js').then(m => m.AdditionalCardsModule)
+        path: 'additional-cards-management',
+        loadChildren: () => import('./features/additional-cards-management/additional-cards-management.module.js')
+          .then(m => m.AdditionalCardsManagementModule)
       },
     ]
   }

@@ -38,7 +38,6 @@ export class SendMoneyService {
             nameDestination, period, commissionAmount, totalAmount, identification, credixCode) {
     return this.httpService
       .post('canales', this.sendMoneyUri, {
-        channelId: 102,
         ibanOrigin,
         crcId,
         esbId: 50126,

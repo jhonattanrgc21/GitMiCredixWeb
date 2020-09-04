@@ -67,7 +67,7 @@ export class ReportTransferenceComponent implements OnInit {
         bank: this.reportTransferenceGroup.controls.bank.value,
         currency: this.reportTransferenceGroup.controls.currency.value,
         amount: +this.reportTransferenceGroup.controls.amount.value,
-        paymentDate: `${paymentDate.getFullYear()}-${paymentDate.getMonth() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getMonth() + 1}-${paymentDate.getDate() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getDate() + 1}`,
+        paymentDate: `${paymentDate.getFullYear()}-${paymentDate.getMonth() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getMonth() + 1}-${paymentDate.getDate() < 10 ? '0' + (paymentDate.getDate() + 1) : paymentDate.getDate() + 1}`,
         imagebase64: this.image ? this.image.file.split(',')[1] : null,
         imageType: this.image ? this.image.type : null
       }).subscribe(response => {

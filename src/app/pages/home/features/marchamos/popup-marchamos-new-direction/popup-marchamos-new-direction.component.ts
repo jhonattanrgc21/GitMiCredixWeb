@@ -9,12 +9,9 @@ import {HttpService} from 'src/app/core/services/http.service';
   styleUrls: ['./popup-marchamos-new-direction.component.scss']
 })
 export class PopupMarchamosNewDirectionComponent implements OnInit {
-
   provinces: any[];
   cantons: any[];
   districs: any[];
-
-
   newDeliveryForm: FormGroup = new FormGroup({
     province: new FormControl('', [Validators.required]),
     canton: new FormControl('', [Validators.required]),
