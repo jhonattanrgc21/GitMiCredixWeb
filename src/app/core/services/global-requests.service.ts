@@ -306,7 +306,13 @@ export class GlobalRequestsService {
       }).pipe(
         publishReplay(1),
         refCount(),
-        map(response => response.imgBase64));
+        map(response => {
+          if (response.type === 'success') {
+            return response.imgBase64;
+          } else {
+            return null;
+          }
+        }));
     }
     return this.userApplicantProfileImage;
   }

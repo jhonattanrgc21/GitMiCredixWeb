@@ -47,7 +47,7 @@ export class LandingComponent implements OnInit {
               private globalRequestsService: GlobalRequestsService,
               private storageService: StorageService) {
     this.goHomeService.goHome();
-    this.cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId;
+    this.cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal')?.cardId;
   }
 
   ngOnInit(): void {
