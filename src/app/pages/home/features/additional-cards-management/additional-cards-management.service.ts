@@ -4,10 +4,6 @@ import {Subject} from 'rxjs';
 
 @Injectable()
 export class AdditionalCardsManagementService {
-  private readonly saveAdditionalCardUri = 'channels/saveadditionalcard';
-  personalInfo$ = this._personalInfo.asObservable();
-  pickUpPlace$ = this._pickUpPlace.asObservable();
-
   // tslint:disable-next-line:variable-name
   private _personalInfo = new Subject<PersonalInfo>();
   set personalInfo(personalInfo: PersonalInfo) {
@@ -16,8 +12,12 @@ export class AdditionalCardsManagementService {
 
   // tslint:disable-next-line:variable-name
   private _pickUpPlace = new Subject<string>();
+
+  private readonly saveAdditionalCardUri = 'channels/saveadditionalcard';
   private readonly setCreditLimitUri = 'channels/setlimitnumberpercentage';
   private readonly disableAdditionalCardUri = 'channels/deactivateadditionalcard';
+  personalInfo$ = this._personalInfo.asObservable();
+  pickUpPlace$ = this._pickUpPlace.asObservable();
 
   set pickUpPlace(pickUpPlace: string) {
     this._pickUpPlace.next(pickUpPlace);
