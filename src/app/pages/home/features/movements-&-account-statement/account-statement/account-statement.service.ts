@@ -3,9 +3,7 @@ import {HttpService} from '../../../../../core/services/http.service';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {Subject} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AccountStatementService {
   private getAccountStatementUri = 'channels/getstateaccount';
   private downloadAccountStatementUri = 'channels/getbankaccountstatement';

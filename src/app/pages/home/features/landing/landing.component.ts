@@ -40,12 +40,14 @@ export class LandingComponent implements OnInit {
   movementsTags = {
     titleTag: 'Movimientos'
   };
+  cardId: number;
 
   constructor(private landingService: LandingService,
               private goHomeService: GoHomeService,
               private globalRequestsService: GlobalRequestsService,
               private storageService: StorageService) {
     this.goHomeService.goHome();
+    this.cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId;
   }
 
   ngOnInit(): void {
@@ -54,8 +56,8 @@ export class LandingComponent implements OnInit {
     this.getAccountsSummary();
   }
 
-  getHomeContent(cardId: number = this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId) {
-    this.landingService.getHomeContent(cardId).subscribe(response => {
+  getHomeContent() {
+    this.globalRequestsService.getHomeContent(this.cardId).subscribe(response => {
       this.paymentDetails = {
         currentDate: response.fechaActual,
         nextCutOffDate: response.fechaProximaCorte,
@@ -69,7 +71,6 @@ export class LandingComponent implements OnInit {
       };
 
       this.movements = response.movements;
-      console.log(this.movements);
 
       if (response.listBanner) {
         response.listBanner.forEach(banner => {
@@ -84,8 +85,8 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  getAccountsSummary(cardId?: number) {
-    this.globalRequestsService.getAccountSummary(cardId).subscribe(response => {
+  getAccountsSummary() {
+    this.globalRequestsService.getAccountSummary(this.cardId).subscribe(response => {
       this.accountSummary = response;
     });
   }
@@ -124,8 +125,13 @@ export class LandingComponent implements OnInit {
   }
 
   onCardChanged(cardId: number) {
-    this.getHomeContent(cardId);
-    this.getAccountsSummary(cardId);
+    if (cardId !== this.cardId) {
+      this.cardId = cardId;
+      this.globalRequestsService.clearHomeContent();
+      this.globalRequestsService.clearAccountSummary();
+      this.getHomeContent();
+      this.getAccountsSummary();
+    }
   }
 }
 

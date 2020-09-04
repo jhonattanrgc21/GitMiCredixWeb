@@ -47,15 +47,21 @@ export class PaymentDetailsComponent implements OnInit, OnChanges {
     const nextCutOffDate = ConvertStringDateToDate(nextCutOff);
     const nextPaymentDate = ConvertStringDateToDate(nextPayment);
 
-    if (this.today.getTime() > lastPaymentDate.getTime()) {
+    if (this.today.getTime() >= lastCutOffDate.getTime() && this.today.getTime() < lastPaymentDate.getTime()) {
+      this.startDate = lastCutOffDate;
+      this.endDate = lastPaymentDate;
+      this.firstLabel = this.paymentDetailsTags.cutOffTag;
+      this.secondLabel = this.paymentDetailsTags.maxPaymentDateTag;
+      this.toggleBarColor = false;
+    } else if (this.today.getTime() >= lastPaymentDate.getTime() && this.today.getTime() < nextCutOffDate.getTime()) {
       this.startDate = lastPaymentDate;
       this.endDate = nextCutOffDate;
       this.firstLabel = this.paymentDetailsTags.maxPaymentDateTag;
       this.secondLabel = this.paymentDetailsTags.cutOffTag;
       this.toggleBarColor = true;
-    } else {
-      this.startDate = lastCutOffDate;
-      this.endDate = lastPaymentDate;
+    } else if (this.today.getTime() >= nextCutOffDate.getTime() && this.today.getTime() < nextPaymentDate.getTime()) {
+      this.startDate = nextCutOffDate;
+      this.endDate = nextPaymentDate;
       this.firstLabel = this.paymentDetailsTags.cutOffTag;
       this.secondLabel = this.paymentDetailsTags.maxPaymentDateTag;
       this.toggleBarColor = false;

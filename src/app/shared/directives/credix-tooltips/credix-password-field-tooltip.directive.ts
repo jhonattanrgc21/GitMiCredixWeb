@@ -13,6 +13,7 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
   @Input() panelClass: string;
   @Input() tooltipWidth: number;
   @Input() tooltipOffsetY: number;
+  @Input() tooltipType: 'password' | 'pin' = 'password';
   private overlayRef: OverlayRef;
   private tooltipRef: ComponentRef<CredixPasswordFieldTooltipComponent>;
 
@@ -36,7 +37,6 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
       positionStrategy,
       width: this.tooltipWidth ? `${this.tooltipWidth}px` : this.elementRef.nativeElement.offsetWidth
     });
-
     this.passwordControl.valueChanges.subscribe(value => {
       this.validate(value);
       if (this.overlayRef && this.overlayRef.hasAttached()) {
@@ -65,26 +65,42 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
   show() {
     this.tooltipRef = this.overlayRef.attach(new ComponentPortal(CredixPasswordFieldTooltipComponent));
     // @ts-ignore
+    this.tooltipRef.instance.tooltipType = this.tooltipType;
     this.tooltipRef.instance.errors = this.passwordControl.errors;
+
   }
 
   validate(value) {
     let validationObject = {...this.passwordControl.errors};
 
-    if (value && value.length < 8) {
-      validationObject = {...validationObject, minLength: true};
-    }
+    if (this.tooltipType === 'password') {
+      if (value && value.length < 8) {
+        validationObject = {...validationObject, minLength: true};
+      }
 
-    if (value && !(new RegExp('[A-Z]').test(value))) {
-      validationObject = {...validationObject, upperCaseLetter: true};
-    }
+      if (value && !(new RegExp('[A-Z]').test(value))) {
+        validationObject = {...validationObject, upperCaseLetter: true};
+      }
 
-    if (value && !(new RegExp('[a-z]').test(value))) {
-      validationObject = {...validationObject, lowerCaseLetter: true};
-    }
+      if (value && !(new RegExp('[a-z]').test(value))) {
+        validationObject = {...validationObject, lowerCaseLetter: true};
+      }
 
-    if (value && !(new RegExp('[0-9]').test(value))) {
-      validationObject = {...validationObject, numericDigit: true};
+      if (value && !(new RegExp('[0-9]').test(value))) {
+        validationObject = {...validationObject, numericDigit: true};
+      }
+    } else {
+      if (value && value.length < 4) {
+        validationObject = {...validationObject, minLength: true};
+      }
+
+      if (value && (new RegExp('[A-Z]').test(value))) {
+        validationObject = {...validationObject, upperCaseLetter: true};
+      }
+
+      if (value && (new RegExp('[a-z]').test(value))) {
+        validationObject = {...validationObject, lowerCaseLetter: true};
+      }
     }
 
     if (Object.keys(validationObject).length === 0) {

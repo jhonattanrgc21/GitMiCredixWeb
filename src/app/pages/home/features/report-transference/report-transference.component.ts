@@ -5,8 +5,8 @@ import {ReportTransferenceService} from './report-transference.service';
 import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
-import {DeviceInfo} from 'ngx-device-detector/device-detector.service';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-report-transference',
@@ -21,21 +21,26 @@ export class ReportTransferenceComponent implements OnInit {
     date: new FormControl(null, [Validators.required])
   });
   image: { file: string; name: string; size: number, type: string };
-  deviceInfo: DeviceInfo;
+  os: string;
   currencies: Currency[] = [];
   open = false;
-  banks = ['BAC', 'Banco Nacional', 'Otros'];
+  banks = ['BAC', 'Banco Nacional'];
+  done = false;
+  message = '';
+  status: 'success' | 'error' = 'success';
+  title = '';
 
   constructor(private reportTransferenceService: ReportTransferenceService,
               private globalRequestsService: GlobalRequestsService,
               private modalService: ModalService,
               private toastService: CredixToastService,
+              private router: Router,
               private deviceService: DeviceDetectorService) {
   }
 
   ngOnInit(): void {
     this.globalRequestsService.getCurrencies().subscribe(currencies => this.currencies = currencies);
-    this.deviceInfo = this.deviceService.getDeviceInfo();
+    this.os = this.deviceService.getDeviceInfo().os;
   }
 
   openCalendar() {
@@ -62,12 +67,20 @@ export class ReportTransferenceComponent implements OnInit {
         bank: this.reportTransferenceGroup.controls.bank.value,
         currency: this.reportTransferenceGroup.controls.currency.value,
         amount: +this.reportTransferenceGroup.controls.amount.value,
-        paymentDate: `${paymentDate.getFullYear()}-${paymentDate.getMonth() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getMonth() + 1}-${paymentDate.getDate() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getDate() + 1}`,
-        imagebase64: this.image ? this.image.file : null,
-        imageType: this.image ? this.image.type.substring(6, this.image.type.length) : null
+        paymentDate: `${paymentDate.getFullYear()}-${paymentDate.getMonth() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getMonth() + 1}-${paymentDate.getDate() < 10 ? '0' + (paymentDate.getDate() + 1) : paymentDate.getDate() + 1}`,
+        imagebase64: this.image ? this.image.file.split(',')[1] : null,
+        imageType: this.image ? this.image.type : null
       }).subscribe(response => {
         this.toastService.show({text: response.message, type: response.type});
+        this.done = true;
+        this.message = response.message;
+        this.status = response.type;
+        this.title = this.status === 'success' ? '¡Éxito!' : 'Error';
       });
     }
+  }
+
+  goHome() {
+    this.router.navigate(['/home']);
   }
 }

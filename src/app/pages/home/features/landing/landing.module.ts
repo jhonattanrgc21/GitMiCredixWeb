@@ -22,6 +22,9 @@ import {CredixPaymentBarModule} from '../../../../shared/components/credix-payme
 import {MatTableModule} from '@angular/material/table';
 import {TablesDirectivesModule} from '../../../../shared/directives/tables/tables-directives.module';
 import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {LandingService} from './landing.service';
+import {ModalService} from '../../../../core/services/modal.service';
 
 const routes: Routes = [
   {
@@ -50,7 +53,12 @@ const routes: Routes = [
     CredixPaymentBarModule,
     MatTableModule,
     TablesDirectivesModule,
-    DateFormatterModule
+    DateFormatterModule,
+    CredixDividerModule
+  ],
+  providers: [
+    LandingService,
+    ModalService
   ]
 })
 export class LandingModule {

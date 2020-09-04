@@ -3,10 +3,11 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpService} from 'src/app/core/services/http.service';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {CdkStepper} from '@angular/cdk/stepper';
-import {ConsultVehicle} from 'src/app/shared/models/consultVehicle.models';
 import {StorageService} from 'src/app/core/services/storage.service';
 import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
 import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
+import {MarchamosService} from './marchamos.service';
+import {ConsultVehicle} from '../../../../shared/models/consultVehicle.models';
 
 @Component({
   selector: 'app-marchamos',
@@ -14,94 +15,68 @@ import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
   styleUrls: ['./marchamos.component.scss']
 })
 export class MarchamosComponent implements OnInit {
-
-
-  consultVehicle: ConsultVehicle;
   ownerPayer: OwnerPayer;
-  billingHistorys: BillingHistory[];
-
-  newDeliveryDirection: any;
-
-  vehicleInformation: boolean;
-  totalMount: any;  //'₡ 114.996,00'
-  value: number = 1;
-  quotesAmount: number;
-
+  billingHistories: BillingHistory[];
+  consultVehicle: ConsultVehicle;
+  responseToPay: {
+    messageToPay: string,
+    responseToPay: string,
+    totalMount: number,
+    quotas: number,
+    plateNumber: string,
+    firstCouteToPayIn: string
+  } = {
+    messageToPay: '',
+    responseToPay: '',
+    totalMount: 0,
+    quotas: 0,
+    plateNumber: '',
+    firstCouteToPayIn: ''
+  };
   amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
     responsabilityCivilAmount: 8745.00,
     roadAsistanceAmount: 3359.00,
     moreProtectionAmount: 7140.00
   };
-  commission: number = 0;
-  responseToContinue: string;
-  contactToConfirm: { name: string, email: string, phone: string } = {
-    name: '',
-    email: '',
-    phone: ''
-  };
-  placeOfRetreat: { placeDescription: string } = {
-    placeDescription: ''
-  };
-  dataForPayResumen: any[] = [];
-  dataPayResume: { totalMount: any, totalAmountItemsProducts: number, iva: number, commission: number } =
-    {
-      totalMount: 0,
-      totalAmountItemsProducts: 0,
-      iva: 0,
-      commission: 0
-    };
-  // maxQuotes: number;
-  // minQuotes: number;
-
-  iva: number = 0;
-  totalAmountItemsProducts: number = 0;
-  cardNumber: string;
-  addressAplicant: any[] = [];
+  commission = 0;
+  stepperIndex = 0;
+  iva = 0;
+  confirmForm: FormGroup = new FormGroup({
+    credixCode: new FormControl(null, [Validators.required])
+  });
+  totalAmountItemsProducts = 0;
+  cardId: number;
   informationApplicant: any;
-  // domicile: boolean = false;
-  // newDomicile: boolean = false;
   promoStatus: any;
-  responseResultPay: boolean = false;
-  responseToPay: string;
-  messageToPay: string;
-  titleToPay: string;
-  email: string;
-
-  resultPay: { messageToPay: string, responseToPay: string, titleToPay: string };
-  dataPay: { totalMount: any, value: number, plateNumber: string, firstCouteToPayIn: string };
-
-
+  responseResultPay = false;
   options = {autoHide: false, scrollbarMinSize: 100};
-
+  disableButton = true;
   consultForm: FormGroup = new FormGroup({
-    vehicleType: new FormControl('', [Validators.required]),
-    plateNumber: new FormControl('', [Validators.required])
+    vehicleType: new FormControl(null, [Validators.required]),
+    plateNumber: new FormControl(null, [Validators.required])
   });
-
   secureAndQuotesForm: FormGroup = new FormGroup({
-    aditionalProducts: new FormArray([]),
-    quotesToPay: new FormControl(''),
-    firstCouteToPayIn: new FormControl('')
+    additionalProducts: new FormArray([]),
+    quota: new FormControl(null, [Validators.required]),
+    quotaId: new FormControl(null, [Validators.required]),
+    firstQuotaDate: new FormControl(null, [Validators.required])
   });
-
   pickUpForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
-    pickUp: new FormControl('', []),
+    email: new FormControl(null, [Validators.email]),
+    pickUp: new FormControl(null, []),
     domicile: new FormArray([])
   });
-
-  confirmForm: FormGroup = new FormGroup({
-    credixCode: new FormControl('', [Validators.required])
-  });
-
-
+  private domicile: { person: string, phone: number, place: string } = {
+    person: '',
+    phone: 0,
+    place: ''
+  };
   @ViewChild('stepper') stepper: CdkStepper;
 
-  constructor(
-    private httpService: HttpService,
-    private modalService: ModalService,
-    private storageService: StorageService
-  ) {
+  constructor(private httpService: HttpService,
+              private marchamosService: MarchamosService,
+              private modalService: ModalService,
+              private storageService: StorageService) {
   }
 
   get consultControls() {
@@ -116,104 +91,89 @@ export class MarchamosComponent implements OnInit {
     return this.pickUpForm.controls;
   }
 
-  get confirmControls() {
-    return this.confirmForm.controls;
-  }
-
-  get amountValue() {
-    return this.totalMount;
-  }
-
-
   ngOnInit(): void {
-    this.getOwnersPayerInfo();
-    this.getPromo();
-    this.getCardValues();
-    this.getUserAplicantAccountNumber();
-    // this.getListQuotesByProduct();
-    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount + this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
-    console.log(this.totalAmountItemsProducts);
+    this.checkNextStep();
+    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount +
+      this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
   }
-
-
-  getUserAplicantAccountNumber() {
-    this.httpService.post('canales', 'applicant/finduserapplicantaccountnumber', {
-      channelId: 102,
-      accountNumber: this.storageService.getCurrentUser().accountNumber
-    }).subscribe(response => {
-      this.email = response.informationApplicant.applicant.email;
-      this.informationApplicant = response.informationApplicant.applicant;
-      this.addressAplicant = response.informationApplicant.applicant.addressApplicant;
-    });
-  }
-
 
   continue() {
     this.stepper.next();
+    this.stepperIndex = this.stepper.selectedIndex;
+    this.checkNextStep();
   }
 
-
-  getCardValues() {
-    this.storageService.getCurrentCards().forEach(cardValues => {
-      this.cardNumber = cardValues.cardNumber;
-    });
+  back() {
+    this.stepper.previous();
+    this.stepperIndex = this.stepper.selectedIndex;
+    this.checkNextStep();
   }
 
-  getDataOfQuotes(event) {
-    this.commission = event.commission;
-    this.iva = event.iva;
+  checkNextStep() {
+    switch (this.stepperIndex) {
+      case 0:
+        this.disableButton = !this.consultVehicle && !this.billingHistories;
+        this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
+          this.consultVehicle = value.consultVehicle;
+          this.billingHistories = value.billingHistories;
+          this.disableButton = !this.consultVehicle && !this.billingHistories;
+        });
+        break;
+      case 1:
+        this.disableButton = this.secureAndQuotesForm.invalid;
+
+        this.secureAndQuotesForm.valueChanges.subscribe(() => {
+          this.disableButton = this.secureAndQuotesForm.invalid;
+        });
+
+        this.marchamosService.ivaAndCommission.subscribe(value => {
+          this.iva = value.iva;
+          this.commission = value.commission;
+        });
+
+        this.marchamosService.ownerPayerInfo.subscribe(value => {
+          this.ownerPayer = value.ownerPayer;
+        });
+
+        this.getPromo();
+        break;
+      case 2:
+        this.disableButton = this.pickUpForm.invalid;
+
+        this.pickUpForm.valueChanges.subscribe(() => {
+          this.disableButton = this.pickUpForm.invalid;
+        });
+        break;
+      case 3:
+        this.disableButton = this.confirmForm.invalid;
+        this.confirmForm.valueChanges.subscribe(() => {
+          this.disableButton = this.confirmForm.invalid;
+        });
+
+        this.marchamosService.domicileDescription.subscribe(value => {
+          this.domicile = {
+            person: value.name,
+            phone: value.number,
+            place: value.detail
+          };
+        });
+        break;
+    }
   }
 
-  getDataOfDelivery(event) {
-    console.log(event);
+  getAnotherPay(event) {
+    this.responseResultPay = event;
+    (!this.responseResultPay) ? this.stepperIndex = 0 : this.stepperIndex = 3;
   }
-
-  getPlaceOfRetreatData(event) {
-    console.log(event);
-  }
-
 
   consult() {
-    this.httpService.post('marchamos', 'pay/vehicleconsult', {
-      channelId: 107,
-      plateClassId: this.consultControls.vehicleType.value.toString(),
-      plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
-      aditionalProducts: [
-        ''
-      ]
-    })
-      .subscribe(response => {
-        console.log(response);
-        this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
-        this.totalMount = response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
-        this.billingHistorys = response.REQUESTRESULT.soaResultVehicleConsult.item;
-        this.responseToContinue = response.type;
-        (typeof this.totalMount === 'string') ? this.quotesAmount = parseInt(this.totalMount.replace('.', '')) : this.quotesAmount = this.totalMount;
-        (response.type === 'success') ? this.vehicleInformation = !this.vehicleInformation : this.vehicleInformation;
-
-
-      });
-
+    this.marchamosService.consult();
   }
-
-  getOwnersPayerInfo() {
-    this.httpService.post('marchamos', 'owners/payerinfo', {
-      channelId: 107,
-      payerId: null,
-      accountNumber: this.storageService.getCurrentUser().accountNumber
-    })
-      .subscribe(response => {
-        console.log(response);
-        this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
-      });
-  }
-
-
 
   getPromo() {
     this.httpService.post('marchamos', 'pay/promoapply',
       {
-        channelId: 107,
+        channelId: 102,
         accountNumber: this.storageService.getCurrentUser().accountNumber.toString()
       })
       .subscribe(response => {
@@ -224,98 +184,57 @@ export class MarchamosComponent implements OnInit {
       });
   }
 
-  secureToPay(data?) {
-
+  secureToPay() {
     this.httpService.post('marchamos', 'pay/soapay',
       {
-        channelId: 107,
-        aditionalProducts: [],
-        amount: this.amountValue,
-        cardNumber: this.cardNumber,
-        deliveryPlaceId: (this.pickUpControls.pickUp.value === '') ? 1 : this.pickUpControls.pickUp.value,
-        domicilePerson: this.contactToConfirm.name,
-        domicilePhone: this.contactToConfirm.phone,
-        domicilePlace: this.placeOfRetreat.placeDescription,
-        email: this.pickUpControls.email.value,
+        channelId: 102,
+        aditionalProducts: this.secureAndQuotesControls.additionalProducts.value,
+        amount: this.consultVehicle.amount,
+        cardNumber: this.cardId,
+        deliveryPlaceId: (this.pickUpControls.pickUp.value === null) ? 1 : this.pickUpControls.pickUp.value,
+        authenticationNumberCommission: '0000',
+        authenticationNumberMarchamo1: '000000',
+        domicilePerson: this.domicile.person,
+        domicilePhone: this.domicile.phone,
+        domicilePlace: this.domicile.place,
+        email: (this.pickUpControls.email.value !== null) ? this.pickUpControls.email.value : this.ownerPayer.email,
+        ownerEmail: (this.pickUpControls.email.value !== null) ? this.pickUpControls.email.value : this.ownerPayer.email,
         extraCardStatus: '0',
-        firstPayment: this.promoStatus.paymentDate,
+        firstPayment: this.secureAndQuotesControls.firstQuotaDate.value,
         payId: this.consultVehicle.payId,
         payerId: this.ownerPayer.payerId,
         period: this.consultVehicle.period,
         phoneNumber: this.consultVehicle.contactPhone,
-        plateClassId: parseInt(this.consultControls.vehicleType.value),
+        plateClassId: +this.consultControls.vehicleType.value,
         plateNumber: this.consultControls.plateNumber.value.toUpperCase(),
         promoStatus: this.promoStatus.promoStatusId,
-        quotas: this.secureAndQuotesControls.quotesToPay.value,
-        transactionTypeId: 1
+        quotasId: this.secureAndQuotesControls.quotaId.value,
+        transactionTypeId: 1,
+        requiredBill: '1'
       })
       .subscribe(response => {
-        console.log(response);
         if (response.type) {
           this.responseResultPay = !this.responseResultPay;
         }
-        this.resultPay = {
+        this.responseToPay = {
           messageToPay: response.message,
           responseToPay: response.type,
-          titleToPay: response.title
-        };
-
-        this.dataPay = {
-          totalMount: this.totalMount,
-          value: this.secureAndQuotesControls.quotesToPay.value,
+          totalMount: this.consultVehicle.amount,
+          quotas: this.secureAndQuotesControls.quota.value,
           plateNumber: this.consultVehicle.plateNumber,
-          firstCouteToPayIn: this.secureAndQuotesControls.firstCouteToPayIn.value
+          firstCouteToPayIn: this.secureAndQuotesControls.firstQuotaDate.value
         };
       });
   }
 
-
   confirmModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(event => {
-      console.log(event);
       if (event) {
         this.secureToPay();
+      } else {
+        this.stepperIndex = 3;
       }
     });
-  }
-
-
-  firstStepContinue() {
-    this.quotesAmount = this.quotesAmount / this.value;
-    this.continue();
-
-  }
-
-  getValuesSecondStep() {
-    if (this.secureAndQuotesForm.value) {
-      console.log(this.secureAndQuotesForm.value);
-      this.continue();
-    }
-    // this.dataForPayResumen = [{
-    //   marchamos: this.totalMount,
-    //   itemsProductsAmount: [this.amountItemsProducts],
-    //   commission: this.commission,
-    //   billingHistory: this.billingHistorys,
-    //   quotesToPay: [
-    //     {
-    //       quotes: this.value,
-    //       quotesAmount: this.quotesAmount
-    //     }
-    //   ]
-    // }];
-
-  }
-
-  getValuesThirstyStep() {
-    console.log(this.pickUpForm.value);
-    // console.log(object);
-    this.continue();
-    this.dataPayResume = {
-      totalMount: this.totalMount,
-      totalAmountItemsProducts: this.totalAmountItemsProducts,
-      commission: this.commission,
-      iva: this.iva
-    };
   }
 
 

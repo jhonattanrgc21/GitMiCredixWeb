@@ -14,8 +14,11 @@ export class CredixSliderComponent implements OnInit {
   @Input() step = 1;
   @Input() defaultValue = 1;
   @Input() instructions = 'Instrucciones';
-  @Input() units = 'Unidades';
+  @Input() units = '';
   @Input() value = 1;
+  @Input() displayValue;
+  @Input() displayMin;
+  @Input() displayMax;
   @Output() inputChange = new EventEmitter<number>();
   @Output() valueChange = new EventEmitter<number>();
   @ViewChild(MatSlider) slider: MatSlider;
@@ -42,6 +45,4 @@ export class CredixSliderComponent implements OnInit {
     this.inputChange.emit(this.value);
   }
 
-  check(event) {
-  }
 }

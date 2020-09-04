@@ -21,16 +21,40 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
+import {PaymentPlacesService} from './payment-places.service';
+import {DigitalPaymentsComponent} from './digital-payments/digital-payments.component';
+import {ShopsComponent} from './shops/shops.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: PaymentPlacesComponent
+    component: PaymentPlacesComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'digital-payments',
+        pathMatch: 'full'
+      },
+      {
+        path: 'digital-payments',
+        component: DigitalPaymentsComponent
+      },
+      {
+        path: 'shops',
+        component: ShopsComponent
+      }
+    ]
   }
 ];
 
 @NgModule({
-  declarations: [PaymentPlacesComponent],
+  declarations: [
+    PaymentPlacesComponent,
+    DigitalPaymentsComponent,
+    ShopsComponent
+  ],
   imports: [
     CommonModule,
     FlexModule,
@@ -50,9 +74,13 @@ const routes: Routes = [
     CredixLinkButtonModule,
     ClipboardModule,
     MatTooltipModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDividerModule,
+    CredixDividerModule
   ],
-  providers: [ModalService]
+  providers: [
+    PaymentPlacesService,
+    ModalService]
 })
 export class PaymentPlacesModule {
 }

@@ -7,12 +7,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
   styleUrls: ['./credix-popup-alternative.component.scss']
 })
 export class CredixPopupAlternativeComponent implements OnInit {
-  scrollBarOptions = {
-    overflowBehavior: {
-      x: 'hidden',
-      y: 'scroll'
-    }
-  };
+  options = {autoHide: false, scrollbarMinSize: 100};
 
   constructor(public dialogRef: MatDialogRef<CredixPopupAlternativeComponent>, @Inject(MAT_DIALOG_DATA) public data) {
   }

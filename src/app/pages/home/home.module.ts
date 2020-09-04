@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {HomeRoutingModule} from './home-routing.module';
 import {HomeComponent} from './home.component';
 import {SharedModule} from '../../shared/shared.module';
-import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
 import {HomeService} from './home.service';
 import {HomeNavigationMenuComponent} from './home-components/home-navigation-menu/home-navigation-menu.component';
 import {MenuOptionComponent} from './home-components/home-navigation-menu/menu-option/menu-option.component';
@@ -17,19 +16,18 @@ import {ModalService} from '../../core/services/modal.service';
 import {CredixResultNotificationModule} from '../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
-import {SendMoneyService} from './features/send-money/send-money.service';
 
 @NgModule({
   declarations: [
     HomeComponent,
     HomeNavigationMenuComponent, MenuOptionComponent, MenuHeaderComponent, MenuMessagesComponent, ModalMessagesComponent,
     HomeToolbarComponent,
-    HomeFooterComponent],
+    HomeFooterComponent,
+  ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     SharedModule,
-    OverlayscrollbarsModule,
     CredixShareButtonModule,
     CredixResultNotificationModule,
     CredixPopupAlternativeModule,
@@ -37,8 +35,7 @@ import {SendMoneyService} from './features/send-money/send-money.service';
   ],
   providers: [
     HomeService,
-    ModalService,
-    SendMoneyService
+    ModalService
   ]
 })
 export class HomeModule {

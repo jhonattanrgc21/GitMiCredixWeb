@@ -7,6 +7,7 @@ import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
+import {StorageService} from '../../../../core/services/storage.service';
 
 @Component({
   selector: 'app-personal-credit',
@@ -38,6 +39,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
               private globalRequestsService: GlobalRequestsService,
               private modalService: ModalService,
               private toastService: CredixToastService,
+              private storageService: StorageService,
               private router: Router) {
   }
 
@@ -50,10 +52,12 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   }
 
   getAccountSummary() {
-    this.globalRequestsService.getAccountSummary().subscribe(response => {
-      this.accessToPersonalCredit = ConvertStringAmountToNumber(response.available) >= 100000;
-      this.cardLimit = ConvertStringAmountToNumber(response.limit);
-    });
+    this.globalRequestsService
+      .getAccountSummary(this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId)
+      .subscribe(accountSummary => {
+        this.accessToPersonalCredit = ConvertStringAmountToNumber(accountSummary.available) >= 100000;
+        this.cardLimit = ConvertStringAmountToNumber(accountSummary.limit);
+      });
   }
 
   setEnableButton() {

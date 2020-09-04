@@ -1,0 +1,106 @@
+<div class="third-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="third-step__content" fxLayout="row" fxLayoutGap="space-between">
+
+    <span class="third-step__content__title" fxFlex="50"><strong>Beneficiario(a) de la transferencia</strong></span>
+
+    <table *ngIf="account" fxFlex="50">
+      <tbody>
+      <tr class="third-step__table-row">
+        <td>Nombre</td>
+        <td>{{account.aliasName}}</td>
+      </tr>
+      <tr class="third-step__table-row">
+        <td>Identificación</td>
+        <td>{{account.identification}}</td>
+      </tr>
+      <tr class="third-step__table-row">
+        <td>Entidad</td>
+        <td>{{account.ibanBank}}</td>
+      </tr>
+      <tr class="third-step__table-row">
+        <td>Cuenta</td>
+        <td>{{account.ibanAccount}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
+
+  <div class="third-step__content" fxLayout="row" fxLayoutGap="space-between">
+
+    <span class="third-step__content__title" fxFlex="50"><strong>Detalles de la transferencia</strong></span>
+
+    <div *ngIf="account" fxFlex="50">
+
+      <table class="w-100">
+        <tbody>
+        <tr class="third-step__table-row">
+          <td>Cuota</td>
+          <td>
+            <credix-numeric-block [prefix]="currencyPrefix" [value]="quotaAmountView"
+                                  fontSize="16"
+                                  fontWeight="bold"></credix-numeric-block>
+          </td>
+        </tr>
+        <tr class="third-step__table-row">
+          <td>Plazo</td>
+          <td>{{timeLimit}} Meses</td>
+        </tr>
+        <tr class="third-step__table-row">
+          <td>Monto a transferir</td>
+          <td>
+            <credix-numeric-block [prefix]="currencyPrefix" [value]="+amount"
+                                  fontSize="16"
+                                  fontWeight="bold"></credix-numeric-block>
+          </td>
+        </tr>
+        <tr class="third-step__table-row">
+          <td>Comisión ({{commissionRate}}%)*</td>
+          <td>
+            <credix-numeric-block [prefix]="currencyPrefix" fontSize="16"
+                                  fontWeight="bold"
+                                  [value]="commission"></credix-numeric-block>
+          </td>
+        </tr>
+        <tr class="third-step__table-row border-bottom">
+          <td>IVA*</td>
+          <td>
+            <credix-numeric-block [prefix]="currencyPrefix" fontSize="16"
+                                  fontWeight="bold"
+                                  [value]="iva"></credix-numeric-block>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <mat-divider class="mt-8px mb-8px" credixDivider></mat-divider>
+
+      <div fxLayout="row">
+        <span fxFlex="50">Total</span>
+        <credix-numeric-block class="tr" fontSize="16" fontWeight="bold" [prefix]="currencyPrefix"
+                              fxFlex="50" [value]="total"></credix-numeric-block>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
+
+  <div class="third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+
+    <div class="third-step__content__title" fxFlex="40" fxLayout="column">
+      <strong>Código MiCredix</strong>
+      <p>Ingrese el código generado en la aplicación
+        <credix-link-button>Código MiCredix</credix-link-button>
+        <mat-icon svgIcon="chevron_right"></mat-icon>
+      </p>
+    </div>
+
+    <credix-code-input [(codeFormControl)]="codeControl" errorMessage="Código erroneo" fxFlex="50"></credix-code-input>
+
+  </div>
+</div>
+

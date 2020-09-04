@@ -5,6 +5,10 @@ import {Card} from '../../../../../shared/models/card.model';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {AccountSummary} from '../../../../../shared/models/account-summary';
+import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
+import {IbanAccount} from '../../../../../shared/models/iban-account';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-balances',
@@ -33,15 +37,29 @@ export class BalancesComponent implements OnInit, OnChanges {
   prefix = '₡';
   isCopyingColonesIban = false;
   isCopyingDollarsIban = false;
+  colonesIbanAccount: IbanAccount;
+  dollarsIbanAccount: IbanAccount;
 
   constructor(private storageService: StorageService,
-              private toastService: CredixToastService) {
+              private toastService: CredixToastService,
+              private modalService: ModalService,
+              private router: Router,
+              public globalService: GlobalRequestsService) {
     this.cards = this.storageService.getCurrentCards();
     this.cardFormControl.setValue(this.cards.find(card => card.category === 'Principal'));
   }
 
   ngOnInit(): void {
     this.onCardChanged();
+    this.getIbanAccounts();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.accountSummary) {
+      this.limit = ConvertStringAmountToNumber(this.accountSummary.limit);
+      this.available = ConvertStringAmountToNumber(this.accountSummary.available);
+      this.consumed = ConvertStringAmountToNumber(this.accountSummary.consumed);
+    }
   }
 
   onCardChanged() {
@@ -60,11 +78,21 @@ export class BalancesComponent implements OnInit, OnChanges {
     setTimeout(() => crcId === 188 ? this.isCopyingColonesIban = false : this.isCopyingDollarsIban = false, 3000);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.accountSummary) {
-      this.limit = ConvertStringAmountToNumber(this.accountSummary.limit);
-      this.available = ConvertStringAmountToNumber(this.accountSummary.available);
-      this.consumed = ConvertStringAmountToNumber(this.accountSummary.consumed);
-    }
+  getIbanAccounts() {
+    this.globalService.getIbanAccounts().subscribe(ibanAccounts => {
+      if (ibanAccounts.length > 0) {
+        this.colonesIbanAccount = ibanAccounts[0];
+        this.dollarsIbanAccount = ibanAccounts[1];
+      }
+    });
   }
+
+  openIncreaseLimitModal() {
+    this.modalService.confirmationPopup('¿Desea solicitar el aumento de límite de crédito?').subscribe(response => {
+      if (response) {
+        this.router.navigate(['/home/increase-limit']);
+      }
+    });
+  }
+
 }

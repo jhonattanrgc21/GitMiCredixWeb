@@ -9,9 +9,9 @@ import {CredixStepperModule} from '../../../../shared/components/credix-stepper/
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {RouterModule, Routes} from '@angular/router';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
-import {FirstStepComponent} from './first-step/first-step.component';
-import {SecondStepComponent} from './second-step/second-step.component';
-import {ThirdStepComponent} from './third-step/third-step.component';
+import {SendMoneyFirstStepComponent} from './send-money-first-step/send-money-first-step.component';
+import {SendMoneySecondStepComponent} from './send-money-second-step/send-money-second-step.component';
+import {SendMoneyThirdStepComponent} from './send-money-third-step/send-money-third-step.component';
 import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
 import {MatDividerModule} from '@angular/material/divider';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
@@ -25,9 +25,11 @@ import {CredixCodeInputModule} from '../../../../shared/components/credix-code-i
 import {SendMoneyService} from './send-money.service';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
-import {ModalAddIbanComponent} from './first-step/modal-add-iban/modal-add-iban.component';
+import {ModalAddIbanComponent} from './send-money-first-step/modal-add-iban/modal-add-iban.component';
 import {CredixCheckboxButtonModule} from '../../../../shared/components/credix-checkbox-button/credix-checkbox-button.module';
-import {ModalDetailsComponent} from './second-step/modal-details/modal-details.component';
+import {ModalDetailsComponent} from './send-money-second-step/modal-details/modal-details.component';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {ModalService} from '../../../../core/services/modal.service';
 
 const routes: Routes = [
   {
@@ -39,11 +41,12 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     SendMoneyComponent,
-    FirstStepComponent,
-    SecondStepComponent,
-    ThirdStepComponent,
+    SendMoneyFirstStepComponent,
+    SendMoneySecondStepComponent,
+    SendMoneyThirdStepComponent,
     ModalAddIbanComponent,
-    ModalDetailsComponent],
+    ModalDetailsComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -66,9 +69,12 @@ const routes: Routes = [
     CredixResultNotificationModule,
     CredixShareButtonModule,
     ReactiveFormsModule,
-    CredixCheckboxButtonModule
+    CredixCheckboxButtonModule,
+    CredixDividerModule
   ],
-  providers: [SendMoneyService]
+  providers: [
+    SendMoneyService,
+    ModalService]
 })
 export class SendMoneyModule {
 }

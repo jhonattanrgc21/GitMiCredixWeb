@@ -3,8 +3,7 @@ import {CommonModule} from '@angular/common';
 import {CredixPopupAlternativeComponent} from './credix-popup-alternative.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
-import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
-
+import {SimplebarAngularModule} from 'simplebar-angular';
 
 @NgModule({
   declarations: [CredixPopupAlternativeComponent],
@@ -13,7 +12,7 @@ import {OverlayscrollbarsModule} from 'overlayscrollbars-ngx';
     CommonModule,
     MatButtonModule,
     MatDialogModule,
-    OverlayscrollbarsModule
+    SimplebarAngularModule
   ]
 })
 export class CredixPopupAlternativeModule {

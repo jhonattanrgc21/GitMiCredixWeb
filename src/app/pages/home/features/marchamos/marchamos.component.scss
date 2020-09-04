@@ -1,146 +1,34 @@
 .marchamos {
-  background: #ffffff 0% 0% no-repeat padding-box;
-  width: 877px;
+  position: relative;
   height: 662px;
-  // padding: 40px !important;
-  border-radius: 8px;
 
-  &__list {
-    list-style: none;
-    width: 380px;
-    text-overflow: ellipsis;
-
-    div {
-      label {
-        font-weight: normal;
-        font-size: 16px;
-      }
-
-      span {
-        font-weight: bold;
-        width: 50%;
-      }
-    }
+  &--second-step-height {
+    height: 685px;
   }
 
-  &__container {
+  &--four-step-height {
+    height: 741px;
+  }
+
+  &__pay {
+    width: 877px;
+    height: 662px;
+    position: relative;
+  }
+
+  &__footer {
     width: 100%;
-    height: 412px;
-  }
-
-  &__information {
-    padding-left: 101px;
-    padding-right: 99px;
-    padding-top: 32.5px;
-  }
-
-  &__label {
-
-    &-3 {
-      font-weight: bold;
-      font-size: 16px;
-      margin-right: 147px;
-    }
-
-    &-4 {
-      margin-right: 329px;
-      font-weight: bold;
-      font-size: 16px;
-    }
-  }
-
-  &__title {
-    font-weight: bold;
-    font-size: 32px/47px;
-    margin: 16px;
-  }
-
-  &__billing {
-    margin-top: 32.5px;
-    margin-left: 101px;
-    margin-bottom: 16.5px;
-
-    label {
-      font-weight: bold;
-      font-size: 16px/22px;
-      margin-right: 232px;
-    }
-
-    &-pickup {
-      margin-top: 16.5px;
-      margin-left: 101px;
-      margin-bottom: 16.5px;
-
-      label {
-        font-weight: bold;
-        font-size: 16px/22px;
-        margin-right: 192px;
-      }
-
-      p {
-        width: 380px;
-      }
-    }
-
-    &-information {
-      margin-top: 16.5px;
-      margin-left: 101px;
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    &-list {
-      list-style: none;
-      font-size: 16px;
-    }
-  }
-
-
-  &__stepper {
-    margin: 16px;
-  }
-
-  &__buttons {
-    margin: 16px 0;
-  }
-
-  &__inputs {
-    margin-top: -32px;
-
-    ::ng-deep.mat-form-field {
-      width: 322px;
-    }
-
-    &__first {
-      margin-top: -10px;
-
-      ::ng-deep.mat-form-field {
-        width: 322px;
-      }
-    }
-  }
-
-  &__divider-footer {
-    margin-bottom: 16px;
-  }
-
-
-  &__places-divider {
-    margin-bottom: 17px !important;
-  }
-
-  &__credix-code {
-    width: 220px;
-    margin-left: 101px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #E9E9E9;
+    padding: 16px;
   }
 }
 
-::ng-deep.mat-divider {
-  margin-top: 32px !important;
-}
 
-::ng-deep.mat-card {
-  .mat-divider-horizontal {
-    position: initial !important;
+@media screen and (max-width: 1199px) {
+  .marchamos {
+    min-height: 886px;
   }
 }

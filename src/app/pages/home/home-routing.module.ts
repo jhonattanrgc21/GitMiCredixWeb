@@ -41,7 +41,50 @@ const routes: Routes = [
       {
         path: 'personal-credit',
         loadChildren: () => import('./features/personal-credit/personal-credit.module.js').then(m => m.PersonalCreditModule)
-      }
+      },
+      {
+        path: 'change-pin',
+        loadChildren: () => import('./features/change-pin/change-pin.module.js').then(m => m.ChangePinModule)
+      },
+      {
+        path: 'personal-info',
+        loadChildren: () => import('./features/personal-info-management/personal-info-management.module.js')
+          .then(m => m.PersonalInfoManagementModule)
+      },
+      {
+        path: 'buy-without-card',
+        loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule)
+      },
+      {
+        path: 'public-services',
+        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
+      },
+      {
+        path: 'anticipated-cancellation',
+        loadChildren: () => import('./features/anticipated-cancellation/anticipated-cancellation.module.js')
+          .then(m => m.AnticipatedCancellationModule)
+      },
+      {
+        path: 'extend-term',
+        loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule)
+      },
+      {
+        path: 'change-password',
+        loadChildren: () => import('./features/change-password/change-password.module.js').then(m => m.ChangePasswordModule)
+      },
+      {
+        path: 'increase-limit',
+        loadChildren: () => import('./features/increase-limit/increase-limit.module.js').then(m => m.IncreaseLimitModule)
+      },
+      {
+        path: 'favorites-management',
+        loadChildren: () => import('./features/favorites-management/favorites-management.module.js').then(m => m.FavoritesManagementModule)
+      },
+      {
+        path: 'additional-cards-management',
+        loadChildren: () => import('./features/additional-cards-management/additional-cards-management.module.js')
+          .then(m => m.AdditionalCardsManagementModule)
+      },
     ]
   }
 ];

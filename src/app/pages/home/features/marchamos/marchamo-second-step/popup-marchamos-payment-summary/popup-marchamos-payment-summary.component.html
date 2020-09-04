@@ -1,0 +1,38 @@
+<div class="marchamos-payment-summary" fxLayout="column">
+
+  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="80px">Marchamo</span>
+    <credix-numeric-block [value]="marchamo" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+
+  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+    <span>Seguros</span>
+    <credix-numeric-block [value]="totalAmountItemsProducts" fontWeight="bold"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+
+  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+    <span>Comisión</span>
+    <credix-numeric-block [value]="comission" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+
+  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+    <span>IVA*</span>
+    <credix-numeric-block [value]="iva" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+
+  <mat-divider class="mb-8px" credixDivider></mat-divider>
+
+  <div class="mb-16px" fxLayout="row" fxLayoutAlign="space-between">
+    <span>Total</span>
+    <credix-numeric-block [value]="totalAmount" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+
+  <span class="marchamos-payment-summary__legend">* IVA y comisión se cargarán en el próximo estado de cuenta.</span>
+
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span>{{quotesToPay.quotes}} Cuotas de</span>
+    <credix-numeric-block [value]="quotesToPay.quotesAmount" fontWeight="bold"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpService} from '../../../../core/services/http.service';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
+import {PaymentPlacesService} from './payment-places.service';
 
 @Component({
   selector: 'app-payment-places',
@@ -9,73 +9,21 @@ import {Router} from '@angular/router';
   styleUrls: ['./payment-places.component.scss']
 })
 export class PaymentPlacesComponent implements OnInit {
-  paymentPlaces: string[];
-  counter = 0;
   tabs = [
     {id: 1, name: 'Pagos digitales'},
     {id: 2, name: 'Comercios'},
   ];
-  options = [];
-  details = [{id: 1, name: 'Detalles 1'}];
-  tabShow = 0;
-  copyId = 0;
 
-  constructor(private httpService: HttpService,
+  constructor(private paymentPlacesService: PaymentPlacesService,
               private toastService: CredixToastService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.getPaymentPlaces();
   }
 
   tabSelected(tab) {
-    if (tab.id === 1) {
-      this.tabShow = 0;
-    } else {
-      this.tabShow = 1;
-    }
-  }
-
-  getPaymentPlaces() {
-    this.httpService.post('canales', 'paymentplace/getpaymentplace')
-      .subscribe(resp => {
-        this.paymentPlaces = resp.paymentPlace;
-
-        this.paymentPlaces.forEach(async paymentPlace => {
-          await this.getPaymentPlaceRestriction(paymentPlace);
-        });
-      });
-  }
-
-  getPaymentPlaceRestriction(paymentPlace) {
-    this.httpService.post('canales', 'paymentplace/getpaymentplacerestriction', {
-      channelId: 102,
-      name: paymentPlace.name
-    })
-      .subscribe(resp => {
-        this.counter += 1;
-        paymentPlace.restrictions = resp.paymentPlace;
-
-        this.options.push({
-          id: this.counter,
-          priority: paymentPlace.priority,
-          name: paymentPlace.name,
-          img: paymentPlace.linkImage,
-          restrictions: resp.paymentPlace
-        });
-
-      });
-  }
-
-  copyIbanAccount(text: string, id: 1 | 2 | 3 | 4) {
-    this.copyId = id;
-    this.toastService.show({text, type: 'success'});
-    setTimeout(() => this.copyId = 0, 3000);
-  }
-
-  goToReportTransference() {
-    this.router.navigate(['/home/report-transference']);
+    this.router.navigate([tab.id === 1 ? 'home/payment-places/digital-payments' : 'home/payment-places/shops']);
   }
 
 }

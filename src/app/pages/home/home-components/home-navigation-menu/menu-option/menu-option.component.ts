@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {HomeNavigationMenuService} from '../home-navigation-menu.service';
 import {HomeService} from '../../../home.service';
 import {GoHomeService} from '../../../../../core/services/go-home.service';
+import {ModalService} from '../../../../../core/services/modal.service';
 
 @Component({
   selector: 'app-menu-option',
@@ -20,6 +21,7 @@ export class MenuOptionComponent implements OnInit {
   constructor(private router: Router,
               private goHomeService: GoHomeService,
               private homeService: HomeService,
+              private modalService: ModalService,
               private homeNavigationMenuService: HomeNavigationMenuService) {
   }
 
@@ -27,6 +29,7 @@ export class MenuOptionComponent implements OnInit {
     this.goHomeService.goHomeObs.subscribe(() => {
       this.openSubmenu = false;
       this.activeSubmenu = 0;
+      this.preActiveMenu = 0;
       this.activeMenu = 1;
     });
 
@@ -51,7 +54,17 @@ export class MenuOptionComponent implements OnInit {
   submenuClick(menuId: number, submenuId: number, route: string) {
     this.activeMenu = menuId;
     this.activeSubmenu = submenuId;
-    this.router.navigate([route]);
+
+    if (this.activeSubmenu !== 15) {
+      this.router.navigate([route]);
+    } else {
+      this.modalService.confirmationPopup('¿Desea solicitar el aumento de límite de crédito?').subscribe(response => {
+        if (response) {
+          this.router.navigate([route]);
+        }
+      });
+    }
+
   }
 }
 
@@ -61,7 +74,7 @@ export const menus: Menu[] = [
   },
   {
     id: 2, name: 'Pagar', submenus: [
-      {id: 1, name: 'Servicios', route: '/home', icon: 'public_services'},
+      {id: 1, name: 'Servicios', route: '/home/public-services', icon: 'public_services'},
       {id: 2, name: 'Pagar tarjeta', route: '/home', icon: 'pay'},
       {id: 3, name: 'Marchamo', route: '/home/marchamos', icon: 'car'},
       {id: 4, name: 'Enviar dinero', route: '/home/send-money', icon: 'transfer'},
@@ -72,19 +85,19 @@ export const menus: Menu[] = [
   {
     id: 3, name: 'Productos', submenus: [
       {id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit'},
-      {id: 8, name: 'Compra sin tarjeta', route: '/home', icon: 'code'},
-      {id: 9, name: 'Ampliar plazo de compra', route: '/home', icon: 'anticipated_canc'},
-      {id: 10, name: 'Cancelación anticipada', route: '/home', icon: 'anticipated_canc'}
+      {id: 8, name: 'Compra sin tarjeta', route: '/home/buy-without-card', icon: 'code'},
+      {id: 9, name: 'Ampliar plazo de compra', route: '/home/extend-term', icon: 'anticipated_canc'},
+      {id: 10, name: 'Cancelación anticipada', route: '/home/anticipated-cancellation', icon: 'anticipated_canc'}
     ]
   },
   {
     id: 4, name: 'Mi cuenta', submenus: [
-      {id: 11, name: 'Datos personales', route: '/home', icon: 'personal_data'},
-      {id: 12, name: 'Gestionar favoritos', route: '/home', icon: 'favorites'},
-      {id: 13, name: 'Cambiar clave', route: '/home', icon: 'change_password'},
-      {id: 14, name: 'Cambiar PIN', route: '/home', icon: 'asterisk'},
-      {id: 15, name: 'Aumentar límite de crédito', route: '/home', icon: 'cash'},
-      {id: 16, name: 'Tarjetas adicionales', route: '/home', icon: 'credit-card-plus'}
+      {id: 11, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data'},
+      {id: 12, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites'},
+      {id: 13, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password'},
+      {id: 14, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk'},
+      {id: 15, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash'},
+      {id: 16, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus'}
     ]
   }
 ];

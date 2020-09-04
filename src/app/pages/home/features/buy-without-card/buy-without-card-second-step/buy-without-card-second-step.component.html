@@ -1,0 +1,53 @@
+<div class="buy-without-card-second-step" fxLayout="column">
+
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="155px"><strong>Tarjeta</strong></span>
+
+    <credix-select [formControl]="card" class="buy-without-card-second-step__input" label="Tarjeta">
+      <mat-option *ngFor="let card of cards" [value]="card.cardId">
+        {{card.typeCard + ' ' + card.cardNumber}}
+      </mat-option>
+    </credix-select>
+  </div>
+
+  <mat-divider class="mt-8px mb-32px" credixDivider></mat-divider>
+
+  <div fxLayout="row" fxLayoutAlign="space-between">
+
+    <span fxFlex="155px"><strong> PIN de compra/pago</strong></span>
+
+    <div class="buy-without-card-second-step__barcode-wrapper" fxLayout="column" fxLayoutGap="16px">
+
+      <span class="buy-without-card-second-step__pin-code"><strong>{{pin}}</strong></span>
+
+      <div class="buy-without-card-second-step__barcode">
+        <ngx-barcode6
+          [bc-height]="50"
+          [bc-value]="pin"
+          [bc-width]="3"
+          bc-format="CODE128">
+        </ngx-barcode6>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="125px">Identificación</span>
+        <span class="tr" fxFlex><strong>{{identification}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="125px">Nombre</span>
+        <span class="tr truncate" fxFlex><strong>{{name}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="125px">Código expira en</span>
+        <span class="tr" fxFlex><strong>{{lifeTimePin}}m:{{second}}s</strong></span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+

@@ -4,11 +4,9 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class SendMoneyService {
-  getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
-  getQuotaByProductUri = 'customerservice/listquotabyproduct';
-  getIbanAccountUri = 'account/getibanaccount';
-  sendMoneyUri = 'channels/senddirect';
-
+  private readonly getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
+  private readonly sendMoneyUri = 'channels/senddirect';
+  private readonly getAccountByIbanNumberUri = 'account/getinformationibanaccount';
 
   constructor(private httpService: HttpService) {
   }
@@ -23,27 +21,6 @@ export class SendMoneyService {
         }
       })
     );
-  }
-
-  getQuotaByProduct() {
-    return this.httpService
-      .post('canales', this.getQuotaByProductUri, {
-        channelId: 102,
-        productId: 3,
-      })
-      .pipe(
-        map((response) => {
-          if (response.type === 'success' && response.listQuota) {
-            return response.listQuota;
-          } else {
-            return [];
-          }
-        })
-      );
-  }
-
-  getIbanAccount() {
-    return this.httpService.post('canales', this.getIbanAccountUri, {channelId: 102});
   }
 
   addFavAccount(name, account, identType, ident, code) {
@@ -61,7 +38,6 @@ export class SendMoneyService {
             nameDestination, period, commissionAmount, totalAmount, identification, credixCode) {
     return this.httpService
       .post('canales', this.sendMoneyUri, {
-        channelId: 102,
         ibanOrigin,
         crcId,
         esbId: 50126,
@@ -78,6 +54,16 @@ export class SendMoneyService {
         trsId: 1,
         credixCode
       });
+  }
+
+  getAccountByIbanNumber(identification, ibanAccount, currencyValidationTag) {
+    return this.httpService.post('canales', this.getAccountByIbanNumberUri, {
+      channelId: 102,
+      identification,
+      ibanAccount,
+      currencyValidationTag,
+      bankValidationTag: 1
+    });
   }
 
 }

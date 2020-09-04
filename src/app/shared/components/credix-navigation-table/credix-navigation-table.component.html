@@ -1,72 +1,23 @@
 <ng-container class="navigation-table">
 
   <div class="navigation-table__header" fxLayout="row" fxLayoutAlign="flex-start center">
-    <span fxFlex="25%">{{headers[0]}}</span>
-    <span fxFlex="75%">{{headers[1]}}</span>
+    <span [fxFlex]="headers[0].width">{{headers[0].label}}</span>
+    <span [fxFlex]="headers[1].width">{{headers[1].label}}</span>
   </div>
 
   <div class="navigation-table__content" fxLayout="row">
-    <div class="navigation-table__content__left" fxFlex="25%">
-      <button (click)="optionClick(option)" *ngFor="let option of options" class="navigation-table__option">
-        <div *ngIf="!option.img">
-          <mat-icon [class.is-selected]="optionSelected.id  == option.id" [svgIcon]="option.icon"
-                    class="navigation-table__option__icon"></mat-icon>
-          <span [class.is-selected]="optionSelected.id  == option.id" class="navigation-table__option__label">
-            {{option.name}}</span>
-        </div>
-        <div *ngIf="option.img">
-          <img [src]="option.img"/>
-        </div>
-        <span *ngIf="optionSelected.id == option.id" class="navigation-table__option__arrow"></span>
-      </button>
+
+    <div [fxFlex]="headers[0].width" class="navigation-table__content__left">
+      <ngx-simplebar [options]="optionsScroll" class="navigation-table__options" fxLayout="column">
+        <ng-content select="[left]"></ng-content>
+      </ngx-simplebar>
     </div>
 
-    <div class="navigation-table__content__right" fxFlex="75%">
-      <div *ngIf="optionSelected.subOptions">
-        <button (click)="subOptionClick(subOption.routerLink)" *ngFor="let subOption of optionSelected.subOptions"
-                class="navigation-table__option">
-          <mat-icon [svgIcon]="optionSelected.icon" class="navigation-table__option__icon"></mat-icon>
-          <span class="navigation-table__option__label">{{subOption.name}}</span>
-        </button>
-      </div>
-
-
-      <div *ngIf="!optionSelected.subOptions" class="navigation-table__content-right">
-        <p class="navigation-table__content-right__title">{{ optionSelected.name | titlecase }}</p>
-        <div class="navigation-table__content-right__option" fxLayout="row">
-          <div fxFlex="40%">
-            <p class="navigation-table__content-right__subtitle">Detalles</p>
-          </div>
-          <div fxFlex="60%">
-            <ul *ngFor="let detail of optionSelected.restrictions?.paymentPlaceRestriction">
-              <li>{{ detail.description }}</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="navigation-table__content-right__option" fxLayout="row">
-          <div fxFlex="40%">
-            <p class="navigation-table__content-right__subtitle">Información de contacto</p>
-          </div>
-          <div fxFlex="60%">
-            <ul class="navigation-table__content-right__info-list">
-              <li>
-                <mat-icon svgIcon="internet"></mat-icon>
-                <credix-link-button route="{{optionSelected.restrictions?.webPage}}" text="Sitio Web">
-                </credix-link-button>
-              </li>
-              <li>
-                <mat-icon svgIcon="facebook"></mat-icon>
-                <credix-link-button route="{{optionSelected.restrictions?.linkFacebook}}" text="Facebook">
-                </credix-link-button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
+    <div [fxFlex]="headers[1].width" class="navigation-table__content__right">
+      <ngx-simplebar [options]="optionsScroll" class="navigation-table__options" fxLayout="column">
+        <ng-content select="[right]"></ng-content>
+      </ngx-simplebar>
     </div>
-
   </div>
 
 </ng-container>

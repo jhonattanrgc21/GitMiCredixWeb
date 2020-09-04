@@ -6,6 +6,7 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
+import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
 
 @Component({
   selector: 'app-send-money',
@@ -20,7 +21,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   amountAndQuotaForm: FormGroup = new FormGroup({
     amount: new FormControl(null, [Validators.required]),
     quotas: new FormControl(3, [Validators.required]),
-    detail: new FormControl(null, [Validators.required]),
+    detail: new FormControl(null, []),
   });
   confirmForm: FormGroup = new FormGroup({
     code: new FormControl(null, [Validators.required]),
@@ -28,14 +29,13 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   selectedIndex = 0;
   disableButton = true;
   currencyPrefix: string;
-  buttonText = 'Continuar';
   commissionRate: number;
   commission: number;
   total: number;
-  ibanOrigin;
+  ibanOrigin: string;
   todayString: string;
   done = false;
-  typeDestination;
+  typeDestination: number;
 
   @ViewChild('sendMoneyStepper') stepper: CdkStepper;
 
@@ -44,7 +44,8 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     private modalService: ModalService,
     private router: Router,
     private datePipe: DatePipe,
-    public toastService: CredixToastService
+    public toastService: CredixToastService,
+    public globalService: GlobalRequestsService
   ) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
@@ -81,16 +82,19 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   next() {
-    this.selectedIndex < 3 && this.selectedIndex++;
+    if (this.selectedIndex < 3) {
+      this.stepper.next();
+      this.selectedIndex++;
+    }
 
     if (this.selectedIndex === 2) {
-      this.buttonText = 'Transferir';
+      this.confirmForm.controls.code.reset(null, [Validators.required]);
     }
+
     if (this.selectedIndex === 3) {
       this.openConfirmationModal();
     }
 
-    this.stepper.next();
     this.setEnableButton();
   }
 
@@ -101,34 +105,52 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   getIbanAccount() {
-    this.sendMoneyService.getIbanAccount().subscribe((res) => {
-      if (res.type === 'success') {
-        this.ibanOrigin = res.ibanAccountList[0].ibanAccountNumber;
+    this.globalService.getIbanAccounts().subscribe((ibanAccounts) => {
+      if (ibanAccounts.length > 0) {
+        this.ibanOrigin = ibanAccounts[0].ibanAccountNumber;
       }
     });
   }
 
   sendMoney() {
-    this.sendMoneyService.sendMoney(
-      this.ibanOrigin,
-      this.currencyPrefix === '$' ? 840 : 188,
-      this.todayString,
-      this.amountAndQuotaForm.controls.amount.value,
+    this.sendMoneyService
+      .sendMoney(
+        this.ibanOrigin,
+        this.currencyPrefix === '$' ? 840 : 188,
+        this.todayString,
+        this.amountAndQuotaForm.controls.amount.value,
+        this.informationForm.controls.account.value.ibanAccount,
+        this.typeDestination,
+        this.informationForm.controls.account.value.aliasName,
+        this.amountAndQuotaForm.controls.quotas.value,
+        this.commission,
+        this.total,
+        this.informationForm.controls.account.value.identification,
+        this.confirmForm.controls.code.value
+      )
+      .subscribe((res) => {
+        const text = res.message;
+        const type = res.type;
+        this.toastService.show({text, type});
+        if (res.type === 'success') {
+          this.done = true;
+        } else {
+          this.selectedIndex = 2;
+        }
+      });
+  }
+
+  saveNewAccount() {
+    this.sendMoneyService.addFavAccount(
+      this.informationForm.controls.account.value.favName,
       this.informationForm.controls.account.value.ibanAccount,
-      this.typeDestination,
-      this.informationForm.controls.account.value.aliasName,
-      this.amountAndQuotaForm.controls.quotas.value,
-      this.commission,
-      this.total,
+      this.informationForm.controls.account.value.identType,
       this.informationForm.controls.account.value.identification,
       this.confirmForm.controls.code.value
     ).subscribe((res) => {
       const text = res.message;
       const type = res.type;
       this.toastService.show({text, type});
-      if (res.type === 'success') {
-        this.done = true;
-      }
     });
   }
 
@@ -137,7 +159,13 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
       .confirmationPopup('¿Desea realizar esta transferencia?')
       .subscribe((res) => {
         if (res) {
+          if (this.informationForm.controls.account.value.favName) {
+            this.saveNewAccount();
+          }
+
           this.sendMoney();
+        } else {
+          this.selectedIndex = 2;
         }
       });
   }

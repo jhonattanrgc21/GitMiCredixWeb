@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ValidationErrors} from '@angular/forms';
+
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -20,13 +22,24 @@ import {ValidationErrors} from '@angular/forms';
   ]
 })
 export class CredixPasswordFieldTooltipComponent implements OnInit {
+  isTablet: boolean;
 
   @Input() errors: ValidationErrors | null;
+  @Input() tooltipType: 'password' | 'pin' = 'password';
 
-  constructor() {
+  constructor(private breakpointObserver: BreakpointObserver) {
   }
 
   ngOnInit(): void {
+    this.checkScreenBreakpoint();
+  }
+
+  checkScreenBreakpoint() {
+    this.breakpointObserver
+      .observe(['(max-width: 1199px)'])
+      .subscribe((state: BreakpointState) => {
+        this.isTablet = state.matches;
+      });
   }
 
 }

@@ -1,9 +1,9 @@
 export interface ConsultVehicle {
-  amount: any;
+  amount: number;
   brandDescription: string;
   capacity: number;
   carBodyDescription: string;
-  chassisNumber: string
+  chassisNumber: string;
   classNumber: number;
   commercialName: string;
   contactCommentary: string;
@@ -11,7 +11,7 @@ export interface ConsultVehicle {
   contactPhone: string;
   contractType: string;
   currentCoverageAmount: string;
-  cylinderCapacity: number
+  cylinderCapacity: number;
   date: string;
   finalDateInsurance: string;
   fuelDescription: string;
@@ -21,22 +21,22 @@ export interface ConsultVehicle {
   insuranceEndDate: string;
   insuranceStartDate: string;
   motorNumber: string;
-  owedYears: number
+  owedYears: number;
   ownerEmail: string;
-  ownerId: number
-  ownerIdType: number
+  ownerId: number;
+  ownerIdType: number;
   ownerName: string;
   payId: string;
-  period: number
+  period: number;
   plateClass: string;
   plateNumber: string;
-  previousCoverageAmount: string
-  responseCode: number
+  previousCoverageAmount: string;
+  responseCode: number;
   responseDescription: string;
   rtvIndicator: string;
   serialNumber: string;
   styleDescription: string;
-  taxValue: number
+  taxValue: number;
   vinNumber: string;
   yearModel: number;
 }

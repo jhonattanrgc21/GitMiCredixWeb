@@ -9,12 +9,9 @@ import {HttpService} from 'src/app/core/services/http.service';
   styleUrls: ['./popup-marchamos-new-direction.component.scss']
 })
 export class PopupMarchamosNewDirectionComponent implements OnInit {
-
   provinces: any[];
   cantons: any[];
   districs: any[];
-
-
   newDeliveryForm: FormGroup = new FormGroup({
     province: new FormControl('', [Validators.required]),
     canton: new FormControl('', [Validators.required]),
@@ -35,7 +32,6 @@ export class PopupMarchamosNewDirectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
     if (this.data.data !== undefined) {
       this.getCantons(this.data.data.province);
       this.getDistrict(this.data.data.canton);
@@ -54,7 +50,6 @@ export class PopupMarchamosNewDirectionComponent implements OnInit {
   getProvinces() {
     this.httpService.post('canales', 'global/listprovinces')
       .subscribe(response => {
-        console.log(response);
         this.provinces = response;
       });
   }
@@ -64,9 +59,8 @@ export class PopupMarchamosNewDirectionComponent implements OnInit {
     this.httpService.post('canales', 'global/listcantons',
       {
         channelId: 102,
-        provinceId: provinceId
+        provinceId
       }).subscribe(response => {
-      console.log(response);
       this.cantons = response;
     });
   }
@@ -74,11 +68,10 @@ export class PopupMarchamosNewDirectionComponent implements OnInit {
   getDistrict(cantonId: number) {
     this.httpService.post('canales', 'global/listdistricts',
       {
-        cantonId: cantonId,
+        cantonId,
         channelId: 102
       })
       .subscribe(response => {
-        console.log(response);
         this.districs = response;
       });
   }

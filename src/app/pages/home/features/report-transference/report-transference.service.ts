@@ -5,7 +5,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 
 @Injectable()
 export class ReportTransferenceService {
-  private reportTransferenceUri = 'channels/reporttransfer';
+  private readonly reportTransferenceUri = 'channels/reporttransfer';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -19,6 +19,5 @@ export class ReportTransferenceService {
     }).pipe(map(response => {
       return {type: response.type, message: response.descriptionOne};
     }));
-
   }
 }

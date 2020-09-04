@@ -20,6 +20,10 @@
     }
   }
 
+  &__options {
+    border-bottom: 1px solid #E9E9E9;
+  }
+
   &__card-icon {
     width: 27px;
     height: 20px;
@@ -53,10 +57,14 @@
       font-weight: bold;
     }
 
-    button {
+    a {
       width: auto;
       height: 20px;
       line-height: 1 !important;
+
+      &:hover {
+        cursor: pointer;
+      }
 
       mat-icon {
         color: #E42313;

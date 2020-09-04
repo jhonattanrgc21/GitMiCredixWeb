@@ -1,0 +1,23 @@
+<mat-card class="buy-without-card" credixCard fxLayout="column" fxLayoutGap="4px">
+  <h1>Compra sin tarjeta</h1>
+
+  <span class="mb-24px">¿Olvidó su tarjeta? Compre con su tarjeta virtual.</span>
+
+  <credix-stepper #buyWithOutCard>
+
+    <cdk-step [stepControl]="codeCredix" fxLayout="column" label="Código MiCredix">
+      <app-buy-without-card-first-step [credixCode]="codeCredix"></app-buy-without-card-first-step>
+    </cdk-step>
+
+    <cdk-step [stepControl]="card" fxLayout="column" label="Realizar compra">
+      <app-buy-without-card-second-step [isActive]="(stepperIndex === 1)"></app-buy-without-card-second-step>
+    </cdk-step>
+
+  </credix-stepper>
+
+  <div class="buy-without-card__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (click)="stepperIndex !== 1 ? getPin() : back()" [disabled]="!codeCredix.valid"
+                   [text]="stepperIndex !== 1 ? 'Continuar' : 'Listo' " fxLayoutAlign="flex-end"></credix-button>
+  </div>
+
+</mat-card>

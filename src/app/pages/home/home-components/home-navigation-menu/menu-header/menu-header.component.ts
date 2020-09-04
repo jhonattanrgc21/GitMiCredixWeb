@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../../../../core/services/storage.service';
+import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 
 @Component({
   selector: 'app-menu-header',
@@ -7,19 +8,29 @@ import {StorageService} from '../../../../../core/services/storage.service';
   styleUrls: ['./menu-header.component.scss']
 })
 export class MenuHeaderComponent implements OnInit {
-  avatar = 'assets/images/avatar.png';
+  profilePhoto = 'assets/images/avatar.png';
+  applicantName = '';
   greetingMessage: string;
 
-  constructor(private storageService: StorageService) {
+  constructor(private storageService: StorageService,
+              private globalRequestsService: GlobalRequestsService) {
     this.checkTime();
   }
 
   ngOnInit(): void {
+    this.getApplicantProfilePhoto();
+    this.getApplicantName();
     setInterval(this.checkTime, 1000 * 60 * 60);
   }
 
-  getApplicantName(): string {
-    return this.storageService.getCurrentUser().aplicantName;
+  getApplicantProfilePhoto() {
+    this.globalRequestsService.getApplicantProfilePhoto().subscribe(profilePhoto => {
+      this.profilePhoto = profilePhoto ? `data:image/png;base64,${profilePhoto}` : 'assets/images/avatar.png';
+    });
+  }
+
+  getApplicantName() {
+    this.applicantName = this.storageService.getCurrentUser().aplicantName;
   }
 
   checkTime() {

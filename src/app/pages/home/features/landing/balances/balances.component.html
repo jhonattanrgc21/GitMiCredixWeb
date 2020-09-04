@@ -15,10 +15,10 @@
       </span>
       <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
     </mat-select-trigger>
-    <mat-option *ngFor="let card of cards; let last = last" [value]="card">
+    <mat-option *ngFor="let card of cards; let last = last" [value]="card" class="balances-card__options"
+                fxLayout="column">
       <mat-icon [svgIcon]="card.category === 'Principal' ? 'redCard' : 'additionalCards'" class="mr-8px"></mat-icon>
       <span>{{card.typeCard}} {{card.name}}</span>
-      <mat-divider *ngIf="!last" class="w-100"></mat-divider>
     </mat-option>
   </mat-select>
 
@@ -35,7 +35,7 @@
     <div fxFlex="60" fxLayout="column" fxLayoutAlign="flex-start flex-end">
       <span class="balances-card__tag">{{balancesTag.creditLimitTag}}</span>
       <credix-numeric-block [prefix]="prefix" [value]="limit" fontSize="24" fontWeight></credix-numeric-block>
-      <credix-link-button [text]="balancesTag.increaseCreditLimitTag"></credix-link-button>
+      <credix-link-button (click)="openIncreaseLimitModal()">{{balancesTag.increaseCreditLimitTag}}</credix-link-button>
     </div>
   </div>
 
@@ -44,23 +44,23 @@
   <span class="balances-card__tag w-100 mb-8px">{{balancesTag.ibanAccountsTag}}</span>
 
   <div class="w-100" fxLayout="column" fxLayoutGap="4px">
-    <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
+    <div *ngIf="colonesIbanAccount" class="balances-card__iban-account-wrapper" fxLayout="row"
+         fxLayoutAlign="space-between">
       <span>{{balancesTag.colonesTag}}</span>
-      <span>CR00000000000000000001</span>
-      <button (click)="copyIbanAccount(balancesTag.colonesIbanCopiedTag, 188)"
-              cdkCopyToClipboard="CR00000000000000000001"
-              mat-icon-button>
+      <span>{{colonesIbanAccount.ibanAccountNumber}}</span>
+      <a (click)="copyIbanAccount(balancesTag.colonesIbanCopiedTag, 188)"
+         [cdkCopyToClipboard]="colonesIbanAccount.ibanAccountNumber">
         <mat-icon [class.is-green]="isCopyingColonesIban" svgIcon="content-copy"></mat-icon>
-      </button>
+      </a>
     </div>
-    <div class="balances-card__iban-account-wrapper" fxLayout="row" fxLayoutAlign="space-between">
+    <div *ngIf="dollarsIbanAccount" class="balances-card__iban-account-wrapper" fxLayout="row"
+         fxLayoutAlign="space-between">
       <span>{{balancesTag.dollarsTag}}</span>
-      <span>CR00000000000000000002</span>
-      <button (click)="copyIbanAccount(balancesTag.dollarsIbanCopiedTag, 840)"
-              cdkCopyToClipboard="CR00000000000000000002"
-              mat-icon-button>
+      <span>{{dollarsIbanAccount.ibanAccountNumber}}</span>
+      <a (click)="copyIbanAccount(balancesTag.dollarsIbanCopiedTag, 840)"
+         [cdkCopyToClipboard]="dollarsIbanAccount.ibanAccountNumber">
         <mat-icon [class.is-green]="isCopyingDollarsIban" svgIcon="content-copy"></mat-icon>
-      </button>
+      </a>
     </div>
   </div>
 

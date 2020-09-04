@@ -17,6 +17,7 @@ import {MovementsService} from './movements/movements.service';
 import {CredixSwitchModule} from '../../../../shared/components/credix-switch/credix-switch.module';
 import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
+import {AccountStatementService} from './account-statement/account-statement.service';
 
 const routes: Routes = [
   {
@@ -82,7 +83,8 @@ const routes: Routes = [
     CredixSelectModule,
   ],
   providers: [
-    MovementsService
+    MovementsService,
+    AccountStatementService
   ]
 })
 export class MovementsAccountStatementModule {

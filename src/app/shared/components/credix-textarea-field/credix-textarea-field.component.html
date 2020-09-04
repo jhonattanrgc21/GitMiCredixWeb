@@ -1,0 +1,19 @@
+<mat-form-field [class.has-value]="control.value != null && control.value != ''"
+                [color]="ngControl.invalid && ngControl.touched ? 'warn' : 'primary'"
+                appearance="standard"
+                class="credix-textarea-field">
+  <mat-label>{{this.viewLabel}}</mat-label>
+  <textarea (blur)="onTouch()"
+            (click)="inputClickEvent.emit($event)"
+            [formControl]="control"
+            [readonly]="readonly"
+            autocomplete="off" class="credix-textarea-field__input"
+            matInput></textarea>
+  <div matSuffix>
+    <ng-content select="[suffix]">
+    </ng-content>
+  </div>
+  <div *ngIf="ngControl.invalid && ngControl.touched" class="credix-textarea-field__error">
+    <ng-content select="[error]"></ng-content>
+  </div>
+</mat-form-field>
