@@ -5,7 +5,6 @@ import {Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
 import {ConvertStringDateToDate} from '../../../../shared/utils';
 
-
 @Component({
   selector: 'app-extend-term',
   templateUrl: './extend-term.component.html',
@@ -50,16 +49,7 @@ export class ExtendTermComponent implements OnInit {
   };
 
 
-  quotaSelected = {
-    feeAmount: '0',
-    feePercentage: 0,
-    quotaTo: 6,
-    amountPerQuota: '0',
-    quotaFrom: 3,
-    financedPlan: 0,
-    purchaseAmount: '0',
-  };
-
+  quotaSelected;
   quotas = 6;
   options = [];
   allowedMovements;
@@ -69,7 +59,13 @@ export class ExtendTermComponent implements OnInit {
   showResponse = false;
   currencyCode = '$';
   empty = false;
-  movLength;
+  quotasArray;
+  quotaSliderStep = 1;
+  quotaSliderMin = 3;
+  quotaSliderMax = 12;
+  quotaSliderDisplayMin = 1;
+  quotaSliderDisplayMax = 12;
+  quotaSliderDisplayValue = 0;
 
   constructor(
     private storageService: StorageService,
@@ -81,24 +77,18 @@ export class ExtendTermComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllowedMovements();
-
   }
 
   getOptionDetail(option) {
     this.optionSelected = option;
-    this.changedQuotas = this.optionSelected.subOptions.find(
-      (el) => el.quotaTo === this.quotas
-    );
-    this.quotaSelected = this.changedQuotas;
+    this.getQuotas();
+    this.quotaSelected = this.quotasArray[0];
   }
 
-  changeQuotas(e) {
-    this.quotas = e;
-    this.changedQuotas = this.optionSelected.subOptions.find(
-      (el) => el.quotaTo === e
-    );
-    this.quotaSelected = this.changedQuotas;
-
+  getQuota(sliderValue) {
+    this.quotaSliderDisplayValue = this.quotasArray[sliderValue - 1].quotaTo;
+    this.quotas = this.quotaSliderDisplayValue;
+    this.quotaSelected = this.quotasArray[sliderValue - 1];
   }
 
 
@@ -110,10 +100,10 @@ export class ExtendTermComponent implements OnInit {
         channelId: 102,
       })
       .subscribe((res) => {
+        console.log(res);
         if (res.result.length) {
           this.allowedMovements = res.result;
           this.empty = false;
-          this.movLength = res.result.length;
 
           this.allowedMovements.forEach(async (elem, i) => {
             this.quotaList = await this.calculateQuota(elem.movementId, i);
@@ -134,8 +124,6 @@ export class ExtendTermComponent implements OnInit {
               },
             ];
           });
-
-
         } else {
           this.empty = true;
         }
@@ -161,15 +149,6 @@ export class ExtendTermComponent implements OnInit {
       .subscribe((res) => {
         if (res.type === 'success') {
           this.options[i] = {...this.options[i], subOptions: res.listQuota};
-          if (i === this.movLength - 1) {
-            if (this.router.parseUrl(this.router.url).queryParams.q && this.options.length) {
-              const movementId = this.router.parseUrl(this.router.url).queryParams.q;
-              const option = this.options.find(mov => mov.movementId === movementId);
-              if (option) {
-                this.getOptionDetail(option);
-              }
-            }
-          }
         }
       });
   }
@@ -205,5 +184,14 @@ export class ExtendTermComponent implements OnInit {
 
   done() {
     this.router.navigate(['/home']);
+  }
+
+  getQuotas() {
+    this.quotasArray = this.optionSelected.subOptions.sort((a, b) => a.quota - b.quota);
+    this.quotaSliderDisplayMin = this.quotasArray[0].quotaTo;
+    this.quotaSliderMin = 1;
+    this.quotaSliderDisplayMax = this.quotasArray[this.quotasArray.length - 1].quotaTo;
+    this.quotaSliderMax = this.quotasArray.length;
+    this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
   }
 }
