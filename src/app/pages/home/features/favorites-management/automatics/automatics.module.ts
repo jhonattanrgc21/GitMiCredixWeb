@@ -1,11 +1,51 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {AddAutomaticsComponent} from './add-automatics/add-automatics.component';
+import {AutomaticsComponent} from './automatics.component';
+import {RouterModule, Routes} from '@angular/router';
+import {CredixNavigationTableModule} from '../../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
+import {CredixInputFieldModule} from '../../../../../shared/components/credix-input-field/credix-input-field.module';
+import {CredixButtonModule} from '../../../../../shared/components/credix-button/credix-button.module';
+import {CredixSelectModule} from '../../../../../shared/components/credix-select/credix-select.module';
+import {CredixLinkButtonModule} from '../../../../../shared/components/credix-link-button/credix-link-button.module';
+import {CredixCodeInputModule} from '../../../../../shared/components/credix-code-input/credix-code-input.module';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {AutomaticsService} from './automatics.service';
+import {SharedModule} from '../../../../../shared/shared.module';
 
+const routes: Routes = [
+  {
+    path: '',
+    component: AutomaticsComponent,
+    children: [
+      {
+        path: 'add-automatics',
+        component: AddAutomaticsComponent
+      }
+    ]
+  }
+];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AutomaticsComponent,
+    AddAutomaticsComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild(routes),
+    SharedModule,
+    CredixNavigationTableModule,
+    CredixInputFieldModule,
+    CredixButtonModule,
+    CredixInputFieldModule,
+    CredixSelectModule,
+    CredixLinkButtonModule,
+    CredixCodeInputModule
+  ],
+  providers: [
+    ModalService,
+    AutomaticsService
   ]
 })
 export class AutomaticsModule {

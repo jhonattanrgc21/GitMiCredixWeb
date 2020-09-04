@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {IbanAccountsComponent} from './iban-accounts.component';
-import {Routes} from '@angular/router';
-import {FavoritesManagementModule} from '../favorites-management.module';
+import {RouterModule, Routes} from '@angular/router';
 import {CredixNavigationTableModule} from '../../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {IbanAccountsService} from './iban-accounts.service';
@@ -12,6 +11,8 @@ import {CredixButtonModule} from '../../../../../shared/components/credix-button
 import {CredixSelectModule} from '../../../../../shared/components/credix-select/credix-select.module';
 import {CredixLinkButtonModule} from '../../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixCodeInputModule} from '../../../../../shared/components/credix-code-input/credix-code-input.module';
+import {SharedModule} from '../../../../../shared/shared.module';
+import {CredixResultNotificationModule} from '../../../../../shared/components/credix-result-notification/credix-result-notification.module';
 
 const routes: Routes = [
   {
@@ -33,14 +34,16 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    FavoritesManagementModule,
+    RouterModule.forChild(routes),
+    SharedModule,
     CredixNavigationTableModule,
     CredixInputFieldModule,
     CredixButtonModule,
     CredixInputFieldModule,
     CredixSelectModule,
     CredixLinkButtonModule,
-    CredixCodeInputModule
+    CredixCodeInputModule,
+    CredixResultNotificationModule
   ],
   providers: [
     ModalService,

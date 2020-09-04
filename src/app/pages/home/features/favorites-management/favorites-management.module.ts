@@ -7,8 +7,6 @@ import {FlexModule} from '@angular/flex-layout';
 import {ModalService} from '../../../../core/services/modal.service';
 import {FavoritesManagementService} from './favorites-management.service';
 import {CredixTabModule} from '../../../../shared/components/credix-tab/credix-tab.module';
-import {FavoritesPaymentsComponent} from './favorites-payments/favorites-payments.component';
-import {AutomaticsComponent} from './automatics/automatics.component';
 import {SharedModule} from '../../../../shared/shared.module';
 
 const routes: Routes = [
@@ -23,15 +21,16 @@ const routes: Routes = [
       },
       {
         path: 'iban-accounts',
-        loadChildren: () => import('../favorites-management/iban-accounts/iban-accounts.module').then(m => m.IbanAccountsModule)
+        loadChildren: () => import('./iban-accounts/iban-accounts.module').then(m => m.IbanAccountsModule)
       },
       {
         path: 'favorites-payments',
-        component: FavoritesPaymentsComponent
+        // tslint:disable-next-line:max-line-length
+        loadChildren: () => import('./favorites-payments/favorites-payments.module').then(m => m.FavoritesPaymentsModule)
       },
       {
         path: 'automatics',
-        component: AutomaticsComponent
+        loadChildren: () => import('./automatics/automatics.module').then(m => m.AutomaticsModule)
       }
     ]
   }
@@ -39,9 +38,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    FavoritesManagementComponent,
-    FavoritesPaymentsComponent,
-    AutomaticsComponent
+    FavoritesManagementComponent
   ],
   imports: [
     CommonModule,

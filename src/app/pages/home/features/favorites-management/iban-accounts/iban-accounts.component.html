@@ -1,23 +1,37 @@
 <div class="iban-accounts" fxLayout="column">
 
+
   <credix-navigation-table [headers]="tableHeaders">
-    <div class="w-100 iban-accounts__list" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="9px" left>
-      <a class="iban-accounts__account-info-wrapper" fxLayoutAlign="center center">
-        <span>{{name}}</span>
-        <span fxLayout="row" fxLayoutAlign="space-between">{{accountNumber}}
-          <mat-icon style="fill: #E42313; width: 8px; height: 3px;" svgIcon="chevron_right"></mat-icon></span>
+
+    <credix-result-notification *ngIf="responseMessage" [message]="responseMessage"></credix-result-notification>
+
+    <div *ngIf="ibanFavoritesAccounts && !responseMessage" class="w-100 iban-accounts__list" fxLayout="column"
+         fxLayoutAlign="space-between" fxLayoutGap="9px" left>
+      <a (click)="getIbanAccountDetail($event)" *ngFor="let accountList of ibanFavoritesAccounts"
+         class="iban-accounts__account-wrapper"
+         fxLayout="column"
+         fxLayoutAlign="center start">
+        <span><strong>{{accountList.aliasName}}</strong></span>
+        <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="37.29px">
+          <span fxFlex="194.21px">{{accountList.ibanAccount}}</span>
+          <mat-icon style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+        </div>
       </a>
-      <mat-divider class="iban-accounts__footer" credixDivider></mat-divider>
-      <div class="iban-accounts__footer" fxLayoutAlign="center">
-        <credix-button (buttonClick)="addIbanAccount()" text="Añadir cuenta IBAN"></credix-button>
-      </div>
+      <mat-divider class="separator" credixDivider></mat-divider>
+
+      <!--      <mat-divider class="iban-accounts__footer" credixDivider></mat-divider>-->
+      <!--      <div class="iban-accounts__footer" fxLayoutAlign="center">-->
+      <!--        <credix-button (buttonClick)="addIbanAccount()" text="Añadir cuenta IBAN"></credix-button>-->
+      <!--      </div>-->
     </div>
 
-    <div class="iban-accounts__right-content" fxLayout="column" fxLayoutAlign="center center" right>
+    <div *ngIf="ibanFavoritesAccounts && !responseMessage" class="iban-accounts__right-content" fxLayout="column"
+         fxLayoutAlign="center center" right>
       <div fxLayout="column">
         <span> <strong>Banco Nacional</strong></span>
         <span class="mb-16px">{{accountNumber}}</span>
-        <credix-input-field [displayValue]="name" label="Nombre de favorito"></credix-input-field>
+        <credix-input-field [displayValue]="" [formControl]="favoriteName"
+                            label="Nombre de favorito"></credix-input-field>
       </div>
 
       <mat-divider class="iban-accounts__footer" credixDivider></mat-divider>
@@ -28,5 +42,7 @@
         </div>
       </div>
     </div>
+
+
   </credix-navigation-table>
 </div>

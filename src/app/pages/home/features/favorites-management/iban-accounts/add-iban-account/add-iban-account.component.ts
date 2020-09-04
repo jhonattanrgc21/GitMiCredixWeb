@@ -29,7 +29,7 @@ export class AddIbanAccountComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getIdentificationType() {
+  identificationType() {
     this.ibanAccountService.getIdentificationTypes()
       .pipe(finalize(() => this.identificationChanged()))
       .subscribe(response => {

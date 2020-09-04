@@ -3,13 +3,28 @@
 
   &__list {
     position: relative;
+    height: 100%;
+
+    .separator {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-top: 1px solid #E9E9E9;
+    }
+  }
+
+  &__account-wrapper {
+    padding: 0 1px;
   }
 
   &__right-content {
     position: relative;
+    width: 100%;
+    padding: 0 77px;
   }
 
-  &__footers {
+  &__footer {
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -17,4 +32,5 @@
     border-top: 1px solid #E9E9E9;
     padding: 16px;
   }
+
 }

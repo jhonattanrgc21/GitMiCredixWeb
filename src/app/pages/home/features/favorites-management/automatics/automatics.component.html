@@ -1,1 +1,37 @@
-<p>automatics works!</p>
+<div class="favorites-payments" fxLayout="column">
+  <credix-navigation-table [headers]="tableHeaders">
+    <div class="w-100 favorites-payments__list" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="9px" left>
+      <a class="favorites-payments__account-wrapper"
+         fxLayout="column"
+         fxLayoutAlign="center start">
+        <span><strong></strong></span>
+        <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="37.29px">
+          <span fxFlex="194.21px"></span>
+          <mat-icon style="fill: #e42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+        </div>
+      </a>
+      <mat-divider class="separator" credixDivider></mat-divider>
+
+      <!--      <mat-divider class="favorites-payments__footer" credixDivider></mat-divider>-->
+      <!--      <div class="favorites-payments__footer" fxLayoutAlign="center">-->
+      <!--        <credix-button (buttonClick)="addIbanAccount()" text="Añadir cuenta IBAN"></credix-button>-->
+      <!--      </div>-->
+    </div>
+
+    <div class="favorites-payments__right-content" fxLayout="column" fxLayoutAlign="center center" right>
+      <div fxLayout="column">
+        <span> <strong></strong></span>
+        <span class="mb-16px"></span>
+        <!--        <credix-input-field [displayValue]="" label="Nombre de favorito" [formControl]="favoriteName"></credix-input-field>-->
+      </div>
+
+      <mat-divider class="favorites-payments__footer" credixDivider></mat-divider>
+      <div class="favorites-payments__footer" fxLayoutAlign="flex-end">
+        <div fxLayoutGap="16px">
+          <credix-button text="Guardar"></credix-button>
+          <credix-button text="Eliminar" type="secondary"></credix-button>
+        </div>
+      </div>
+    </div>
+  </credix-navigation-table>
+</div>
