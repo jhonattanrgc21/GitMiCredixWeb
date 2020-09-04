@@ -127,8 +127,8 @@ export class LandingComponent implements OnInit {
   onCardChanged(cardId: number) {
     if (cardId !== this.cardId) {
       this.cardId = cardId;
-      this.globalRequestsService.homeContent = null;
-      this.globalRequestsService.accountSummary = null;
+      this.globalRequestsService.clearHomeContent();
+      this.globalRequestsService.clearAccountSummary();
       this.getHomeContent();
       this.getAccountsSummary();
     }

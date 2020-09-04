@@ -1,0 +1,35 @@
+.new-additional-card-second-step {
+  padding: 0 84px;
+
+  &__content {
+    width: 100%;
+
+    .left-content {
+      width: 352px;
+    }
+  }
+
+  &__sub-content {
+    margin-left: 28px;
+    width: 352px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .new-additional-card-second-step {
+    padding: 0 78px;
+
+    &__content {
+
+      .left-content {
+        width: 236px;
+      }
+    }
+
+    &__sub-content {
+      width: 238px;
+    }
+  }
+}
+

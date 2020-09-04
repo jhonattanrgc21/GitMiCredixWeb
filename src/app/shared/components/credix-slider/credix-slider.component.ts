@@ -14,7 +14,7 @@ export class CredixSliderComponent implements OnInit {
   @Input() step = 1;
   @Input() defaultValue = 1;
   @Input() instructions = 'Instrucciones';
-  @Input() units = 'Unidades';
+  @Input() units = '';
   @Input() value = 1;
   @Input() displayValue;
   @Input() displayMin;

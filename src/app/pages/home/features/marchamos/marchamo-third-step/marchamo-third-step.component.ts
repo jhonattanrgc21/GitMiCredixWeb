@@ -106,9 +106,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   getRadioButtonsChecked(event) {
-
     this.radioButtonsChangedValue = event.value;
-
 
     if (event.value === 2 && event.checked) {
       this.domicileDescription = {

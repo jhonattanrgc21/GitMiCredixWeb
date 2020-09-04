@@ -1,10 +1,8 @@
 <div class="awards" fxLayout="column" fxLayoutGap="16px">
   <div class="awards__banner-tab" fxLayout="row" fxLayoutGap="16px">
-    <mat-card [ngClass]="
-        showInProgress
-          ? 'awards__banner-tab__card-progress'
-          : 'awards__banner-tab__card-finalizado'
-      " credixCard fxFlex="100">
+    <mat-card [ngClass]="showInProgress ?
+    'awards__banner-tab__card-progress': 'awards__banner-tab__card-finalizado'" credixCard fxFlex="100">
+
       <h1>Premios</h1>
 
       <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
@@ -20,10 +18,9 @@
     </mat-card>
   </div>
 
-  <div *ngIf="
-      (showInProgress && inProgress.length > 0) ||
-      (!showInProgress && completed.length > 0)
-    " class="awards__cards-container">
+  <div *ngIf="(showInProgress && inProgress.length > 0) || (!showInProgress && completed.length > 0)"
+       class="awards__cards-container">
+
     <ng-container *ngFor="let award of awards; let i = index">
       <mat-card *ngIf="!award.completed" [class.in-progress]="showInProgress" class="awards__cards-container__card"
                 credixCard fxLayout="column" fxLayoutAlign="space-between">
@@ -99,16 +96,11 @@
     </ng-container>
   </div>
 
-  <mat-card *ngIf="
-      (showInProgress && inProgress.length === 0) ||
-      (!showInProgress && completed.length === 0)
-    " [class.in-progress]="showInProgress" class="awards__result-notification" credixCard
+  <mat-card *ngIf="(showInProgress && inProgress.length === 0) || (!showInProgress && completed.length === 0)"
+            [class.in-progress]="showInProgress" class="awards__result-notification" credixCard
             fxLayoutAlign="center center">
-    <credix-result-notification [title]="
-        showInProgress
-          ? 'No tiene premios en este momento.'
-          : 'No ha finalizado ningún premio en este momento.'
-      " status="info">
+    <credix-result-notification [title]="showInProgress ?
+     'No tiene premios en este momento.' : 'No ha finalizado ningún premio en este momento.'" status="info">
     </credix-result-notification>
   </mat-card>
 </div>

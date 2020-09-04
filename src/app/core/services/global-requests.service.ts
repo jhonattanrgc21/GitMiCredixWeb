@@ -15,23 +15,29 @@ import {Occupation} from '../../shared/models/occupation';
 import {IncomeType} from '../../shared/models/income-type';
 import {Quota} from '../../shared/models/quota';
 import {DatePipe} from '@angular/common';
+import {AdditionalCard} from '../../shared/models/additional-card';
+import {DeliveryPlace} from '../../shared/models/deliveryPlace.model';
+import {ThAddress} from '../../shared/models/th-address';
 
 @Injectable()
 export class GlobalRequestsService {
-  homeContent: Observable<any>;
-  currencies: Observable<Currency[]>;
-  identificationTypes: Observable<IdentificationType[]>;
-  countries: Observable<Country[]>;
-  provinces: Observable<Province[]>;
-  cantons: Observable<Canton[]>;
-  districts: Observable<District[]>;
-  occupations: Observable<Occupation[]>;
-  incomeTypes: Observable<IncomeType[]>;
-  accountSummary: Observable<AccountSummary>;
-  quotas: Observable<Quota[]>;
-  ibanAccounts: Observable<IbanAccount[]>;
-  userApplicantInfo: Observable<any>;
-  userApplicantProfileImage: Observable<string>;
+  private homeContent: Observable<any>;
+  private currencies: Observable<Currency[]>;
+  private identificationTypes: Observable<IdentificationType[]>;
+  private countries: Observable<Country[]>;
+  private provinces: Observable<Province[]>;
+  private cantons: Observable<Canton[]>;
+  private districts: Observable<District[]>;
+  private occupations: Observable<Occupation[]>;
+  private incomeTypes: Observable<IncomeType[]>;
+  private accountSummary: Observable<AccountSummary>;
+  private quotas: Observable<Quota[]>;
+  private ibanAccounts: Observable<IbanAccount[]>;
+  private userApplicantInfo: Observable<any>;
+  private userApplicantProfileImage: Observable<string>;
+  private additionalCards: Observable<AdditionalCard[]>;
+  private deliveryPlaces: Observable<DeliveryPlace[]>;
+  private thAddresses: Observable<{ addresses: ThAddress[], email: string; phone: number }>;
   private provinceId: number;
   private cantonId: number;
   private readonly tagsHomePageUri = 'homepage/tagshomepage';
@@ -48,6 +54,9 @@ export class GlobalRequestsService {
   private readonly getIbanAccountUri = 'account/getibanaccount';
   private readonly userApplicantInfoUri = 'applicant/finduserapplicantaccountnumber';
   private readonly getApplicantProfilePhotoUri = 'applicant/getProfilePhotoApplicant';
+  private readonly getAdditionalCardsUri = 'channels/getlistsadditionalcardsth';
+  private readonly deliveryPlaceUri = 'global/deliveryplace';
+  private readonly thAddressesUri = 'channels/getaddressth';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -302,6 +311,68 @@ export class GlobalRequestsService {
     return this.userApplicantProfileImage;
   }
 
+  getAdditionalCards(): Observable<AdditionalCard[]> {
+    if (!this.additionalCards) {
+      this.additionalCards = this.httpService
+        .post('canales', this.getAdditionalCardsUri)
+        .pipe(
+          publishReplay(1),
+          refCount(),
+          map((response) => {
+            if (response.type === 'success') {
+              return response.json;
+            } else {
+              return [];
+            }
+          })
+        );
+    }
+
+    return this.additionalCards;
+  }
+
+  getDeliveryPlaces(): Observable<DeliveryPlace[]> {
+    if (!this.deliveryPlaces) {
+      this.deliveryPlaces = this.httpService
+        .post('canales', this.deliveryPlaceUri)
+        .pipe(
+          publishReplay(1),
+          refCount(),
+          map((response) => {
+            if (response.type === 'success') {
+              return response.deliveryPlace;
+            } else {
+              return [];
+            }
+          })
+        );
+    }
+
+    return this.deliveryPlaces;
+  }
+
+  getThAddresses(): Observable<{ addresses: ThAddress[], email: string; phone: number }> {
+    if (!this.thAddresses) {
+      this.thAddresses = this.httpService
+        .post('canales', this.thAddressesUri, {
+          identification: this.storageService.getIdentification()
+        })
+        .pipe(
+          publishReplay(1),
+          refCount(),
+          map((response) => {
+            if (response.titleOne === 'success') {
+              return {addresses: response.json.address, email: response.json.email, phone: response.json.phone};
+            } else {
+              return;
+            }
+          })
+        );
+    }
+
+    return this.thAddresses;
+  }
+
   clearCache() {
     this.accountSummary = null;
     this.quotas = null;
@@ -309,5 +380,23 @@ export class GlobalRequestsService {
     this.userApplicantInfo = null;
     this.userApplicantProfileImage = null;
     this.homeContent = null;
+    this.additionalCards = null;
+    this.thAddresses = null;
+  }
+
+  clearHomeContent() {
+    this.homeContent = null;
+  }
+
+  clearAccountSummary() {
+    this.accountSummary = null;
+  }
+
+  clearUserApplicantInfo() {
+    this.userApplicantInfo = null;
+  }
+
+  clearUserApplicantProfileImage() {
+    this.userApplicantProfileImage = null;
   }
 }

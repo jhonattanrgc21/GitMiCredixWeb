@@ -144,7 +144,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
       }).subscribe(response => {
         if (response.type === 'success') {
           this.toastService.show({text: response.message, type: 'success'});
-          this.globalRequestsService.userApplicantInfo = null;
+          this.globalRequestsService.clearUserApplicantInfo();
           this.goBack();
         }
       });

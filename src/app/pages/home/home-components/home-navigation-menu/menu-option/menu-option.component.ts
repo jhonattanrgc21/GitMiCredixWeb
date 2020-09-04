@@ -97,7 +97,7 @@ export const menus: Menu[] = [
       {id: 13, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password'},
       {id: 14, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk'},
       {id: 15, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash'},
-      {id: 16, name: 'Tarjetas adicionales', route: '/home/additional-cards', icon: 'credit-card-plus'}
+      {id: 16, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus'}
     ]
   }
 ];

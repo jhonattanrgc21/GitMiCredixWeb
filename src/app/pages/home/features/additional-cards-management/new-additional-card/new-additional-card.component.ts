@@ -1,0 +1,112 @@
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AdditionalCardsManagementService} from '../additional-cards-management.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {CdkStepper} from '@angular/cdk/stepper';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {Router} from '@angular/router';
+
+@Component({
+  selector: 'app-new-additional-card',
+  templateUrl: './new-additional-card.component.html',
+  styleUrls: ['./new-additional-card.component.scss']
+})
+export class NewAdditionalCardComponent implements OnInit {
+  userInfoFormGroup: FormGroup = new FormGroup({
+    name: new FormControl(null, [Validators.required]),
+    lastName: new FormControl(null, [Validators.required]),
+    identificationType: new FormControl(null, [Validators.required]),
+    identification: new FormControl(null, [Validators.required]),
+    phoneNumber: new FormControl(null, [Validators.required]),
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    birthday: new FormControl(null, [Validators.required]),
+    creditLimit: new FormControl(null, [Validators.required])
+  });
+  pickUpPlaceFormGroup: FormGroup = new FormGroup({
+    address: new FormControl(null, [Validators.required])
+  });
+  confirmFormGroup: FormGroup = new FormGroup({
+    credixCode: new FormControl(null, [Validators.required])
+  });
+  @ViewChild('stepper') stepper: CdkStepper;
+  done = false;
+  disableButton = true;
+  stepperIndex = 0;
+  status: 'success' | 'error';
+  message: string;
+  title: string;
+
+  constructor(private additionalCardsManagementService: AdditionalCardsManagementService,
+              private modalService: ModalService,
+              private router: Router) {
+  }
+
+  ngOnInit(): void {
+    this.checkStep();
+  }
+
+  goBack() {
+    this.router.navigate(['/home/additional-cards-management']);
+  }
+
+  back() {
+    if (this.stepperIndex === 0) {
+      this.goBack();
+    } else {
+      this.stepper.previous();
+      this.stepperIndex = this.stepper.selectedIndex;
+      this.checkStep();
+    }
+  }
+
+  continue() {
+    this.stepper.next();
+    this.stepperIndex = this.stepper.selectedIndex;
+    this.checkStep();
+  }
+
+  checkStep() {
+    switch (this.stepperIndex) {
+      case 0:
+        this.disableButton = this.userInfoFormGroup.invalid;
+        this.userInfoFormGroup.valueChanges.subscribe(() => this.disableButton = this.userInfoFormGroup.invalid);
+        break;
+      case 1:
+        this.disableButton = this.pickUpPlaceFormGroup.invalid;
+        this.pickUpPlaceFormGroup.valueChanges.subscribe(() => this.disableButton = this.pickUpPlaceFormGroup.invalid);
+        break;
+      case 2:
+        this.disableButton = this.confirmFormGroup.invalid;
+        this.confirmFormGroup.valueChanges.subscribe(() => this.disableButton = this.confirmFormGroup.invalid);
+        break;
+    }
+  }
+
+  openModal() {
+    this.modalService.confirmationPopup('¿Desea realizar la solicitud de tarjeta adicional?').subscribe(response => {
+      if (response) {
+        this.submit();
+      }
+    });
+  }
+
+  submit() {
+    const birthday = this.userInfoFormGroup.controls.birthday.value as Date;
+    this.additionalCardsManagementService.saveAdditionalCard(
+      this.userInfoFormGroup.controls.name.value,
+      this.userInfoFormGroup.controls.lastName.value,
+      this.userInfoFormGroup.controls.identificationType.value,
+      this.userInfoFormGroup.controls.identification.value,
+      this.userInfoFormGroup.controls.phoneNumber.value.toString(),
+      this.userInfoFormGroup.controls.email.value,
+      `${birthday.getFullYear()}${birthday.getMonth() < 10 ? '0' + (birthday.getMonth() + 1) : birthday.getMonth() + 1}${birthday.getDate() < 10 ? '0' + (birthday.getDate() + 1) : birthday.getDate() + 1}`,
+      +this.userInfoFormGroup.controls.creditLimit.value,
+      this.pickUpPlaceFormGroup.controls.address.value,
+      this.confirmFormGroup.controls.credixCode.value
+    ).subscribe(response => {
+      this.done = true;
+      this.title = response.titleOne;
+      this.message = response.descriptionOne;
+      this.status = response.type;
+    });
+  }
+}
