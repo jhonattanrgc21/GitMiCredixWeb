@@ -20,7 +20,7 @@ export class AddIbanAccountComponent implements OnInit {
     nameOfFavorite: new FormControl(null, [Validators.required]),
     identificationType: new FormControl(null),
     identification: new FormControl(null),
-    credixCode: new FormControl(null)
+    codeCredix: new FormControl(null)
   });
 
   constructor(private ibanAccountService: IbanAccountsService) {

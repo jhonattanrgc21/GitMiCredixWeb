@@ -24,19 +24,4 @@ export class IbanAccountsService {
         })
       );
   }
-
-  getAllAccountIbanFavoriteByUser() {
-    return this.httpService.post('canales', 'iban/findAllAccountiBANFavoritebyUserId', {channelId: 102})
-      .pipe(
-        map((response) => {
-          if (response.type === 'success' && response.message === 'Operación exitosa') {
-            return response.AccountIbanFavoriteList;
-          } else if (response.type === 'success' && response.message === 'No existen datos.') {
-            return response.message;
-          } else {
-            return [];
-          }
-        })
-      );
-  }
 }

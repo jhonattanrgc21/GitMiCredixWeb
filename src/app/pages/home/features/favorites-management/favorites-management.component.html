@@ -3,6 +3,40 @@
 
   <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
 
-  <router-outlet></router-outlet>
+  <credix-navigation-table [headers]="tableHeaders">
 
+    <credix-result-notification *ngIf="responseMessage" [title]="responseMessage"
+                                status="info"></credix-result-notification>
+
+    <div *ngIf="!responseMessage" class="w-100 favorites-management__list" fxLayout="column" left>
+
+      <a (click)="getDetailFavorite(account)" *ngFor="let account of accounts"
+         class="favorites-management__account-wrapper" fxLayout="column">
+        <span>{{account.name}}</span>
+        <span *ngIf="tabs[1].id === 2">{{account.publicServiceName}}</span>
+        <span>{{account.account}}</span>
+      </a>
+
+
+      <mat-divider class="iban-accounts__footer" credixDivider></mat-divider>
+      <div class="iban-accounts__footer" fxLayoutAlign="center">
+        <credix-button text="Añadir cuenta IBAN"></credix-button>
+      </div>
+    </div>
+
+    <div *ngIf="!responseMessage" class="iban-accounts__right-content" fxLayout="column"
+         fxLayoutAlign="center center" right>
+
+      <router-outlet></router-outlet>
+
+      <div class="iban-accounts__footer" fxLayoutAlign="flex-end">
+        <div fxLayoutGap="16px">
+          <credix-button text="Guardar"></credix-button>
+          <credix-button text="Eliminar" type="secondary"></credix-button>
+        </div>
+      </div>
+    </div>
+  </credix-navigation-table>
 </mat-card>
+
+

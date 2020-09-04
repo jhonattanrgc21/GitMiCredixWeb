@@ -8,6 +8,10 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {FavoritesManagementService} from './favorites-management.service';
 import {CredixTabModule} from '../../../../shared/components/credix-tab/credix-tab.module';
 import {SharedModule} from '../../../../shared/shared.module';
+import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
+import {CredixNavigationTableModule} from '../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
+import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
+import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 
 const routes: Routes = [
   {
@@ -46,7 +50,11 @@ const routes: Routes = [
     MatCardModule,
     FlexModule,
     CredixTabModule,
-    SharedModule
+    SharedModule,
+    CredixCardsModule,
+    CredixNavigationTableModule,
+    CredixButtonModule,
+    CredixResultNotificationModule
   ],
   providers: [
     FavoritesManagementService,

@@ -7,10 +7,6 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AutomaticsComponent implements OnInit {
 
-  tableHeaders = [
-    {label: 'Pagos guardados', width: '276px'},
-    {label: 'Detalle del pago', width: 'auto'}
-  ];
 
   constructor() {
   }
