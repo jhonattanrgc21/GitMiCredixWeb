@@ -3,6 +3,8 @@ import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
+import {ConvertStringDateToDate} from '../../../../shared/utils';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-extend-term',
@@ -10,8 +12,46 @@ import {StorageService} from '../../../../core/services/storage.service';
   styleUrls: ['./extend-term.component.scss'],
 })
 export class ExtendTermComponent implements OnInit {
-  @Input() optionSelected;
-  @Input() quotaSelected;
+  tableHeaders = [
+    {label: 'Consumos', width: '30%'},
+    {label: 'Ampliación', width: '70%'}
+  ];
+  optionsScroll = {autoHide: false, scrollbarMinSize: 100};
+  optionSelected = {
+    id: 0,
+    name: '',
+    icon: '',
+    img: '',
+    cardId: 0,
+    totalPlanQuota: 0,
+    accountNumber: 0,
+    movementId: '',
+    originDate: '',
+    originAmount: '',
+    originCurrency: '',
+    quotaAmount: 0,
+    subOptions: [],
+    restrictions: {
+      linkFacebook: '',
+      name: '',
+      paymentPlaceRestriction: [],
+      webPage: '',
+    },
+  };
+
+  changedQuotas = {
+    feeAmount: '0',
+    feePercentage: 0,
+    quotaTo: 6,
+    amountPerQuota: '0',
+    quotaFrom: 3,
+    financedPlan: 0,
+    purchaseAmount: '0',
+  };
+
+
+  quotaSelected;
+  quotas = 6;
   options = [];
   allowedMovements;
   quotaList;
@@ -20,6 +60,13 @@ export class ExtendTermComponent implements OnInit {
   showResponse = false;
   currencyCode = '$';
   empty = false;
+  quotasArray;
+  quotaSliderStep = 1;
+  quotaSliderMin = 3;
+  quotaSliderMax = 12;
+  quotaSliderDisplayMin = 1;
+  quotaSliderDisplayMax = 12;
+  quotaSliderDisplayValue = 0;
 
   constructor(
     private storageService: StorageService,
@@ -32,6 +79,19 @@ export class ExtendTermComponent implements OnInit {
   ngOnInit(): void {
     this.getAllowedMovements();
   }
+
+  getOptionDetail(option) {
+    this.optionSelected = option;
+    this.getQuotas();
+    this.quotaSelected = this.quotasArray[0]
+  }
+
+  getQuota(sliderValue) {
+    this.quotaSliderDisplayValue = this.quotasArray[sliderValue - 1].quotaTo;
+    this.quotas = this.quotaSliderDisplayValue;
+    this.quotaSelected = this.quotasArray[sliderValue - 1];
+  }
+
 
   getAllowedMovements() {
     this.httpService
@@ -48,7 +108,7 @@ export class ExtendTermComponent implements OnInit {
 
           this.allowedMovements.forEach(async (elem, i) => {
             this.quotaList = await this.calculateQuota(elem.movementId, i);
-            const quotaAmount = +elem.originAmount / +elem.totalPlanQuota;
+            const quotaAmount = this.changeFormat(elem.originAmount) / elem.totalPlanQuota;
             this.options = [
               ...this.options,
               {
@@ -70,6 +130,17 @@ export class ExtendTermComponent implements OnInit {
         }
       });
   }
+
+  convertStringDateToDate(value: string): Date {
+    return ConvertStringDateToDate(value);
+  }
+
+  changeFormat(value) {
+    const removeDot = value.replace('.', '');
+    const finalString = removeDot.replace(',', '.');
+    return Number(finalString);
+  }
+
 
   calculateQuota(movementId, i) {
     this.httpService
@@ -114,5 +185,14 @@ export class ExtendTermComponent implements OnInit {
 
   done() {
     this.router.navigate(['/home']);
+  }
+
+  getQuotas() {
+      this.quotasArray = this.optionSelected.subOptions.sort((a, b) => a.quota - b.quota);
+      this.quotaSliderDisplayMin = this.quotasArray[0].quotaTo;
+      this.quotaSliderMin = 1;
+      this.quotaSliderDisplayMax = this.quotasArray[this.quotasArray.length - 1].quotaTo;
+      this.quotaSliderMax = this.quotasArray.length;
+      this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
   }
 }

@@ -1,53 +1,153 @@
 <mat-card class="extend-term" credixCard fxLayout="column">
   <h1>Ampliar plazo de compra</h1>
-  <p *ngIf="!showResponse || empty">Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
+  <p *ngIf="!showResponse || empty">
+    Haga su cuota más pequeña, ampliando el plazo de su compra.
+  </p>
 
-  <credix-navigation-table (optionEvent)="optionSelected = $event" (quotaEvent)="quotaSelected = $event"
-                           *ngIf="!showResponse || empty"
-                           [headers]="['Consumos', 'Ampliación']"
-                           [ngClass]="empty && 'hideNavTableContent'" [options]="options"
-                           [type]="3"></credix-navigation-table>
+  <credix-navigation-table [headers]="tableHeaders" *ngIf="!showResponse">
+    <div class="w-100" fxLayout="column" *ngIf="!empty" left>
+      <ngx-simplebar [options]="optionsScroll" class="extend-term__menu-options" fxLayout="column">
+        <div class="w-100">
+          <a (click)="getOptionDetail(option)" *ngFor="let option of options" class="extend-term__option"
+            fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <p [class.is-selected]="optionSelected.id == option.id" class="extend-term__option__label">
+                {{
+                  option.name.length > 10
+                    ? (option.name | titlecase | slice: 0:10) + "..."
+                    : (option.name | titlecase)
+                }}
+              </p>
+              <p class="tr extend-term__content__date">
+                {{
+                  convertStringDateToDate(option.originDate)
+                    | dateFormatter: "alphanumeric"
+                }}
+              </p>
+            </div>
+            <span class="extend-term__content__subtitle" [class.is-selected]="optionSelected.id == option.id">
+              <credix-numeric-block [prefix]="option.originCurrency" [value]="option.originAmount" fontSize="16"
+                fontWeight="optionSelected.id == option.id ? 'bold': 'normal'"></credix-numeric-block>
+              a {{ option.totalPlanQuota }} Cuotas
+            </span>
+            <span *ngIf="optionSelected.id == option.id" class="extend-term__option__arrow"></span>
+          </a>
+        </div>
+      </ngx-simplebar>
+    </div>
+
+    <div *ngIf="!empty && optionSelected.id!==0" class="extend-term__content-right" fxLayout="column" right>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <p class="extend-term__table__title">
+          {{
+            optionSelected.name.length > 25
+              ? (optionSelected.name | titlecase | slice: 0:25) + "..."
+              : (optionSelected.name | titlecase)
+          }}
+        </p>
+        <p class="tr extend-term__content__date-smaller">
+          {{ optionSelected.originDate }}
+        </p>
+      </div>
+      <p class="extend-term__content__subtitle">
+        <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="optionSelected.originAmount"
+          fontSize="14" fontWeight="bold"></credix-numeric-block>
+        a {{ optionSelected.totalPlanQuota }} Cuotas
+      </p>
+      <div class="extend-term__content-right__option mt-16px" fxLayout="row">
+        <div fxFlex="40%">
+          <p>Cuota</p>
+        </div>
+        <div fxFlex="60%" fxLayoutAlign="end end">
+          <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="optionSelected.quotaAmount"
+            fontSize="16" fontWeight="bold"></credix-numeric-block>
+        </div>
+      </div>
+
+      <div>
+        <p class="extend-term__table__title mt-24px mb-16px">
+          Modifique su plazo
+        </p>
+          <credix-slider (inputChange)="getQuota($event)"
+                       (valueChange)="getQuota($event)"
+                       [displayMax]="quotaSliderDisplayMax"
+                       [displayMin]="quotaSliderDisplayMin"
+                       [displayValue]="quotaSliderDisplayValue"
+                       [max]="quotaSliderMax"
+                       [min]="quotaSliderMin"
+                       [step]="quotaSliderStep" class="second-step__slider"
+                       instructions="Deseo dividir este pago en" units="coutas"></credix-slider>
+        <div class="mb-16px mt-16px" fxLayout="row">
+          <div fxFlex="40%">
+            <p>Plazo nuevo</p>
+          </div>
+          <div fxFlex="60%" fxLayoutAlign="end end">
+            <span>{{ quotas }} meses</span>
+          </div>
+        </div>
+        <div class="mb-16px" fxLayout="row">
+          <div fxFlex="40%">
+            <p>Cuota nueva</p>
+          </div>
+          <div fxFlex="60%" fxLayoutAlign="end end">
+            <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="quotaSelected?.amountPerQuota"
+              fontSize="16" fontWeight="bold"></credix-numeric-block>
+          </div>
+        </div>
+        <div class="mb-16px" fxLayout="row">
+          <div fxFlex="40%">
+            <p>Comisión</p>
+          </div>
+          <div fxFlex="60%" fxLayoutAlign="end end">
+            <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="quotaSelected?.feeAmount"
+              fontSize="16" fontWeight="bold"></credix-numeric-block>
+          </div>
+        </div>
+      </div>
+    </div>
+  </credix-navigation-table>
 
   <div *ngIf="showResponse" class="extend-term__succResp">
-
     <credix-result-notification [message]="message" [status]="resType"
-                                title="{{resType === 'success' ? '¡Éxito!' : 'Oops...' }}">
+      title="{{ resType === 'success' ? '¡Éxito!' : 'Oops...' }}">
     </credix-result-notification>
 
     <mat-divider *ngIf="resType === 'success'" class="extend-term__divider full-width mt-16px mb-16px"></mat-divider>
 
     <div *ngIf="resType === 'success'" class="extend-term__data-info" fxLayout="row"
-         fxLayoutAlign="space-between start">
+      fxLayoutAlign="space-between start">
       <div fxFlex="42%">
-        <p class="extend-term__data-info__text">
-          Datos de la ampliación
-        </p>
+        <p class="extend-term__data-info__text">Datos de la ampliación</p>
       </div>
       <div fxFlex="58%">
         <div class="extend-term__data-info__row" fxLayout="row">
           <div fxFlex="50%"><span>Comercio</span></div>
           <div class="tr" fxFlex="50%">
-            <span class="extend-term__data-info__text">{{optionSelected.name}}</span>
+            <span class="extend-term__data-info__text">{{
+              optionSelected.name
+            }}</span>
           </div>
         </div>
         <div class="extend-term__data-info__row" fxLayout="row">
           <div fxFlex="60%"><span>Cuota nueva</span></div>
           <div class="tr" fxFlex="40%">
             <credix-numeric-block [prefix]="currencyCode" [value]="quotaSelected.feeAmount" class="tr" fontSize="16"
-                                  fontWeight="bold">
+              fontWeight="bold">
             </credix-numeric-block>
           </div>
         </div>
         <div class="extend-term__data-info__row" fxLayout="row">
           <div fxFlex="50%"><span>Plazo nuevo</span></div>
           <div class="tr" fxFlex="50%">
-            <span class="extend-term__data-info__text">{{quotaSelected.quotaTo}} Cuotas</span>
+            <span class="extend-term__data-info__text">{{ quotaSelected.quotaTo }} Cuotas</span>
           </div>
         </div>
         <div class="extend-term__data-info__row" fxLayout="row">
           <div fxFlex="60%"><span>Fecha</span></div>
           <div class="tr" fxFlex="40%">
-            <span class="extend-term__data-info__text">{{optionSelected.originDate}}</span>
+            <span class="extend-term__data-info__text">{{
+              optionSelected.originDate
+            }}</span>
           </div>
         </div>
       </div>
@@ -58,13 +158,15 @@
   </div>
 
   <credix-result-notification *ngIf="empty" class="extend-term__empty" status="info"
-                              title="No tiene consumos para ampliar en este momento.">
+    title="No tiene consumos para ampliar en este momento.">
   </credix-result-notification>
 
-  <div [ngClass]="showResponse ? 'extend-term__footer mt-16px' : 'extend-term__footer1 mt-16px' " fxLayout="row"
-       fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="openConfirmationModal()" *ngIf="!showResponse && this.quotaSelected"
-                   text="Ampliar Plazo">
+  <div [ngClass]="
+      showResponse
+        ? 'extend-term__footer mt-16px'
+        : 'extend-term__footer1 mt-16px'
+    " fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (buttonClick)="openConfirmationModal()" *ngIf="!showResponse && quotaSelected" text="Ampliar Plazo">
     </credix-button>
     <credix-button (buttonClick)="done()" *ngIf="showResponse" text="Listo">
     </credix-button>

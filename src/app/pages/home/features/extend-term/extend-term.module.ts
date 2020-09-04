@@ -24,6 +24,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {MatDividerModule} from '@angular/material/divider';
+import {CredixSliderModule} from '../../../../shared/components/credix-slider/credix-slider.module';
+import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
+import {SimplebarAngularModule} from 'simplebar-angular';
 
 
 const routes: Routes = [
@@ -57,7 +60,10 @@ const routes: Routes = [
     MatButtonModule,
     CredixNumericBlockModule,
     CredixResultNotificationModule,
-    MatDividerModule
+    MatDividerModule,
+    CredixSliderModule,
+    DateFormatterModule,
+    SimplebarAngularModule
   ],
   providers: [ModalService]
 })
