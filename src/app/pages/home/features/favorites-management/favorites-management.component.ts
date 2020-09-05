@@ -12,7 +12,8 @@ import {AccountsFavoriteManagement} from '../../../../shared/models/accounts-fav
 })
 export class FavoritesManagementComponent implements OnInit {
 
-  accounts: AccountsFavoriteManagement[];
+  accounts: AccountsFavoriteManagement[] = [];
+  tabId = 1;
   responseMessage: string;
   tableHeaders: TableHeadersModel[];
   tabs = [
@@ -20,6 +21,7 @@ export class FavoritesManagementComponent implements OnInit {
     {id: 2, name: 'Pagos favoritos'},
     {id: 3, name: 'Automáticos'}
   ];
+  showContent: boolean;
 
   constructor(private toastService: CredixToastService,
               private router: Router,
@@ -27,21 +29,35 @@ export class FavoritesManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.showContent = false;
     this.tableHeaders = [
       {label: 'Cuentas guardadas', width: '276px'},
       {label: 'Detalle de la cuenta', width: 'auto'}
     ];
-    this.getFavoritesIban();
+    this.initServicesEngine(1);
   }
 
   getDetailFavorite(accountEvent) {
-    console.log(accountEvent);
+    if (accountEvent.publicServiceCode !== undefined) {
+      // tslint:disable-next-line:max-line-length
+      this.favoriteManagementService.emitFavoritesPaymentsData(accountEvent.name, accountEvent.account, accountEvent.publicServiceName, accountEvent.publicServiceProvider, accountEvent.publicServiceAccessKeyDescription);
+    }
+
+    if (accountEvent.IdAccountFavorite !== undefined) {
+      this.favoriteManagementService.emitIbanAccountData(accountEvent.name, accountEvent.account, accountEvent.IdAccountFavorite);
+    }
+
+    if (accountEvent.id !== undefined) {
+      this.favoriteManagementService.emitIbanAccountData(accountEvent.name, accountEvent.account, accountEvent.IdAccountFavorite);
+    }
   }
 
   tabSelected(tab) {
+    this.tabId = tab.id;
     switch (tab.id) {
       case 1:
         this.router.navigate(['home/favorites-management/iban-accounts']);
+        this.initServicesEngine(1);
         break;
       case 2:
         this.router.navigate(['home/favorites-management/favorites-payments']);
@@ -49,45 +65,48 @@ export class FavoritesManagementComponent implements OnInit {
           {label: 'Pagos guardados', width: '276px'},
           {label: 'Detalle del pago', width: 'auto'}
         ];
-        this.favoriteManagementService.emitTabId(2);
+        this.initServicesEngine(2);
         break;
       case 3:
         this.router.navigate(['home/favorites-management/automatics']);
-        this.favoriteManagementService.emitTabId(3);
+        this.initServicesEngine(3);
         break;
     }
   }
 
-  initServicesEngine() {
-    this.favoriteManagementService.tabId.subscribe(tab => {
-      switch (tab.id) {
-        case 1:
-          this.getFavoritesIban();
-          break;
-        case 2:
-          this.getPublicService();
-          break;
-        case 3:
-          break;
-      }
-    });
+  initServicesEngine(tabId: number) {
+    switch (tabId) {
+      case 1:
+        this.getFavoritesIban();
+        this.accounts = [];
+        break;
+      case 2:
+        this.getPublicService();
+        this.accounts = [];
+        break;
+      case 3:
+        this.getSchedulePayment();
+        this.accounts = [];
+        break;
+    }
   }
 
   getFavoritesIban() {
     this.favoriteManagementService.getAllAccountIbanFavoriteByUser()
       .subscribe((response) => {
         if (response.length > 0) {
-          response.forEach(values => {
-            this.accounts = [
-              {
-                name: values.aliasName,
-                account: values.ibanAccount,
-                IdAccountFavorite: values.IdAccountFavorite,
-              }
-            ];
-          });
+          for (const values of response) {
+            this.accounts.push({
+              name: values.aliasName,
+              account: values.ibanAccount,
+              IdAccountFavorite: values.IdAccountFavorite,
+            });
+          }
+          this.showContent = true;
+          this.responseMessage = undefined;
         } else {
           this.responseMessage = 'No tiene cuentas IBAN favoritas en este momento.';
+          this.showContent = false;
         }
       });
   }
@@ -96,17 +115,44 @@ export class FavoritesManagementComponent implements OnInit {
     this.favoriteManagementService.getAllFavoritePublicServiceByUser()
       .subscribe((response) => {
         if (response.length > 0) {
-          response.forEach(values => {
-            this.accounts = [
-              {
-                name: values.publicServiceFavoriteName,
-                account: values.accountNumber,
-                publicServiceName: values.publicServiceName,
-                publicServiceProvider: values.publicServiceProvider,
-                publicServiceAccessKeyDescription: values.publicServiceAccessKeyDescription
-              }
-            ];
-          });
+          for (const values of response) {
+            this.accounts.push({
+              name: values.publicServiceFavoriteName,
+              account: values.accountNumber,
+              publicServiceName: values.publicServiceName,
+              publicServiceProvider: values.publicServiceProvider,
+              publicServiceAccessKeyDescription: values.publicServiceAccessKeyDescription,
+              publicServiceCode: values.publicServiceCode
+            });
+          }
+          this.showContent = true;
+          this.responseMessage = undefined;
+        } else {
+          this.responseMessage = 'No tiene pagos favoritos en este momento.';
+          this.showContent = false;
+        }
+      });
+  }
+
+  getSchedulePayment() {
+    this.favoriteManagementService.getAllSchedulersPayment()
+      .subscribe((response) => {
+        if (response.length > 0) {
+          for (const values of response) {
+            this.accounts.push({
+              name: values.alias,
+              account: values.publicServiceDescription,
+              id: values.id,
+              maxAmount: values.maxAmount,
+              periodicityDescription: values.periodicityDescription,
+              startDate: values.startDate
+            });
+          }
+          this.showContent = true;
+          this.responseMessage = undefined;
+        } else {
+          this.responseMessage = 'No tiene pagos automáticos en este momento.';
+          this.showContent = false;
         }
       });
   }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Router} from '@angular/router';
+import {FavoritesManagementService} from '../favorites-management.service';
 
 @Component({
   selector: 'app-iban-accounts',
@@ -9,29 +9,25 @@ import {Router} from '@angular/router';
 })
 export class IbanAccountsComponent implements OnInit {
 
-  ibanDetailSelect: boolean;
-  favoriteName: FormControl = new FormControl(null);
+  showContent = false;
+  data: { ibanAccount: string; IdAccountFavorite: number; };
+  ibanAccountDetailInput: FormControl = new FormControl({value: null, disabled: true});
 
-  constructor(private router: Router) {
+  constructor(private favoritesManagementService: FavoritesManagementService) {
   }
 
   ngOnInit(): void {
-    this.ibanDetailSelect = false;
-  }
-
-  addIbanAccount() {
-    this.router.navigate(['iban-accounts/add-iban-account']);
-  }
-
-  getIbanAccountDetail(ibanDetailAccount) {
-    console.log(ibanDetailAccount);
-  }
-
-  save() {
 
   }
 
-  delete() {
-
+  getIbanAccountDetail() {
+    this.favoritesManagementService.ibanAccountData.subscribe(response => {
+      this.showContent = !this.showContent;
+      this.data = {
+        ibanAccount: response.ibanAccount,
+        IdAccountFavorite: response.IdAccountFavorite
+      };
+      this.ibanAccountDetailInput.setValue(response.aliasName);
+    });
   }
 }

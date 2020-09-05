@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IdentificationType} from '../../../../../../shared/models/IdentificationType';
-import {IbanAccountsService} from '../iban-accounts.service';
+import {IdentificationType} from '../../../../../shared/models/IdentificationType';
+import {IbanAccountsService} from '../iban-accounts/iban-accounts.service';
 import {finalize} from 'rxjs/operators';
-import {getIdentificationMaskByType} from '../../../../../../shared/utils';
+import {getIdentificationMaskByType} from '../../../../../shared/utils';
 
 @Component({
   selector: 'app-add-iban-account',

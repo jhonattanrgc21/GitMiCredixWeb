@@ -6,7 +6,6 @@ import {CredixNavigationTableModule} from '../../../../../shared/components/cred
 import {ModalService} from '../../../../../core/services/modal.service';
 import {IbanAccountsService} from './iban-accounts.service';
 import {CredixInputFieldModule} from '../../../../../shared/components/credix-input-field/credix-input-field.module';
-import {AddIbanAccountComponent} from './add-iban-account/add-iban-account.component';
 import {CredixButtonModule} from '../../../../../shared/components/credix-button/credix-button.module';
 import {CredixSelectModule} from '../../../../../shared/components/credix-select/credix-select.module';
 import {CredixLinkButtonModule} from '../../../../../shared/components/credix-link-button/credix-link-button.module';
@@ -19,19 +18,13 @@ const routes: Routes = [
   {
     path: '',
     component: IbanAccountsComponent,
-    children: [
-      {
-        path: 'add-iban-account',
-        component: AddIbanAccountComponent
-      }
-    ]
+    pathMatch: 'full'
   }
 ];
 
 @NgModule({
   declarations: [
-    IbanAccountsComponent,
-    AddIbanAccountComponent
+    IbanAccountsComponent
   ],
   imports: [
     CommonModule,

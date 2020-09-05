@@ -5,38 +5,53 @@
 
   <credix-navigation-table [headers]="tableHeaders">
 
-    <credix-result-notification *ngIf="responseMessage" [title]="responseMessage"
-                                status="info"></credix-result-notification>
-
-    <div *ngIf="!responseMessage" class="w-100 favorites-management__list" fxLayout="column" left>
+    <div *ngIf="showContent && responseMessage === undefined" class="w-100 favorites-management__list" fxLayout="column"
+         left>
 
       <a (click)="getDetailFavorite(account)" *ngFor="let account of accounts"
          class="favorites-management__account-wrapper" fxLayout="column">
-        <span>{{account.name}}</span>
-        <span *ngIf="tabs[1].id === 2">{{account.publicServiceName}}</span>
-        <span>{{account.account}}</span>
+        <span><strong>{{account.name}}</strong></span>
+        <div *ngIf="tabId === 2" fxLayout="row" fxLayoutGap="96.79px">
+          <span>{{account.publicServiceName}}</span>
+          <mat-icon style="fill: #E42313;width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+        </div>
+        <div fxLayout="row" fxLayoutGap="38.79px">
+          <span>{{account.account}}</span>
+          <mat-icon *ngIf="tabId !== 2" style="fill: #E42313;width: 8px; height: 13px;"
+                    svgIcon="chevron_right"></mat-icon>
+        </div>
+        <mat-divider class="mt-16px" credixDivider></mat-divider>
       </a>
 
 
-      <mat-divider class="iban-accounts__footer" credixDivider></mat-divider>
-      <div class="iban-accounts__footer" fxLayoutAlign="center">
-        <credix-button text="Añadir cuenta IBAN"></credix-button>
-      </div>
     </div>
 
-    <div *ngIf="!responseMessage" class="iban-accounts__right-content" fxLayout="column"
+    <div class="favorites-management__right-content" fxLayout="column"
          fxLayoutAlign="center center" right>
 
-      <router-outlet></router-outlet>
+      <credix-result-notification *ngIf="!showContent && responseMessage !== null" [title]="responseMessage"
+                                  class="favorites-management__result"
+                                  status="info">
+      </credix-result-notification>
 
-      <div class="iban-accounts__footer" fxLayoutAlign="flex-end">
-        <div fxLayoutGap="16px">
-          <credix-button text="Guardar"></credix-button>
-          <credix-button text="Eliminar" type="secondary"></credix-button>
-        </div>
+      <div *ngIf="showContent && responseMessage === undefined" fxLayout="column">
+        <router-outlet></router-outlet>
       </div>
+
     </div>
   </credix-navigation-table>
+
+  <div class="favorites-management__footer" fxLayoutAlign="center">
+    <mat-divider></mat-divider>
+    <credix-button text="Añadir cuenta IBAN"></credix-button>
+  </div>
+  <div *ngIf="showContent && responseMessage === undefined" class="favorites-management__footer"
+       fxLayoutAlign="flex-end">
+    <div fxLayoutGap="16px">
+      <credix-button text="Guardar"></credix-button>
+      <credix-button text="Eliminar" type="secondary"></credix-button>
+    </div>
+  </div>
 </mat-card>
 
 

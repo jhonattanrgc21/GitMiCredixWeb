@@ -1,6 +1,30 @@
 .favorites-management {
   width: 877px;
   min-height: 662px;
+  position: relative;
+
+  &__account-wrapper {
+    width: 250px;
+    height: 95.5px;
+    padding: 0 1px;
+  }
+
+  &__right-content {
+
+  }
+
+  &__footer {
+    position: absolute;
+    width: 30%;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #E9E9E9;
+    padding: 16px;
+  }
+
+  &__result {
+    padding: 100px 110px 0 0;
+  }
 }
 
 @media screen and (max-width: 1199px) {
@@ -8,4 +32,9 @@
     width: 736px;
     min-height: 886px;
   }
+}
+
+::ng-deep.credix-result-notification__title {
+  width: 286px;
+  height: 83px;
 }

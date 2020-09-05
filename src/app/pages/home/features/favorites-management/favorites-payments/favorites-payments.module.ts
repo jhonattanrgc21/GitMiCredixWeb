@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {FavoritesPaymentsComponent} from './favorites-payments.component';
-import {AddFavoritesPaymentComponent} from './add-favorites-payment/add-favorites-payment.component';
 import {CredixNavigationTableModule} from '../../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
 import {CredixInputFieldModule} from '../../../../../shared/components/credix-input-field/credix-input-field.module';
 import {CredixButtonModule} from '../../../../../shared/components/credix-button/credix-button.module';
@@ -14,21 +13,14 @@ import {SharedModule} from '../../../../../shared/shared.module';
 const routes: Routes = [
   {
     path: '',
-    component: FavoritesPaymentsComponent,
-    children: [
-      {
-        path: 'add-favorites-payments',
-        component: AddFavoritesPaymentComponent
-      }
-    ]
+    component: FavoritesPaymentsComponent
   }
 ];
 
 
 @NgModule({
   declarations: [
-    FavoritesPaymentsComponent,
-    AddFavoritesPaymentComponent
+    FavoritesPaymentsComponent
   ],
   imports: [
     CommonModule,

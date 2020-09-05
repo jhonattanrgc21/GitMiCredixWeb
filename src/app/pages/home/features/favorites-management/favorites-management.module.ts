@@ -12,6 +12,14 @@ import {CredixCardsModule} from '../../../../shared/directives/credix-cards/cred
 import {CredixNavigationTableModule} from '../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {AddFavoritesPaymentComponent} from './add-favorites-payment/add-favorites-payment.component';
+import {AddAutomaticsComponent} from './add-automatics/add-automatics.component';
+import {AddIbanAccountComponent} from './add-iban-account/add-iban-account.component';
+import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
+import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
+import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
+import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 
 const routes: Routes = [
   {
@@ -35,6 +43,18 @@ const routes: Routes = [
       {
         path: 'automatics',
         loadChildren: () => import('./automatics/automatics.module').then(m => m.AutomaticsModule)
+      },
+      {
+        path: 'add-iban-account',
+        component: AddIbanAccountComponent
+      },
+      {
+        path: 'add-favorites-payments',
+        component: AddFavoritesPaymentComponent
+      },
+      {
+        path: 'add-automatics',
+        component: AddAutomaticsComponent
       }
     ]
   }
@@ -42,7 +62,10 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    FavoritesManagementComponent
+    FavoritesManagementComponent,
+    AddIbanAccountComponent,
+    AddFavoritesPaymentComponent,
+    AddAutomaticsComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +77,12 @@ const routes: Routes = [
     CredixCardsModule,
     CredixNavigationTableModule,
     CredixButtonModule,
-    CredixResultNotificationModule
+    CredixResultNotificationModule,
+    CredixCodeInputModule,
+    CredixInputFieldModule,
+    CredixSelectModule,
+    CredixLinkButtonModule,
+    CredixDividerModule
   ],
   providers: [
     FavoritesManagementService,

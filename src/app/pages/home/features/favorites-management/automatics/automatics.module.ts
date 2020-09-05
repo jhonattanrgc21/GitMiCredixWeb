@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AddAutomaticsComponent} from './add-automatics/add-automatics.component';
 import {AutomaticsComponent} from './automatics.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CredixNavigationTableModule} from '../../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
@@ -16,20 +15,13 @@ import {SharedModule} from '../../../../../shared/shared.module';
 const routes: Routes = [
   {
     path: '',
-    component: AutomaticsComponent,
-    children: [
-      {
-        path: 'add-automatics',
-        component: AddAutomaticsComponent
-      }
-    ]
+    component: AutomaticsComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    AutomaticsComponent,
-    AddAutomaticsComponent
+    AutomaticsComponent
   ],
   imports: [
     CommonModule,

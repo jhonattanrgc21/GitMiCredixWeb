@@ -1,3 +1,5 @@
-<div class="iban-accounts" fxLayout="column">
-
+<div *ngIf="showContent" class="iban-accounts">
+  <span><strong>Banco Nacional</strong></span>
+  <span>{{data.ibanAccount}}</span>
+  <credix-input-field [formControl]="ibanAccountDetailInput" label="Nombre de favorito"></credix-input-field>
 </div>

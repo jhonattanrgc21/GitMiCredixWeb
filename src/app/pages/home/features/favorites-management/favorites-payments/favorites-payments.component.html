@@ -1,3 +1,13 @@
-<div class="favorites-payments" fxLayout="column">
+<div *ngIf="showContent" class="favorites-payments" fxLayout="column">
+  <span class="favorites-payments__title"><strong>{{data.publicServicesAccessKeyDescription}}</strong></span>
+  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+    <span>Número de contrato</span>
+    <span>{{data.account}}</span>
+  </div>
+  <div class="mb-24px" fxLayout="row" fxLayoutAlign="space-between">
+    <span>Compañía</span>
+    <span>{{data.publicServiceProvider}}</span>
+  </div>
 
+  <credix-input-field [formControl]="favoritesPaymentDetail" label="Nombre de favorito"></credix-input-field>
 </div>
