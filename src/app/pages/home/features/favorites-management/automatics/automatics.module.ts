@@ -11,6 +11,7 @@ import {CredixCodeInputModule} from '../../../../../shared/components/credix-cod
 import {ModalService} from '../../../../../core/services/modal.service';
 import {AutomaticsService} from './automatics.service';
 import {SharedModule} from '../../../../../shared/shared.module';
+import {DateFormatterModule} from '../../../../../shared/pipes/date-formatter/date-formatter.module';
 
 const routes: Routes = [
   {
@@ -33,7 +34,8 @@ const routes: Routes = [
     CredixInputFieldModule,
     CredixSelectModule,
     CredixLinkButtonModule,
-    CredixCodeInputModule
+    CredixCodeInputModule,
+    DateFormatterModule
   ],
   providers: [
     ModalService,

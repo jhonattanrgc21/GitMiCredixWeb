@@ -13,6 +13,15 @@
     <credix-input-field class="mb-8px" formControlName="favoriteName" label="Nombre del favorito"></credix-input-field>
     <credix-input-field class="mb-8px" formControlName="maxAmount" label="Monto máximo a pagar" mask="separator"
                         thousandSeparator="."></credix-input-field>
+
+    <credix-input-field (click)="openCalendar()"
+                        [displayValue]="automaticsDetailForm.controls.startDate.value | dateFormatter: 'alphanumeric'"
+                        [readonly]="true"
+                        class="mb-8px automatics__input calendar" formControlName="startDate"
+                        label="Fecha inicial de pago">
+      <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
+    </credix-input-field>
+
     <credix-select formControlName="periodicityDescription" label="Periocidad">
       <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
         {{periodicity.description}}

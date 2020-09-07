@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AutomaticsService} from './automatics.service';
+import {ModalService} from '../../../../../core/services/modal.service';
 
 @Component({
   selector: 'app-automatics',
@@ -24,7 +25,8 @@ export class AutomaticsComponent implements OnInit {
   periodicityList: { description: string; id: number; }[] = [];
 
   constructor(private favoritesManagementService: FavoritesManagementService,
-              private automaticsService: AutomaticsService) {
+              private automaticsService: AutomaticsService,
+              private modalService: ModalService) {
   }
 
   ngOnInit(): void {
@@ -43,6 +45,9 @@ export class AutomaticsComponent implements OnInit {
         startDate: response.startDate,
         key: response.key
       };
+      this.automaticsDetailForm.controls.favoriteName.setValue(this.data.alias);
+      this.automaticsDetailForm.controls.maxAmount.setValue(this.data.maxAmount);
+      this.automaticsDetailForm.controls.startDate.setValue(this.data.startDate);
       this.getPeriodicityList();
     });
   }
@@ -55,4 +60,11 @@ export class AutomaticsComponent implements OnInit {
     });
   }
 
+  openCalendar() {
+    this.modalService.calendarPopup().subscribe(modal => {
+      if (modal) {
+        this.automaticsDetailForm.controls.startDate.setValue(modal.date);
+      }
+    });
+  }
 }

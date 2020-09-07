@@ -1,3 +1,14 @@
 .automatics {
+  width: 296px;
+  height: 296px;
+  padding: 0px 20px;
 
+  &__input {
+    height: 42px;
+
+    .calendar-icon {
+      width: 13px;
+      height: 15px;
+    }
+  }
 }
