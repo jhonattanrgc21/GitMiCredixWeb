@@ -13,6 +13,10 @@
     <credix-input-field class="mb-8px" formControlName="favoriteName" label="Nombre del favorito"></credix-input-field>
     <credix-input-field class="mb-8px" formControlName="maxAmount" label="Monto máximo a pagar" mask="separator"
                         thousandSeparator="."></credix-input-field>
-
+    <credix-select formControlName="periodicityDescription" label="Periocidad">
+      <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
+        {{periodicity.description}}
+      </mat-option>
+    </credix-select>
   </form>
 </div>

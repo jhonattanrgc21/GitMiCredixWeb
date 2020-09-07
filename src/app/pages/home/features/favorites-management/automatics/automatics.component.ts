@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {FormControl, FormGroup} from '@angular/forms';
+import {AutomaticsService} from './automatics.service';
 
 @Component({
   selector: 'app-automatics',
@@ -20,7 +21,10 @@ export class AutomaticsComponent implements OnInit {
     periodicityDescription: new FormControl({value: null, disabled: true})
   });
 
-  constructor(private favoritesManagementService: FavoritesManagementService) {
+  periodicityList: { description: string; id: number; }[] = [];
+
+  constructor(private favoritesManagementService: FavoritesManagementService,
+              private automaticsService: AutomaticsService) {
   }
 
   ngOnInit(): void {
@@ -39,6 +43,15 @@ export class AutomaticsComponent implements OnInit {
         startDate: response.startDate,
         key: response.key
       };
+      this.getPeriodicityList();
+    });
+  }
+
+  getPeriodicityList() {
+    this.automaticsService.getPeriodicity().subscribe((response) => {
+      this.periodicityList = response;
+      // tslint:disable-next-line:max-line-length
+      this.automaticsDetailForm.controls.periodicityDescription.setValue(this.periodicityList.find(elem => elem.description === response.description).id);
     });
   }
 
