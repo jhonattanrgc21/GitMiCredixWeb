@@ -20,10 +20,20 @@
     left: 0;
     border-top: 1px solid #E9E9E9;
     padding: 16px;
+
+    &-right {
+      right: 0;
+    }
   }
 
   &__result {
     padding: 100px 110px 0 0;
+  }
+
+  .list-id-3 {
+    span {
+      width: 233px;
+    }
   }
 }
 

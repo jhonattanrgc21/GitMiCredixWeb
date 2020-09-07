@@ -20,6 +20,7 @@ import {CredixInputFieldModule} from '../../../../shared/components/credix-input
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {NgxMaskModule} from 'ngx-mask';
 
 const routes: Routes = [
   {
@@ -82,7 +83,8 @@ const routes: Routes = [
     CredixInputFieldModule,
     CredixSelectModule,
     CredixLinkButtonModule,
-    CredixDividerModule
+    CredixDividerModule,
+    NgxMaskModule
   ],
   providers: [
     FavoritesManagementService,

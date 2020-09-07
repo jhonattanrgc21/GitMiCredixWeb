@@ -22,6 +22,7 @@ export class FavoritesManagementComponent implements OnInit {
     {id: 3, name: 'Automáticos'}
   ];
   showContent: boolean;
+  buttonText = 'Añadir cuenta IBAN';
 
   constructor(private toastService: CredixToastService,
               private router: Router,
@@ -35,6 +36,7 @@ export class FavoritesManagementComponent implements OnInit {
       {label: 'Detalle de la cuenta', width: 'auto'}
     ];
     this.initServicesEngine(1);
+    this.buttonCMS(1);
   }
 
   getDetailFavorite(accountEvent) {
@@ -48,12 +50,14 @@ export class FavoritesManagementComponent implements OnInit {
     }
 
     if (accountEvent.id !== undefined) {
-      this.favoriteManagementService.emitIbanAccountData(accountEvent.name, accountEvent.account, accountEvent.IdAccountFavorite);
+      // tslint:disable-next-line:max-line-length
+      this.favoriteManagementService.emitAutomaticsPaymentData(accountEvent.account, accountEvent.name, accountEvent.id, accountEvent.maxAmount, accountEvent.periodicityDescription, accountEvent.startDate, accountEvent.key);
     }
   }
 
   tabSelected(tab) {
     this.tabId = tab.id;
+    this.buttonCMS(tab.id);
     switch (tab.id) {
       case 1:
         this.router.navigate(['home/favorites-management/iban-accounts']);
@@ -87,6 +91,20 @@ export class FavoritesManagementComponent implements OnInit {
       case 3:
         this.getSchedulePayment();
         this.accounts = [];
+        break;
+    }
+  }
+
+  buttonCMS(tabId: number) {
+    switch (tabId) {
+      case 1:
+        this.buttonText = 'Añadir cuenta IBAN';
+        break;
+      case 2:
+        this.buttonText = 'Añadir pago favorito';
+        break;
+      case 3:
+        this.buttonText = 'Añadir pago automático';
         break;
     }
   }
@@ -145,7 +163,8 @@ export class FavoritesManagementComponent implements OnInit {
               id: values.id,
               maxAmount: values.maxAmount,
               periodicityDescription: values.periodicityDescription,
-              startDate: values.startDate
+              startDate: values.startDate,
+              key: values.key
             });
           }
           this.showContent = true;

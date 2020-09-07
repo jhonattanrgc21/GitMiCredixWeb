@@ -1,3 +1,18 @@
-<div class="favorites-payments" fxLayout="column">
+<div *ngIf="showContent" class="automatics" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span>Número de contrato</span>
+    <span>{{data.id}}</span>
+  </div>
 
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <span>Compañía</span>
+    <span>{{data.publicServiceDescription}}</span>
+  </div>
+
+  <form [formGroup]="automaticsDetailForm" fxLayout="column">
+    <credix-input-field class="mb-8px" formControlName="favoriteName" label="Nombre del favorito"></credix-input-field>
+    <credix-input-field class="mb-8px" formControlName="maxAmount" label="Monto máximo a pagar" mask="separator"
+                        thousandSeparator="."></credix-input-field>
+
+  </form>
 </div>

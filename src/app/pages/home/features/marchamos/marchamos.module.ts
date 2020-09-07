@@ -19,6 +19,7 @@ import {PopupMarchamosDetailComponent} from './marchamo-second-step/popup-marcha
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
 import {PopupMarchamosNewDirectionComponent} from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
 import {SimplebarAngularModule} from 'simplebar-angular';
+// tslint:disable-next-line:max-line-length
 import {PopupMarchamosPaymentSummaryComponent} from './marchamo-second-step/popup-marchamos-payment-summary/popup-marchamos-payment-summary.component';
 import {CredixNumericBlockModule} from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
 import {CredixResultNotificationModule} from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';

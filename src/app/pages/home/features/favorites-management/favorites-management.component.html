@@ -15,6 +15,10 @@
           <span>{{account.publicServiceName}}</span>
           <mat-icon style="fill: #E42313;width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
         </div>
+        <div *ngIf="tabId === 3" class="list-id-3" fxLayout="row" fxLayoutGap="8.29px">
+          <span>{{account.account + '-' + account.key | mask: '0000-0000'}}</span>
+          <mat-icon style="fill: #E42313;width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+        </div>
         <div fxLayout="row" fxLayoutGap="38.79px">
           <span>{{account.account}}</span>
           <mat-icon *ngIf="tabId !== 2" style="fill: #E42313;width: 8px; height: 13px;"
@@ -43,9 +47,9 @@
 
   <div class="favorites-management__footer" fxLayoutAlign="center">
     <mat-divider></mat-divider>
-    <credix-button text="Añadir cuenta IBAN"></credix-button>
+    <credix-button [text]="buttonText"></credix-button>
   </div>
-  <div *ngIf="showContent && responseMessage === undefined" class="favorites-management__footer"
+  <div *ngIf="showContent && responseMessage === undefined" class="favorites-management__footer-right"
        fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
       <credix-button text="Guardar"></credix-button>

@@ -13,7 +13,7 @@ export class FavoritesManagementService {
   private __ibanAccountData: Subject<{ aliasName: string, ibanAccount: string, IdAccountFavorite: number }> = new Subject<{ aliasName: string; ibanAccount: string; IdAccountFavorite: number }>();
 
   // tslint:disable-next-line:variable-name max-line-length
-  private __automaticsPaymentData: Subject<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string }> = new Subject<{ publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; }>();
+  private __automaticsPaymentData: Subject<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number }> = new Subject<{ publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; }>();
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -29,7 +29,7 @@ export class FavoritesManagementService {
   }
 
   // tslint:disable-next-line:max-line-length
-  get automaticsPaymentData(): Observable<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string }> {
+  get automaticsPaymentData(): Observable<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number }> {
     return this.__automaticsPaymentData.asObservable();
   }
 
@@ -50,8 +50,8 @@ export class FavoritesManagementService {
   }
 
   // tslint:disable-next-line:max-line-length
-  emitAutomaticsPaymentData(publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string) {
-    this.__automaticsPaymentData.next({publicServiceDescription, alias, id, maxAmount, periodicityDescription, startDate});
+  emitAutomaticsPaymentData(publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number) {
+    this.__automaticsPaymentData.next({publicServiceDescription, alias, id, maxAmount, periodicityDescription, startDate, key});
   }
 
 
