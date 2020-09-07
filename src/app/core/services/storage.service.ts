@@ -19,7 +19,7 @@ export class StorageService {
       securityToken: data.json.securityToken,
       aplicantName: data.json.aplicantName
     };
-    this.card = data.json.cardNumberList;
+    this.card = data.json.cardNumberList ? data.json.cardNumberList : [];
     localStorage.setItem('identification', identification);
     localStorage.setItem('user', JSON.stringify(this.user));
     localStorage.setItem('card', JSON.stringify(this.card));
