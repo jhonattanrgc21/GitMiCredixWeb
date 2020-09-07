@@ -9,18 +9,26 @@ import {CredixSelectModule} from '../../../../../shared/components/credix-select
 import {CredixLinkButtonModule} from '../../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixCodeInputModule} from '../../../../../shared/components/credix-code-input/credix-code-input.module';
 import {SharedModule} from '../../../../../shared/shared.module';
+import {AddFavoritesPaymentComponent} from './add-favorites-payment/add-favorites-payment.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: FavoritesPaymentsComponent
+    component: FavoritesPaymentsComponent,
+    children: [
+      {
+        path: 'add-favorites-payments',
+        component: AddFavoritesPaymentComponent
+      }
+    ]
   }
 ];
 
 
 @NgModule({
   declarations: [
-    FavoritesPaymentsComponent
+    FavoritesPaymentsComponent,
+    AddFavoritesPaymentComponent
   ],
   imports: [
     CommonModule,

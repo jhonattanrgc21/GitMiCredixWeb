@@ -17,7 +17,7 @@ export class IbanAccountsService {
       .pipe(
         map((response) => {
           if (response.type === 'success') {
-            return response;
+            return response.identificationTypes;
           } else {
             return [];
           }

@@ -13,18 +13,25 @@ import {CredixCodeInputModule} from '../../../../../shared/components/credix-cod
 import {SharedModule} from '../../../../../shared/shared.module';
 // tslint:disable-next-line:max-line-length
 import {CredixResultNotificationModule} from '../../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {AddIbanAccountComponent} from './add-iban-account/add-iban-account.component';
 
 const routes: Routes = [
   {
     path: '',
     component: IbanAccountsComponent,
-    pathMatch: 'full'
+    children: [
+      {
+        path: 'add-iban-account',
+        component: AddIbanAccountComponent
+      },
+    ]
   }
 ];
 
 @NgModule({
   declarations: [
-    IbanAccountsComponent
+    IbanAccountsComponent,
+    AddIbanAccountComponent
   ],
   imports: [
     CommonModule,

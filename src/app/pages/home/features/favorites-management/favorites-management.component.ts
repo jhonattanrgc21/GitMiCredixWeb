@@ -109,6 +109,20 @@ export class FavoritesManagementComponent implements OnInit {
     }
   }
 
+  addButtonRedirect(tabId: number) {
+    switch (tabId) {
+      case 1:
+        this.router.navigate(['home/favorites-management/iban-accounts/add-iban-account']);
+        break;
+      case 2:
+        this.router.navigate(['home/favorites-management/favorites-payments/add-favorites-payments']);
+        break;
+      case 3:
+        this.router.navigate(['home/favorites-management/automatics/add-automatics']);
+        break;
+    }
+  }
+
   getFavoritesIban() {
     this.favoriteManagementService.getAllAccountIbanFavoriteByUser()
       .subscribe((response) => {

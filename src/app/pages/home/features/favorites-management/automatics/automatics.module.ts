@@ -12,17 +12,25 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {AutomaticsService} from './automatics.service';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {DateFormatterModule} from '../../../../../shared/pipes/date-formatter/date-formatter.module';
+import {AddAutomaticsComponent} from './add-automatics/add-automatics.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AutomaticsComponent
+    component: AutomaticsComponent,
+    children: [
+      {
+        path: 'add-automatics',
+        component: AddAutomaticsComponent
+      }
+    ]
   }
 ];
 
 @NgModule({
   declarations: [
-    AutomaticsComponent
+    AutomaticsComponent,
+    AddAutomaticsComponent
   ],
   imports: [
     CommonModule,

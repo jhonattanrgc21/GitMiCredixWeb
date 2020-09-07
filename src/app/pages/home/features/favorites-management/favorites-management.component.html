@@ -11,7 +11,7 @@
       <a (click)="getDetailFavorite(account)" *ngFor="let account of accounts"
          class="favorites-management__account-wrapper" fxLayout="column">
         <span><strong>{{account.name}}</strong></span>
-        <div *ngIf="tabId === 2" fxLayout="row" fxLayoutGap="96.79px">
+        <div *ngIf="tabId === 2" class="list-id-2" fxLayout="row" fxLayoutGap="96.79px">
           <span>{{account.publicServiceName}}</span>
           <mat-icon style="fill: #E42313;width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
         </div>
@@ -46,9 +46,9 @@
   </credix-navigation-table>
 
   <div class="favorites-management__footer" fxLayoutAlign="center">
-    <mat-divider></mat-divider>
-    <credix-button [text]="buttonText"></credix-button>
+    <credix-button (buttonClick)="addButtonRedirect(tabId)" [text]="buttonText"></credix-button>
   </div>
+
   <div *ngIf="showContent && responseMessage === undefined" class="favorites-management__footer-right"
        fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">

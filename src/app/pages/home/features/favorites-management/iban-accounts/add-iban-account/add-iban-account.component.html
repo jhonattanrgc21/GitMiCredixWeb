@@ -1,12 +1,14 @@
 <mat-card class="add-iban-account">
   <div fxLayout="row" fxLayoutAlign="space-between">
-    <span><strong>Cuenta IBAN</strong></span>
+    <h1>Añadir cuenta IBAN</h1>
     <form [formGroup]="newFavoriteIbanForm" class="add-iban-account__form" fxLayout="column">
+
       <credix-input-field formControlName="ibanAccount" label="Cuenta IBAN"></credix-input-field>
       <credix-input-field formControlName="nameOfFavorite" label="Nombre de favorito"></credix-input-field>
-      <credix-select formControlName="identificationType" label="Tipo de identificación">
-        <mat-option>
 
+      <credix-select formControlName="identificationType" label="Tipo de identificación">
+        <mat-option *ngFor="let idenType of identificationTypes" [value]="idenType.id">
+          {{idenType.description}}
         </mat-option>
       </credix-select>
 
@@ -29,4 +31,11 @@
     </form>
   </div>
 
+  <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <div fxLayoutGap="16px">
+      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="addIbanFavoriteAccount()" [disabled]="!newFavoriteIbanForm.valid"
+                     [text]="'Añadir'"></credix-button>
+    </div>
+  </div>
 </mat-card>

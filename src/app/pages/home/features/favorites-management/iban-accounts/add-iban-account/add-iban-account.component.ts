@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IdentificationType} from '../../../../../shared/models/IdentificationType';
-import {IbanAccountsService} from '../iban-accounts/iban-accounts.service';
+import {IdentificationType} from '../../../../../../shared/models/IdentificationType';
+import {IbanAccountsService} from '../iban-accounts.service';
 import {finalize} from 'rxjs/operators';
-import {getIdentificationMaskByType} from '../../../../../shared/utils';
+import {getIdentificationMaskByType} from '../../../../../../shared/utils';
 
 @Component({
   selector: 'app-add-iban-account',
@@ -33,7 +33,7 @@ export class AddIbanAccountComponent implements OnInit {
     this.ibanAccountService.getIdentificationTypes()
       .pipe(finalize(() => this.identificationChanged()))
       .subscribe(response => {
-        this.identificationTypes = response.identificationTypes.filter(idt => idt.id > 0);
+        this.identificationTypes = response.filter(idt => idt.id > 0);
       });
   }
 
@@ -50,4 +50,11 @@ export class AddIbanAccountComponent implements OnInit {
     });
   }
 
+  back() {
+
+  }
+
+  addIbanFavoriteAccount() {
+
+  }
 }
