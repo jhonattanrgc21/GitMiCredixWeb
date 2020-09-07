@@ -100,7 +100,6 @@ export class ExtendTermComponent implements OnInit {
         channelId: 102,
       })
       .subscribe((res) => {
-        console.log(res);
         if (res.result.length) {
           this.allowedMovements = res.result;
           this.empty = false;
