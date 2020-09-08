@@ -66,6 +66,7 @@ export class ExtendTermComponent implements OnInit {
   quotaSliderDisplayMin = 1;
   quotaSliderDisplayMax = 12;
   quotaSliderDisplayValue = 0;
+  movLength = 0;
 
   constructor(
     private storageService: StorageService,
@@ -100,10 +101,10 @@ export class ExtendTermComponent implements OnInit {
         channelId: 102,
       })
       .subscribe((res) => {
-        console.log(res);
         if (res.result.length) {
           this.allowedMovements = res.result;
           this.empty = false;
+          this.movLength = res.result.length
 
           this.allowedMovements.forEach(async (elem, i) => {
             this.quotaList = await this.calculateQuota(elem.movementId, i);
@@ -149,6 +150,15 @@ export class ExtendTermComponent implements OnInit {
       .subscribe((res) => {
         if (res.type === 'success') {
           this.options[i] = {...this.options[i], subOptions: res.listQuota};
+          if (i === this.movLength - 1) {
+            if (this.router.parseUrl(this.router.url).queryParams.q && this.options.length) {
+              const movementId = this.router.parseUrl(this.router.url).queryParams.q;
+              const option = this.options.find(mov => mov.movementId == movementId);
+              if (option) {
+                this.getOptionDetail(option);
+              }
+            }
+          }
         }
       });
   }
