@@ -5,6 +5,7 @@ import {AdditionalCard} from '../../../../../shared/models/additional-card';
 import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {ModalService} from '../../../../../core/services/modal.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-additional-cards',
@@ -52,8 +53,11 @@ export class AdditionalCardsComponent implements OnInit {
   }
 
   deleteAdditionalCard(cardId: number) {
-    this.additionalCardsManagementService.disableAdditionalCard(cardId).subscribe(response => {
-      this.toastService.show({text: response.descriptionOne, type: response.titleOne});
-    });
+    this.additionalCardsManagementService.disableAdditionalCard(cardId)
+      .pipe(finalize(() =>
+        this.globalRequestsService.getAdditionalCards().subscribe(additionalCards => this.additionalCards = additionalCards)))
+      .subscribe(response => {
+        this.toastService.show({text: response.descriptionOne, type: response.titleOne});
+      });
   }
 }
