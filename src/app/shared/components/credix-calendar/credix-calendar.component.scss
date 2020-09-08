@@ -61,11 +61,11 @@
         opacity: 0;
       }
 
-      &.is-disabled{
+      &.is-disabled {
         cursor: none !important;
         color: #9B9B9B !important;
-        background:none !important;
-        border-radius: none !important;
+        background: none !important;
+        border-radius: 0 !important;
       }
 
       &.is-active {
