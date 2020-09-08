@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {FavoritesPaymentsService} from '../favorites-payments.service';
-import {PublicServiceListModel} from '../../../../../../shared/models/public-service-list.model';
-import {PublicServiceEnterpriseModel} from '../../../../../../shared/models/public-service-enterprise.model';
+import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
+import {PublicServiceListModel} from '../../../../../shared/models/public-service-list.model';
+import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -17,9 +17,13 @@ export class AddFavoritesPaymentComponent implements OnInit {
     publicServices: new FormControl(null, [Validators.required]),
     company: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
-    favoriteName: new FormControl(null, [Validators.required]),
-    codeCredix: new FormControl(null, [Validators.required])
+    favoriteName: new FormControl(null, [Validators.required])
   });
+  codeCredix: FormControl = new FormControl(null, [Validators.required]);
+
+
+  // tslint:disable-next-line:no-output-rename
+  @Output('backToTemplate') backToTemplate: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private favoritesPaymentsService: FavoritesPaymentsService) {
   }
@@ -46,7 +50,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
 
   back() {
-
+    this.backToTemplate.emit('favorite-management');
   }
 
   addFavoritePayment() {

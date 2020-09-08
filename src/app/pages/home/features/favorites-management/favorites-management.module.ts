@@ -19,6 +19,9 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {NgxMaskModule} from 'ngx-mask';
 import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
+import {AddIbanAccountComponent} from './add-iban-account/add-iban-account.component';
+import {AddAutomaticsComponent} from './add-automatics/add-automatics.component';
+import {AddFavoritesPaymentComponent} from './add-favorites-payment/add-favorites-payment.component';
 
 const routes: Routes = [
   {
@@ -49,7 +52,10 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    FavoritesManagementComponent
+    FavoritesManagementComponent,
+    AddIbanAccountComponent,
+    AddAutomaticsComponent,
+    AddFavoritesPaymentComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +74,7 @@ const routes: Routes = [
     CredixLinkButtonModule,
     CredixDividerModule,
     NgxMaskModule,
-    DateFormatterModule
+    DateFormatterModule,
   ],
   providers: [
     FavoritesManagementService,

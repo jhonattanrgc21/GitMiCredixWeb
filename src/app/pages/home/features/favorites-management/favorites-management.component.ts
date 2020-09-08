@@ -21,12 +21,14 @@ export class FavoritesManagementComponent implements OnInit {
     {id: 2, name: 'Pagos favoritos'},
     {id: 3, name: 'Automáticos'}
   ];
+  showTemplate: string;
   showContent: boolean;
   buttonText = 'Añadir cuenta IBAN';
 
   constructor(private toastService: CredixToastService,
               private router: Router,
               private favoriteManagementService: FavoritesManagementService) {
+    this.showTemplate = 'favorite-management';
   }
 
   ngOnInit(): void {
@@ -112,14 +114,30 @@ export class FavoritesManagementComponent implements OnInit {
   addButtonRedirect(tabId: number) {
     switch (tabId) {
       case 1:
-        this.router.navigate(['home/favorites-management/iban-accounts/add-iban-account']);
+        this.showTemplate = 'add-iban';
         break;
       case 2:
-        this.router.navigate(['home/favorites-management/favorites-payments/add-favorites-payments']);
+        this.showTemplate = 'add-favorites';
         break;
       case 3:
-        this.router.navigate(['home/favorites-management/automatics/add-automatics']);
+        this.showTemplate = 'add-automatics';
         break;
+    }
+  }
+
+  changeTemplate(event) {
+    this.showTemplate = event;
+    switch (this.tabId) {
+      case 1:
+        this.router.navigate(['home/favorites-management/iban-accounts']);
+        break;
+      case 2:
+        this.router.navigate(['home/favorites-management/favorites-payments']);
+        break;
+      case 3:
+        this.router.navigate(['home/favorites-management/automatics']);
+        break;
+
     }
   }
 

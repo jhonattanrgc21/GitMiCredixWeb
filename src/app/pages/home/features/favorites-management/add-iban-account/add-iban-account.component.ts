@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IdentificationType} from '../../../../../../shared/models/IdentificationType';
-import {IbanAccountsService} from '../iban-accounts.service';
+import {IdentificationType} from '../../../../../shared/models/IdentificationType';
+import {IbanAccountsService} from '../iban-accounts/iban-accounts.service';
 import {finalize} from 'rxjs/operators';
-import {getIdentificationMaskByType} from '../../../../../../shared/utils';
+import {getIdentificationMaskByType} from '../../../../../shared/utils';
 
 @Component({
   selector: 'app-add-iban-account',
@@ -19,14 +19,19 @@ export class AddIbanAccountComponent implements OnInit {
     ibanAccount: new FormControl(null, [Validators.required]),
     nameOfFavorite: new FormControl(null, [Validators.required]),
     identificationType: new FormControl(null),
-    identification: new FormControl(null),
-    codeCredix: new FormControl(null)
+    identification: new FormControl(null)
   });
+
+  codeCredix: FormControl = new FormControl(null, [Validators.required]);
+
+  // tslint:disable-next-line:no-output-rename
+  @Output('backToTemplate') backToTemplate: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private ibanAccountService: IbanAccountsService) {
   }
 
   ngOnInit(): void {
+    this.identificationType();
   }
 
   identificationType() {
@@ -51,7 +56,7 @@ export class AddIbanAccountComponent implements OnInit {
   }
 
   back() {
-
+    this.backToTemplate.emit('favorite-management');
   }
 
   addIbanFavoriteAccount() {

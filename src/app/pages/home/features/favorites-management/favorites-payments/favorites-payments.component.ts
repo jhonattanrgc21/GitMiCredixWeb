@@ -13,6 +13,7 @@ export class FavoritesPaymentsComponent implements OnInit {
   data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string };
   favoritesPaymentDetail: FormControl = new FormControl({value: null, disabled: true});
 
+
   constructor(private favoritesManagementService: FavoritesManagementService) {
   }
 

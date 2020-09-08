@@ -1,4 +1,5 @@
-<mat-card class="favorites-management" credixCard fxLayout="column" fxLayoutGap="16px">
+<mat-card *ngIf="showTemplate === 'favorite-management'" class="favorites-management" credixCard fxLayout="column"
+          fxLayoutGap="16px">
   <h1>Gestionar favoritos</h1>
 
   <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
@@ -58,4 +59,12 @@
   </div>
 </mat-card>
 
+<app-add-iban-account (backToTemplate)="changeTemplate($event)"
+                      *ngIf="showTemplate === 'add-iban'"></app-add-iban-account>
+
+<app-add-favorites-payment (backToTemplate)="changeTemplate($event)"
+                           *ngIf="showTemplate === 'add-favorites'"></app-add-favorites-payment>
+
+<app-add-automatics (backToTemplate)="changeTemplate($event)"
+                    *ngIf="showTemplate === 'add-automatics'"></app-add-automatics>
 
