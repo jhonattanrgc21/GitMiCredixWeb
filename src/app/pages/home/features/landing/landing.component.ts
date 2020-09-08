@@ -58,30 +58,31 @@ export class LandingComponent implements OnInit {
 
   getHomeContent() {
     this.globalRequestsService.getHomeContent(this.cardId).subscribe(response => {
-      this.paymentDetails = {
-        currentDate: response.fechaActual,
-        nextCutOffDate: response.fechaProximaCorte,
-        nextPaymentDate: response.fechaProximaMaximaPago,
-        lastCutOffDate: response.ultimaFechaCorte,
-        lastPaymentDate: response.ultimaFechaMaximaPago,
-        minPaymentColones: response.pagoMinimoActColones,
-        minPaymentDollars: response.pagoMinimoActDolares,
-        cashPaymentColones: response.pagoContadoColones,
-        cashPaymentDollars: response.pagoContadoDolares
-      };
+      if (response) {
+        this.paymentDetails = {
+          currentDate: response.fechaActual,
+          nextCutOffDate: response.fechaProximaCorte,
+          nextPaymentDate: response.fechaProximaMaximaPago,
+          lastCutOffDate: response.ultimaFechaCorte,
+          lastPaymentDate: response.ultimaFechaMaximaPago,
+          minPaymentColones: response.pagoMinimoActColones,
+          minPaymentDollars: response.pagoMinimoActDolares,
+          cashPaymentColones: response.pagoContadoColones,
+          cashPaymentDollars: response.pagoContadoDolares
+        };
 
-      this.movements = response.movements;
+        this.movements = response.movements;
 
-      if (response.listBanner) {
-        response.listBanner.forEach(banner => {
-          this.awards.push({
-            title: banner.title,
-            description: banner.description,
-            img: banner.link
+        if (response.listBanner) {
+          response.listBanner.forEach(banner => {
+            this.awards.push({
+              title: banner.title,
+              description: banner.description,
+              img: banner.link
+            });
           });
-        });
+        }
       }
-
     });
   }
 
