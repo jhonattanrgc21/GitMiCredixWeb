@@ -1,8 +1,12 @@
 .cancellation {
 
+  &__share-btn{
+    margin-top:40px;
+  }
+
   &__divider {
-    margin-right: 180px;
-    margin-left: 180px;
+    margin-right: 141px;
+    margin-left: 141px;
   }
 
   &__table {
@@ -14,7 +18,7 @@
   }
 
   &__data-info {
-    margin: 24px 164px 16px 164px;
+    margin: 24px 141px 16px 141px;
 
     &__text {
       font-size: 16px;
@@ -23,7 +27,6 @@
     }
 
     &__row {
-      width: 296px;
       padding-bottom: 10px;
     }
   }
@@ -139,12 +142,12 @@
     }
 
     &__divider {
-      margin-right: 114px;
-      margin-left: 114px;
+      margin-right: 70px;
+      margin-left: 70px;
     }
 
     &__data-info {
-      margin: 24px 100px 16px 87px;
+      margin: 24px 70px 16px 70px;
     }
 
     &__succResp {

@@ -1,32 +1,32 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpService} from '../../../../core/services/http.service';
-import {TableElement} from '../../../../shared/models/table.model';
-import {Router} from '@angular/router';
-import {SelectionModel} from '@angular/cdk/collections';
-import {ConvertStringDateToDate} from '../../../../shared/utils';
+import { Component, OnInit } from "@angular/core";
+import { HttpService } from "../../../../core/services/http.service";
+import { TableElement } from "../../../../shared/models/table.model";
+import { Router } from "@angular/router";
+import { SelectionModel } from "@angular/cdk/collections";
+import { ConvertStringDateToDate } from "../../../../shared/utils";
 
 @Component({
-  selector: 'app-anticipated-cancellation',
-  templateUrl: './anticipated-cancellation.component.html',
-  styleUrls: ['./anticipated-cancellation.component.scss'],
+  selector: "app-anticipated-cancellation",
+  templateUrl: "./anticipated-cancellation.component.html",
+  styleUrls: ["./anticipated-cancellation.component.scss"],
 })
 export class AnticipatedCancellationComponent implements OnInit {
   selection = new SelectionModel<any>(true, []);
   displayedColumns: string[] = [
-    'select',
-    'date',
-    'commerce',
-    'amount',
-    'quotas',
-    'rate',
+    "select",
+    "date",
+    "commerce",
+    "amount",
+    "quotas",
+    "rate",
   ];
   dataSource: TableElement[];
-  currencyCode = '₡';
+  currencyCode = "₡";
   balance = 0;
   check = true;
   p = 0;
   showResponse = false;
-  options = {autoHide: false, scrollbarMinSize: 50};
+  options = { autoHide: false, scrollbarMinSize: 50 };
   showSuccess;
   errorTitle;
   errorDescrip;
@@ -38,26 +38,27 @@ export class AnticipatedCancellationComponent implements OnInit {
   paymentList = [];
   empty = false;
   tabs = [
-    {id: 1, name: 'Colones'},
-    {id: 2, name: 'Dólares'},
+    { id: 1, name: "Colones" },
+    { id: 2, name: "Dólares" },
   ];
+  tab = { id: 1, name: "Colones" };
   checked = false;
 
-  constructor(private httpService: HttpService, private router: Router) {
-  }
+  constructor(private httpService: HttpService, private router: Router) {}
 
   ngOnInit(): void {
-    this.checkFuntionallity();
+    //this.checkFuntionallity();
+    this.getOptionsToCancel();
   }
 
   tabSelected(tab) {
     if (tab.id === 1) {
-      this.currencyCode = '₡';
+      this.currencyCode = "₡";
       this.balance = this.balanceC;
       this.dataSource = this.quotasToCancel;
       this.selection.clear();
     } else {
-      this.currencyCode = '$';
+      this.currencyCode = "$";
       this.balance = this.balanceD;
       this.dataSource = this.quotasToCancel$;
       this.selection.clear();
@@ -66,29 +67,30 @@ export class AnticipatedCancellationComponent implements OnInit {
 
   checkFuntionallity() {
     this.httpService
-      .post('canales', 'channels/cutdate', {
+      .post("canales", "channels/cutdate", {
         channelId: 102,
       })
       .subscribe((res) => {
-        if (res.titleOne !== 'Éxito') {
+        if (res.titleOne !== "Éxito") {
           this.showResponse = true;
           this.errorTitle = res.titleOne;
           this.errorDescrip = res.descriptionOne;
           this.showSuccess = false;
         } else {
           this.showResponse = false;
-          this.getOptionsToCancel();
+          // this.getOptionsToCancel();
         }
       });
   }
 
   getOptionsToCancel() {
     this.httpService
-      .post('canales', 'account/pendingquotes', {
+      .post("canales", "account/pendingquotes", {
         channelId: 102,
       })
       .subscribe((res) => {
-        if (res.type === 'success') {
+        console.log(res);
+        if (res.type === "success") {
           this.balanceC = this.changeFormat(res.SaldoDisponibleColones);
           this.balanceD = this.changeFormat(res.SaldoDisponibleDolares);
           res.CuotasDolares.forEach((elem, i) => {
@@ -123,6 +125,9 @@ export class AnticipatedCancellationComponent implements OnInit {
             ];
           });
 
+          this.balance = this.balanceC;
+          this.dataSource = this.quotasToCancel;
+
         } else {
           this.empty = true;
         }
@@ -146,15 +151,15 @@ export class AnticipatedCancellationComponent implements OnInit {
     });
 
     this.httpService
-      .post('canales', 'account/saveadvancepayments', {
+      .post("canales", "account/saveadvancepayments", {
         channelId: 102,
-        saldoInicial: this.currencyCode === '₡' ? this.balanceC : this.balanceD,
+        saldoInicial: this.currencyCode === "₡" ? this.balanceC : this.balanceD,
         saldoFinal: this.balance,
         advancePaymentList: this.paymentList,
       })
       .subscribe((resp) => {
         this.showResponse = true;
-        if (resp.type === 'success') {
+        if (resp.type === "success") {
           this.showSuccess = true;
         } else {
           this.showSuccess = false;
@@ -176,18 +181,18 @@ export class AnticipatedCancellationComponent implements OnInit {
   }
 
   done() {
-    this.router.navigate(['/home']).then();
+    this.router.navigate(["/home"]).then();
   }
 
   convertStringDateToDate(value: string): Date {
     const date =
-      value.slice(8, 10) + '/' + value.slice(5, 7) + '/' + value.slice(0, 4);
+      value.slice(8, 10) + "/" + value.slice(5, 7) + "/" + value.slice(0, 4);
     return ConvertStringDateToDate(date);
   }
 
   changeFormat(value) {
-    const removeDot = value.replace('.', '');
-    const finalString = removeDot.replace(',', '.');
+    const removeDot = value.replace(".", "");
+    const finalString = removeDot.replace(",", ".");
     return Number(finalString);
   }
 }
