@@ -1,8 +1,12 @@
 .add-automatics {
   width: 877px;
-  min-height: 662px;
+  min-height: 780px;
   position: relative;
   padding: 40px 77px;
+
+  &__form {
+    width: 380px;
+  }
 
   &__footer {
     position: absolute;
@@ -14,6 +18,12 @@
   }
 
   &__credix-code {
-    padding: 16px 0px;
+    .content {
+      padding: 16px 0px;
+    }
+
+    credix-code-input {
+      width: 380px;
+    }
   }
 }

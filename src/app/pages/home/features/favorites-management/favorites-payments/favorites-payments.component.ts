@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {FormControl} from '@angular/forms';
+import {FavoritesPaymentsService} from './favorites-payments.service';
 
 @Component({
   selector: 'app-favorites-payments',
@@ -10,11 +11,12 @@ import {FormControl} from '@angular/forms';
 export class FavoritesPaymentsComponent implements OnInit {
 
   showContent = false;
-  data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string };
+  data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string, publicServiceId: number };
   favoritesPaymentDetail: FormControl = new FormControl({value: null, disabled: true});
 
 
-  constructor(private favoritesManagementService: FavoritesManagementService) {
+  constructor(private favoritesManagementService: FavoritesManagementService,
+              private favoritesPaymentsService: FavoritesPaymentsService) {
   }
 
   ngOnInit(): void {
@@ -28,9 +30,25 @@ export class FavoritesPaymentsComponent implements OnInit {
         publicServicesAccessKeyDescription: response.publicServiceAccessKeyDescription,
         account: response.accountNumber,
         publicServiceProvider: response.publicServiceProvider,
-        publicServiceName: response.publicServiceName
+        publicServiceName: response.publicServiceName,
+        publicServiceId: response.publicServiceId
       };
       this.favoritesPaymentDetail.setValue(response.publicServiceFavoriteName);
+      this.getDeleteAlert();
+    });
+  }
+
+  getDeleteAlert() {
+    this.favoritesManagementService.deleteFavorites.subscribe((response) => {
+      if (response && this.data.publicServiceId !== undefined) {
+        this.setDeleteFavorites(this.data.publicServiceId);
+      }
+    });
+  }
+
+  setDeleteFavorites(publicId: number) {
+    this.favoritesPaymentsService.setDeletePublicService(publicId).subscribe((response) => {
+      console.log(response);
     });
   }
 }

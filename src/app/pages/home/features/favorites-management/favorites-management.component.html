@@ -1,5 +1,5 @@
-<mat-card *ngIf="showTemplate === 'favorite-management'" class="favorites-management" credixCard fxLayout="column"
-          fxLayoutGap="16px">
+<mat-card *ngIf="showTemplate === 'favorite-management'"
+          class="favorites-management" credixCard fxLayout="column" fxLayoutGap="16px">
   <h1>Gestionar favoritos</h1>
 
   <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
@@ -53,11 +53,12 @@
   <div *ngIf="showContent && responseMessage === undefined" class="favorites-management__footer-right"
        fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button text="Eliminar" type="secondary"></credix-button>
+      <credix-button (buttonClick)="deleteButtonByTabId()" text="Eliminar" type="secondary"></credix-button>
       <credix-button text="Guardar"></credix-button>
     </div>
   </div>
 </mat-card>
+
 
 <app-add-iban-account (backToTemplate)="changeTemplate($event)"
                       *ngIf="showTemplate === 'add-iban'"></app-add-iban-account>

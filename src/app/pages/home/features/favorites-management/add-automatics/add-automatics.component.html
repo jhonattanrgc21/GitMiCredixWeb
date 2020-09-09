@@ -33,18 +33,24 @@
         <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
       </credix-input-field>
 
-      <credix-select formControlName="periodicityDescription" label="Periocidad">
+      <credix-select formControlName="periodicity" label="Periocidad">
         <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
           {{periodicity.description}}
+        </mat-option>
+      </credix-select>
+
+      <credix-select formControlName="currency" label="Tipo de Moneda">
+        <mat-option *ngFor="let cur of currencyList"
+                    [value]="cur.id">
+          {{cur.description}}
         </mat-option>
       </credix-select>
     </form>
   </div>
 
-  <mat-divider fxFlex="210px"></mat-divider>
-
   <div class="add-automatics__credix-code" fxLayout="row" fxLayoutAlign="space-between">
-    <div fxFlex="210px" fxLayout="column">
+    <mat-divider></mat-divider>
+    <div class="content" fxFlex="210px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>
       <p style="font-size: 14px;">Ingrese el código generado en la aplicación
         <credix-link-button>Código MiCredix</credix-link-button>

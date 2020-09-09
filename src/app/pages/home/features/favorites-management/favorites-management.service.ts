@@ -7,46 +7,73 @@ import {Observable, Subject} from 'rxjs';
 @Injectable()
 export class FavoritesManagementService {
 
-  // tslint:disable-next-line:variable-name max-line-length
-  private __favoritesPaymentsData: Subject<{ publicServiceFavoriteName: string, accountNumber: number, publicServiceName: string, publicServiceProvider: string, publicServiceAccessKeyDescription: string }> = new Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string }>();
-  // tslint:disable-next-line:variable-name max-line-length
-  private __ibanAccountData: Subject<{ aliasName: string, ibanAccount: string, IdAccountFavorite: number }> = new Subject<{ aliasName: string; ibanAccount: string; IdAccountFavorite: number }>();
-
-  // tslint:disable-next-line:variable-name max-line-length
-  private __automaticsPaymentData: Subject<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number }> = new Subject<{ publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; }>();
-
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
   }
 
+  // tslint:disable-next-line:variable-name max-line-length
+  private __favoritesPaymentsData: Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number }> = new Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number }>();
+  // tslint:disable-next-line:variable-name max-line-length
+  private __deleteFavoritesPayments: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
+  // tslint:disable-next-line:variable-name max-line-length
+  private __ibanAccountData: Subject<{ aliasName: string, ibanAccount: string, IdAccountFavorite: number, del?: boolean }> = new Subject<{ aliasName: string; ibanAccount: string; IdAccountFavorite: number; }>();
+  // tslint:disable-next-line:variable-name max-line-length
+  private __deleteIbanAccount: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
+  // tslint:disable-next-line:variable-name max-line-length
+  private __automaticsPaymentData: Subject<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number, del?: boolean }> = new Subject<{ publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; }>();
+  // tslint:disable-next-line:variable-name
+  private __deleteAutomatics: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
+
   // tslint:disable-next-line:max-line-length
-  get favoritesPaymentsData(): Observable<{ publicServiceFavoriteName: string, accountNumber: number, publicServiceName: string, publicServiceProvider: string, publicServiceAccessKeyDescription: string }> {
+  get favoritesPaymentsData(): Observable<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number }> {
     return this.__favoritesPaymentsData.asObservable();
   }
 
-  get ibanAccountData(): Observable<{ aliasName: string, ibanAccount: string, IdAccountFavorite: number }> {
+  get deleteFavorites(): Observable<{ del: boolean }> {
+    return this.__deleteFavoritesPayments.asObservable();
+  }
+
+  get ibanAccountData(): Observable<{ aliasName: string, ibanAccount: string, IdAccountFavorite: number, del?: boolean }> {
     return this.__ibanAccountData.asObservable();
   }
 
-  // tslint:disable-next-line:max-line-length
-  get automaticsPaymentData(): Observable<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number }> {
-    return this.__automaticsPaymentData.asObservable();
+  get deleteIbanAccount(): Observable<{ del: boolean }> {
+    return this.__deleteIbanAccount.asObservable();
   }
 
   // tslint:disable-next-line:max-line-length
-  emitFavoritesPaymentsData(publicServiceFavoriteName: string, accountNumber: number, publicServiceName: string, publicServiceProvider: string, publicServiceAccessKeyDescription: string) {
+  get automaticsPaymentData(): Observable<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number, del?: boolean }> {
+    return this.__automaticsPaymentData.asObservable();
+  }
+
+  get deleteAutomatics(): Observable<{ del: boolean }> {
+    return this.__deleteAutomatics.asObservable();
+  }
+
+  // tslint:disable-next-line:max-line-length
+  emitFavoritesPaymentsData(publicServiceFavoriteName: string, accountNumber: number, publicServiceName: string, publicServiceProvider: string, publicServiceAccessKeyDescription: string, publicServiceId?: number) {
     // tslint:disable-next-line:max-line-length
+    // @ts-ignore
     this.__favoritesPaymentsData.next({
       publicServiceFavoriteName,
       accountNumber,
       publicServiceName,
       publicServiceProvider,
-      publicServiceAccessKeyDescription
+      publicServiceAccessKeyDescription,
+      publicServiceId
     });
+  }
+
+  emitDeleteFavorites(del: boolean) {
+    this.__deleteFavoritesPayments.next({del});
   }
 
   emitIbanAccountData(aliasName: string, ibanAccount: string, IdAccountFavorite: number) {
     this.__ibanAccountData.next({aliasName, ibanAccount, IdAccountFavorite});
+  }
+
+  emitDeleteIbanAccount(del: boolean) {
+    this.__deleteIbanAccount.next({del});
   }
 
   // tslint:disable-next-line:max-line-length
@@ -54,6 +81,9 @@ export class FavoritesManagementService {
     this.__automaticsPaymentData.next({publicServiceDescription, alias, id, maxAmount, periodicityDescription, startDate, key});
   }
 
+  emitDeleteAutomatics(del: boolean) {
+    this.__deleteAutomatics.next({del});
+  }
 
   getAllAccountIbanFavoriteByUser() {
     return this.httpService.post('canales', 'iban/findAllAccountiBANFavoritebyUserId', {channelId: 102})

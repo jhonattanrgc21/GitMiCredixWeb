@@ -5,6 +5,7 @@ import {PublicServiceListModel} from '../../../../../shared/models/public-servic
 import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
 import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
 import {ModalService} from '../../../../../core/services/modal.service';
+import {Currency} from '../../../../../shared/models/currency';
 
 @Component({
   selector: 'app-add-automatics',
@@ -16,6 +17,7 @@ export class AddAutomaticsComponent implements OnInit {
   periodicityList: { description: string; id: number; }[] = [];
   publicServicesList: PublicServiceListModel[];
   publicEnterpriseList: PublicServiceEnterpriseModel[];
+  currencyList: Currency[];
 
   newAutomaticsForm: FormGroup = new FormGroup({
     publicServices: new FormControl(null, [Validators.required]),
@@ -24,7 +26,8 @@ export class AddAutomaticsComponent implements OnInit {
     nameOfAutomatics: new FormControl(null, [Validators.required]),
     maxAmount: new FormControl(null, [Validators.required]),
     startDate: new FormControl(null, [Validators.required]),
-    periodicity: new FormControl(null, [Validators.required])
+    periodicity: new FormControl(null, [Validators.required]),
+    currency: new FormControl(null, [Validators.required])
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
 
@@ -37,12 +40,17 @@ export class AddAutomaticsComponent implements OnInit {
               private modalService: ModalService) {
   }
 
+  get newAutomaticsControls() {
+    return this.newAutomaticsForm.controls;
+  }
+
   ngOnInit(): void {
     this.getServices();
     this.getPeriodicityList();
     this.newAutomaticsForm.controls.publicServices.valueChanges.subscribe(value => {
       this.getCompany(value);
     });
+    this.getCurrencyList();
   }
 
   getPeriodicityList() {
@@ -64,6 +72,13 @@ export class AddAutomaticsComponent implements OnInit {
     });
   }
 
+  getCurrencyList() {
+    this.automaticsService.getCurrency()
+      .subscribe((response) => {
+        this.currencyList = response;
+      });
+  }
+
   openCalendar() {
     this.modalService.calendarPopup().subscribe(modal => {
       if (modal) {
@@ -73,7 +88,16 @@ export class AddAutomaticsComponent implements OnInit {
   }
 
   addAutomaticPayment() {
-
+    this.modalService.confirmationPopup('¿Desea añadir este pago automático?', '', 380, 197)
+      .subscribe((confirm) => {
+        if (confirm) {
+          // tslint:disable-next-line:max-line-length
+          this.automaticsService.setAutomaticsPayment(this.newAutomaticsControls.company.value, this.newAutomaticsControls.publicServices.value, this.newAutomaticsControls.periodicity.value, this.newAutomaticsControls.startDate.value, this.newAutomaticsControls.phoneNumber.value, this.newAutomaticsControls.maxAmount.value, this.codeCredix.value)
+            .subscribe((response) => {
+              console.log(response);
+            });
+        }
+      });
   }
 
   back() {

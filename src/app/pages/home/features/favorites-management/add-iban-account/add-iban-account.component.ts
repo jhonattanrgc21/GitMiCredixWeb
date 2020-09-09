@@ -4,6 +4,7 @@ import {IdentificationType} from '../../../../../shared/models/IdentificationTyp
 import {IbanAccountsService} from '../iban-accounts/iban-accounts.service';
 import {finalize} from 'rxjs/operators';
 import {getIdentificationMaskByType} from '../../../../../shared/utils';
+import {ModalService} from '../../../../../core/services/modal.service';
 
 @Component({
   selector: 'app-add-iban-account',
@@ -16,8 +17,8 @@ export class AddIbanAccountComponent implements OnInit {
   identificationMask = '0-0000-0000';
 
   newFavoriteIbanForm: FormGroup = new FormGroup({
-    ibanAccount: new FormControl(null, [Validators.required]),
-    nameOfFavorite: new FormControl(null, [Validators.required]),
+    ibanAccount: new FormControl('', [Validators.required]),
+    nameOfFavorite: new FormControl('', [Validators.required]),
     identificationType: new FormControl(null),
     identification: new FormControl(null)
   });
@@ -27,7 +28,8 @@ export class AddIbanAccountComponent implements OnInit {
   // tslint:disable-next-line:no-output-rename
   @Output('backToTemplate') backToTemplate: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private ibanAccountService: IbanAccountsService) {
+  constructor(private ibanAccountService: IbanAccountsService,
+              private modalService: ModalService) {
   }
 
   ngOnInit(): void {
@@ -60,6 +62,17 @@ export class AddIbanAccountComponent implements OnInit {
   }
 
   addIbanFavoriteAccount() {
+    this.modalService.confirmationPopup('¿Desea añadir esta cuenta IBAN?', '', 380, 203).subscribe((confirm) => {
+      if (confirm) {
+        // tslint:disable-next-line:max-line-length
+        this.ibanAccountService.setIbanFavoriteAccount(this.newFavoriteIbanForm.controls.nameOfFavorite.value, this.newFavoriteIbanForm.controls.ibanAccount.value, this.newFavoriteIbanForm.controls.identificationType.value, this.newFavoriteIbanForm.controls.identification.value, this.codeCredix.value)
+          .subscribe((response) => {
+            console.log(response);
+          });
+      } else {
+        return false;
+      }
+    });
 
   }
 }

@@ -44,7 +44,7 @@ export class FavoritesManagementComponent implements OnInit {
   getDetailFavorite(accountEvent) {
     if (accountEvent.publicServiceCode !== undefined) {
       // tslint:disable-next-line:max-line-length
-      this.favoriteManagementService.emitFavoritesPaymentsData(accountEvent.name, accountEvent.account, accountEvent.publicServiceName, accountEvent.publicServiceProvider, accountEvent.publicServiceAccessKeyDescription);
+      this.favoriteManagementService.emitFavoritesPaymentsData(accountEvent.name, accountEvent.account, accountEvent.publicServiceName, accountEvent.publicServiceProvider, accountEvent.publicServiceAccessKeyDescription, accountEvent.publicServiceId);
     }
 
     if (accountEvent.IdAccountFavorite !== undefined) {
@@ -111,6 +111,20 @@ export class FavoritesManagementComponent implements OnInit {
     }
   }
 
+  deleteButtonByTabId(tabId: number) {
+    switch (tabId) {
+      case 1:
+        this.favoriteManagementService.emitDeleteIbanAccount(true);
+        break;
+      case 2:
+        this.favoriteManagementService.emitDeleteFavorites(true);
+        break;
+      case 3:
+        this.favoriteManagementService.emitDeleteAutomatics(true);
+        break;
+    }
+  }
+
   addButtonRedirect(tabId: number) {
     switch (tabId) {
       case 1:
@@ -172,7 +186,8 @@ export class FavoritesManagementComponent implements OnInit {
               publicServiceName: values.publicServiceName,
               publicServiceProvider: values.publicServiceProvider,
               publicServiceAccessKeyDescription: values.publicServiceAccessKeyDescription,
-              publicServiceCode: values.publicServiceCode
+              publicServiceCode: values.publicServiceCode,
+              publicServiceId: values.publicServiceId
             });
           }
           this.showContent = true;

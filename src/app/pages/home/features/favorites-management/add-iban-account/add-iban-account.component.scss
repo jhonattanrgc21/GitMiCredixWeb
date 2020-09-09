@@ -2,6 +2,7 @@
   width: 877px;
   min-height: 662px;
   position: relative;
+  padding: 40px 77px;
 
   &__footer {
     position: absolute;
@@ -12,7 +13,16 @@
     padding: 16px 0;
   }
 
+  &__form {
+    width: 380px;
+    padding: 16px 8px;
+  }
+
   &__credix-code {
     padding: 16px 0px;
+
+    credix-code-input {
+      width: 380px;
+    }
   }
 }

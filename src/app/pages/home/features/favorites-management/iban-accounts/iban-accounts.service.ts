@@ -24,4 +24,22 @@ export class IbanAccountsService {
         })
       );
   }
+
+  setIbanFavoriteAccount(alias: string, account: string, typeId: number, id: string, credixCode: string) {
+    return this.httpService.post('canales', 'iban/saveFavoriteAccountIBAN', {
+      channelId: 102,
+      aliasName: alias,
+      ibanAccount: account,
+      typeIdentificacionId: typeId,
+      identification: id,
+      codeCredix: credixCode
+    });
+  }
+
+  setDeleteIbanAccount(ibanId: number) {
+    return this.httpService.post('canales', 'iban/deletePublicServiceFavorite', {
+      channelId: 102,
+      IdAccountFavorite: ibanId
+    });
+  }
 }

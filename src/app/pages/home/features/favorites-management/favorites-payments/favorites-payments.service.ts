@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
+import {StorageService} from '../../../../../core/services/storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritesPaymentsService {
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService,
+              private storageService: StorageService) {
   }
 
   getPublicServices() {
@@ -36,5 +38,29 @@ export class FavoritesPaymentsService {
         }
       })
     );
+  }
+
+  // @ts-ignore
+  // tslint:disable-next-line:max-line-length
+  setPublicServiceFavorite(publicId: number, servReference: string, payDay: number, alias: string, publicSrvcAccssKId: number, credixCode: number) {
+    return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
+      accountId: this.storageService.getCurrentUser().actId,
+      publicServiceId: publicId,
+      serviceReference: servReference,
+      paymentDay: payDay,
+      userId: this.storageService.getCurrentUser().userId,
+      channelId: 102,
+      aliasName: alias,
+      publicServiceAccessKeyId: publicSrvcAccssKId,
+      codeCredix: credixCode
+    });
+  }
+
+  setDeletePublicService(publicId: number) {
+    return this.httpService.post('canales', 'publicservice/deletepublicservicefavorite', {
+      publicServiceFavoriteId: publicId,
+      channelId: 102,
+      userId: this.storageService.getCurrentUser().userId
+    });
   }
 }
