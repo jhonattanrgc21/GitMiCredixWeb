@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {StorageService} from '../../../../../core/services/storage.service';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,17 @@ export class AutomaticsService {
 
   constructor(private httpServices: HttpService,
               private storageServices: StorageService) {
+  }
+
+  // tslint:disable-next-line:variable-name
+  private __IsAdded: Subject<{ added: boolean }> = new Subject<{ added: boolean }>();
+
+  get isAdded(): Observable<{ added: boolean }> {
+    return this.__IsAdded.asObservable();
+  }
+
+  emitAutomaticIsAdded(added: boolean) {
+    this.__IsAdded.next({added});
   }
 
   getPeriodicity() {

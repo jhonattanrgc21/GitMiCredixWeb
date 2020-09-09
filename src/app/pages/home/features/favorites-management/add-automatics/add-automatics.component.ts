@@ -6,6 +6,7 @@ import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-
 import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Currency} from '../../../../../shared/models/currency';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-add-automatics',
@@ -18,6 +19,8 @@ export class AddAutomaticsComponent implements OnInit {
   publicServicesList: PublicServiceListModel[];
   publicEnterpriseList: PublicServiceEnterpriseModel[];
   currencyList: Currency[];
+  result: { status: string; message: string; title: string; };
+  resultAutomatics: boolean;
 
   newAutomaticsForm: FormGroup = new FormGroup({
     publicServices: new FormControl(null, [Validators.required]),
@@ -37,7 +40,8 @@ export class AddAutomaticsComponent implements OnInit {
 
   constructor(private automaticsService: AutomaticsService,
               private favoritesPaymentsService: FavoritesPaymentsService,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              public datePipe: DatePipe) {
   }
 
   get newAutomaticsControls() {
@@ -45,6 +49,7 @@ export class AddAutomaticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.resultAutomatics = false;
     this.getServices();
     this.getPeriodicityList();
     this.newAutomaticsForm.controls.publicServices.valueChanges.subscribe(value => {
@@ -88,13 +93,20 @@ export class AddAutomaticsComponent implements OnInit {
   }
 
   addAutomaticPayment() {
+    const date: Date = new Date(this.newAutomaticsForm.controls.startDate.value);
+    console.log(this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd').toString());
     this.modalService.confirmationPopup('¿Desea añadir este pago automático?', '', 380, 197)
       .subscribe((confirm) => {
         if (confirm) {
           // tslint:disable-next-line:max-line-length
-          this.automaticsService.setAutomaticsPayment(this.newAutomaticsControls.company.value, this.newAutomaticsControls.publicServices.value, this.newAutomaticsControls.periodicity.value, this.newAutomaticsControls.startDate.value, this.newAutomaticsControls.phoneNumber.value, this.newAutomaticsControls.maxAmount.value, this.codeCredix.value)
+          this.automaticsService.setAutomaticsPayment(1, this.newAutomaticsControls.publicServices.value, this.newAutomaticsControls.periodicity.value, this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'), this.newAutomaticsControls.phoneNumber.value, this.newAutomaticsControls.maxAmount.value, this.codeCredix.value)
             .subscribe((response) => {
-              console.log(response);
+              this.resultAutomatics = !this.resultAutomatics;
+              this.result = {
+                status: response.type,
+                message: response.message,
+                title: response.titleOne
+              };
             });
         }
       });
@@ -102,5 +114,12 @@ export class AddAutomaticsComponent implements OnInit {
 
   back() {
     this.backToTemplate.emit('favorite-management');
+  }
+
+  ready() {
+    this.backToTemplate.emit('favorite-management');
+    if (this.result.status === 'success') {
+      this.automaticsService.emitAutomaticIsAdded(true);
+    }
   }
 }

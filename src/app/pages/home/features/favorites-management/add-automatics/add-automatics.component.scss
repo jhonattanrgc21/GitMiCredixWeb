@@ -14,7 +14,7 @@
     bottom: 0;
     left: 0;
     border-top: 1px solid #E9E9E9;
-    padding: 16px 0;
+    padding: 16px;
   }
 
   &__credix-code {
@@ -25,5 +25,9 @@
     credix-code-input {
       width: 380px;
     }
+  }
+
+  .result {
+    padding: 156px 220px;
   }
 }

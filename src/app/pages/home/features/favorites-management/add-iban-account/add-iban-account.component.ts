@@ -15,7 +15,8 @@ export class AddIbanAccountComponent implements OnInit {
 
   identificationTypes: IdentificationType[];
   identificationMask = '0-0000-0000';
-
+  resultIban: boolean;
+  result: { status: string; message: string; title: string; };
   newFavoriteIbanForm: FormGroup = new FormGroup({
     ibanAccount: new FormControl('', [Validators.required]),
     nameOfFavorite: new FormControl('', [Validators.required]),
@@ -33,6 +34,7 @@ export class AddIbanAccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.resultIban = false;
     this.identificationType();
   }
 
@@ -61,18 +63,30 @@ export class AddIbanAccountComponent implements OnInit {
     this.backToTemplate.emit('favorite-management');
   }
 
+  ready() {
+    this.backToTemplate.emit('favorite-management');
+    if (this.result.status === 'success') {
+      this.ibanAccountService.emitIbanIsAdd(true);
+    }
+  }
+
   addIbanFavoriteAccount() {
     this.modalService.confirmationPopup('¿Desea añadir esta cuenta IBAN?', '', 380, 203).subscribe((confirm) => {
       if (confirm) {
         // tslint:disable-next-line:max-line-length
         this.ibanAccountService.setIbanFavoriteAccount(this.newFavoriteIbanForm.controls.nameOfFavorite.value, this.newFavoriteIbanForm.controls.ibanAccount.value, this.newFavoriteIbanForm.controls.identificationType.value, this.newFavoriteIbanForm.controls.identification.value, this.codeCredix.value)
           .subscribe((response) => {
-            console.log(response);
+            this.resultIban = !this.resultIban;
+            this.result = {
+              status: response.type,
+              message: response.message,
+              title: response.titleOne
+            };
           });
       } else {
         return false;
       }
     });
-
   }
+
 }

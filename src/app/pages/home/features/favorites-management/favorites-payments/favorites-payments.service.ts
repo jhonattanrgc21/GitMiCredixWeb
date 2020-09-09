@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {StorageService} from '../../../../../core/services/storage.service';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,17 @@ export class FavoritesPaymentsService {
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
+  }
+
+  // tslint:disable-next-line:variable-name
+  private __IsAdded: Subject<{ added: boolean }> = new Subject<{ added: boolean }>();
+
+  get isAdded(): Observable<{ added: boolean }> {
+    return this.__IsAdded.asObservable();
+  }
+
+  emitFavoritesIsAdded(added: boolean) {
+    this.__IsAdded.next({added});
   }
 
   getPublicServices() {

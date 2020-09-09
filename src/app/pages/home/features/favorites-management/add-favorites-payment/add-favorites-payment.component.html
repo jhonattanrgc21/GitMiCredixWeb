@@ -1,6 +1,6 @@
 <mat-card class="add-favorites-payment">
   <h1>Añadir pago favorito</h1>
-  <div fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="!resultFavorites" fxLayout="row" fxLayoutAlign="space-between">
     <span><strong>Nuevo pago favorito</strong></span>
     <form [formGroup]="newFavoritesPaymentForm" class="add-favorites-payment__form" fxLayout="column">
 
@@ -24,8 +24,9 @@
     </form>
   </div>
 
-  <div class="add-favorites-payment__credix-code" fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="!resultFavorites" class="add-favorites-payment__credix-code" fxLayout="row" fxLayoutAlign="space-between">
     <div fxFlex="210px" fxLayout="column">
+      <mat-divider></mat-divider>
       <span><strong>Código MiCredix</strong></span>
       <p style="font-size: 14px;">Ingrese el código generado en la aplicación
         <credix-link-button>Código MiCredix</credix-link-button>
@@ -37,11 +38,19 @@
     </credix-code-input>
   </div>
 
+  <div *ngIf="resultFavorites" class="result" fxLayout="column" fxLayoutAlign="center center">
+    <credix-result-notification [message]="result.message" [status]="result.status"
+                                [title]="result.title"></credix-result-notification>
+    <credix-link-button>Agregar a pagos automáticos</credix-link-button>
+  </div>
+
   <div class="add-favorites-payment__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="addFavoritePayment()" [disabled]="!newFavoritesPaymentForm.valid"
+      <credix-button (buttonClick)="back()" *ngIf="!resultFavorites" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="addFavoritePayment()" *ngIf="!resultFavorites"
+                     [disabled]="!newFavoritesPaymentForm.valid || !codeCredix.valid"
                      [text]="'Añadir'"></credix-button>
+      <credix-button (buttonClick)="ready()" *ngIf="resultFavorites" [text]="'Listo'"></credix-button>
     </div>
   </div>
 </mat-card>

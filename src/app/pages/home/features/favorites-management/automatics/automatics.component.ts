@@ -49,6 +49,7 @@ export class AutomaticsComponent implements OnInit {
       this.automaticsDetailForm.controls.maxAmount.setValue(this.data.maxAmount);
       this.automaticsDetailForm.controls.startDate.setValue(this.data.startDate);
       this.getPeriodicityList();
+      this.getDeleteAlert();
     });
   }
 
@@ -65,6 +66,20 @@ export class AutomaticsComponent implements OnInit {
       if (modal) {
         this.automaticsDetailForm.controls.startDate.setValue(modal.date);
       }
+    });
+  }
+
+  getDeleteAlert() {
+    this.favoritesManagementService.deleteAutomatics.subscribe((response) => {
+      if (response && this.data.id !== undefined) {
+        this.setDeleteAutomatics(this.data.id);
+      }
+    });
+  }
+
+  setDeleteAutomatics(id: number) {
+    this.automaticsService.setDeleteAutomatics(id).subscribe((response) => {
+      console.log(response);
     });
   }
 }

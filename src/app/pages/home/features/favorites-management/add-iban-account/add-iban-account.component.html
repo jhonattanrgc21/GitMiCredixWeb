@@ -1,6 +1,6 @@
 <mat-card class="add-iban-account" fxLayout="column">
   <h1>Añadir cuenta IBAN</h1>
-  <div fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="!resultIban" fxLayout="row" fxLayoutAlign="space-between">
     <span><strong>Nuevo pago favorito</strong></span>
     <form [formGroup]="newFavoriteIbanForm" class="add-iban-account__form" fxLayout="column">
 
@@ -18,7 +18,7 @@
     </form>
   </div>
 
-  <div class="add-iban-account__credix-code" fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="!resultIban" class="add-iban-account__credix-code" fxLayout="row" fxLayoutAlign="space-between">
     <div fxFlex="210px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>
       <p style="font-size: 14px;">Ingrese el código generado en la aplicación
@@ -31,11 +31,20 @@
     </credix-code-input>
   </div>
 
+  <div *ngIf="resultIban" class="result" fxLayout="column" fxLayoutAlign="center center">
+    <credix-result-notification [message]="result.message" [status]="result.status"
+                                [title]="result.title"></credix-result-notification>
+  </div>
+
   <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="addIbanFavoriteAccount()" [disabled]="!newFavoriteIbanForm.valid"
+      <credix-button (buttonClick)="back()" *ngIf="!resultIban" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="addIbanFavoriteAccount()" *ngIf="!resultIban"
+                     [disabled]="!newFavoriteIbanForm.valid || !codeCredix.valid"
                      [text]="'Añadir'"></credix-button>
+      <credix-button (buttonClick)="ready()" *ngIf="resultIban" [text]="'Listo'"></credix-button>
     </div>
   </div>
 </mat-card>
+
+

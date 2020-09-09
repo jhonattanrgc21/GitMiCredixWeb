@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {FavoritesManagementComponent} from './favorites-management.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
@@ -78,7 +78,8 @@ const routes: Routes = [
   ],
   providers: [
     FavoritesManagementService,
-    ModalService
+    ModalService,
+    DatePipe
   ],
   exports: [
     MatCardModule,

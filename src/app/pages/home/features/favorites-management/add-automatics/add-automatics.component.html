@@ -1,6 +1,6 @@
 <mat-card class="add-automatics">
   <h1>Añadir pago automático</h1>
-  <div fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="!resultAutomatics" fxLayout="row" fxLayoutAlign="space-between">
     <span><strong>Nuevo pago automático</strong></span>
     <form [formGroup]="newAutomaticsForm" class="add-automatics__form" fxLayout="column">
 
@@ -48,7 +48,7 @@
     </form>
   </div>
 
-  <div class="add-automatics__credix-code" fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="!resultAutomatics" class="add-automatics__credix-code" fxLayout="row" fxLayoutAlign="space-between">
     <mat-divider></mat-divider>
     <div class="content" fxFlex="210px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>
@@ -62,11 +62,18 @@
     </credix-code-input>
   </div>
 
+  <div *ngIf="resultAutomatics" class="result" fxLayout="column" fxLayoutAlign="center center">
+    <credix-result-notification [message]="result.message" [status]="result.status"
+                                [title]="result.title"></credix-result-notification>
+  </div>
+
   <div class="add-automatics__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="addAutomaticPayment()" [disabled]="!newAutomaticsForm.valid"
+      <credix-button (buttonClick)="back()" *ngIf="!resultAutomatics" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="addAutomaticPayment()" *ngIf="!resultAutomatics"
+                     [disabled]="!newAutomaticsForm.valid"
                      [text]="'Añadir'"></credix-button>
+      <credix-button (buttonClick)="ready()" *ngIf="resultAutomatics" [text]="'Listo'"></credix-button>
     </div>
   </div>
 </mat-card>

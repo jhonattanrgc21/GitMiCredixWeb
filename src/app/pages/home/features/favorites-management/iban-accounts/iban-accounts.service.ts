@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../../core/services/http.service';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {map} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,13 @@ export class IbanAccountsService {
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
+  }
+
+  // tslint:disable-next-line:variable-name
+  private __isAdded: Subject<{ added: boolean; }> = new Subject<{ added: boolean }>();
+
+  get isAdded(): Observable<{ added: boolean; }> {
+    return this.__isAdded.asObservable();
   }
 
   getIdentificationTypes() {
@@ -41,5 +49,9 @@ export class IbanAccountsService {
       channelId: 102,
       IdAccountFavorite: ibanId
     });
+  }
+
+  emitIbanIsAdd(added: boolean) {
+    this.__isAdded.next({added});
   }
 }

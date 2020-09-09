@@ -13,6 +13,8 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   publicServicesList: PublicServiceListModel[];
   publicEnterpriseList: PublicServiceEnterpriseModel[];
+  resultFavorites: boolean;
+  result: { status: string; message: string; title: string; };
   newFavoritesPaymentForm: FormGroup = new FormGroup({
     publicServices: new FormControl(null, [Validators.required]),
     company: new FormControl(null, [Validators.required]),
@@ -29,6 +31,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.resultFavorites = false;
     this.getServices();
     this.newFavoritesPaymentForm.controls.publicServices.valueChanges.subscribe(value => {
       this.getCompany(value);
@@ -53,11 +56,24 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.backToTemplate.emit('favorite-management');
   }
 
+  ready() {
+    this.backToTemplate.emit('favorite-management');
+    if (this.result.status === 'success') {
+      this.favoritesPaymentsService.emitFavoritesIsAdded(true);
+    }
+  }
+
   addFavoritePayment() {
     // tslint:disable-next-line:max-line-length
     this.favoritesPaymentsService.setPublicServiceFavorite(this.newFavoritesPaymentForm.controls.publicServices.value, this.newFavoritesPaymentForm.controls.phoneNumber.value, 25, this.newFavoritesPaymentForm.controls.favoriteName.value, this.newFavoritesPaymentForm.controls.company.value, this.codeCredix.value)
       .subscribe((response) => {
-        console.log(response);
+        this.resultFavorites = !this.resultFavorites;
+
+        this.result = {
+          status: response.type,
+          message: response.message,
+          title: response.titleOne
+        };
       });
   }
 }
