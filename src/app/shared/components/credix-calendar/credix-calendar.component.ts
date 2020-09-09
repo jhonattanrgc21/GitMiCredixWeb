@@ -7,8 +7,8 @@ import {MatDialogRef} from '@angular/material/dialog';
   styleUrls: ['./credix-calendar.component.scss']
 })
 export class CredixCalendarComponent implements OnInit {
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   weeks: [number[]?] = [];
   date = new Date();
   year = 1999;
@@ -31,12 +31,14 @@ export class CredixCalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.endDateYear = Number(this.endDate.split('/')[2]);
-    this.endDateMonth = Number(this.endDate.split('/')[1]);
-    this.endDateDay = Number(this.endDate.split('/')[0]);
-    this.startDateYear = Number(this.startDate.split('/')[2]);
-    this.startDateMonth = Number(this.startDate.split('/')[1]);
-    this.startDateDay = Number(this.startDate.split('/')[0]);
+    this.endDateYear = this.endDate.getFullYear();
+    this.endDateMonth = this.endDate.getMonth() + 1;
+    this.endDateDay = this.endDate.getDate();
+    this.startDateYear = this.startDate.getFullYear();
+    this.startDateMonth = this.startDate.getMonth() + 1 ;
+    this.startDateDay = this.startDate.getDate();
+
+
   }
 
   getDate() {
