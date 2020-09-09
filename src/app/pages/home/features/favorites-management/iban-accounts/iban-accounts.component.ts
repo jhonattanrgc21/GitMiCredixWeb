@@ -44,7 +44,9 @@ export class IbanAccountsComponent implements OnInit {
 
   setDeleteIban(ibanId: number) {
     this.ibanAccountsService.setDeleteIbanAccount(ibanId).subscribe((response) => {
-      console.log(response);
+      if (response.type === 'success') {
+        this.ibanAccountsService.emitIbanIsDeleted(true);
+      }
     });
   }
 }

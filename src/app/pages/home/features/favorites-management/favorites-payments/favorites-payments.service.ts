@@ -15,13 +15,23 @@ export class FavoritesPaymentsService {
 
   // tslint:disable-next-line:variable-name
   private __IsAdded: Subject<{ added: boolean }> = new Subject<{ added: boolean }>();
+  // tslint:disable-next-line:variable-name
+  private __IsDeleted: Subject<{ deleted: boolean }> = new Subject<{ deleted: boolean }>();
 
   get isAdded(): Observable<{ added: boolean }> {
     return this.__IsAdded.asObservable();
   }
 
+  get isDeleted(): Observable<{ deleted: boolean }> {
+    return this.__IsDeleted.asObservable();
+  }
+
   emitFavoritesIsAdded(added: boolean) {
     this.__IsAdded.next({added});
+  }
+
+  emitFavoritesIsDeleted(deleted: boolean) {
+    this.__IsDeleted.next({deleted});
   }
 
   getPublicServices() {

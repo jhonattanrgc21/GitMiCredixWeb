@@ -15,9 +15,15 @@ export class IbanAccountsService {
 
   // tslint:disable-next-line:variable-name
   private __isAdded: Subject<{ added: boolean; }> = new Subject<{ added: boolean }>();
+  // tslint:disable-next-line:variable-name
+  private __IsDeleted: Subject<{ deleted: boolean }> = new Subject<{ deleted: boolean }>();
 
   get isAdded(): Observable<{ added: boolean; }> {
     return this.__isAdded.asObservable();
+  }
+
+  get isDeleted(): Observable<{ deleted: boolean }> {
+    return this.__IsDeleted.asObservable();
   }
 
   getIdentificationTypes() {
@@ -53,5 +59,9 @@ export class IbanAccountsService {
 
   emitIbanIsAdd(added: boolean) {
     this.__isAdded.next({added});
+  }
+
+  emitIbanIsDeleted(deleted: boolean) {
+    this.__IsDeleted.next({deleted});
   }
 }

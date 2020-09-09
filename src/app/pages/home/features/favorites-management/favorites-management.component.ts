@@ -47,7 +47,7 @@ export class FavoritesManagementComponent implements OnInit {
     ];
     this.initServicesEngine(1);
     this.buttonCMS(1);
-    this.getIsAdded();
+    this.getIsAddedAndDeleted();
   }
 
   getDetailFavorite(accountEvent) {
@@ -149,24 +149,54 @@ export class FavoritesManagementComponent implements OnInit {
     }
   }
 
-  getIsAdded() {
-    this.ibanService.isAdded.subscribe((response) => {
-      if (response) {
-        this.getFavoritesIban();
-      }
-    });
+  getIsAddedAndDeleted() {
+    switch (this.tabId) {
+      case 1:
+        this.ibanService.isAdded.subscribe((response) => {
+          if (response) {
+            this.accounts = [];
+            this.getFavoritesIban();
+          }
+        });
 
-    this.favoriteService.isAdded.subscribe((response) => {
-      if (response) {
-        this.getPublicService();
-      }
-    });
+        this.ibanService.isDeleted.subscribe((response) => {
+          if (response) {
+            this.accounts = [];
+            this.getFavoritesIban();
+          }
+        });
+        break;
+      case 2:
+        this.favoriteService.isAdded.subscribe((response) => {
+          if (response) {
+            this.accounts = [];
+            this.getPublicService();
+          }
+        });
 
-    this.automaticsService.isAdded.subscribe((response) => {
-      if (response) {
-        this.getSchedulePayment();
-      }
-    });
+        this.favoriteService.isDeleted.subscribe((response) => {
+          if (response) {
+            this.accounts = [];
+            this.getPublicService();
+          }
+        });
+        break;
+      case 3:
+        this.automaticsService.isAdded.subscribe((response) => {
+          if (response) {
+            this.accounts = [];
+            this.getSchedulePayment();
+          }
+        });
+
+        this.automaticsService.isDeleted.subscribe((response) => {
+          if (response) {
+            this.accounts = [];
+            this.getSchedulePayment();
+          }
+        });
+        break;
+    }
   }
 
   addButtonRedirect(tabId: number) {
@@ -185,18 +215,6 @@ export class FavoritesManagementComponent implements OnInit {
 
   changeTemplate(event) {
     this.showTemplate = event;
-    switch (this.tabId) {
-      case 1:
-        this.router.navigate(['home/favorites-management/iban-accounts']);
-        break;
-      case 2:
-        this.router.navigate(['home/favorites-management/favorites-payments']);
-        break;
-      case 3:
-        this.router.navigate(['home/favorites-management/automatics']);
-        break;
-
-    }
   }
 
   getFavoritesIban() {

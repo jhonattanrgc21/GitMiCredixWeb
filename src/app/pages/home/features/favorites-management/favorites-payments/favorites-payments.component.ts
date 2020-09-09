@@ -11,6 +11,7 @@ import {FavoritesPaymentsService} from './favorites-payments.service';
 export class FavoritesPaymentsComponent implements OnInit {
 
   showContent = false;
+  // tslint:disable-next-line:max-line-length
   data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string, publicServiceId: number };
   favoritesPaymentDetail: FormControl = new FormControl({value: null, disabled: true});
 
@@ -48,7 +49,9 @@ export class FavoritesPaymentsComponent implements OnInit {
 
   setDeleteFavorites(publicId: number) {
     this.favoritesPaymentsService.setDeletePublicService(publicId).subscribe((response) => {
-      console.log(response);
+      if (response.type === 'success' && response.message === 'Operación exitosa') {
+        this.favoritesPaymentsService.emitFavoritesIsDeleted(true);
+      }
     });
   }
 }

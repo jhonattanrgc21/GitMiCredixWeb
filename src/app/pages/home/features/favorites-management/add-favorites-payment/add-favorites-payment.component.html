@@ -41,7 +41,7 @@
   <div *ngIf="resultFavorites" class="result" fxLayout="column" fxLayoutAlign="center center">
     <credix-result-notification [message]="result.message" [status]="result.status"
                                 [title]="result.title"></credix-result-notification>
-    <credix-link-button>Agregar a pagos automáticos</credix-link-button>
+    <credix-link-button *ngIf="result.status === 'success'">Agregar a pagos automáticos</credix-link-button>
   </div>
 
   <div class="add-favorites-payment__footer" fxLayout="row" fxLayoutAlign="flex-end">
