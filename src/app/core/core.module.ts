@@ -11,6 +11,7 @@ import {StorageService} from './services/storage.service';
 import {GlobalRequestsService} from './services/global-requests.service';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {GoHomeService} from './services/go-home.service';
+import {TagsService} from './services/tags.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -32,6 +33,7 @@ const maskConfig: Partial<IConfig> = {
     HttpService,
     SecurityService,
     GlobalRequestsService,
+    TagsService,
     GoHomeService,
     StorageService,
     AuthorizationGuard,
