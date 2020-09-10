@@ -66,7 +66,7 @@ export class AddIbanAccountComponent implements OnInit {
   ready() {
     this.backToTemplate.emit('favorite-management');
     if (this.result.status === 'success') {
-      this.ibanAccountService.emitIbanIsAdd(true);
+      this.ibanAccountService.emitIbanIsAddOrDeleted(true, false);
     }
   }
 

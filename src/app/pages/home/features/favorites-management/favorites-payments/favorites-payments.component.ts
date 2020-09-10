@@ -12,12 +12,21 @@ export class FavoritesPaymentsComponent implements OnInit {
 
   showContent = false;
   // tslint:disable-next-line:max-line-length
-  data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string, publicServiceId: number };
-  favoritesPaymentDetail: FormControl = new FormControl({value: null, disabled: true});
+  data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string, publicServiceId: number, publicServiceFavoriteName: string };
+  favoritesPaymentDetail: FormControl = new FormControl(null);
 
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private favoritesPaymentsService: FavoritesPaymentsService) {
+    // tslint:disable-next-line:max-line-length
+    this.data = {
+      publicServicesAccessKeyDescription: '',
+      account: 0,
+      publicServiceProvider: '',
+      publicServiceName: '',
+      publicServiceId: 0,
+      publicServiceFavoriteName: ''
+    };
   }
 
   ngOnInit(): void {
@@ -32,7 +41,8 @@ export class FavoritesPaymentsComponent implements OnInit {
         account: response.accountNumber,
         publicServiceProvider: response.publicServiceProvider,
         publicServiceName: response.publicServiceName,
-        publicServiceId: response.publicServiceId
+        publicServiceId: response.publicServiceId,
+        publicServiceFavoriteName: response.publicServiceFavoriteName
       };
       this.favoritesPaymentDetail.setValue(response.publicServiceFavoriteName);
       this.getDeleteAlert();

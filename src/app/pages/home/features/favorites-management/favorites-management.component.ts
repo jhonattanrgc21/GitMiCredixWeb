@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
 import {TableHeadersModel} from '../../../../shared/models/table-headers.model';
@@ -8,13 +8,14 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {IbanAccountsService} from './iban-accounts/iban-accounts.service';
 import {FavoritesPaymentsService} from './favorites-payments/favorites-payments.service';
 import {AutomaticsService} from './automatics/automatics.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorites-management',
   templateUrl: './favorites-management.component.html',
   styleUrls: ['./favorites-management.component.scss']
 })
-export class FavoritesManagementComponent implements OnInit {
+export class FavoritesManagementComponent implements OnInit, AfterViewInit {
 
   accounts: AccountsFavoriteManagement[] = [];
   tabId = 1;
@@ -28,6 +29,7 @@ export class FavoritesManagementComponent implements OnInit {
   showTemplate: string;
   showContent: boolean;
   buttonText = 'Añadir cuenta IBAN';
+  updating = false;
 
   constructor(private toastService: CredixToastService,
               private router: Router,
@@ -45,9 +47,12 @@ export class FavoritesManagementComponent implements OnInit {
       {label: 'Cuentas guardadas', width: '276px'},
       {label: 'Detalle de la cuenta', width: 'auto'}
     ];
-    this.initServicesEngine(1);
     this.buttonCMS(1);
-    this.getIsAddedAndDeleted();
+    this.getFavoritesIban();
+  }
+
+  ngAfterViewInit() {
+    this.getIsAddedAndDeletedOrUpdating();
   }
 
   getDetailFavorite(accountEvent) {
@@ -69,10 +74,10 @@ export class FavoritesManagementComponent implements OnInit {
   tabSelected(tab) {
     this.tabId = tab.id;
     this.buttonCMS(tab.id);
+    this.initServicesEngine(tab.id);
     switch (tab.id) {
       case 1:
         this.router.navigate(['home/favorites-management/iban-accounts']);
-        this.initServicesEngine(1);
         break;
       case 2:
         this.router.navigate(['home/favorites-management/favorites-payments']);
@@ -80,11 +85,9 @@ export class FavoritesManagementComponent implements OnInit {
           {label: 'Pagos guardados', width: '276px'},
           {label: 'Detalle del pago', width: 'auto'}
         ];
-        this.initServicesEngine(2);
         break;
       case 3:
         this.router.navigate(['home/favorites-management/automatics']);
-        this.initServicesEngine(3);
         break;
     }
   }
@@ -149,18 +152,11 @@ export class FavoritesManagementComponent implements OnInit {
     }
   }
 
-  getIsAddedAndDeleted() {
+  getIsAddedAndDeletedOrUpdating() {
     switch (this.tabId) {
       case 1:
-        this.ibanService.isAdded.subscribe((response) => {
-          if (response) {
-            this.accounts = [];
-            this.getFavoritesIban();
-          }
-        });
-
-        this.ibanService.isDeleted.subscribe((response) => {
-          if (response) {
+        this.ibanService.isAddedOrDelete.subscribe((response) => {
+          if (response.added || response.del) {
             this.accounts = [];
             this.getFavoritesIban();
           }
@@ -174,12 +170,13 @@ export class FavoritesManagementComponent implements OnInit {
           }
         });
 
-        this.favoriteService.isDeleted.subscribe((response) => {
-          if (response) {
-            this.accounts = [];
-            this.getPublicService();
-          }
-        });
+        this.favoriteService.isDeleted
+          .pipe(finalize(() => this.getPublicService()))
+          .subscribe((response) => {
+            if (response) {
+              this.accounts = [];
+            }
+          });
         break;
       case 3:
         this.automaticsService.isAdded.subscribe((response) => {
@@ -189,12 +186,13 @@ export class FavoritesManagementComponent implements OnInit {
           }
         });
 
-        this.automaticsService.isDeleted.subscribe((response) => {
-          if (response) {
-            this.accounts = [];
-            this.getSchedulePayment();
-          }
-        });
+        this.automaticsService.isDeleted
+          .pipe(finalize(() => this.getSchedulePayment()))
+          .subscribe((response) => {
+            if (response) {
+              this.accounts = [];
+            }
+          });
         break;
     }
   }

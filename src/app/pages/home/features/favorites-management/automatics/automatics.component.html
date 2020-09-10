@@ -1,20 +1,23 @@
-<div *ngIf="showContent" class="automatics" fxLayout="column">
-  <div fxLayout="row" fxLayoutAlign="space-between">
+<div class="automatics" fxLayout="column">
+  <div *ngIf="data.id > 0" fxLayout="row" fxLayoutAlign="space-between">
     <span>Número de contrato</span>
     <span>{{data.id}}</span>
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="data.publicServiceDescription !== ''" fxLayout="row" fxLayoutAlign="space-between">
     <span>Compañía</span>
     <span>{{data.publicServiceDescription}}</span>
   </div>
 
   <form [formGroup]="automaticsDetailForm" fxLayout="column">
-    <credix-input-field class="mb-8px" formControlName="favoriteName" label="Nombre del favorito"></credix-input-field>
-    <credix-input-field class="mb-8px" formControlName="maxAmount" label="Monto máximo a pagar" mask="separator"
+    <credix-input-field *ngIf="data.alias !== ''" class="mb-8px" formControlName="favoriteName"
+                        label="Nombre del favorito"></credix-input-field>
+    <credix-input-field *ngIf="data.startDate !== ''" class="mb-8px" formControlName="maxAmount"
+                        label="Monto máximo a pagar" mask="separator"
                         thousandSeparator="."></credix-input-field>
 
     <credix-input-field (click)="openCalendar()"
+                        *ngIf="data.startDate !== ''"
                         [displayValue]="automaticsDetailForm.controls.startDate.value | dateFormatter: 'alphanumeric'"
                         [readonly]="true"
                         class="mb-8px automatics__input calendar" formControlName="startDate"
@@ -22,7 +25,8 @@
       <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
     </credix-input-field>
 
-    <credix-select formControlName="periodicityDescription" label="Periocidad">
+    <credix-select *ngIf="data.periodicityDescription !== ''" formControlName="periodicityDescription"
+                   label="Periocidad">
       <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
         {{periodicity.description}}
       </mat-option>

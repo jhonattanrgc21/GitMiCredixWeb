@@ -23,6 +23,16 @@ export class FavoritesManagementService {
   private __automaticsPaymentData: Subject<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number, del?: boolean }> = new Subject<{ publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; }>();
   // tslint:disable-next-line:variable-name
   private __deleteAutomatics: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
+  // tslint:disable-next-line:variable-name
+  private __update = new Subject();
+
+  get update(): Observable<any> {
+    return this.__update.asObservable();
+  }
+
+  updating() {
+    this.__update.next();
+  }
 
   // tslint:disable-next-line:max-line-length
   get favoritesPaymentsData(): Observable<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number }> {

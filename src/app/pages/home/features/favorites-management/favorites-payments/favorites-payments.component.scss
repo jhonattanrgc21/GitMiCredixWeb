@@ -14,4 +14,10 @@
     border-top: 1px solid #E9E9E9;
     padding: 16px 0;
   }
+
+  &__input {
+    &.disabled {
+      color: #7b7b7b;
+    }
+  }
 }

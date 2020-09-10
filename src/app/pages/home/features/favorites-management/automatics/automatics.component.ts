@@ -11,8 +11,6 @@ import {ModalService} from '../../../../../core/services/modal.service';
 })
 export class AutomaticsComponent implements OnInit {
 
-
-  showContent = false;
   // tslint:disable-next-line:max-line-length
   data: { publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; };
   automaticsDetailForm: FormGroup = new FormGroup({
@@ -27,6 +25,7 @@ export class AutomaticsComponent implements OnInit {
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
               private modalService: ModalService) {
+    this.data = {periodicityDescription: '', alias: '', id: 0, maxAmount: 0, publicServiceDescription: '', startDate: '', key: 0};
   }
 
   ngOnInit(): void {
@@ -35,7 +34,6 @@ export class AutomaticsComponent implements OnInit {
 
   getSchedulePayment() {
     this.favoritesManagementService.automaticsPaymentData.subscribe(response => {
-      this.showContent = !this.showContent;
       this.data = {
         publicServiceDescription: response.publicServiceDescription,
         alias: response.alias,
