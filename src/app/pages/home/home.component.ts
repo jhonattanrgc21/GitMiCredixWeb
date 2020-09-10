@@ -4,6 +4,7 @@ import {HomeService} from './home.service';
 import {Router} from '@angular/router';
 import {SimplebarAngularComponent} from 'simplebar-angular';
 import {ScrollService} from '../../core/services/scroll.service';
+import {TagsService} from '../../core/services/tags.service';
 
 @Component({
   selector: 'app-home',
@@ -18,12 +19,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   scrollBar: SimplebarAngularComponent;
 
   constructor(public homeService: HomeService,
+              private tagsService: TagsService,
               private scrollService: ScrollService,
               private breakpointObserver: BreakpointObserver,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.tagsService.getAllFunctionalitiesAndTags();
     this.checkScreenBreakpoint();
   }
 
