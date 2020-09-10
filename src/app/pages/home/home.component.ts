@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.tagsService.getAllFunctionalitiesAndTags();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe();
     this.checkScreenBreakpoint();
   }
 

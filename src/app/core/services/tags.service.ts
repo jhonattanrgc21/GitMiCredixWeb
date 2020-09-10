@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {map} from 'rxjs/operators';
+import {map, publishReplay, refCount} from 'rxjs/operators';
 import {HttpService} from './http.service';
 import {Observable} from 'rxjs';
 import {Functionality} from '../../shared/models/functionality';
@@ -15,12 +15,15 @@ export class TagsService {
   getAllFunctionalitiesAndTags() {
     if (!this.functionalities) {
       this.functionalities = this.httpService.post('canales', this.allTagsUri)
-        .pipe(map(response => {
-          if (response.type === 'success') {
-            return (response.tagsByFunctionality as Functionality[]).filter(func => func.status === 1);
-          }
-          return [];
-        }));
+        .pipe(
+          publishReplay(1),
+          refCount(),
+          map(response => {
+            if (response.type === 'success') {
+              return (response.tagsByFunctionality as Functionality[]).filter(func => func.status === 1);
+            }
+            return [];
+          }));
     }
     return this.functionalities;
   }
