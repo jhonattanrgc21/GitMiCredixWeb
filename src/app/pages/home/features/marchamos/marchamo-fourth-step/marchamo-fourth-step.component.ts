@@ -1,6 +1,8 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MarchamosService} from '../marchamos.service';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-marchamo-fourth-step',
@@ -28,7 +30,17 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   });
   @Input() isActive = false;
 
-  constructor(private marchamosService: MarchamosService) {
+  step4TagIva;
+  step4Subt1;
+  step4TagCom;
+  step4TagT;
+  step4TagSeg;
+  step4Sub2;
+  step4Subt3;
+  step4TagMarch;
+
+
+  constructor(private tagsService: TagsService, private marchamosService: MarchamosService) {
   }
 
   ngOnInit(): void {
@@ -59,6 +71,10 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
         this.amountTotalProducts + value.moreProtectionAmount + value.responsabilityCivilAmount + value.roadAsistanceAmount;
     });
 
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
+    );
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -66,6 +82,17 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
       this.getTotalSum();
     }
   }
+
+  getTags(tags: Tag[]) {
+    this.step4TagIva = tags.find(tag => tag.description === 'marchamos.stepper4.tagIVA').value;
+    this.step4Subt1 = tags.find(tag => tag.description === 'marchamos.stepper4.subtitle1').value;
+    this.step4TagCom = tags.find(tag => tag.description === 'marchamos.stepper4.tagComision').value;
+    this.step4TagT = tags.find(tag => tag.description === 'marchamos.stepper4.tagTotal').value;
+    this.step4TagSeg = tags.find(tag => tag.description === 'marchamos.stepper4.tagSeguros').value;
+    this.step4Sub2 = tags.find(tag => tag.description === 'marchamos.stepper4.subtitle2').value;
+    this.step4Subt3 = tags.find(tag => tag.description === 'marchamos.stepper4.subtitle3').value;
+    this.step4TagMarch = tags.find(tag => tag.description === 'marchamos.stepper4.tagMarchamo').value;
+}
 
   getTotalSum() {
     this.total = this.total + this.totalAmount + this.amountTotalProducts + this.ivaAndCommission.iva + this.ivaAndCommission.commission;

@@ -7,6 +7,8 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-report-transference',
@@ -29,18 +31,29 @@ export class ReportTransferenceComponent implements OnInit {
   message = '';
   status: 'success' | 'error' = 'success';
   title = '';
+  titleTag;
+  link;
 
   constructor(private reportTransferenceService: ReportTransferenceService,
               private globalRequestsService: GlobalRequestsService,
               private modalService: ModalService,
               private toastService: CredixToastService,
               private router: Router,
-              private deviceService: DeviceDetectorService) {
+              private deviceService: DeviceDetectorService,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
     this.globalRequestsService.getCurrencies().subscribe(currencies => this.currencies = currencies);
     this.os = this.deviceService.getDeviceInfo().os;
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Reportar transferencia').tags)
+    );
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'reportar.title').value;
+    this.link = tags.find(tag => tag.description === 'reportar.link').value;
   }
 
   openCalendar() {

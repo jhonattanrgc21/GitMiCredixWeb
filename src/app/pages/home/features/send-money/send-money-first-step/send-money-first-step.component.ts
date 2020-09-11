@@ -6,6 +6,8 @@ import {SendMoneyService} from '../send-money.service';
 import {FavoriteIbanAccount} from '../../../../../shared/models/favorite-iban-account';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {ModalAddIbanComponent} from './modal-add-iban/modal-add-iban.component';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 
 @Component({
@@ -26,17 +28,42 @@ export class SendMoneyFirstStepComponent implements OnInit {
   currency;
   checked1 = false;
   checked2 = false;
+  stepTag1;
+  stepTag3;
+  stepOpt3;
+  stepLink;
+  stepTag2;
+  stepTag4;
+  stepSubt3;
+  stepOpt4;
+  stepSubt2;
 
   constructor(
     private globalRequestsService: GlobalRequestsService,
     private sendMoneyService: SendMoneyService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private tagsService: TagsService
   ) {
   }
 
   ngOnInit(): void {
     this.getCurrencies();
     this.getFavoritesAccounts();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Enviar dinero').tags)
+    );
+  }
+
+  getTags(tags: Tag[]) {
+    this.stepTag1 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag1').value;
+    this.stepTag3 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag3').value;
+    this.stepOpt3 = tags.find(tag => tag.description === 'enviardinero.stepper1.option3').value;
+    this.stepLink = tags.find(tag => tag.description === 'enviardinero.stepper1.link').value;
+    this.stepTag4 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag4').value;
+    this.stepTag2 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag2').value;
+    this.stepSubt3 = tags.find(tag => tag.description === 'enviardinero.stepper1.subtitle3').value;
+    this.stepOpt4 = tags.find(tag => tag.description === 'enviardinero.stepper1.option4').value;
+    this.stepSubt2 = tags.find(tag => tag.description === 'enviardinero.stepper1.subtitle2').value;
   }
 
   getCurrencies() {

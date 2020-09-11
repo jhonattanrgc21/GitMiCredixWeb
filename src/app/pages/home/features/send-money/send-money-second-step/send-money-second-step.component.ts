@@ -5,6 +5,8 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {ModalDetailsComponent} from './modal-details/modal-details.component';
 import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {Quota} from '../../../../../shared/models/quota';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-send-money-second-step',
@@ -30,10 +32,14 @@ export class SendMoneySecondStepComponent implements OnInit {
   total = 0;
   commission = 0;
   commissionRate = 0;
+  step2Tag1;
+  step2Subt1;
+
 
   constructor(private sendMoneyService: SendMoneyService,
               private globalRequestsService: GlobalRequestsService,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
@@ -48,7 +54,16 @@ export class SendMoneySecondStepComponent implements OnInit {
     });
 
     this.getQuotas();
+
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Enviar dinero').tags)
+    );
   }
+
+  getTags(tags: Tag[]) {
+    this.step2Tag1 = tags.find(tag => tag.description === 'enviardinero.stepper2.tag1').value;
+    this.step2Subt1 = tags.find(tag => tag.description === 'enviardinero.stepper2.subtitle1').value;
+}
 
   change() {
     this.commissionRate = this.quotas.find((elem) => elem.quota === this.quotasControl.value).commissionRate;

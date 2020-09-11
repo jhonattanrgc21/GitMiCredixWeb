@@ -8,6 +8,8 @@ import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
 import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
 import {MarchamosService} from './marchamos.service';
 import {ConsultVehicle} from '../../../../shared/models/consultVehicle.models';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-marchamos',
@@ -66,6 +68,14 @@ export class MarchamosComponent implements OnInit {
     pickUp: new FormControl(null, []),
     domicile: new FormArray([])
   });
+
+  title;
+  step1;
+  step4;
+  step3;
+  step2;
+  resumeTag1;
+
   private domicile: { person: string, phone: number, place: string } = {
     person: '',
     phone: 0,
@@ -76,7 +86,8 @@ export class MarchamosComponent implements OnInit {
   constructor(private httpService: HttpService,
               private marchamosService: MarchamosService,
               private modalService: ModalService,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private tagsService: TagsService) {
   }
 
   get consultControls() {
@@ -95,6 +106,18 @@ export class MarchamosComponent implements OnInit {
     this.checkNextStep();
     this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount +
       this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
+    );
+  }
+
+  getTags(tags: Tag[]) {
+    this.title = tags.find(tag => tag.description === 'marchamos.title').value;
+    this.resumeTag1 = tags.find(tag => tag.description === 'marchamos.resumen.tag1').value;
+    this.step1 = tags.find(tag => tag.description === 'marchamos.stepper1').value;
+    this.step2 = tags.find(tag => tag.description === 'marchamos.stepper2').value;
+    this.step3 = tags.find(tag => tag.description === 'marchamos.stepper3').value;
+    this.step4 = tags.find(tag => tag.description === 'marchamos.stepper4').value;
   }
 
   continue() {

@@ -4,6 +4,8 @@ import { TableElement } from "../../../../shared/models/table.model";
 import { Router } from "@angular/router";
 import { SelectionModel } from "@angular/cdk/collections";
 import { ConvertStringDateToDate } from "../../../../shared/utils";
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: "app-anticipated-cancellation",
@@ -43,13 +45,36 @@ export class AnticipatedCancellationComponent implements OnInit {
   ];
   tab = { id: 1, name: "Colones" };
   checked = false;
+  amountTag;
+  titleTag;
+  balanceTag;
+  warningTag;
+  cosumTag;
+  pendingbalanceTag;
 
-  constructor(private httpService: HttpService, private router: Router) {}
+  constructor(private tagsService: TagsService, private httpService: HttpService, private router: Router) {}
 
   ngOnInit(): void {
     //this.checkFuntionallity();
     this.getOptionsToCancel();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Cancelación anticipada').tags)
+    );
   }
+
+  getTags(tags: Tag[]) {
+    this.amountTag = tags.find(tag => tag.description === 'cancelacion.tag.monto').value;
+    this.titleTag = tags.find(tag => tag.description === 'cancelacion.title').value;
+    this.balanceTag = tags.find(tag => tag.description === 'cancelacion.tag.saldo').value;
+    this.tabs = [
+      { id: 1, name: tags.find(tag => tag.description === 'cancelacion.tab1').value || "Colones" },
+      { id: 2, name: tags.find(tag => tag.description === 'cancelacion.tab2').value || "Dólares" },
+    ];
+    this.warningTag = tags.find(tag => tag.description === 'cancelacion.message.warning').value;
+    this.cosumTag = tags.find(tag => tag.description === 'cancelacion.tag.consumos').value;
+    this.pendingbalanceTag = tags.find(tag => tag.description === 'cancelacion.tag.saldopendiente').value;
+
+}
 
   tabSelected(tab) {
     if (tab.id === 1) {

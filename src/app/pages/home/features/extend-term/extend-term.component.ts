@@ -4,6 +4,8 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
 import {ConvertStringDateToDate} from '../../../../shared/utils';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-extend-term',
@@ -68,17 +70,52 @@ export class ExtendTermComponent implements OnInit {
   quotaSliderDisplayValue = 0;
   movLength = 0;
 
+  comisionTag;
+  comercioResult;
+  subtitle;
+  question;
+  titleTag;
+  disclaTag;
+  monthTag;
+  warningTag;
+  dateTag;
+  quotaTag;
+  deseoTag
+  newQuota
+  resultNew;
+
   constructor(
     private storageService: StorageService,
     private httpService: HttpService,
     private modalService: ModalService,
-    private router: Router
+    private router: Router,
+    private tagsService: TagsService
+
   ) {
   }
 
   ngOnInit(): void {
     this.getAllowedMovements();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags)
+    );
   }
+
+  getTags(tags: Tag[]) {
+    this.comisionTag = tags.find(tag => tag.description === 'ampliar.tag.comision').value;
+    this.comercioResult = tags.find(tag => tag.description === 'ampliar.result.comercio').value;
+    this.subtitle = tags.find(tag => tag.description === 'ampliar.subtitle').value;
+    this.question = tags.find(tag => tag.description === 'ampliar.question').value;
+    this.titleTag = tags.find(tag => tag.description === 'ampliar.title').value;
+    this.disclaTag = tags.find(tag => tag.description === 'ampliar.disclaimer').value;
+    this.monthTag = tags.find(tag => tag.description === 'ampliar.tag.meses').value;
+    this.warningTag = tags.find(tag => tag.description === 'ampliar.message.warning').value;
+    this.dateTag = tags.find(tag => tag.description === 'ampliar.result.fecha').value;
+    this.quotaTag = tags.find(tag => tag.description === 'ampliar.tag.cuota').value;
+    this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo').value;
+    this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota').value;
+    this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo').value;
+}
 
   getOptionDetail(option) {
     this.optionSelected = option;
@@ -182,7 +219,7 @@ export class ExtendTermComponent implements OnInit {
   openConfirmationModal() {
     if (this.quotaSelected) {
       this.modalService
-        .confirmationPopup('¿Desea ampliar el plazo de este pago?')
+        .confirmationPopup(this.question || '¿Desea ampliar el plazo de este pago?')
         .subscribe((res) => {
           if (res) {
             this.showResponse = true;

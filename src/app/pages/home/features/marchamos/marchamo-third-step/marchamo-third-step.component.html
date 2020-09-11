@@ -1,7 +1,7 @@
 <div class="marchamo-third-step" fxLayout="column">
 
   <div class="marchamo-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="145px"><strong>Correo electrónico</strong></span>
+    <span fxFlex="145px"><strong>{{step3Subt1 || 'Correo electrónico'}}</strong></span>
 
     <credix-input-field [formControl]="pickUpForm.controls.email" fxFlex="380px"
                         label="Correo registrado"></credix-input-field>
@@ -10,7 +10,7 @@
   <mat-divider credixDivider></mat-divider>
 
   <div class="marchamo-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="145px"><strong>Lugar de retiro</strong></span>
+    <span fxFlex="145px"><strong>{{step3Subt2 || 'Lugar de retiro'}}</strong></span>
 
     <div [fxLayoutGap]="radioButtonsChangedValue === 2 ? '0' : '16px'" fxFlex="380px" fxLayout="column">
 
@@ -18,7 +18,7 @@
         <credix-radio-button (emitRadioButton)="getRadioButtonsChecked($event)"
                              [checked]="false"
                              [value]="2"
-                             label="Sucursales Credix" name="a"></credix-radio-button>
+                             label="{{step3Opt1 || 'Sucursales Credix'}}" name="a"></credix-radio-button>
 
         <div *ngIf="radioButtonsChangedValue === 2" class="marchamo-third-step__sub-content">
 
@@ -34,7 +34,7 @@
         <credix-radio-button (emitRadioButton)="getRadioButtonsChecked($event)"
                              [checked]="false"
                              [value]="1"
-                             label="Domicilio" name="a">
+                             label="{{step3Opt2 || 'Domicilio'}}" name="a">
         </credix-radio-button>
 
         <div *ngIf="radioButtonsChangedValue === 1" class="marchamo-third-step__sub-content" fxLayout="column"
@@ -42,7 +42,7 @@
 
           <credix-radio-button (emitRadioButton)="newDirectionChecked($event)" [checked]="domicile"
                                [value]="'directionRegister'"
-                               label="Dirección registrada en Credix" name="b">
+                               label="{{step3Opt1Opt1 || 'Dirección registrada en Credix'}}" name="b">
           </credix-radio-button>
 
           <div *ngIf="!newDeliveryDirection || newDeliveryOption === 'directionRegister'"
@@ -59,7 +59,7 @@
 
             <credix-radio-button (emitRadioButton)="newDirectionChecked($event)" [checked]="newDomicile"
                                  [value]="'newDirection'"
-                                 label="User otra dirección" name="b"></credix-radio-button>
+                                 label="{{step3Opt1Opt2 || 'Usar otra dirección'}}" name="b"></credix-radio-button>
 
             <credix-link-button (click)="editNewDirection()"
                                 *ngIf="newDeliveryDirection !== undefined

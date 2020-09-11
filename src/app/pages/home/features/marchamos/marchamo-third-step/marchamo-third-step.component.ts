@@ -6,6 +6,8 @@ import {PopupMarchamosNewDirectionComponent} from '../popup-marchamos-new-direct
 import {DeliveryPlace} from 'src/app/shared/models/deliveryPlace.model';
 import {HttpService} from 'src/app/core/services/http.service';
 import {StorageService} from 'src/app/core/services/storage.service';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-marchamo-third-step',
@@ -37,16 +39,30 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   addressAplicant: any[] = [];
   informationApplicant: any;
 
+  step3Subt2;
+  step3Opt1Opt2;
+  step3Opt1Opt1;
+  step3Opt1;
+  step3Opt2;
+  step3Subt1;
+
+
   constructor(private httpService: HttpService,
               private modalService: ModalService,
               private marchamoService: MarchamosService,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private tagsService: TagsService
+              ) {
   }
 
   ngOnInit(): void {
     this.pickUpForm.controls.pickUp.valueChanges.subscribe(value => {
       this.marchamoService.emitPickUpStoreId(value);
     });
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
+    );
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -55,6 +71,16 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       this.getPickUpStore();
       this.getUserAplicantAccountNumber();
     }
+  }
+
+
+  getTags(tags: Tag[]) {
+    this.step3Subt2 = tags.find(tag => tag.description === 'marchamos.stepper3.subtitle2').value;
+    this.step3Opt1Opt2 = tags.find(tag => tag.description === 'marchamos.stepper3.option1.option2').value;
+    this.step3Opt1Opt1 = tags.find(tag => tag.description === 'marchamos.stepper3.option1.option1').value;
+    this.step3Opt1 = tags.find(tag => tag.description === 'marchamos.stepper3.option1').value;
+    this.step3Opt2 = tags.find(tag => tag.description === 'marchamos.stepper3.option2').value;
+    this.step3Subt1 = tags.find(tag => tag.description === 'marchamos.stepper3.subtitle1').value;
   }
 
   getPickUpStore() {

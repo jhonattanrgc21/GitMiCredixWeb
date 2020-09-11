@@ -5,6 +5,9 @@ import {HttpService} from 'src/app/core/services/http.service';
 import {ConsultVehicle} from '../../../../../shared/models/consultVehicle.models';
 import {MarchamosService} from '../marchamos.service';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
+
 
 @Component({
   selector: 'app-marchamo-first-step',
@@ -14,16 +17,38 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
 export class MarchamoFirstStepComponent implements OnInit {
   vehicleTypes: VehicleType[];
   consultVehicle: ConsultVehicle;
+  step1Tag1;
+  step1Tag2;
+  step1Tag3;
+  step1Tag4;
+  step1Tag5;
+  step1Subt;
+
   @Input() consultForm: FormGroup;
 
   constructor(private httpService: HttpService,
               private toastService: CredixToastService,
-              private marchamosService: MarchamosService) {
+              private marchamosService: MarchamosService,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
     this.getVehicleTypes();
     this.marchamosService.consultMarchamos.subscribe(() => this.consult());
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
+    );
+  }
+
+  getTags(tags: Tag[]) {
+    this.step1Tag1 = tags.find(tag => tag.description === 'marchamos.stepper1.tag1').value;
+    this.step1Tag2 = tags.find(tag => tag.description === 'marchamos.stepper1.tag2').value;
+    this.step1Tag3 = tags.find(tag => tag.description === 'marchamos.stepper1.tag3').value;
+    this.step1Tag4 = tags.find(tag => tag.description === 'marchamos.stepper1.tag4').value;
+    this.step1Tag5 = tags.find(tag => tag.description === 'marchamos.stepper1.tag5').value;
+    this.step1Subt = tags.find(tag => tag.description === 'marchamos.stepper1.subtitle').value;
+
+
   }
 
   getVehicleTypes() {

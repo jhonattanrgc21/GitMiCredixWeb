@@ -11,6 +11,8 @@ import {StorageService} from 'src/app/core/services/storage.service';
 import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
 import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {Quota} from '../../../../../shared/models/quota';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-marchamo-second-step',
@@ -114,12 +116,20 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       value: 'Diciembre 2020'
     }
   ];
+  step2Subt3;
+  step2Subt2;
+  step2Com;
+  step2TagT;
+  step2Subt1;
+  step2Link;
+  step2TagDiv;
 
   constructor(private marchamosService: MarchamosService,
               private globalRequestsService: GlobalRequestsService,
               private httpService: HttpService,
               private modalService: ModalService,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private tagsService: TagsService) {
   }
 
   get additionalProducts() {
@@ -131,6 +141,9 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.totalAmount = value.consultVehicle.amount;
       this.billingHistories = value.billingHistories;
     });
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -141,6 +154,15 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.marchamosService.emitAmountItemsProducts(this.amountItemsProducts.responsabilityCivilAmount,
         this.amountItemsProducts.roadAsistanceAmount, this.amountItemsProducts.moreProtectionAmount);
     }
+  }
+  getTags(tags: Tag[]) {
+    this.step2Subt1 = tags.find(tag => tag.description === 'marchamos.stepper2.subtitle1').value;
+    this.step2Link = tags.find(tag => tag.description === 'marchamos.stepper2.link').value;
+    this.step2Subt3 = tags.find(tag => tag.description === 'marchamos.stepper2.subtitle3').value;
+    this.step2TagDiv = tags.find(tag => tag.description === 'marchamos.stepper2.tagdividr').value;
+    this.step2Subt2 = tags.find(tag => tag.description === 'marchamos.stepper2.subtitle2').value;
+    this.step2Com = tags.find(tag => tag.description === 'marchamos.stepper2.comision').value;
+    this.step2TagT = tags.find(tag => tag.description === 'marchamos.stepper2.tagTodos').value;
   }
 
   showMarchamoDetail() {
