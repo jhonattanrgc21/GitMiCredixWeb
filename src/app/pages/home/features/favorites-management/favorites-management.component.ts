@@ -8,7 +8,6 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {IbanAccountsService} from './iban-accounts/iban-accounts.service';
 import {FavoritesPaymentsService} from './favorites-payments/favorites-payments.service';
 import {AutomaticsService} from './automatics/automatics.service';
-import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorites-management',
@@ -171,35 +170,20 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
       this.updating = !this.updating;
     });
 
-    this.favoriteService.isAdded.subscribe((response) => {
-      if (response) {
+    this.favoriteService.isAddedOrDelete.subscribe((response) => {
+      if (response.added || response.del) {
         this.accounts = [];
         this.getPublicService();
       }
-    });
 
-    this.favoriteService.isDeleted
-      .pipe(finalize(() => this.getPublicService()))
-      .subscribe((response) => {
-        if (response) {
+      // tslint:disable-next-line:no-shadowed-variable
+      this.automaticsService.isAddedOrDelete.subscribe((response) => {
+        if (response.added || response.del) {
           this.accounts = [];
+          this.getSchedulePayment();
         }
       });
-
-    this.automaticsService.isAdded.subscribe((response) => {
-      if (response) {
-        this.accounts = [];
-        this.getSchedulePayment();
-      }
     });
-
-    this.automaticsService.isDeleted
-      .pipe(finalize(() => this.getSchedulePayment()))
-      .subscribe((response) => {
-        if (response) {
-          this.accounts = [];
-        }
-      });
   }
 
   addButtonRedirect(tabId: number) {

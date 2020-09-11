@@ -14,25 +14,14 @@ export class AutomaticsService {
   }
 
   // tslint:disable-next-line:variable-name
-  private __IsAdded: Subject<{ added: boolean }> = new Subject<{ added: boolean }>();
-  // tslint:disable-next-line:variable-name
-  private __IsDeleted: Subject<{ deleted: boolean }> = new Subject<{ deleted: boolean }>();
+  private __createDelete: Subject<{ added?: boolean; del?: boolean; }> = new Subject<{ added?: boolean; del?: boolean; }>();
 
-  get isAdded(): Observable<{ added: boolean }> {
-    return this.__IsAdded.asObservable();
+  get isAddedOrDelete(): Observable<{ added?: boolean; del?: boolean; }> {
+    return this.__createDelete.asObservable();
   }
 
-  emitAutomaticIsAdded(added: boolean) {
-    this.__IsAdded.next({added});
-  }
-
-
-  get isDeleted(): Observable<{ deleted: boolean }> {
-    return this.__IsDeleted.asObservable();
-  }
-
-  emitAutomaticsIsDeleted(deleted: boolean) {
-    return this.__IsDeleted.next({deleted});
+  emitAutomaticIsAddedOrDelete(added?: boolean, del?: boolean) {
+    this.__createDelete.next({added, del});
   }
 
   getPeriodicity() {

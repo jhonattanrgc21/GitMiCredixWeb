@@ -78,7 +78,7 @@ export class AutomaticsComponent implements OnInit {
   setDeleteAutomatics(id: number) {
     this.automaticsService.setDeleteAutomatics(id).subscribe((response) => {
       if (response.type === 'success' && response.message === 'Operación exitosa') {
-        this.automaticsService.emitAutomaticsIsDeleted(true);
+        this.automaticsService.emitAutomaticIsAddedOrDelete(false, true);
       } else {
         return false;
       }

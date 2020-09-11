@@ -76,7 +76,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
   ready() {
     this.backToTemplate.emit('favorite-management');
     if (this.result.status === 'success') {
-      this.favoritesPaymentsService.emitFavoritesIsAdded(true);
+      this.favoritesPaymentsService.emitFavoritesIsAddedOrDelete(true, false);
     }
   }
 

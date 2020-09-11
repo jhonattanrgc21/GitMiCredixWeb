@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {FormControl} from '@angular/forms';
 import {FavoritesPaymentsService} from './favorites-payments.service';
@@ -8,7 +8,7 @@ import {FavoritesPaymentsService} from './favorites-payments.service';
   templateUrl: './favorites-payments.component.html',
   styleUrls: ['./favorites-payments.component.scss']
 })
-export class FavoritesPaymentsComponent implements OnInit {
+export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   showContent = false;
   // tslint:disable-next-line:max-line-length
@@ -33,6 +33,11 @@ export class FavoritesPaymentsComponent implements OnInit {
     this.getAccountDetail();
   }
 
+  ngAfterViewInit() {
+    this.getUpdateAlert();
+    this.getDeleteAlert();
+  }
+
   getAccountDetail() {
     this.favoritesManagementService.favoritesPaymentsData.subscribe(response => {
       this.showContent = !this.showContent;
@@ -45,7 +50,20 @@ export class FavoritesPaymentsComponent implements OnInit {
         publicServiceFavoriteName: response.publicServiceFavoriteName
       };
       this.favoritesPaymentDetail.setValue(response.publicServiceFavoriteName);
-      this.getDeleteAlert();
+    });
+  }
+
+  getUpdateAlert() {
+    this.favoritesManagementService.confirmUpdate.subscribe((response) => {
+      if (response.confirm && this.data.publicServiceId !== undefined) {
+        this.setUpdateFavorites(this.data.publicServiceId, this.favoritesPaymentDetail.value);
+      }
+    });
+  }
+
+  setUpdateFavorites(publicId: number, alias: string) {
+    this.favoritesPaymentsService.setUpdatePublicService(publicId, alias).subscribe((response) => {
+      console.log(response);
     });
   }
 
@@ -60,7 +78,7 @@ export class FavoritesPaymentsComponent implements OnInit {
   setDeleteFavorites(publicId: number) {
     this.favoritesPaymentsService.setDeletePublicService(publicId).subscribe((response) => {
       if (response.type === 'success' && response.message === 'Operación exitosa') {
-        this.favoritesPaymentsService.emitFavoritesIsDeleted(true);
+        this.favoritesPaymentsService.emitFavoritesIsAddedOrDelete(false, true);
       }
     });
   }

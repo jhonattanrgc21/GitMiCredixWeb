@@ -14,25 +14,16 @@ export class FavoritesPaymentsService {
   }
 
   // tslint:disable-next-line:variable-name
-  private __IsAdded: Subject<{ added: boolean }> = new Subject<{ added: boolean }>();
-  // tslint:disable-next-line:variable-name
-  private __IsDeleted: Subject<{ deleted: boolean }> = new Subject<{ deleted: boolean }>();
+  private __createDelete: Subject<{ added?: boolean; del?: boolean; }> = new Subject<{ added?: boolean; del?: boolean; }>();
 
-  get isAdded(): Observable<{ added: boolean }> {
-    return this.__IsAdded.asObservable();
+  get isAddedOrDelete(): Observable<{ added?: boolean; del?: boolean; }> {
+    return this.__createDelete.asObservable();
   }
 
-  get isDeleted(): Observable<{ deleted: boolean }> {
-    return this.__IsDeleted.asObservable();
+  emitFavoritesIsAddedOrDelete(added?: boolean, del?: boolean) {
+    this.__createDelete.next({added, del});
   }
 
-  emitFavoritesIsAdded(added: boolean) {
-    this.__IsAdded.next({added});
-  }
-
-  emitFavoritesIsDeleted(deleted: boolean) {
-    this.__IsDeleted.next({deleted});
-  }
 
   getPublicCategoryServices() {
     return this.httpService.post('canales', 'publicservice/publicservicecategory')
@@ -97,6 +88,15 @@ export class FavoritesPaymentsService {
   setDeletePublicService(publicId: number) {
     return this.httpService.post('canales', 'publicservice/deletepublicservicefavorite', {
       publicServiceFavoriteId: publicId,
+      channelId: 102,
+      userId: this.storageService.getCurrentUser().userId
+    });
+  }
+
+  setUpdatePublicService(publicId: number, alias: string) {
+    return this.httpService.post('canales', 'publicservice/updatenamepublicservicefavorite', {
+      publicServiceFavoriteId: publicId.toString(),
+      name: alias,
       channelId: 102,
       userId: this.storageService.getCurrentUser().userId
     });

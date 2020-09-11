@@ -122,7 +122,7 @@ export class AddAutomaticsComponent implements OnInit {
   ready() {
     this.backToTemplate.emit('favorite-management');
     if (this.result.status === 'success') {
-      this.automaticsService.emitAutomaticIsAdded(true);
+      this.automaticsService.emitAutomaticIsAddedOrDelete(true, false);
     }
   }
 }
