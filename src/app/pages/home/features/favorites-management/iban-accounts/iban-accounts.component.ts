@@ -52,7 +52,9 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
 
   setUpdateIban(ibanId: number, alias: string) {
     this.ibanAccountsService.updateIbanAccount(ibanId, alias).subscribe((response) => {
-      console.log(response);
+      if (response.message === 'Operación exitosa') {
+        this.favoritesManagementService.emitUpdateSuccessAlert();
+      }
     });
   }
 

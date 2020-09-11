@@ -54,7 +54,7 @@
        fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
       <credix-button (buttonClick)="deleteButtonByTabId(tabId)" text="Eliminar" type="secondary"></credix-button>
-      <credix-button (buttonClick)="saveUpdate()" [disabled]="!updating" text="Guardar"></credix-button>
+      <credix-button (buttonClick)="saveUpdate(tabId)" [disabled]="!updating" text="Guardar"></credix-button>
     </div>
   </div>
 </mat-card>

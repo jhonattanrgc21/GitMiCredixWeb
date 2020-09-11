@@ -10,7 +10,7 @@ import {FavoritesPaymentsService} from './favorites-payments.service';
 })
 export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
-  showContent = false;
+  isUpdating = false;
   // tslint:disable-next-line:max-line-length
   data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string, publicServiceId: number, publicServiceFavoriteName: string };
   favoritesPaymentDetail: FormControl = new FormControl(null);
@@ -40,7 +40,6 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   getAccountDetail() {
     this.favoritesManagementService.favoritesPaymentsData.subscribe(response => {
-      this.showContent = !this.showContent;
       this.data = {
         publicServicesAccessKeyDescription: response.publicServiceAccessKeyDescription,
         account: response.accountNumber,
@@ -63,7 +62,9 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   setUpdateFavorites(publicId: number, alias: string) {
     this.favoritesPaymentsService.setUpdatePublicService(publicId, alias).subscribe((response) => {
-      console.log(response);
+      if (response.message === 'Operación exitosa') {
+        this.favoritesManagementService.emitUpdateSuccessAlert();
+      }
     });
   }
 
@@ -81,5 +82,14 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
         this.favoritesPaymentsService.emitFavoritesIsAddedOrDelete(false, true);
       }
     });
+  }
+
+  updating(event) {
+    if (event.key !== '' && event.code !== '') {
+      this.favoritesPaymentDetail.valueChanges.subscribe(value => {
+        this.favoritesManagementService.updating();
+        this.isUpdating = this.favoritesPaymentDetail.valid;
+      });
+    }
   }
 }

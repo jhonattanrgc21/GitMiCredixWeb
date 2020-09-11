@@ -57,7 +57,7 @@ export class AddAutomaticsComponent implements OnInit {
     this.newAutomaticsForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
     });
-    this.newAutomaticsForm.controls.PublicServiceCompany.valueChanges.subscribe(value => {
+    this.newAutomaticsForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
   }
@@ -102,7 +102,7 @@ export class AddAutomaticsComponent implements OnInit {
       .subscribe((confirm) => {
         if (confirm) {
           // tslint:disable-next-line:max-line-length
-          this.automaticsService.setAutomaticsPayment(1, this.newAutomaticsControls.publicService.value, this.newAutomaticsControls.periodicity.value, this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'), this.newAutomaticsControls.phoneNumber.value, this.newAutomaticsControls.maxAmount.value, this.codeCredix.value)
+          this.automaticsService.setAutomaticsPayment(this.newAutomaticsControls.publicServicesCategory.value, this.newAutomaticsControls.publicService.value, this.newAutomaticsControls.periodicity.value, this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'), this.newAutomaticsControls.phoneNumber.value, this.newAutomaticsControls.maxAmount.value, this.codeCredix.value)
             .subscribe((response) => {
               this.resultAutomatics = !this.resultAutomatics;
               this.result = {

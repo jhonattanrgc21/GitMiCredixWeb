@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {AutomaticsComponent} from './automatics.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CredixNavigationTableModule} from '../../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
@@ -38,7 +38,8 @@ const routes: Routes = [
   ],
   providers: [
     ModalService,
-    AutomaticsService
+    AutomaticsService,
+    DatePipe
   ]
 })
 export class AutomaticsModule {

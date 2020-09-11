@@ -25,6 +25,8 @@ export class FavoritesManagementService {
   private __deleteAutomatics: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
   // tslint:disable-next-line:variable-name
   private __update = new Subject();
+  // tslint:disable-next-line:variable-name
+  private __updateSuccess = new Subject();
 
   // tslint:disable-next-line:variable-name
   private __confirmUpdate: Subject<{ confirm: boolean }> = new Subject<{ confirm: boolean }>();
@@ -33,16 +35,24 @@ export class FavoritesManagementService {
     return this.__confirmUpdate.asObservable();
   }
 
-  emitConfirmUpdate(confirm: boolean) {
-    this.__confirmUpdate.next({confirm});
-  }
-
   get update(): Observable<any> {
     return this.__update.asObservable();
   }
 
+  get updateSuccess(): Observable<any> {
+    return this.__updateSuccess.asObservable();
+  }
+
+  emitConfirmUpdate(confirm: boolean) {
+    this.__confirmUpdate.next({confirm});
+  }
+
   updating() {
     this.__update.next();
+  }
+
+  emitUpdateSuccessAlert() {
+    this.__updateSuccess.next();
   }
 
   // tslint:disable-next-line:max-line-length

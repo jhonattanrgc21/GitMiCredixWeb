@@ -15,6 +15,15 @@
 
   &__credix-code {
     padding: 16px 0px;
+
+    credix-code-input {
+      width: 380px;
+    }
+  }
+
+  &__form {
+    width: 380px;
+    padding: 16px 8px;
   }
 
   .result {

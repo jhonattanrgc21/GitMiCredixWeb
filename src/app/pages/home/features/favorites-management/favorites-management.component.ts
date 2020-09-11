@@ -151,12 +151,21 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
-  saveUpdate() {
-    this.favoriteManagementService.emitConfirmUpdate(true);
+  saveUpdate(tabId: number) {
+    switch (tabId) {
+      case 1:
+        this.favoriteManagementService.emitConfirmUpdate(true);
+        break;
+      case 2:
+        this.favoriteManagementService.emitConfirmUpdate(true);
+        break;
+      case 3:
+        this.favoriteManagementService.emitConfirmUpdate(true);
+        break;
+    }
   }
 
   getIsAddedAndDeletedOrUpdating() {
-
     // try in the similar method if deleted or added
     this.ibanService.isAddedOrDelete.subscribe((response) => {
       if (response.added || response.del) {
@@ -164,25 +173,38 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         this.getFavoritesIban();
       }
     });
-
-    // check if module son alert to activate the button of save
-    this.favoriteManagementService.update.subscribe(() => {
-      this.updating = !this.updating;
-    });
-
     this.favoriteService.isAddedOrDelete.subscribe((response) => {
       if (response.added || response.del) {
         this.accounts = [];
         this.getPublicService();
       }
+    });
 
-      // tslint:disable-next-line:no-shadowed-variable
-      this.automaticsService.isAddedOrDelete.subscribe((response) => {
-        if (response.added || response.del) {
-          this.accounts = [];
+    this.automaticsService.isAddedOrDelete.subscribe((response) => {
+      if (response.added || response.del) {
+        this.accounts = [];
+        this.getSchedulePayment();
+      }
+    });
+    // check if module son alert to activate the button of save
+    this.favoriteManagementService.update.subscribe(() => {
+      this.updating = true;
+    });
+
+
+    this.favoriteManagementService.updateSuccess.subscribe(() => {
+      this.accounts = [];
+      switch (this.tabId) {
+        case 1:
+          this.getFavoritesIban();
+          break;
+        case 2:
+          this.getPublicService();
+          break;
+        case 3:
           this.getSchedulePayment();
-        }
-      });
+          break;
+      }
     });
   }
 

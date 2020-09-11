@@ -10,6 +10,9 @@
     <span>{{data.publicServiceProvider}}</span>
   </div>
 
-  <credix-input-field *ngIf="data.publicServiceName !== ''" [formControl]="favoritesPaymentDetail"
+  <credix-input-field (keyup)="updating($event)"
+                      *ngIf="data.publicServiceName !== ''"
+                      [class.enabled]="isUpdating"
+                      [formControl]="favoritesPaymentDetail"
                       class="favorites-payments__input disabled" label="Nombre de favorito"></credix-input-field>
 </div>

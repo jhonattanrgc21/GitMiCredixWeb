@@ -59,6 +59,7 @@ export class AutomaticsService {
       transactionTypeId: transTypeId,
       publicServiceId: publicSrvcId,
       periodicityId: periodId,
+      currencyId: 188,
       startDate: startDat,
       key: k,
       maxAmount: maxAmnt,
@@ -70,6 +71,16 @@ export class AutomaticsService {
     return this.httpServices.post('canales', 'schedulerpayment/deleteschedulerpayment', {
       channelId: 102,
       schedulerPayId: automaticId
+    });
+  }
+
+  setUpdateAutomatics(periodId: number, date: string, mxAmount: number, schdulerId: number) {
+    return this.httpServices.post('canales', 'schedulerpayment/updateschedulerpayment', {
+      channelId: 102,
+      periodicityId: periodId,
+      startDate: date,
+      maxAmount: mxAmount,
+      schedulerPayId: schdulerId
     });
   }
 }
