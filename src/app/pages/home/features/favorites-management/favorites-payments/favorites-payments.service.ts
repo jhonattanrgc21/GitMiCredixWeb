@@ -34,7 +34,7 @@ export class FavoritesPaymentsService {
     this.__IsDeleted.next({deleted});
   }
 
-  getPublicServices() {
+  getPublicCategoryServices() {
     return this.httpService.post('canales', 'publicservice/publicservicecategory')
       .pipe(
         map((response) => {
@@ -47,9 +47,9 @@ export class FavoritesPaymentsService {
       );
   }
 
-  getPublicEnterpriseServices(publicServiceId: number) {
+  getPublicEnterpriseServicesByCategory(categoryId: number) {
     return this.httpService.post('canales', 'publicservice/publicserviceenterpriselistbycategory', {
-      publicServiceCategoryId: publicServiceId,
+      publicServiceCategoryId: categoryId,
       channelId: 102
     }).pipe(
       map((response) => {
@@ -61,6 +61,22 @@ export class FavoritesPaymentsService {
       })
     );
   }
+
+  getPublicServicesByEnterprise(eId: number) {
+    return this.httpService.post('canales', 'publicservice/publicservicelistbyenterpriseid', {
+      channelId: 102,
+      enterpriseId: eId
+    }).pipe(
+      map((response) => {
+        if (response.type === 'success' && response.message === 'Operación exitosa') {
+          return response.publicServiceList;
+        } else {
+          return [];
+        }
+      })
+    );
+  }
+
 
   // @ts-ignore
   // tslint:disable-next-line:max-line-length

@@ -4,16 +4,23 @@
     <span><strong>Nuevo pago automático</strong></span>
     <form [formGroup]="newAutomaticsForm" class="add-automatics__form" fxLayout="column">
 
-      <credix-select formControlName="publicServices" label="Servicio">
-        <mat-option *ngFor="let services of publicServicesList" [value]="services.publicServiceCategoryId">
-          {{services.publicServiceCategory}}
+      <credix-select formControlName="publicServicesCategory" label="Categoría">
+        <mat-option *ngFor="let category of publicServicesCategory" [value]="category.publicServiceCategoryId">
+          {{category.publicServiceCategory}}
         </mat-option>
       </credix-select>
 
-      <credix-select formControlName="company" label="Compañía">
-        <mat-option *ngFor="let enterpriseServices of publicEnterpriseList"
-                    [value]="enterpriseServices.publicServiceEnterpriseId">
-          {{enterpriseServices.publicServiceEnterpriseDescription}}
+      <credix-select formControlName="publicServiceCompany" label="Compañía">
+        <mat-option *ngFor="let company of publicCompany"
+                    [value]="company.publicServiceEnterpriseId">
+          {{company.publicServiceEnterpriseDescription}}
+        </mat-option>
+      </credix-select>
+
+      <credix-select formControlName="publicService" label="Servicio">
+        <mat-option *ngFor="let service of publicServices"
+                    [value]="service.publicServiceId">
+          {{service.publicServiceName}}
         </mat-option>
       </credix-select>
 
@@ -36,13 +43,6 @@
       <credix-select formControlName="periodicity" label="Periocidad">
         <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
           {{periodicity.description}}
-        </mat-option>
-      </credix-select>
-
-      <credix-select formControlName="currency" label="Tipo de Moneda">
-        <mat-option *ngFor="let cur of currencyList"
-                    [value]="cur.id">
-          {{cur.description}}
         </mat-option>
       </credix-select>
     </form>

@@ -1,8 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
-import {PublicServiceListModel} from '../../../../../shared/models/public-service-list.model';
+import {PublicServiceCategoryModel} from '../../../../../shared/models/public-service-category.model';
 import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
+import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -11,13 +12,15 @@ import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-
 })
 export class AddFavoritesPaymentComponent implements OnInit {
 
-  publicServicesList: PublicServiceListModel[];
-  publicEnterpriseList: PublicServiceEnterpriseModel[];
+  publicServicesCategory: PublicServiceCategoryModel[];
+  publicCompany: PublicServiceEnterpriseModel[];
+  publicServices: PublicServiceModel[];
   resultFavorites: boolean;
   result: { status: string; message: string; title: string; };
   newFavoritesPaymentForm: FormGroup = new FormGroup({
-    publicServices: new FormControl(null, [Validators.required]),
-    company: new FormControl(null, [Validators.required]),
+    publicServicesCategory: new FormControl(null, [Validators.required]),
+    PublicServiceCompany: new FormControl(null, [Validators.required]),
+    PublicService: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
     favoriteName: new FormControl(null, [Validators.required])
   });
@@ -30,25 +33,39 @@ export class AddFavoritesPaymentComponent implements OnInit {
   constructor(private favoritesPaymentsService: FavoritesPaymentsService) {
   }
 
+  get newFavoritesPaymentControls() {
+    return this.newFavoritesPaymentForm.controls;
+  }
+
   ngOnInit(): void {
     this.resultFavorites = false;
-    this.getServices();
-    this.newFavoritesPaymentForm.controls.publicServices.valueChanges.subscribe(value => {
+    this.getCategory();
+    this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
+    });
+    this.newFavoritesPaymentForm.controls.PublicServiceCompany.valueChanges.subscribe(value => {
+      this.getService(value);
     });
   }
 
-  getServices() {
-    this.favoritesPaymentsService.getPublicServices()
+  getCategory() {
+    this.favoritesPaymentsService.getPublicCategoryServices()
       .subscribe((response) => {
-        this.publicServicesList = response;
+        this.publicServicesCategory = response;
       });
   }
 
   getCompany(publicServicesId: number) {
-    this.favoritesPaymentsService.getPublicEnterpriseServices(publicServicesId).subscribe((response) => {
-      this.publicEnterpriseList = response;
+    this.favoritesPaymentsService.getPublicEnterpriseServicesByCategory(publicServicesId).subscribe((response) => {
+      this.publicCompany = response;
     });
+  }
+
+  getService(enterpriseId: number) {
+    this.favoritesPaymentsService.getPublicServicesByEnterprise(enterpriseId)
+      .subscribe((response) => {
+        this.publicServices = response;
+      });
   }
 
 
@@ -65,8 +82,9 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   addFavoritePayment() {
     // tslint:disable-next-line:max-line-length
-    this.favoritesPaymentsService.setPublicServiceFavorite(this.newFavoritesPaymentForm.controls.company.value, this.newFavoritesPaymentForm.controls.phoneNumber.value, 21, this.newFavoritesPaymentForm.controls.favoriteName.value, 1, this.codeCredix.value)
+    this.favoritesPaymentsService.setPublicServiceFavorite(this.newFavoritesPaymentControls.PublicService.value, this.newFavoritesPaymentControls.phoneNumber.value, 21, this.newFavoritesPaymentControls.favoriteName.value, this.newFavoritesPaymentControls.PublicServiceCompany.value, Number(this.codeCredix.value))
       .subscribe((response) => {
+        console.log(response);
         this.resultFavorites = !this.resultFavorites;
         this.result = {
           status: response.type,

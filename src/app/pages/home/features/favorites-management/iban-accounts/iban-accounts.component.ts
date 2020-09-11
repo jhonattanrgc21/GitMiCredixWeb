@@ -58,10 +58,11 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   }
 
   updating(event) {
-    console.log(event);
-    this.ibanAccountDetailInput.valueChanges.subscribe((value) => {
-      this.favoritesManagementService.updating();
-      this.isUpdating = this.ibanAccountDetailInput.valid;
-    });
+    if (event.key !== '' && event.code !== '') {
+      this.ibanAccountDetailInput.valueChanges.subscribe((value) => {
+        this.favoritesManagementService.updating();
+        this.isUpdating = this.ibanAccountDetailInput.valid;
+      });
+    }
   }
 }

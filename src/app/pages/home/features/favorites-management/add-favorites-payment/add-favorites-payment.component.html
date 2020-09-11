@@ -4,16 +4,23 @@
     <span><strong>Nuevo pago favorito</strong></span>
     <form [formGroup]="newFavoritesPaymentForm" class="add-favorites-payment__form" fxLayout="column">
 
-      <credix-select formControlName="publicServices" label="Servicio">
-        <mat-option *ngFor="let services of publicServicesList" [value]="services.publicServiceCategoryId">
-          {{services.publicServiceCategory}}
+      <credix-select formControlName="publicServicesCategory" label="Categoría">
+        <mat-option *ngFor="let category of publicServicesCategory" [value]="category.publicServiceCategoryId">
+          {{category.publicServiceCategory}}
         </mat-option>
       </credix-select>
 
-      <credix-select formControlName="company" label="Compañía">
-        <mat-option *ngFor="let enterpriseServices of publicEnterpriseList"
-                    [value]="enterpriseServices.publicServiceEnterpriseId">
-          {{enterpriseServices.publicServiceEnterpriseDescription}}
+      <credix-select formControlName="PublicServiceCompany" label="Compañía">
+        <mat-option *ngFor="let company of publicCompany"
+                    [value]="company.publicServiceEnterpriseId">
+          {{company.publicServiceEnterpriseDescription}}
+        </mat-option>
+      </credix-select>
+
+      <credix-select formControlName="PublicService" label="Servicio">
+        <mat-option *ngFor="let service of publicServices"
+                    [value]="service.publicServiceId">
+          {{service.publicServiceName}}
         </mat-option>
       </credix-select>
 

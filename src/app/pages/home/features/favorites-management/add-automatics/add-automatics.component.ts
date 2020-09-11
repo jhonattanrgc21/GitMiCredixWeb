@@ -1,12 +1,13 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AutomaticsService} from '../automatics/automatics.service';
-import {PublicServiceListModel} from '../../../../../shared/models/public-service-list.model';
+import {PublicServiceCategoryModel} from '../../../../../shared/models/public-service-category.model';
 import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
 import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Currency} from '../../../../../shared/models/currency';
 import {DatePipe} from '@angular/common';
+import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
 
 @Component({
   selector: 'app-add-automatics',
@@ -16,21 +17,22 @@ import {DatePipe} from '@angular/common';
 export class AddAutomaticsComponent implements OnInit {
 
   periodicityList: { description: string; id: number; }[] = [];
-  publicServicesList: PublicServiceListModel[];
-  publicEnterpriseList: PublicServiceEnterpriseModel[];
+  publicServicesCategory: PublicServiceCategoryModel[];
+  publicCompany: PublicServiceEnterpriseModel[];
+  publicServices: PublicServiceModel[];
   currencyList: Currency[];
   result: { status: string; message: string; title: string; };
   resultAutomatics: boolean;
 
   newAutomaticsForm: FormGroup = new FormGroup({
-    publicServices: new FormControl(null, [Validators.required]),
-    company: new FormControl(null, [Validators.required]),
+    publicServicesCategory: new FormControl(null, [Validators.required]),
+    publicServiceCompany: new FormControl(null, [Validators.required]),
+    publicService: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
     nameOfAutomatics: new FormControl(null, [Validators.required]),
     maxAmount: new FormControl(null, [Validators.required]),
     startDate: new FormControl(null, [Validators.required]),
     periodicity: new FormControl(null, [Validators.required]),
-    currency: new FormControl(null, [Validators.required])
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
 
@@ -52,10 +54,12 @@ export class AddAutomaticsComponent implements OnInit {
     this.resultAutomatics = false;
     this.getServices();
     this.getPeriodicityList();
-    this.newAutomaticsForm.controls.publicServices.valueChanges.subscribe(value => {
+    this.newAutomaticsForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
     });
-    this.getCurrencyList();
+    this.newAutomaticsForm.controls.PublicServiceCompany.valueChanges.subscribe(value => {
+      this.getService(value);
+    });
   }
 
   getPeriodicityList() {
@@ -65,22 +69,22 @@ export class AddAutomaticsComponent implements OnInit {
   }
 
   getServices() {
-    this.favoritesPaymentsService.getPublicServices()
+    this.favoritesPaymentsService.getPublicCategoryServices()
       .subscribe((response) => {
-        this.publicServicesList = response;
+        this.publicServicesCategory = response;
       });
   }
 
-  getCompany(publicServicesId: number) {
-    this.favoritesPaymentsService.getPublicEnterpriseServices(publicServicesId).subscribe((response) => {
-      this.publicEnterpriseList = response;
+  getCompany(publicCategoryId: number) {
+    this.favoritesPaymentsService.getPublicEnterpriseServicesByCategory(publicCategoryId).subscribe((response) => {
+      this.publicCompany = response;
     });
   }
 
-  getCurrencyList() {
-    this.automaticsService.getCurrency()
+  getService(enterpriseId: number) {
+    this.favoritesPaymentsService.getPublicServicesByEnterprise(enterpriseId)
       .subscribe((response) => {
-        this.currencyList = response;
+        this.publicServices = response;
       });
   }
 
@@ -94,12 +98,11 @@ export class AddAutomaticsComponent implements OnInit {
 
   addAutomaticPayment() {
     const date: Date = new Date(this.newAutomaticsForm.controls.startDate.value);
-    console.log(this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd').toString());
     this.modalService.confirmationPopup('¿Desea añadir este pago automático?', '', 380, 197)
       .subscribe((confirm) => {
         if (confirm) {
           // tslint:disable-next-line:max-line-length
-          this.automaticsService.setAutomaticsPayment(1, this.newAutomaticsControls.publicServices.value, this.newAutomaticsControls.periodicity.value, this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'), this.newAutomaticsControls.phoneNumber.value, this.newAutomaticsControls.maxAmount.value, this.codeCredix.value)
+          this.automaticsService.setAutomaticsPayment(1, this.newAutomaticsControls.publicService.value, this.newAutomaticsControls.periodicity.value, this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'), this.newAutomaticsControls.phoneNumber.value, this.newAutomaticsControls.maxAmount.value, Number(this.codeCredix))
             .subscribe((response) => {
               this.resultAutomatics = !this.resultAutomatics;
               this.result = {
