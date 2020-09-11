@@ -90,7 +90,7 @@ export class FavoritesPaymentsService {
       channelId: 102,
       aliasName: alias,
       publicServiceAccessKeyId: publicSrvcAccssKId,
-      codeCredix: credixCode
+      codeCredix: +credixCode
     });
   }
 

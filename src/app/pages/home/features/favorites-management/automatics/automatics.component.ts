@@ -69,7 +69,7 @@ export class AutomaticsComponent implements OnInit {
 
   getDeleteAlert() {
     this.favoritesManagementService.deleteAutomatics.subscribe((response) => {
-      if (response && this.data.id !== undefined) {
+      if (response.del && this.data.id !== undefined) {
         this.setDeleteAutomatics(this.data.id);
       }
     });

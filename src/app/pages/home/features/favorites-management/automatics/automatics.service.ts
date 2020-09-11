@@ -73,7 +73,7 @@ export class AutomaticsService {
       startDate: startDat,
       key: k,
       maxAmount: maxAmnt,
-      credixCode: codeCredix
+      credixCode: +codeCredix
     });
   }
 

@@ -82,7 +82,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   addFavoritePayment() {
     // tslint:disable-next-line:max-line-length
-    this.favoritesPaymentsService.setPublicServiceFavorite(this.newFavoritesPaymentControls.PublicService.value, this.newFavoritesPaymentControls.phoneNumber.value, 21, this.newFavoritesPaymentControls.favoriteName.value, this.newFavoritesPaymentControls.PublicServiceCompany.value, Number(this.codeCredix.value))
+    this.favoritesPaymentsService.setPublicServiceFavorite(this.newFavoritesPaymentControls.PublicService.value, this.newFavoritesPaymentControls.phoneNumber.value, 21, this.newFavoritesPaymentControls.favoriteName.value, this.newFavoritesPaymentControls.PublicServiceCompany.value, this.codeCredix.value)
       .subscribe((response) => {
         console.log(response);
         this.resultFavorites = !this.resultFavorites;

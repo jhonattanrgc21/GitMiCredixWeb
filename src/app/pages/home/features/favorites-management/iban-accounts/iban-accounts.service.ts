@@ -51,6 +51,14 @@ export class IbanAccountsService {
     });
   }
 
+  updateIbanAccount(ibanId: number, alias: string) {
+    return this.httpService.post('canales', 'iban/updateNamePublicServiceFavorite', {
+      channelId: 102,
+      IdAccountFavorite: ibanId,
+      name: alias
+    });
+  }
+
   emitIbanIsAddOrDeleted(added?: boolean, del?: boolean) {
     this.__createDelete.next({added, del});
   }

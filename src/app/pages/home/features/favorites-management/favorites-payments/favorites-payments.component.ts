@@ -51,7 +51,7 @@ export class FavoritesPaymentsComponent implements OnInit {
 
   getDeleteAlert() {
     this.favoritesManagementService.deleteFavorites.subscribe((response) => {
-      if (response && this.data.publicServiceId !== undefined) {
+      if (response.del && this.data.publicServiceId !== undefined) {
         this.setDeleteFavorites(this.data.publicServiceId);
       }
     });

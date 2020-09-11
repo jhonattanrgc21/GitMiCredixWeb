@@ -26,6 +26,17 @@ export class FavoritesManagementService {
   // tslint:disable-next-line:variable-name
   private __update = new Subject();
 
+  // tslint:disable-next-line:variable-name
+  private __confirmUpdate: Subject<{ confirm: boolean }> = new Subject<{ confirm: boolean }>();
+
+  get confirmUpdate(): Observable<{ confirm: boolean }> {
+    return this.__confirmUpdate.asObservable();
+  }
+
+  emitConfirmUpdate(confirm: boolean) {
+    this.__confirmUpdate.next({confirm});
+  }
+
   get update(): Observable<any> {
     return this.__update.asObservable();
   }

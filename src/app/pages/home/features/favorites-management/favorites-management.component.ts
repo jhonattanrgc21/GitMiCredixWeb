@@ -152,49 +152,54 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
+  saveUpdate() {
+    this.favoriteManagementService.emitConfirmUpdate(true);
+  }
+
   getIsAddedAndDeletedOrUpdating() {
-    switch (this.tabId) {
-      case 1:
-        this.ibanService.isAddedOrDelete.subscribe((response) => {
-          if (response.added || response.del) {
-            this.accounts = [];
-            this.getFavoritesIban();
-          }
-        });
-        break;
-      case 2:
-        this.favoriteService.isAdded.subscribe((response) => {
-          if (response) {
-            this.accounts = [];
-            this.getPublicService();
-          }
-        });
 
-        this.favoriteService.isDeleted
-          .pipe(finalize(() => this.getPublicService()))
-          .subscribe((response) => {
-            if (response) {
-              this.accounts = [];
-            }
-          });
-        break;
-      case 3:
-        this.automaticsService.isAdded.subscribe((response) => {
-          if (response) {
-            this.accounts = [];
-            this.getSchedulePayment();
-          }
-        });
+    // try in the similar method if deleted or added
+    this.ibanService.isAddedOrDelete.subscribe((response) => {
+      if (response.added || response.del) {
+        this.accounts = [];
+        this.getFavoritesIban();
+      }
+    });
 
-        this.automaticsService.isDeleted
-          .pipe(finalize(() => this.getSchedulePayment()))
-          .subscribe((response) => {
-            if (response) {
-              this.accounts = [];
-            }
-          });
-        break;
-    }
+    // check if module son alert to activate the button of save
+    this.favoriteManagementService.update.subscribe(() => {
+      this.updating = !this.updating;
+    });
+
+    this.favoriteService.isAdded.subscribe((response) => {
+      if (response) {
+        this.accounts = [];
+        this.getPublicService();
+      }
+    });
+
+    this.favoriteService.isDeleted
+      .pipe(finalize(() => this.getPublicService()))
+      .subscribe((response) => {
+        if (response) {
+          this.accounts = [];
+        }
+      });
+
+    this.automaticsService.isAdded.subscribe((response) => {
+      if (response) {
+        this.accounts = [];
+        this.getSchedulePayment();
+      }
+    });
+
+    this.automaticsService.isDeleted
+      .pipe(finalize(() => this.getSchedulePayment()))
+      .subscribe((response) => {
+        if (response) {
+          this.accounts = [];
+        }
+      });
   }
 
   addButtonRedirect(tabId: number) {
