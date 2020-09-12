@@ -16,15 +16,17 @@
   &__footer {
     position: absolute;
     margin-bottom: 0 !important;
-    width: 30%;
+    width: 33%;
     bottom: 0;
     left: 0;
     border-top: 1px solid #E9E9E9;
     padding: 16px 0;
 
     &-right {
+      position: absolute;
       right: 0;
-      bottom: 0;
+      bottom: 16px;
+      padding: 0px 16px;
     }
   }
 
@@ -49,6 +51,18 @@
   .favorites-management {
     width: 736px;
     min-height: 886px;
+
+    &__footer {
+      width: 40%;
+
+      &-right {
+        bottom: 16px;
+      }
+    }
+  }
+
+  ::ng-deep.navigation-table__content {
+    min-height: 686px !important;
   }
 }
 

@@ -55,12 +55,12 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
   getUpdateAlert() {
     this.favoritesManagementService.confirmUpdate.subscribe((response) => {
       if (response.confirm && this.data.publicServiceId !== undefined) {
-        this.setUpdateFavorites(this.data.publicServiceId, this.favoritesPaymentDetail.value);
+        this.setUpdateFavorites(String(this.data.publicServiceId), this.favoritesPaymentDetail.value);
       }
     });
   }
 
-  setUpdateFavorites(publicId: number, alias: string) {
+  setUpdateFavorites(publicId: string, alias: string) {
     this.favoritesPaymentsService.setUpdatePublicService(publicId, alias).subscribe((response) => {
       if (response.message === 'Operación exitosa') {
         this.favoritesManagementService.emitUpdateSuccessAlert();

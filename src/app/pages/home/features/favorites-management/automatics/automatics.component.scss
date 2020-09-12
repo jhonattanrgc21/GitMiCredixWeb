@@ -3,6 +3,12 @@
   height: 296px;
   padding: 0px 20px;
 
+  &__form {
+    &.disabled {
+      color: #7b7b7b;
+    }
+  }
+
   &__input {
     height: 42px;
 
@@ -11,4 +17,9 @@
       height: 15px;
     }
   }
+}
+
+
+.enabled {
+  color: #3e3e3e !important;
 }

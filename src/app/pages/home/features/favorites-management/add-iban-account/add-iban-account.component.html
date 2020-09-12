@@ -4,7 +4,8 @@
     <span><strong>Nuevo pago favorito</strong></span>
     <form [formGroup]="newFavoriteIbanForm" class="add-iban-account__form" fxLayout="column">
 
-      <credix-input-field formControlName="ibanAccount" label="Cuenta IBAN"></credix-input-field>
+      <credix-input-field formControlName="ibanAccount" label="Cuenta IBAN" mask="000000000000000000"
+                          prefix="CR"></credix-input-field>
       <credix-input-field formControlName="nameOfFavorite" label="Nombre de favorito"></credix-input-field>
 
       <credix-select formControlName="identificationType" label="Tipo de identificación">

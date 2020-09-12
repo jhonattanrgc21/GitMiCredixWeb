@@ -93,9 +93,9 @@ export class FavoritesPaymentsService {
     });
   }
 
-  setUpdatePublicService(publicId: number, alias: string) {
+  setUpdatePublicService(publicId: string, alias: string) {
     return this.httpService.post('canales', 'publicservice/updatenamepublicservicefavorite', {
-      publicServiceFavoriteId: publicId.toString(),
+      publicServiceFavoriteId: publicId,
       name: alias,
       channelId: 102,
       userId: this.storageService.getCurrentUser().userId

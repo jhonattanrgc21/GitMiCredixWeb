@@ -12,13 +12,14 @@ import {DatePipe} from '@angular/common';
 })
 export class AutomaticsComponent implements OnInit, AfterViewInit {
 
+  isUpdating = false;
   // tslint:disable-next-line:max-line-length
   data: { publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; };
   automaticsDetailForm: FormGroup = new FormGroup({
-    favoriteName: new FormControl({value: null, disabled: true}),
-    maxAmount: new FormControl({value: null, disabled: true}),
-    startDate: new FormControl({value: null, disabled: true}),
-    periodicity: new FormControl({value: null, disabled: true})
+    favoriteName: new FormControl(null),
+    maxAmount: new FormControl(null),
+    startDate: new FormControl(null),
+    periodicity: new FormControl(null)
   });
 
   periodicityList: { description: string; id: number; }[] = [];
@@ -40,7 +41,10 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getDeleteAlert();
-    this.getUpdateAlert();
+    this.automaticsDetailForm.valueChanges.subscribe(value => {
+      this.getUpdateAlert();
+      this.isUpdating = this.automaticsDetailForm.valid;
+    });
   }
 
   getSchedulePayment() {
@@ -65,7 +69,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
       // tslint:disable-next-line:max-line-length
-      this.automaticsDetailForm.controls.periodicity.setValue(this.periodicityList.find(elem => elem.description === response.description).id);
+      this.automaticsDetailForm.controls.periodicity.setValue(this.periodicityList.find(elem => elem.description === this.data.periodicityDescription).id);
     });
   }
 
