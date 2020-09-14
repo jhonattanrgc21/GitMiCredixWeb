@@ -1,7 +1,7 @@
 <div class="awards" fxLayout="column" fxLayoutGap="16px">
   <div class="awards__banner-tab" fxLayout="row" fxLayoutGap="16px">
     <mat-card [ngClass]="showInProgress ?
-    'awards__banner-tab__card-progress': 'awards__banner-tab__card-finalizado'" credixCard fxFlex="100">
+    'awards__banner-tab__card-progress': 'awards__banner-tab__card-finished'" credixCard fxFlex="100">
 
       <h1>Premios</h1>
 
@@ -24,15 +24,15 @@
                 credixCard fxLayout="column" fxLayoutAlign="space-between">
 
         <div class="awards__cards-container__content" fxLayout="row" fxLayoutAlign="space-between">
-          <ngx-simplebar [options]="options" class="awards__simple-bar" fxFlex="50">
-            <div class="w-100" fxLayout="column">
-              <h2>{{ award.in_progress_name }}</h2>
-              <p class="awards__cards-container__content__main mb-16px">
-                {{ award.in_progress_description }}
-              </p>
-            </div>
-          </ngx-simplebar>
-          <img class="awards__cards-container__img" src="{{ award.image }}"/>
+
+          <div fxFlex="50%" fxLayout="column">
+            <h2>{{ award.in_progress_name }}</h2>
+            <p class="awards__cards-container__content__main mb-16px">
+              {{ award.in_progress_description }}
+            </p>
+          </div>
+
+          <img alt="CREDIX-PREMIOS" class="awards__cards-container__img" src="{{ award.image }}"/>
         </div>
 
 
@@ -61,15 +61,15 @@
                 credixCard fxLayout="column" fxLayoutAlign="space-between">
 
         <div class="awards__cards-container__content" fxLayout="row" fxLayoutAlign="space-between">
-          <ngx-simplebar [options]="options" class="awards__simple-bar" fxFlex="50">
-            <div class="w-100" fxLayout="column">
-              <h2>{{ award.completed_name }}</h2>
-              <p class="awards__cards-container__content__main">
-                {{ award.completed_description }}
-              </p>
-            </div>
-          </ngx-simplebar>
-          <img class="awards__cards-container__img" src="{{ award.image }}"/>
+
+          <div class="w-100 truncate" fxLayout="column">
+            <h2>{{ award.completed_name }}</h2>
+            <p class="awards__cards-container__content__main">
+              {{ award.completed_description }}
+            </p>
+          </div>
+
+          <img alt="CREDIX-PREMIOS" class="awards__cards-container__img" src="{{ award.image }}"/>
         </div>
 
         <div class="awards__cards-container__footer" fxLayout="row" fxLayoutAlign="space-between">

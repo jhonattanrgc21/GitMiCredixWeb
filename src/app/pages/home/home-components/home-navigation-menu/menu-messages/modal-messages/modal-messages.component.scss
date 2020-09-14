@@ -9,14 +9,8 @@
 
     span {
 
-      &:first-of-type {
-        font-weight: bold;
-        width: 75%;
-      }
-
       &:last-of-type {
         font-size: 12px;
-        width: 25%;
       }
     }
   }

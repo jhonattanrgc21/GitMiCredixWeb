@@ -9,8 +9,7 @@
        fxLayoutGap="16px">
     <span class="modal-awards__actions__span-title">{{award.progress}}</span>
     <div>
-      <span>Aciones<br>
-        acumuladas</span>
+      <span>Aciones<br>acumuladas</span>
     </div>
   </div>
   <credix-progress-bar *ngIf="award.goal_type == 1" [goal]="award.goal_qty" [value]="award.progress"
