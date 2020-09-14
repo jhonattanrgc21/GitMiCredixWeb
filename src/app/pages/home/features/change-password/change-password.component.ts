@@ -5,6 +5,8 @@ import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-change-password',
@@ -23,15 +25,21 @@ export class ChangePasswordComponent implements OnInit {
   respTitle: string;
   resType: string;
   respMsg: string;
-  identType;
+  identType: number;
+  titleTag: string;
+  questionTag: string;
 
   constructor(private modalService: ModalService,
               private httpService: HttpService,
-              private router: Router, private storageService: StorageService) {
+              private tagsService: TagsService,
+              private router: Router,
+              private storageService: StorageService) {
   }
 
   ngOnInit(): void {
     this.getIdentType();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Cambiar clave').tags));
   }
 
   passwordValidator(control: FormGroup): ValidationErrors | null {
@@ -60,15 +68,15 @@ export class ChangePasswordComponent implements OnInit {
 
   confirm() {
     this.modalService
-      .confirmationPopup('¿Desea realizar este cambio?')
+      .confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
       .subscribe((res) => {
         if (res) {
-          this.changepassword();
+          this.changePassword();
         }
       });
   }
 
-  changepassword() {
+  changePassword() {
     this.httpService
       .post('canales', 'security/user/forgetusernameandpasswordbyidentification', {
 
@@ -89,5 +97,10 @@ export class ChangePasswordComponent implements OnInit {
 
   done() {
     this.router.navigate(['/home']).then();
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'cambiarclave.title').value;
+    this.questionTag = tags.find(tag => tag.description === 'cambiarclave.question').value;
   }
 }

@@ -1,5 +1,6 @@
 <mat-card class="change-pin" credixCard fxFlex="100">
-  <h1>Cambiar PIN</h1>
+  <h1>{{titleTag || 'Cambiar PIN'}}</h1>
+
   <div *ngIf="!showResponse" class="change-pin__content">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <span class="change-pin__content__title">Nuevo Pin</span>

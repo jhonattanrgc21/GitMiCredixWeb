@@ -9,6 +9,8 @@ import {GlobalRequestsService} from '../../../../../core/services/global-request
 import {IbanAccount} from '../../../../../shared/models/iban-account';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Router} from '@angular/router';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-balances',
@@ -39,12 +41,14 @@ export class BalancesComponent implements OnInit, OnChanges {
   isCopyingDollarsIban = false;
   colonesIbanAccount: IbanAccount;
   dollarsIbanAccount: IbanAccount;
+  questionTag: string;
 
   constructor(private storageService: StorageService,
               private toastService: CredixToastService,
               private modalService: ModalService,
-              private router: Router,
-              public globalService: GlobalRequestsService) {
+              private tagsService: TagsService,
+              public globalService: GlobalRequestsService,
+              private router: Router) {
     this.cards = this.storageService.getCurrentCards();
     this.cardFormControl.setValue(this.cards.find(card => card.category === 'Principal'));
   }
@@ -52,6 +56,8 @@ export class BalancesComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.onCardChanged();
     this.getIbanAccounts();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,11 +94,14 @@ export class BalancesComponent implements OnInit, OnChanges {
   }
 
   openIncreaseLimitModal() {
-    this.modalService.confirmationPopup('¿Desea solicitar el aumento de límite de crédito?').subscribe(response => {
+    this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?').subscribe(response => {
       if (response) {
         this.router.navigate(['/home/increase-limit']);
       }
     });
   }
 
+  getTags(tags: Tag[]) {
+    this.questionTag = tags.find(tag => tag.description === 'aumento.question"').value;
+  }
 }

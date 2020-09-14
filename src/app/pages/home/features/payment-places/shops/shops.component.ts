@@ -21,13 +21,12 @@ export class ShopsComponent implements OnInit {
   secondSubtitleTag: string;
 
   constructor(private paymentPlacesService: PaymentPlacesService,
-              private tagsService: TagsService,) {
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Lugares de pago').tags)
-    );
+      this.getTags(functionality.find(fun => fun.description === 'Lugares de pago').tags));
     this.getPaymentPlaces();
   }
 

@@ -4,6 +4,8 @@ import {ModalAwardsComponent} from './modal-awards/modal-awards.component';
 import {StorageService} from '../../../../core/services/storage.service';
 import {HttpService} from '../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-awards',
@@ -20,14 +22,22 @@ export class AwardsComponent implements OnInit {
   inProgress = [];
   awards = [];
   options = {autoHide: false, scrollbarMinSize: 100};
+  titleTag: string;
+  descriptionTag: string;
+  linkTag: string;
+  warningOneTag: string;
+  warningTwoTag: string;
 
   constructor(private modalService: ModalService,
               private storageService: StorageService,
-              private httpServide: HttpService) {
+              private tagsService: TagsService,
+              private httpService: HttpService) {
   }
 
   ngOnInit(): void {
     this.getUserChallenges();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Premios').tags));
   }
 
   tabSelected(tab) {
@@ -64,7 +74,7 @@ export class AwardsComponent implements OnInit {
 
   getUserChallenges() {
     const sibUserId = this.storageService.getCurrentUser().userId;
-    this.httpServide
+    this.httpService
       .post('canales', `messagesrewards/challenges/user/${sibUserId}`, {
         channelId: 102,
         usuId: sibUserId,
@@ -85,4 +95,15 @@ export class AwardsComponent implements OnInit {
       });
   }
 
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'premios.help.title').value;
+    this.descriptionTag = tags.find(tag => tag.description === 'premios.help.description').value;
+    this.linkTag = tags.find(tag => tag.description === 'premios.link').value;
+    this.warningOneTag = tags.find(tag => tag.description === 'premios.message.warning.tab1').value;
+    this.warningTwoTag = tags.find(tag => tag.description === 'premios.message.warning.tab2').value;
+    this.tabs = [
+      {id: 1, name: tags.find(tag => tag.description === 'premios.tab1').value || 'En progreso'},
+      {id: 2, name: tags.find(tag => tag.description === 'premios.tab2').value || 'Finalizados'},
+    ];
+  }
 }

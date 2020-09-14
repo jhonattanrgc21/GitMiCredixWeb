@@ -71,13 +71,11 @@ export class ExtendTermComponent implements OnInit {
   newQuota: string;
   resultNew: string;
 
-  constructor(
-    private storageService: StorageService,
-    private httpService: HttpService,
-    private modalService: ModalService,
-    private router: Router,
-    private tagsService: TagsService
-  ) {
+  constructor(private storageService: StorageService,
+              private httpService: HttpService,
+              private modalService: ModalService,
+              private router: Router,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
@@ -101,7 +99,7 @@ export class ExtendTermComponent implements OnInit {
     this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo').value;
     this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota').value;
     this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo').value;
-}
+  }
 
   getOptionDetail(option) {
     this.optionSelected = option;

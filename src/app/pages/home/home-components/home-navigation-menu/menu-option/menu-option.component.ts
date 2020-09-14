@@ -5,6 +5,7 @@ import {HomeService} from '../../../home.service';
 import {GoHomeService} from '../../../../../core/services/go-home.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-menu-option',
@@ -19,6 +20,7 @@ export class MenuOptionComponent implements OnInit {
   activeMenu = 1;
   preActiveMenu = 0;
   activeSubmenu = 0;
+  questionTag: string;
 
   constructor(private router: Router,
               private goHomeService: GoHomeService,
@@ -30,6 +32,8 @@ export class MenuOptionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMenus();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags));
     this.goHomeService.goHomeObs.subscribe(() => {
       this.openSubmenu = false;
       this.activeSubmenu = 0;
@@ -84,12 +88,16 @@ export class MenuOptionComponent implements OnInit {
     if (this.activeSubmenu !== 15) {
       this.router.navigate([route]);
     } else {
-      this.modalService.confirmationPopup('¿Desea solicitar el aumento de límite de crédito?').subscribe(response => {
+      this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?').subscribe(response => {
         if (response) {
           this.router.navigate([route]);
         }
       });
     }
+  }
+
+  getTags(tags: Tag[]) {
+    this.questionTag = tags.find(tag => tag.description === 'aumento.question"').value;
   }
 
 }
