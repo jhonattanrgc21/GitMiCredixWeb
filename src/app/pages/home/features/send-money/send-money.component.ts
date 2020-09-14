@@ -38,9 +38,9 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   todayString: string;
   done = false;
   typeDestination: number;
-  step;
-  step2;
-  step3;
+  step: string;
+  step2: string;
+  step3: string;
 
   @ViewChild('sendMoneyStepper') stepper: CdkStepper;
 

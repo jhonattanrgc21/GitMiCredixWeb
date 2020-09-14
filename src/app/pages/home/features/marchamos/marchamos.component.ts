@@ -68,14 +68,12 @@ export class MarchamosComponent implements OnInit {
     pickUp: new FormControl(null, []),
     domicile: new FormArray([])
   });
-
-  title;
-  step1;
-  step4;
-  step3;
-  step2;
-  resumeTag1;
-
+  title: string;
+  step1: string;
+  step4: string;
+  step3: string;
+  step2: string;
+  resumeTag1: string;
   private domicile: { person: string, phone: number, place: string } = {
     person: '',
     phone: 0,

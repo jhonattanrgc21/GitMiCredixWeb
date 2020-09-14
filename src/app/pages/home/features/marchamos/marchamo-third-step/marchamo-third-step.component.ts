@@ -38,13 +38,12 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   domicileDescription: { name: string, detail?: string, province?: number, canton?: number, distric?: number, number: number } = null;
   addressAplicant: any[] = [];
   informationApplicant: any;
-
-  step3Subt2;
-  step3Opt1Opt2;
-  step3Opt1Opt1;
-  step3Opt1;
-  step3Opt2;
-  step3Subt1;
+  step3Subt2: string;
+  step3Opt1Opt2: string;
+  step3Opt1Opt1: string;
+  step3Opt1: string;
+  step3Opt2: string;
+  step3Subt1: string;
 
 
   constructor(private httpService: HttpService,
@@ -52,7 +51,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
               private marchamoService: MarchamosService,
               private storageService: StorageService,
               private tagsService: TagsService
-              ) {
+  ) {
   }
 
   ngOnInit(): void {

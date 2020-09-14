@@ -30,14 +30,14 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   });
   @Input() isActive = false;
 
-  step4TagIva;
-  step4Subt1;
-  step4TagCom;
-  step4TagT;
-  step4TagSeg;
-  step4Sub2;
-  step4Subt3;
-  step4TagMarch;
+  step4TagIva: string;
+  step4Subt1: string;
+  step4TagCom: string;
+  step4TagT: string;
+  step4TagSeg: string;
+  step4Sub2: string;
+  step4Subt3: string;
+  step4TagMarch: string;
 
 
   constructor(private tagsService: TagsService, private marchamosService: MarchamosService) {

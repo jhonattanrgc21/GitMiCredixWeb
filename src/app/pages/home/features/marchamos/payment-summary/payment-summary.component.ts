@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'app-payment-summary',
@@ -18,11 +19,10 @@ export class PaymentSummaryComponent implements OnInit, OnChanges {
   };
   @Input() responseResultPay: boolean;
   @Output() responseResultPayChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  placaResult;
-  dateResult;
-  amountResult;
-  resumeTitle;
+  placaResult: string;
+  dateResult: string;
+  amountResult: string;
+  resumeTitle: string;
 
   constructor(private tagsService: TagsService) {
   }

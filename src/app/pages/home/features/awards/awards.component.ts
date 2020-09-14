@@ -21,11 +21,9 @@ export class AwardsComponent implements OnInit {
   awards = [];
   options = {autoHide: false, scrollbarMinSize: 100};
 
-  constructor(
-    private modalService: ModalService,
-    private storageService: StorageService,
-    private httpServide: HttpService
-  ) {
+  constructor(private modalService: ModalService,
+              private storageService: StorageService,
+              private httpServide: HttpService) {
   }
 
   ngOnInit(): void {

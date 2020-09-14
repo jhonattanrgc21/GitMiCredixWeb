@@ -10,22 +10,18 @@ import {Router} from '@angular/router';
   templateUrl: './change-pin.component.html',
   styleUrls: ['./change-pin.component.scss'],
 })
-export class ChangePinComponent implements OnInit {
+export class ChangPinComponent implements OnInit {
+  changePinForm: FormGroup = new FormGroup({
+    pin: new FormControl(null, [Validators.required]),
+    confirmPin: new FormControl(null, [Validators.required]),
+    code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+  }, {validators: this.pinValidator});
   hide = true;
   type = 'password';
   showResponse = false;
   respTitle: string;
   resType: string;
   respMsg: string;
-
-  changePinForm: FormGroup = new FormGroup(
-    {
-      pin: new FormControl(null, [Validators.required]),
-      confirmPin: new FormControl(null, [Validators.required]),
-      code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    },
-    {validators: this.pinValidator}
-  );
 
   constructor(
     private modalService: ModalService,

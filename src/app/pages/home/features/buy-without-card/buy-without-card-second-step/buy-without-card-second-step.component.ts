@@ -11,24 +11,21 @@ import {Tag} from '../../../../../shared/models/tag';
   styleUrls: ['./buy-without-card-second-step.component.scss']
 })
 export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
-
+  @Input() card: FormControl = new FormControl();
+  @Input() isActive: boolean;
   pin: string;
   lifeTimePin: number;
   second = 59;
   cards: Card[];
   identification: string;
   name: string;
-  step2Subt2;
-  step2Subt;
-  nameTag;
-  identTag;
-  expiresTag;
+  step2Subt2: string;
+  step2Subt: string;
+  nameTag: string;
+  identTag: string;
+  expiresTag: string;
 
-
-  @Input() card: FormControl = new FormControl();
-  @Input() isActive: boolean;
-
-  constructor(private tagsService: TagsService,private buyWithOutCardService: BuyWithoutCardService) {
+  constructor(private tagsService: TagsService, private buyWithOutCardService: BuyWithoutCardService) {
   }
 
   ngOnInit(): void {

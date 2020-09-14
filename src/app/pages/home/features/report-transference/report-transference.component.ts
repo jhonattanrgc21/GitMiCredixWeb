@@ -31,8 +31,8 @@ export class ReportTransferenceComponent implements OnInit {
   message = '';
   status: 'success' | 'error' = 'success';
   title = '';
-  titleTag;
-  link;
+  titleTag: string;
+  link: string;
 
   constructor(private reportTransferenceService: ReportTransferenceService,
               private globalRequestsService: GlobalRequestsService,

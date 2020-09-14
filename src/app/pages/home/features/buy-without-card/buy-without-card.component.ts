@@ -14,15 +14,14 @@ export class BuyWithoutCardComponent implements OnInit {
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
   card: FormControl = new FormControl(null, [Validators.required]);
   stepperIndex = 0;
-  subtitle;
-  title;
-  step2;
-  step1;
-
-
+  subtitle: string;
+  title: string;
+  step2: string;
+  step1: string;
   @ViewChild('buyWithOutCard') stepper: CdkStepper;
 
-  constructor(private tagsService: TagsService,private buyWithOutCardService: BuyWithoutCardService) {
+  constructor(private tagsService: TagsService,
+              private buyWithOutCardService: BuyWithoutCardService) {
   }
 
   ngOnInit(): void {

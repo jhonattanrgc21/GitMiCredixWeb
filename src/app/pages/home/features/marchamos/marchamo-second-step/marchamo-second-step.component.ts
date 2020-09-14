@@ -116,13 +116,13 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       value: 'Diciembre 2020'
     }
   ];
-  step2Subt3;
-  step2Subt2;
-  step2Com;
-  step2TagT;
-  step2Subt1;
-  step2Link;
-  step2TagDiv;
+  step2Subt3: string;
+  step2Subt2: string;
+  step2Com: string;
+  step2TagT: string;
+  step2Subt1: string;
+  step2Link: string;
+  step2TagDiv: string;
 
   constructor(private marchamosService: MarchamosService,
               private globalRequestsService: GlobalRequestsService,

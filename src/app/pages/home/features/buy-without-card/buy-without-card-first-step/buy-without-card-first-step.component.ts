@@ -10,7 +10,7 @@ import {Tag} from '../../../../../shared/models/tag';
 })
 export class BuyWithoutCardFirstStepComponent implements OnInit {
   @Input() credixCode: FormControl = new FormControl(null, [Validators.required]);
-  step1;
+  step1: string;
 
   constructor(private tagsService: TagsService) {
 

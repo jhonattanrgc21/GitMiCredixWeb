@@ -9,25 +9,25 @@
       <ngx-simplebar [options]="optionsScroll" class="extend-term__menu-options" fxLayout="column">
         <div class="w-100">
           <a (click)="getOptionDetail(option)" *ngFor="let option of options" class="extend-term__option"
-            fxLayout="column">
+             fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="space-between center">
               <p [class.is-selected]="optionSelected.id == option.id" class="extend-term__option__label">
                 {{
-                  option.name.length > 10
-                    ? (option.name | titlecase | slice: 0:10) + "..."
-                    : (option.name | titlecase)
+                option.name.length > 10
+                  ? (option.name | titlecase | slice: 0:10) + "..."
+                  : (option.name | titlecase)
                 }}
               </p>
               <p class="tr extend-term__content__date">
                 {{
-                  convertStringDateToDate(option.originDate)
-                    | dateFormatter: "alphanumeric"
+                convertStringDateToDate(option.originDate)
+                  | dateFormatter: "alphanumeric"
                 }}
               </p>
             </div>
             <span class="extend-term__content__subtitle" [class.is-selected]="optionSelected.id == option.id">
               <credix-numeric-block [prefix]="option.originCurrency" [value]="option.originAmount" fontSize="16"
-                fontWeight="optionSelected.id == option.id ? 'bold': 'normal'"></credix-numeric-block>
+                                    fontWeight="optionSelected.id == option.id ? 'bold': 'normal'"></credix-numeric-block>
               a {{ option.totalPlanQuota }} Cuotas
             </span>
             <span *ngIf="optionSelected.id == option.id" class="extend-term__option__arrow"></span>
@@ -40,9 +40,9 @@
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <p class="extend-term__table__title">
           {{
-            optionSelected.name.length > 25
-              ? (optionSelected.name | titlecase | slice: 0:25) + "..."
-              : (optionSelected.name | titlecase)
+          optionSelected.name.length > 25
+            ? (optionSelected.name | titlecase | slice: 0:25) + "..."
+            : (optionSelected.name | titlecase)
           }}
         </p>
         <p class="tr extend-term__content__date-smaller">
@@ -51,7 +51,7 @@
       </div>
       <p class="extend-term__content__subtitle">
         <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="optionSelected.originAmount"
-          fontSize="14" fontWeight="bold"></credix-numeric-block>
+                              fontSize="14" fontWeight="bold"></credix-numeric-block>
         a {{ optionSelected.totalPlanQuota }} Cuotas
       </p>
       <div class="extend-term__content-right__option" fxLayout="row">
@@ -60,7 +60,7 @@
         </div>
         <div fxFlex="60%" fxLayoutAlign="end end">
           <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="optionSelected.quotaAmount"
-            fontSize="16" fontWeight="bold"></credix-numeric-block>
+                                fontSize="16" fontWeight="bold"></credix-numeric-block>
         </div>
       </div>
 
@@ -68,7 +68,7 @@
         <p class="extend-term__table__title mt-24px mb-16px">
           {{subtitle || 'Modifique su plazo'}}
         </p>
-          <credix-slider (inputChange)="getQuota($event)"
+        <credix-slider (inputChange)="getQuota($event)"
                        (valueChange)="getQuota($event)"
                        [displayMax]="quotaSliderDisplayMax"
                        [displayMin]="quotaSliderDisplayMin"
@@ -81,7 +81,9 @@
           <div fxFlex="40%">
             <p>{{resultNew || 'Plazo nuevo'}}</p>
           </div>
-          <div fxFlex="60%" fxLayoutAlign="end end" [ngClass]="optionSelected.totalPlanQuota === quotaSelected.quotaTo && 'extend-term__disebleText'">
+          <div [ngClass]="optionSelected.totalPlanQuota === quotaSelected.quotaTo && 'extend-term__disebleText'"
+               fxFlex="60%"
+               fxLayoutAlign="end end">
             <span>{{ quotas }} {{monthTag || 'meses'}}</span>
           </div>
         </div>
@@ -89,27 +91,33 @@
           <div fxFlex="40%">
             <p>{{newQuota || 'Cuota nueva'}}</p>
           </div>
-          <div fxFlex="60%" fxLayoutAlign="end end" [ngClass]="optionSelected.totalPlanQuota === quotaSelected.quotaTo && 'extend-term__disebleText'">
+          <div [ngClass]="optionSelected.totalPlanQuota === quotaSelected.quotaTo && 'extend-term__disebleText'"
+               fxFlex="60%"
+               fxLayoutAlign="end end">
             <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="quotaSelected?.amountPerQuota"
-              fontSize="16" fontWeight="bold"></credix-numeric-block>
+                                  fontSize="16" fontWeight="bold"></credix-numeric-block>
           </div>
         </div>
         <div class="mb-16px" fxLayout="row">
           <div fxFlex="40%">
             <p>{{comisionTag || 'Comisión*'}}</p>
           </div>
-          <div fxFlex="60%" fxLayoutAlign="end end" [ngClass]="optionSelected.totalPlanQuota === quotaSelected.quotaTo && 'extend-term__disebleText'">
+          <div [ngClass]="optionSelected.totalPlanQuota === quotaSelected.quotaTo && 'extend-term__disebleText'"
+               fxFlex="60%"
+               fxLayoutAlign="end end">
             <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="quotaSelected?.feeAmount"
-              fontSize="16" fontWeight="bold"></credix-numeric-block>
+                                  fontSize="16" fontWeight="bold"></credix-numeric-block>
           </div>
         </div>
         <div class="mb-16px" fxLayout="row">
           <div fxFlex="40%">
             <p>IVA*</p>
           </div>
-          <div fxFlex="60%" fxLayoutAlign="end end" [ngClass]="optionSelected.totalPlanQuota === quotaSelected.quotaTo && 'extend-term__disebleText'">
+          <div [ngClass]="optionSelected.totalPlanQuota === quotaSelected.quotaTo && 'extend-term__disebleText'"
+               fxFlex="60%"
+               fxLayoutAlign="end end">
             <credix-numeric-block [prefix]="optionSelected.originCurrency" [value]="quotaSelected?.IVA"
-              fontSize="16" fontWeight="bold"></credix-numeric-block>
+                                  fontSize="16" fontWeight="bold"></credix-numeric-block>
           </div>
         </div>
         <p class="extend-term__msg">{{disclaTag || '* IVA y comisión se cargarán en el próximo estado de cuenta.'}}</p>
@@ -119,13 +127,13 @@
 
   <div *ngIf="showResponse" [ngClass]="resType === 'success' ? 'extend-term__succResp' : 'extend-term__error_resp' ">
     <credix-result-notification [message]="message" [status]="resType"
-      title="{{ resType === 'success' ? '¡Éxito!' : 'Oops...' }}">
+                                title="{{ resType === 'success' ? '¡Éxito!' : 'Oops...' }}">
     </credix-result-notification>
 
     <mat-divider *ngIf="resType === 'success'" class="extend-term__divider full-width mt-16px mb-16px"></mat-divider>
 
     <div *ngIf="resType === 'success'" class="extend-term__data-info" fxLayout="row"
-      fxLayoutAlign="space-between start">
+         fxLayoutAlign="space-between start">
       <div fxFlex="42%">
         <p class="extend-term__data-info__text">Datos de la ampliación</p>
       </div>
@@ -135,14 +143,14 @@
           <div class="tr" fxFlex="50%">
             <span class="extend-term__data-info__text">{{
               optionSelected.name
-            }}</span>
+              }}</span>
           </div>
         </div>
         <div class="extend-term__data-info__row" fxLayout="row">
           <div fxFlex="60%"><span>{{newQuota || 'Cuota nueva'}}</span></div>
           <div class="tr" fxFlex="40%">
             <credix-numeric-block [prefix]="currencyCode" [value]="quotaSelected.feeAmount" class="tr" fontSize="16"
-              fontWeight="bold">
+                                  fontWeight="bold">
             </credix-numeric-block>
           </div>
         </div>
@@ -157,7 +165,7 @@
           <div class="tr" fxFlex="40%">
             <span class="extend-term__data-info__text">{{
               optionSelected.originDate
-            }}</span>
+              }}</span>
           </div>
         </div>
       </div>
@@ -168,7 +176,7 @@
   </div>
 
   <credix-result-notification *ngIf="empty" class="extend-term__empty" status="info"
-    title="{{warningTag || 'No tiene consumos para ampliar en este momento.'}}">
+                              title="{{warningTag || 'No tiene consumos para ampliar en este momento.'}}">
   </credix-result-notification>
 
   <div [ngClass]="
@@ -176,7 +184,9 @@
         ? 'extend-term__footer mt-16px'
         : 'extend-term__footer1 mt-16px'
     " fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button [disabled]="optionSelected.totalPlanQuota === quotaSelected.quotaTo" (buttonClick)="openConfirmationModal()" *ngIf="!showResponse && quotaSelected" text="Ampliar Plazo">
+    <credix-button (buttonClick)="openConfirmationModal()"
+                   *ngIf="!showResponse && quotaSelected"
+                   [disabled]="optionSelected.totalPlanQuota === quotaSelected.quotaTo" text="Ampliar Plazo">
     </credix-button>
     <credix-button (buttonClick)="done()" *ngIf="showResponse" text="Listo">
     </credix-button>

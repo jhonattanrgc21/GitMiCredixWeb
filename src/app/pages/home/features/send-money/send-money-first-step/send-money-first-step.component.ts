@@ -28,15 +28,15 @@ export class SendMoneyFirstStepComponent implements OnInit {
   currency;
   checked1 = false;
   checked2 = false;
-  stepTag1;
-  stepTag3;
-  stepOpt3;
-  stepLink;
-  stepTag2;
-  stepTag4;
-  stepSubt3;
-  stepOpt4;
-  stepSubt2;
+  stepTag1: string;
+  stepTag3: string;
+  stepOpt3: string;
+  stepLink: string;
+  stepTag2: string;
+  stepTag4: string;
+  stepSubt3: string;
+  stepOpt4: string;
+  stepSubt2: string;
 
   constructor(
     private globalRequestsService: GlobalRequestsService,
@@ -92,17 +92,15 @@ export class SendMoneyFirstStepComponent implements OnInit {
     this.favoriteAccountControl.reset();
     this.typeDestinationEvent.emit(+event.value);
     this.showFavoriteAccountsSelect = event.value === '1';
-    if(event.value === '1'){
+    if (event.value === '1') {
       this.checked1 = event.checked;
-    }else{
+    } else {
       this.checked2 = event.checked;
     }
-
 
     if (event.value === '2') {
       this.showDetails = true;
       this.openModal(this.info);
-
     } else {
       this.showDetails = false;
     }

@@ -12,6 +12,11 @@ import {StorageService} from '../../../../core/services/storage.service';
   styleUrls: ['./change-password.component.scss']
 })
 export class ChangePasswordComponent implements OnInit {
+  changePasswordForm: FormGroup = new FormGroup({
+    password: new FormControl(null, [Validators.required]),
+    confirmPassword: new FormControl(null, [Validators.required]),
+    code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+  }, {validators: this.passwordValidator});
   hide = true;
   type = 'password';
   showResponse = false;
@@ -20,18 +25,9 @@ export class ChangePasswordComponent implements OnInit {
   respMsg: string;
   identType;
 
-  changePasswordForm: FormGroup = new FormGroup(
-    {
-      password: new FormControl(null, [Validators.required]),
-      confirmPassword: new FormControl(null, [Validators.required]),
-      code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    },
-    {validators: this.passwordValidator}
-  );
-
   constructor(private modalService: ModalService,
               private httpService: HttpService,
-              private router: Router, private storageService: StorageService,) {
+              private router: Router, private storageService: StorageService) {
   }
 
   ngOnInit(): void {

@@ -17,12 +17,12 @@ import {Tag} from '../../../../../shared/models/tag';
 export class MarchamoFirstStepComponent implements OnInit {
   vehicleTypes: VehicleType[];
   consultVehicle: ConsultVehicle;
-  step1Tag1;
-  step1Tag2;
-  step1Tag3;
-  step1Tag4;
-  step1Tag5;
-  step1Subt;
+  step1Tag1: string;
+  step1Tag2: string;
+  step1Tag3: string;
+  step1Tag4: string;
+  step1Tag5: string;
+  step1Subt: string;
 
   @Input() consultForm: FormGroup;
 

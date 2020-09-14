@@ -32,9 +32,8 @@ export class SendMoneySecondStepComponent implements OnInit {
   total = 0;
   commission = 0;
   commissionRate = 0;
-  step2Tag1;
-  step2Subt1;
-
+  step2Tag1: string;
+  step2Subt1: string;
 
   constructor(private sendMoneyService: SendMoneyService,
               private globalRequestsService: GlobalRequestsService,

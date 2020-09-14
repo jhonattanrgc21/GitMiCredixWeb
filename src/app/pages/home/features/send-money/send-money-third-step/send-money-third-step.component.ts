@@ -19,17 +19,17 @@ export class SendMoneyThirdStepComponent implements OnInit, OnChanges {
   @Input() commission: number;
   quotaAmountView: number;
   iva: number;
-  step3Subt2;
-  step3Tag5;
-  step3Tag6;
-  step3Tag9;
-  step3Tag8;
-  step3Tag4;
-  step3Tag7;
-  step3Tag3;
-  step3Tag1;
-  step3Tag2;
-  step3Subt1;
+  step3Subt2: string;
+  step3Tag5: string;
+  step3Tag6: string;
+  step3Tag9: string;
+  step3Tag8: string;
+  step3Tag4: string;
+  step3Tag7: string;
+  step3Tag3: string;
+  step3Tag1: string;
+  step3Tag2: string;
+  step3Subt1: string;
 
   constructor(private tagsService: TagsService) {
   }
