@@ -2,6 +2,8 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {FormControl} from '@angular/forms';
 import {BuyWithoutCardService} from '../buy-without-card.service';
 import {Card} from 'src/app/shared/models/card.model';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-buy-without-card-second-step',
@@ -9,21 +11,28 @@ import {Card} from 'src/app/shared/models/card.model';
   styleUrls: ['./buy-without-card-second-step.component.scss']
 })
 export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
-
+  @Input() card: FormControl = new FormControl();
+  @Input() isActive: boolean;
   pin: string;
   lifeTimePin: number;
   second = 59;
   cards: Card[];
   identification: string;
   name: string;
-  @Input() card: FormControl = new FormControl();
-  @Input() isActive: boolean;
+  step2Subt2: string;
+  step2Subt: string;
+  nameTag: string;
+  identTag: string;
+  expiresTag: string;
 
-  constructor(private buyWithOutCardService: BuyWithoutCardService) {
+  constructor(private tagsService: TagsService, private buyWithOutCardService: BuyWithoutCardService) {
   }
 
   ngOnInit(): void {
     this.getUserAplicantAccountNumberAndCardList();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Compra sin tarjeta').tags)
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -31,6 +40,14 @@ export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
       this.countDownCalculate();
     }
   }
+
+  getTags(tags: Tag[]) {
+    this.step2Subt2 = tags.find(tag => tag.description === 'compra.stepper2.subtitle2').value;
+    this.step2Subt = tags.find(tag => tag.description === 'compra.stepper2.subtitle').value;
+    this.nameTag = tags.find(tag => tag.description === 'compra.stepper2.tag.nombre').value;
+    this.identTag = tags.find(tag => tag.description === 'compra.stepper2.tag.identificacion').value;
+    this.expiresTag = tags.find(tag => tag.description === 'compra.stepper2.tag.expira').value;
+}
 
   getUserAplicantAccountNumberAndCardList() {
     this.buyWithOutCardService.dataGeneratePin.subscribe(response => {

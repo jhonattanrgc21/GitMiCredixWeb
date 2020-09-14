@@ -1,10 +1,10 @@
 <div class="buy-without-card-first-step" fxLayout="row" fxLayoutAlign="space-between">
 
   <div fxFlex="205px" fxLayout="column">
-    <span><strong> Código MiCredix</strong></span>
+    <span><strong> {{step1 || 'Código MiCredix'}}</strong></span>
     <p style="font-size: 14px">Ingrese el código generado en la aplicación
       <credix-link-button>
-        Código MiCredix
+        {{step1 || 'Código MiCredix'}}
         <mat-icon [svgIcon]="'chevron_right'" style="height:10px; width:6px; fill: #239DF7;"></mat-icon>
       </credix-link-button>
     </p>

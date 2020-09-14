@@ -4,6 +4,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Router} from '@angular/router';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-new-additional-card',
@@ -34,14 +36,21 @@ export class NewAdditionalCardComponent implements OnInit {
   status: 'success' | 'error';
   message: string;
   title: string;
+  titleTag: string;
+  firstStepperTag: string;
+  secondStepperTag: string;
+  thirdStepperTag: string;
 
   constructor(private additionalCardsManagementService: AdditionalCardsManagementService,
               private modalService: ModalService,
+              private tagsService: TagsService,
               private router: Router) {
   }
 
   ngOnInit(): void {
     this.checkStep();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Tarjetas adicionales').tags));
   }
 
   goBack() {
@@ -108,5 +117,12 @@ export class NewAdditionalCardComponent implements OnInit {
       this.message = response.descriptionOne;
       this.status = response.type;
     });
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'adicionales.title').value;
+    this.firstStepperTag = tags.find(tag => tag.description === 'adicionales.stepper1').value;
+    this.secondStepperTag = tags.find(tag => tag.description === 'adicionales.stepper2').value;
+    this.thirdStepperTag = tags.find(tag => tag.description === 'adicionales.stepper3').value;
   }
 }

@@ -4,6 +4,8 @@ import * as CryptoJS from 'crypto-js';
 import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-change-pin',
@@ -11,30 +13,29 @@ import {Router} from '@angular/router';
   styleUrls: ['./change-pin.component.scss'],
 })
 export class ChangePinComponent implements OnInit {
+  changePinForm: FormGroup = new FormGroup({
+    pin: new FormControl(null, [Validators.required]),
+    confirmPin: new FormControl(null, [Validators.required]),
+    code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+  }, {validators: this.pinValidator});
   hide = true;
   type = 'password';
   showResponse = false;
   respTitle: string;
   resType: string;
   respMsg: string;
+  titleTag: string;
+  questionTag: string;
 
-  changePinForm: FormGroup = new FormGroup(
-    {
-      pin: new FormControl(null, [Validators.required]),
-      confirmPin: new FormControl(null, [Validators.required]),
-      code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    },
-    {validators: this.pinValidator}
-  );
-
-  constructor(
-    private modalService: ModalService,
-    private httpService: HttpService,
-    private router: Router,
-  ) {
+  constructor(private modalService: ModalService,
+              private httpService: HttpService,
+              private tagsService: TagsService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Cambiar PIN').tags));
   }
 
   pinValidator(control: FormGroup): ValidationErrors | null {
@@ -52,7 +53,7 @@ export class ChangePinComponent implements OnInit {
 
   confirm() {
     this.modalService
-      .confirmationPopup('¿Desea realizar este cambio?')
+      .confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
       .subscribe((res) => {
         if (res) {
           this.changePin();
@@ -77,5 +78,10 @@ export class ChangePinComponent implements OnInit {
 
   done() {
     this.router.navigate(['/home']).then();
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'cambiarpin.title').value;
+    this.questionTag = tags.find(tag => tag.description === 'cambiarpin.question').value;
   }
 }

@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -17,11 +19,18 @@ export class PaymentSummaryComponent implements OnInit, OnChanges {
   };
   @Input() responseResultPay: boolean;
   @Output() responseResultPayChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  placaResult: string;
+  dateResult: string;
+  amountResult: string;
+  resumeTitle: string;
 
-  constructor() {
+  constructor(private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -33,5 +42,14 @@ export class PaymentSummaryComponent implements OnInit, OnChanges {
   doAnotherPay() {
     this.responseResultPayChanged.emit(!this.responseResultPay);
   }
+
+  getTags(tags: Tag[]) {
+    this.placaResult = tags.find(tag => tag.description === 'marchamos.result.placa').value;
+    this.dateResult = tags.find(tag => tag.description === 'marchamos.result.fecha').value;
+    this.amountResult = tags.find(tag => tag.description === 'marchamos.result.monto').value;
+    this.resumeTitle = tags.find(tag => tag.description === 'marchamos.resumen.title').value;
+
+}
+
 
 }

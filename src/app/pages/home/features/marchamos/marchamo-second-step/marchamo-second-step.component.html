@@ -1,21 +1,21 @@
 <div class="marchamo-second-step" fxLayout="column">
 
   <div class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="155px"><strong>Marchamo</strong></span>
+    <span fxFlex="155px"><strong>{{step2Subt1 || 'Marchamo'}}</strong></span>
 
     <span class="marchamo-second-step__content__middle">Monto al cobro</span>
 
     <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
       <credix-numeric-block [value]="totalAmount" fontWeight="bold"
                             prefix="₡"></credix-numeric-block>
-      <credix-link-button (click)="showMarchamoDetail()">Ver detalles</credix-link-button>
+      <credix-link-button (click)="showMarchamoDetail()">{{step2Link || 'Ver detalles'}}</credix-link-button>
     </div>
   </div>
 
   <mat-divider credixDivider></mat-divider>
 
   <div class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="155px"><strong>Seguros opcionales</strong></span>
+    <span fxFlex="155px"><strong>{{step2Subt2 || 'Seguros opcionales'}}</strong></span>
 
     <div class="marchamo-second-step__content__middle" fxLayout="column" fxLayoutGap="8px">
       <credix-checkbox-button
@@ -25,7 +25,7 @@
         [label]="item.responseDescription"
         [value]="item.productCode"></credix-checkbox-button>
       <credix-checkbox-button (emitCheckBox)="getValueOfCheckBoxAll($event)" [value]="10"
-                              label="Todos"></credix-checkbox-button>
+                              label="{{step2TagT || 'Todos'}}"></credix-checkbox-button>
     </div>
 
     <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="8px">
@@ -43,14 +43,14 @@
   <div class="marchamo-second-step__content" fxLayout="column">
 
     <div class="mb-32px" fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex="155px"><strong>Coutas</strong></span>
+      <span fxFlex="155px"><strong>{{step2Subt3 || 'Coutas'}}</strong></span>
 
       <credix-slider (inputChange)="getQuota($event)"
                      (valueChange)="getQuota($event)"
                      [displayMax]="quotaSliderDisplayMax"
                      [displayMin]="quotaSliderDisplayMin"
                      [displayValue]="quotaSliderDisplayValue"
-                     [instructions]="'Deseo dividir este pago en'"
+                     instructions="{{step2TagDiv || 'Deseo dividir este pago en'}}"
                      [max]="quotaSliderMax"
                      [min]="quotaSliderMin"
                      [step]="quotaSliderStep"
@@ -65,7 +65,7 @@
 
     <div *ngIf="showQuotaPaymentSelect" class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex="155px"></span>
-      <span class="marchamo-second-step__content__middle">Comisión</span>
+      <span class="marchamo-second-step__content__middle">{{step2Com || 'Comisión'}}</span>
 
       <div fxFlex="130px" fxLayout="row" fxLayoutAlign="flex-end">
         <credix-numeric-block [value]="commission" fontWeight="bold" prefix="₡"></credix-numeric-block>

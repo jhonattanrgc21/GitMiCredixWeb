@@ -1,34 +1,34 @@
 <div class="marchamos-payment-summary" fxLayout="column">
 
   <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="80px">Marchamo</span>
+    <span fxFlex="80px">{{resumeTag1 || 'Marchamo'}}</span>
     <credix-numeric-block [value]="marchamo" fontWeight="bold" prefix="₡"></credix-numeric-block>
   </div>
 
   <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
-    <span>Seguros</span>
+    <span>{{resumeTag2 || 'Seguros'}}</span>
     <credix-numeric-block [value]="totalAmountItemsProducts" fontWeight="bold"
                           prefix="₡"></credix-numeric-block>
   </div>
 
   <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
-    <span>Comisión</span>
+    <span>{{resumeTag3 || 'Comisión'}}</span>
     <credix-numeric-block [value]="comission" fontWeight="bold" prefix="₡"></credix-numeric-block>
   </div>
 
   <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
-    <span>IVA*</span>
+    <span>{{resumeTag4 || 'IVA*'}}</span>
     <credix-numeric-block [value]="iva" fontWeight="bold" prefix="₡"></credix-numeric-block>
   </div>
 
   <mat-divider class="mb-8px" credixDivider></mat-divider>
 
   <div class="mb-16px" fxLayout="row" fxLayoutAlign="space-between">
-    <span>Total</span>
+    <span>{{resumeTag5 || 'Total'}}</span>
     <credix-numeric-block [value]="totalAmount" fontWeight="bold" prefix="₡"></credix-numeric-block>
   </div>
 
-  <span class="marchamos-payment-summary__legend">* IVA y comisión se cargarán en el próximo estado de cuenta.</span>
+  <span class="marchamos-payment-summary__legend">{{resumeDisclaimer || '* IVA y comisión se cargarán en el próximo estado de cuenta.'}}</span>
 
   <div fxLayout="row" fxLayoutAlign="space-between">
     <span>{{quotesToPay.quotes}} Cuotas de</span>

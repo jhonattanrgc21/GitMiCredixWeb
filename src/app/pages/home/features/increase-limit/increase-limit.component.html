@@ -1,5 +1,5 @@
 <mat-card *ngIf="show" class="increase-limit" credixCard fxLayout="column">
-  <h1>Aumento de límite de crédito</h1>
+  <h1>{{title || 'Aumento de límite de crédito'}}</h1>
 
   <div fxFlex fxLayoutAlign="center center">
     <credix-result-notification [message]="message" [status]="status" [title]="title">

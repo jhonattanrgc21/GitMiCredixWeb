@@ -6,6 +6,8 @@ import {ModalService} from '../../../../../../core/services/modal.service';
 import {GlobalRequestsService} from '../../../../../../core/services/global-requests.service';
 import {finalize} from 'rxjs/operators';
 import {AdditionalCardsManagementService} from '../../additional-cards-management.service';
+import {TagsService} from '../../../../../../core/services/tags.service';
+import {Tag} from '../../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-new-additional-card-first-step',
@@ -25,9 +27,12 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
   });
   identificationTypes: IdentificationType[];
   identificationMask = '0-0000-0000';
+  limitTag: string;
+  subTitleTag: string;
 
   constructor(private additionalCardsManagementService: AdditionalCardsManagementService,
               private modalService: ModalService,
+              private tagsService: TagsService,
               private globalRequestsService: GlobalRequestsService) {
   }
 
@@ -76,5 +81,10 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
         this.additionalCardsManagementService.personalInfo = value;
       }
     });
+  }
+
+  getTags(tags: Tag[]) {
+    this.limitTag = tags.find(tag => tag.description === 'adicionales.stepper1.tag1').value;
+    this.subTitleTag = tags.find(tag => tag.description === 'adicionales.stepper1.subtitle').value;
   }
 }

@@ -24,7 +24,7 @@ export class CredixTabComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.activeTab = this.tabs[0].name;
+    this.activeTab = this.tabs[0]?.name;
     this.displacement = INIT_OFFSET;
     this.currentOffset = INIT_OFFSET;
   }

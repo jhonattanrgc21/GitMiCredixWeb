@@ -7,6 +7,8 @@ import {Router} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-send-money',
@@ -36,6 +38,9 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   todayString: string;
   done = false;
   typeDestination: number;
+  step: string;
+  step2: string;
+  step3: string;
 
   @ViewChild('sendMoneyStepper') stepper: CdkStepper;
 
@@ -45,18 +50,28 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     private router: Router,
     private datePipe: DatePipe,
     public toastService: CredixToastService,
-    public globalService: GlobalRequestsService
+    public globalService: GlobalRequestsService,
+    private tagsService: TagsService
   ) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
   ngOnInit(): void {
     this.getIbanAccount();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Enviar dinero').tags)
+    );
   }
 
   ngAfterViewInit(): void {
     this.setEnableButton();
   }
+
+  getTags(tags: Tag[]) {
+    this.step = tags.find(tag => tag.description === 'enviardinero.stepper1').value;
+    this.step2 = tags.find(tag => tag.description === 'enviardinero.stepper2').value;
+    this.step3 = tags.find(tag => tag.description === 'enviardinero.stepper3').value;
+}
 
   setEnableButton() {
     switch (this.selectedIndex) {

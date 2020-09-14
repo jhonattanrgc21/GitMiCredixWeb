@@ -6,6 +6,8 @@ import {GlobalRequestsService} from '../../../../../core/services/global-request
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-additional-cards',
@@ -16,16 +18,21 @@ export class AdditionalCardsComponent implements OnInit {
   additionalCards: AdditionalCard[] = [];
   cardId = -999;
   creditLimit = 0;
+  titleTag: string;
+  limitTag: string;
 
   constructor(private additionalCardsManagementService: AdditionalCardsManagementService,
               private globalRequestsService: GlobalRequestsService,
               private toastService: CredixToastService,
               private modalService: ModalService,
+              private tagsService: TagsService,
               private router: Router) {
   }
 
   ngOnInit(): void {
     this.globalRequestsService.getAdditionalCards().subscribe(additionalCards => this.additionalCards = additionalCards);
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Tarjetas adicionales').tags));
   }
 
   goToNewAdditionalCard() {
@@ -59,5 +66,10 @@ export class AdditionalCardsComponent implements OnInit {
       .subscribe(response => {
         this.toastService.show({text: response.descriptionOne, type: response.titleOne});
       });
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'adicionales.title').value;
+    this.limitTag = tags.find(tag => tag.description === 'adicionales.tagLimite').value;
   }
 }

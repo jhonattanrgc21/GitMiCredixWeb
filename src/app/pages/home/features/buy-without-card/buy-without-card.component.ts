@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {BuyWithoutCardService} from './buy-without-card.service';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-buy-without-card',
@@ -12,13 +14,28 @@ export class BuyWithoutCardComponent implements OnInit {
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
   card: FormControl = new FormControl(null, [Validators.required]);
   stepperIndex = 0;
+  subtitle: string;
+  title: string;
+  step2: string;
+  step1: string;
   @ViewChild('buyWithOutCard') stepper: CdkStepper;
 
-  constructor(private buyWithOutCardService: BuyWithoutCardService) {
+  constructor(private tagsService: TagsService,
+              private buyWithOutCardService: BuyWithoutCardService) {
   }
 
   ngOnInit(): void {
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Compra sin tarjeta').tags)
+    );
   }
+
+  getTags(tags: Tag[]) {
+    this.subtitle = tags.find(tag => tag.description === 'compra.subtitle').value;
+    this.title = tags.find(tag => tag.description === 'compra.title').value;
+    this.step2 = tags.find(tag => tag.description === 'compra.stepper2').value;
+    this.step1 = tags.find(tag => tag.description === 'compra.stepper1').value;
+}
 
   continue() {
     this.stepper.next();
