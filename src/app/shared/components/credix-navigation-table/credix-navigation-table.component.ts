@@ -26,6 +26,7 @@ export class CredixNavigationTableComponent implements OnInit {
     cardId: 0,
     totalPlanQuota: 0,
     accountNumber: 0,
+    ibanAccount: '',
     movementId: '',
     originDate: '',
     originAmount: '',

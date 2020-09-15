@@ -1,0 +1,29 @@
+.favorites-payments {
+  padding: 0px 20px;
+  width: 355px;
+
+  &__title {
+    margin-bottom: 9px;
+  }
+
+  &__footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #E9E9E9;
+    padding: 16px 0;
+  }
+
+  &__input {
+    &.disabled {
+      color: #7b7b7b;
+    }
+  }
+}
+
+.enabled {
+  color: #3e3e3e !important;
+}
+
+

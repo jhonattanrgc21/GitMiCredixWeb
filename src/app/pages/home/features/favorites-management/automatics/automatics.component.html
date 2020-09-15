@@ -1,0 +1,49 @@
+<div class="automatics" fxLayout="column">
+  <div *ngIf="data.id > 0" class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+    <span>Número de contrato</span>
+    <span><strong>{{data.id}}</strong></span>
+  </div>
+
+  <div *ngIf="data.publicServiceDescription !== ''" class="mb-20px" fxLayout="row" fxLayoutAlign="space-between">
+    <span>Compañía</span>
+    <span><strong>{{data.publicServiceDescription}}</strong></span>
+  </div>
+
+  <form [class.enabled]="isUpdating" [formGroup]="automaticsDetailForm"
+        fxLayout="column">
+    <credix-input-field (keyup)="updating($event)"
+                        *ngIf="data.alias !== ''"
+                        [class.enabled]="isUpdating"
+                        class="mb-8px automatics__input disabled"
+                        formControlName="favoriteName"
+                        label="Nombre del favorito"></credix-input-field>
+    <credix-input-field (keyup)="updating($event)"
+                        *ngIf="data.startDate !== ''"
+                        [class.enabled]="isUpdating"
+                        class="mb-8px automatics__input disabled"
+                        formControlName="maxAmount"
+                        label="Monto máximo a pagar" mask="separator"
+                        thousandSeparator="."></credix-input-field>
+
+    <credix-input-field (click)="openCalendar()"
+                        *ngIf="data.startDate !== ''"
+                        [class.enabled]="isUpdating"
+                        [displayValue]="automaticsDetailForm.controls.startDate.value | dateFormatter: 'alphanumeric'"
+                        [readonly]="true"
+                        class="mb-8px automatics__input calendar disabled"
+                        formControlName="startDate"
+                        label="Fecha inicial de pago">
+      <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
+    </credix-input-field>
+
+    <credix-select *ngIf="data.periodicityDescription !== ''"
+                   [class.enabled]="isUpdating"
+                   class="automatics__input disabled"
+                   formControlName="periodicity"
+                   label="Periocidad">
+      <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
+        {{periodicity.description}}
+      </mat-option>
+    </credix-select>
+  </form>
+</div>
