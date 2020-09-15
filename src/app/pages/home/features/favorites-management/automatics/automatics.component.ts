@@ -41,8 +41,14 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getDeleteAlert();
-    this.automaticsDetailForm.valueChanges.subscribe(value => {
-      this.getUpdateAlert();
+    this.getUpdateAlert();
+    this.automaticsDetailForm.controls.startDate.valueChanges.subscribe(value => {
+      this.favoritesManagementService.updating();
+      this.isUpdating = this.automaticsDetailForm.valid;
+    });
+
+    this.automaticsDetailForm.controls.periodicity.valueChanges.subscribe(value => {
+      this.favoritesManagementService.updating();
       this.isUpdating = this.automaticsDetailForm.valid;
     });
   }
@@ -116,5 +122,14 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
         return false;
       }
     });
+  }
+
+  updating(event) {
+    if (event.key !== '' && event.code !== '') {
+      this.automaticsDetailForm.valueChanges.subscribe(value => {
+        this.favoritesManagementService.updating();
+        this.isUpdating = this.automaticsDetailForm.valid;
+      });
+    }
   }
 }

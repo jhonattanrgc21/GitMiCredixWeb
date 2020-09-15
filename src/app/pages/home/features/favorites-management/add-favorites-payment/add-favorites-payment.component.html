@@ -17,7 +17,7 @@
         </mat-option>
       </credix-select>
 
-      <credix-select formControlName="PublicService" label="Servicio">
+      <credix-select formControlName="publicService" label="Servicio">
         <mat-option *ngFor="let service of publicServices"
                     [value]="service.publicServiceId">
           {{service.publicServiceName}}

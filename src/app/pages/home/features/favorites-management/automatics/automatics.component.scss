@@ -1,13 +1,8 @@
 .automatics {
   width: 296px;
-  height: 296px;
-  padding: 0px 20px;
+  height: 350px;
+  padding: 0px 8px;
 
-  &__form {
-    &.disabled {
-      color: #7b7b7b;
-    }
-  }
 
   &__input {
     height: 42px;
@@ -16,9 +11,16 @@
       width: 13px;
       height: 15px;
     }
+
+    .disabled {
+      color: #7b7b7b;
+    }
   }
 }
 
+.mb-20px {
+  margin-bottom: 20px !important;
+}
 
 .enabled {
   color: #3e3e3e !important;

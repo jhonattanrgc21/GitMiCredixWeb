@@ -12,7 +12,7 @@ export class FavoritesManagementService {
   }
 
   // tslint:disable-next-line:variable-name max-line-length
-  private __favoritesPaymentsData: Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number }> = new Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number }>();
+  private __favoritesPaymentsData: Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number, publicServiceFavoriteId: number, accountId: number, publicServiceAccessKeyId: number, publicServiceEnterpriseDescription: string }> = new Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string; publicServiceId?: number; publicServiceFavoriteId: number; accountId: number; publicServiceAccessKeyId: number; publicServiceEnterpriseDescription: string }>();
   // tslint:disable-next-line:variable-name max-line-length
   private __deleteFavoritesPayments: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
   // tslint:disable-next-line:variable-name max-line-length
@@ -56,7 +56,7 @@ export class FavoritesManagementService {
   }
 
   // tslint:disable-next-line:max-line-length
-  get favoritesPaymentsData(): Observable<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number }> {
+  get favoritesPaymentsData(): Observable<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string; publicServiceId?: number; publicServiceFavoriteId: number; accountId: number; publicServiceAccessKeyId: number; publicServiceEnterpriseDescription: string; }> {
     return this.__favoritesPaymentsData.asObservable();
   }
 
@@ -82,7 +82,7 @@ export class FavoritesManagementService {
   }
 
   // tslint:disable-next-line:max-line-length
-  emitFavoritesPaymentsData(publicServiceFavoriteName: string, accountNumber: number, publicServiceName: string, publicServiceProvider: string, publicServiceAccessKeyDescription: string, publicServiceId?: number) {
+  emitFavoritesPaymentsData(publicServiceFavoriteName: string, accountNumber: number, publicServiceName: string, publicServiceProvider: string, publicServiceAccessKeyDescription: string, publicServiceId?: number, publicServiceFavoriteId?: number, accountId?: number, publicServiceAccessKeyId?: number, publicServiceEnterpriseDescription?: string) {
     // tslint:disable-next-line:max-line-length
     // @ts-ignore
     this.__favoritesPaymentsData.next({
@@ -91,7 +91,11 @@ export class FavoritesManagementService {
       publicServiceName,
       publicServiceProvider,
       publicServiceAccessKeyDescription,
-      publicServiceId
+      publicServiceId,
+      accountId,
+      publicServiceAccessKeyId,
+      publicServiceFavoriteId,
+      publicServiceEnterpriseDescription
     });
   }
 

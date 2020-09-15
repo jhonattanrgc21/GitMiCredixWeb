@@ -57,7 +57,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   getDetailFavorite(accountEvent) {
     if (accountEvent.publicServiceCode !== undefined) {
       // tslint:disable-next-line:max-line-length
-      this.favoriteManagementService.emitFavoritesPaymentsData(accountEvent.name, accountEvent.account, accountEvent.publicServiceName, accountEvent.publicServiceProvider, accountEvent.publicServiceAccessKeyDescription, accountEvent.publicServiceId);
+      this.favoriteManagementService.emitFavoritesPaymentsData(accountEvent.name, accountEvent.account, accountEvent.publicServiceName, accountEvent.publicServiceProvider, accountEvent.publicServiceAccessKeyDescription, accountEvent.publicServiceId, accountEvent.publicServiceFavoriteId, accountEvent.accountId, accountEvent.publicServiceAccessKeyId, accountEvent.publicServiceEnterpriseDescription);
     }
 
     if (accountEvent.IdAccountFavorite !== undefined) {
@@ -193,15 +193,18 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
 
 
     this.favoriteManagementService.updateSuccess.subscribe(() => {
-      this.accounts = [];
+
       switch (this.tabId) {
         case 1:
+          this.accounts = [];
           this.getFavoritesIban();
           break;
         case 2:
+          this.accounts = [];
           this.getPublicService();
           break;
         case 3:
+          this.accounts = [];
           this.getSchedulePayment();
           break;
       }
@@ -251,6 +254,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
       .subscribe((response) => {
         if (response.length > 0) {
           for (const values of response) {
+            // @ts-ignore
             this.accounts.push({
               name: values.publicServiceFavoriteName,
               account: values.accountNumber,
@@ -258,7 +262,11 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               publicServiceProvider: values.publicServiceProvider,
               publicServiceAccessKeyDescription: values.publicServiceAccessKeyDescription,
               publicServiceCode: values.publicServiceCode,
-              publicServiceId: values.publicServiceId
+              publicServiceId: values.publicServiceId,
+              publicServiceFavoriteId: values.publicServiceFavoriteId,
+              accountId: values.accountId,
+              publicServiceAccessKeyId: values.publicServiceAccessKeyId,
+              publicServiceEnterpriseDescription: values.publicServiceEnterpriseDescription
             });
           }
           this.showContent = true;

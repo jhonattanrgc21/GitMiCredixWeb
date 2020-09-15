@@ -14,9 +14,9 @@ export class IbanAccountsService {
   }
 
   // tslint:disable-next-line:variable-name
-  private __createDelete: Subject<{ added?: boolean; del?: boolean; }> = new Subject<{ added?: boolean; del?: boolean; }>();
+  private __createDelete: Subject<{ added: boolean; del: boolean; }> = new Subject<{ added: boolean; del: boolean; }>();
 
-  get isAddedOrDelete(): Observable<{ added?: boolean; del?: boolean; }> {
+  get isAddedOrDelete(): Observable<{ added: boolean; del: boolean; }> {
     return this.__createDelete.asObservable();
   }
 
@@ -59,7 +59,7 @@ export class IbanAccountsService {
     });
   }
 
-  emitIbanIsAddOrDeleted(added?: boolean, del?: boolean) {
+  emitIbanIsAddOrDeleted(added: boolean, del: boolean) {
     this.__createDelete.next({added, del});
   }
 }

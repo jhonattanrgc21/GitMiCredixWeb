@@ -36,7 +36,9 @@
 
   .list-id {
     &-2 {
-      width: 145px;
+      span {
+        width: 145px;
+      }
     }
 
     &-3 {

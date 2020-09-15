@@ -14,13 +14,13 @@ export class FavoritesPaymentsService {
   }
 
   // tslint:disable-next-line:variable-name
-  private __createDelete: Subject<{ added?: boolean; del?: boolean; }> = new Subject<{ added?: boolean; del?: boolean; }>();
+  private __createDelete: Subject<{ added: boolean; del: boolean; }> = new Subject<{ added: boolean; del: boolean; }>();
 
-  get isAddedOrDelete(): Observable<{ added?: boolean; del?: boolean; }> {
+  get isAddedOrDelete(): Observable<{ added: boolean; del: boolean; }> {
     return this.__createDelete.asObservable();
   }
 
-  emitFavoritesIsAddedOrDelete(added?: boolean, del?: boolean) {
+  emitFavoritesIsAddedOrDelete(added: boolean, del: boolean) {
     this.__createDelete.next({added, del});
   }
 
@@ -71,17 +71,17 @@ export class FavoritesPaymentsService {
 
   // @ts-ignore
   // tslint:disable-next-line:max-line-length
-  setPublicServiceFavorite(publicId: number, servReference: string, payDay: number, alias: string, publicSrvcAccssKId: number, credixCode: number) {
+  setPublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, credixCode: number) {
     return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
       accountId: this.storageService.getCurrentUser().actId,
-      publicServiceId: publicId,
-      serviceReference: servReference,
-      paymentDay: payDay,
+      publicServiceId,
+      serviceReference,
+      paymentDay: 21,
       userId: this.storageService.getCurrentUser().userId,
       channelId: 102,
-      aliasName: alias,
-      publicServiceAccessKeyId: publicSrvcAccssKId,
-      codeCredix: +credixCode
+      aliasName,
+      publicServiceAccessKeyId: 1,
+      codeCredix: credixCode
     });
   }
 
@@ -93,10 +93,10 @@ export class FavoritesPaymentsService {
     });
   }
 
-  setUpdatePublicService(publicId: string, alias: string) {
+  setUpdatePublicService(publicServiceFavoriteId: number, name: string) {
     return this.httpService.post('canales', 'publicservice/updatenamepublicservicefavorite', {
-      publicServiceFavoriteId: publicId,
-      name: alias,
+      publicServiceFavoriteId,
+      name,
       channelId: 102,
       userId: this.storageService.getCurrentUser().userId
     });

@@ -12,7 +12,7 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   isUpdating = false;
   // tslint:disable-next-line:max-line-length
-  data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string, publicServiceId: number, publicServiceFavoriteName: string };
+  data: { publicServicesAccessKeyDescription: string, account: number, publicServiceProvider: string, publicServiceName: string, publicServiceId: number, publicServiceFavoriteName: string, publicServiceFavoriteId: number, accountId: number, publicServiceAccessKeyId: number, publicServiceEnterpriseDescription: string };
   favoritesPaymentDetail: FormControl = new FormControl(null);
 
 
@@ -25,7 +25,11 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
       publicServiceProvider: '',
       publicServiceName: '',
       publicServiceId: 0,
-      publicServiceFavoriteName: ''
+      publicServiceFavoriteName: '',
+      accountId: 0,
+      publicServiceAccessKeyId: 0,
+      publicServiceFavoriteId: 0,
+      publicServiceEnterpriseDescription: ''
     };
   }
 
@@ -46,7 +50,11 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
         publicServiceProvider: response.publicServiceProvider,
         publicServiceName: response.publicServiceName,
         publicServiceId: response.publicServiceId,
-        publicServiceFavoriteName: response.publicServiceFavoriteName
+        publicServiceFavoriteName: response.publicServiceFavoriteName,
+        publicServiceFavoriteId: response.publicServiceFavoriteId,
+        publicServiceAccessKeyId: response.publicServiceAccessKeyId,
+        accountId: response.accountId,
+        publicServiceEnterpriseDescription: response.publicServiceEnterpriseDescription
       };
       this.favoritesPaymentDetail.setValue(response.publicServiceFavoriteName);
     });
@@ -54,13 +62,13 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   getUpdateAlert() {
     this.favoritesManagementService.confirmUpdate.subscribe((response) => {
-      if (response.confirm && this.data.publicServiceId !== undefined) {
-        this.setUpdateFavorites(String(this.data.publicServiceId), this.favoritesPaymentDetail.value);
+      if (response.confirm && this.data.publicServiceFavoriteId > 0) {
+        this.setUpdateFavorites(this.data.publicServiceFavoriteId, this.favoritesPaymentDetail.value);
       }
     });
   }
 
-  setUpdateFavorites(publicId: string, alias: string) {
+  setUpdateFavorites(publicId: number, alias: string) {
     this.favoritesPaymentsService.setUpdatePublicService(publicId, alias).subscribe((response) => {
       if (response.message === 'Operación exitosa') {
         this.favoritesManagementService.emitUpdateSuccessAlert();
@@ -70,8 +78,8 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   getDeleteAlert() {
     this.favoritesManagementService.deleteFavorites.subscribe((response) => {
-      if (response.del && this.data.publicServiceId !== undefined) {
-        this.setDeleteFavorites(this.data.publicServiceId);
+      if (response.del && this.data.publicServiceFavoriteId > 0) {
+        this.setDeleteFavorites(this.data.publicServiceFavoriteId);
       }
     });
   }

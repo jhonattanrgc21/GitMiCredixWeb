@@ -20,7 +20,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
   newFavoritesPaymentForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
     PublicServiceCompany: new FormControl(null, [Validators.required]),
-    PublicService: new FormControl(null, [Validators.required]),
+    publicService: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
     favoriteName: new FormControl(null, [Validators.required])
   });
@@ -82,9 +82,8 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   addFavoritePayment() {
     // tslint:disable-next-line:max-line-length
-    this.favoritesPaymentsService.setPublicServiceFavorite(this.newFavoritesPaymentControls.PublicService.value, this.newFavoritesPaymentControls.phoneNumber.value, 21, this.newFavoritesPaymentControls.favoriteName.value, 1, this.codeCredix.value)
+    this.favoritesPaymentsService.setPublicServiceFavorite(this.newFavoritesPaymentControls.publicService.value, this.newFavoritesPaymentControls.phoneNumber.value, this.newFavoritesPaymentControls.favoriteName.value, +this.codeCredix.value)
       .subscribe((response) => {
-        console.log(response);
         this.resultFavorites = !this.resultFavorites;
         this.result = {
           status: response.titleOne,

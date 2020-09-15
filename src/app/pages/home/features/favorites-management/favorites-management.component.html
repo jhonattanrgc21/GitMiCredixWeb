@@ -12,17 +12,17 @@
       <a (click)="getDetailFavorite(account)" *ngFor="let account of accounts"
          class="favorites-management__account-wrapper" fxLayout="column">
         <span><strong>{{account.name}}</strong></span>
-        <div *ngIf="tabId === 2" class="list-id-2" fxLayout="row" fxLayoutGap="96.79px">
-          <span>{{account.publicServiceName}}</span>
+        <div *ngIf="tabId === 2" class="list-id-2" fxLayout="row" fxLayoutGap="48.21px">
+          <span>{{account.publicServiceEnterpriseDescription}}</span>
           <mat-icon style="fill: #E42313;width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
         </div>
-        <div *ngIf="tabId === 3" class="list-id-3" fxLayout="row" fxLayoutGap="8.29px">
-          <span>{{account.account + '-' + account.key | mask: '0000-0000'}}</span>
+        <div *ngIf="tabId === 3" class="list-id-3" fxLayout="row">
+          <span>{{account.account}} - {{account.key | mask: '0000-0000'}}</span>
           <mat-icon style="fill: #E42313;width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
         </div>
         <div fxLayout="row" fxLayoutGap="28.79px">
-          <span>{{account.account}}</span>
-          <mat-icon *ngIf="tabId !== 2" style="fill: #E42313;width: 8px; height: 13px;"
+          <span *ngIf="tabId !== 3">{{account.account}}</span>
+          <mat-icon *ngIf="tabId !== 2 && tabId !== 3" style="fill: #E42313;width: 8px; height: 13px;"
                     svgIcon="chevron_right"></mat-icon>
         </div>
         <mat-divider class="mt-16px" credixDivider></mat-divider>

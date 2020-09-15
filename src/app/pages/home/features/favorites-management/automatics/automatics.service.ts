@@ -14,13 +14,13 @@ export class AutomaticsService {
   }
 
   // tslint:disable-next-line:variable-name
-  private __createDelete: Subject<{ added?: boolean; del?: boolean; }> = new Subject<{ added?: boolean; del?: boolean; }>();
+  private __createDelete: Subject<{ added: boolean; del: boolean; }> = new Subject<{ added: boolean; del: boolean; }>();
 
-  get isAddedOrDelete(): Observable<{ added?: boolean; del?: boolean; }> {
+  get isAddedOrDelete(): Observable<{ added: boolean; del: boolean; }> {
     return this.__createDelete.asObservable();
   }
 
-  emitAutomaticIsAddedOrDelete(added?: boolean, del?: boolean) {
+  emitAutomaticIsAddedOrDelete(added: boolean, del: boolean) {
     this.__createDelete.next({added, del});
   }
 
@@ -68,20 +68,20 @@ export class AutomaticsService {
     });
   }
 
-  setDeleteAutomatics(automaticId: number) {
+  setDeleteAutomatics(schedulerPayId: number) {
     return this.httpServices.post('canales', 'schedulerpayment/deleteschedulerpayment', {
       channelId: 102,
-      schedulerPayId: automaticId
+      schedulerPayId
     });
   }
 
-  setUpdateAutomatics(periodId: number, date: string, mxAmount: number, schdulerId: number) {
+  setUpdateAutomatics(periodicityId: number, startDate: string, maxAmount: number, schedulerPayId: number) {
     return this.httpServices.post('canales', 'schedulerpayment/updateschedulerpayment', {
       channelId: 102,
-      periodicityId: periodId,
-      startDate: date,
-      maxAmount: mxAmount,
-      schedulerPayId: schdulerId
+      periodicityId,
+      startDate,
+      maxAmount,
+      schedulerPayId
     });
   }
 }
