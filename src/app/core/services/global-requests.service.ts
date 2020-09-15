@@ -259,7 +259,6 @@ export class GlobalRequestsService {
           refCount(),
           map((response) => {
             if (response.type === 'success') {
-              console.log(response);
               return response.listQuota;
             } else {
               return [];

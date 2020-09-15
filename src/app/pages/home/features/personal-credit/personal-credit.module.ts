@@ -25,6 +25,7 @@ import {PersonalCreditThirdStepComponent} from './personal-credit-third-step/per
 import {CredixConfirmationPopupModule} from '../../../../shared/components/credix-confirmation-popup/credix-confirmation-popup.module';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 
 const routes: Routes = [
   {
@@ -60,7 +61,8 @@ const routes: Routes = [
     MatIconModule,
     CredixResultNotificationModule,
     CredixConfirmationPopupModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CredixDividerModule
   ],
   providers: [
     PersonalCreditService,

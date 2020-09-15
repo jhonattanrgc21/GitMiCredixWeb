@@ -3,7 +3,7 @@ import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
-import {ConvertStringDateToDate} from '../../../../shared/utils';
+import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 
@@ -14,8 +14,8 @@ import {Tag} from '../../../../shared/models/tag';
 })
 export class ExtendTermComponent implements OnInit {
   tableHeaders = [
-    {label: 'Consumos', width: '30%'},
-    {label: 'Ampliación', width: '70%'}
+    {label: 'Consumos', width: '282px'},
+    {label: 'Ampliación', width: 'auto'}
   ];
   optionsScroll = {autoHide: false, scrollbarMinSize: 100};
   optionSelected = {
@@ -57,6 +57,7 @@ export class ExtendTermComponent implements OnInit {
   quotaSliderDisplayMax = 12;
   quotaSliderDisplayValue = 0;
   movLength = 0;
+  today: Date;
   comisionTag: string;
   comercioResult: string;
   subtitle: string;
@@ -76,6 +77,7 @@ export class ExtendTermComponent implements OnInit {
               private modalService: ModalService,
               private router: Router,
               private tagsService: TagsService) {
+    this.today = new Date();
   }
 
   ngOnInit(): void {
@@ -115,45 +117,38 @@ export class ExtendTermComponent implements OnInit {
 
 
   getAllowedMovements() {
-    this.httpService
-      .post('canales', 'channels/allowedmovements', {
-        accountId: this.storageService.getCurrentUser().actId,
-        cardId: this.storageService.getCurrentCards()[0].cardId,
-        channelId: 102,
-      })
-      .subscribe((res) => {
-        if (res.result.length) {
-          this.allowedMovements = res.result;
-          this.empty = false;
-          this.movLength = res.result.length;
+    this.httpService.post('canales', 'channels/allowedmovements', {
+      accountId: this.storageService.getCurrentUser().actId,
+      cardId: this.storageService.getCurrentCards()[0].cardId
+    }).subscribe((res) => {
+      if (res.result.length) {
+        this.allowedMovements = res.result;
+        this.empty = false;
+        this.movLength = res.result.length;
 
-          this.allowedMovements.forEach(async (elem, i) => {
-            this.quotaList = await this.calculateQuota(elem.movementId, i);
-            const quotaAmount = this.changeFormat(elem.originAmount) / elem.totalPlanQuota;
-            this.options = [
-              ...this.options,
-              {
-                id: i + 1,
-                name: elem.establishmentName,
-                cardId: elem.cardId,
-                totalPlanQuota: elem.totalPlanQuota,
-                accountNumber: elem.accountNumber,
-                movementId: elem.movementId,
-                originDate: elem.originDate,
-                originAmount: elem.originAmount,
-                originCurrency: elem.originCurrency.currency,
-                quotaAmount,
-              },
-            ];
-          });
-        } else {
-          this.empty = true;
-        }
-      });
-  }
-
-  convertStringDateToDate(value: string): Date {
-    return ConvertStringDateToDate(value);
+        this.allowedMovements.forEach(async (elem, i) => {
+          this.quotaList = await this.calculateQuota(elem.movementId, i);
+          const quotaAmount = ConvertStringAmountToNumber(elem.originAmount) / elem.totalPlanQuota;
+          this.options = [
+            ...this.options,
+            {
+              id: i + 1,
+              name: elem.establishmentName,
+              cardId: elem.cardId,
+              totalPlanQuota: elem.totalPlanQuota,
+              accountNumber: elem.accountNumber,
+              movementId: elem.movementId,
+              originDate: elem.originDate,
+              originAmount: elem.originAmount,
+              originCurrency: elem.originCurrency.currency,
+              quotaAmount
+            },
+          ];
+        });
+      } else {
+        this.empty = true;
+      }
+    });
   }
 
   changeFormat(value) {
@@ -162,23 +157,23 @@ export class ExtendTermComponent implements OnInit {
     return Number(finalString);
   }
 
-
-  calculateQuota(movementId, i) {
-    this.httpService
-      .post('canales', 'channels/quotacalculator', {
-        movementId,
-      })
+  calculateQuota(movementId: number, i: number) {
+    this.httpService.post('canales', 'channels/quotacalculator', {movementId})
       .subscribe((res) => {
         if (res.type === 'success') {
           this.options[i] = {...this.options[i], subOptions: res.listQuota};
+
           if (i === this.movLength - 1) {
+
             if (this.router.parseUrl(this.router.url).queryParams.q && this.options.length) {
               const movementId = this.router.parseUrl(this.router.url).queryParams.q;
               const option = this.options.find(mov => mov.movementId === movementId);
+
               if (option) {
                 this.getOptionDetail(option);
               }
             }
+
           }
         }
       });

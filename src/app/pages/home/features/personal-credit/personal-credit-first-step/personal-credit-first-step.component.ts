@@ -46,7 +46,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getQuotas();
-    this.personalCreditService.emitAmountChanges(MIN_AMOUNT);
+    this.personalCreditService.amount = MIN_AMOUNT;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -56,7 +56,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
       } else if (this.cardLimit >= CENTER_AMOUNT && this.cardLimit < MAX_AMOUNT) {
         this.amountSliderMax = 20 + Math.trunc((this.cardLimit - CENTER_AMOUNT) / SECOND_STEP);
       } else {
-        this.amountSliderMax = 20 + 4 + Math.trunc((this.cardLimit - MAX_AMOUNT) / THIRD_STEP);
+        this.amountSliderMax = 20 + 14 + Math.trunc((this.cardLimit - MAX_AMOUNT) / THIRD_STEP);
       }
     }
   }
@@ -70,7 +70,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   selectPersonalCreditSummary() {
     this.personalCreditSummary = this.personalCreditsSummaries.find(value => value.term === this.termControl.value);
     this.ivaAmount = Number((ConvertStringAmountToNumber(this.personalCreditSummary.commission) * 0.13).toFixed(2));
-    this.personalCreditService.emitPersonalCreditSummaryChanges(this.personalCreditSummary);
+    this.personalCreditService.personalCreditSummary = this.personalCreditSummary;
   }
 
   getQuotas() {
@@ -99,7 +99,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
     }
 
     this.amountControl.setValue(amount);
-    this.personalCreditService.emitAmountChanges(amount);
+    this.personalCreditService.amount = amount;
     this.getPersonalCreditsSummaries();
   }
 

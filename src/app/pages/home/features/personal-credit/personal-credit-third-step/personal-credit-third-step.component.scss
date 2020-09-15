@@ -11,10 +11,18 @@
     border: 1px solid #E9E9E9;
     margin: 16px 0;
   }
+
+  .left-content {
+    width: 380px;
+  }
 }
 
 @media screen and (max-width: 1199px) {
   .personal-credit-third-step {
     padding: 0;
+
+    .left-content {
+      width: 344px;
+    }
   }
 }

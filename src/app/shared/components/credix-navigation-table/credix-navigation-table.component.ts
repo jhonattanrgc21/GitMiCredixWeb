@@ -13,6 +13,7 @@ export class CredixNavigationTableComponent implements OnInit {
     {label: 'left', width: '25%'},
     {label: 'right', width: '75%'},
   ];
+  @Input() hide = false;
   @Input() options = [];
   @Input() type: string;
   @Output() optionEvent: EventEmitter<any> = new EventEmitter<any>();

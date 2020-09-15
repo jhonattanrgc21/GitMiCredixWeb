@@ -39,24 +39,6 @@ export class PersonalCreditService {
     this._amount = amount;
   }
 
-  emitPersonalCreditSummaryChanges(personalCreditSummary: PersonalCreditSummary) {
-    this.personalCreditSummary = personalCreditSummary;
-    this.personalCreditSummaryChangedSub.next();
-  }
-
-  emitAmountChanges(amount: number) {
-    this.amount = amount;
-    this.amountChangedSub.next();
-  }
-
-  personalCreditSummaryChangesObs() {
-    return this.personalCreditSummaryChangedSub.asObservable();
-  }
-
-  amountChangesObs() {
-    return this.amountChangedSub.asObservable();
-  }
-
   getPersonalCreditsSummaries(amount: number, typeId: number = 2) {
     return this.httpService.post('canales', this.personalCreditCommissionUri, {typeId, amount})
       .pipe(

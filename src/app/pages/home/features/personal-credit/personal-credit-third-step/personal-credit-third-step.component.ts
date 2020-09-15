@@ -14,11 +14,8 @@ export class PersonalCreditThirdStepComponent implements OnInit {
   amount: number;
 
   constructor(public personalCreditService: PersonalCreditService) {
-    this.personalCreditService.personalCreditSummaryChangesObs()
-      .subscribe(() => this.personalCreditSummary = this.personalCreditService.personalCreditSummary);
-
-    this.personalCreditService.amountChangesObs()
-      .subscribe(() => this.amount = this.personalCreditService.amount);
+    this.personalCreditSummary = personalCreditService.personalCreditSummary;
+    this.amount = personalCreditService.amount;
   }
 
   ngOnInit(): void {

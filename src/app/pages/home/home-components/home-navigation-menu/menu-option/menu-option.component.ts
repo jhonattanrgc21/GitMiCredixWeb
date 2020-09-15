@@ -97,7 +97,7 @@ export class MenuOptionComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.questionTag = tags.find(tag => tag.description === 'aumento.question"').value;
+    this.questionTag = tags.find(tag => tag.description === 'aumento.question').value;
   }
 
 }

@@ -5,7 +5,7 @@
     <span [fxFlex]="headers[1].width">{{headers[1].label}}</span>
   </div>
 
-  <div class="navigation-table__content" fxLayout="row">
+  <div *ngIf="!hide" class="navigation-table__content" fxLayout="row">
 
     <div [fxFlex]="headers[0].width" class="navigation-table__content__left">
       <ngx-simplebar [options]="optionsScroll" class="navigation-table__options" fxLayout="column">
