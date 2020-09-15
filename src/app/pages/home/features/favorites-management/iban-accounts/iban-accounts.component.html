@@ -1,0 +1,7 @@
+<div class="iban-accounts" fxLayout="column">
+  <span *ngIf="data !== undefined && data.ibanAccount !== ''" class="mb-8px"><strong>Banco Nacional</strong></span>
+  <span *ngIf="data.ibanAccount !== undefined && data.ibanAccount !== ''" class="mb-24px">{{data.ibanAccount}}</span>
+  <credix-input-field (keyup)="updating($event)" *ngIf="data !== undefined && data.ibanAccount !== ''"
+                      [class.enabled]="isUpdating" [formControl]="ibanAccountDetailInput"
+                      class="iban-accounts__input disabled" label="Nombre de favorito"></credix-input-field>
+</div>

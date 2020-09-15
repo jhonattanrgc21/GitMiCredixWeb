@@ -3,28 +3,28 @@
           class="marchamos"
           credixCard fxLayout="column">
 
-  <h1 class="mb-16px">Marchamo</h1>
+  <h1 class="mb-16px">{{title || 'Marchamo'}}</h1>
 
   <credix-stepper #stepper>
 
-    <cdk-step [stepControl]="consultForm" fxLayout="column" label="Consultar">
+    <cdk-step [stepControl]="consultForm" fxLayout="column" label="{{step1 || 'Consultar'}}">
       <app-marchamo-first-step
         [consultForm]="consultForm">
       </app-marchamo-first-step>
     </cdk-step>
 
-    <cdk-step [label]="'Seguros y cuotas'" [stepControl]="secureAndQuotesForm" fxLayout="column">
+    <cdk-step label="{{step2 || 'Seguros y cuotas'}}" [stepControl]="secureAndQuotesForm" fxLayout="column">
       <app-marchamo-second-step [isActive]="stepperIndex === 1"
                                 [secureAndQuotesForm]="secureAndQuotesForm"></app-marchamo-second-step>
     </cdk-step>
 
-    <cdk-step [label]="'Lugar de retiro'" [stepControl]="pickUpForm">
+    <cdk-step label="{{step3 || 'Lugar de retiro'}}" [stepControl]="pickUpForm">
       <app-marchamo-third-step
         [isActive]="stepperIndex === 2"
         [pickUpForm]="pickUpForm"></app-marchamo-third-step>
     </cdk-step>
 
-    <cdk-step [label]="'Confirmar'" [stepControl]="confirmForm">
+    <cdk-step label="{{step4 || 'Confirmar'}}" [stepControl]="confirmForm">
       <app-marchamo-fourth-step
         [confirmForm]="confirmForm"
         [isActive]="stepperIndex === 3"></app-marchamo-fourth-step>
@@ -40,7 +40,7 @@
       <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 3" [disabled]="disableButton"
                      [text]="'Continuar'"></credix-button>
       <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton"
-                     [text]="'Transferir'"></credix-button>
+                     [text]="'Pagar'"></credix-button>
     </div>
   </div>
 
@@ -50,7 +50,7 @@
 
   <mat-card class="marchamos__pay" credixCard fxLayout="column">
 
-    <h1 class="marchamos__title">Marchamo</h1>
+    <h1 class="marchamos__title">{{resumeTag1 || 'Marchamo'}}</h1>
 
     <app-payment-summary
       (responseResultPayChanged)="getAnotherPay($event)"

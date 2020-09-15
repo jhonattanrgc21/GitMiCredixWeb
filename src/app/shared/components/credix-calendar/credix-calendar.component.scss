@@ -61,6 +61,12 @@
         opacity: 0;
       }
 
+      &.is-disabled {
+        color: #9B9B9B !important;
+        background: none !important;
+        border-radius: none !important;
+      }
+
       &.is-active {
         background: #E42313;
         border-radius: 50%;

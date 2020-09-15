@@ -1,7 +1,7 @@
 <div class="additional-cards" fxLayout="column" fxLayoutGap="16px">
 
   <mat-card class="additional-cards__toolbar" credixCard fxLayout="column" fxLayoutGap="16px">
-    <h1>Tarjetas adicionales</h1>
+    <h1>{{titleTag || 'Tarjetas adicionales'}}</h1>
 
     <credix-button (click)="goToNewAdditionalCard()" class="additional-cards__toolbar__button"
                    text="Agregar tarjeta adicional"></credix-button>
@@ -33,7 +33,7 @@
                      [value]="additionalCard.limitPercentage"
                      displayMax="100%"
                      displayMin="25%"
-                     instructions="Límite asignado"
+                     [instructions]="limitTag || 'Límite asignado'"
                      max="100"
                      min="25"
                      step="25"

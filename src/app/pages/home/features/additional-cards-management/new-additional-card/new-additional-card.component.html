@@ -2,20 +2,20 @@
           class="new-additional-card" credixCard
           fxLayout="column">
 
-  <h1 class="mb-32px">Tarjetas adicionales</h1>
+  <h1 class="mb-32px">{{titleTag || 'Tarjetas adicionales'}}</h1>
 
   <credix-stepper #stepper>
 
-    <cdk-step [stepControl]="userInfoFormGroup" label="Datos personales">
+    <cdk-step [label]="firstStepperTag || 'Datos personales'" [stepControl]="userInfoFormGroup">
       <app-new-additional-card-first-step [userInfoFormGroup]="userInfoFormGroup"></app-new-additional-card-first-step>
     </cdk-step>
 
-    <cdk-step [stepControl]="pickUpPlaceFormGroup" label="Lugar de retiro">
+    <cdk-step [label]="secondStepperTag || 'Lugar de retiro'" [stepControl]="pickUpPlaceFormGroup">
       <app-new-additional-card-second-step
         [addressControl]="pickUpPlaceFormGroup.controls.address"></app-new-additional-card-second-step>
     </cdk-step>
 
-    <cdk-step [stepControl]="confirmFormGroup" label="Confirmación">
+    <cdk-step [label]="thirdStepperTag || 'Confirmación'" [stepControl]="confirmFormGroup">
       <app-new-additional-card-third-step
         [confirmFormControl]="confirmFormGroup.controls.credixCode"></app-new-additional-card-third-step>
     </cdk-step>

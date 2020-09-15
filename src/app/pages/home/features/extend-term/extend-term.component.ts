@@ -3,7 +3,9 @@ import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
-import {ConvertStringDateToDate} from '../../../../shared/utils';
+import {ConvertStringAmountToNumber} from '../../../../shared/utils';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-extend-term',
@@ -12,8 +14,8 @@ import {ConvertStringDateToDate} from '../../../../shared/utils';
 })
 export class ExtendTermComponent implements OnInit {
   tableHeaders = [
-    {label: 'Consumos', width: '30%'},
-    {label: 'Ampliación', width: '70%'}
+    {label: 'Consumos', width: '282px'},
+    {label: 'Ampliación', width: 'auto'}
   ];
   optionsScroll = {autoHide: false, scrollbarMinSize: 100};
   optionSelected = {
@@ -37,18 +39,6 @@ export class ExtendTermComponent implements OnInit {
       webPage: '',
     },
   };
-
-  changedQuotas = {
-    feeAmount: '0',
-    feePercentage: 0,
-    quotaTo: 6,
-    amountPerQuota: '0',
-    quotaFrom: 3,
-    financedPlan: 0,
-    purchaseAmount: '0',
-  };
-
-
   quotaSelected;
   quotas = 6;
   options = [];
@@ -66,17 +56,51 @@ export class ExtendTermComponent implements OnInit {
   quotaSliderDisplayMin = 1;
   quotaSliderDisplayMax = 12;
   quotaSliderDisplayValue = 0;
+  movLength = 0;
+  today: Date;
+  comisionTag: string;
+  comercioResult: string;
+  subtitle: string;
+  question: string;
+  titleTag: string;
+  disclaTag: string;
+  monthTag: string;
+  warningTag: string;
+  dateTag: string;
+  quotaTag: string;
+  deseoTag: string;
+  newQuota: string;
+  resultNew: string;
 
-  constructor(
-    private storageService: StorageService,
-    private httpService: HttpService,
-    private modalService: ModalService,
-    private router: Router
-  ) {
+  constructor(private storageService: StorageService,
+              private httpService: HttpService,
+              private modalService: ModalService,
+              private router: Router,
+              private tagsService: TagsService) {
+    this.today = new Date();
   }
 
   ngOnInit(): void {
     this.getAllowedMovements();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags)
+    );
+  }
+
+  getTags(tags: Tag[]) {
+    this.comisionTag = tags.find(tag => tag.description === 'ampliar.tag.comision').value;
+    this.comercioResult = tags.find(tag => tag.description === 'ampliar.result.comercio').value;
+    this.subtitle = tags.find(tag => tag.description === 'ampliar.subtitle').value;
+    this.question = tags.find(tag => tag.description === 'ampliar.question').value;
+    this.titleTag = tags.find(tag => tag.description === 'ampliar.title').value;
+    this.disclaTag = tags.find(tag => tag.description === 'ampliar.disclaimer').value;
+    this.monthTag = tags.find(tag => tag.description === 'ampliar.tag.meses').value;
+    this.warningTag = tags.find(tag => tag.description === 'ampliar.message.warning').value;
+    this.dateTag = tags.find(tag => tag.description === 'ampliar.result.fecha').value;
+    this.quotaTag = tags.find(tag => tag.description === 'ampliar.tag.cuota').value;
+    this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo').value;
+    this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota').value;
+    this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo').value;
   }
 
   getOptionDetail(option) {
@@ -93,45 +117,38 @@ export class ExtendTermComponent implements OnInit {
 
 
   getAllowedMovements() {
-    this.httpService
-      .post('canales', 'channels/allowedmovements', {
-        accountId: this.storageService.getCurrentUser().actId,
-        cardId: this.storageService.getCurrentCards()[0].cardId,
-        channelId: 102,
-      })
-      .subscribe((res) => {
-        console.log(res);
-        if (res.result.length) {
-          this.allowedMovements = res.result;
-          this.empty = false;
+    this.httpService.post('canales', 'channels/allowedmovements', {
+      accountId: this.storageService.getCurrentUser().actId,
+      cardId: this.storageService.getCurrentCards()[0].cardId
+    }).subscribe((res) => {
+      if (res.result.length) {
+        this.allowedMovements = res.result;
+        this.empty = false;
+        this.movLength = res.result.length;
 
-          this.allowedMovements.forEach(async (elem, i) => {
-            this.quotaList = await this.calculateQuota(elem.movementId, i);
-            const quotaAmount = this.changeFormat(elem.originAmount) / elem.totalPlanQuota;
-            this.options = [
-              ...this.options,
-              {
-                id: i + 1,
-                name: elem.establishmentName,
-                cardId: elem.cardId,
-                totalPlanQuota: elem.totalPlanQuota,
-                accountNumber: elem.accountNumber,
-                movementId: elem.movementId,
-                originDate: elem.originDate,
-                originAmount: elem.originAmount,
-                originCurrency: elem.originCurrency.currency,
-                quotaAmount,
-              },
-            ];
-          });
-        } else {
-          this.empty = true;
-        }
-      });
-  }
-
-  convertStringDateToDate(value: string): Date {
-    return ConvertStringDateToDate(value);
+        this.allowedMovements.forEach(async (elem, i) => {
+          this.quotaList = await this.calculateQuota(elem.movementId, i);
+          const quotaAmount = ConvertStringAmountToNumber(elem.originAmount) / elem.totalPlanQuota;
+          this.options = [
+            ...this.options,
+            {
+              id: i + 1,
+              name: elem.establishmentName,
+              cardId: elem.cardId,
+              totalPlanQuota: elem.totalPlanQuota,
+              accountNumber: elem.accountNumber,
+              movementId: elem.movementId,
+              originDate: elem.originDate,
+              originAmount: elem.originAmount,
+              originCurrency: elem.originCurrency.currency,
+              quotaAmount
+            },
+          ];
+        });
+      } else {
+        this.empty = true;
+      }
+    });
   }
 
   changeFormat(value) {
@@ -140,15 +157,24 @@ export class ExtendTermComponent implements OnInit {
     return Number(finalString);
   }
 
-
-  calculateQuota(movementId, i) {
-    this.httpService
-      .post('canales', 'channels/quotacalculator', {
-        movementId,
-      })
+  calculateQuota(movementId: number, i: number) {
+    this.httpService.post('canales', 'channels/quotacalculator', {movementId})
       .subscribe((res) => {
         if (res.type === 'success') {
           this.options[i] = {...this.options[i], subOptions: res.listQuota};
+
+          if (i === this.movLength - 1) {
+
+            if (this.router.parseUrl(this.router.url).queryParams.q && this.options.length) {
+              const movementId = this.router.parseUrl(this.router.url).queryParams.q;
+              const option = this.options.find(mov => mov.movementId === movementId);
+
+              if (option) {
+                this.getOptionDetail(option);
+              }
+            }
+
+          }
         }
       });
   }
@@ -172,7 +198,7 @@ export class ExtendTermComponent implements OnInit {
   openConfirmationModal() {
     if (this.quotaSelected) {
       this.modalService
-        .confirmationPopup('¿Desea ampliar el plazo de este pago?')
+        .confirmationPopup(this.question || '¿Desea ampliar el plazo de este pago?')
         .subscribe((res) => {
           if (res) {
             this.showResponse = true;

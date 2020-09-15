@@ -4,6 +4,8 @@ import {TableElement} from '../../../../shared/models/table.model';
 import {Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ConvertStringDateToDate} from '../../../../shared/utils';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-anticipated-cancellation',
@@ -26,7 +28,7 @@ export class AnticipatedCancellationComponent implements OnInit {
   check = true;
   p = 0;
   showResponse = false;
-  options = {autoHide: false, scrollbarMinSize: 50};
+  options = { autoHide: false, scrollbarMinSize: 50 };
   showSuccess;
   errorTitle;
   errorDescrip;
@@ -41,14 +43,39 @@ export class AnticipatedCancellationComponent implements OnInit {
     {id: 1, name: 'Colones'},
     {id: 2, name: 'Dólares'},
   ];
+  tab = {id: 1, name: 'Colones'};
   checked = false;
+  amountTag: string;
+  titleTag: string;
+  balanceTag: string;
+  warningTag: string;
+  cosumTag: string;
+  pendingbalanceTag: string;
 
-  constructor(private httpService: HttpService, private router: Router) {
+  constructor(private tagsService: TagsService, private httpService: HttpService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.checkFuntionallity();
+    // this.checkFuntionallity();
+    this.getOptionsToCancel();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Cancelación anticipada').tags)
+    );
   }
+
+  getTags(tags: Tag[]) {
+    this.amountTag = tags.find(tag => tag.description === 'cancelacion.tag.monto').value;
+    this.titleTag = tags.find(tag => tag.description === 'cancelacion.title').value;
+    this.balanceTag = tags.find(tag => tag.description === 'cancelacion.tag.saldo').value;
+    this.tabs = [
+      {id: 1, name: tags.find(tag => tag.description === 'cancelacion.tab1').value || 'Colones'},
+      {id: 2, name: tags.find(tag => tag.description === 'cancelacion.tab2').value || 'Dólares'},
+    ];
+    this.warningTag = tags.find(tag => tag.description === 'cancelacion.message.warning').value;
+    this.cosumTag = tags.find(tag => tag.description === 'cancelacion.tag.consumos').value;
+    this.pendingbalanceTag = tags.find(tag => tag.description === 'cancelacion.tag.saldopendiente').value;
+
+}
 
   tabSelected(tab) {
     if (tab.id === 1) {
@@ -77,7 +104,7 @@ export class AnticipatedCancellationComponent implements OnInit {
           this.showSuccess = false;
         } else {
           this.showResponse = false;
-          this.getOptionsToCancel();
+          // this.getOptionsToCancel();
         }
       });
   }
@@ -88,6 +115,7 @@ export class AnticipatedCancellationComponent implements OnInit {
         channelId: 102,
       })
       .subscribe((res) => {
+        console.log(res);
         if (res.type === 'success') {
           this.balanceC = this.changeFormat(res.SaldoDisponibleColones);
           this.balanceD = this.changeFormat(res.SaldoDisponibleDolares);
@@ -122,6 +150,9 @@ export class AnticipatedCancellationComponent implements OnInit {
               },
             ];
           });
+
+          this.balance = this.balanceC;
+          this.dataSource = this.quotasToCancel;
 
         } else {
           this.empty = true;

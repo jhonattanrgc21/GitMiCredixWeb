@@ -1,105 +1,16 @@
-.hideNavTableContent {
-  ::ng-deep.navigation-table__content {
-    display: none !important;
-  }
-}
-
-
-
 .extend-term {
   height: 662px;
   position: relative;
 
   &__menu-options {
-    height: 478px;
+    height: 525px;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
   }
 
-  h1 {
-    margin-bottom: 6px;
-  }
-
-  ::ng-deep.navigation-table__header {
-    margin-left: -16px;
-    margin-right: -16px;
-    margin-top: 30px;
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-  }
-
-  &__succResp {
-    margin-top: 27px;
-    margin-bottom: 27px;
-  }
-
-  &__divider {
-    margin-right: 199px;
-    margin-left: 199px;
-  }
-
-  &__data-info {
-    margin: 24.5px 220.5px 63px 220.5px;
-
-    &__text {
-      font-size: 16px;
-      font-weight: bold;
-      color: #3e3e3e;
-    }
-
-    &__row {
-      width: 208px;
-      padding-bottom: 10px;
-    }
-  }
-
-  &__footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid #e9e9e9;
-    padding: 16px;
-  }
-
-  &__footer1 {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 16px;
-  }
-
-  &__empty {
-    margin: auto;
-  }
-
-  &__content {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    background-color: #ffffff;
-    min-height: 478px;
-
-    &__date {
-      font-size: 14px;
-      color: #6F7071;
-    }
-
-    &__date-smaller {
-      font-size: 12px;
-      color: #6F7071;
-    }
-    &__subtitle {
-      font-size: 14px;
-      &.is-selected {
-        font-weight: bold;
-      }
-    }
-  }
-
-  &__option{
-    padding: 20.5px 16px 16px 16px;
+  &__option {
+    padding: 20px 0 16px 0;
 
     &:not(:last-of-type) {
       border-bottom: 1px solid #E9E9E9;
@@ -131,7 +42,56 @@
     }
   }
 
-  &__content-right{
+  &__text-disabled {
+    color: #D2D2D2;
+  }
+
+  &__message {
+    color: #707070;
+    font-size: 10px;
+    width: 300px;
+  }
+
+  &__footer {
+    width: 70%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 16px;
+
+
+    &.done-footer {
+      border-top: 1px solid #E9E9E9;
+      width: 100%;
+    }
+  }
+
+  &__content {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #ffffff;
+    min-height: 478px;
+
+    &__date {
+      font-size: 14px;
+      color: #6F7071;
+    }
+
+    &__date-smaller {
+      font-size: 12px;
+      color: #6F7071;
+    }
+
+    &__subtitle {
+      font-size: 14px;
+
+      &.is-selected {
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__content-right {
     width: 282px;
 
     &__option {
@@ -143,60 +103,56 @@
     }
   }
 
-  &__table {
-    margin: 16.5px 148px 0 148px;
-
-    &__title {
-      font-size: 16px;
-      font-weight: bold;
-    }
+  &__empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
+  .done-width {
+    width: 480px;
+  }
 
-}
-
-:host ::ng-deep.navigation-table__content {
-  margin-right: -16px;
-  margin-left: -16px;
-}
-
-:host ::ng-deep.navigation-table__content__left{
-  padding: 0 !important;
-}
-
-// ::ng-deep.simplebar-track.simplebar-horizontal {
-//   height: 0 !important;
-//   visibility: hidden;
-// }
-
-
-:host ::ng-deep.credix-result-notification {
-  h2 {
-    width: 286px;
+  .share-btn {
+    margin: 40px 0 16px 0;
   }
 }
 
 @media screen and (max-width: 1199px) {
+
   .extend-term {
     height: 886px;
 
     &__menu-options {
-      height: 700px;
-    }
-
-    &__succResp {
-      margin-top: 133px;
-      margin-bottom: 133px;
-    }
-
-    &__divider {
-      margin-right: 129px;
-      margin-left: 129px;
-    }
-
-    &__data-info {
-      margin: 24px 150.5px 90px 150.5px;
+      height: 733px;
     }
   }
 
+}
+
+:host ::ng-deep {
+
+  .navigation-table__header {
+    margin-left: -16px;
+    margin-right: -16px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  .navigation-table__content {
+    margin-right: -16px;
+    margin-left: -16px;
+  }
+
+  .navigation-table__content__left {
+    padding: 0 !important;
+  }
+
+  .credix-result-notification {
+
+    .credix-result-notification__title, .credix-result-notification__message {
+      width: 290px;
+    }
+  }
 }

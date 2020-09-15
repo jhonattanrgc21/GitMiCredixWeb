@@ -20,7 +20,7 @@
     justify-content: center;
 
     &__button {
-      width: inherit;
+      width: 80px;
       border-radius: 4px;
       font-family: Hebbo, sans-serif;
       font-weight: bold;
@@ -30,6 +30,7 @@
       }
 
       &.mat-flat-button {
+
         ::ng-deep.mat-button-wrapper {
           color: #ffffff;
         }

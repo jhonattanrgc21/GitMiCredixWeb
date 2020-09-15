@@ -2,13 +2,13 @@
   <h1>Enviar dinero</h1>
 
   <credix-stepper #sendMoneyStepper class="send-money__stepper" *ngIf="!done">
-    <cdk-step [stepControl]="informationForm" fxLayout="column" label="Información">
+    <cdk-step [stepControl]="informationForm" fxLayout="column" label="{{step || 'Información'}}">
       <app-send-money-first-step (currencyPrefixEvent)="currencyPrefix = $event"
                                  (typeDestinationEvent)="typeDestination = $event"
                                  [favoriteAccountControl]="informationForm.controls.account"></app-send-money-first-step>
     </cdk-step>
 
-    <cdk-step [stepControl]="amountAndQuotaForm" fxLayout="column" label="Monto y plazo">
+    <cdk-step [stepControl]="amountAndQuotaForm" fxLayout="column" label="{{step2 || 'Monto y plazo'}}">
       <app-send-money-second-step (commissionEmitEvent)="commission = $event"
                                   (commissionRateEmitEvent)="commissionRate = $event"
                                   (totalEmitEvent)="total = $event"
@@ -19,7 +19,7 @@
       </app-send-money-second-step>
     </cdk-step>
 
-    <cdk-step [stepControl]="confirmForm" fxLayout="column" label="Confirmación">
+    <cdk-step [stepControl]="confirmForm" fxLayout="column" label="{{step3 || 'Confirmación'}}">
       <app-send-money-third-step [account]="informationForm.controls.account.value"
                                  [amount]="amountAndQuotaForm.controls.amount.value"
                                  [codeControl]="confirmForm.controls.code"

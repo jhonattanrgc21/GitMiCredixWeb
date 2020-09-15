@@ -7,6 +7,8 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-report-transference',
@@ -29,22 +31,33 @@ export class ReportTransferenceComponent implements OnInit {
   message = '';
   status: 'success' | 'error' = 'success';
   title = '';
+  titleTag: string;
+  link: string;
 
   constructor(private reportTransferenceService: ReportTransferenceService,
               private globalRequestsService: GlobalRequestsService,
               private modalService: ModalService,
               private toastService: CredixToastService,
               private router: Router,
-              private deviceService: DeviceDetectorService) {
+              private deviceService: DeviceDetectorService,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
     this.globalRequestsService.getCurrencies().subscribe(currencies => this.currencies = currencies);
     this.os = this.deviceService.getDeviceInfo().os;
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Reportar transferencia').tags)
+    );
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'reportar.title').value;
+    this.link = tags.find(tag => tag.description === 'reportar.link').value;
   }
 
   openCalendar() {
-    this.modalService.calendarPopup().subscribe(modal => {
+    this.modalService.calendarPopup(null, new Date()).subscribe(modal => {
       if (modal) {
         this.reportTransferenceGroup.controls.date.setValue(modal.date);
       }
@@ -67,6 +80,7 @@ export class ReportTransferenceComponent implements OnInit {
         bank: this.reportTransferenceGroup.controls.bank.value,
         currency: this.reportTransferenceGroup.controls.currency.value,
         amount: +this.reportTransferenceGroup.controls.amount.value,
+        // tslint:disable-next-line:max-line-length
         paymentDate: `${paymentDate.getFullYear()}-${paymentDate.getMonth() < 10 ? '0' + (paymentDate.getMonth() + 1) : paymentDate.getMonth() + 1}-${paymentDate.getDate() < 10 ? '0' + (paymentDate.getDate() + 1) : paymentDate.getDate() + 1}`,
         imagebase64: this.image ? this.image.file.split(',')[1] : null,
         imageType: this.image ? this.image.type : null

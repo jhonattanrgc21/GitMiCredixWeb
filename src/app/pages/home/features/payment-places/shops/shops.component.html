@@ -14,7 +14,7 @@
       <span>{{paymentPlaceDetail?.name | titlecase}}</span>
 
       <div fxLayout="row" fxLayoutGap="76px">
-        <span fxFlex="250px"><strong>Detalles</strong></span>
+        <span fxFlex="250px"><strong>{{firstSubtitleTag || 'Detalles'}}</strong></span>
 
         <ul *ngFor="let restriction of paymentPlaceDetail?.paymentPlaceRestriction" class="pa0" fxFlex>
           <li>{{ restriction.description }}</li>
@@ -24,7 +24,7 @@
       <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
 
       <div fxLayout="row" fxLayoutGap="76px">
-        <span fxFlex="250px"><strong>Información de contacto</strong></span>
+        <span fxFlex="250px"><strong>{{secondSubtitleTag || 'Información de contacto'}}</strong></span>
 
         <ul class="list pa0" fxFlex>
           <li class="mb-8px">

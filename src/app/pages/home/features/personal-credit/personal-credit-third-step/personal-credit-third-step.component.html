@@ -2,16 +2,16 @@
 
   <div class="personal-credit-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
 
-    <span class="tl">
+    <span class="tl" fxFlex="235px">
       <strong>{{account === 0 ? 'Desembolso por cheque' : 'Desembolso por transferencia a:'}}</strong></span>
 
-    <div *ngIf="account !== 0" fxFlex="60" fxLayout="row" fxLayoutAlign="space-between">
+    <div *ngIf="account !== 0" class="left-content" fxFlex="60" fxLayout="row" fxLayoutAlign="space-between">
       <span class="tl">IBAN</span>
 
       <span class="tr">{{account}}</span>
     </div>
 
-    <p *ngIf="account === 0" class="tl" fxFlex="60">
+    <p *ngIf="account === 0" class="tl" class="left-content">
       Oficinas de Credix. Tibás, 300m oeste del cruce de llorente, oficinas en el segundo piso.</p>
 
   </div>
@@ -20,36 +20,52 @@
 
   <div class="personal-credit-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
 
-    <span class="tl"><strong>Resumen del crédito</strong></span>
+    <span class="tl" fxFlex="235px"><strong>Resumen del crédito</strong></span>
 
-    <table fxFlex="60">
-      <tbody>
-      <tr>
-        <td>Cuota</td>
-        <td class="tr">
-          <credix-numeric-block
-            [value]="personalCreditSummary?.quota"
-            fontWeight="bold"
-            prefix="₡"></credix-numeric-block>
-        </td>
-      </tr>
-      <tr>
-        <td>Plazo</td>
-        <td class="tr">
-          <strong>{{term}} {{term === 1 ? 'Mes' : 'Meses'}}</strong>
-        </td>
-      </tr>
-      <tr>
-        <td>Monto del desembolso</td>
-        <td class="tr">
-          <credix-numeric-block
-            [value]="amount"
-            fontWeight="bold"
-            prefix="₡"></credix-numeric-block>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+
+      <table>
+        <tbody>
+        <tr>
+          <td>Cuota</td>
+          <td class="tr">
+            <credix-numeric-block
+              [value]="personalCreditSummary?.quota"
+              fontWeight="bold"
+              prefix="₡"></credix-numeric-block>
+          </td>
+        </tr>
+        <tr>
+          <td>Plazo</td>
+          <td class="tr">
+            <strong>{{term}} {{term === 1 ? 'Mes' : 'Meses'}}</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>Monto del desembolso</td>
+          <td class="tr">
+            <credix-numeric-block
+              [value]="amount"
+              fontWeight="bold"
+              prefix="₡"></credix-numeric-block>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <mat-divider credixDivider></mat-divider>
+
+      <div fxLayout="row">
+        <span fxFlex><strong>Total a pagar</strong></span>
+
+        <span> <credix-numeric-block
+          [value]="personalCreditSummary?.totalPay"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block></span>
+      </div>
+
+    </div>
+
   </div>
 
 </div>

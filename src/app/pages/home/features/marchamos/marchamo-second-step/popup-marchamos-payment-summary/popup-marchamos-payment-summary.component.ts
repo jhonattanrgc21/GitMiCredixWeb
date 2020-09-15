@@ -1,5 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {TagsService} from '../../../../../../core/services/tags.service';
+import {Tag} from '../../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-popup-marchamos-payment-summary',
@@ -13,8 +15,14 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   marchamo: number;
   quotesToPay: { quotes: number, quotesAmount: number } = {quotes: 0, quotesAmount: 0};
   totalAmount = 0;
+  resumeTag5;
+  resumeTag4;
+  resumeTag3;
+  resumeTag2;
+  resumeTag1;
+  resumeDisclaimer;
 
-  constructor(public dialogRef: MatDialogRef<PopupMarchamosPaymentSummaryComponent>,
+  constructor(private tagsService: TagsService, public dialogRef: MatDialogRef<PopupMarchamosPaymentSummaryComponent>,
               @Inject(MAT_DIALOG_DATA) public data) {
   }
 
@@ -30,7 +38,20 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
       });
       this.totalAmount = this.totalAmount + this.marchamo + this.iva + this.comission + this.totalAmountItemsProducts;
     });
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
+    );
   }
+
+  getTags(tags: Tag[]) {
+    this.resumeTag4 = tags.find(tag => tag.description === 'marchamos.resumen.tag4').value;
+    this.resumeTag2 = tags.find(tag => tag.description === 'marchamos.resumen.tag2').value;
+    this.resumeTag1 = tags.find(tag => tag.description === 'marchamos.resumen.tag1').value;
+    this.resumeTag3 = tags.find(tag => tag.description === 'marchamos.resumen.tag3').value;
+    this.resumeTag5 = tags.find(tag => tag.description === 'marchamos.resumen.tag5').value;
+    this.resumeDisclaimer = tags.find(tag => tag.description === 'marchamos.resumen.disclaimer').value;
+
+}
 
 
 }

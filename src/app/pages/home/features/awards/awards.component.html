@@ -1,19 +1,17 @@
 <div class="awards" fxLayout="column" fxLayoutGap="16px">
   <div class="awards__banner-tab" fxLayout="row" fxLayoutGap="16px">
     <mat-card [ngClass]="showInProgress ?
-    'awards__banner-tab__card-progress': 'awards__banner-tab__card-finalizado'" credixCard fxFlex="100">
+    'awards__banner-tab__card-progress': 'awards__banner-tab__card-finished'" credixCard fxFlex="100">
 
       <h1>Premios</h1>
 
       <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
       <div *ngIf="showInProgress" class="awards__banner-tab__progress-div">
-        <h2>¡Complete desafíos y gane con Credix!</h2>
+        <h2>{{titleTag || '¡Complete desafíos y gane con Credix!'}}</h2>
         <p class="awards__banner-tab__progress-div__msg">
-          Siga las instrucciones de cada desafío y al completarlo obtendrá un
-          premio. Además, acumule acciones y participe en la rifa de un carro
-          Toyota Rav4.
+          {{descriptionTag}}
         </p>
-        <p class="awards__banner-tab__progress-div__p">¡Es hora de ganar!</p>
+        <!--<p class="awards__banner-tab__progress-div__p">¡Es hora de ganar!</p>-->
       </div>
     </mat-card>
   </div>
@@ -26,15 +24,15 @@
                 credixCard fxLayout="column" fxLayoutAlign="space-between">
 
         <div class="awards__cards-container__content" fxLayout="row" fxLayoutAlign="space-between">
-          <ngx-simplebar [options]="options" class="awards__simple-bar" fxFlex="50">
-            <div class="w-100" fxLayout="column">
-              <h2>{{ award.in_progress_name }}</h2>
-              <p class="awards__cards-container__content__main mb-16px">
-                {{ award.in_progress_description }}
-              </p>
-            </div>
-          </ngx-simplebar>
-          <img class="awards__cards-container__img" src="{{ award.image }}"/>
+
+          <div fxFlex="50%" fxLayout="column">
+            <h2>{{ award.in_progress_name }}</h2>
+            <p class="awards__cards-container__content__main mb-16px">
+              {{ award.in_progress_description }}
+            </p>
+          </div>
+
+          <img alt="CREDIX-PREMIOS" class="awards__cards-container__img" src="{{ award.image }}"/>
         </div>
 
 
@@ -53,7 +51,7 @@
           </div>
 
           <credix-link-button (click)="open(i, 'in-progress')" class="awards__cards-container__footer__link">
-            Ver detalle
+            {{linkTag || 'Ver detalle'}}
           </credix-link-button>
         </div>
 
@@ -63,15 +61,15 @@
                 credixCard fxLayout="column" fxLayoutAlign="space-between">
 
         <div class="awards__cards-container__content" fxLayout="row" fxLayoutAlign="space-between">
-          <ngx-simplebar [options]="options" class="awards__simple-bar" fxFlex="50">
-            <div class="w-100" fxLayout="column">
-              <h2>{{ award.completed_name }}</h2>
-              <p class="awards__cards-container__content__main">
-                {{ award.completed_description }}
-              </p>
-            </div>
-          </ngx-simplebar>
-          <img class="awards__cards-container__img" src="{{ award.image }}"/>
+
+          <div class="w-100 truncate" fxLayout="column">
+            <h2>{{ award.completed_name }}</h2>
+            <p class="awards__cards-container__content__main">
+              {{ award.completed_description }}
+            </p>
+          </div>
+
+          <img alt="CREDIX-PREMIOS" class="awards__cards-container__img" src="{{ award.image }}"/>
         </div>
 
         <div class="awards__cards-container__footer" fxLayout="row" fxLayoutAlign="space-between">
@@ -89,7 +87,7 @@
           </div>
 
           <credix-link-button (click)="open(i, 'completed')" class="awards__cards-container__footer__link">
-            Ver detalle
+            {{linkTag || 'Ver detalle'}}
           </credix-link-button>
         </div>
       </mat-card>
@@ -99,8 +97,7 @@
   <mat-card *ngIf="(showInProgress && inProgress.length === 0) || (!showInProgress && completed.length === 0)"
             [class.in-progress]="showInProgress" class="awards__result-notification" credixCard
             fxLayoutAlign="center center">
-    <credix-result-notification [title]="showInProgress ?
-     'No tiene premios en este momento.' : 'No ha finalizado ningún premio en este momento.'" status="info">
+    <credix-result-notification [title]="showInProgress ? warningOneTag : warningTwoTag" status="info">
     </credix-result-notification>
   </mat-card>
 </div>

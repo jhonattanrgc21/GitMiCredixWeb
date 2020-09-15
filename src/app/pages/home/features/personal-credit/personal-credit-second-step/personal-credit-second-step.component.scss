@@ -6,6 +6,7 @@
     width: 100%;
 
     &__input {
+      width: 360px;
       height: 43px;
       margin-bottom: 18px;
       margin-top: 16px;
@@ -21,10 +22,23 @@
   .ml-20px {
     margin-left: 20px;
   }
+
+  .left-content {
+    width: 360px;
+  }
 }
 
 @media screen and (max-width: 1199px) {
+
   .personal-credit-second-step {
     padding: 0 78px;
+
+    .left-content {
+      width: 250px;
+    }
+
+    &__input {
+      width: 250px;
+    }
   }
 }

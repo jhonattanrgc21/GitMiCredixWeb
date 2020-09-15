@@ -6,9 +6,9 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class HomeService {
-  private logOutURI = 'security/logout';
-  private messagesUri = 'messagesrewards/messages/user';
-  private markMessageReadUri = `messagesrewards/messages`;
+  private readonly logOutURI = 'security/logout';
+  private readonly messagesUri = 'messagesrewards/messages/user';
+  private readonly markMessageReadUri = `messagesrewards/messages`;
 
   private isTabletSubject = new Subject<boolean>();
   isTabletObs = this.isTabletSubject.asObservable();

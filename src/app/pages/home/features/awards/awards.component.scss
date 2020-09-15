@@ -1,12 +1,13 @@
 .awards {
 
-  &__simple-bar{
+  &__simple-bar {
     height: calc(200px - 20px);
     overflow-y: auto;
     overflow-x: hidden;
   }
 
   &__banner-tab {
+
     h1 {
       margin-bottom: 20px;
     }
@@ -16,6 +17,7 @@
     }
 
     &__progress-div {
+
       &__msg {
         margin-bottom: 21px;
         font-size: 16px;
@@ -38,7 +40,7 @@
       height: 279px;
     }
 
-    &__card-finalizado {
+    &__card-finished {
       background-image: none !important;
     }
   }
@@ -69,25 +71,12 @@
 
       &__main {
         width: 100%;
+        height: 85px;
         font-size: 14px;
         line-height: 22px;
         text-align: left;
-      }
-
-      &__actions {
-
-        &__fecha {
-          font-size: 24px;
-          font-weight: bold;
-          margin-bottom: 21px;
-        }
-
-        &__entrega {
-          font-size: 16px;
-          margin-bottom: 5px;
-          margin-top: 8.5px;
-          font-weight: bold;
-        }
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
@@ -95,6 +84,7 @@
       width: 160px;
       height: 160px;
       border-radius: 100%;
+      border: 4px solid #F2F2F2;
     }
 
     &__footer {
@@ -105,6 +95,7 @@
       }
 
       &__actions {
+
         &__span-title {
           color: #19D27E;
           font-size: 32px;
@@ -137,7 +128,6 @@
         width: 268px;
       }
     }
-
   }
 }
 

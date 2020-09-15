@@ -1,10 +1,10 @@
 <div class="cancellation__banner-tab" fxLayout="row" fxLayoutGap="16px">
   <mat-card credixCard fxFlex="100">
-    <h1>Cancelación anticipada</h1>
+    <h1>{{titleTag || 'Cancelación anticipada'}}</h1>
     <p *ngIf="!showResponse">Cancele antes sus compras y utilice nuevamente su disponible.</p>
     <credix-tab (selectionEvent)="tabSelected($event)" *ngIf="!showResponse" [tabs]="tabs"></credix-tab>
     <div *ngIf="!showResponse" fxLayout="colu" fxLayoutAlign="start center">
-      <span>Saldo a favor</span>
+      <span>{{balanceTag || 'Saldo a favor'}}</span>
       <credix-numeric-block [prefix]="currencyCode" [value]="balance" class="tr ml-16px" fontSize="24"
                             fontWeight="bold">
       </credix-numeric-block>
@@ -46,7 +46,7 @@
           </ng-container>
 
           <ng-container matColumnDef="amount">
-            <mat-header-cell *matHeaderCellDef credixHeaderCell> Saldo pendiente</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef credixHeaderCell> {{pendingbalanceTag || 'Saldo pendiente'}}</mat-header-cell>
             <mat-cell *matCellDef="let element"
                       [ngClass]="(changeFormat(element.amount) > balance && !this.selection.isSelected(element)) && 'disabledRow'"
                       credixCell>{{element.amount && element.amount}} </mat-cell>
@@ -75,7 +75,7 @@
       </mat-table>
 
       <credix-result-notification *ngIf="empty" status="info"
-                                  title="No tiene consumos para cancelar anticipadamente en este momento.">
+                                  title="{{warningTag || 'No tiene consumos para cancelar anticipadamente en este momento.'}}">
       </credix-result-notification>
     </div>
 
@@ -87,12 +87,12 @@
       </credix-result-notification>
       <mat-divider class="cancellation__divider full-width mt-16px mb-16px"></mat-divider>
       <div class="cancellation__data-info" fxLayout="row" fxLayoutAlign="space-between start">
-        <div fxFlex="42%">
+        <div fxFlex="52%">
           <p class="cancellation__data-info__text">Datos de la cancelación anticipada</p>
         </div>
-        <div fxFlex="58%">
+        <div fxFlex="48%">
           <div class="cancellation__data-info__row" fxLayout="row">
-            <div fxFlex="50%"><span>Monto cancelado</span></div>
+            <div fxFlex="50%"><span>{{amountTag || 'Monto cancelado'}}</span></div>
             <div class="tr" fxFlex="50%">
               <credix-numeric-block [prefix]="currencyCode" [value]="cancelledTotal" class="tr" fontSize="16"
                                     fontWeight="bold">
@@ -100,7 +100,7 @@
             </div>
           </div>
           <div class="cancellation__data-info__row" fxLayout="row">
-            <div fxFlex="60%"><span>Consumos cancelados</span></div>
+            <div fxFlex="60%"><span>{{cosumTag || 'Consumos cancelados'}}</span></div>
             <div class="tr" fxFlex="40%">
               <span class="cancellation__data-info__text">{{paymentList.length}}</span>
             </div>
@@ -108,7 +108,7 @@
         </div>
       </div>
       <div class="mt-70px" fxLayout="column" fxLayoutAlign="space-between center">
-        <credix-share-button class="send-money__shrare-btn"></credix-share-button>
+        <credix-share-button class="cancellation__share-btn"></credix-share-button>
       </div>
     </div>
 

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http.service';
-import {map, publishReplay, refCount} from 'rxjs/operators';
+import {catchError, map, publishReplay, refCount} from 'rxjs/operators';
 import {StorageService} from './storage.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {AccountSummary} from '../../shared/models/account-summary';
 import {Currency} from '../../shared/models/currency';
 import {IdentificationType} from '../../shared/models/IdentificationType';
@@ -73,8 +73,17 @@ export class GlobalRequestsService {
           publishReplay(1),
           refCount(),
           map(response => {
-            return response.json;
-          }));
+            if (response.type !== 'error') {
+              return response.json;
+            } else {
+              throw new Error('Ocurrió un error');
+            }
+          }),
+          catchError(err => {
+            console.log('Error: ', err);
+            return of();
+          })
+        );
     }
 
     return this.homeContent;
@@ -250,7 +259,6 @@ export class GlobalRequestsService {
           refCount(),
           map((response) => {
             if (response.type === 'success') {
-              console.log(response);
               return response.listQuota;
             } else {
               return [];

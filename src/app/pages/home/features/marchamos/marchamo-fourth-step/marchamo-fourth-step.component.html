@@ -1,7 +1,7 @@
 <div class="four-step-marchamo">
 
   <div class="four-step-marchamo__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="210px"><strong>Contacto</strong></span>
+    <span fxFlex="210px"><strong>{{step4Subt1 || 'Contacto'}}</strong></span>
 
     <div fxFlex="380px" fxLayout="column">
       <span>{{contactConfirm.name}} </span>
@@ -13,19 +13,19 @@
   <mat-divider credixDivider></mat-divider>
 
   <div class="four-step-marchamo__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="210px"><strong>Lugar de retiro</strong></span>
+    <span fxFlex="210px"><strong>{{step4Sub2 || 'Lugar de retiro'}}</strong></span>
     <p fxFlex="380px">{{place.placeDescription}}</p>
   </div>
 
   <mat-divider></mat-divider>
 
   <div class="four-step-marchamo__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span class="tl"><strong>Resumen de pago</strong></span>
+    <span class="tl"><strong>{{step4Subt3 || 'Resumen de pago'}}</strong></span>
 
     <div fxFlex="380px" fxLayout="column" fxLayoutGap="8px">
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Marchamo</span>
+        <span>{{step4TagMarch || 'Marchamo'}}</span>
         <credix-numeric-block
           [value]="totalAmount"
           fontSize="16"
@@ -34,7 +34,7 @@
         </credix-numeric-block>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Seguros</span>
+        <span>{{step4TagSeg || 'Seguros'}}</span>
         <credix-numeric-block
           [value]="amountTotalProducts"
           fontSize="16"
@@ -43,7 +43,7 @@
         </credix-numeric-block>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Comisión</span>
+        <span>{{step4TagCom || 'Comisión'}}</span>
         <credix-numeric-block
           [value]="ivaAndCommission.commission"
           fontSize="16"
@@ -51,7 +51,7 @@
           prefix="₡"></credix-numeric-block>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>IVA</span>
+        <span>{{step4TagIva || 'IVA'}}</span>
         <credix-numeric-block
           [value]="ivaAndCommission.iva"
           fontSize="16"
@@ -61,7 +61,7 @@
       </div>
       <mat-divider class="mb-16px" credixDivider></mat-divider>
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span class="tl"><strong>Total</strong></span>
+        <span class="tl"><strong>{{step4TagT || 'Total'}}</strong></span>
         <credix-numeric-block
           [value]="total"
           fontSize="16"
@@ -77,8 +77,10 @@
     <div fxFlex="210px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>
       <p style="font-size: 14px;">Ingrese el código generado en la aplicación
-        <credix-link-button>Código MiCredix</credix-link-button>
-        <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
+        <credix-link-button>
+          Código MiCredix
+          <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
+        </credix-link-button>
       </p>
     </div>
 

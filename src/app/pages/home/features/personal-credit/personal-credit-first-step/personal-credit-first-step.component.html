@@ -80,7 +80,7 @@
       </td>
     </tr>
     <tr>
-      <td>Comisión (5%)</td>
+      <td>Comisión (5%)*</td>
       <td class="tr">
         <credix-numeric-block
           [value]="personalCreditSummary?.commission"
@@ -123,7 +123,7 @@
   <p style="margin: 16px 0 28px 0; color: #707070;">* IVA y comisión se cargarán en el próximo estado de cuenta.</p>
 
   <div fxLayout="row" fxLayoutAlign="space-between">
-    <span class="tl" style="font-size: 20px;">Cuotas de</span>
+    <span class="tl" style="font-size: 20px;">{{termControl.value}} Cuotas de</span>
 
     <credix-numeric-block [value]="personalCreditSummary?.quota"
                           class="tr"

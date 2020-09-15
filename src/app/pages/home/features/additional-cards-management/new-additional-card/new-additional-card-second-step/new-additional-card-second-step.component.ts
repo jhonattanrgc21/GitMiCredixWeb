@@ -7,6 +7,8 @@ import {ModalService} from '../../../../../../core/services/modal.service';
 import {NewAddressPopupComponent} from './new-address-popup/new-address-popup.component';
 import {StorageService} from '../../../../../../core/services/storage.service';
 import {AdditionalCardsManagementService} from '../../additional-cards-management.service';
+import {TagsService} from '../../../../../../core/services/tags.service';
+import {Tag} from '../../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-new-additional-card-second-step',
@@ -23,16 +25,25 @@ export class NewAdditionalCardSecondStepComponent implements OnInit {
   userAddress: string;
   userPhoneNumber: number;
   userEmail: string;
+  optionOneTag: string;
+  subOptionOneTag: string;
+  subOptionTwoTag: string;
+  optionTwoTag: string;
+  linkTag: string;
+  subtitleTag: string;
 
   constructor(private globalRequestsService: GlobalRequestsService,
               private additionalCardsManagementService: AdditionalCardsManagementService,
               private storageService: StorageService,
+              private tagsService: TagsService,
               private modalService: ModalService) {
     this.name = this.storageService.getCurrentUser().aplicantName;
   }
 
   ngOnInit(): void {
     this.onFormChanged();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Tarjetas adicionales').tags));
   }
 
   getDeliveryPlaces() {
@@ -76,5 +87,14 @@ export class NewAdditionalCardSecondStepComponent implements OnInit {
         this.additionalCardsManagementService.pickUpPlace = value;
       }
     });
+  }
+
+  getTags(tags: Tag[]) {
+    this.optionOneTag = tags.find(tag => tag.description === 'adicionales.stepper2.option1').value;
+    this.subOptionOneTag = tags.find(tag => tag.description === 'adicionales.stepper2.option1.option1').value;
+    this.subOptionTwoTag = tags.find(tag => tag.description === 'adicionales.stepper2.option1.option2').value;
+    this.optionTwoTag = tags.find(tag => tag.description === 'adicionales.stepper2.option2').value;
+    this.linkTag = tags.find(tag => tag.description === 'adicionales.stepper2.option2.option2.link').value;
+    this.subtitleTag = tags.find(tag => tag.description === 'adicionales.stepper2.subtitle').value;
   }
 }

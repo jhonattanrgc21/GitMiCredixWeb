@@ -1,7 +1,7 @@
 <div class="new-additional-card-third-step" fxLayout="column">
 
   <div class="new-additional-card-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="210px"><strong>Contacto</strong></span>
+    <span fxFlex="210px"><strong>{{subtitleOneTag || 'Contacto'}}</strong></span>
 
     <div class="left-content" fxLayout="column">
       <span>{{name}}</span>
@@ -13,7 +13,7 @@
   <mat-divider class="mb-16px mt-16px" credixDivider></mat-divider>
 
   <div class="new-additional-card-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="210px"><strong>Lugar de retiro</strong></span>
+    <span fxFlex="210px"><strong>{{subtitleTwoTag || 'Lugar de retiro'}}</strong></span>
 
     <p class="left-content">{{pickUpPlace}}</p>
   </div>
@@ -21,16 +21,16 @@
   <mat-divider class="mb-16px mt-16px" credixDivider></mat-divider>
 
   <div class="new-additional-card-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="210px"><strong>Nueva tarjeta</strong></span>
+    <span fxFlex="210px"><strong>{{subtitleThreeTag || 'Nueva tarjeta'}}</strong></span>
 
     <div class="left-content" fxLayout="column">
       <div fxLayout="row">
-        <span fxFlex="120px">A nombre de</span>
+        <span fxFlex="120px">{{secondTag || 'A nombre de'}}</span>
         <span class="tr" fxFlex><strong>{{name}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex="120px">Límite de crédito</span>
+        <span fxFlex="120px">{{thirdTag || 'Límite de crédito'}}</span>
         <span class="tr" fxFlex><strong>{{creditLimit}}%</strong></span>
       </div>
     </div>
@@ -39,7 +39,7 @@
   <mat-divider class="mb-16px mt-16px" credixDivider></mat-divider>
 
   <div class="new-additional-card-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <div fxFlex="210px" fxLayout="column">Código MiCredix
+    <div fxFlex="210px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>
       <p style="font-size: 14px;">Ingrese el código generado en la aplicación
         <credix-link-button>
