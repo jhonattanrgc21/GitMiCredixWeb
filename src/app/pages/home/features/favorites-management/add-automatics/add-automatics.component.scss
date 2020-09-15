@@ -1,11 +1,29 @@
 .add-automatics {
-  width: 877px;
-  min-height: 780px;
+  min-width: 877px;
+  min-height: 677px;
   position: relative;
-  padding: 40px 77px;
+  padding: 16px;
 
-  &__form {
-    width: 380px;
+  &__container {
+    padding: 40px 77px 16px 77px;
+  }
+
+  &__input {
+    width: 379px;
+    height: 42px;
+  }
+
+  &__credix-code {
+    padding: 8px 77px 0px 77px;
+
+    .content {
+      padding: 16px 0px;
+    }
+
+    credix-code-input {
+      padding: 16px 0px;
+      width: 380px !important;
+    }
   }
 
   &__footer {
@@ -17,19 +35,9 @@
     padding: 16px;
   }
 
-  &__credix-code {
-    .content {
-      padding: 16px 0px;
-    }
-
-    span {
-      padding: 16px 0px;
-    }
-
-    credix-code-input {
-      padding: 16px 0px;
-      width: 380px;
-    }
+  ::ng-deep mat-divider {
+    margin-left: 77px !important;
+    width: 740px !important;
   }
 
   .result {

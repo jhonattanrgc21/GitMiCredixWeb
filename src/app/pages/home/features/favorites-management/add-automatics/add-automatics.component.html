@@ -1,35 +1,37 @@
 <mat-card class="add-automatics">
   <h1>Añadir pago automático</h1>
-  <div *ngIf="!resultAutomatics" fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="!resultAutomatics" class="add-automatics__container" fxLayout="row" fxLayoutAlign="space-between">
     <span><strong>Nuevo pago automático</strong></span>
     <form [formGroup]="newAutomaticsForm" class="add-automatics__form" fxLayout="column">
 
-      <credix-select formControlName="publicServicesCategory" label="Categoría">
+      <credix-select class="add-automatics__input" formControlName="publicServicesCategory" label="Categoría">
         <mat-option *ngFor="let category of publicServicesCategory" [value]="category.publicServiceCategoryId">
           {{category.publicServiceCategory}}
         </mat-option>
       </credix-select>
 
-      <credix-select formControlName="publicServiceCompany" label="Compañía">
+      <credix-select class="add-automatics__input" formControlName="publicServiceCompany" label="Compañía">
         <mat-option *ngFor="let company of publicCompany"
                     [value]="company.publicServiceEnterpriseId">
           {{company.publicServiceEnterpriseDescription}}
         </mat-option>
       </credix-select>
 
-      <credix-select formControlName="publicService" label="Servicio">
+      <credix-select class="add-automatics__input" formControlName="publicService" label="Servicio">
         <mat-option *ngFor="let service of publicServices"
                     [value]="service.publicServiceId">
           {{service.publicServiceName}}
         </mat-option>
       </credix-select>
 
-      <credix-input-field formControlName="phoneNumber" label="Número de teléfono"
+      <credix-input-field class="add-automatics__input" formControlName="phoneNumber" label="Número de teléfono"
                           mask="0000-0000"></credix-input-field>
 
-      <credix-input-field formControlName="nameOfAutomatics" label="Nombre del pago automático"></credix-input-field>
+      <credix-input-field class="add-automatics__input" formControlName="nameOfAutomatics"
+                          label="Nombre del pago automático"></credix-input-field>
 
-      <credix-input-field class="mb-8px" formControlName="maxAmount" label="Monto máximo a pagar" mask="separator"
+      <credix-input-field class="add-automatics__input" formControlName="maxAmount" label="Monto máximo a pagar"
+                          mask="separator"
                           thousandSeparator="."></credix-input-field>
 
       <credix-input-field (click)="openCalendar()"
@@ -40,7 +42,7 @@
         <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
       </credix-input-field>
 
-      <credix-select formControlName="periodicity" label="Periocidad">
+      <credix-select class="add-automatics__input" formControlName="periodicity" label="Periocidad">
         <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
           {{periodicity.description}}
         </mat-option>
@@ -48,10 +50,11 @@
     </form>
   </div>
 
+  <mat-divider *ngIf="!resultAutomatics"></mat-divider>
   <div *ngIf="!resultAutomatics" class="add-automatics__credix-code" fxLayout="row" fxLayoutAlign="space-between">
-    <mat-divider></mat-divider>
     <div class="content" fxFlex="210px" fxLayout="column">
-      <span><strong>Código MiCredix</strong></span>
+
+    <span><strong>Código MiCredix</strong></span>
       <p style="font-size: 14px;">Ingrese el código generado en la aplicación
         <credix-link-button>Código MiCredix</credix-link-button>
         <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>

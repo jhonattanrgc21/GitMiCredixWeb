@@ -1,8 +1,19 @@
 .add-iban-account {
-  width: 877px;
+  min-width: 877px;
   min-height: 662px;
   position: relative;
-  padding: 40px 77px;
+  padding: 16px;
+
+
+  &__container {
+    padding: 40px 77px 16px 77px;
+  }
+
+  &__input {
+    width: 379px;
+    height: 44px;
+  }
+
 
   &__footer {
     position: absolute;
@@ -13,26 +24,22 @@
     padding: 16px 8px;
   }
 
-  &__form {
-    width: 380px;
-    padding: 16px 8px;
-  }
-
   &__credix-code {
-    padding: 16px 0px;
-
-    span {
-      padding: 16px 0px;
-    }
+    padding: 8px 77px 0px 77px;
 
     credix-code-input {
       padding: 16px 0px;
-      width: 380px;
+      width: 379px !important;
     }
   }
 
   .result {
-
     padding: 156px 220px;
+  }
+
+  ::ng-deep mat-divider {
+    margin-left: 77px !important;
+    width: 740px !important;
+    position: initial;
   }
 }
