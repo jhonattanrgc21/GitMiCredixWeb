@@ -3,10 +3,20 @@
   min-height: 662px;
   position: relative;
 
+  &__nav {
+    margin: 0 -16px;
+
+    ::ng-deep .navigation-table__header {
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
+  }
+
   &__account-wrapper {
     width: 250px;
     height: 95.5px;
-    padding: 0 1px;
+    padding: 8px 4px;
+    cursor: pointer;
   }
 
   &__right-content {

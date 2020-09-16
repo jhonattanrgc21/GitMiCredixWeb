@@ -1,23 +1,27 @@
 <mat-card class="add-iban-account" fxLayout="column">
   <h1>Añadir cuenta IBAN</h1>
-  <div *ngIf="!resultIban" fxLayout="row" fxLayoutAlign="space-between">
-    <span><strong>Nuevo pago favorito</strong></span>
-    <form [formGroup]="newFavoriteIbanForm" class="add-iban-account__form" fxLayout="column">
+  <div *ngIf="!resultIban" class="add-iban-account__container" fxLayout="row" fxLayoutAlign="space-between">
+    <span><strong>Cuenta IBAN</strong></span>
+    <form [formGroup]="newFavoriteIbanForm" fxLayout="column">
 
-      <credix-input-field formControlName="ibanAccount" label="Cuenta IBAN"></credix-input-field>
-      <credix-input-field formControlName="nameOfFavorite" label="Nombre de favorito"></credix-input-field>
+      <credix-input-field class="add-iban-account__input" formControlName="ibanAccount"
+                          label="Cuenta IBAN"></credix-input-field>
+      <credix-input-field class="add-iban-account__input" formControlName="nameOfFavorite"
+                          label="Nombre de favorito"></credix-input-field>
 
-      <credix-select formControlName="identificationType" label="Tipo de identificación">
+      <credix-select class="add-iban-account__input" formControlName="identificationType"
+                     label="Tipo de identificación">
         <mat-option *ngFor="let idenType of identificationTypes" [value]="idenType.id">
           {{idenType.description}}
         </mat-option>
       </credix-select>
 
-      <credix-input-field [mask]="identificationMask" formControlName="identification"
+      <credix-input-field [mask]="identificationMask" class="add-iban-account__input" formControlName="identification"
                           label="Número de identificación"></credix-input-field>
     </form>
   </div>
 
+  <mat-divider *ngIf="!resultIban" class="mb-8px"></mat-divider>
   <div *ngIf="!resultIban" class="add-iban-account__credix-code" fxLayout="row" fxLayoutAlign="space-between">
     <div fxFlex="210px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>

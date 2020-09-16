@@ -1,39 +1,41 @@
 <mat-card class="add-favorites-payment">
   <h1>Añadir pago favorito</h1>
-  <div *ngIf="!resultFavorites" fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="!resultFavorites" class="add-favorites-payment__container" fxLayout="row" fxLayoutAlign="space-between">
     <span><strong>Nuevo pago favorito</strong></span>
-    <form [formGroup]="newFavoritesPaymentForm" class="add-favorites-payment__form" fxLayout="column">
+    <form [formGroup]="newFavoritesPaymentForm" fxLayout="column">
 
-      <credix-select formControlName="publicServicesCategory" label="Categoría">
+      <credix-select class="add-favorites-payment__input" formControlName="publicServicesCategory" label="Categoría">
         <mat-option *ngFor="let category of publicServicesCategory" [value]="category.publicServiceCategoryId">
           {{category.publicServiceCategory}}
         </mat-option>
       </credix-select>
 
-      <credix-select formControlName="PublicServiceCompany" label="Compañía">
+      <credix-select class="add-favorites-payment__input" formControlName="PublicServiceCompany" label="Compañía">
         <mat-option *ngFor="let company of publicCompany"
                     [value]="company.publicServiceEnterpriseId">
           {{company.publicServiceEnterpriseDescription}}
         </mat-option>
       </credix-select>
 
-      <credix-select formControlName="publicService" label="Servicio">
+      <credix-select class="add-favorites-payment__input" formControlName="publicService" label="Servicio">
         <mat-option *ngFor="let service of publicServices"
                     [value]="service.publicServiceId">
           {{service.publicServiceName}}
         </mat-option>
       </credix-select>
 
-      <credix-input-field formControlName="phoneNumber" label="Número de teléfono"
+      <credix-input-field class="add-favorites-payment__input"
+                          formControlName="phoneNumber" label="Número de teléfono"
                           mask="0000-0000"></credix-input-field>
 
-      <credix-input-field formControlName="favoriteName" label="Nombre del favorito"></credix-input-field>
+      <credix-input-field class="add-favorites-payment__input" formControlName="favoriteName"
+                          label="Nombre del favorito"></credix-input-field>
     </form>
   </div>
 
+  <mat-divider *ngIf="!resultFavorites" class="mb-8px"></mat-divider>
   <div *ngIf="!resultFavorites" class="add-favorites-payment__credix-code" fxLayout="row" fxLayoutAlign="space-between">
     <div fxFlex="210px" fxLayout="column">
-      <mat-divider></mat-divider>
       <span><strong>Código MiCredix</strong></span>
       <p style="font-size: 14px;">Ingrese el código generado en la aplicación
         <credix-link-button>Código MiCredix</credix-link-button>
