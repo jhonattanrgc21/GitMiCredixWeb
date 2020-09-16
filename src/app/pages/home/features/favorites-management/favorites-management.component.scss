@@ -67,13 +67,6 @@
   }
 }
 
-@media screen and (max-width: 1199px) {
-  .favorites-management {
-    height: 886px;
-  }
-}
-
-
 :host ::ng-deep {
 
   .navigation-table__header {
@@ -103,4 +96,16 @@
       width: 290px;
     }
   }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .favorites-management {
+    height: 886px;
+  }
+
+  :host ::ng-deep .navigation-table__content {
+    height: 715px;
+  }
+
 }

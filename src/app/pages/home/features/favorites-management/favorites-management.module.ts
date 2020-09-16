@@ -40,7 +40,6 @@ const routes: Routes = [
       },
       {
         path: 'favorites-payments',
-        // tslint:disable-next-line:max-line-length
         loadChildren: () => import('./favorites-payments/favorites-payments.module').then(m => m.FavoritesPaymentsModule)
       },
       {
@@ -48,6 +47,18 @@ const routes: Routes = [
         loadChildren: () => import('./automatics/automatics.module').then(m => m.AutomaticsModule)
       }
     ]
+  },
+  {
+    path: 'new-account',
+    component: AddIbanAccountComponent
+  },
+  {
+    path: 'new-favorite',
+    component: AddFavoritesPaymentComponent
+  },
+  {
+    path: 'new-automatics',
+    component: AddAutomaticsComponent
   }
 ];
 

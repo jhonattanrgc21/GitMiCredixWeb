@@ -1,54 +1,78 @@
-<mat-card class="add-iban-account" fxLayout="column">
-  <h1>Añadir cuenta IBAN</h1>
-  <div *ngIf="!resultIban" class="add-iban-account__container" fxLayout="row" fxLayoutAlign="space-between">
-    <span><strong>Cuenta IBAN</strong></span>
-    <form [formGroup]="newFavoriteIbanForm" fxLayout="column">
+<mat-card *ngIf="!done else doneNewAccountTemplate" class="add-iban-account" credixCard fxLayout="column">
 
-      <credix-input-field class="add-iban-account__input" formControlName="ibanAccount"
-                          label="Cuenta IBAN"></credix-input-field>
-      <credix-input-field class="add-iban-account__input" formControlName="nameOfFavorite"
-                          label="Nombre de favorito"></credix-input-field>
+  <h1 class="mb-32px">Añadir cuenta IBAN</h1>
 
-      <credix-select class="add-iban-account__input" formControlName="identificationType"
-                     label="Tipo de identificación">
-        <mat-option *ngFor="let idenType of identificationTypes" [value]="idenType.id">
-          {{idenType.description}}
-        </mat-option>
-      </credix-select>
+  <div class="add-iban-account__container mt-8px" fxLayout="column" fxLayoutGap="16px">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex="210px"><strong>Cuenta IBAN</strong></span>
 
-      <credix-input-field [mask]="identificationMask" class="add-iban-account__input" formControlName="identification"
-                          label="Número de identificación"></credix-input-field>
-    </form>
-  </div>
+      <form [formGroup]="newFavoriteIbanForm" class="add-iban-account__form" fxLayout="column" fxLayoutGap="16px">
+        <credix-input-field class="add-iban-account__form__input" formControlName="ibanAccount"
+                            label="Cuenta IBAN"></credix-input-field>
 
-  <mat-divider *ngIf="!resultIban" class="mb-8px"></mat-divider>
-  <div *ngIf="!resultIban" class="add-iban-account__credix-code" fxLayout="row" fxLayoutAlign="space-between">
-    <div fxFlex="210px" fxLayout="column">
-      <span><strong>Código MiCredix</strong></span>
-      <p style="font-size: 14px;">Ingrese el código generado en la aplicación
-        <credix-link-button>Código MiCredix</credix-link-button>
-        <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
-      </p>
+        <credix-input-field class="add-iban-account__form__input" formControlName="nameOfFavorite"
+                            label="Nombre de favorito"></credix-input-field>
+
+        <credix-select class="add-iban-account__form__input" formControlName="identificationType"
+                       label="Tipo de identificación">
+          <mat-option *ngFor="let idenType of identificationTypes" [value]="idenType.id">
+            {{idenType.description}}
+          </mat-option>
+        </credix-select>
+
+        <credix-input-field [mask]="identificationMask" class="add-iban-account__form__input mb-8px"
+                            formControlName="identification"
+                            label="Número de identificación"></credix-input-field>
+      </form>
     </div>
-    <credix-code-input [(codeFormControl)]="codeCredix" [length]="6" class="w-50"
-                       errorMessage="Introduzca el codigo de confirmación">
-    </credix-code-input>
+
+    <mat-divider credixDivider></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <div fxFlex="210px" fxLayout="column">
+        <span><strong>Código MiCredix</strong></span>
+        <p style="font-size: 14px;">Ingrese el código generado en la aplicación
+          <credix-link-button>
+            Código MiCredix
+            <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
+          </credix-link-button>
+        </p>
+      </div>
+
+      <credix-code-input [(codeFormControl)]="codeCredix" [length]="6" class="add-iban-account__form"
+                         errorMessage="Introduzca el codigo de confirmación">
+      </credix-code-input>
+    </div>
   </div>
 
-  <div *ngIf="resultIban" class="result" fxLayout="column" fxLayoutAlign="center center">
-    <credix-result-notification [message]="result.message" [status]="result.status"
-                                [title]="result.title"></credix-result-notification>
-  </div>
 
   <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" *ngIf="!resultIban" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="addIbanFavoriteAccount()" *ngIf="!resultIban"
+      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="addIbanFavoriteAccount()"
                      [disabled]="!newFavoriteIbanForm.valid || !codeCredix.valid"
                      [text]="'Añadir'"></credix-button>
-      <credix-button (buttonClick)="ready()" *ngIf="resultIban" [text]="'Listo'"></credix-button>
     </div>
   </div>
 </mat-card>
 
 
+<ng-template #doneNewAccountTemplate>
+
+  <mat-card class="add-iban-account" credixCard fxLayout="column">
+
+    <h1>Añadir cuenta IBAN</h1>
+
+    <div fxFlex fxLayoutAlign="center center">
+      <credix-result-notification [message]="result.message" [status]="result.status" [title]="result.title">
+      </credix-result-notification>
+    </div>
+
+    <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
+      <div fxLayoutGap="16px">
+        <credix-button (buttonClick)="back()" text="Listo"></credix-button>
+      </div>
+    </div>
+  </mat-card>
+
+</ng-template>

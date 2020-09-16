@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
-import {TableHeadersModel} from '../../../../shared/models/table-headers.model';
 import {FavoritesManagementService} from './favorites-management.service';
 import {AccountsFavoriteManagement} from '../../../../shared/models/accounts-favorite-management';
 import {ModalService} from '../../../../core/services/modal.service';
@@ -15,18 +14,17 @@ import {AutomaticsService} from './automatics/automatics.service';
   styleUrls: ['./favorites-management.component.scss']
 })
 export class FavoritesManagementComponent implements OnInit, AfterViewInit {
-  optionsScroll = {autoHide: false, scrollbarMinSize: 100};
   accounts: AccountsFavoriteManagement[] = [];
-  tabId = 1;
-  responseMessage: string;
-  tableHeaders: TableHeadersModel[];
+  tableHeaders = [
+    {label: 'Cuentas guardadas', width: '276px'},
+    {label: 'Detalle de la cuenta', width: 'auto'}
+  ];
   tabs = [
     {id: 1, name: 'Cuentas IBAN'},
     {id: 2, name: 'Pagos favoritos'},
     {id: 3, name: 'Automáticos'}
   ];
-  showTemplate: string;
-  showContent = false;
+  tabId = 1;
   buttonText = 'Añadir cuenta IBAN';
   updating = false;
   empty = false;
@@ -39,15 +37,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               private ibanService: IbanAccountsService,
               private favoriteService: FavoritesPaymentsService,
               private automaticsService: AutomaticsService) {
-    this.showTemplate = 'favorite-management';
   }
 
   ngOnInit(): void {
-    this.tableHeaders = [
-      {label: 'Cuentas guardadas', width: '276px'},
-      {label: 'Detalle de la cuenta', width: 'auto'}
-    ];
-    this.setButtonText(1);
     this.getFavoritesIban();
   }
 
@@ -56,6 +48,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   getDetailFavorite(option) {
+    console.log(option);
     this.optionSelected = option.IdAccountFavorite;
     if (option.publicServiceCode !== undefined) {
       // tslint:disable-next-line:max-line-length
@@ -81,19 +74,35 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     switch (tab.id) {
       case 1:
         this.router.navigate(['home/favorites-management/iban-accounts']);
+        this.tableHeaders[0].label = 'Cuentas guardadas';
+        this.tableHeaders[1].label = 'Detalle de la cuenta';
         break;
       case 2:
         this.router.navigate(['home/favorites-management/favorites-payments']);
-        this.tableHeaders = [
-          {label: 'Pagos guardados', width: '276px'},
-          {label: 'Detalle del pago', width: 'auto'}
-        ];
+        this.tableHeaders[0].label = 'Pagos guardados';
+        this.tableHeaders[1].label = 'Detalle del pago';
         break;
       case 3:
         this.router.navigate(['home/favorites-management/automatics']);
+        this.tableHeaders[0].label = 'Cuentas guardadas';
+        this.tableHeaders[1].label = 'Detalle de la cuenta';
         break;
     }
 
+  }
+
+  add(tabId: number) {
+    switch (tabId) {
+      case 1:
+        this.router.navigate(['/home/favorites-management/new-account']);
+        break;
+      case 2:
+        this.router.navigate(['/home/favorites-management/new-favorite']);
+        break;
+      case 3:
+        this.router.navigate(['/home/favorites-management/new-automatics']);
+        break;
+    }
   }
 
   initServicesEngine(tabId: number) {
@@ -127,35 +136,6 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
-  delete(tabId: number) {
-    switch (tabId) {
-      case 1:
-        this.modalService.confirmationPopup('¿Desea eliminar esta cuenta IBAN?', '', 380, 197)
-          .subscribe((response) => {
-            if (response) {
-              this.favoriteManagementService.emitDeleteIbanAccount(true);
-            }
-          });
-        break;
-      case 2:
-        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?', '', 380, 197)
-          .subscribe((response) => {
-            if (response) {
-              this.favoriteManagementService.emitDeleteFavorites(true);
-            }
-          });
-        break;
-      case 3:
-        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?', '', 380, 197)
-          .subscribe((response) => {
-            if (response) {
-              this.favoriteManagementService.emitDeleteAutomatics(true);
-            }
-          });
-        break;
-    }
-  }
-
   update(tabId: number) {
     switch (tabId) {
       case 1:
@@ -166,6 +146,32 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         break;
       case 3:
         this.favoriteManagementService.emitConfirmUpdate(true);
+        break;
+    }
+  }
+
+  delete(tabId: number) {
+    switch (tabId) {
+      case 1:
+        this.modalService.confirmationPopup('¿Desea eliminar esta cuenta IBAN?').subscribe((response) => {
+          if (response) {
+            this.favoriteManagementService.emitDeleteIbanAccount(true);
+          }
+        });
+        break;
+      case 2:
+        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((response) => {
+          if (response) {
+            this.favoriteManagementService.emitDeleteFavorites(true);
+          }
+        });
+        break;
+      case 3:
+        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((response) => {
+          if (response) {
+            this.favoriteManagementService.emitDeleteAutomatics(true);
+          }
+        });
         break;
     }
   }
@@ -214,24 +220,6 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
           break;
       }
     });
-  }
-
-  add(tabId: number) {
-    switch (tabId) {
-      case 1:
-        this.showTemplate = 'add-iban';
-        break;
-      case 2:
-        this.showTemplate = 'add-favorites';
-        break;
-      case 3:
-        this.showTemplate = 'add-automatics';
-        break;
-    }
-  }
-
-  changeTemplate(event) {
-    this.showTemplate = event;
   }
 
   getFavoritesIban() {

@@ -33,15 +33,9 @@ export class IbanAccountsService {
       );
   }
 
-  setIbanFavoriteAccount(alias: string, account: string, typeId: number, id: string, credixCode: string) {
-    return this.httpService.post('canales', 'iban/saveFavoriteAccountIBAN', {
-      channelId: 102,
-      aliasName: alias,
-      ibanAccount: account,
-      typeIdentificacionId: typeId,
-      identification: id,
-      codeCredix: credixCode
-    });
+  setIbanFavoriteAccount(aliasName: string, ibanAccount: string, typeIdentificacionId: number, identification: string, codeCredix: string) {
+    return this.httpService.post('canales', 'iban/saveFavoriteAccountIBAN',
+      {aliasName, ibanAccount, typeIdentificacionId, identification, codeCredix});
   }
 
   setDeleteIbanAccount(ibanId: number) {
