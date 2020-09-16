@@ -15,7 +15,7 @@ import {AutomaticsService} from './automatics/automatics.service';
   styleUrls: ['./favorites-management.component.scss']
 })
 export class FavoritesManagementComponent implements OnInit, AfterViewInit {
-
+  optionsScroll = {autoHide: false, scrollbarMinSize: 100};
   accounts: AccountsFavoriteManagement[] = [];
   tabId = 1;
   responseMessage: string;
@@ -26,9 +26,11 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     {id: 3, name: 'Automáticos'}
   ];
   showTemplate: string;
-  showContent: boolean;
+  showContent = false;
   buttonText = 'Añadir cuenta IBAN';
   updating = false;
+  empty = false;
+  optionSelected = 0;
 
   constructor(private toastService: CredixToastService,
               private router: Router,
@@ -41,12 +43,11 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.showContent = false;
     this.tableHeaders = [
       {label: 'Cuentas guardadas', width: '276px'},
       {label: 'Detalle de la cuenta', width: 'auto'}
     ];
-    this.buttonCMS(1);
+    this.setButtonText(1);
     this.getFavoritesIban();
   }
 
@@ -54,26 +55,29 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     this.getIsAddedAndDeletedOrUpdating();
   }
 
-  getDetailFavorite(accountEvent) {
-    if (accountEvent.publicServiceCode !== undefined) {
+  getDetailFavorite(option) {
+    this.optionSelected = option.IdAccountFavorite;
+    if (option.publicServiceCode !== undefined) {
       // tslint:disable-next-line:max-line-length
-      this.favoriteManagementService.emitFavoritesPaymentsData(accountEvent.name, accountEvent.account, accountEvent.publicServiceName, accountEvent.publicServiceProvider, accountEvent.publicServiceAccessKeyDescription, accountEvent.publicServiceId, accountEvent.publicServiceFavoriteId, accountEvent.accountId, accountEvent.publicServiceAccessKeyId, accountEvent.publicServiceEnterpriseDescription);
+      this.favoriteManagementService.emitFavoritesPaymentsData(option.name, option.account, option.publicServiceName, option.publicServiceProvider, option.publicServiceAccessKeyDescription, option.publicServiceId, option.publicServiceFavoriteId, option.accountId, option.publicServiceAccessKeyId, option.publicServiceEnterpriseDescription);
     }
 
-    if (accountEvent.IdAccountFavorite !== undefined) {
-      this.favoriteManagementService.emitIbanAccountData(accountEvent.name, accountEvent.account, accountEvent.IdAccountFavorite);
+    if (option.IdAccountFavorite !== undefined) {
+      this.favoriteManagementService.emitIbanAccountData(option.name, option.account, option.IdAccountFavorite);
     }
 
-    if (accountEvent.id !== undefined) {
+    if (option.id !== undefined) {
       // tslint:disable-next-line:max-line-length
-      this.favoriteManagementService.emitAutomaticsPaymentData(accountEvent.account, accountEvent.name, accountEvent.id, accountEvent.maxAmount, accountEvent.periodicityDescription, accountEvent.startDate, accountEvent.key);
+      this.favoriteManagementService.emitAutomaticsPaymentData(option.account, option.name, option.id, option.maxAmount, option.periodicityDescription, option.startDate, option.key);
     }
   }
 
   tabSelected(tab) {
     this.tabId = tab.id;
-    this.buttonCMS(tab.id);
+    this.empty = false;
+    this.setButtonText(tab.id);
     this.initServicesEngine(tab.id);
+
     switch (tab.id) {
       case 1:
         this.router.navigate(['home/favorites-management/iban-accounts']);
@@ -89,6 +93,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         this.router.navigate(['home/favorites-management/automatics']);
         break;
     }
+
   }
 
   initServicesEngine(tabId: number) {
@@ -108,7 +113,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
-  buttonCMS(tabId: number) {
+  setButtonText(tabId: number) {
     switch (tabId) {
       case 1:
         this.buttonText = 'Añadir cuenta IBAN';
@@ -122,7 +127,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
-  deleteButtonByTabId(tabId: number) {
+  delete(tabId: number) {
     switch (tabId) {
       case 1:
         this.modalService.confirmationPopup('¿Desea eliminar esta cuenta IBAN?', '', 380, 197)
@@ -151,7 +156,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     }
   }
 
-  saveUpdate(tabId: number) {
+  update(tabId: number) {
     switch (tabId) {
       case 1:
         this.favoriteManagementService.emitConfirmUpdate(true);
@@ -211,7 +216,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     });
   }
 
-  addButtonRedirect(tabId: number) {
+  add(tabId: number) {
     switch (tabId) {
       case 1:
         this.showTemplate = 'add-iban';
@@ -232,7 +237,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   getFavoritesIban() {
     this.favoriteManagementService.getAllAccountIbanFavoriteByUser()
       .subscribe((response) => {
-        if (response.length > 0) {
+        this.empty = response.length === 0;
+
+        if (!this.empty) {
           for (const values of response) {
             this.accounts.push({
               name: values.aliasName,
@@ -240,11 +247,6 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               IdAccountFavorite: values.IdAccountFavorite,
             });
           }
-          this.showContent = true;
-          this.responseMessage = undefined;
-        } else {
-          this.responseMessage = 'No tiene cuentas IBAN favoritas en este momento.';
-          this.showContent = false;
         }
       });
   }
@@ -252,9 +254,10 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   getPublicService() {
     this.favoriteManagementService.getAllFavoritePublicServiceByUser()
       .subscribe((response) => {
-        if (response.length > 0) {
+        this.empty = response.length === 0;
+
+        if (!this.empty) {
           for (const values of response) {
-            // @ts-ignore
             this.accounts.push({
               name: values.publicServiceFavoriteName,
               account: values.accountNumber,
@@ -269,11 +272,6 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               publicServiceEnterpriseDescription: values.publicServiceEnterpriseDescription
             });
           }
-          this.showContent = true;
-          this.responseMessage = undefined;
-        } else {
-          this.responseMessage = 'No tiene pagos favoritos en este momento.';
-          this.showContent = false;
         }
       });
   }
@@ -281,7 +279,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   getSchedulePayment() {
     this.favoriteManagementService.getAllSchedulersPayment()
       .subscribe((response) => {
-        if (response.length > 0) {
+        this.empty = response.length === 0;
+
+        if (!this.empty) {
           for (const values of response) {
             this.accounts.push({
               name: values.alias,
@@ -293,11 +293,6 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               key: values.key
             });
           }
-          this.showContent = true;
-          this.responseMessage = undefined;
-        } else {
-          this.responseMessage = 'No tiene pagos automáticos en este momento.';
-          this.showContent = false;
         }
       });
   }

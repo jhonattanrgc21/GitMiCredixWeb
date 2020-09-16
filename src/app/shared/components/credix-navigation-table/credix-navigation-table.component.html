@@ -8,15 +8,11 @@
   <div *ngIf="!hide" class="navigation-table__content" fxLayout="row">
 
     <div [fxFlex]="headers[0].width" class="navigation-table__content__left">
-      <ngx-simplebar [options]="optionsScroll" class="navigation-table__options" fxLayout="column">
-        <ng-content select="[left]"></ng-content>
-      </ngx-simplebar>
+      <ng-content select="[left]"></ng-content>
     </div>
 
     <div [fxFlex]="headers[1].width" class="navigation-table__content__right">
-      <ngx-simplebar [options]="optionsScroll" class="navigation-table__options" fxLayout="column">
-        <ng-content select="[right]"></ng-content>
-      </ngx-simplebar>
+      <ng-content select="[right]"></ng-content>
     </div>
   </div>
 

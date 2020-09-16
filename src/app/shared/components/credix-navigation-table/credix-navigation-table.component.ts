@@ -18,7 +18,6 @@ export class CredixNavigationTableComponent implements OnInit {
   @Input() type: string;
   @Output() optionEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() quotaEvent: EventEmitter<any> = new EventEmitter<any>();
-  optionsScroll = {autoHide: false, scrollbarMinSize: 100};
   optionSelected = {
     id: 0,
     name: '',
