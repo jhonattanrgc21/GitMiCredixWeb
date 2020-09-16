@@ -48,8 +48,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   getDetailFavorite(option) {
-    console.log(option);
-    this.optionSelected = option.IdAccountFavorite;
+    this.optionSelected = this.tabId === 1 ? option.IdAccountFavorite : this.tabId === 2 ? option.publicServiceFavoriteId : option.id;
+
     if (option.publicServiceCode !== undefined) {
       // tslint:disable-next-line:max-line-length
       this.favoriteManagementService.emitFavoritesPaymentsData(option.name, option.account, option.publicServiceName, option.publicServiceProvider, option.publicServiceAccessKeyDescription, option.publicServiceId, option.publicServiceFavoriteId, option.accountId, option.publicServiceAccessKeyId, option.publicServiceEnterpriseDescription);

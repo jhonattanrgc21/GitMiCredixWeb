@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
 import {PublicServiceCategoryModel} from '../../../../../shared/models/public-service-category.model';
 import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
 import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -11,11 +12,10 @@ import {PublicServiceModel} from '../../../../../shared/models/public-service.mo
   styleUrls: ['./add-favorites-payment.component.scss']
 })
 export class AddFavoritesPaymentComponent implements OnInit {
-
   publicServicesCategory: PublicServiceCategoryModel[];
   publicCompany: PublicServiceEnterpriseModel[];
   publicServices: PublicServiceModel[];
-  resultFavorites: boolean;
+  done = false;
   result: { status: string; message: string; title: string; };
   newFavoritesPaymentForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
@@ -26,11 +26,8 @@ export class AddFavoritesPaymentComponent implements OnInit {
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
 
-
-  // tslint:disable-next-line:no-output-rename
-  @Output('backToTemplate') backToTemplate: EventEmitter<string> = new EventEmitter<string>();
-
-  constructor(private favoritesPaymentsService: FavoritesPaymentsService) {
+  constructor(private favoritesPaymentsService: FavoritesPaymentsService,
+              private router: Router) {
   }
 
   get newFavoritesPaymentControls() {
@@ -38,11 +35,12 @@ export class AddFavoritesPaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.resultFavorites = false;
     this.getCategory();
+
     this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
     });
+
     this.newFavoritesPaymentForm.controls.PublicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
@@ -68,28 +66,22 @@ export class AddFavoritesPaymentComponent implements OnInit {
       });
   }
 
-
   back() {
-    this.backToTemplate.emit('favorite-management');
-  }
-
-  ready() {
-    this.backToTemplate.emit('favorite-management');
-    if (this.result.status === 'success') {
-      this.favoritesPaymentsService.emitFavoritesIsAddedOrDelete(true, false);
-    }
+    this.router.navigate(['/home/favorites-management/favorites-payments']);
   }
 
   addFavoritePayment() {
-    // tslint:disable-next-line:max-line-length
-    this.favoritesPaymentsService.setPublicServiceFavorite(this.newFavoritesPaymentControls.publicService.value, this.newFavoritesPaymentControls.phoneNumber.value, this.newFavoritesPaymentControls.favoriteName.value, +this.codeCredix.value)
-      .subscribe((response) => {
-        this.resultFavorites = !this.resultFavorites;
-        this.result = {
-          status: response.titleOne,
-          message: response.descriptionOne,
-          title: response.titleOne
-        };
-      });
+    this.favoritesPaymentsService.setPublicServiceFavorite(
+      this.newFavoritesPaymentControls.publicService.value,
+      this.newFavoritesPaymentControls.phoneNumber.value,
+      this.newFavoritesPaymentControls.favoriteName.value,
+      +this.codeCredix.value).subscribe((response) => {
+      this.done = true;
+      this.result = {
+        status: response.titleOne,
+        message: response.descriptionOne,
+        title: response.titleOne
+      };
+    });
   }
 }
