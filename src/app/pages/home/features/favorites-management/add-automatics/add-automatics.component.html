@@ -1,82 +1,103 @@
-<mat-card class="add-automatics">
-  <h1>Añadir pago automático</h1>
-  <div *ngIf="!resultAutomatics" class="add-automatics__container" fxLayout="row" fxLayoutAlign="space-between">
-    <span><strong>Nuevo pago automático</strong></span>
-    <form [formGroup]="newAutomaticsForm" class="add-automatics__form" fxLayout="column">
+<mat-card *ngIf="!done else doneNewAutomaticsTemplate" class="add-automatics" credixCard fxLayout="column">
 
-      <credix-select class="add-automatics__input" formControlName="publicServicesCategory" label="Categoría">
-        <mat-option *ngFor="let category of publicServicesCategory" [value]="category.publicServiceCategoryId">
-          {{category.publicServiceCategory}}
-        </mat-option>
-      </credix-select>
+  <h1 class="mb-32px">Añadir pago automático</h1>
 
-      <credix-select class="add-automatics__input" formControlName="publicServiceCompany" label="Compañía">
-        <mat-option *ngFor="let company of publicCompany"
-                    [value]="company.publicServiceEnterpriseId">
-          {{company.publicServiceEnterpriseDescription}}
-        </mat-option>
-      </credix-select>
+  <div class="add-automatics__container mt-8px" fxLayout="column" fxLayoutGap="16px">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex="210px"><strong>Nuevo pago automático</strong></span>
 
-      <credix-select class="add-automatics__input" formControlName="publicService" label="Servicio">
-        <mat-option *ngFor="let service of publicServices"
-                    [value]="service.publicServiceId">
-          {{service.publicServiceName}}
-        </mat-option>
-      </credix-select>
+      <form [formGroup]="newAutomaticsForm" class="add-automatics__form" fxLayout="column" fxLayoutGap="16px">
 
-      <credix-input-field class="add-automatics__input" formControlName="phoneNumber" label="Número de teléfono"
-                          mask="0000-0000"></credix-input-field>
+        <credix-select class="add-automatics__form__input" formControlName="publicServicesCategory" label="Categoría">
+          <mat-option *ngFor="let category of publicServicesCategory" [value]="category.publicServiceCategoryId">
+            {{category.publicServiceCategory}}
+          </mat-option>
+        </credix-select>
 
-      <credix-input-field class="add-automatics__input" formControlName="nameOfAutomatics"
-                          label="Nombre del pago automático"></credix-input-field>
+        <credix-select class="add-automatics__form__input" formControlName="publicServiceCompany" label="Compañía">
+          <mat-option *ngFor="let company of publicCompany"
+                      [value]="company.publicServiceEnterpriseId">
+            {{company.publicServiceEnterpriseDescription}}
+          </mat-option>
+        </credix-select>
 
-      <credix-input-field class="add-automatics__input" formControlName="maxAmount" label="Monto máximo a pagar"
-                          mask="separator"
-                          thousandSeparator="."></credix-input-field>
+        <credix-select class="add-automatics__form__input" formControlName="publicService" label="Servicio">
+          <mat-option *ngFor="let service of publicServices"
+                      [value]="service.publicServiceId">
+            {{service.publicServiceName}}
+          </mat-option>
+        </credix-select>
 
-      <credix-input-field (click)="openCalendar()"
-                          [displayValue]="newAutomaticsForm.controls.startDate.value | dateFormatter: 'alphanumeric'"
-                          [readonly]="true"
-                          class="mb-8px add-automatics__input calendar" formControlName="startDate"
-                          label="Fecha inicial de pago">
-        <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
-      </credix-input-field>
+        <credix-input-field class="add-automatics__form__input" formControlName="phoneNumber" label="Número de teléfono"
+                            mask="0000-0000"></credix-input-field>
 
-      <credix-select class="add-automatics__input" formControlName="periodicity" label="Periocidad">
-        <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
-          {{periodicity.description}}
-        </mat-option>
-      </credix-select>
-    </form>
-  </div>
+        <credix-input-field class="add-automatics__form__input" formControlName="nameOfAutomatics"
+                            label="Nombre del pago automático"></credix-input-field>
 
-  <mat-divider *ngIf="!resultAutomatics"></mat-divider>
-  <div *ngIf="!resultAutomatics" class="add-automatics__credix-code" fxLayout="row" fxLayoutAlign="space-between">
-    <div class="content" fxFlex="210px" fxLayout="column">
+        <credix-input-field class="add-automatics__form__input" formControlName="maxAmount"
+                            label="Monto máximo a pagar" mask="separator"></credix-input-field>
 
-    <span><strong>Código MiCredix</strong></span>
-      <p style="font-size: 14px;">Ingrese el código generado en la aplicación
-        <credix-link-button>Código MiCredix</credix-link-button>
-        <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
-      </p>
+        <credix-input-field (click)="openCalendar()"
+                            [displayValue]="newAutomaticsForm.controls.startDate.value | dateFormatter: 'alphanumeric'"
+                            [readonly]="true"
+                            class="add-automatics__form__input" formControlName="startDate"
+                            label="Fecha inicial de pago">
+          <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
+        </credix-input-field>
+
+        <credix-select class="add-automatics__form__input mb-8px " formControlName="periodicity" label="Periocidad">
+          <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
+            {{periodicity.description}}
+          </mat-option>
+        </credix-select>
+      </form>
     </div>
-    <credix-code-input [(codeFormControl)]="codeCredix" [length]="6" class="w-50"
-                       errorMessage="Introduzca el codigo de confirmación">
-    </credix-code-input>
-  </div>
 
-  <div *ngIf="resultAutomatics" class="result" fxLayout="column" fxLayoutAlign="center center">
-    <credix-result-notification [message]="result.message" [status]="result.status"
-                                [title]="result.title"></credix-result-notification>
+    <mat-divider credixDivider></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <div fxFlex="210px" fxLayout="column">
+        <span><strong>Código MiCredix</strong></span>
+        <p style="font-size: 14px;">Ingrese el código generado en la aplicación
+          <credix-link-button>
+            Código MiCredix
+            <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
+          </credix-link-button>
+        </p>
+      </div>
+
+      <credix-code-input [(codeFormControl)]="codeCredix" [length]="6" class="add-iban-account__form"
+                         errorMessage="Introduzca el codigo de confirmación">
+      </credix-code-input>
+    </div>
   </div>
 
   <div class="add-automatics__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" *ngIf="!resultAutomatics" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="addAutomaticPayment()" *ngIf="!resultAutomatics"
-                     [disabled]="!newAutomaticsForm.valid"
-                     [text]="'Añadir'"></credix-button>
-      <credix-button (buttonClick)="ready()" *ngIf="resultAutomatics" [text]="'Listo'"></credix-button>
+      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="addAutomaticPayment()"
+                     [disabled]="!newAutomaticsForm.valid" text="Añadir"></credix-button>
     </div>
   </div>
 </mat-card>
+
+
+<ng-template #doneNewAutomaticsTemplate>
+
+  <mat-card class="add-automatics" credixCard fxLayout="column">
+
+    <h1>Añadir pago automático</h1>
+
+    <div fxFlex fxLayoutAlign="center center">
+      <credix-result-notification [message]="result.message" [status]="result.status" [title]="result.title">
+      </credix-result-notification>
+    </div>
+
+    <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
+      <div fxLayoutGap="16px">
+        <credix-button (buttonClick)="back()" text="Listo"></credix-button>
+      </div>
+    </div>
+  </mat-card>
+
+</ng-template>

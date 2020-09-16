@@ -78,9 +78,9 @@ export class AddFavoritesPaymentComponent implements OnInit {
       +this.codeCredix.value).subscribe((response) => {
       this.done = true;
       this.result = {
-        status: response.titleOne,
+        status: response.type || response.titleOne,
         message: response.descriptionOne,
-        title: response.titleOne
+        title: response.type === 'error' ? 'Opss...' : '¡Éxito!'
       };
     });
   }
