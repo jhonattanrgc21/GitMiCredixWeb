@@ -65,6 +65,11 @@
   }
 }
 
+.personal-info-editor-result {
+  position: relative;
+  height: 662px;
+}
+
 @media screen and (max-width: 1199px) {
 
   .personal-info-editor {
@@ -80,5 +85,9 @@
         width: 266px;
       }
     }
+  }
+
+  .personal-info-editor-result {
+    height: 886px;
   }
 }

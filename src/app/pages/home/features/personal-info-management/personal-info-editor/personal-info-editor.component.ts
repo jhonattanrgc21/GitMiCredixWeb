@@ -13,6 +13,7 @@ import {forkJoin} from 'rxjs';
 import {PersonalInfoManagementService} from '../personal-info-management.service';
 import {finalize} from 'rxjs/operators';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
+import {ModalService} from '../../../../../core/services/modal.service';
 
 @Component({
   selector: 'app-personal-info-editor',
@@ -20,7 +21,6 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
   styleUrls: ['./personal-info-editor.component.scss']
 })
 export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
-  name = '';
   personalInfoFormGroup: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
     phoneNumber: new FormControl(null, [Validators.required,
@@ -35,6 +35,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
     code: new FormControl(null, [Validators.required,
       Validators.maxLength(6), Validators.minLength(6)])
   });
+  name = '';
   countries: Country[] = [];
   provinces: Province[] = [];
   cantons: Canton[] = [];
@@ -43,11 +44,16 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
   occupations: Occupation[] = [];
   hideEmailMask = false;
   hidePhoneNumberMask = false;
+  message: string;
+  title: string;
+  status: 'success' | 'error';
+  done = false;
 
   constructor(private personalInfoManagementService: PersonalInfoManagementService,
               private globalRequestsService: GlobalRequestsService,
               private toastService: CredixToastService,
               private storageService: StorageService,
+              private modalService: ModalService,
               private router: Router) {
     this.name = storageService.getCurrentUser().aplicantName;
   }
@@ -124,31 +130,32 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
   }
 
   edit() {
-    if (this.personalInfoFormGroup.valid) {
-      const email = (this.personalInfoFormGroup.controls.email.value as string).includes('*') ?
-        this.personalInfoManagementService.applicantInfo.email : this.personalInfoFormGroup.controls.email.value;
-      const phoneApplicant = (this.personalInfoFormGroup.controls.phoneNumber.value.toString()).includes('*') ?
-        this.personalInfoManagementService.applicantInfo.phoneNumber : this.personalInfoFormGroup.controls.phoneNumber.value;
+    this.modalService.confirmationPopup('¿Desea guardar estos datos?').subscribe((confirmation) => {
+      if (confirmation) {
+        const email = (this.personalInfoFormGroup.controls.email.value as string).includes('*') ?
+          this.personalInfoManagementService.applicantInfo.email : this.personalInfoFormGroup.controls.email.value;
+        const phoneApplicant = (this.personalInfoFormGroup.controls.phoneNumber.value.toString()).includes('*') ?
+          this.personalInfoManagementService.applicantInfo.phoneNumber : this.personalInfoFormGroup.controls.phoneNumber.value;
 
-      this.personalInfoManagementService.updateApplicantInfo({
-        email,
-        phoneApplicant,
-        countryId: this.personalInfoFormGroup.controls.country.value,
-        incomeOriginId: this.personalInfoFormGroup.controls.incomeType.value,
-        occupationId: this.personalInfoFormGroup.controls.occupation.value,
-        provinceId: this.personalInfoFormGroup.controls.province.value,
-        cantonId: this.personalInfoFormGroup.controls.canton.value,
-        districtId: this.personalInfoFormGroup.controls.district.value,
-        addressApplicant: this.personalInfoFormGroup.controls.addressDetail.value,
-        credixCode: this.personalInfoFormGroup.controls.code.value,
-      }).subscribe(response => {
-        if (response.type === 'success') {
-          this.toastService.show({text: response.message, type: 'success'});
-          this.globalRequestsService.clearUserApplicantInfo();
-          this.goBack();
-        }
-      });
-    }
+        this.personalInfoManagementService.updateApplicantInfo({
+          email,
+          phoneApplicant,
+          countryId: this.personalInfoFormGroup.controls.country.value,
+          incomeOriginId: this.personalInfoFormGroup.controls.incomeType.value,
+          occupationId: this.personalInfoFormGroup.controls.occupation.value,
+          provinceId: this.personalInfoFormGroup.controls.province.value,
+          cantonId: this.personalInfoFormGroup.controls.canton.value,
+          districtId: this.personalInfoFormGroup.controls.district.value,
+          addressApplicant: this.personalInfoFormGroup.controls.addressDetail.value,
+          credixCode: this.personalInfoFormGroup.controls.code.value,
+        }).subscribe(response => {
+          this.done = true;
+          this.status = response.type;
+          this.title = response.titleOne;
+          this.message = response.descriptionOne;
+        });
+      }
+    });
 
   }
 

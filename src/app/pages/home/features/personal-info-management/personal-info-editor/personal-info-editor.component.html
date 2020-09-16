@@ -1,4 +1,4 @@
-<mat-card class="personal-info-editor" credixCard fxLayout="column">
+<mat-card *ngIf="!done else donePersonalDataTemplate" class="personal-info-editor" credixCard fxLayout="column">
   <h1>Editar datos personales</h1>
 
   <form [formGroup]="personalInfoFormGroup" class="personal-info-editor__container">
@@ -95,10 +95,31 @@
     <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
       <credix-button (buttonClick)="goBack()" text="Atrás" type="secondary"></credix-button>
       <credix-button (buttonClick)="edit()"
-                     [disabled]="personalInfoFormGroup.invalid || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)"
+                     [disabled]="personalInfoFormGroup.invalid
+                     || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)"
                      text="Guardar">
       </credix-button>
     </div>
-
   </form>
+
 </mat-card>
+
+
+<ng-template #donePersonalDataTemplate>
+
+  <mat-card class="personal-info-editor-result" credixCard fxLayout="column">
+    <h1>Editar datos personales</h1>
+
+    <div fxFlex fxLayoutAlign="center center">
+      <credix-result-notification [message]="message" [status]="status" [title]="title">
+      </credix-result-notification>
+    </div>
+
+    <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end">
+      <div fxLayoutGap="16px">
+        <credix-button (buttonClick)="goBack()" text="Listo"></credix-button>
+      </div>
+    </div>
+  </mat-card>
+
+</ng-template>
