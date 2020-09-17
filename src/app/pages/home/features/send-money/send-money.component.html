@@ -53,14 +53,14 @@
       <mat-divider class="mb-24px" credixDivider></mat-divider>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <p fxFlex="175px"><strong>Datos de la transferencia</strong></p>
+        <p fxFlex="200px"><strong>Datos de la transferencia</strong></p>
 
         <div fxLayout="column" fxLayoutGap="8px">
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>Monto</span>
             <div>
               <credix-numeric-block [prefix]="currencyPrefix" [value]="amountAndQuotaForm.controls.amount.value"
-                                    class="tr" fontSize="16" fontWeight="bold"></credix-numeric-block>
+                                    class="tr" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>
 
@@ -87,10 +87,8 @@
         </div>
       </div>
 
-      <div fxFlexAlign="center" fxLayout="column" fxLayoutGap="18px" style="margin-top: 16px">
-        <credix-link-button>Ampliar plazo</credix-link-button>
-        <credix-share-button class="send-money__shrare-btn"></credix-share-button>
-      </div>
+      <credix-link-button class="mt-16px" fxFlexAlign="center">Ampliar plazo</credix-link-button>
+      <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
     </div>
   </app-credix-result-view>
 </ng-template>
