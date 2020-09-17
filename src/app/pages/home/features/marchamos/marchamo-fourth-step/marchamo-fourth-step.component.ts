@@ -17,7 +17,6 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   };
   total = 0;
   amountTotalProducts = 0;
-  arrayOfAmountProducts: { amounts: number; productCode: number; }[] = [];
   place: { placeDescription: string } = {
     placeDescription: ''
   };
@@ -39,6 +38,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   step4Sub2: string;
   step4Subt3: string;
   step4TagMarch: string;
+  private arrayOfAmountProducts: { amounts: number; productCode: number }[];
 
 
   constructor(private tagsService: TagsService, private marchamosService: MarchamosService) {
@@ -69,16 +69,15 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
 
     this.marchamosService.amountItemsProducts.subscribe(response => {
       this.arrayOfAmountProducts = response;
-      // tslint:disable-next-line:no-shadowed-variable
-      console.log(this.arrayOfAmountProducts);
-      this.arrayOfAmountProducts.map(value => {
-        this.amountTotalProducts = this.amountTotalProducts + value.amounts;
+      this.arrayOfAmountProducts.forEach(value => {
+        this.computeCalculate(value.amounts);
       });
     });
 
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+
 
   }
 
@@ -136,5 +135,9 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
         };
         break;
     }
+  }
+
+  computeCalculate(value: number) {
+    this.amountTotalProducts += value;
   }
 }

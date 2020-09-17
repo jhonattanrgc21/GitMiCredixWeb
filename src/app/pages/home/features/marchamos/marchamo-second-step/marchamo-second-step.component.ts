@@ -32,6 +32,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
   isChecked = false;
+  isCheckedAll = false;
   step = 0;
   showQuotaPaymentSelect = false;
   quotas: Quota[] = [];
@@ -64,11 +65,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       amount: 7140.00
     }
   ];
-  amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
-    responsabilityCivilAmount: 8745.00,
-    roadAsistanceAmount: 3359.00,
-    moreProtectionAmount: 7140.00
-  };
   arrayOfAmountProducts: { amounts: number; productCode: number; }[] = [];
   firstPaymentDates = [
     {
@@ -148,7 +144,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
-    // this.marchamosService.emitAmountItemsProducts(this.arrayOfAmountProducts);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -194,18 +189,16 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   getValueCheckBoxes(event: any) {
     if (event.checked) {
-
+      // agrega los valores al formArray 1 x 1
       (this.additionalProducts).push(new FormGroup({
           productCode: new FormControl(event.value)
         })
       );
-
+      // agrega los valores al arreglo para dinamismo de calculo tanto para el modal como para el step
       this.arrayOfAmountProducts.push({
         amounts: this.itemProduct.find(product => product.productCode === event.value).amount,
         productCode: event.value
       });
-
-      this.isChecked = this.additionalProducts.length === 3;
     } else {
       let index = 0;
       this.additionalProducts.controls.forEach((item: FormGroup) => {
@@ -222,24 +215,30 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       });
     }
     this.marchamosService.emitAmountItemsProducts(this.arrayOfAmountProducts);
+    this.isCheckedAll = this.additionalProducts.length >= 3;
   }
 
   getValueOfCheckBoxAll(event) {
     if (event.checked) {
       this.allChecked(event.checked);
-
+      this.itemProduct.forEach(value => {
+        this.arrayOfAmountProducts.push({
+          amounts: value.amount,
+          productCode: value.productCode
+        });
+      });
       for (const product of this.itemProduct) {
         this.additionalProducts.push(
           new FormGroup({
             productCode: new FormControl(product.productCode)
           }));
-
         this.additionalProducts.removeAt(3);
       }
     } else {
       this.allChecked(event.checked);
       this.additionalProducts.controls.splice(0, this.itemProduct.length);
       this.additionalProducts.setValue([]);
+      this.arrayOfAmountProducts.splice(0, this.itemProduct.length);
     }
   }
 
