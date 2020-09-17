@@ -9,6 +9,7 @@ import {CredixCardsModule} from '../../../../shared/directives/credix-cards/cred
 import {MatCardModule} from '@angular/material/card';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 
 const routes: Routes = [
   {
@@ -26,7 +27,8 @@ const routes: Routes = [
     CredixCardsModule,
     MatCardModule,
     CredixResultNotificationModule,
-    CredixButtonModule
+    CredixButtonModule,
+    CredixResultViewModule
   ],
   providers: [
     IncreaseLimitService,

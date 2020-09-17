@@ -7,6 +7,10 @@
     margin-left: -16px;
     margin-right: -16px;
   }
+
+  &__content-container {
+    padding: 0 184px;
+  }
 }
 
 :host ::ng-deep .credix-result-notification__message {
@@ -17,5 +21,9 @@
 
   .credix-result-view {
     height: 886px;
+
+    &__content-container {
+      padding: 0 116px;
+    }
   }
 }

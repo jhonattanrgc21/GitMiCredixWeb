@@ -11,7 +11,7 @@
       <ng-content select="[left]"></ng-content>
     </div>
 
-    <div [fxFlex]="headers[1].width" class="navigation-table__content__right">
+    <div [fxFlex]="headers[1].width" class="navigation-table__content__right" fxLayout="column">
       <ng-content select="[right]"></ng-content>
     </div>
   </div>

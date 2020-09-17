@@ -22,6 +22,7 @@ import {EmailMaskModule} from '../../../../shared/pipes/email-mask/email-mask.mo
 import {PhoneMaskModule} from '../../../../shared/pipes/phone-mask/phone-mask.module';
 import {CredixTextareaFieldModule} from '../../../../shared/components/credix-textarea-field/credix-textarea-field.module';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 
 const routes: Routes = [
   {
@@ -56,7 +57,8 @@ const routes: Routes = [
     EmailMaskModule,
     PhoneMaskModule,
     CredixTextareaFieldModule,
-    CredixResultNotificationModule
+    CredixResultNotificationModule,
+    CredixResultViewModule
   ],
   providers: [
     PersonalInfoManagementService

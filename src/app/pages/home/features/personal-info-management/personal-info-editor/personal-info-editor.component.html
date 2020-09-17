@@ -106,20 +106,10 @@
 
 
 <ng-template #donePersonalDataTemplate>
-
-  <mat-card class="personal-info-editor-result" credixCard fxLayout="column">
-    <h1>Editar datos personales</h1>
-
-    <div fxFlex fxLayoutAlign="center center">
-      <credix-result-notification [message]="message" [status]="status" [title]="title">
-      </credix-result-notification>
-    </div>
-
-    <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end">
-      <div fxLayoutGap="16px">
-        <credix-button (buttonClick)="goBack()" text="Listo"></credix-button>
-      </div>
-    </div>
-  </mat-card>
-
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [title]="'Editar datos personales'"
+                          buttonText="Listo"
+                          routeTo="/home"></app-credix-result-view>
 </ng-template>
