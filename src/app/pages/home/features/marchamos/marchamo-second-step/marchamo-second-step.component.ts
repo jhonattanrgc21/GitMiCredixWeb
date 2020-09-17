@@ -48,17 +48,20 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     {
       responseDescription: 'Responsabilidad civil',
       responseCode: 15,
-      productCode: 5
+      productCode: 5,
+      amount: 8745.00
     },
     {
       responseDescription: 'Asistencia en carretera',
       responseCode: 15,
-      productCode: 6
+      productCode: 6,
+      amount: 3359.00
     },
     {
       responseDescription: 'Mas protección',
       responseCode: 15,
-      productCode: 8
+      productCode: 8,
+      amount: 7140.00
     }
   ];
   amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
@@ -66,6 +69,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     roadAsistanceAmount: 3359.00,
     moreProtectionAmount: 7140.00
   };
+  arrayOfAmountProducts: { amounts: number; productCode: number; }[] = [];
   firstPaymentDates = [
     {
       description: 'Enero ' + (new Date().getFullYear() + 1),
@@ -144,6 +148,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+    // this.marchamosService.emitAmountItemsProducts(this.arrayOfAmountProducts);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -151,8 +156,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.executed = true;
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
-      this.marchamosService.emitAmountItemsProducts(this.amountItemsProducts.responsabilityCivilAmount,
-        this.amountItemsProducts.roadAsistanceAmount, this.amountItemsProducts.moreProtectionAmount);
     }
   }
   getTags(tags: Tag[]) {
@@ -181,7 +184,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       title: 'Resumen del pago',
       data: [{
         marchamos: this.totalAmount,
-        itemsProductsAmount: [this.amountItemsProducts],
+        itemsProductsAmount: this.arrayOfAmountProducts,
         commission: this.commission,
         iva: this.iva,
         quotesToPay: {quotes: this.secureAndQuotesForm.controls.quota.value, quotesAmount: this.amountPerQuota}
@@ -191,10 +194,18 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   getValueCheckBoxes(event: any) {
     if (event.checked) {
+
       (this.additionalProducts).push(new FormGroup({
           productCode: new FormControl(event.value)
         })
       );
+
+      this.arrayOfAmountProducts.push({
+        amounts: this.itemProduct.find(product => product.productCode === event.value).amount,
+        productCode: event.value
+      });
+
+      this.isChecked = this.additionalProducts.length === 3;
     } else {
       let index = 0;
       this.additionalProducts.controls.forEach((item: FormGroup) => {
@@ -204,11 +215,17 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         }
         index++;
       });
+      this.arrayOfAmountProducts.forEach((value, i) => {
+        if (value.productCode === event.value) {
+          this.arrayOfAmountProducts.splice(i, 1);
+        }
+      });
     }
+    this.marchamosService.emitAmountItemsProducts(this.arrayOfAmountProducts);
   }
 
   getValueOfCheckBoxAll(event) {
-    if (event.value === 10 && event.checked) {
+    if (event.checked) {
       this.allChecked(event.checked);
 
       for (const product of this.itemProduct) {
@@ -249,7 +266,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quota;
     this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayValue);
     this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[sliderValue - 1].id);
-    console.log(this.secureAndQuotesForm.value);
     this.getCommission(this.quotas.find(element => element.quota === this.quotaSliderDisplayValue).quota);
     this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }

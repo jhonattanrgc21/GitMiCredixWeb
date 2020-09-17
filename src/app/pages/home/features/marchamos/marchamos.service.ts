@@ -17,10 +17,10 @@ export class MarchamosService {
     return this._consultMarchamos.asObservable();
   }
 
-  // tslint:disable-next-line:variable-name
-  private _amountItemsProducts =
-    new Subject<{ responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number }>();
-  get amountItemsProducts(): Observable<{ responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number }> {
+  // tslint:disable-next-line:variable-name max-line-length
+  private _amountItemsProducts: Subject<{ amounts: number; productCode: number; }[]> = new Subject<{ amounts: number; productCode: number; }[]>();
+
+  get amountItemsProducts(): Observable<{ amounts: number; productCode: number; }[]> {
     return this._amountItemsProducts.asObservable();
   }
 
@@ -99,7 +99,7 @@ export class MarchamosService {
     this._pickUpStoreId.next({pickUpId});
   }
 
-  emitAmountItemsProducts(responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number) {
-    this._amountItemsProducts.next({responsabilityCivilAmount, roadAsistanceAmount, moreProtectionAmount});
+  emitAmountItemsProducts(arrayOfAmountProduct: { amounts: number; productCode: number; }[]) {
+    this._amountItemsProducts.next(arrayOfAmountProduct);
   }
 }

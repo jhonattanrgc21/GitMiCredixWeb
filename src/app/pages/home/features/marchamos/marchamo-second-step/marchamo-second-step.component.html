@@ -25,6 +25,7 @@
         [label]="item.responseDescription"
         [value]="item.productCode"></credix-checkbox-button>
       <credix-checkbox-button (emitCheckBox)="getValueOfCheckBoxAll($event)" [value]="10"
+                              [checked]="isChecked"
                               label="{{step2TagT || 'Todos'}}"></credix-checkbox-button>
     </div>
 

@@ -17,6 +17,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   };
   total = 0;
   amountTotalProducts = 0;
+  arrayOfAmountProducts: { amounts: number; productCode: number; }[] = [];
   place: { placeDescription: string } = {
     placeDescription: ''
   };
@@ -66,9 +67,13 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
       this.totalAmount = value.consultVehicle.amount;
     });
 
-    this.marchamosService.amountItemsProducts.subscribe(value => {
-      this.amountTotalProducts =
-        this.amountTotalProducts + value.moreProtectionAmount + value.responsabilityCivilAmount + value.roadAsistanceAmount;
+    this.marchamosService.amountItemsProducts.subscribe(response => {
+      this.arrayOfAmountProducts = response;
+      // tslint:disable-next-line:no-shadowed-variable
+      console.log(this.arrayOfAmountProducts);
+      this.arrayOfAmountProducts.map(value => {
+        this.amountTotalProducts = this.amountTotalProducts + value.amounts;
+      });
     });
 
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
@@ -132,5 +137,4 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
         break;
     }
   }
-
 }
