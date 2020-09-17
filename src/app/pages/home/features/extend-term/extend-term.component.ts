@@ -6,6 +6,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-extend-term',
@@ -45,8 +46,8 @@ export class ExtendTermComponent implements OnInit {
   allowedMovements;
   quotaList;
   message = 'El plazo de su compra ha sido extendido correctamente.';
-  resType = 'success';
-  showResponse = false;
+  status: 'success' | 'error';
+  done = false;
   currencyCode = '$';
   empty = false;
   quotasArray;
@@ -115,7 +116,6 @@ export class ExtendTermComponent implements OnInit {
     this.quotaSelected = this.quotasArray[sliderValue - 1];
   }
 
-
   getAllowedMovements() {
     this.httpService.post('canales', 'channels/allowedmovements', {
       accountId: this.storageService.getCurrentUser().actId,
@@ -151,47 +151,23 @@ export class ExtendTermComponent implements OnInit {
     });
   }
 
-  changeFormat(value) {
-    const removeDot = value.replace('.', '');
-    const finalString = removeDot.replace(',', '.');
-    return Number(finalString);
-  }
-
-  calculateQuota(movementId: number, i: number) {
-    this.httpService.post('canales', 'channels/quotacalculator', {movementId})
+  calculateQuota(movId: string, i: number) {
+    this.httpService.post('canales', 'channels/quotacalculator', {movementId: movId})
       .subscribe((res) => {
         if (res.type === 'success') {
           this.options[i] = {...this.options[i], subOptions: res.listQuota};
 
           if (i === this.movLength - 1) {
-
             if (this.router.parseUrl(this.router.url).queryParams.q && this.options.length) {
               const movementId = this.router.parseUrl(this.router.url).queryParams.q;
               const option = this.options.find(mov => mov.movementId === movementId);
-
               if (option) {
                 this.getOptionDetail(option);
               }
             }
-
           }
-        }
-      });
-  }
 
-  saveQuota() {
-    this.httpService
-      .post('canales', 'channels/savequotification', {
-        cardId: this.optionSelected.cardId,
-        feeAmount: this.quotaSelected.feeAmount,
-        newQuota: this.quotaSelected.quotaTo,
-        statusId: 1,
-        movementId: this.optionSelected.movementId,
-        userIdCreate: this.storageService.getCurrentUser().userId,
-      })
-      .subscribe((res) => {
-        this.resType = res.type;
-        this.message = res.message;
+        }
       });
   }
 
@@ -201,15 +177,27 @@ export class ExtendTermComponent implements OnInit {
         .confirmationPopup(this.question || '¿Desea ampliar el plazo de este pago?')
         .subscribe((res) => {
           if (res) {
-            this.showResponse = true;
             this.saveQuota();
           }
         });
     }
   }
 
-  done() {
-    this.router.navigate(['/home']);
+  saveQuota() {
+    this.httpService
+      .post('canales', 'channels/savequotification', {
+        cardId: this.optionSelected.cardId,
+        feeAmount: ConvertStringAmountToNumber(this.quotaSelected.feeAmount),
+        newQuota: this.quotaSelected.quotaTo,
+        statusId: 1,
+        movementId: this.optionSelected.movementId,
+        userIdCreate: this.storageService.getCurrentUser().userId,
+      })
+      .pipe(finalize(() => this.done = true))
+      .subscribe((res) => {
+        this.status = res.type;
+        this.message = res.message;
+      });
   }
 
   getQuotas() {

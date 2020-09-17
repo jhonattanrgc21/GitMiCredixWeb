@@ -8,6 +8,7 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {StorageService} from '../../../../core/services/storage.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-credit',
@@ -25,13 +26,13 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   confirmForm: FormGroup = new FormGroup({});
   accessToPersonalCredit = false;
   cardLimit: number;
-  selectedIndex = 0;
+  stepperIndex = 0;
   disableButton = true;
   buttonText = 'Continuar';
-  showCreditRequestResponse = false;
-  responseTitle: string;
-  responseMessage: string;
-  responseType: 'success' | 'warn' | 'error';
+  done = false;
+  title: string;
+  message: string;
+  status: 'success' | 'warn' | 'error';
   responseComponentType: 'success' | 'warning' | 'error';
   @ViewChild('personalCreditStepper') stepper: CdkStepper;
 
@@ -54,6 +55,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   getAccountSummary() {
     this.globalRequestsService
       .getAccountSummary(this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId)
+      .pipe(finalize(() => this.done = !this.accessToPersonalCredit))
       .subscribe(accountSummary => {
         this.accessToPersonalCredit = ConvertStringAmountToNumber(accountSummary.available) >= 100000;
         this.cardLimit = ConvertStringAmountToNumber(accountSummary.limit);
@@ -61,7 +63,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   }
 
   setEnableButton() {
-    switch (this.selectedIndex) {
+    switch (this.stepperIndex) {
       case 0 :
         this.disableButton = this.requestForm.invalid;
         this.requestForm.valueChanges.subscribe(value => {
@@ -87,21 +89,21 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
     switch (this.stepper.selectedIndex) {
       case 0 :
         this.stepper.next();
-        this.selectedIndex++;
+        this.stepperIndex++;
         break;
       case 1:
         if (this.disbursementForm.controls.account.value !== 0) {
           this.personalCreditService.checkIbanColonesAccount(this.disbursementForm.controls.account.value).subscribe(response => {
             if (response.type === 'success' && response.message.MotivoRechazo === '0') {
               this.stepper.next();
-              this.selectedIndex++;
+              this.stepperIndex++;
             } else {
               this.toastService.show({text: 'Cuenta incorrecta', type: 'error'});
             }
           });
         } else {
           this.stepper.next();
-          this.selectedIndex++;
+          this.stepperIndex++;
         }
         break;
       case 2:
@@ -116,13 +118,9 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
 
   back() {
     this.stepper.previous();
-    this.selectedIndex--;
+    this.stepperIndex--;
     this.setButtonLabel();
     this.setEnableButton();
-  }
-
-  goHome() {
-    this.router.navigate(['/home']);
   }
 
   setButtonLabel() {
@@ -136,36 +134,36 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   submit() {
     this.personalCreditService.savePersonalCredit({
       amount: this.requestForm.controls.amount.value.toString(),
-      commission: this.personalCreditService.personalCreditSummary.commission,
-      quota: this.personalCreditService.personalCreditSummary.quota,
-      term: this.requestForm.controls.term.value,
+      commission: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.commission).toString(),
+      quota: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.quota).toString(),
+      term: this.requestForm.controls.term.value.toString(),
       method: this.disbursementForm.controls.account.value === 0 ? 'Cheque' : 'Transferencia',
       bankAccount: this.disbursementForm.controls.account.value.toString(),
-      total: this.personalCreditService.personalCreditSummary.totalPay,
+      total: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.totalPay).toString(),
       ads: 'Revista Digital',
       otherAds: 'No aplica',
       commissionRate: this.personalCreditService.personalCreditSummary.percentageCommission.toString(),
       customerType: '2',
       ticketTypeId: '5'
     })
+      .pipe(finalize(() => this.done = true))
       .subscribe(response => {
-        this.responseType = response.type;
-        this.responseMessage = response.message;
-        switch (this.responseType) {
+        this.status = response.type;
+        this.message = response.message;
+        switch (this.status) {
           case 'success':
-            this.responseTitle = '¡Éxito!';
+            this.title = '¡Éxito!';
             this.responseComponentType = 'success';
             break;
           case 'warn':
-            this.responseTitle = 'Solicitud en estudio';
+            this.title = 'Solicitud en estudio';
             this.responseComponentType = 'warning';
             break;
           case 'error':
-            this.responseTitle = 'Oops…';
+            this.title = 'Oops…';
             this.responseComponentType = 'error';
             break;
         }
-        this.showCreditRequestResponse = true;
       });
   }
 }

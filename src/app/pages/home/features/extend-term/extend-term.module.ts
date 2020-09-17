@@ -28,6 +28,7 @@ import {CredixSliderModule} from '../../../../shared/components/credix-slider/cr
 import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 
 
 const routes: Routes = [
@@ -65,7 +66,8 @@ const routes: Routes = [
     CredixSliderModule,
     DateFormatterModule,
     SimplebarAngularModule,
-    CredixDividerModule
+    CredixDividerModule,
+    CredixResultViewModule
   ],
   providers: [ModalService]
 })
