@@ -18,6 +18,7 @@ import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltip
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {ChangePinComponent} from './change-pin.component';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 
 const routes: Routes = [
   {
@@ -45,7 +46,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     CredixTooltipsModule,
     CredixResultNotificationModule,
-    CredixDividerModule
+    CredixDividerModule,
+    CredixResultViewModule
 
   ],
   providers: [ModalService]

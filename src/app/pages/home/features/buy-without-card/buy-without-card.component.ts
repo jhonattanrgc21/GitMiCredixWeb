@@ -30,13 +30,6 @@ export class BuyWithoutCardComponent implements OnInit {
     );
   }
 
-  getTags(tags: Tag[]) {
-    this.subtitle = tags.find(tag => tag.description === 'compra.subtitle').value;
-    this.title = tags.find(tag => tag.description === 'compra.title').value;
-    this.step2 = tags.find(tag => tag.description === 'compra.stepper2').value;
-    this.step1 = tags.find(tag => tag.description === 'compra.stepper1').value;
-}
-
   continue() {
     this.stepper.next();
     this.stepperIndex = this.stepper.selectedIndex;
@@ -51,8 +44,12 @@ export class BuyWithoutCardComponent implements OnInit {
   generatePin(codeCredix: string) {
     this.buyWithOutCardService.generatePin(codeCredix).subscribe(response => {
       if (response.type === 'success') {
-        this.buyWithOutCardService
-          .emitDataGeneratePin(response.applicantIdentification, response.lifeTimePin, response.message, response.pin, response.printName);
+        this.buyWithOutCardService.emitDataGeneratePin(
+          response.applicantIdentification,
+          response.lifeTimePin,
+          response.message,
+          response.pin,
+          response.printName);
         this.continue();
       }
     });
@@ -60,5 +57,12 @@ export class BuyWithoutCardComponent implements OnInit {
 
   getPin() {
     this.generatePin(this.codeCredix.value.toString());
+  }
+
+  getTags(tags: Tag[]) {
+    this.subtitle = tags.find(tag => tag.description === 'compra.subtitle').value;
+    this.title = tags.find(tag => tag.description === 'compra.title').value;
+    this.step2 = tags.find(tag => tag.description === 'compra.stepper2').value;
+    this.step1 = tags.find(tag => tag.description === 'compra.stepper1').value;
   }
 }
