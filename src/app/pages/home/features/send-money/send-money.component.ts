@@ -9,6 +9,8 @@ import {CredixToastService} from '../../../../core/services/credix-toast.service
 import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import {ConvertStringAmountToNumber} from '../../../../shared/utils';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-send-money',
@@ -30,29 +32,29 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   });
   selectedIndex = 0;
   disableButton = true;
+  done = false;
+  message: string;
+  status: 'success' | 'error';
+  title: string;
   currencyPrefix: string;
   commissionRate: number;
   commission: number;
   total: number;
   ibanOrigin: string;
   todayString: string;
-  done = false;
   typeDestination: number;
   step: string;
   step2: string;
   step3: string;
-
   @ViewChild('sendMoneyStepper') stepper: CdkStepper;
 
-  constructor(
-    private sendMoneyService: SendMoneyService,
-    private modalService: ModalService,
-    private router: Router,
-    private datePipe: DatePipe,
-    public toastService: CredixToastService,
-    public globalService: GlobalRequestsService,
-    private tagsService: TagsService
-  ) {
+  constructor(private sendMoneyService: SendMoneyService,
+              private modalService: ModalService,
+              private router: Router,
+              private datePipe: DatePipe,
+              public toastService: CredixToastService,
+              public globalService: GlobalRequestsService,
+              private tagsService: TagsService) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
@@ -71,7 +73,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     this.step = tags.find(tag => tag.description === 'enviardinero.stepper1').value;
     this.step2 = tags.find(tag => tag.description === 'enviardinero.stepper2').value;
     this.step3 = tags.find(tag => tag.description === 'enviardinero.stepper3').value;
-}
+  }
 
   setEnableButton() {
     switch (this.selectedIndex) {
@@ -128,28 +130,26 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   sendMoney() {
-    this.sendMoneyService
-      .sendMoney(
-        this.ibanOrigin,
-        this.currencyPrefix === '$' ? 840 : 188,
-        this.todayString,
-        this.amountAndQuotaForm.controls.amount.value,
-        this.informationForm.controls.account.value.ibanAccount,
-        this.typeDestination,
-        this.informationForm.controls.account.value.aliasName,
-        this.amountAndQuotaForm.controls.quotas.value,
-        this.commission,
-        this.total,
-        this.informationForm.controls.account.value.identification,
-        this.confirmForm.controls.code.value
-      )
+    this.sendMoneyService.sendMoney(
+      this.ibanOrigin.trim(),
+      this.currencyPrefix === '$' ? 840 : 188,
+      this.todayString,
+      ConvertStringAmountToNumber(this.amountAndQuotaForm.controls.amount.value),
+      this.informationForm.controls.account.value.ibanAccount.trim(),
+      this.typeDestination,
+      this.informationForm.controls.account.value.aliasName.trim(),
+      this.amountAndQuotaForm.controls.quotas.value.toString(),
+      this.commission,
+      this.total,
+      this.informationForm.controls.account.value.identification,
+      this.confirmForm.controls.code.value
+    )
+      .pipe(finalize(() => this.done = true))
       .subscribe((res) => {
-        const text = res.message;
-        const type = res.type;
-        this.toastService.show({text, type});
-        if (res.type === 'success') {
-          this.done = true;
-        } else {
+        this.message = res.message;
+        this.status = res.type;
+        this.title = res.titleOne;
+        if (res.type !== 'success') {
           this.selectedIndex = 2;
         }
       });
@@ -183,9 +183,5 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
           this.selectedIndex = 2;
         }
       });
-  }
-
-  goHome() {
-    this.router.navigate(['/home']).then();
   }
 }

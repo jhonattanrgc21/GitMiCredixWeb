@@ -1,10 +1,10 @@
 <mat-card class="credix-result-view" credixCard fxLayout="column">
   <h1>{{title}}</h1>
 
-  <div class="credix-result-view__content-container" fxFlex fxLayout="column" fxLayoutAlign="center center"
-       fxLayoutGap="16px">
-    <credix-result-notification [message]="resultMessage" [status]="status"
-                                [title]="title"></credix-result-notification>
+  <div class="credix-result-view__content-container" fxFlex fxLayout="column" fxLayoutAlign="center center">
+    <credix-result-notification [message]="resultMessage"
+                                [status]="status"
+                                [title]="title" class="mb-24px"></credix-result-notification>
     <ng-content></ng-content>
   </div>
 
