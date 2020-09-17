@@ -102,6 +102,6 @@ export class BalancesComponent implements OnInit, OnChanges {
   }
 
   getTags(tags: Tag[]) {
-    this.questionTag = tags.find(tag => tag.description === 'aumento.question"').value;
+    this.questionTag = tags.find(tag => tag.description === 'aumento.question').value;
   }
 }

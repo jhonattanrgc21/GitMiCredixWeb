@@ -43,11 +43,8 @@
   }
 }
 
-:host ::ng-deep.credix-result-notification {
-  margin-top: 144px;
-}
-
 @media screen and (max-width: 1199px) {
+
   .change-pin {
     height: 886px;
 
@@ -67,8 +64,5 @@
       }
     }
   }
-
-  :host ::ng-deep.credix-result-notification {
-    margin-top: 246px;
-  }
 }
+

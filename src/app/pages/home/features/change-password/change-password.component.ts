@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-change-password',
@@ -19,12 +20,13 @@ export class ChangePasswordComponent implements OnInit {
     confirmPassword: new FormControl(null, [Validators.required]),
     code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   }, {validators: this.passwordValidator});
-  hide = true;
-  type = 'password';
-  showResponse = false;
-  respTitle: string;
-  resType: string;
-  respMsg: string;
+  hidePassword = true;
+  hideConfirmPassword = true;
+  type: 'text' | 'password' = 'password';
+  done = false;
+  title: string;
+  status: string;
+  message: string;
   identType: number;
   titleTag: string;
   questionTag: string;
@@ -67,35 +69,31 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   confirm() {
-    this.modalService
-      .confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
-      .subscribe((res) => {
-        if (res) {
+    this.modalService.confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
+      .subscribe((confirmation) => {
+        if (confirmation) {
           this.changePassword();
         }
       });
   }
 
   changePassword() {
-    this.httpService
-      .post('canales', 'security/user/forgetusernameandpasswordbyidentification', {
-
-        codeCredix: this.changePasswordForm.get('code').value,
-        typeIdentification: this.identType,
-        identification: this.storageService.getIdentification(),
-        channelId: 102,
-        password: CryptoJS.SHA256(this.changePasswordForm.get('password').value),
-        passwordConfirmation: CryptoJS.SHA256(this.changePasswordForm.get('password').value),
-      })
+    this.httpService.post('canales', 'security/user/forgetusernameandpasswordbyidentification', {
+      codeCredix: this.changePasswordForm.get('code').value,
+      typeIdentification: this.identType,
+      identification: this.storageService.getIdentification(),
+      password: CryptoJS.SHA256(this.changePasswordForm.get('password').value),
+      passwordConfirmation: CryptoJS.SHA256(this.changePasswordForm.get('password').value),
+    })
+      .pipe(finalize(() => this.done = true))
       .subscribe((resp) => {
-        this.showResponse = true;
-        this.respTitle = resp.titleOne;
-        this.resType = resp.type;
-        this.respMsg = resp.descriptionOne;
+        this.title = resp.titleOne;
+        this.status = resp.type;
+        this.message = resp.descriptionOne;
       });
   }
 
-  done() {
+  goBack() {
     this.router.navigate(['/home']).then();
   }
 

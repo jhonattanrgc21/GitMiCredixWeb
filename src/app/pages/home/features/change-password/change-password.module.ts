@@ -18,6 +18,7 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
 import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltips/credix-tooltips.module';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
     CredixInputFieldModule,
     ReactiveFormsModule,
     CredixTooltipsModule,
-    CredixResultNotificationModule
+    CredixResultNotificationModule,
+    CredixDividerModule
 
   ],
   providers: [ModalService]

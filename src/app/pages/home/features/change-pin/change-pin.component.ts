@@ -6,6 +6,7 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-change-pin',
@@ -18,12 +19,13 @@ export class ChangePinComponent implements OnInit {
     confirmPin: new FormControl(null, [Validators.required]),
     code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   }, {validators: this.pinValidator});
-  hide = true;
-  type = 'password';
-  showResponse = false;
-  respTitle: string;
-  resType: string;
-  respMsg: string;
+  hidePin = true;
+  hideConfirmPin = true;
+  type: 'text' | 'password' = 'password';
+  done = false;
+  title: string;
+  status: 'success' | 'error';
+  message: string;
   titleTag: string;
   questionTag: string;
 
@@ -53,30 +55,27 @@ export class ChangePinComponent implements OnInit {
 
   confirm() {
     this.modalService
-      .confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
-      .subscribe((res) => {
-        if (res) {
-          this.changePin();
-        }
-      });
+      .confirmationPopup(this.questionTag || '¿Desea realizar este cambio?').subscribe((confirmation) => {
+      if (confirmation) {
+        this.changePin();
+      }
+    });
   }
 
   changePin() {
-    this.httpService
-      .post('canales', 'security/modifysecuritykey', {
-        newSecurityKey: CryptoJS.SHA256(this.changePinForm.get('pin').value),
-        codeCredix: this.changePinForm.get('code').value,
-        channelId: 102,
-      })
+    this.httpService.post('canales', 'security/modifysecuritykey', {
+      newSecurityKey: CryptoJS.SHA256(this.changePinForm.get('pin').value),
+      codeCredix: this.changePinForm.get('code').value
+    })
+      .pipe(finalize(() => this.done = true))
       .subscribe((resp) => {
-        this.showResponse = true;
-        this.respTitle = resp.titleOne;
-        this.resType = resp.type;
-        this.respMsg = resp.descriptionOne;
+        this.title = resp.titleOne;
+        this.status = resp.type;
+        this.message = resp.descriptionOne;
       });
   }
 
-  done() {
+  goBack() {
     this.router.navigate(['/home']).then();
   }
 
