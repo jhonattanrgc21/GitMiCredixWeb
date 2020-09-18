@@ -21,6 +21,8 @@ export class AddAutomaticsComponent implements OnInit {
   publicCompany: PublicServiceEnterpriseModel[];
   publicServices: PublicServiceModel[];
   result: { status: string; message: string; title: string; };
+  // tslint:disable-next-line:max-line-length
+  data: { publicServiceCategoryId: number; publicServiceEnterpriseId: number; publicServiceId: number; favoriteName: string; phoneNumber: number };
   done = false;
   resultAutomatics: boolean;
   newAutomaticsForm: FormGroup = new FormGroup({
@@ -56,6 +58,16 @@ export class AddAutomaticsComponent implements OnInit {
     this.newAutomaticsForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
+    this.getValueFromFavorites();
+
+    // tslint:disable-next-line:max-line-length
+    this.newAutomaticsControls.publicServicesCategory.setValue(this.publicServicesCategory.find(elem => elem.publicServiceCategoryId === this.data.publicServiceCategoryId).publicServiceCategoryId);
+    // tslint:disable-next-line:max-line-length
+    this.newAutomaticsControls.publicServiceCompany.setValue(this.publicCompany.find(elem => elem.publicServiceEnterpriseId === this.data.publicServiceEnterpriseId).publicServiceEnterpriseId);
+    // tslint:disable-next-line:max-line-length
+    this.newAutomaticsControls.publicService.setValue(this.publicServices.find(elem => elem.publicServiceId === this.data.publicServiceId).publicServiceId);
+    this.newAutomaticsControls.nameOfAutomatics.setValue(this.data.favoriteName);
+    this.newAutomaticsControls.phoneNumber.setValue(this.data.phoneNumber);
   }
 
   getPeriodicityList() {
@@ -82,6 +94,19 @@ export class AddAutomaticsComponent implements OnInit {
       .subscribe((response) => {
         this.publicServices = response;
       });
+  }
+
+  getValueFromFavorites() {
+    this.favoritesPaymentsService.valuesFromFavorites.subscribe(response => {
+      console.log(response);
+      this.data = {
+        publicServiceCategoryId: response.publicServiceCategoryId,
+        publicServiceEnterpriseId: response.publicServiceEnterpriseId,
+        publicServiceId: response.publicServiceId,
+        favoriteName: response.favoriteName,
+        phoneNumber: +response.phoneNumber
+      };
+    });
   }
 
   openCalendar() {

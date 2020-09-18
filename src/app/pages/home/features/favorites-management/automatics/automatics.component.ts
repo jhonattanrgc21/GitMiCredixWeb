@@ -42,6 +42,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.getDeleteAlert();
     this.getUpdateAlert();
+
     this.automaticsDetailForm.controls.startDate.valueChanges.subscribe(value => {
       this.favoritesManagementService.updating();
       this.isUpdating = this.automaticsDetailForm.valid;
@@ -126,7 +127,11 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   updating(event) {
     if (event.key !== '' && event.code !== '') {
-      this.automaticsDetailForm.valueChanges.subscribe(value => {
+      this.automaticsDetailForm.controls.favoriteName.valueChanges.subscribe(value => {
+        this.favoritesManagementService.updating();
+        this.isUpdating = this.automaticsDetailForm.valid;
+      });
+      this.automaticsDetailForm.controls.maxAmount.valueChanges.subscribe(value => {
         this.favoritesManagementService.updating();
         this.isUpdating = this.automaticsDetailForm.valid;
       });

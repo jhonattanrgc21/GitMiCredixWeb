@@ -5,6 +5,7 @@ import {PublicServiceCategoryModel} from '../../../../../shared/models/public-se
 import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
 import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
 import {Router} from '@angular/router';
+import {ModalService} from '../../../../../core/services/modal.service';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -27,7 +28,8 @@ export class AddFavoritesPaymentComponent implements OnInit {
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
 
   constructor(private favoritesPaymentsService: FavoritesPaymentsService,
-              private router: Router) {
+              private router: Router,
+              private modalService: ModalService) {
   }
 
   get newFavoritesPaymentControls() {
@@ -71,17 +73,33 @@ export class AddFavoritesPaymentComponent implements OnInit {
   }
 
   addFavoritePayment() {
-    this.favoritesPaymentsService.setPublicServiceFavorite(
+    this.modalService.confirmationPopup('¿Desea añadir este pago favorito?', '', 380, 197)
+      .subscribe(confirm => {
+        if (confirm) {
+          this.favoritesPaymentsService.setPublicServiceFavorite(
+            this.newFavoritesPaymentControls.publicService.value,
+            this.newFavoritesPaymentControls.phoneNumber.value,
+            this.newFavoritesPaymentControls.favoriteName.value,
+            +this.codeCredix.value).subscribe((response) => {
+            this.done = true;
+            this.result = {
+              status: response.type || response.titleOne,
+              message: response.descriptionOne,
+              title: response.type === 'error' ? 'Opss...' : '¡Éxito!'
+            };
+          });
+        }
+      });
+  }
+
+  addToAutomatics() {
+    this.router.navigate(['/home/favorites-management/new-automatics']);
+    this.favoritesPaymentsService.emitValuesToAutomatics(
+      this.newFavoritesPaymentControls.publicServicesCategory.value,
+      this.newFavoritesPaymentControls.PublicServiceCompany.value,
       this.newFavoritesPaymentControls.publicService.value,
-      this.newFavoritesPaymentControls.phoneNumber.value,
       this.newFavoritesPaymentControls.favoriteName.value,
-      +this.codeCredix.value).subscribe((response) => {
-      this.done = true;
-      this.result = {
-        status: response.type || response.titleOne,
-        message: response.descriptionOne,
-        title: response.type === 'error' ? 'Opss...' : '¡Éxito!'
-      };
-    });
+      this.newFavoritesPaymentControls.phoneNumber.value
+    );
   }
 }

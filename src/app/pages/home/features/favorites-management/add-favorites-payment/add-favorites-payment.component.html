@@ -75,10 +75,16 @@
 
     <h1>Añadir pago favorito</h1>
 
-    <div fxFlex fxLayoutAlign="center center">
+    <div fxFlex fxLayout="column" fxLayoutAlign="center center">
       <credix-result-notification [message]="result.message" [status]="result.status" [title]="result.title">
       </credix-result-notification>
+      <credix-link-button (click)="addToAutomatics()"
+                          *ngIf="result.status === 'success'"
+                          fxLayoutAlign="center center"
+                          style="width: 212px; height: 24px;">Agregar a pagos automáticos
+      </credix-link-button>
     </div>
+
 
     <div class="add-favorites-payment__footer" fxLayout="row" fxLayoutAlign="flex-end">
       <div fxLayoutGap="16px">
