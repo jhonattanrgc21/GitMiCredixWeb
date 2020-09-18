@@ -1,165 +1,88 @@
-.cancellation {
+.anticipated-cancellation {
+  position: relative;
+  height: 662px;
 
-  &__share-btn{
-    margin-top:40px;
+  &__title {
+    margin-bottom: 4px;
   }
 
-  &__divider {
-    margin-right: 141px;
-    margin-left: 141px;
+  &__table-wrapper {
+    height: 380px;
+    margin-left: -16px !important;
+    margin-right: -16px !important;
   }
 
   &__table {
-    &__scroll {
-      height: 400px;
-      overflow-y: auto;
-      overflow-x: hidden;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+    mat-header-row {
+      top: 0 !important;
+    }
+
+    mat-row:last-of-type {
+      border-bottom: none !important;
+    }
+
+    mat-header-cell:first-of-type {
+      justify-content: flex-start !important;
+    }
+
+    mat-cell:first-of-type {
+      text-align: left !important;
+    }
+
+    mat-header-cell, mat-cell {
+      margin: 0 !important;
+
+      &:first-child {
+        flex: 4% !important;
+      }
+
+      &:nth-child(2) {
+        flex: 15% !important;
+      }
+
+      &:nth-child(3) {
+        flex: 26% !important;
+      }
+
+      &:nth-child(4) {
+        flex: 26% !important;
+      }
+
+      &:nth-child(5) {
+        flex: 18% !important;
+      }
+
+      &:last-child {
+        flex: 11% !important;
+        justify-content: flex-end !important;
+        text-align: right !important;
+      }
     }
   }
 
-  &__data-info {
-    margin: 24px 141px 16px 141px;
-
-    &__text {
-      font-size: 16px;
-      font-weight: bold;
-      color: #3e3e3e;
-    }
-
-    &__row {
-      padding-bottom: 10px;
-    }
-  }
-
-  &__banner-tab {
-    position: relative;
-    height: 662px;
-
-    h1 {
-      margin-bottom: 16px;
-    }
-  }
-
-  &__succResp {
-    margin-top: 63px;
-  }
-
-  &__errResp {
-    margin-top: 133px;
+  .disabled {
+    color: #d2d2d2;
   }
 
   &__footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
     border-top: 1px solid #e9e9e9;
-    padding: 16px;
-  }
-}
-
-.disabledRow {
-  color: #D2D2D2;
-}
-
-:host ::ng-deep .mat-table {
-  margin-top: 17px !important;
-  margin-left: -16px !important;
-  margin-right: -16px !important;
-}
-
-:host ::ng-deep credix-result-notification {
-  width: 294px;
-  margin: 35px auto 0 auto;
-}
-
-:host ::ng-deep .credix-tab {
-  margin-top: 16px;
-  margin-bottom: 24px !important;
-}
-
-:host ::ng-deep .credix-result-notification__message {
-  width: 470px;
-}
-
-:host ::ng-deep th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
-  border-bottom-width: 0 !important;
-}
-
-:host ::ng-deep td.mat-cell:last-of-type {
-  padding-right: 0 !important;
-  border-bottom-style: none !important;
-}
-
-:host ::ng-deep mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
-  padding-left: 0px !important;
-}
-
-:host ::ng-deep th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
-  padding-right: 0px !important;
-}
-
-.credix-checkbox {
-  width: 20px;
-  height: 20px;
-  text-align: left;
-  font: normal 16px/24px;
-  letter-spacing: 0;
-  color: #3E3E3E;
-
-  &.mat-checkbox-checked.mat-accent {
-    ::ng-deep.mat-checkbox-background {
-      background: #3E3E3E 0 0 no-repeat padding-box;
-      border-radius: 4px;
-    }
-  }
-
-  &.mat-checkbox-disabled.mat-checkbox-checked {
-    ::ng-deep.mat-checkbox-background {
-      background: #D2D2D2 0 0 no-repeat padding-box;
-    }
-  }
-
-  &.mat-checkbox-disabled {
-    ::ng-deep.mat-checkbox-label {
-      text-align: left;
-      font: normal 16px/24px;
-      letter-spacing: 0;
-      color: #D2D2D2;
-    }
-  }
-
-  ::ng-deep.mat-checkbox-frame {
-    border-radius: 4px;
+    padding-top: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
   }
 }
 
 @media screen and (max-width: 1199px) {
-  .cancellation {
-    &__banner-tab {
 
-      height: 886px;
+  .anticipated-cancellation {
+    height: 886px;
+
+
+    &__table-wrapper {
+      height: 600px;
     }
-
-    &__divider {
-      margin-right: 70px;
-      margin-left: 70px;
-    }
-
-    &__data-info {
-      margin: 24px 70px 16px 70px;
-    }
-
-    &__succResp {
-      margin-top: 175px;
-    }
-
-    &__errResp {
-      margin-top: 246px;
-    }
-  }
-
-  :host ::ng-deep credix-result-notification {
-    margin: 134px auto 134px auto;
   }
 }
