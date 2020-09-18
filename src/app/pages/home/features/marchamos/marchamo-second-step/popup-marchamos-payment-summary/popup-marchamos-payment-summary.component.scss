@@ -5,6 +5,10 @@
     font-size: 14px;
     margin-bottom: 20px;
   }
+
+  ::ng-deep .credix-numeric-block {
+    color: #3e3e3e !important;
+  }
 }
 
 ::ng-deep .marchamo-summary-panel {

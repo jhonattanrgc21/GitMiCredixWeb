@@ -38,6 +38,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   step4Sub2: string;
   step4Subt3: string;
   step4TagMarch: string;
+  private arrayOfAmountProducts: { amounts: number; productCode: number }[];
 
 
   constructor(private tagsService: TagsService, private marchamosService: MarchamosService) {
@@ -66,14 +67,17 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
       this.totalAmount = value.consultVehicle.amount;
     });
 
-    this.marchamosService.amountItemsProducts.subscribe(value => {
-      this.amountTotalProducts =
-        this.amountTotalProducts + value.moreProtectionAmount + value.responsabilityCivilAmount + value.roadAsistanceAmount;
+    this.marchamosService.amountItemsProducts.subscribe(response => {
+      this.arrayOfAmountProducts = response;
+      this.arrayOfAmountProducts.forEach(value => {
+        this.computeCalculate(value.amounts);
+      });
     });
 
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+
 
   }
 
@@ -133,4 +137,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
     }
   }
 
+  computeCalculate(value: number) {
+    this.amountTotalProducts += value;
+  }
 }

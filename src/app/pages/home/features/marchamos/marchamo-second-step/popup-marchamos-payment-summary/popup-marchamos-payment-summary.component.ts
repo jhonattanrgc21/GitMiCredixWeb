@@ -33,8 +33,7 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
       this.marchamo = (typeof values.marchamos === 'string') ? +values.marchamos.replace('.', '') : values.marchamos,
         this.quotesToPay = values.quotesToPay;
       values.itemsProductsAmount.forEach(itemProduct => {
-        this.totalAmountItemsProducts = this.totalAmountItemsProducts + itemProduct.moreProtectionAmount
-          + itemProduct.responsabilityCivilAmount + itemProduct.roadAsistanceAmount;
+        this.totalAmountItemsProducts = this.totalAmountItemsProducts + itemProduct.amounts;
       });
       this.totalAmount = this.totalAmount + this.marchamo + this.iva + this.comission + this.totalAmountItemsProducts;
     });
