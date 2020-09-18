@@ -13,8 +13,9 @@
     </credix-numeric-block>
   </div>
 
-  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="anticipated-cancellation__table-wrapper">
-    <mat-table [dataSource]="dataSource" [fxFlex]="empty ? '0 0 0' : '100%'" class="anticipated-cancellation__table">
+  <ngx-simplebar [fxFlex]="empty ? '0 0 0' : '100%'" [options]="{autoHide: false, scrollbarMinSize: 100}"
+                 class="anticipated-cancellation__table-wrapper">
+    <mat-table [dataSource]="dataSource" class="anticipated-cancellation__table">
 
       <ng-container matColumnDef="select">
         <mat-header-cell *matHeaderCellDef credixHeaderCell>
