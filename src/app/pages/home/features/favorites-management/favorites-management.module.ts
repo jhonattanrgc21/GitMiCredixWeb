@@ -22,6 +22,7 @@ import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-
 import {AddIbanAccountComponent} from './add-iban-account/add-iban-account.component';
 import {AddAutomaticsComponent} from './add-automatics/add-automatics.component';
 import {AddFavoritesPaymentComponent} from './add-favorites-payment/add-favorites-payment.component';
+import {SimplebarAngularModule} from 'simplebar-angular';
 
 const routes: Routes = [
   {
@@ -39,7 +40,6 @@ const routes: Routes = [
       },
       {
         path: 'favorites-payments',
-        // tslint:disable-next-line:max-line-length
         loadChildren: () => import('./favorites-payments/favorites-payments.module').then(m => m.FavoritesPaymentsModule)
       },
       {
@@ -47,6 +47,18 @@ const routes: Routes = [
         loadChildren: () => import('./automatics/automatics.module').then(m => m.AutomaticsModule)
       }
     ]
+  },
+  {
+    path: 'new-account',
+    component: AddIbanAccountComponent
+  },
+  {
+    path: 'new-favorite',
+    component: AddFavoritesPaymentComponent
+  },
+  {
+    path: 'new-automatics',
+    component: AddAutomaticsComponent
   }
 ];
 
@@ -75,6 +87,7 @@ const routes: Routes = [
     CredixDividerModule,
     NgxMaskModule,
     DateFormatterModule,
+    SimplebarAngularModule,
   ],
   providers: [
     FavoritesManagementService,

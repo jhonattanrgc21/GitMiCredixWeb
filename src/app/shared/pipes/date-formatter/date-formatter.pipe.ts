@@ -1,5 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {DatePipe} from '@angular/common';
+import {ConvertStringDateToDate} from '../../utils';
 
 @Pipe({
   name: 'dateFormatter'
@@ -8,7 +9,7 @@ export class DateFormatterPipe implements PipeTransform {
   private months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
   transform(date: Date | string, format: 'numeric' | 'alphanumeric' | 'yearMonth' = 'numeric', locale: string = 'es'): string {
-    let returnDate;
+    let returnDate: Date;
 
     if (!date) {
       return '';
@@ -17,10 +18,7 @@ export class DateFormatterPipe implements PipeTransform {
     if (date instanceof Date) {
       returnDate = new Date(date);
     } else {
-      returnDate = new Date(
-        Number(date.split('/')[2]),
-        Number(date.split('/')[1]) - 1,
-        Number(date.split('/')[0]));
+      returnDate = ConvertStringDateToDate(date);
     }
 
     if (format === 'numeric') {

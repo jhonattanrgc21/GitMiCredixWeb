@@ -1,40 +1,39 @@
-<mat-card class="change-pin" credixCard fxFlex="100">
+<mat-card *ngIf="!done else donePinTemplate" class="change-pin" credixCard fxLayout="column">
   <h1>{{titleTag || 'Cambiar PIN'}}</h1>
 
-  <div *ngIf="!showResponse" class="change-pin__content">
+  <div class="change-pin__content">
+
     <div fxLayout="row" fxLayoutAlign="space-between start">
-      <span class="change-pin__content__title">Nuevo PIN</span>
+      <span><strong>Nuevo PIN</strong></span>
+
       <div class="tr" fxLayout="column">
         <form [formGroup]="changePinForm">
           <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.pin"
-                              [type]="hide ? 'password' : 'text'" class="change-pin__input"
-                              focusLabel="Clave" formControlName="pin" label="Nuevo PIN"
-                              mask="0000"
+                              [type]="hidePin ? 'password' : 'text'" class="change-pin__input"
+                              focusLabel="Clave" formControlName="pin" label="Nuevo PIN" mask="0000"
                               panelClass="sign-in-password-panel" tooltipOffsetY="20" tooltipType="pin">
-            <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+            <mat-icon (click)="hidePin = !hidePin" [ngClass]="{'disabled-color': !changePinForm.controls.pin.value}"
+                      [svgIcon]="hidePin ? 'eye-outline' : 'eye-off-outline'"
+                      suffix></mat-icon>
           </credix-input-field>
 
-          <credix-input-field [type]="type" class="change-pin__input"
-                              formControlName="confirPpin"
+          <credix-input-field [type]="type" class="change-pin__input" formControlName="confirmPin"
                               label="Confirme su nuevo PIN" mask="0000">
-            <mat-icon (click)="hide = !hide; type = hide === true ? 'password': 'text'"
-                      [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+            <mat-icon (click)="hideConfirmPin = !hideConfirmPin; type = hideConfirmPin === true ? 'password': 'text'"
+                      [ngClass]="{'disabled-color': !changePinForm.controls.confirmPin.value}"
+                      [svgIcon]="hideConfirmPin ? 'eye-outline' : 'eye-off-outline'"
+                      suffix></mat-icon>
           </credix-input-field>
         </form>
       </div>
+
     </div>
-    <mat-divider></mat-divider>
+
+    <mat-divider credixDivider></mat-divider>
+
     <div class="mt-16px" fxLayout="row" fxLayoutAlign="space-between start">
-      <div fxLayout="column">
-        <span class="change-pin__content__title">Código MiCredix</span>
-        <span class="change-pin__content__msg">Ingrese el código generado en la aplicación
-          <credix-link-button
-            route="https://play.google.com/store/apps/details?id=com.Mobtion.Credix.Credixcel&hl=es_419">
-        Código MiCredix
-        <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
-      </credix-link-button>
-          </span>
-      </div>
+      <credix-code-link></credix-code-link>
+
       <form [formGroup]="changePinForm">
         <credix-code-input [(codeFormControl)]="changePinForm.controls.code" [length]="6" class="change-pin__code tr"
                            errorMessage="Ingrése código MiCredix">
@@ -43,13 +42,18 @@
     </div>
   </div>
 
-  <credix-result-notification *ngIf="showResponse" [message]="respMsg" [status]="resType"
-                              [title]="respTitle">
-  </credix-result-notification>
-
-  <div class="change-pin__content__footer tr">
-    <credix-button (buttonClick)="confirm()" *ngIf="!showResponse" [disabled]="changePinForm.invalid"
+  <div class="change-pin__content__footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <credix-button (buttonClick)="confirm()" [disabled]="changePinForm.invalid"
                    text="Confirmar"></credix-button>
-    <credix-button (buttonClick)="done()" *ngIf="showResponse" text="Listo"></credix-button>
   </div>
 </mat-card>
+
+<ng-template #donePinTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [title]="titleTag || 'Cambiar PIN'"
+                          buttonText="Listo"
+                          routeTo="/home"></app-credix-result-view>
+</ng-template>
+

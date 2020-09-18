@@ -1,71 +1,62 @@
-<mat-card *ngIf="showTemplate === 'favorite-management'"
-          class="favorites-management" credixCard fxLayout="column" fxLayoutGap="16px">
+<mat-card class="favorites-management" credixCard fxLayout="column" fxLayoutGap="16px">
   <h1>Gestionar favoritos</h1>
 
   <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
 
-  <credix-navigation-table [headers]="tableHeaders">
+  <credix-navigation-table [headers]="tableHeaders" [hide]="empty">
 
-    <div *ngIf="showContent && responseMessage === undefined" class="w-100 favorites-management__list" fxLayout="column"
-         left>
-
-      <a (click)="getDetailFavorite(account)" *ngFor="let account of accounts"
-         class="favorites-management__account-wrapper" fxLayout="column">
-        <span><strong>{{account.name}}</strong></span>
-        <div *ngIf="tabId === 2" class="list-id-2" fxLayout="row" fxLayoutGap="48.21px">
-          <span>{{account.publicServiceEnterpriseDescription}}</span>
-          <mat-icon style="fill: #E42313;width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+    <div class="w-100 h-100" fxLayout="column" fxLayoutAlign="space-between" left>
+      <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="favorites-management__options">
+        <div class="favorites-management__options-wrapper" fxLayout="column">
+          <a (click)="getDetailFavorite(account)" *ngFor="let account of accounts"
+             class="favorites-management__option" fxLayout="column">
+          <span [class.is-selected]="
+                                      optionSelected == account.IdAccountFavorite ||
+                                      optionSelected == account.publicServiceFavoriteId ||
+                                      optionSelected == account.id"
+                class="favorites-management__option__label truncate">{{account.name}}</span>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+            <span>{{
+              tabId === 1 ? account.account :
+                tabId === 2 ? account.publicServiceEnterpriseDescription :
+                  account.account + '-' + (account.key | mask: '0000-0000')}}</span>
+              <mat-icon *ngIf="
+                                optionSelected == account.IdAccountFavorite ||
+                                optionSelected == account.publicServiceFavoriteId ||
+                                optionSelected == account.id"
+                        style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+            </div>
+            <span *ngIf="tabId === 2">{{account.account}}</span>
+          </a>
         </div>
-        <div *ngIf="tabId === 3" class="list-id-3" fxLayout="row">
-          <span>{{account.account}} - {{account.key | mask: '0000-0000'}}</span>
-          <mat-icon style="fill: #E42313;width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
-        </div>
-        <div fxLayout="row" fxLayoutGap="28.79px">
-          <span *ngIf="tabId !== 3">{{account.account}}</span>
-          <mat-icon *ngIf="tabId !== 2 && tabId !== 3" style="fill: #E42313;width: 8px; height: 13px;"
-                    svgIcon="chevron_right"></mat-icon>
-        </div>
-        <mat-divider class="mt-16px" credixDivider></mat-divider>
-      </a>
+      </ngx-simplebar>
 
-
-    </div>
-
-    <div class="favorites-management__right-content" fxLayout="column"
-         fxLayoutAlign="center center" right>
-
-      <credix-result-notification *ngIf="!showContent && responseMessage !== null" [title]="responseMessage"
-                                  class="favorites-management__result"
-                                  status="info">
-      </credix-result-notification>
-
-      <div *ngIf="showContent && responseMessage === undefined" fxLayout="column">
-        <router-outlet></router-outlet>
+      <div class="favorites-management__add-footer" fxLayoutAlign="center center">
+        <credix-button (buttonClick)="add(tabId)" [text]="buttonText"></credix-button>
       </div>
-
     </div>
+
+    <div class="relative h-100" fxLayout="column" fxLayoutAlign="flex-start center" right>
+      <router-outlet></router-outlet>
+      <div *ngIf="optionSelected !== 0" class="favorites-management__footer" fxLayout="row"
+           fxLayoutAlign="flex-end center"
+           fxLayoutGap="16px">
+        <credix-button (buttonClick)="delete(tabId)" text="Eliminar" type="secondary"></credix-button>
+        <credix-button (buttonClick)="update(tabId)" [disabled]="!updating" text="Guardar"></credix-button>
+      </div>
+    </div>
+
   </credix-navigation-table>
 
-  <div class="favorites-management__footer" fxLayoutAlign="center">
-    <credix-button (buttonClick)="addButtonRedirect(tabId)" [text]="buttonText"></credix-button>
+  <credix-result-notification *ngIf="empty" [title]="tabId === 1 ? 'No tiene cuentas IBAN favoritas en este momento.' :
+                               tabId === 2 ? 'No tiene pagos favoritos en este momento.' :
+                               'No tiene pagos automáticos en este momento.'" class="favorites-management__empty"
+                              status="info">
+  </credix-result-notification>
+
+
+  <div *ngIf="empty" class="favorites-management__footer pr-16px" fxLayout="row" fxLayoutAlign="flex-end center">
+    <credix-button (buttonClick)="add(tabId)" [text]="buttonText"></credix-button>
   </div>
 
-  <div *ngIf="showContent && responseMessage === undefined" class="favorites-management__footer-right"
-       fxLayoutAlign="flex-end">
-    <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="deleteButtonByTabId(tabId)" text="Eliminar" type="secondary"></credix-button>
-      <credix-button (buttonClick)="saveUpdate(tabId)" [disabled]="!updating" text="Guardar"></credix-button>
-    </div>
-  </div>
 </mat-card>
-
-
-<app-add-iban-account (backToTemplate)="changeTemplate($event)"
-                      *ngIf="showTemplate === 'add-iban'"></app-add-iban-account>
-
-<app-add-favorites-payment (backToTemplate)="changeTemplate($event)"
-                           *ngIf="showTemplate === 'add-favorites'"></app-add-favorites-payment>
-
-<app-add-automatics (backToTemplate)="changeTemplate($event)"
-                    *ngIf="showTemplate === 'add-automatics'"></app-add-automatics>
-

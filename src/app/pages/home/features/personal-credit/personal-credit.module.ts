@@ -26,6 +26,7 @@ import {CredixConfirmationPopupModule} from '../../../../shared/components/credi
 import {ModalService} from '../../../../core/services/modal.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 
 const routes: Routes = [
   {
@@ -62,7 +63,8 @@ const routes: Routes = [
     CredixResultNotificationModule,
     CredixConfirmationPopupModule,
     ReactiveFormsModule,
-    CredixDividerModule
+    CredixDividerModule,
+    CredixResultViewModule
   ],
   providers: [
     PersonalCreditService,

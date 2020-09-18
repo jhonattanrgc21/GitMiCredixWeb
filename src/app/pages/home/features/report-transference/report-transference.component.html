@@ -1,4 +1,4 @@
-<mat-card *ngIf="!done else doneTemplate" class="report-transference" credixCard fxLayout="column">
+<mat-card *ngIf="!done else doneReportTemplate" class="report-transference" credixCard fxLayout="column">
 
   <h1 class="mb-32px">Reportar transferencia</h1>
 
@@ -54,15 +54,11 @@
 
 </mat-card>
 
-<ng-template #doneTemplate>
-  <mat-card class="report-transference" credixCard fxLayout="column">
-    <h1>{{titleTag || 'Reportar transferencia'}}</h1>
-
-    <credix-result-notification [message]="message" [status]="status" [title]="title" class="w-100" fxFlex
-                                fxLayoutAlign="center center"></credix-result-notification>
-
-    <div class="report-transference__footer" fxLayout="row" fxLayoutAlign="flex-end">
-      <credix-button (buttonClick)="goHome()" text="Listo"></credix-button>
-    </div>
-  </mat-card>
+<ng-template #doneReportTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [title]="titleTag || 'Reportar transferencia'"
+                          buttonText="Listo"
+                          routeTo="/home"></app-credix-result-view>
 </ng-template>

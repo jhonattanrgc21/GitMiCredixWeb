@@ -1,7 +1,9 @@
-<mat-card [class.full-height]="selectedIndex >= 2" class="send-money" credixCard fxLayout="column" fxLayoutGap="16px">
+<mat-card *ngIf="!done else doneSendMoneyTemplate" [class.full-height]="selectedIndex >= 2" class="send-money"
+          credixCard fxLayout="column"
+          fxLayoutGap="16px">
   <h1>Enviar dinero</h1>
 
-  <credix-stepper #sendMoneyStepper class="send-money__stepper" *ngIf="!done">
+  <credix-stepper #sendMoneyStepper class="send-money__stepper">
     <cdk-step [stepControl]="informationForm" fxLayout="column" label="{{step || 'Información'}}">
       <app-send-money-first-step (currencyPrefixEvent)="currencyPrefix = $event"
                                  (typeDestinationEvent)="typeDestination = $event"
@@ -30,70 +32,63 @@
     </cdk-step>
   </credix-stepper>
 
-  <div *ngIf="done">
-    <credix-result-notification status="success" title="¡Éxito!"
-                                message="Su transferencia ha sido procesado correctamente.">
-    </credix-result-notification>
-
-    <mat-divider class="send-money__divider full-width mt-16px mb-16px"></mat-divider>
-
-    <div fxLayout="row" fxLayoutAlign="space-between start" class="send-money__data-info">
-      <div fxFlex="42%">
-        <span class="send-money__data-info__text">Datos de la transferencia</span>
-      </div>
-      <div fxFlex="58%">
-        <div fxLayout="row" class="send-money__data-info__row">
-          <div fxFlex="30%"><span>Monto</span></div>
-          <div fxFlex="70%" class="send-money__data-info__col">
-            <credix-numeric-block [prefix]="currencyPrefix" [value]="amountAndQuotaForm.controls.amount.value"
-                                  class="tr" fontSize="16" fontWeight="bold"></credix-numeric-block>
-          </div>
-        </div>
-
-        <div fxLayout="row" class="send-money__data-info__row">
-          <div fxFlex="30%"><span>Cuotas</span></div>
-          <div fxFlex="70%" class="send-money__data-info__col">
-            <span class="send-money__data-info__text">{{
-              amountAndQuotaForm.controls.quotas.value}}</span>
-          </div>
-        </div>
-        <div fxLayout="row" class="send-money__data-info__row">
-          <div fxFlex="30%"><span>Nombre</span></div>
-          <div fxFlex="70%" class="send-money__data-info__col">
-            <span class="send-money__data-info__text">{{
-              informationForm.controls.account.value.aliasName}}</span>
-          </div>
-        </div>
-        <div fxLayout="row" class="send-money__data-info__row">
-          <div fxFlex="30%"><span>Cuenta</span></div>
-          <div fxFlex="70%" class="send-money__data-info__col">
-            <span class="send-money__data-info__text">{{
-              informationForm.controls.account.value.ibanAccount}}</span>
-          </div>
-        </div>
-        <div fxLayout="row" class="send-money__data-info__row">
-          <div fxFlex="30%"><span>Entidad</span></div>
-          <div fxFlex="70%" class="send-money__data-info__col">
-            <span class="send-money__data-info__text">{{
-              informationForm.controls.account.value.ibanBank}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div fxLayout="column" fxLayoutAlign="space-between center">
-      <credix-link-button class="tr">Ampliar plazo</credix-link-button>
-      <credix-share-button class="send-money__shrare-btn"></credix-share-button>
-    </div>
-  </div>
-
   <div class="send-money__footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <div *ngIf="!done" fxLayoutGap="16px">
+    <div fxLayoutGap="16px">
       <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" text="Atrás" type="secondary"></credix-button>
       <credix-button (buttonClick)="next()" [disabled]="disableButton"
                      [text]="selectedIndex >= 2 ? 'Transferir' : 'Continuar'"></credix-button>
     </div>
-    <div *ngIf="done">
-      <credix-button text="Listo" (buttonClick)="goHome()"></credix-button>
-    </div>
   </div>
 </mat-card>
+
+<ng-template #doneSendMoneyTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [title]="'Enviar dinero'"
+                          buttonText="Listo"
+                          routeTo="/home">
+
+    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+      <mat-divider class="mb-24px" credixDivider></mat-divider>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="200px"><strong>Datos de la transferencia</strong></p>
+
+        <div fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Monto</span>
+            <div>
+              <credix-numeric-block [prefix]="currencyPrefix" [value]="amountAndQuotaForm.controls.amount.value"
+                                    class="tr" fontWeight="bold"></credix-numeric-block>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Cuotas</span>
+            <span class="tr"><strong>{{amountAndQuotaForm.controls.quotas.value}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Nombre</span>
+            <span class="tr"><strong>{{informationForm.controls.account.value.aliasName}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Cuenta</span>
+            <span class="tr"><strong>{{informationForm.controls.account.value.ibanAccount}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Entidad</span>
+            <span class="tr"><strong>{{informationForm.controls.account.value.ibanBank}}</strong></span>
+          </div>
+
+        </div>
+      </div>
+
+      <credix-link-button class="mt-16px" fxFlexAlign="center">Ampliar plazo</credix-link-button>
+      <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
+    </div>
+  </app-credix-result-view>
+</ng-template>

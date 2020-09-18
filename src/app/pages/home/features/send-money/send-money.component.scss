@@ -2,7 +2,7 @@
   position: relative;
   min-height: 662px;
 
-  &__divider{
+  &__divider {
     margin-right: 184px;
     margin-left: 184px;
   }
@@ -19,38 +19,16 @@
   &.full-height {
     height: 703px;
   }
-  &__data-info{
-    margin: 24px 168px 16px 168px;
-
-    &__text1, &__text{
-      font-size: 16px;
-      font-weight: bold;
-      color: #3E3E3E;
-    }
-    &__col{
-      text-align: right;
-    }
-    &__row{
-      width: 296px;
-      padding-bottom: 10px;
-    }
-  }
-  &__shrare-btn{
-    margin-top: 18px;
-  }
 }
 
 @media screen and (max-width: 1199px) {
+
   .send-money {
     height: 886px;
 
-    &__divider{
+    &__divider {
       margin-right: 114px;
       margin-left: 114px;
-    }
-
-    &__data-info{
-      margin: 24px 97px 16px 98px;
     }
   }
 }

@@ -7,11 +7,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   styleUrls: ['./credix-checkbox-button.component.scss']
 })
 export class CredixCheckboxButtonComponent implements OnInit {
-  @Input() label = 'Etiqueta';
+  @Input() label = '';
   @Input() checked: boolean;
   @Input() value;
   @Input() disable: boolean;
-
   @Output() emitCheckBox = new EventEmitter();
 
   constructor() {

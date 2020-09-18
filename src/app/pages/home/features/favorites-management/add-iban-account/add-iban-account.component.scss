@@ -1,8 +1,18 @@
 .add-iban-account {
-  width: 877px;
-  min-height: 662px;
+  height: 662px;
   position: relative;
-  padding: 40px 77px;
+
+  &__container {
+    padding: 0 84px;
+  }
+
+  &__form {
+    width: 379px;
+
+    &__input {
+      height: 44px;
+    }
+  }
 
   &__footer {
     position: absolute;
@@ -10,29 +20,23 @@
     bottom: 0;
     left: 0;
     border-top: 1px solid #E9E9E9;
-    padding: 16px 8px;
+    padding: 16px;
   }
+}
 
-  &__form {
-    width: 380px;
-    padding: 16px 8px;
-  }
+@media screen and (max-width: 1199px) {
 
-  &__credix-code {
-    padding: 16px 0px;
+  .add-iban-account {
+    height: 886px;
+    position: relative;
 
-    span {
-      padding: 16px 0px;
+    &__container {
+      padding: 0 78px;
     }
 
-    credix-code-input {
-      padding: 16px 0px;
-      width: 380px;
+    &__form {
+
+      width: 266px;
     }
-  }
-
-  .result {
-
-    padding: 156px 220px;
   }
 }

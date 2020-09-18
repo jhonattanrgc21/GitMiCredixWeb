@@ -30,6 +30,8 @@ import {NgxMaskModule} from 'ngx-mask';
 import {NewAddressPopupComponent} from './new-additional-card/new-additional-card-second-step/new-address-popup/new-address-popup.component';
 import {CredixTextareaFieldModule} from '../../../../shared/components/credix-textarea-field/credix-textarea-field.module';
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 
 const routes: Routes = [
   {
@@ -73,7 +75,9 @@ const routes: Routes = [
     CredixLinkButtonModule,
     NgxMaskModule,
     CredixTextareaFieldModule,
-    CredixCodeInputModule
+    CredixCodeInputModule,
+    CredixResultViewModule,
+    CredixCodeLinkModule
   ],
   providers: [
     AdditionalCardsManagementService,

@@ -1,108 +1,78 @@
-<div class="third-step" fxLayout="column" fxLayoutAlign="flex-start center">
+<div class="third-step" fxLayout="column" fxLayoutAlign="flex-start center" fxLayoutGap="16px">
 
-  <div class="third-step__content" fxLayout="row" fxLayoutGap="space-between">
+  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="260px"><strong>{{step3Subt1 || 'Beneficiario(a) de la transferencia'}}</strong></span>
 
-    <span class="third-step__content__title" fxFlex="50"><strong>{{step3Subt1 || 'Beneficiario(a) de la transferencia'}}</strong></span>
-
-    <table *ngIf="account" fxFlex="50">
-      <tbody>
-      <tr class="third-step__table-row">
-        <td>{{step3Tag1 || 'Nombre'}}</td>
-        <td>{{account.aliasName}}</td>
-      </tr>
-      <tr class="third-step__table-row">
-        <td>{{step3Tag2 || 'Identificación'}}</td>
-        <td>{{account.identification}}</td>
-      </tr>
-      <tr class="third-step__table-row">
-        <td>{{step3Tag3 || 'Entidad'}}</td>
-        <td>{{account.ibanBank}}</td>
-      </tr>
-      <tr class="third-step__table-row">
-        <td>{{step3Tag4 || 'Cuenta'}}</td>
-        <td>{{account.ibanAccount}}</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="right-content" fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="60px">{{step3Tag1 || 'Nombre'}}</span>
+        <span><strong>{{account?.aliasName}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="100px">{{step3Tag2 || 'Identificación'}}</span>
+        <span><strong>{{account?.identification}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="60px">{{step3Tag3 || 'Entidad'}}</span>
+        <span><strong>{{account?.ibanBank}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="60px">{{step3Tag4 || 'Cuenta'}}</span>
+        <span><strong>{{account?.ibanAccount}}</strong></span>
+      </div>
+    </div>
   </div>
 
-  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
+  <mat-divider class="right-content" credixDivider></mat-divider>
 
-  <div class="third-step__content" fxLayout="row" fxLayoutGap="space-between">
+  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="260px"><strong>{{step3Subt2 || 'Detalles de la transferencia'}}</strong></span>
 
-    <span class="third-step__content__title" fxFlex="50"><strong>{{step3Subt2 || 'Detalles de la transferencia'}}</strong></span>
+    <div class="right-content" fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{step3Tag5 || 'Cuota'}}</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="quotaAmountView"
+                              fontWeight="bold"></credix-numeric-block>
+      </div>
 
-    <div *ngIf="account" fxFlex="50">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="50px">{{step3Tag6 || 'Plazo'}}</span>
+        <span><strong>{{timeLimit}} Meses</strong></span>
+      </div>
 
-      <table class="w-100">
-        <tbody>
-        <tr class="third-step__table-row">
-          <td>{{step3Tag5 || 'Cuota'}}</td>
-          <td>
-            <credix-numeric-block [prefix]="currencyPrefix" [value]="quotaAmountView"
-                                  fontSize="16"
-                                  fontWeight="bold"></credix-numeric-block>
-          </td>
-        </tr>
-        <tr class="third-step__table-row">
-          <td>{{step3Tag6 || 'Plazo'}}</td>
-          <td>{{timeLimit}} Meses</td>
-        </tr>
-        <tr class="third-step__table-row">
-          <td>{{step3Tag7 || 'Monto a transferir'}}</td>
-          <td>
-            <credix-numeric-block [prefix]="currencyPrefix" [value]="+amount"
-                                  fontSize="16"
-                                  fontWeight="bold"></credix-numeric-block>
-          </td>
-        </tr>
-        <tr class="third-step__table-row">
-          <td>{{step3Tag8 || 'Comisión'}} ({{commissionRate}}%)*</td>
-          <td>
-            <credix-numeric-block [prefix]="currencyPrefix" fontSize="16"
-                                  fontWeight="bold"
-                                  [value]="commission"></credix-numeric-block>
-          </td>
-        </tr>
-        <tr class="third-step__table-row border-bottom">
-          <td>IVA*</td>
-          <td>
-            <credix-numeric-block [prefix]="currencyPrefix" fontSize="16"
-                                  fontWeight="bold"
-                                  [value]="iva"></credix-numeric-block>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{step3Tag7 || 'Monto a transferir'}}</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="+amount" fontWeight="bold"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{step3Tag8 || 'Comisión'}} ({{commissionRate}}%)*</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="commission" fontWeight="bold"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>IVA*</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="iva" fontWeight="bold"></credix-numeric-block>
+      </div>
 
       <mat-divider class="mt-8px mb-8px" credixDivider></mat-divider>
 
       <div fxLayout="row">
-        <span fxFlex="50">{{step3Tag9 || 'Total'}}</span>
-        <credix-numeric-block class="tr" fontSize="16" fontWeight="bold" [prefix]="currencyPrefix"
-                              fxFlex="50" [value]="total"></credix-numeric-block>
+        <span fxFlex>{{step3Tag9 || 'Total'}}</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="total"
+                              fontWeight="bold"></credix-numeric-block>
       </div>
-
     </div>
-
   </div>
 
-  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
+  <mat-divider class="right-content" credixDivider></mat-divider>
 
-  <div class="third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
+    <credix-code-link></credix-code-link>
 
-    <div class="third-step__content__title" fxFlex="40" fxLayout="column">
-      <strong>Código MiCredix</strong>
-      <p>Ingrese el código generado en la aplicación
-        <credix-link-button>
-          Código MiCredix
-          <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
-        </credix-link-button>
-      </p>
-    </div>
-
-    <credix-code-input [(codeFormControl)]="codeControl" errorMessage="Código erroneo" fxFlex="50"></credix-code-input>
-
+    <credix-code-input [(codeFormControl)]="codeControl" class="right-content"
+                       errorMessage="Código erroneo"></credix-code-input>
   </div>
+
 </div>
 

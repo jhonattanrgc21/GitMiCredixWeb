@@ -101,7 +101,9 @@ export class AccountStatementToolbarComponent implements OnInit {
 
   downloadAccountStatement() {
     this.accountStatementService
-      .downloadAccountStatement(this.dateControl.value.getMonth() + 1, this.dateControl.value.getFullYear())
+      .downloadAccountStatement(
+        this.accountStatementDates.find(date => date.id === this.dateControl.value).date.getMonth() + 1,
+        this.accountStatementDates.find(date => date.id === this.dateControl.value).date.getFullYear())
       .subscribe(response => {
         if (response.type === 'success') {
           this.toastService.show({text: 'Estado de cuenta enviado', type: 'success'});

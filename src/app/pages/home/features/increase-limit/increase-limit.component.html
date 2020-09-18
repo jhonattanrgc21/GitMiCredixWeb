@@ -1,12 +1,7 @@
-<mat-card *ngIf="show" class="increase-limit" credixCard fxLayout="column">
-  <h1>{{title || 'Aumento de límite de crédito'}}</h1>
-
-  <div fxFlex fxLayoutAlign="center center">
-    <credix-result-notification [message]="message" [status]="status" [title]="title">
-    </credix-result-notification>
-  </div>
-
-  <div class="increase-limit__footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <credix-button (buttonClick)="goHome()" text="Listo"></credix-button>
-  </div>
-</mat-card>
+<app-credix-result-view *ngIf="show"
+                        [resultMessage]="message"
+                        [resultTile]="title"
+                        [status]="status"
+                        [title]="titleTag || 'Aumento de límite de crédito'"
+                        buttonText="Listo"
+                        routeTo="/home"></app-credix-result-view>

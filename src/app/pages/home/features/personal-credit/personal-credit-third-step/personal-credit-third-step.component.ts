@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {PersonalCreditService} from '../personal-credit.service';
 import {PersonalCreditSummary} from '../../../../../shared/models/personal-credit-summary';
 
@@ -7,18 +7,25 @@ import {PersonalCreditSummary} from '../../../../../shared/models/personal-credi
   templateUrl: './personal-credit-third-step.component.html',
   styleUrls: ['./personal-credit-third-step.component.scss']
 })
-export class PersonalCreditThirdStepComponent implements OnInit {
+export class PersonalCreditThirdStepComponent implements OnInit, OnChanges {
   @Input() account;
   @Input() term = 0;
+  @Input() isActive = false;
   personalCreditSummary: PersonalCreditSummary;
   amount: number;
 
-  constructor(public personalCreditService: PersonalCreditService) {
-    this.personalCreditSummary = personalCreditService.personalCreditSummary;
-    this.amount = personalCreditService.amount;
+  constructor(private personalCreditService: PersonalCreditService) {
+
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.isActive && this.isActive) {
+      this.personalCreditSummary = this.personalCreditService.personalCreditSummary;
+      this.amount = this.personalCreditService.amount;
+    }
   }
 
 }

@@ -123,7 +123,7 @@ export class FavoritesManagementService {
     return this.httpService.post('canales', 'iban/findAllAccountiBANFavoritebyUserId', {channelId: 102})
       .pipe(
         map((response) => {
-          if (response.type === 'success' && response.message === 'Operación exitosa') {
+          if (response.AccountIbanFavoriteList?.length > 0 && response.message === 'Operación exitosa') {
             return response.AccountIbanFavoriteList;
           } else {
             return [];
@@ -140,7 +140,7 @@ export class FavoritesManagementService {
     })
       .pipe(
         map((response) => {
-          if (response.publicServiceFavoriteList.length > 0 && response.message === 'Operación exitosa') {
+          if (response.publicServiceFavoriteList?.length > 0 && response.message === 'Operación exitosa') {
             return response.publicServiceFavoriteList;
           } else {
             return [];
@@ -153,7 +153,7 @@ export class FavoritesManagementService {
     return this.httpService.post('canales', 'schedulerpayment/getscheduledpays', {channelId: 102})
       .pipe(
         map((response) => {
-          if (response.scheduledPayList.length > 0 && response.message === 'Operación exitosa') {
+          if (response.scheduledPayList?.length > 0 && response.message === 'Operación exitosa') {
             return response.scheduledPayList;
           } else {
             return [];

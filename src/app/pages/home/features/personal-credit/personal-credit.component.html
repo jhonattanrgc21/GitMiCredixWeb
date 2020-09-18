@@ -1,4 +1,4 @@
-<mat-card *ngIf="accessToPersonalCredit && !showCreditRequestResponse" class="personal-credit" credixCard
+<mat-card *ngIf="!done else donePersonalCreditTemplate" class="personal-credit" credixCard
           fxLayout="column" fxLayoutGap="16px">
 
   <div fxLayout="column" fxLayoutGap="4px">
@@ -28,49 +28,26 @@
               fxLayout="column"
               label="Confirmación">
       <app-personal-credit-third-step [account]="disbursementForm.controls.account.value"
+                                      [isActive]="stepperIndex === 2"
                                       [term]="requestForm.controls.term.value"></app-personal-credit-third-step>
     </cdk-step>
 
   </credix-stepper>
 
   <div class="personal-credit__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" text="Atrás" type="secondary"></credix-button>
+    <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" text="Atrás" type="secondary"></credix-button>
     <credix-button (buttonClick)="next()" [disabled]="disableButton" [text]="buttonText"></credix-button>
   </div>
 
 </mat-card>
 
-<ng-container *ngIf="!accessToPersonalCredit">
-  <mat-card class="personal-credit" credixCard fxLayout="column">
-    <h1>Crédito personal </h1>
-
-    <credix-result-notification fxFlex
-                                fxLayoutAlign="center center"
-                                message="En este momento no cuenta con suficiente disponible
-                                 para solicitar un crédito personal. Puede
-                                  hacer abonos extraordinarios para
-                                   liberar el disponible mas rápido."
-                                status="info"
-                                title="Disponible insuficiente"></credix-result-notification>
-
-    <div class="personal-credit__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="goHome()" text="Ok"></credix-button>
-    </div>
-  </mat-card>
-</ng-container>
-
-<ng-container *ngIf="showCreditRequestResponse">
-  <mat-card class="personal-credit" credixCard fxLayout="column">
-    <h1>Crédito personal </h1>
-
-    <credix-result-notification [message]="responseMessage"
-                                [status]="responseComponentType"
-                                [title]="responseTitle"
-                                fxFlex
-                                fxLayoutAlign="center center"></credix-result-notification>
-
-    <div class="personal-credit__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="goHome()" text="Listo"></credix-button>
-    </div>
-  </mat-card>
-</ng-container>
+<ng-template #donePersonalCreditTemplate>
+  <app-credix-result-view
+    [resultMessage]="accessToPersonalCredit ? message :
+     'En este momento no cuenta con suficiente disponible para solicitar un crédito personal. Puede hacer abonos extraordinarios para liberar el disponible mas rápido.'"
+    [resultTile]="accessToPersonalCredit ? title : 'Disponible insuficiente'"
+    [status]="accessToPersonalCredit ? status : 'info'"
+    [title]="'Crédito personal'"
+    buttonText="Listo"
+    routeTo="/home"></app-credix-result-view>
+</ng-template>

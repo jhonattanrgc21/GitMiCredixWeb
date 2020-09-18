@@ -1,4 +1,4 @@
-<mat-card *ngIf="!showResponse else doneTemplate" class="extend-term" credixCard fxLayout="column">
+<mat-card *ngIf="!done else doneTemplate" class="extend-term" credixCard fxLayout="column">
 
   <h1 class="mb-4px">{{titleTag || 'Ampliar plazo de compra'}}</h1>
 
@@ -27,7 +27,8 @@
       </div>
     </ngx-simplebar>
 
-    <div *ngIf="optionSelected.id !== 0" class="extend-term__content-right" fxLayout="column" right>
+    <div *ngIf="optionSelected.id !== 0" class="extend-term__content-right" fxFlexAlign="center"
+         fxLayout="column" right>
 
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <p class="truncate" fxFlex="221px"><strong>{{optionSelected.name}}</strong></p>
@@ -59,7 +60,7 @@
                        [min]="quotaSliderMin"
                        [step]="quotaSliderStep"
                        class="second-step__slider"
-                       instructions="{{deseoTag || 'Deseo ampliar este plazo a'}}" units="coutas"></credix-slider>
+                       instructions="{{deseoTag || 'Deseo ampliar este plazo a'}}" units="cuotas"></credix-slider>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <p fxFlex="95px">{{resultNew || 'Plazo nuevo'}}</p>
@@ -92,7 +93,6 @@
         </div>
 
         <p class="extend-term__message">
-          {{optionSelected.totalPlanQuota === quotaSelected.quotaTo}}
           {{disclaTag || '* IVA y comisión se cargarán en el próximo estado de cuenta'}}.</p>
       </div>
     </div>
@@ -104,7 +104,7 @@
   </credix-result-notification>
 
   <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="openConfirmationModal()" *ngIf="!showResponse && quotaSelected"
+    <credix-button (buttonClick)="openConfirmationModal()" *ngIf="!done && quotaSelected"
                    [disabled]="optionSelected.totalPlanQuota === quotaSelected.quotaTo"
                    text="Ampliar Plazo">
     </credix-button>
@@ -112,63 +112,49 @@
 </mat-card>
 
 <ng-template #doneTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
+                          [status]="status"
+                          [title]="titleTag || 'Ampliar plazo de compra'"
+                          buttonText="Listo"
+                          routeTo="/home">
 
-  <mat-card class="extend-term" credixCard fxLayout="column">
+    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+      <mat-divider class="mb-24px" credixDivider></mat-divider>
 
-    <h1 class="mb-24px">{{titleTag || 'Ampliar plazo de compra'}}</h1>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="175px"><strong>Datos de la ampliación</strong></p>
 
-    <div fxFlex fxLayout="column" fxLayoutAlign="center center">
-      <credix-result-notification [message]="message" [status]="resType" class="mb-24px"
-                                  title="{{ resType === 'success' ? '¡Éxito!' : 'Oops...' }}">
-      </credix-result-notification>
-
-      <div *ngIf="resType === 'success'" class="done-width" fxLayout="column">
-        <mat-divider class="mb-24px" credixDivider></mat-divider>
-
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <p fxFlex="175px"><strong>Datos de la ampliación</strong></p>
-
-          <div fxLayout="column" fxLayoutGap="8px">
-
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <span fxFlex="95px">{{comercioResult || 'Comercio'}}</span>
-              <span class="tr"><strong>{{optionSelected.name}}</strong></span>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <span fxFlex>{{newQuota || 'Cuota nueva'}}</span>
-              <div>
-                <credix-numeric-block [prefix]="currencyCode" [value]="quotaSelected.feeAmount" fontSize="16"
-                                      fontWeight="bold">
-                </credix-numeric-block>
-              </div>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <span fxFlex="95px">Plazo nuevo</span>
-              <span class="tr"><strong>{{ quotaSelected.quotaTo }} Cuota</strong></span>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <span fxFlex="95px">{{dateTag || 'Fecha'}}</span>
-              <span class="tr"><strong>{{today | dateFormatter: 'numeric'}}</strong></span>
-            </div>
-
+        <div fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="95px">{{comercioResult || 'Comercio'}}</span>
+            <span class="tr"><strong>{{optionSelected.name}}</strong></span>
           </div>
-        </div>
 
-        <div class="share-btn" fxFlexAlign="center">
-          <credix-share-button></credix-share-button>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{newQuota || 'Cuota nueva'}}</span>
+            <div>
+              <credix-numeric-block [prefix]="currencyCode" [value]="quotaSelected.feeAmount" fontSize="16"
+                                    fontWeight="bold">
+              </credix-numeric-block>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="95px">Plazo nuevo</span>
+            <span class="tr"><strong>{{ quotaSelected.quotaTo }} Cuota</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="95px">{{dateTag || 'Fecha'}}</span>
+            <span class="tr"><strong>{{today | dateFormatter: 'numeric'}}</strong></span>
+          </div>
+
         </div>
       </div>
 
+      <credix-share-button fxFlexAlign="center" style="margin-top: 90px"></credix-share-button>
     </div>
 
-    <div class="extend-term__footer done-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="done()" text="Listo">
-      </credix-button>
-    </div>
-
-  </mat-card>
-
+  </app-credix-result-view>
 </ng-template>

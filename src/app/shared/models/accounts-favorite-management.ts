@@ -1,11 +1,7 @@
 export interface AccountsFavoriteManagement {
   name: string;
   account: any;
-  // ibanFavoriteId
   IdAccountFavorite?: number;
-  // end
-
-  // data of /publicservice/findallpublicservicefavoritebyuser
   publicServiceFavoriteName?: string;
   serviceReference?: string;
   publicServiceCategory?: string;
@@ -22,9 +18,6 @@ export interface AccountsFavoriteManagement {
   publicServiceFavoriteId?: string;
   publicServiceAccessKeyType?: number;
   publicServiceEnterpriseCode?: string;
-  // end
-
-  //  data of /schedulerpayment/getscheduledpays
   publicServiceDescription?: string;
   alias?: string;
   id?: number;

@@ -28,6 +28,9 @@ import {CredixResultNotificationModule} from '../../../../shared/components/cred
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
+import {AnticipatedCancellationService} from './anticipated-cancellation.service';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 
 const routes: Routes = [
   {
@@ -64,10 +67,14 @@ const routes: Routes = [
     MatDividerModule,
     SimplebarAngularModule,
     MatCheckboxModule,
-    DateFormatterModule
+    DateFormatterModule,
+    CredixResultViewModule,
+    CredixDividerModule
 
   ],
-  providers: [ModalService]
+  providers: [
+    ModalService,
+    AnticipatedCancellationService]
 })
 export class AnticipatedCancellationModule {
 }

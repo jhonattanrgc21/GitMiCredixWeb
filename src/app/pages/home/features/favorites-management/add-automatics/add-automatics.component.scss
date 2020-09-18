@@ -1,11 +1,17 @@
 .add-automatics {
-  width: 877px;
-  min-height: 780px;
+  height: 750px;
   position: relative;
-  padding: 40px 77px;
+
+  &__container {
+    padding: 0 84px;
+  }
 
   &__form {
-    width: 380px;
+    width: 379px;
+
+    &__input {
+      height: 44px;
+    }
   }
 
   &__footer {
@@ -16,23 +22,21 @@
     border-top: 1px solid #E9E9E9;
     padding: 16px;
   }
+}
 
-  &__credix-code {
-    .content {
-      padding: 16px 0px;
+@media screen and (max-width: 1199px) {
+
+  .add-automatics {
+    height: 886px;
+    position: relative;
+
+    &__container {
+      padding: 0 78px;
     }
 
-    span {
-      padding: 16px 0px;
-    }
+    &__form {
 
-    credix-code-input {
-      padding: 16px 0px;
-      width: 380px;
+      width: 266px;
     }
-  }
-
-  .result {
-    padding: 156px 220px;
   }
 }

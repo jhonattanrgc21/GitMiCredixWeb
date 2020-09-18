@@ -18,6 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
 import {CredixImageUploadModule} from '../../../../shared/components/credix-image-upload/credix-image-upload.module';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
     MatIconModule,
     DateFormatterModule,
     CredixImageUploadModule,
-    CredixResultNotificationModule
+    CredixResultNotificationModule,
+    CredixResultViewModule
   ],
   providers: [
     ReportTransferenceService,

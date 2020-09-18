@@ -1,6 +1,6 @@
 <div class="personal-credit-second-step" fxLayout="column" fxLayoutAlign="flex-start center">
 
-  <div class="personal-credit-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
 
     <span class="tl" fxFlex="290px"><strong>¿Cómo desea recibir el desembolso?</strong></span>
 
@@ -11,9 +11,8 @@
                              name="disbursement"
                              value="1"></credix-radio-button>
 
-        <credix-input-field *ngIf="radioButtonSelected == 1" class="personal-credit-second-step__content__input ml-20px"
-                            formControl="accountControl"
-                            label="Dígite la cuenta IBAN"></credix-input-field>
+        <credix-input-field *ngIf="radioButtonSelected == 1" class="personal-credit-second-step__input ml-20px"
+                            [formControl]="accountControl" label="Dígite la cuenta IBAN"></credix-input-field>
 
         <span *ngIf="radioButtonSelected == 1" class="ml-20px left-content">
           El dinero será transferido en un plazo máximo de 48 horas hábiles.</span>

@@ -23,9 +23,11 @@ export class CredixPaymentBarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    setTimeout(() => {
-      this.displacement = ((this.today.getTime() - this.startDate.getTime()) /
-        (this.endDate.getTime() - this.startDate.getTime())) * 100;
-    }, 300);
+    if (this.startDate && this.endDate) {
+      setTimeout(() => {
+        this.displacement = ((this.today.getTime() - this.startDate?.getTime()) /
+          (this.endDate.getTime() - this.startDate.getTime())) * 100;
+      }, 300);
+    }
   }
 }

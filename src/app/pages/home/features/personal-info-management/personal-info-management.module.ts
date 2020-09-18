@@ -21,6 +21,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {EmailMaskModule} from '../../../../shared/pipes/email-mask/email-mask.module';
 import {PhoneMaskModule} from '../../../../shared/pipes/phone-mask/phone-mask.module';
 import {CredixTextareaFieldModule} from '../../../../shared/components/credix-textarea-field/credix-textarea-field.module';
+import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 
 const routes: Routes = [
   {
@@ -54,7 +57,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     EmailMaskModule,
     PhoneMaskModule,
-    CredixTextareaFieldModule
+    CredixTextareaFieldModule,
+    CredixResultNotificationModule,
+    CredixResultViewModule,
+    CredixCodeLinkModule
   ],
   providers: [
     PersonalInfoManagementService
