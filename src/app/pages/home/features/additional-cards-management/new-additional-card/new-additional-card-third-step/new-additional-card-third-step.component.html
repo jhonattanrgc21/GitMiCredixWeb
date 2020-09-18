@@ -39,15 +39,7 @@
   <mat-divider class="mb-16px mt-16px" credixDivider></mat-divider>
 
   <div class="new-additional-card-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <div fxFlex="210px" fxLayout="column">
-      <span><strong>Código MiCredix</strong></span>
-      <p style="font-size: 14px;">Ingrese el código generado en la aplicación
-        <credix-link-button>
-          Código MiCredix
-          <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
-        </credix-link-button>
-      </p>
-    </div>
+     <credix-code-link></credix-code-link>
 
     <credix-code-input [(codeFormControl)]="confirmFormControl" [length]="6" class="left-content"
                        errorMessage="Introduzca el codigo de confirmación"></credix-code-input>

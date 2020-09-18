@@ -25,6 +25,7 @@ import {BuyWithoutCardFirstStepComponent} from './buy-without-card-first-step/bu
 import {BuyWithoutCardSecondStepComponent} from './buy-without-card-second-step/buy-without-card-second-step.component';
 import {BuyWithoutCardService} from './buy-without-card.service';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 
 const routes: Routes = [
   {
@@ -57,7 +58,8 @@ const routes: Routes = [
     SharedModule,
     NgxMaskModule,
     NgxBarcode6Module,
-    CredixDividerModule
+    CredixDividerModule,
+    CredixCodeLinkModule
   ],
   providers: [
     BuyWithoutCardService

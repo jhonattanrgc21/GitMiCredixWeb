@@ -88,11 +88,12 @@ export class MenuOptionComponent implements OnInit {
     if (this.activeSubmenu !== 15) {
       this.router.navigate([route]);
     } else {
-      this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?').subscribe(response => {
-        if (response) {
-          this.router.navigate([route]);
-        }
-      });
+      this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            this.router.navigate([route]);
+          }
+        });
     }
   }
 

@@ -35,6 +35,7 @@ import {CredixDividerModule} from '../../../../shared/directives/credix-divider/
 import {MarchamosService} from './marchamos.service';
 import {MarchamoThirdStepComponent} from './marchamo-third-step/marchamo-third-step.component';
 import {MarchamoFourthStepComponent} from './marchamo-fourth-step/marchamo-fourth-step.component';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 
 const routes: Routes = [
   {
@@ -76,7 +77,8 @@ const routes: Routes = [
     SimplebarAngularModule,
     NgxMaskModule,
     CredixCardsModule,
-    CredixDividerModule
+    CredixDividerModule,
+    CredixCodeLinkModule
   ],
   providers: [
     MarchamosService,

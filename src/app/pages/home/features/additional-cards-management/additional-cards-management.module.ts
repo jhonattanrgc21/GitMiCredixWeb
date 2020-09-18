@@ -31,6 +31,7 @@ import {NewAddressPopupComponent} from './new-additional-card/new-additional-car
 import {CredixTextareaFieldModule} from '../../../../shared/components/credix-textarea-field/credix-textarea-field.module';
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 
 const routes: Routes = [
   {
@@ -75,7 +76,8 @@ const routes: Routes = [
     NgxMaskModule,
     CredixTextareaFieldModule,
     CredixCodeInputModule,
-    CredixResultViewModule
+    CredixResultViewModule,
+    CredixCodeLinkModule
   ],
   providers: [
     AdditionalCardsManagementService,

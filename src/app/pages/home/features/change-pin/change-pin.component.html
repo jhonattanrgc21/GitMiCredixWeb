@@ -4,7 +4,7 @@
   <div class="change-pin__content">
 
     <div fxLayout="row" fxLayoutAlign="space-between start">
-      <span class="change-pin__content__title">Nuevo PIN</span>
+      <span><strong>Nuevo PIN</strong></span>
 
       <div class="tr" fxLayout="column">
         <form [formGroup]="changePinForm">
@@ -32,16 +32,8 @@
     <mat-divider credixDivider></mat-divider>
 
     <div class="mt-16px" fxLayout="row" fxLayoutAlign="space-between start">
-      <div fxLayout="column">
-        <span class="change-pin__content__title">Código MiCredix</span>
-        <span class="change-pin__content__msg">Ingrese el código generado en la aplicación
-          <credix-link-button
-            route="https://play.google.com/store/apps/details?id=com.Mobtion.Credix.Credixcel&hl=es_419">
-        Código MiCredix
-        <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
-      </credix-link-button>
-          </span>
-      </div>
+      <credix-code-link></credix-code-link>
+
       <form [formGroup]="changePinForm">
         <credix-code-input [(codeFormControl)]="changePinForm.controls.code" [length]="6" class="change-pin__code tr"
                            errorMessage="Ingrése código MiCredix">

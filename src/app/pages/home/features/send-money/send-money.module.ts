@@ -31,6 +31,7 @@ import {ModalDetailsComponent} from './send-money-second-step/modal-details/moda
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {ModalService} from '../../../../core/services/modal.service';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 
 const routes: Routes = [
   {
@@ -72,7 +73,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     CredixCheckboxButtonModule,
     CredixDividerModule,
-    CredixResultViewModule
+    CredixResultViewModule,
+    CredixCodeLinkModule
   ],
   providers: [
     SendMoneyService,

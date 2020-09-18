@@ -77,15 +77,7 @@
     <mat-divider credixDivider></mat-divider>
 
     <div class="personal-info-editor__content mt-16px" fxLayout="row" fxLayoutAlign="space-between">
-      <div class="personal-info-editor__content__left-wrapper" fxLayout="column">
-        <span><strong>Código MiCredix</strong></span>
-        <p>Ingrese el código generado en la aplicación
-          <credix-link-button>
-            Código MiCredix
-            <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
-          </credix-link-button>
-        </p>
-      </div>
+      <credix-code-link></credix-code-link>
 
       <credix-code-input [(codeFormControl)]="personalInfoFormGroup.controls.code"
                          class="personal-info-editor__content__right-wrapper"

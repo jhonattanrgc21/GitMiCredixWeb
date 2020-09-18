@@ -20,6 +20,7 @@ import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltip
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 
 const routes: Routes = [
   {
@@ -48,7 +49,8 @@ const routes: Routes = [
     CredixTooltipsModule,
     CredixResultNotificationModule,
     CredixDividerModule,
-    CredixResultViewModule
+    CredixResultViewModule,
+    CredixCodeLinkModule
 
   ],
   providers: [ModalService]
