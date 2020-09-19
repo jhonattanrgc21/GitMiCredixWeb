@@ -23,6 +23,9 @@ import {AddIbanAccountComponent} from './add-iban-account/add-iban-account.compo
 import {AddAutomaticsComponent} from './add-automatics/add-automatics.component';
 import {AddFavoritesPaymentComponent} from './add-favorites-payment/add-favorites-payment.component';
 import {SimplebarAngularModule} from 'simplebar-angular';
+import {IbanAccountsService} from './iban-accounts/iban-accounts.service';
+import {FavoritesPaymentsService} from './favorites-payments/favorites-payments.service';
+import {AutomaticsService} from './automatics/automatics.service';
 
 const routes: Routes = [
   {
@@ -92,7 +95,10 @@ const routes: Routes = [
   providers: [
     FavoritesManagementService,
     ModalService,
-    DatePipe
+    DatePipe,
+    IbanAccountsService,
+    FavoritesPaymentsService,
+    AutomaticsService
   ],
   exports: [
     MatCardModule,

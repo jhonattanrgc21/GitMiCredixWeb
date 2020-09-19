@@ -8,6 +8,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {DatePipe} from '@angular/common';
 import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
 import {Router} from '@angular/router';
+import {FavoritesManagementService} from '../favorites-management.service';
 
 @Component({
   selector: 'app-add-automatics',
@@ -39,6 +40,7 @@ export class AddAutomaticsComponent implements OnInit {
 
   constructor(private automaticsService: AutomaticsService,
               private favoritesPaymentsService: FavoritesPaymentsService,
+              private favoritesManagementService: FavoritesManagementService,
               private modalService: ModalService,
               private router: Router,
               public datePipe: DatePipe) {
@@ -50,7 +52,7 @@ export class AddAutomaticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.resultAutomatics = false;
-    this.getServices();
+    this.getCategoryServices();
     this.getPeriodicityList();
     this.newAutomaticsForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
@@ -58,25 +60,16 @@ export class AddAutomaticsComponent implements OnInit {
     this.newAutomaticsForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
-    this.getValueFromFavorites();
 
-    // tslint:disable-next-line:max-line-length
-    this.newAutomaticsControls.publicServicesCategory.setValue(this.publicServicesCategory.find(elem => elem.publicServiceCategoryId === this.data.publicServiceCategoryId).publicServiceCategoryId);
-    // tslint:disable-next-line:max-line-length
-    this.newAutomaticsControls.publicServiceCompany.setValue(this.publicCompany.find(elem => elem.publicServiceEnterpriseId === this.data.publicServiceEnterpriseId).publicServiceEnterpriseId);
-    // tslint:disable-next-line:max-line-length
-    this.newAutomaticsControls.publicService.setValue(this.publicServices.find(elem => elem.publicServiceId === this.data.publicServiceId).publicServiceId);
-    this.newAutomaticsControls.nameOfAutomatics.setValue(this.data.favoriteName);
-    this.newAutomaticsControls.phoneNumber.setValue(this.data.phoneNumber);
+    this.getFromFavorites();
   }
-
   getPeriodicityList() {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
     });
   }
 
-  getServices() {
+  getCategoryServices() {
     this.favoritesPaymentsService.getPublicCategoryServices()
       .subscribe((response) => {
         this.publicServicesCategory = response;
@@ -96,17 +89,33 @@ export class AddAutomaticsComponent implements OnInit {
       });
   }
 
-  getValueFromFavorites() {
-    this.favoritesPaymentsService.valuesFromFavorites.subscribe(response => {
-      console.log(response);
+  getFromFavorites() {
+    if (this.favoritesManagementService.redirect) {
+
+
+      console.log(this.favoritesManagementService.valuesFromFavorites);
       this.data = {
-        publicServiceCategoryId: response.publicServiceCategoryId,
-        publicServiceEnterpriseId: response.publicServiceEnterpriseId,
-        publicServiceId: response.publicServiceId,
-        favoriteName: response.favoriteName,
-        phoneNumber: +response.phoneNumber
+        publicServiceCategoryId: this.favoritesManagementService.valuesFromFavorites.publicServiceCategoryId,
+        publicServiceEnterpriseId: this.favoritesManagementService.valuesFromFavorites.publicServiceEnterpriseId,
+        publicServiceId: this.favoritesManagementService.valuesFromFavorites.publicServiceId,
+        phoneNumber: this.favoritesManagementService.valuesFromFavorites.phoneNumber,
+        favoriteName: this.favoritesManagementService.valuesFromFavorites.favoriteName
       };
-    });
+
+      this.newAutomaticsForm.controls.publicServicesCategory
+        .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceCategoryId);
+
+      this.newAutomaticsForm.controls.publicServiceCompany
+        .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceEnterpriseId);
+
+      this.newAutomaticsForm.controls.publicService
+        .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceId);
+
+
+      this.newAutomaticsForm.controls.nameOfAutomatics.setValue(this.favoritesManagementService.valuesFromFavorites.favoriteName);
+
+      this.newAutomaticsForm.controls.phoneNumber.setValue(this.favoritesManagementService.valuesFromFavorites.phoneNumber);
+    }
   }
 
   openCalendar() {

@@ -6,6 +6,7 @@ import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-
 import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
 import {Router} from '@angular/router';
 import {ModalService} from '../../../../../core/services/modal.service';
+import {FavoritesManagementService} from '../favorites-management.service';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -20,7 +21,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
   result: { status: string; message: string; title: string; };
   newFavoritesPaymentForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
-    PublicServiceCompany: new FormControl(null, [Validators.required]),
+    publicServiceCompany: new FormControl(null, [Validators.required]),
     publicService: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
     favoriteName: new FormControl(null, [Validators.required])
@@ -29,7 +30,8 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   constructor(private favoritesPaymentsService: FavoritesPaymentsService,
               private router: Router,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private favoritesManagementService: FavoritesManagementService) {
   }
 
   get newFavoritesPaymentControls() {
@@ -43,7 +45,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
       this.getCompany(value);
     });
 
-    this.newFavoritesPaymentForm.controls.PublicServiceCompany.valueChanges.subscribe(value => {
+    this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
   }
@@ -94,12 +96,13 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   addToAutomatics() {
     this.router.navigate(['/home/favorites-management/new-automatics']);
-    this.favoritesPaymentsService.emitValuesToAutomatics(
-      this.newFavoritesPaymentControls.publicServicesCategory.value,
-      this.newFavoritesPaymentControls.PublicServiceCompany.value,
-      this.newFavoritesPaymentControls.publicService.value,
-      this.newFavoritesPaymentControls.favoriteName.value,
-      this.newFavoritesPaymentControls.phoneNumber.value
-    );
+    this.favoritesManagementService.redirecting = true;
+    this.favoritesManagementService.valuesToFavorites = {
+      publicServiceCategoryId: this.newFavoritesPaymentControls.publicServicesCategory.value,
+      publicServiceEnterpriseId: this.newFavoritesPaymentControls.publicServiceCompany.value,
+      publicServiceId: this.newFavoritesPaymentControls.publicService.value,
+      favoriteName: this.newFavoritesPaymentControls.favoriteName.value,
+      phoneNumber: this.newFavoritesPaymentControls.phoneNumber.value
+    };
   }
 }
