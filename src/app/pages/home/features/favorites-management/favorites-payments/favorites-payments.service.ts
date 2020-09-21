@@ -2,28 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {StorageService} from '../../../../../core/services/storage.service';
-import {Observable, Subject} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FavoritesPaymentsService {
-
-  // tslint:disable-next-line:variable-name
-  private __createDelete: Subject<{ added: boolean; del: boolean; }> = new Subject<{ added: boolean; del: boolean; }>();
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
   }
-
-  get isAddedOrDelete(): Observable<{ added: boolean; del: boolean; }> {
-    return this.__createDelete.asObservable();
-  }
-
-  emitFavoritesIsAddedOrDelete(added: boolean, del: boolean) {
-    this.__createDelete.next({added, del});
-  }
-
 
   getPublicCategoryServices() {
     return this.httpService.post('canales', 'publicservice/publicservicecategory')
@@ -82,14 +67,6 @@ export class FavoritesPaymentsService {
       aliasName,
       publicServiceAccessKeyId: 1,
       codeCredix: credixCode
-    });
-  }
-
-  setDeletePublicService(publicId: number) {
-    return this.httpService.post('canales', 'publicservice/deletepublicservicefavorite', {
-      publicServiceFavoriteId: publicId,
-      channelId: 102,
-      userId: this.storageService.getCurrentUser().userId
     });
   }
 

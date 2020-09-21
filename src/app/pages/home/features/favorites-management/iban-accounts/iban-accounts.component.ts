@@ -28,7 +28,6 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.getDeleteAlert();
     this.getUpdateAlert();
   }
 
@@ -54,22 +53,6 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
     this.ibanAccountsService.updateIbanAccount(ibanId, alias).subscribe((response) => {
       if (response.message === 'Operación exitosa') {
         this.favoritesManagementService.emitUpdateSuccessAlert();
-      }
-    });
-  }
-
-  getDeleteAlert() {
-    this.favoritesManagementService.deleteIbanAccount.subscribe((response) => {
-      if (response.del && this.data.IdAccountFavorite !== undefined) {
-        this.setDeleteIban(this.data.IdAccountFavorite);
-      }
-    });
-  }
-
-  setDeleteIban(ibanId: number) {
-    this.ibanAccountsService.setDeleteIbanAccount(ibanId).subscribe((response) => {
-      if (response.message === 'Operación exitosa') {
-        this.ibanAccountsService.emitIbanIsAddOrDeleted(false, true);
       }
     });
   }

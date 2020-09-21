@@ -2,26 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {StorageService} from '../../../../../core/services/storage.service';
-import {Observable, Subject} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AutomaticsService {
-
-  // tslint:disable-next-line:variable-name
-  private __createDelete: Subject<{ added: boolean; del: boolean; }> = new Subject<{ added: boolean; del: boolean; }>();
 
   constructor(private httpServices: HttpService,
               private storageServices: StorageService) {
-  }
-
-  get isAddedOrDelete(): Observable<{ added: boolean; del: boolean; }> {
-    return this.__createDelete.asObservable();
-  }
-
-  emitAutomaticIsAddedOrDelete(added: boolean, del: boolean) {
-    this.__createDelete.next({added, del});
   }
 
   getPeriodicity() {
@@ -65,13 +51,6 @@ export class AutomaticsService {
       maxAmount: maxAmnt,
       aliasName: alias,
       credixCode: +codeCredix
-    });
-  }
-
-  setDeleteAutomatics(schedulerPayId: number) {
-    return this.httpServices.post('canales', 'schedulerpayment/deleteschedulerpayment', {
-      channelId: 102,
-      schedulerPayId
     });
   }
 

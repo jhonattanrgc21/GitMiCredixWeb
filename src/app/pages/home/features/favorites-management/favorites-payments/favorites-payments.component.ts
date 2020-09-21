@@ -39,7 +39,6 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
-    this.getDeleteAlert();
   }
 
   getAccountDetail() {
@@ -72,22 +71,6 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
     this.favoritesPaymentsService.setUpdatePublicService(publicId, alias).subscribe((response) => {
       if (response.message === 'Operación exitosa') {
         this.favoritesManagementService.emitUpdateSuccessAlert();
-      }
-    });
-  }
-
-  getDeleteAlert() {
-    this.favoritesManagementService.deleteFavorites.subscribe((response) => {
-      if (response.del && this.data.publicServiceFavoriteId > 0) {
-        this.setDeleteFavorites(this.data.publicServiceFavoriteId);
-      }
-    });
-  }
-
-  setDeleteFavorites(publicId: number) {
-    this.favoritesPaymentsService.setDeletePublicService(publicId).subscribe((response) => {
-      if (response.type === 'success' && response.message === 'Operación exitosa') {
-        this.favoritesPaymentsService.emitFavoritesIsAddedOrDelete(false, true);
       }
     });
   }

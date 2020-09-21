@@ -8,26 +8,80 @@ import {Observable, Subject} from 'rxjs';
 export class FavoritesManagementService {
 
   // tslint:disable-next-line:variable-name max-line-length
-  private __favoritesPaymentsData: Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string, publicServiceId?: number, publicServiceFavoriteId: number, accountId: number, publicServiceAccessKeyId: number, publicServiceEnterpriseDescription: string }> = new Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string; publicServiceId?: number; publicServiceFavoriteId: number; accountId: number; publicServiceAccessKeyId: number; publicServiceEnterpriseDescription: string }>();
-  // tslint:disable-next-line:variable-name max-line-length
-  private __deleteFavoritesPayments: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
+  private __favoritesPaymentsData: Subject<{
+    publicServiceFavoriteName: string;
+    accountNumber: number;
+    publicServiceName: string;
+    publicServiceProvider: string;
+    publicServiceAccessKeyDescription: string,
+    publicServiceId?: number,
+    publicServiceFavoriteId: number,
+    accountId: number,
+    publicServiceAccessKeyId: number,
+    publicServiceEnterpriseDescription: string
+  }> = new Subject<{ publicServiceFavoriteName: string; accountNumber: number; publicServiceName: string; publicServiceProvider: string; publicServiceAccessKeyDescription: string; publicServiceId?: number; publicServiceFavoriteId: number; accountId: number; publicServiceAccessKeyId: number; publicServiceEnterpriseDescription: string }>();
   // tslint:disable-next-line:variable-name max-line-length
   private __ibanAccountData: Subject<{ aliasName: string, ibanAccount: string, IdAccountFavorite: number, del?: boolean }> = new Subject<{ aliasName: string; ibanAccount: string; IdAccountFavorite: number; }>();
-  // tslint:disable-next-line:variable-name max-line-length
-  private __deleteIbanAccount: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
-  // tslint:disable-next-line:variable-name max-line-length
-  private __automaticsPaymentData: Subject<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number, del?: boolean }> = new Subject<{ publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; }>();
+
   // tslint:disable-next-line:variable-name
-  private __deleteAutomatics: Subject<{ del: boolean; }> = new Subject<{ del: boolean }>();
-  // tslint:disable-next-line:variable-name
+  private __automaticsPaymentData: Subject<{
+    publicServiceDescription: string,
+    alias: string;
+    id: number;
+    maxAmount: number;
+    periodicityDescription: string;
+    startDate: string;
+    key: number;
+  }> = new Subject<{
+    publicServiceDescription: string;
+    alias: string;
+    id: number;
+    maxAmount: number;
+    periodicityDescription: string;
+    startDate: string;
+    key: number
+  }>(); // tslint:disable-next-line:variable-name
   private __update = new Subject();
   // tslint:disable-next-line:variable-name
   private __updateSuccess = new Subject();
   // tslint:disable-next-line:variable-name
   private __confirmUpdate: Subject<{ confirm: boolean }> = new Subject<{ confirm: boolean }>();
+  // tslint:disable-next-line:variable-name
+  private _redirectToAutomatics: boolean;
+
+  // tslint:disable-next-line:variable-name max-line-length
+  private _valuesFromFavorites: {
+    publicServiceCategoryId: number;
+    publicServiceEnterpriseId: number;
+    publicServiceId: number;
+    favoriteName: string;
+    phoneNumber: number;
+  };
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
+  }
+
+  // tslint:disable-next-line:max-line-length
+  get valuesFromFavorites(): { publicServiceCategoryId: number; publicServiceEnterpriseId: number; publicServiceId: number; favoriteName: string; phoneNumber: number; } {
+    return this._valuesFromFavorites;
+  }
+
+  set redirecting(confirm: boolean) {
+    this._redirectToAutomatics = confirm;
+  }
+
+  get redirect(): boolean {
+    return this._redirectToAutomatics;
+  }
+
+  set valuesToFavorites(data: {
+    publicServiceCategoryId: number;
+    publicServiceEnterpriseId: number;
+    publicServiceId: number;
+    favoriteName: string; phoneNumber: number;
+  }) {
+    this._valuesFromFavorites = data;
   }
 
   get confirmUpdate(): Observable<{ confirm: boolean }> {
@@ -47,25 +101,14 @@ export class FavoritesManagementService {
     return this.__favoritesPaymentsData.asObservable();
   }
 
-  get deleteFavorites(): Observable<{ del: boolean }> {
-    return this.__deleteFavoritesPayments.asObservable();
-  }
-
   get ibanAccountData(): Observable<{ aliasName: string, ibanAccount: string, IdAccountFavorite: number, del?: boolean }> {
     return this.__ibanAccountData.asObservable();
   }
 
-  get deleteIbanAccount(): Observable<{ del: boolean }> {
-    return this.__deleteIbanAccount.asObservable();
-  }
 
   // tslint:disable-next-line:max-line-length
   get automaticsPaymentData(): Observable<{ publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number, del?: boolean }> {
     return this.__automaticsPaymentData.asObservable();
-  }
-
-  get deleteAutomatics(): Observable<{ del: boolean }> {
-    return this.__deleteAutomatics.asObservable();
   }
 
   emitConfirmUpdate(confirm: boolean) {
@@ -98,25 +141,13 @@ export class FavoritesManagementService {
     });
   }
 
-  emitDeleteFavorites(del: boolean) {
-    this.__deleteFavoritesPayments.next({del});
-  }
-
   emitIbanAccountData(aliasName: string, ibanAccount: string, IdAccountFavorite: number) {
     this.__ibanAccountData.next({aliasName, ibanAccount, IdAccountFavorite});
-  }
-
-  emitDeleteIbanAccount(del: boolean) {
-    this.__deleteIbanAccount.next({del});
   }
 
   // tslint:disable-next-line:max-line-length
   emitAutomaticsPaymentData(publicServiceDescription: string, alias: string, id: number, maxAmount: number, periodicityDescription: string, startDate: string, key: number) {
     this.__automaticsPaymentData.next({publicServiceDescription, alias, id, maxAmount, periodicityDescription, startDate, key});
-  }
-
-  emitDeleteAutomatics(del: boolean) {
-    this.__deleteAutomatics.next({del});
   }
 
   getAllAccountIbanFavoriteByUser() {
@@ -160,5 +191,27 @@ export class FavoritesManagementService {
           }
         })
       );
+  }
+
+  setDeleteIbanAccount(ibanId: number) {
+    return this.httpService.post('canales', 'iban/deletePublicServiceFavorite', {
+      channelId: 102,
+      IdAccountFavorite: ibanId
+    });
+  }
+
+  setDeletePublicService(publicId: number) {
+    return this.httpService.post('canales', 'publicservice/deletepublicservicefavorite', {
+      publicServiceFavoriteId: publicId,
+      channelId: 102,
+      userId: this.storageService.getCurrentUser().userId
+    });
+  }
+
+  setDeleteAutomatics(schedulerPayId: number) {
+    return this.httpService.post('canales', 'schedulerpayment/deleteschedulerpayment', {
+      channelId: 102,
+      schedulerPayId
+    });
   }
 }

@@ -40,17 +40,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.getDeleteAlert();
     this.getUpdateAlert();
-    this.automaticsDetailForm.controls.startDate.valueChanges.subscribe(value => {
-      this.favoritesManagementService.updating();
-      this.isUpdating = this.automaticsDetailForm.valid;
-    });
-
-    this.automaticsDetailForm.controls.periodicity.valueChanges.subscribe(value => {
-      this.favoritesManagementService.updating();
-      this.isUpdating = this.automaticsDetailForm.valid;
-    });
   }
 
   getSchedulePayment() {
@@ -106,30 +96,25 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getDeleteAlert() {
-    this.favoritesManagementService.deleteAutomatics.subscribe((response) => {
-      if (response.del && this.data.id !== undefined) {
-        this.setDeleteAutomatics(this.data.id);
-      }
-    });
-  }
-
-  setDeleteAutomatics(id: number) {
-    this.automaticsService.setDeleteAutomatics(id).subscribe((response) => {
-      if (response.type === 'success' && response.message === 'Operación exitosa') {
-        this.automaticsService.emitAutomaticIsAddedOrDelete(false, true);
-      } else {
-        return false;
-      }
-    });
-  }
-
   updating(event) {
     if (event.key !== '' && event.code !== '') {
-      this.automaticsDetailForm.valueChanges.subscribe(value => {
+      this.automaticsDetailForm.controls.favoriteName.valueChanges.subscribe(value => {
+        this.favoritesManagementService.updating();
+        this.isUpdating = this.automaticsDetailForm.valid;
+      });
+      this.automaticsDetailForm.controls.maxAmount.valueChanges.subscribe(value => {
         this.favoritesManagementService.updating();
         this.isUpdating = this.automaticsDetailForm.valid;
       });
     }
+    this.automaticsDetailForm.controls.startDate.valueChanges.subscribe(value => {
+      this.favoritesManagementService.updating();
+      this.isUpdating = this.automaticsDetailForm.valid;
+    });
+
+    this.automaticsDetailForm.controls.periodicity.valueChanges.subscribe(value => {
+      this.favoritesManagementService.updating();
+      this.isUpdating = this.automaticsDetailForm.valid;
+    });
   }
 }
