@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {FormControl} from '@angular/forms';
 import {FavoritesPaymentsService} from './favorites-payments.service';
+import {ToastData} from '../../../../../shared/components/credix-toast/credix-toast-config';
+import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 
 @Component({
   selector: 'app-favorites-payments',
@@ -17,7 +19,8 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
 
   constructor(private favoritesManagementService: FavoritesManagementService,
-              private favoritesPaymentsService: FavoritesPaymentsService) {
+              private favoritesPaymentsService: FavoritesPaymentsService,
+              private toastService: CredixToastService) {
     // tslint:disable-next-line:max-line-length
     this.data = {
       publicServicesAccessKeyDescription: '',
@@ -39,7 +42,6 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
-    this.getDeleteAlert();
   }
 
   getAccountDetail() {
@@ -70,24 +72,14 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   setUpdateFavorites(publicId: number, alias: string) {
     this.favoritesPaymentsService.setUpdatePublicService(publicId, alias).subscribe((response) => {
+      const data: ToastData = {
+        text: response.message,
+        type: response.type,
+      };
+
+      this.toastService.show(data);
       if (response.message === 'Operación exitosa') {
         this.favoritesManagementService.emitUpdateSuccessAlert();
-      }
-    });
-  }
-
-  getDeleteAlert() {
-    this.favoritesManagementService.deleteFavorites.subscribe((response) => {
-      if (response.del && this.data.publicServiceFavoriteId > 0) {
-        this.setDeleteFavorites(this.data.publicServiceFavoriteId);
-      }
-    });
-  }
-
-  setDeleteFavorites(publicId: number) {
-    this.favoritesPaymentsService.setDeletePublicService(publicId).subscribe((response) => {
-      if (response.type === 'success' && response.message === 'Operación exitosa') {
-        this.favoritesPaymentsService.emitFavoritesIsAddedOrDelete(false, true);
       }
     });
   }

@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {IbanAccountsService} from './iban-accounts.service';
+import {CredixToastService} from '../../../../../core/services/credix-toast.service';
+import {ToastData} from '../../../../../shared/components/credix-toast/credix-toast-config';
 
 @Component({
   selector: 'app-iban-accounts',
@@ -16,7 +18,8 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   isUpdating = false;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
-              private ibanAccountsService: IbanAccountsService) {
+              private ibanAccountsService: IbanAccountsService,
+              private toastService: CredixToastService) {
     this.data = {
       ibanAccount: '',
       IdAccountFavorite: 0
@@ -28,7 +31,6 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.getDeleteAlert();
     this.getUpdateAlert();
   }
 
@@ -52,24 +54,14 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
 
   setUpdateIban(ibanId: number, alias: string) {
     this.ibanAccountsService.updateIbanAccount(ibanId, alias).subscribe((response) => {
+      const data: ToastData = {
+        text: response.message,
+        type: response.type,
+      };
+      this.toastService.show(data);
+
       if (response.message === 'Operación exitosa') {
         this.favoritesManagementService.emitUpdateSuccessAlert();
-      }
-    });
-  }
-
-  getDeleteAlert() {
-    this.favoritesManagementService.deleteIbanAccount.subscribe((response) => {
-      if (response.del && this.data.IdAccountFavorite !== undefined) {
-        this.setDeleteIban(this.data.IdAccountFavorite);
-      }
-    });
-  }
-
-  setDeleteIban(ibanId: number) {
-    this.ibanAccountsService.setDeleteIbanAccount(ibanId).subscribe((response) => {
-      if (response.message === 'Operación exitosa') {
-        this.ibanAccountsService.emitIbanIsAddOrDeleted(false, true);
       }
     });
   }

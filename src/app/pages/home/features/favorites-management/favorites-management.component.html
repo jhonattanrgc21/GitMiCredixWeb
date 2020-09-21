@@ -16,7 +16,7 @@
                                       optionSelected == account.id"
                 class="favorites-management__option__label truncate">{{account.name}}</span>
             <div fxLayout="row" fxLayoutAlign="space-between">
-            <span>{{
+            <span [class.public-service]="tabId === 3" class="truncate">{{
               tabId === 1 ? account.account :
                 tabId === 2 ? account.publicServiceEnterpriseDescription :
                   account.account + '-' + (account.key | mask: '0000-0000')}}</span>

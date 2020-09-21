@@ -1,0 +1,93 @@
+.all-public-services {
+
+  &__categories-container {
+    padding: 16px 0;
+    max-height: 57px;
+    transition: max-height 0.3s ease-in-out;
+    -webkit-transition: max-height 0.3s ease-in-out;
+    -ms-transition: max-height 0.3s ease-in-out;
+    -moz-transition: max-height 0.3s ease-in-out;
+    -o-transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+
+    &.is-open {
+      max-height: 2000px;
+
+      .arrow-icon {
+        margin-right: 8px;
+        transform: rotate(-90deg) !important;
+      }
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    .arrow-icon {
+      fill: #E42313;
+      width: 8px;
+      height: 14px;
+      transform: rotate(90deg);
+    }
+
+  }
+
+  &__enterprises-wrapper {
+    padding: 16px 0;
+    max-height: 57px;
+
+    a {
+      width: 240px;
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    &:last-of-type {
+      padding-bottom: 0;
+    }
+  }
+}
+
+:host ::ng-deep {
+
+  .simplebar-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px !important;
+  }
+
+  .navigation-table__header {
+    margin-left: -16px;
+    margin-right: -16px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  .navigation-table__content {
+    margin-right: -16px;
+    margin-left: -16px;
+    height: 478px;
+  }
+
+  .navigation-table__content__left {
+    padding: 0 !important;
+  }
+
+  .navigation-table__content__right {
+    padding-bottom: 0 !important;
+  }
+}
+
+
+@media screen and (max-width: 1199px) {
+
+  :host ::ng-deep {
+
+    .navigation-table__content {
+      height: 700px;
+    }
+  }
+
+}

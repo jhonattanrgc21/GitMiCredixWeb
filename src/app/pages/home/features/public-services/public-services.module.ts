@@ -1,56 +1,62 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FlexModule} from '@angular/flex-layout';
-import {RouterModule, Routes} from '@angular/router';
-import {MatCardModule} from '@angular/material/card';
-
 import {PublicServicesComponent} from './public-services.component';
-import {CredixPopupModule} from '../../../../shared/components/credix-popup/credix-popup.module';
-import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
-import {CredixConfirmationPopupModule} from '../../../../shared/components/credix-confirmation-popup/credix-confirmation-popup.module';
-import {ModalService} from '../../../../core/services/modal.service';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatIconModule} from '@angular/material/icon';
-import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
-import {CredixProgressBarModule} from '../../../../shared/components/credix-progress-bar/credix-progress-bar.module';
+import {RouterModule, Routes} from '@angular/router';
+import {FlexModule} from '@angular/flex-layout';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
+import {MatCardModule} from '@angular/material/card';
 import {CredixTabModule} from '../../../../shared/components/credix-tab/credix-tab.module';
+import {AllServicesComponent} from './all-services/all-services.component';
+import {FavoriteServicesComponent} from './favorite-services/favorite-services.component';
+import {AutomaticsServicesComponent} from './automatics-services/automatics-services.component';
+import {PublicServicesService} from './public-services.service';
 import {CredixNavigationTableModule} from '../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
-import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
-import {ClipboardModule} from '@angular/cdk/clipboard';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import {SimplebarAngularModule} from 'simplebar-angular';
+import {CategoriesComponent} from './all-services/categories/categories.component';
+import {MatIconModule} from '@angular/material/icon';
 
 const routes: Routes = [
   {
     path: '',
-    component: PublicServicesComponent
+    component: PublicServicesComponent,
+    children: [
+      {
+        path: '',
+        component: AllServicesComponent
+      },
+      {
+        path: 'favorites',
+        component: FavoriteServicesComponent
+      },
+      {
+        path: 'automatics',
+        component: AutomaticsServicesComponent
+      }
+    ]
   }
 ];
 
 @NgModule({
-  declarations: [PublicServicesComponent],
+  declarations: [
+    PublicServicesComponent,
+    AllServicesComponent,
+    FavoriteServicesComponent,
+    AutomaticsServicesComponent,
+    CategoriesComponent],
   imports: [
     CommonModule,
     FlexModule,
     RouterModule.forChild(routes),
-    CredixPopupModule,
-    CredixConfirmationPopupModule,
-    CredixButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatSliderModule,
-    MatIconModule,
-    CredixShareButtonModule,
-    CredixProgressBarModule,
     CredixCardsModule,
+    MatCardModule,
     CredixTabModule,
     CredixNavigationTableModule,
-    CredixLinkButtonModule,
-    ClipboardModule,
-    MatTooltipModule
+    SimplebarAngularModule,
+    MatIconModule,
   ],
-  providers: [ModalService]
+  providers: [
+    PublicServicesService
+  ]
 })
 export class PublicServicesModule {
 }

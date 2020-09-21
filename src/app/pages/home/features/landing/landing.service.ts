@@ -1,28 +1,47 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
 import {StorageService} from '../../../../core/services/storage.service';
-import {publishReplay, refCount} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {DatePipe} from '@angular/common';
+import {Cacheable} from 'ngx-cacheable';
 
 @Injectable()
 export class LandingService {
-  homeTags: Observable<any>;
-  homeContent: Observable<any>;
   private readonly tagsHomeUri = 'tags/funcionalitytagshome';
+  private readonly tagsHomePageUri = 'homepage/tagshomepage';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
   }
 
+  @Cacheable()
   getHomeTags(): Observable<any> {
-    if (!this.homeTags) {
-      this.homeTags = this.httpService.post('canales', this.tagsHomeUri)
-        .pipe(
-          publishReplay(1),
-          refCount()
-        );
-    }
-    return this.homeTags;
+    return this.httpService.post('canales', this.tagsHomeUri);
+  }
+
+  @Cacheable({
+    maxCacheCount: 3
+  })
+  getHomeContent(cardId: number) {
+    return this.httpService.post('canales', this.tagsHomePageUri, {
+      cardId,
+      userId: this.storageService.getCurrentUser().userId,
+      hour: new DatePipe('es').transform(new Date(), 'HH:MM')
+    })
+      .pipe(
+        map(response => {
+          if (response.type !== 'error') {
+            return response.json;
+          } else {
+            throw new Error('Ocurrió un error');
+          }
+        }),
+        catchError(err => {
+          console.log('Error: ', err);
+          return of();
+        })
+      );
   }
 
 }

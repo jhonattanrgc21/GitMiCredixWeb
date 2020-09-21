@@ -4,9 +4,7 @@ import {Router} from '@angular/router';
 import {FavoritesManagementService} from './favorites-management.service';
 import {AccountsFavoriteManagement} from '../../../../shared/models/accounts-favorite-management';
 import {ModalService} from '../../../../core/services/modal.service';
-import {IbanAccountsService} from './iban-accounts/iban-accounts.service';
-import {FavoritesPaymentsService} from './favorites-payments/favorites-payments.service';
-import {AutomaticsService} from './automatics/automatics.service';
+import {ToastData} from '../../../../shared/components/credix-toast/credix-toast-config';
 
 @Component({
   selector: 'app-favorites-management',
@@ -33,10 +31,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   constructor(private toastService: CredixToastService,
               private router: Router,
               private favoriteManagementService: FavoritesManagementService,
-              private modalService: ModalService,
-              private ibanService: IbanAccountsService,
-              private favoriteService: FavoritesPaymentsService,
-              private automaticsService: AutomaticsService) {
+              private modalService: ModalService) {
   }
 
   ngOnInit(): void {
@@ -44,7 +39,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.getIsAddedAndDeletedOrUpdating();
+    this.getIsUpdating();
   }
 
   getDetailFavorite(option) {
@@ -153,69 +148,83 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   delete(tabId: number) {
     switch (tabId) {
       case 1:
-        this.modalService.confirmationPopup('¿Desea eliminar esta cuenta IBAN?').subscribe((response) => {
-          if (response) {
-            this.favoriteManagementService.emitDeleteIbanAccount(true);
+        this.modalService.confirmationPopup('¿Desea eliminar esta cuenta IBAN?').subscribe((confirm) => {
+          if (confirm) {
+            this.favoriteManagementService.setDeleteIbanAccount(this.optionSelected)
+              .subscribe((response) => {
+                const data: ToastData = {
+                  text: response.message,
+                  type: response.type,
+                };
+
+                this.toastService.show(data);
+                if (response.message === 'Operación exitosa') {
+                  this.accounts = [];
+                  this.getFavoritesIban();
+                }
+              });
           }
         });
         break;
       case 2:
-        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((response) => {
-          if (response) {
-            this.favoriteManagementService.emitDeleteFavorites(true);
-          }
-        });
+        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?')
+          .subscribe((confirm) => {
+            if (confirm) {
+              this.favoriteManagementService.setDeletePublicService(this.optionSelected)
+                .subscribe((response) => {
+                  const data: ToastData = {
+                    text: response.message,
+                    type: response.type,
+                  };
+
+                  this.toastService.show(data);
+                  if (response.message === 'Operación exitosa') {
+                    this.accounts = [];
+                    this.getPublicService();
+                  }
+                });
+            }
+          });
         break;
       case 3:
-        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((response) => {
-          if (response) {
-            this.favoriteManagementService.emitDeleteAutomatics(true);
+        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((confirm) => {
+          if (confirm) {
+            this.favoriteManagementService.setDeleteAutomatics(this.optionSelected)
+              .subscribe((response) => {
+                const data: ToastData = {
+                  text: response.message,
+                  type: response.type,
+                };
+
+                this.toastService.show(data);
+
+                if (response.message === 'Operación exitosa') {
+                  this.accounts = [];
+                  this.getSchedulePayment();
+                }
+              });
           }
         });
         break;
     }
   }
 
-  getIsAddedAndDeletedOrUpdating() {
-    // try in the similar method if deleted or added
-    this.ibanService.isAddedOrDelete.subscribe((response) => {
-      if (response.added || response.del) {
-        this.accounts = [];
-        this.getFavoritesIban();
-      }
-    });
-    this.favoriteService.isAddedOrDelete.subscribe((response) => {
-      if (response.added || response.del) {
-        this.accounts = [];
-        this.getPublicService();
-      }
-    });
-
-    this.automaticsService.isAddedOrDelete.subscribe((response) => {
-      if (response.added || response.del) {
-        this.accounts = [];
-        this.getSchedulePayment();
-      }
-    });
+  getIsUpdating() {
     // check if module son alert to activate the button of save
     this.favoriteManagementService.update.subscribe(() => {
       this.updating = true;
     });
 
-
     this.favoriteManagementService.updateSuccess.subscribe(() => {
-
+      this.accounts = [];
       switch (this.tabId) {
         case 1:
-          this.accounts = [];
           this.getFavoritesIban();
           break;
         case 2:
-          this.accounts = [];
           this.getPublicService();
           break;
         case 3:
-          this.accounts = [];
           this.getSchedulePayment();
           break;
       }

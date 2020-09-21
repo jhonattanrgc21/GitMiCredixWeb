@@ -9,6 +9,7 @@ import {CredixSelectModule} from '../../../../../shared/components/credix-select
 import {CredixLinkButtonModule} from '../../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixCodeInputModule} from '../../../../../shared/components/credix-code-input/credix-code-input.module';
 import {SharedModule} from '../../../../../shared/shared.module';
+import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 
 const routes: Routes = [
   {
@@ -32,6 +33,9 @@ const routes: Routes = [
     CredixSelectModule,
     CredixLinkButtonModule,
     CredixCodeInputModule
+  ],
+  providers: [
+    CredixToastService
   ]
 })
 export class FavoritesPaymentsModule {

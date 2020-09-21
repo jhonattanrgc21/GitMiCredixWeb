@@ -1,0 +1,32 @@
+<credix-navigation-table [headers]="tableHeaders" class="all-public-services">
+
+  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" fxLayout="column" left>
+
+    <div *ngFor="let category of categories" [class.is-open]="categoryId === category.publicServiceCategoryId"
+         class="all-public-services__categories-container"
+         fxLayout="column">
+      <a (click)="getPublicServiceEnterpriseByCategory(category.publicServiceCategoryId)" class="pointer"
+         fxLayout="row" fxLayoutAlign="space-between">
+        <span>{{category.publicServiceCategory}}</span>
+        <mat-icon class="arrow-icon" fxFlexAlign="center" svgIcon="chevron_right"></mat-icon>
+      </a>
+
+      <ng-container *ngIf="categoryId === category.publicServiceCategoryId">
+        <div *ngFor="let enterprise of enterprises" class="all-public-services__enterprises-wrapper" fxLayout="row"
+             fxLayoutAlign="space-between">
+          <a (click)="getPublicService(enterprise.publicServiceEnterpriseId)" class="truncate pointer">
+            {{enterprise.publicServiceEnterpriseDescription}}</a>
+          <mat-icon *ngIf="enterprise.publicServiceEnterpriseId === enterpriseId"
+                    style="fill: #E42313; width: 8px; height: 13px;"
+                    svgIcon="chevron_right"></mat-icon>
+        </div>
+      </ng-container>
+
+    </div>
+
+  </ngx-simplebar>
+
+  <div fxLayout="column" right>
+  </div>
+
+</credix-navigation-table>

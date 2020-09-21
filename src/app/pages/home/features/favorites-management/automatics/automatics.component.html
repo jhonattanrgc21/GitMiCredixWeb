@@ -6,7 +6,7 @@
 
   <div *ngIf="data.publicServiceDescription !== ''" class="mb-20px" fxLayout="row" fxLayoutAlign="space-between">
     <span>Compañía</span>
-    <span><strong>{{data.publicServiceDescription}}</strong></span>
+    <span class="public-description truncate"><strong>{{data.publicServiceDescription}}</strong></span>
   </div>
 
   <form [class.enabled]="isUpdating" [formGroup]="automaticsDetailForm"
@@ -22,7 +22,8 @@
                         [class.enabled]="isUpdating"
                         class="mb-8px automatics__input disabled"
                         formControlName="maxAmount"
-                        label="Monto máximo a pagar" mask="separator"
+                        label="Monto máximo a pagar"
+                        mask="separator"
                         thousandSeparator="."></credix-input-field>
 
     <credix-input-field (click)="openCalendar()"
@@ -30,20 +31,29 @@
                         [class.enabled]="isUpdating"
                         [displayValue]="automaticsDetailForm.controls.startDate.value | dateFormatter: 'alphanumeric'"
                         [readonly]="true"
-                        class="mb-8px automatics__input calendar disabled"
+                        class="mb-8px automatics__input disabled calendar "
                         formControlName="startDate"
                         label="Fecha inicial de pago">
       <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
     </credix-input-field>
 
     <credix-select *ngIf="data.periodicityDescription !== ''"
-                   [class.enabled]="isUpdating"
                    class="automatics__input disabled"
+                   [class.enabled]="isUpdating"
                    formControlName="periodicity"
                    label="Periocidad">
       <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
         {{periodicity.description}}
       </mat-option>
     </credix-select>
+
+    <div *ngIf="data.alias !== ''" class="mt-24px" fxLayout="column">
+      <span><strong>Código MiCredix</strong></span>
+      <credix-code-input [(codeFormControl)]="codeCredix"
+                         [length]="6"
+                         class="automatics__input disabled"
+                         errorMessage="Introduzca el codigo de confirmación">
+      </credix-code-input>
+    </div>
   </form>
 </div>

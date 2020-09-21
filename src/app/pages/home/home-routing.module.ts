@@ -56,10 +56,6 @@ const routes: Routes = [
         loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule)
       },
       {
-        path: 'public-services',
-        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
-      },
-      {
         path: 'anticipated-cancellation',
         loadChildren: () => import('./features/anticipated-cancellation/anticipated-cancellation.module.js')
           .then(m => m.AnticipatedCancellationModule)
@@ -84,6 +80,10 @@ const routes: Routes = [
         path: 'additional-cards-management',
         loadChildren: () => import('./features/additional-cards-management/additional-cards-management.module.js')
           .then(m => m.AdditionalCardsManagementModule)
+      },
+      {
+        path: 'public-services',
+        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
       },
     ]
   }

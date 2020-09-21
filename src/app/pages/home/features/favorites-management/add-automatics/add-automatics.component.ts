@@ -8,6 +8,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {DatePipe} from '@angular/common';
 import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
 import {Router} from '@angular/router';
+import {FavoritesManagementService} from '../favorites-management.service';
 
 @Component({
   selector: 'app-add-automatics',
@@ -21,6 +22,8 @@ export class AddAutomaticsComponent implements OnInit {
   publicCompany: PublicServiceEnterpriseModel[];
   publicServices: PublicServiceModel[];
   result: { status: string; message: string; title: string; };
+  // tslint:disable-next-line:max-line-length
+  data: { publicServiceCategoryId: number; publicServiceEnterpriseId: number; publicServiceId: number; favoriteName: string; phoneNumber: number };
   done = false;
   resultAutomatics: boolean;
   newAutomaticsForm: FormGroup = new FormGroup({
@@ -37,6 +40,7 @@ export class AddAutomaticsComponent implements OnInit {
 
   constructor(private automaticsService: AutomaticsService,
               private favoritesPaymentsService: FavoritesPaymentsService,
+              private favoritesManagementService: FavoritesManagementService,
               private modalService: ModalService,
               private router: Router,
               public datePipe: DatePipe) {
@@ -48,7 +52,7 @@ export class AddAutomaticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.resultAutomatics = false;
-    this.getServices();
+    this.getCategoryServices();
     this.getPeriodicityList();
     this.newAutomaticsForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
@@ -56,15 +60,16 @@ export class AddAutomaticsComponent implements OnInit {
     this.newAutomaticsForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
-  }
 
+    this.getFromFavorites();
+  }
   getPeriodicityList() {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
     });
   }
 
-  getServices() {
+  getCategoryServices() {
     this.favoritesPaymentsService.getPublicCategoryServices()
       .subscribe((response) => {
         this.publicServicesCategory = response;
@@ -82,6 +87,35 @@ export class AddAutomaticsComponent implements OnInit {
       .subscribe((response) => {
         this.publicServices = response;
       });
+  }
+
+  getFromFavorites() {
+    if (this.favoritesManagementService.redirect) {
+
+
+      console.log(this.favoritesManagementService.valuesFromFavorites);
+      this.data = {
+        publicServiceCategoryId: this.favoritesManagementService.valuesFromFavorites.publicServiceCategoryId,
+        publicServiceEnterpriseId: this.favoritesManagementService.valuesFromFavorites.publicServiceEnterpriseId,
+        publicServiceId: this.favoritesManagementService.valuesFromFavorites.publicServiceId,
+        phoneNumber: this.favoritesManagementService.valuesFromFavorites.phoneNumber,
+        favoriteName: this.favoritesManagementService.valuesFromFavorites.favoriteName
+      };
+
+      this.newAutomaticsForm.controls.publicServicesCategory
+        .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceCategoryId);
+
+      this.newAutomaticsForm.controls.publicServiceCompany
+        .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceEnterpriseId);
+
+      this.newAutomaticsForm.controls.publicService
+        .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceId);
+
+
+      this.newAutomaticsForm.controls.nameOfAutomatics.setValue(this.favoritesManagementService.valuesFromFavorites.favoriteName);
+
+      this.newAutomaticsForm.controls.phoneNumber.setValue(this.favoritesManagementService.valuesFromFavorites.phoneNumber);
+    }
   }
 
   openCalendar() {

@@ -11,6 +11,7 @@ import {CdkStepper} from '@angular/cdk/stepper';
 import {getIdentificationMaskByType} from '../../../../shared/utils';
 import {ModalResponseSignUpComponent} from './modal-response-sign-up/modal-response-sign-up.component';
 import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
+import {GlobalApiService} from '../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -28,29 +29,25 @@ export class SignUpComponent implements OnInit {
     title: '',
     status: ''
   };
-
-  resultPopup: MatDialogRef<any>;
-
   newUserFirstStepForm: FormGroup = new FormGroup({
     typeIdentification: new FormControl(null, [Validators.required]),
     identification: new FormControl({value: null, disabled: true}, [Validators.required])
   });
-
   newUserSecondStepForm: FormGroup = new FormGroup({
     credixCode: new FormControl('', [Validators.required])
   });
-
   newUserThirdStepForm: FormGroup = new FormGroup({
     newPassword: new FormControl(null, [Validators.required]),
     confirmPassword: new FormControl(null, [Validators.required])
   }, {validators: this.checkPasswords});
-
+  resultPopup: MatDialogRef<any>;
   @ViewChild('templateModalSignUp') templateModalSignUp: TemplateRef<any>;
   @ViewChild('stepper') stepper: CdkStepper;
 
   constructor(
     private modalService: ModalService,
     private httpService: HttpService,
+    private globalApiService: GlobalApiService,
     private toastService: CredixToastService,
     private dialogRef: MatDialogRef<SignUpComponent>) {
   }
@@ -80,9 +77,9 @@ export class SignUpComponent implements OnInit {
   }
 
   getIdentificationTypes() {
-    this.httpService.post('canales', 'global/identification-types', {channelId: 102})
+    this.globalApiService.getIdentificationTypes()
       .pipe(finalize(() => this.identificationChanged()))
-      .subscribe(response => this.identificationTypes = response.identificationTypes.filter(idt => idt.id > 0));
+      .subscribe(identificationTypes => this.identificationTypes = identificationTypes.filter(idt => idt.id > 0));
   }
 
   showToast(type, text: string) {

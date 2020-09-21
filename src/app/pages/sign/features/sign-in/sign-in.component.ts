@@ -163,7 +163,6 @@ export class SignInComponent implements OnInit {
 
   saveDevice() {
     this.httpService.post('canales', 'channels/savedevice', {
-      channelId: 102,
       deviceIdentification: '12345',
       platform: 1,
       uuid: 12345,
@@ -194,10 +193,7 @@ export class SignInComponent implements OnInit {
 
   deviceInfo() {
     this.forward = false;
-    this.httpService.post('canales', 'channels/getdeviceinfo', {
-      channelId: 102,
-      uuid: 12345
-    }).subscribe(data => {
+    this.httpService.post('canales', 'channels/getdeviceinfo', {uuid: 12345}).subscribe(data => {
       if (data.type === 'success' && (data.id === 0 || data.id === 2)) {
         this.sendOtp();
       } else if (data.type === 'success' && data.id === 1) {

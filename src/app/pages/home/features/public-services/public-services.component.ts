@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpService} from '../../../../core/services/http.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-public-services',
@@ -7,72 +7,32 @@ import {HttpService} from '../../../../core/services/http.service';
   styleUrls: ['./public-services.component.scss']
 })
 export class PublicServicesComponent implements OnInit {
-  publicServices: string[];
-  contador = 0;
   tabs = [
     {id: 1, name: 'Todos'},
     {id: 2, name: 'Favoritos'},
-    {id: 3, name: 'Automáticos'},
+    {id: 3, name: 'Automáticos'}
   ];
-  options = [];
-  tabShow = 1;
+  tabId: number;
 
-  constructor(private httpService: HttpService) {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
-    this.getPublicServices();
   }
-
 
   tabSelected(tab) {
-    if (tab.id === 1) {
-      this.tabShow = 1;
-    } else {
-      this.tabShow = 0;
+    this.tabId = tab.id;
+    switch (tab.id) {
+      case 1:
+        this.router.navigate(['home/public-services']);
+        break;
+      case 2:
+        this.router.navigate(['home/public-services/favorites']);
+        break;
+      case 3:
+        this.router.navigate(['home/public-services/automatics']);
+        break;
     }
-  }
-
-  getPublicServices() {
-    this.httpService.post('canales', 'publicservice/publicservicecategory')
-      .subscribe(resp => {
-        this.publicServices = resp.publicServiceCategoryList;
-
-        this.publicServices.forEach(async publicService => {
-          await this.getPublicServiceSubOptions(publicService);
-        });
-      });
-  }
-
-  getPublicServiceSubOptions(publicService) {
-    this.httpService.post('canales', 'publicservice/publicserviceenterpriselistbycategory', {
-      publicServiceCategoryId: publicService.publicServiceCategoryId,
-      channelId: 102,
-    })
-      .subscribe(resp => {
-        this.contador += 1;
-        //publicService.subOptions = resp.publicServiceEnterpriseList;
-        const list = resp.publicServiceEnterpriseList;
-        let subtions = [];
-        list.forEach(elem => {
-          subtions = [...subtions, {
-            name: elem.publicServiceEnterpriseDescription,
-            routerLink: '',
-            publicServiceEnterpriseCode: elem.publicServiceEnterpriseCode,
-            publicServiceEnterpriseId: elem.publicServiceEnterpriseId
-          }];
-        });
-
-        this.options = [...this.options, {
-          id: this.contador,
-          priority: publicService.publicServiceCategoryPriority,
-          name: publicService.publicServiceCategory,
-          icon: 'phone',
-          subOptions: subtions,
-        }];
-
-      });
 
   }
-
 }
