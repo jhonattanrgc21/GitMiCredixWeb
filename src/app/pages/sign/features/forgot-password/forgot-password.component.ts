@@ -6,6 +6,7 @@ import {ModalService} from 'src/app/core/services/modal.service';
 import {HttpService} from 'src/app/core/services/http.service';
 import {IdentificationType} from '../../../../shared/models/IdentificationType';
 import {getIdentificationMaskByType} from '../../../../shared/utils';
+import {GlobalApiService} from '../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -34,7 +35,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private httpService: HttpService) {
+    private httpService: HttpService,
+    private globalApiService: GlobalApiService) {
   }
 
   get f() {
@@ -46,13 +48,10 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   getIdentificationTypes() {
-    this.httpService
-      .post('canales', 'global/identification-types', {
-        channelId: 102,
-      })
+    this.globalApiService.getIdentificationTypes()
       .pipe(finalize(() => this.identificationTypeChanged()))
       .subscribe(
-        (response) => this.identificationTypes = response.identificationTypes.filter((idt) => idt.id > 0)
+        (identificationTypes) => this.identificationTypes = identificationTypes.filter((idt) => idt.id > 0)
       );
   }
 
@@ -74,11 +73,6 @@ export class ForgotPasswordComponent implements OnInit {
               this.forgotPassForm.get('confirmPassword').value
             ).toString(),
           }
-        )
-        .pipe(
-          finalize(() => {
-            // this.router.navigate(['/sign/sign-in']).then();
-          })
         )
         .subscribe((res) => {
           this.submitted = true;

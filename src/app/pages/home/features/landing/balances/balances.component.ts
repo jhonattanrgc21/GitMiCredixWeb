@@ -5,12 +5,12 @@ import {Card} from '../../../../../shared/models/card.model';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {AccountSummary} from '../../../../../shared/models/account-summary';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {IbanAccount} from '../../../../../shared/models/iban-account';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {AccountApiService} from '../../../../../core/services/account-api.service';
 
 @Component({
   selector: 'app-balances',
@@ -47,7 +47,7 @@ export class BalancesComponent implements OnInit, OnChanges {
               private toastService: CredixToastService,
               private modalService: ModalService,
               private tagsService: TagsService,
-              public globalService: GlobalRequestsService,
+              private accountApiService: AccountApiService,
               private router: Router) {
     this.cards = this.storageService.getCurrentCards();
     this.cardFormControl.setValue(this.cards.find(card => card.category === 'Principal'));
@@ -85,7 +85,7 @@ export class BalancesComponent implements OnInit, OnChanges {
   }
 
   getIbanAccounts() {
-    this.globalService.getIbanAccounts().subscribe(ibanAccounts => {
+    this.accountApiService.getIbanAccounts().subscribe(ibanAccounts => {
       if (ibanAccounts.length > 0) {
         this.colonesIbanAccount = ibanAccounts[0];
         this.dollarsIbanAccount = ibanAccounts[1];

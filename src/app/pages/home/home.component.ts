@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {SimplebarAngularComponent} from 'simplebar-angular';
 import {ScrollService} from '../../core/services/scroll.service';
 import {TagsService} from '../../core/services/tags.service';
+import {globalCacheBusterNotifier} from 'ngx-cacheable';
 
 @Component({
   selector: 'app-home',
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       typeIncome: 2
     }).subscribe(response => {
       if (response.type === 'success') {
+        globalCacheBusterNotifier.next();
         this.router.navigate(['/']);
       }
     });
