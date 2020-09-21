@@ -7,7 +7,7 @@ import {PublicServiceModel} from '../../../../../shared/models/public-service.mo
 @Component({
   selector: 'app-all-services',
   templateUrl: './all-services.component.html',
-  styleUrls: ['./all-services.component.scss']
+  styleUrls: ['./all-services.component.scss', '../public-services.component.scss']
 })
 export class AllServicesComponent implements OnInit {
   tableHeaders = [

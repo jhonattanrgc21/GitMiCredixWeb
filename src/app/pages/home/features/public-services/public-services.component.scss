@@ -2,9 +2,51 @@
   height: 662px;
 }
 
+.left-container {
+  height: 478px;
+}
+
+:host ::ng-deep {
+
+  .simplebar-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px !important;
+  }
+
+  .navigation-table__header {
+    margin-left: -16px;
+    margin-right: -16px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  .navigation-table__content {
+    margin-right: -16px;
+    margin-left: -16px;
+    height: 478px;
+  }
+
+  .navigation-table__content__left {
+    padding: 0 !important;
+  }
+
+  .navigation-table__content__right {
+    padding-bottom: 0 !important;
+  }
+}
+
 @media screen and (max-width: 1199px) {
 
   .public-services {
     height: 886px;
+  }
+
+  .left-container {
+    height: 700px;
+  }
+
+  :host ::ng-deep .navigation-table__content {
+    height: 700px;
   }
 }
