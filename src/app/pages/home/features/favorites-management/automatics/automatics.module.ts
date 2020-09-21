@@ -12,6 +12,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {AutomaticsService} from './automatics.service';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {DateFormatterModule} from '../../../../../shared/pipes/date-formatter/date-formatter.module';
+import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 
 const routes: Routes = [
   {
@@ -39,7 +40,8 @@ const routes: Routes = [
   providers: [
     ModalService,
     AutomaticsService,
-    DatePipe
+    DatePipe,
+    CredixToastService
   ]
 })
 export class AutomaticsModule {

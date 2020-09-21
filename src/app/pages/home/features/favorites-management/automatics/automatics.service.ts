@@ -54,13 +54,14 @@ export class AutomaticsService {
     });
   }
 
-  setUpdateAutomatics(periodicityId: number, startDate: string, maxAmount: number, schedulerPayId: number) {
+  setUpdateAutomatics(periodicityId: number, startDate: string, maxAmount: number, schedulerPayId: number, codeCredix: string) {
     return this.httpServices.post('canales', 'schedulerpayment/updateschedulerpayment', {
       channelId: 102,
       periodicityId,
       startDate,
       maxAmount,
-      schedulerPayId
+      schedulerPayId,
+      codeCredix
     });
   }
 }

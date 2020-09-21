@@ -6,7 +6,7 @@
 
   <div *ngIf="data.publicServiceDescription !== ''" class="mb-20px" fxLayout="row" fxLayoutAlign="space-between">
     <span>Compañía</span>
-    <span><strong>{{data.publicServiceDescription}}</strong></span>
+    <span class="public-description truncate"><strong>{{data.publicServiceDescription}}</strong></span>
   </div>
 
   <form [class.enabled]="isUpdating" [formGroup]="automaticsDetailForm"
@@ -46,5 +46,14 @@
         {{periodicity.description}}
       </mat-option>
     </credix-select>
+
+    <div *ngIf="data.alias !== ''" class="mt-24px" fxLayout="column">
+      <span><strong>Código MiCredix</strong></span>
+      <credix-code-input [(codeFormControl)]="codeCredix"
+                         [length]="6"
+                         class="automatics__input disabled"
+                         errorMessage="Introduzca el codigo de confirmación">
+      </credix-code-input>
+    </div>
   </form>
 </div>

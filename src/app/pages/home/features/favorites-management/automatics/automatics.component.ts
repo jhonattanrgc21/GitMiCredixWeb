@@ -4,6 +4,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {AutomaticsService} from './automatics.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {DatePipe} from '@angular/common';
+import {CredixToastService} from '../../../../../core/services/credix-toast.service';
+import {ToastData} from '../../../../../shared/components/credix-toast/credix-toast-config';
 
 @Component({
   selector: 'app-automatics',
@@ -22,12 +24,15 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     periodicity: new FormControl(null)
   });
 
+  codeCredix: FormControl = new FormControl(null);
+
   periodicityList: { description: string; id: number; }[] = [];
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
               private modalService: ModalService,
-              public datePipe: DatePipe) {
+              public datePipe: DatePipe,
+              private toastService: CredixToastService) {
     this.data = {periodicityDescription: '', alias: '', id: 0, maxAmount: 0, publicServiceDescription: '', startDate: '', key: 0};
   }
 
@@ -82,17 +87,28 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.favoritesManagementService.confirmUpdate.subscribe((response) => {
       if (response.confirm && this.data.id !== undefined) {
         // tslint:disable-next-line:max-line-length
-        this.setUpdateSchedule(this.automaticsDetailControls.periodicity.value, this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'), this.automaticsDetailControls.maxAmount.value, this.data.id);
+        this.setUpdateSchedule(
+          this.automaticsDetailControls.periodicity.value,
+          this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
+          this.automaticsDetailControls.maxAmount.value,
+          this.data.id,
+          this.codeCredix.value);
       }
     });
   }
 
-  setUpdateSchedule(periodId: number, date: string, mxAmount: number, id: number) {
-    this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id)
+  setUpdateSchedule(periodId: number, date: string, mxAmount: number, id: number, codeCredix: string) {
+    this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id, codeCredix)
       .subscribe((response) => {
+        const data: ToastData = {
+          text: response.message,
+          type: response.type,
+        };
+        this.toastService.show(data);
         if (response.message === 'Operación exitosa') {
           this.favoritesManagementService.emitUpdateSuccessAlert();
         }
+        this.codeCredix.reset(null, {emitEvent: false});
       });
   }
 

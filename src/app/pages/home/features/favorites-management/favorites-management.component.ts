@@ -4,9 +4,7 @@ import {Router} from '@angular/router';
 import {FavoritesManagementService} from './favorites-management.service';
 import {AccountsFavoriteManagement} from '../../../../shared/models/accounts-favorite-management';
 import {ModalService} from '../../../../core/services/modal.service';
-import {IbanAccountsService} from './iban-accounts/iban-accounts.service';
-import {FavoritesPaymentsService} from './favorites-payments/favorites-payments.service';
-import {AutomaticsService} from './automatics/automatics.service';
+import {ToastData} from '../../../../shared/components/credix-toast/credix-toast-config';
 
 @Component({
   selector: 'app-favorites-management',
@@ -33,10 +31,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   constructor(private toastService: CredixToastService,
               private router: Router,
               private favoriteManagementService: FavoritesManagementService,
-              private modalService: ModalService,
-              private ibanService: IbanAccountsService,
-              private favoriteService: FavoritesPaymentsService,
-              private automaticsService: AutomaticsService) {
+              private modalService: ModalService) {
   }
 
   ngOnInit(): void {
@@ -157,6 +152,12 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
           if (confirm) {
             this.favoriteManagementService.setDeleteIbanAccount(this.optionSelected)
               .subscribe((response) => {
+                const data: ToastData = {
+                  text: response.message,
+                  type: response.type,
+                };
+
+                this.toastService.show(data);
                 if (response.message === 'Operación exitosa') {
                   this.accounts = [];
                   this.getFavoritesIban();
@@ -171,6 +172,12 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
             if (confirm) {
               this.favoriteManagementService.setDeletePublicService(this.optionSelected)
                 .subscribe((response) => {
+                  const data: ToastData = {
+                    text: response.message,
+                    type: response.type,
+                  };
+
+                  this.toastService.show(data);
                   if (response.message === 'Operación exitosa') {
                     this.accounts = [];
                     this.getPublicService();
@@ -182,12 +189,20 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
       case 3:
         this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((confirm) => {
           if (confirm) {
-            this.favoriteManagementService.setDeleteAutomatics(this.optionSelected).subscribe((response) => {
-              if (response.message === 'Operación exitosa') {
-                this.accounts = [];
-                this.getSchedulePayment();
-              }
-            });
+            this.favoriteManagementService.setDeleteAutomatics(this.optionSelected)
+              .subscribe((response) => {
+                const data: ToastData = {
+                  text: response.message,
+                  type: response.type,
+                };
+
+                this.toastService.show(data);
+
+                if (response.message === 'Operación exitosa') {
+                  this.accounts = [];
+                  this.getSchedulePayment();
+                }
+              });
           }
         });
         break;
