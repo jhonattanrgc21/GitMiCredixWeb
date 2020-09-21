@@ -56,10 +56,6 @@ const routes: Routes = [
         loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule)
       },
       {
-        path: 'public-services',
-        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
-      },
-      {
         path: 'anticipated-cancellation',
         loadChildren: () => import('./features/anticipated-cancellation/anticipated-cancellation.module.js')
           .then(m => m.AnticipatedCancellationModule)
