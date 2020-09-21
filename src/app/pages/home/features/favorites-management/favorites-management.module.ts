@@ -26,6 +26,7 @@ import {SimplebarAngularModule} from 'simplebar-angular';
 import {IbanAccountsService} from './iban-accounts/iban-accounts.service';
 import {FavoritesPaymentsService} from './favorites-payments/favorites-payments.service';
 import {AutomaticsService} from './automatics/automatics.service';
+import {CredixToastService} from '../../../../core/services/credix-toast.service';
 
 const routes: Routes = [
   {
@@ -98,7 +99,8 @@ const routes: Routes = [
     DatePipe,
     IbanAccountsService,
     FavoritesPaymentsService,
-    AutomaticsService
+    AutomaticsService,
+    CredixToastService,
   ],
   exports: [
     MatCardModule,

@@ -13,6 +13,7 @@ import {CredixCodeInputModule} from '../../../../../shared/components/credix-cod
 import {SharedModule} from '../../../../../shared/shared.module';
 // tslint:disable-next-line:max-line-length
 import {CredixResultNotificationModule} from '../../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 
 const routes: Routes = [
   {
@@ -39,7 +40,8 @@ const routes: Routes = [
   ],
   providers: [
     ModalService,
-    IbanAccountsService
+    IbanAccountsService,
+    CredixToastService
   ]
 })
 export class IbanAccountsModule {
