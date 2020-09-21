@@ -1,6 +1,6 @@
 <credix-navigation-table [headers]="tableHeaders" class="all-public-services">
 
-  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" fxLayout="column" left>
+  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
 
     <div *ngFor="let category of categories" [class.is-open]="categoryId === category.publicServiceCategoryId"
          class="all-public-services__categories-container"
@@ -17,8 +17,7 @@
           <a (click)="getPublicService(enterprise.publicServiceEnterpriseId)" class="truncate pointer">
             {{enterprise.publicServiceEnterpriseDescription}}</a>
           <mat-icon *ngIf="enterprise.publicServiceEnterpriseId === enterpriseId"
-                    style="fill: #E42313; width: 8px; height: 13px;"
-                    svgIcon="chevron_right"></mat-icon>
+                    style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
         </div>
       </ng-container>
 
@@ -26,7 +25,10 @@
 
   </ngx-simplebar>
 
-  <div fxLayout="column" right>
+  <div class="all-public-services__services" fxLayout="column" right>
+    <a *ngFor="let publicService of publicServices" class="pointer">
+      {{publicService.publicServiceName}}
+    </a>
   </div>
 
 </credix-navigation-table>

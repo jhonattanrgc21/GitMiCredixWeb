@@ -48,6 +48,22 @@
       padding-bottom: 0;
     }
   }
+
+  &__services {
+    padding: 0 16px;
+
+    a {
+      padding: 16px 0;
+
+      &:not(:last-of-type) {
+        border-bottom: 1px solid #E9E9E9;
+      }
+    }
+  }
+
+  .left-container {
+    height: 478px;
+  }
 }
 
 :host ::ng-deep {
