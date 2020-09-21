@@ -12,6 +12,12 @@ import {GlobalRequestsService} from './services/global-requests.service';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {GoHomeService} from './services/go-home.service';
 import {TagsService} from './services/tags.service';
+import {ScrollService} from './services/scroll.service';
+import {GlobalApiService} from './services/global-api.service';
+import {ChannelsApiService} from './services/channels-api.service';
+import {ApplicantApiService} from './services/applicant-api.service';
+import {AccountApiService} from './services/account-api.service';
+import {CustomerApiService} from './services/customer-api.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -33,9 +39,15 @@ const maskConfig: Partial<IConfig> = {
     HttpService,
     SecurityService,
     GlobalRequestsService,
+    GlobalApiService,
+    ChannelsApiService,
+    ApplicantApiService,
+    AccountApiService,
+    CustomerApiService,
     TagsService,
     GoHomeService,
     StorageService,
+    ScrollService,
     AuthorizationGuard,
     {provide: HTTP_INTERCEPTORS, useClass: HttpRequestsResponseInterceptor, multi: true}
   ]
