@@ -1,0 +1,11 @@
+<mat-card class="public-services" credixCard fxLayout="column" fxLayoutGap="16px">
+  <h1>Servicios</h1>
+
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+
+    <span>AQUI VA EL INPUT</span>
+  </div>
+
+  <router-outlet></router-outlet>
+</mat-card>

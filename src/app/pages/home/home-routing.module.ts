@@ -81,6 +81,10 @@ const routes: Routes = [
         loadChildren: () => import('./features/additional-cards-management/additional-cards-management.module.js')
           .then(m => m.AdditionalCardsManagementModule)
       },
+      {
+        path: 'public-services',
+        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
+      },
     ]
   }
 ];

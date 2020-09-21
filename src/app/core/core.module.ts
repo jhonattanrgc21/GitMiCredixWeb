@@ -18,6 +18,7 @@ import {ChannelsApiService} from './services/channels-api.service';
 import {ApplicantApiService} from './services/applicant-api.service';
 import {AccountApiService} from './services/account-api.service';
 import {CustomerApiService} from './services/customer-api.service';
+import {PublicServicesApiService} from './services/public-services-api.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -44,6 +45,7 @@ const maskConfig: Partial<IConfig> = {
     ApplicantApiService,
     AccountApiService,
     CustomerApiService,
+    PublicServicesApiService,
     TagsService,
     GoHomeService,
     StorageService,
