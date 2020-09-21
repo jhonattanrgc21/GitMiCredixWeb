@@ -13,6 +13,8 @@ import {PublicServicesService} from './public-services.service';
 import {CredixNavigationTableModule} from '../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {MatIconModule} from '@angular/material/icon';
+import {NewRechargeComponent} from './new-recharge/new-recharge.component';
+import {NewServiceComponent} from './new-service/new-service.component';
 
 const routes: Routes = [
   {
@@ -40,7 +42,9 @@ const routes: Routes = [
     PublicServicesComponent,
     AllServicesComponent,
     FavoriteServicesComponent,
-    AutomaticsServicesComponent],
+    AutomaticsServicesComponent,
+    NewRechargeComponent,
+    NewServiceComponent],
   imports: [
     CommonModule,
     FlexModule,
