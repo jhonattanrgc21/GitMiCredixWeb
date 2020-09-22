@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {StorageService} from '../../../../../core/services/storage.service';
-import {ApplicantApiService} from '../../../../../core/services/applicant-api.service';
+import {StorageService} from '../../../../core/services/storage.service';
+import {ApplicantApiService} from '../../../../core/services/applicant-api.service';
 
 @Component({
   selector: 'app-menu-header',

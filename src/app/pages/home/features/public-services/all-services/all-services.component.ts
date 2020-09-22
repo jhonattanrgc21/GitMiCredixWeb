@@ -7,7 +7,7 @@ import {PublicService} from '../../../../../shared/models/public-service';
 @Component({
   selector: 'app-all-services',
   templateUrl: './all-services.component.html',
-  styleUrls: ['./all-services.component.scss']
+  styleUrls: ['./all-services.component.scss', '../public-services.component.scss']
 })
 export class AllServicesComponent implements OnInit {
   tableHeaders = [
@@ -17,7 +17,7 @@ export class AllServicesComponent implements OnInit {
   categories: PublicServiceCategory[] = [];
   enterprises: PublicServiceEnterprise[] = [];
   publicServices: PublicService[] = [];
-  categoryId: number;
+  categorySelected: PublicServiceCategory;
   enterpriseId: number;
 
   constructor(private publicServicesApiService: PublicServicesApiService) {
@@ -32,10 +32,10 @@ export class AllServicesComponent implements OnInit {
     this.publicServicesApiService.getPublicServiceCategories().subscribe(categories => this.categories = categories);
   }
 
-  getPublicServiceEnterpriseByCategory(categoryId: number) {
-    this.categoryId = categoryId;
+  getPublicServiceEnterpriseByCategory(category: PublicServiceCategory) {
+    this.categorySelected = category;
     this.enterprises = [];
-    this.publicServicesApiService.getPublicServiceEnterpriseByCategory(categoryId)
+    this.publicServicesApiService.getPublicServiceEnterpriseByCategory(category.publicServiceCategoryId)
       .subscribe(enterprises => this.enterprises = enterprises);
   }
 
