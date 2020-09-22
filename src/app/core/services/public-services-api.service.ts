@@ -7,6 +7,15 @@ import {PublicServiceEnterpriseModel} from '../../shared/models/public-service-e
 import {PublicServiceCategoryModel} from '../../shared/models/public-service-category.model';
 import {PublicServiceModel} from '../../shared/models/public-service.model';
 
+const iconPerCategory = [
+  {category: 'Recargas', icon: 'cellphone'},
+  {category: 'Telefonía', icon: 'phone'},
+  {category: 'Electricidad', icon: 'public_services'},
+  {category: 'Agua', icon: 'water'},
+  {category: 'Internet y cable', icon: 'television'},
+  {category: 'Municipalidades', icon: 'municipalidad'},
+];
+
 @Injectable()
 export class PublicServicesApiService {
   private readonly getPublicServiceCategoriesUri = 'publicservice/publicservicecategory';
@@ -22,6 +31,9 @@ export class PublicServicesApiService {
       .pipe(
         map((response) => {
           if (response.type === 'success') {
+            (response.publicServiceCategoryList as PublicServiceCategoryModel[]).forEach(category => {
+              category.icon = iconPerCategory.find(icon => icon.category === category.publicServiceCategory)?.icon;
+            });
             return response.publicServiceCategoryList;
           } else {
             return [];
