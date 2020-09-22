@@ -3,10 +3,10 @@ import {FormControl} from '@angular/forms';
 import {SendMoneyService} from '../send-money.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {ModalDetailsComponent} from './modal-details/modal-details.component';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {Quota} from '../../../../../shared/models/quota';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {CustomerApiService} from '../../../../../core/services/customer-api.service';
 
 @Component({
   selector: 'app-send-money-second-step',
@@ -36,7 +36,7 @@ export class SendMoneySecondStepComponent implements OnInit {
   step2Subt1: string;
 
   constructor(private sendMoneyService: SendMoneyService,
-              private globalRequestsService: GlobalRequestsService,
+              private customerApiService: CustomerApiService,
               private modalService: ModalService,
               private tagsService: TagsService) {
   }
@@ -82,7 +82,7 @@ export class SendMoneySecondStepComponent implements OnInit {
   }
 
   getQuotas() {
-    this.globalRequestsService.getQuotas(3).subscribe(quotas => {
+    this.customerApiService.getQuotas(3).subscribe(quotas => {
       this.quotas = quotas.sort((a, b) => a.quota - b.quota);
       this.quotaSliderDisplayMin = this.quotas[0].quota;
       this.quotaSliderMin = 1;

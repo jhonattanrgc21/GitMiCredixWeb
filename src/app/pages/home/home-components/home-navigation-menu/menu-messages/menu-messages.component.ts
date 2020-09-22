@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HomeNavigationMenuService} from '../home-navigation-menu.service';
 import {ModalMessagesComponent} from './modal-messages/modal-messages.component';
-import {Message} from '../../../../../shared/models/Message';
+import {Message} from '../../../../../shared/models/message';
 import {HomeService} from '../../../home.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {GoHomeService} from '../../../../../core/services/go-home.service';

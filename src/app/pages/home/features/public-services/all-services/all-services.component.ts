@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
-import {PublicServiceCategoryModel} from '../../../../../shared/models/public-service-category.model';
-import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
-import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
+import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
+import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
+import {PublicService} from '../../../../../shared/models/public-service';
 
 @Component({
   selector: 'app-all-services',
@@ -14,9 +14,9 @@ export class AllServicesComponent implements OnInit {
     {label: 'Categorías', width: '283px'},
     {label: 'Servicios', width: 'auto'}
   ];
-  categories: PublicServiceCategoryModel[] = [];
-  enterprises: PublicServiceEnterpriseModel[] = [];
-  publicServices: PublicServiceModel[] = [];
+  categories: PublicServiceCategory[] = [];
+  enterprises: PublicServiceEnterprise[] = [];
+  publicServices: PublicService[] = [];
   categoryId: number;
   enterpriseId: number;
 

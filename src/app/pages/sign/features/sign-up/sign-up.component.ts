@@ -2,7 +2,7 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ModalService} from '../../../../core/services/modal.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {IdentificationType} from 'src/app/shared/models/IdentificationType';
+import {IdentificationType} from 'src/app/shared/models/identification-type';
 import {HttpService} from 'src/app/core/services/http.service';
 import {finalize} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';

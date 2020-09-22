@@ -2,13 +2,13 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {PersonalCreditService} from './personal-credit.service';
-import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {finalize} from 'rxjs/operators';
+import {ChannelsApiService} from '../../../../core/services/channels-api.service';
 
 @Component({
   selector: 'app-personal-credit',
@@ -37,7 +37,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   @ViewChild('personalCreditStepper') stepper: CdkStepper;
 
   constructor(private personalCreditService: PersonalCreditService,
-              private globalRequestsService: GlobalRequestsService,
+              private channelsApiService: ChannelsApiService,
               private modalService: ModalService,
               private toastService: CredixToastService,
               private storageService: StorageService,
@@ -53,7 +53,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   }
 
   getAccountSummary() {
-    this.globalRequestsService
+    this.channelsApiService
       .getAccountSummary(this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId)
       .pipe(finalize(() => this.done = !this.accessToPersonalCredit))
       .subscribe(accountSummary => {

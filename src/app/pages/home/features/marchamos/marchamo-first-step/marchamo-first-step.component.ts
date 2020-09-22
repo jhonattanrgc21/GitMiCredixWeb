@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {VehicleType} from 'src/app/shared/models/vehicleType.models';
+import {VehicleType} from 'src/app/shared/models/vehicle-type';
 import {HttpService} from 'src/app/core/services/http.service';
-import {ConsultVehicle} from '../../../../../shared/models/consultVehicle.models';
+import {ConsultVehicle} from '../../../../../shared/models/consult-vehicle';
 import {MarchamosService} from '../marchamos.service';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {TagsService} from '../../../../../core/services/tags.service';

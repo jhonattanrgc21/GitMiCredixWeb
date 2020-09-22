@@ -3,7 +3,7 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {MarchamosService} from '../marchamos.service';
 import {PopupMarchamosNewDirectionComponent} from '../popup-marchamos-new-direction/popup-marchamos-new-direction.component';
-import {DeliveryPlace} from 'src/app/shared/models/deliveryPlace.model';
+import {DeliveryPlace} from 'src/app/shared/models/delivery-place';
 import {HttpService} from 'src/app/core/services/http.service';
 import {StorageService} from 'src/app/core/services/storage.service';
 import {TagsService} from '../../../../../core/services/tags.service';

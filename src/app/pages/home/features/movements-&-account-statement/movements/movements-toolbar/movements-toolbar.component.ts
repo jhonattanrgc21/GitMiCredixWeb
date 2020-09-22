@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {StorageService} from '../../../../../../core/services/storage.service';
-import {Card} from '../../../../../../shared/models/card.model';
+import {Card} from '../../../../../../shared/models/card';
 import {MaskCard} from '../../../../../../shared/utils/MaskCard';
 import {MovementsService} from '../movements.service';
 import {ScrollService} from '../../../../../../core/services/scroll.service';

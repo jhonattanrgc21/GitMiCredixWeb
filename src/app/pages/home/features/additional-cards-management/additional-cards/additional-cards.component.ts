@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {AdditionalCardsManagementService} from '../additional-cards-management.service';
 import {Router} from '@angular/router';
 import {AdditionalCard} from '../../../../../shared/models/additional-card';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {ChannelsApiService} from '../../../../../core/services/channels-api.service';
 
 @Component({
   selector: 'app-additional-cards',
@@ -22,7 +22,7 @@ export class AdditionalCardsComponent implements OnInit {
   limitTag: string;
 
   constructor(private additionalCardsManagementService: AdditionalCardsManagementService,
-              private globalRequestsService: GlobalRequestsService,
+              private channelsApiService: ChannelsApiService,
               private toastService: CredixToastService,
               private modalService: ModalService,
               private tagsService: TagsService,
@@ -30,7 +30,7 @@ export class AdditionalCardsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.globalRequestsService.getAdditionalCards().subscribe(additionalCards => this.additionalCards = additionalCards);
+    this.channelsApiService.getAdditionalCards().subscribe(additionalCards => this.additionalCards = additionalCards);
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Tarjetas adicionales').tags));
   }
@@ -62,7 +62,7 @@ export class AdditionalCardsComponent implements OnInit {
   deleteAdditionalCard(cardId: number) {
     this.additionalCardsManagementService.disableAdditionalCard(cardId)
       .pipe(finalize(() =>
-        this.globalRequestsService.getAdditionalCards().subscribe(additionalCards => this.additionalCards = additionalCards)))
+        this.channelsApiService.getAdditionalCards().subscribe(additionalCards => this.additionalCards = additionalCards)))
       .subscribe(response => {
         this.toastService.show({text: response.descriptionOne, type: response.titleOne});
       });

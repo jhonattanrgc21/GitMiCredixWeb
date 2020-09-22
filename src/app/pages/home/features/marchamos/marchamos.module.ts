@@ -36,6 +36,7 @@ import {MarchamosService} from './marchamos.service';
 import {MarchamoThirdStepComponent} from './marchamo-third-step/marchamo-third-step.component';
 import {MarchamoFourthStepComponent} from './marchamo-fourth-step/marchamo-fourth-step.component';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {CustomerApiService} from '../../../../core/services/customer-api.service';
 
 const routes: Routes = [
   {
@@ -82,7 +83,8 @@ const routes: Routes = [
   ],
   providers: [
     MarchamosService,
-    ModalService
+    ModalService,
+    CustomerApiService
   ]
 
 })

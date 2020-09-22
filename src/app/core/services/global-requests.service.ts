@@ -5,7 +5,7 @@ import {StorageService} from './storage.service';
 import {Observable, of} from 'rxjs';
 import {AccountSummary} from '../../shared/models/account-summary';
 import {Currency} from '../../shared/models/currency';
-import {IdentificationType} from '../../shared/models/IdentificationType';
+import {IdentificationType} from '../../shared/models/identification-type';
 import {IbanAccount} from '../../shared/models/iban-account';
 import {Country} from '../../shared/models/country';
 import {Province} from '../../shared/models/province';
@@ -16,7 +16,7 @@ import {IncomeType} from '../../shared/models/income-type';
 import {Quota} from '../../shared/models/quota';
 import {DatePipe} from '@angular/common';
 import {AdditionalCard} from '../../shared/models/additional-card';
-import {DeliveryPlace} from '../../shared/models/deliveryPlace.model';
+import {DeliveryPlace} from '../../shared/models/delivery-place';
 import {ThAddress} from '../../shared/models/th-address';
 
 @Injectable()
@@ -396,21 +396,5 @@ export class GlobalRequestsService {
     this.homeContent = null;
     this.additionalCards = null;
     this.thAddresses = null;
-  }
-
-  clearHomeContent() {
-    this.homeContent = null;
-  }
-
-  clearAccountSummary() {
-    this.accountSummary = null;
-  }
-
-  clearUserApplicantInfo() {
-    this.userApplicantInfo = null;
-  }
-
-  clearUserApplicantProfileImage() {
-    this.userApplicantProfileImage = null;
   }
 }

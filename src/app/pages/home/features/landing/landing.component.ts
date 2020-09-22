@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LandingService} from './landing.service';
-import {Movement} from '../../../../shared/models/Movement';
+import {Movement} from '../../../../shared/models/movement';
 import {StorageService} from '../../../../core/services/storage.service';
 import {AccountSummary} from '../../../../shared/models/account-summary';
 import {GoHomeService} from '../../../../core/services/go-home.service';

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MovementsService} from './movements.service';
-import {Movement} from '../../../../../shared/models/Movement';
+import {Movement} from '../../../../../shared/models/movement';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
 

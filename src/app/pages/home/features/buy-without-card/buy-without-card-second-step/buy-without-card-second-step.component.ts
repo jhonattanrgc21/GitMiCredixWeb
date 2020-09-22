@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {BuyWithoutCardService} from '../buy-without-card.service';
-import {Card} from 'src/app/shared/models/card.model';
+import {Card} from 'src/app/shared/models/card';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
 

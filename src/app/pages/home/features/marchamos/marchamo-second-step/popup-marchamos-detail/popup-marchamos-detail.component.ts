@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
+import {BillingHistory} from 'src/app/shared/models/billing-history';
 import {TagsService} from '../../../../../../core/services/tags.service';
 import {Tag} from '../../../../../../shared/models/tag';
 

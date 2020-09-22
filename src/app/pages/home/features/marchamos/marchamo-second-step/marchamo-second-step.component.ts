@@ -1,18 +1,18 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
+import {BillingHistory} from 'src/app/shared/models/billing-history';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
-import {Item} from '../../../../../shared/models/item.model';
+import {Item} from '../../../../../shared/models/item';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {HttpService} from '../../../../../core/services/http.service';
 import {PopupMarchamosPaymentSummaryComponent} from './popup-marchamos-payment-summary/popup-marchamos-payment-summary.component';
 import {MarchamosService} from '../marchamos.service';
 import {StorageService} from 'src/app/core/services/storage.service';
-import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
+import {OwnerPayer} from 'src/app/shared/models/owner-payer';
 import {Quota} from '../../../../../shared/models/quota';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {CustomerApiService} from '../../../../../core/services/customer-api.service';
 
 @Component({
   selector: 'app-marchamo-second-step',
@@ -100,12 +100,12 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       value: 'Agosto ' + (new Date().getFullYear() + 1)
     },
     {
-      description: 'Septiembre 2020',
-      value: 'Septiembre 2020'
+      description: 'Septiembre' + (new Date().getFullYear() + 1),
+      value: 'Septiembre' + (new Date().getFullYear() + 1)
     },
     {
-      description: 'Octubre 2020',
-      value: 'Octubre 2020'
+      description: 'Octubre' + (new Date().getFullYear() + 1),
+      value: 'Octubre' + (new Date().getFullYear() + 1)
     },
     {
       description: 'Noviembre 2020',
@@ -125,7 +125,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   step2TagDiv: string;
 
   constructor(private marchamosService: MarchamosService,
-              private globalRequestsService: GlobalRequestsService,
+              private customerApiService: CustomerApiService,
               private httpService: HttpService,
               private modalService: ModalService,
               private storageService: StorageService,
@@ -247,7 +247,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   getQuotasByProduct() {
-    this.globalRequestsService.getQuotas(2).subscribe(quotas => {
+    this.customerApiService.getQuotas(2).subscribe(quotas => {
       this.quotas = quotas.sort((a, b) => a.quota - b.quota);
       this.quotaSliderDisplayMin = this.quotas[0].quota;
       this.quotaSliderMin = 1;
