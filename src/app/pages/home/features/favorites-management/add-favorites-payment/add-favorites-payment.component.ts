@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
-import {PublicServiceCategoryModel} from '../../../../../shared/models/public-service-category.model';
-import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
-import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
+import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
+import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
+import {PublicService} from '../../../../../shared/models/public-service';
 import {Router} from '@angular/router';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {FavoritesManagementService} from '../favorites-management.service';
@@ -14,9 +14,9 @@ import {FavoritesManagementService} from '../favorites-management.service';
   styleUrls: ['./add-favorites-payment.component.scss']
 })
 export class AddFavoritesPaymentComponent implements OnInit {
-  publicServicesCategory: PublicServiceCategoryModel[];
-  publicCompany: PublicServiceEnterpriseModel[];
-  publicServices: PublicServiceModel[];
+  publicServicesCategory: PublicServiceCategory[];
+  publicCompany: PublicServiceEnterprise[];
+  publicServices: PublicService[];
   done = false;
   result: { status: string; message: string; title: string; };
   newFavoritesPaymentForm: FormGroup = new FormGroup({

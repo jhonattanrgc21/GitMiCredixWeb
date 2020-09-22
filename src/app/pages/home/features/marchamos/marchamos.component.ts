@@ -4,10 +4,10 @@ import {HttpService} from 'src/app/core/services/http.service';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {StorageService} from 'src/app/core/services/storage.service';
-import {OwnerPayer} from 'src/app/shared/models/ownerPayer.model';
-import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
+import {OwnerPayer} from 'src/app/shared/models/owner-payer';
+import {BillingHistory} from 'src/app/shared/models/billing-history';
 import {MarchamosService} from './marchamos.service';
-import {ConsultVehicle} from '../../../../shared/models/consultVehicle.models';
+import {ConsultVehicle} from '../../../../shared/models/consult-vehicle';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 

@@ -24,6 +24,8 @@ import {CredixTextareaFieldModule} from '../../../../shared/components/credix-te
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {ApplicantApiService} from '../../../../core/services/applicant-api.service';
+import {GlobalApiService} from '../../../../core/services/global-api.service';
 
 const routes: Routes = [
   {
@@ -63,7 +65,9 @@ const routes: Routes = [
     CredixCodeLinkModule
   ],
   providers: [
-    PersonalInfoManagementService
+    PersonalInfoManagementService,
+    ApplicantApiService,
+    GlobalApiService
   ]
 })
 export class PersonalInfoManagementModule {

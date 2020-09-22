@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {Message} from '../../../../../../shared/models/Message';
+import {Message} from '../../../../../../shared/models/message';
 import {HomeService} from '../../../../home.service';
 
 @Component({

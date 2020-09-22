@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {finalize} from 'rxjs/operators';
-import {IdentificationType} from '../../../../../../shared/models/IdentificationType';
+import {IdentificationType} from '../../../../../../shared/models/identification-type';
 import {getIdentificationMaskByType} from '../../../../../../shared/utils';
 import {SendMoneyService} from '../../send-money.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CredixToastService} from '../../../../../../core/services/credix-toast.service';
-import {GlobalRequestsService} from '../../../../../../core/services/global-requests.service';
+import {GlobalApiService} from '../../../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-modal-add-iban',
@@ -44,7 +44,7 @@ export class ModalAddIbanComponent implements OnInit {
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,
-              private globalRequestsService: GlobalRequestsService,
+              private globalApiService: GlobalApiService,
               public toastService: CredixToastService,
               public dialogRef: MatDialogRef<ModalAddIbanComponent>,
               private sendMoneyService: SendMoneyService
@@ -79,7 +79,7 @@ export class ModalAddIbanComponent implements OnInit {
   }
 
   getIdentificationTypes() {
-    this.globalRequestsService
+    this.globalApiService
       .getIdentificationTypes()
       .pipe(finalize(() => this.identificationTypeChanged()))
       .subscribe(
@@ -112,7 +112,7 @@ export class ModalAddIbanComponent implements OnInit {
 
   submit() {
     if (this.newAccountForm.valid) {
-      //console.log(this.newAccount.message.Nombre ? this.newAccount?.message.Nombre : this.data.data.info.aliasName);
+      // console.log(this.newAccount.message.Nombre ? this.newAccount?.message.Nombre : this.data.data.info.aliasName);
       this.dialogRef.close({
         aliasName: !this.data.data.info ? this.newAccount.message.Nombre : this.data.data.info.aliasName,
         ibanAccount: this.newAccountForm.controls.ibanAccount.value,

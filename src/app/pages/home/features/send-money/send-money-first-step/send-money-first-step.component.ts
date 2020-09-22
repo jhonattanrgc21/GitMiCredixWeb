@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {Currency} from '../../../../../shared/models/currency';
 import {SendMoneyService} from '../send-money.service';
 import {FavoriteIbanAccount} from '../../../../../shared/models/favorite-iban-account';
@@ -8,6 +7,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {ModalAddIbanComponent} from './modal-add-iban/modal-add-iban.component';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {GlobalApiService} from '../../../../../core/services/global-api.service';
 
 
 @Component({
@@ -39,7 +39,7 @@ export class SendMoneyFirstStepComponent implements OnInit {
   stepSubt2: string;
 
   constructor(
-    private globalRequestsService: GlobalRequestsService,
+    private globalApiService: GlobalApiService,
     private sendMoneyService: SendMoneyService,
     private modalService: ModalService,
     private tagsService: TagsService
@@ -67,7 +67,7 @@ export class SendMoneyFirstStepComponent implements OnInit {
   }
 
   getCurrencies() {
-    this.globalRequestsService.getCurrencies().subscribe((currencies) => {
+    this.globalApiService.getCurrencies().subscribe((currencies) => {
       if (currencies) {
         this.currencies = currencies;
       }

@@ -1,23 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
-import {PublicServiceCategoryModel} from '../../../../../shared/models/public-service-category.model';
-import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
-import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
+import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
+import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
+import {PublicService} from '../../../../../shared/models/public-service';
 
 @Component({
   selector: 'app-all-services',
   templateUrl: './all-services.component.html',
-  styleUrls: ['./all-services.component.scss', '../public-services.component.scss']
+  styleUrls: ['./all-services.component.scss']
 })
 export class AllServicesComponent implements OnInit {
   tableHeaders = [
     {label: 'Categorías', width: '283px'},
     {label: 'Servicios', width: 'auto'}
   ];
-  categories: PublicServiceCategoryModel[] = [];
-  enterprises: PublicServiceEnterpriseModel[] = [];
-  publicServices: PublicServiceModel[] = [];
-  categorySelected: PublicServiceCategoryModel;
+  categories: PublicServiceCategory[] = [];
+  enterprises: PublicServiceEnterprise[] = [];
+  publicServices: PublicService[] = [];
+  categoryId: number;
   enterpriseId: number;
 
   constructor(private publicServicesApiService: PublicServicesApiService) {
@@ -32,10 +32,10 @@ export class AllServicesComponent implements OnInit {
     this.publicServicesApiService.getPublicServiceCategories().subscribe(categories => this.categories = categories);
   }
 
-  getPublicServiceEnterpriseByCategory(category: PublicServiceCategoryModel) {
-    this.categorySelected = category;
+  getPublicServiceEnterpriseByCategory(categoryId: number) {
+    this.categoryId = categoryId;
     this.enterprises = [];
-    this.publicServicesApiService.getPublicServiceEnterpriseByCategory(category.publicServiceCategoryId)
+    this.publicServicesApiService.getPublicServiceEnterpriseByCategory(categoryId)
       .subscribe(enterprises => this.enterprises = enterprises);
   }
 

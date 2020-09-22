@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IdentificationType} from '../../../../../shared/models/IdentificationType';
+import {IdentificationType} from '../../../../../shared/models/identification-type';
 import {IbanAccountsService} from '../iban-accounts/iban-accounts.service';
 import {finalize} from 'rxjs/operators';
 import {getIdentificationMaskByType} from '../../../../../shared/utils';

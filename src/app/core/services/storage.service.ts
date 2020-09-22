@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {User} from '../../shared/models/user.model';
-import {Card} from '../../shared/models/card.model';
+import {User} from '../../shared/models/user';
+import {Card} from '../../shared/models/card';
 
 @Injectable()
 export class StorageService {

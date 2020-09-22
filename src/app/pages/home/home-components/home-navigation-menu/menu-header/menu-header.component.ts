@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../../../../core/services/storage.service';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
+import {ApplicantApiService} from '../../../../../core/services/applicant-api.service';
 
 @Component({
   selector: 'app-menu-header',
@@ -13,7 +13,7 @@ export class MenuHeaderComponent implements OnInit {
   greetingMessage: string;
 
   constructor(private storageService: StorageService,
-              private globalRequestsService: GlobalRequestsService) {
+              private applicantApiService: ApplicantApiService) {
     this.checkTime();
   }
 
@@ -24,7 +24,7 @@ export class MenuHeaderComponent implements OnInit {
   }
 
   getApplicantProfilePhoto() {
-    this.globalRequestsService.getApplicantProfilePhoto().subscribe(profilePhoto => {
+    this.applicantApiService.getApplicantProfilePhoto().subscribe(profilePhoto => {
       this.profilePhoto = profilePhoto ? `data:image/png;base64,${profilePhoto}` : 'assets/images/avatar.png';
     });
   }

@@ -1,11 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {GlobalRequestsService} from '../../../../../../../core/services/global-requests.service';
 import {Province} from '../../../../../../../shared/models/province';
 import {Canton} from '../../../../../../../shared/models/canton';
 import {District} from '../../../../../../../shared/models/district';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Address} from '../../../../../../../shared/models/address';
+import {GlobalApiService} from '../../../../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-new-address-popup',
@@ -27,7 +27,7 @@ export class NewAddressPopupComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<NewAddressPopupComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
-              private globalRequestsService: GlobalRequestsService) {
+              private globalApiService: GlobalApiService) {
   }
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class NewAddressPopupComponent implements OnInit {
   }
 
   getProvinces() {
-    this.globalRequestsService.getProvinces()
+    this.globalApiService.getProvinces()
       .subscribe(provinces => this.provinces = provinces);
   }
 
@@ -61,7 +61,7 @@ export class NewAddressPopupComponent implements OnInit {
   }
 
   getCantons(provinceId: number) {
-    this.globalRequestsService.getCantons(provinceId)
+    this.globalApiService.getCantons(provinceId)
       .subscribe(cantons => this.cantons = cantons);
   }
 
@@ -74,7 +74,7 @@ export class NewAddressPopupComponent implements OnInit {
   }
 
   getDistricts(cantonId: number) {
-    this.globalRequestsService.getDistricts(cantonId).subscribe(districts => this.districts = districts);
+    this.globalApiService.getDistricts(cantonId).subscribe(districts => this.districts = districts);
   }
 
   submit() {

@@ -1,13 +1,13 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IdentificationType} from '../../../../../../shared/models/IdentificationType';
+import {IdentificationType} from '../../../../../../shared/models/identification-type';
 import {getIdentificationMaskByType} from '../../../../../../shared/utils';
 import {ModalService} from '../../../../../../core/services/modal.service';
-import {GlobalRequestsService} from '../../../../../../core/services/global-requests.service';
 import {finalize} from 'rxjs/operators';
 import {AdditionalCardsManagementService} from '../../additional-cards-management.service';
 import {TagsService} from '../../../../../../core/services/tags.service';
 import {Tag} from '../../../../../../shared/models/tag';
+import {GlobalApiService} from '../../../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-new-additional-card-first-step',
@@ -33,12 +33,12 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
   constructor(private additionalCardsManagementService: AdditionalCardsManagementService,
               private modalService: ModalService,
               private tagsService: TagsService,
-              private globalRequestsService: GlobalRequestsService) {
+              private globalApiServices: GlobalApiService) {
   }
 
   ngOnInit(): void {
     this.onFormChanged();
-    this.globalRequestsService.getIdentificationTypes()
+    this.globalApiServices.getIdentificationTypes()
       .pipe(finalize(() => this.identificationTypeChanged()))
       .subscribe(identificationTypes => this.identificationTypes = identificationTypes);
   }

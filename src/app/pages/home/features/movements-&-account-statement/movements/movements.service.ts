@@ -3,7 +3,7 @@ import {HttpService} from '../../../../../core/services/http.service';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {map} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {Movement} from '../../../../../shared/models/Movement';
+import {Movement} from '../../../../../shared/models/movement';
 
 @Injectable()
 export class MovementsService {

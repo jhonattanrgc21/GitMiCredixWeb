@@ -32,6 +32,8 @@ import {CredixTextareaFieldModule} from '../../../../shared/components/credix-te
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {ChannelsApiService} from '../../../../core/services/channels-api.service';
+import {GlobalApiService} from '../../../../core/services/global-api.service';
 
 const routes: Routes = [
   {
@@ -81,7 +83,9 @@ const routes: Routes = [
   ],
   providers: [
     AdditionalCardsManagementService,
-    ModalService
+    ModalService,
+    ChannelsApiService,
+    GlobalApiService
   ]
 })
 export class AdditionalCardsManagementModule {

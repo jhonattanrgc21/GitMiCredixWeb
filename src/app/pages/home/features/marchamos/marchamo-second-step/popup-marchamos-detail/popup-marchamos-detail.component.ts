@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {BillingHistory} from 'src/app/shared/models/billingHistory.models';
+import {BillingHistory} from 'src/app/shared/models/billing-history';
 import {TagsService} from '../../../../../../core/services/tags.service';
 import {Tag} from '../../../../../../shared/models/tag';
 
@@ -15,7 +15,9 @@ export class PopupMarchamosDetailComponent implements OnInit {
   popUpTagT;
   popUpTitle;
 
-  constructor(private tagsService: TagsService,public dialogRef: MatDialogRef<PopupMarchamosDetailComponent>, @Inject(MAT_DIALOG_DATA) public data) {
+  constructor(private tagsService: TagsService,
+              public dialogRef: MatDialogRef<PopupMarchamosDetailComponent>,
+              @Inject(MAT_DIALOG_DATA) public data) {
   }
 
   ngOnInit(): void {
@@ -29,7 +31,7 @@ export class PopupMarchamosDetailComponent implements OnInit {
   getTags(tags: Tag[]) {
     this.popUpTagT = tags.find(tag => tag.description === 'marchamos.popup.tagTotal').value;
     this.popUpTitle = tags.find(tag => tag.description === 'marchamos.popup.title').value;
-}
+  }
 
   calculateTotalAmount() {
     this.billingHistorys.forEach(values => {

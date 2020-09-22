@@ -3,9 +3,9 @@ import {HttpService} from './http.service';
 import {Cacheable} from 'ngx-cacheable';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {PublicServiceEnterpriseModel} from '../../shared/models/public-service-enterprise.model';
-import {PublicServiceCategoryModel} from '../../shared/models/public-service-category.model';
-import {PublicServiceModel} from '../../shared/models/public-service.model';
+import {PublicServiceEnterprise} from '../../shared/models/public-service-enterprise';
+import {PublicServiceCategory} from '../../shared/models/public-service-category';
+import {PublicService} from '../../shared/models/public-service';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -26,12 +26,12 @@ export class PublicServicesApiService {
   }
 
   @Cacheable()
-  getPublicServiceCategories(): Observable<PublicServiceCategoryModel[]> {
+  getPublicServiceCategories(): Observable<PublicServiceCategory[]> {
     return this.httpService.post('canales', this.getPublicServiceCategoriesUri)
       .pipe(
         map((response) => {
           if (response.type === 'success') {
-            (response.publicServiceCategoryList as PublicServiceCategoryModel[]).forEach(category => {
+            (response.publicServiceCategoryList as PublicServiceCategory[]).forEach(category => {
               category.icon = iconPerCategory.find(icon => icon.category === category.publicServiceCategory)?.icon;
             });
             return response.publicServiceCategoryList;
@@ -44,7 +44,7 @@ export class PublicServicesApiService {
   @Cacheable({
     maxCacheCount: 5
   })
-  getPublicServiceEnterpriseByCategory(publicServiceCategoryId: number): Observable<PublicServiceEnterpriseModel[]> {
+  getPublicServiceEnterpriseByCategory(publicServiceCategoryId: number): Observable<PublicServiceEnterprise[]> {
     return this.httpService.post('canales', this.getPublicServiceEnterpriseByCategoryUri, {publicServiceCategoryId})
       .pipe(
         map((response) => {
@@ -59,7 +59,7 @@ export class PublicServicesApiService {
   @Cacheable({
     maxCacheCount: 5
   })
-  getPublicServiceByEnterprise(enterpriseId: number): Observable<PublicServiceModel[]> {
+  getPublicServiceByEnterprise(enterpriseId: number): Observable<PublicService[]> {
     return this.httpService.post('canales', this.getPublicServiceByEnterpriseUri, {enterpriseId})
       .pipe(
         map((response) => {

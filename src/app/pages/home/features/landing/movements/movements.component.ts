@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Movement} from '../../../../../shared/models/Movement';
+import {Movement} from '../../../../../shared/models/movement';
 import {ConvertStringDateToDate} from '../../../../../shared/utils';
 import {Router} from '@angular/router';
 

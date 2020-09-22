@@ -18,6 +18,7 @@ import {CredixSwitchModule} from '../../../../shared/components/credix-switch/cr
 import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {AccountStatementService} from './account-statement/account-statement.service';
+import {GlobalApiService} from '../../../../core/services/global-api.service';
 
 const routes: Routes = [
   {
@@ -84,7 +85,8 @@ const routes: Routes = [
   ],
   providers: [
     MovementsService,
-    AccountStatementService
+    AccountStatementService,
+    GlobalApiService
   ]
 })
 export class MovementsAccountStatementModule {
