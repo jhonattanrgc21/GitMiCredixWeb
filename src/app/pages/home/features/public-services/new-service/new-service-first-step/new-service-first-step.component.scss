@@ -1,0 +1,30 @@
+.new-service-first-step {
+  padding: 0 184px 0 84px;
+
+  &__content {
+    width: 100%;
+
+    &__input {
+      width: 280px;
+    }
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+
+  .new-service-first-step {
+    padding: 0 78px;
+
+    &__content {
+      width: 100%;
+
+      &__input {
+        width: 264px;
+      }
+    }
+
+  }
+
+}
+
