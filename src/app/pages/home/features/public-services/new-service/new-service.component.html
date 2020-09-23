@@ -52,7 +52,7 @@
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>Monto</span>
             <div>
-              <credix-numeric-block [prefix]="'₡'" [value]="amount"
+              <credix-numeric-block [prefix]="'₡'" [value]="pendingReceipts?.receipts[0].totalAmount"
                                     class="tr" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>

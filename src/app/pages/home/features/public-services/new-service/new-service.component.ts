@@ -28,7 +28,6 @@ export class NewServiceComponent implements OnInit {
   name: string;
   month: string;
   expirationDate: Date;
-  amount: string;
   title: string;
   message: string;
   status: 'success' | 'error';
