@@ -4,6 +4,9 @@ import {CdkStepper} from '@angular/cdk/stepper';
 import {BuyWithoutCardService} from './buy-without-card.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import {Router} from '@angular/router';
+import {Card} from '../../../../shared/models/card';
+import {StorageService} from '../../../../core/services/storage.service';
 
 @Component({
   selector: 'app-buy-without-card',
@@ -12,7 +15,12 @@ import {Tag} from '../../../../shared/models/tag';
 })
 export class BuyWithoutCardComponent implements OnInit {
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
-  card: FormControl = new FormControl(null, [Validators.required]);
+  cardControl: FormControl = new FormControl(null, [Validators.required]);
+  cards: Card[];
+  applicantIdentification: string;
+  name: string;
+  lifeTimePin: number;
+  pin: string;
   stepperIndex = 0;
   subtitle: string;
   title: string;
@@ -20,14 +28,17 @@ export class BuyWithoutCardComponent implements OnInit {
   step1: string;
   @ViewChild('buyWithOutCard') stepper: CdkStepper;
 
-  constructor(private tagsService: TagsService,
-              private buyWithOutCardService: BuyWithoutCardService) {
+  constructor(private buyWithOutCardService: BuyWithoutCardService,
+              private tagsService: TagsService,
+              private storageService: StorageService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Compra sin tarjeta').tags)
-    );
+      this.getTags(functionality.find(fun => fun.description === 'Compra sin tarjeta').tags));
+    this.cards = this.storageService.getCurrentCards();
+    this.cardControl.setValue(this.cards.find(element => element.category === 'Principal').cardId);
   }
 
   continue() {
@@ -35,28 +46,37 @@ export class BuyWithoutCardComponent implements OnInit {
     this.stepperIndex = this.stepper.selectedIndex;
   }
 
-  back() {
-    this.stepper.previous();
-    this.stepperIndex = this.stepper.selectedIndex;
-    this.stepper.reset();
+  goHome() {
+    this.router.navigate(['/home']);
   }
 
-  generatePin(codeCredix: string) {
-    this.buyWithOutCardService.generatePin(codeCredix).subscribe(response => {
+  generatePin() {
+    this.buyWithOutCardService.generatePin(this.cardControl.value).subscribe(response => {
       if (response.type === 'success') {
-        this.buyWithOutCardService.emitDataGeneratePin(
-          response.applicantIdentification,
-          response.lifeTimePin,
-          response.message,
-          response.pin,
-          response.printName);
-        this.continue();
+        this.applicantIdentification = response.applicantIdentification;
+        this.lifeTimePin = response.lifeTimePin;
+        this.pin = response.pin;
+        this.name = response.printName;
       }
     });
   }
 
-  getPin() {
-    this.generatePin(this.codeCredix.value.toString());
+  onCardChanged() {
+    this.cardControl.valueChanges.subscribe(value => {
+      this.generatePin();
+    });
+  }
+
+  checkCredixCode() {
+    this.buyWithOutCardService.checkCredixCode(this.codeCredix.value)
+      .subscribe(response => {
+          if (response.type === 'success') {
+            this.generatePin();
+            this.continue();
+            this.onCardChanged();
+          }
+        }
+      );
   }
 
   getTags(tags: Tag[]) {

@@ -1,7 +1,7 @@
-export class Card {
-  public cardId: number;
-  public name: string;
-  public typeCard: string;
-  public category: string;
-  public cardNumber: string;
+export interface Card {
+  cardId: number;
+  name: string;
+  typeCard: string;
+  category: string;
+  cardNumber: string;
 }

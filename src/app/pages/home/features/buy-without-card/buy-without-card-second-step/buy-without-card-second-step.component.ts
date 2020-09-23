@@ -1,6 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {BuyWithoutCardService} from '../buy-without-card.service';
 import {Card} from 'src/app/shared/models/card';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
@@ -11,61 +10,41 @@ import {Tag} from '../../../../../shared/models/tag';
   styleUrls: ['./buy-without-card-second-step.component.scss']
 })
 export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
-  @Input() card: FormControl = new FormControl();
+  @Input() cardControl: FormControl = new FormControl();
   @Input() isActive: boolean;
-  pin: string;
-  lifeTimePin: number;
+  @Input() cards: Card[];
+  @Input() pin: string;
+  @Input() lifeTimePin: number;
+  @Input() identification: string;
+  @Input() name: string;
   second = 59;
-  cards: Card[];
-  identification: string;
-  name: string;
-  step2Subt2: string;
-  step2Subt: string;
+  secondStepSecondSub: string;
+  secondStepSub: string;
   nameTag: string;
   identTag: string;
   expiresTag: string;
 
-  constructor(private tagsService: TagsService, private buyWithOutCardService: BuyWithoutCardService) {
+  constructor(private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
-    this.getUserAplicantAccountNumberAndCardList();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Compra sin tarjeta').tags)
     );
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.isActive && this.isActive) {
+    if (changes.lifeTimePin && changes.pin) {
       this.countDownCalculate();
     }
   }
 
   getTags(tags: Tag[]) {
-    this.step2Subt2 = tags.find(tag => tag.description === 'compra.stepper2.subtitle2').value;
-    this.step2Subt = tags.find(tag => tag.description === 'compra.stepper2.subtitle').value;
+    this.secondStepSecondSub = tags.find(tag => tag.description === 'compra.stepper2.subtitle2').value;
+    this.secondStepSub = tags.find(tag => tag.description === 'compra.stepper2.subtitle').value;
     this.nameTag = tags.find(tag => tag.description === 'compra.stepper2.tag.nombre').value;
     this.identTag = tags.find(tag => tag.description === 'compra.stepper2.tag.identificacion').value;
     this.expiresTag = tags.find(tag => tag.description === 'compra.stepper2.tag.expira').value;
-}
-
-  getUserAplicantAccountNumberAndCardList() {
-    this.buyWithOutCardService.dataGeneratePin.subscribe(response => {
-      this.getCardListByIdentification(response.applicantIdentification);
-      this.identification = response.applicantIdentification;
-      this.name = response.printName;
-      this.pin = response.pin;
-      this.lifeTimePin = response.lifeTimePin;
-    });
-  }
-
-  getCardListByIdentification(iden: string) {
-    this.buyWithOutCardService.getCardListByIdentification(iden).subscribe(response => {
-      if (response.length === 1) {
-        this.card.setValue(response.cardId);
-      }
-      this.cards = response;
-    });
   }
 
   countDownCalculate() {
