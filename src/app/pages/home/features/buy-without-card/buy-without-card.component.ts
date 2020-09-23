@@ -7,6 +7,7 @@ import {Tag} from '../../../../shared/models/tag';
 import {Router} from '@angular/router';
 import {Card} from '../../../../shared/models/card';
 import {StorageService} from '../../../../core/services/storage.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-buy-without-card',
@@ -51,14 +52,20 @@ export class BuyWithoutCardComponent implements OnInit {
   }
 
   generatePin() {
-    this.buyWithOutCardService.generatePin(this.cardControl.value).subscribe(response => {
-      if (response.type === 'success') {
-        this.applicantIdentification = response.applicantIdentification;
-        this.lifeTimePin = response.lifeTimePin;
-        this.pin = response.pin;
-        this.name = response.printName;
-      }
-    });
+    this.buyWithOutCardService.generatePin(this.cardControl.value)
+      .pipe(finalize(() => {
+        if (this.stepperIndex === 0) {
+          this.continue();
+        }
+      }))
+      .subscribe(response => {
+        if (response.type === 'success') {
+          this.applicantIdentification = response.applicantIdentification;
+          this.lifeTimePin = response.lifeTimePin;
+          this.pin = response.pin;
+          this.name = response.printName;
+        }
+      });
   }
 
   onCardChanged() {
@@ -72,7 +79,6 @@ export class BuyWithoutCardComponent implements OnInit {
       .subscribe(response => {
           if (response.type === 'success') {
             this.generatePin();
-            this.continue();
             this.onCardChanged();
           }
         }

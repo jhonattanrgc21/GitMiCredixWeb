@@ -91,9 +91,6 @@ export class AddAutomaticsComponent implements OnInit {
 
   getFromFavorites() {
     if (this.favoritesManagementService.redirect) {
-
-
-      console.log(this.favoritesManagementService.valuesFromFavorites);
       this.data = {
         publicServiceCategoryId: this.favoritesManagementService.valuesFromFavorites.publicServiceCategoryId,
         publicServiceEnterpriseId: this.favoritesManagementService.valuesFromFavorites.publicServiceEnterpriseId,

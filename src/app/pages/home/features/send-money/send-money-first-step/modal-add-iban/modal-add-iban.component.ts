@@ -112,7 +112,6 @@ export class ModalAddIbanComponent implements OnInit {
 
   submit() {
     if (this.newAccountForm.valid) {
-      // console.log(this.newAccount.message.Nombre ? this.newAccount?.message.Nombre : this.data.data.info.aliasName);
       this.dialogRef.close({
         aliasName: !this.data.data.info ? this.newAccount.message.Nombre : this.data.data.info.aliasName,
         ibanAccount: this.newAccountForm.controls.ibanAccount.value,

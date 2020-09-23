@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Card} from 'src/app/shared/models/card';
 import {TagsService} from '../../../../../core/services/tags.service';
@@ -9,7 +9,7 @@ import {Tag} from '../../../../../shared/models/tag';
   templateUrl: './buy-without-card-second-step.component.html',
   styleUrls: ['./buy-without-card-second-step.component.scss']
 })
-export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
+export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges, OnDestroy {
   @Input() cardControl: FormControl = new FormControl();
   @Input() isActive: boolean;
   @Input() cards: Card[];
@@ -23,6 +23,7 @@ export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
   nameTag: string;
   identTag: string;
   expiresTag: string;
+  intervalId: any;
 
   constructor(private tagsService: TagsService) {
   }
@@ -34,7 +35,9 @@ export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.lifeTimePin && changes.pin) {
+    if (changes.pin) {
+      this.second = 59;
+      clearInterval(this.intervalId);
       this.countDownCalculate();
     }
   }
@@ -52,7 +55,7 @@ export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
       this.lifeTimePin--;
     }
 
-    const interval = setInterval(() => {
+    this.intervalId = setInterval(() => {
       this.second--;
 
       if (this.second === 0) {
@@ -63,10 +66,15 @@ export class BuyWithoutCardSecondStepComponent implements OnInit, OnChanges {
       if (this.lifeTimePin === 0) {
         this.second--;
       }
+
       if (this.lifeTimePin === 0 && this.second === 0) {
-        clearInterval(interval);
+        clearInterval(this.intervalId);
       }
     }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
   }
 
 }
