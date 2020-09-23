@@ -15,6 +15,7 @@ import {SimplebarAngularModule} from 'simplebar-angular';
 import {MatIconModule} from '@angular/material/icon';
 import {NewRechargeComponent} from './new-recharge/new-recharge.component';
 import {NewServiceComponent} from './new-service/new-service.component';
+import {NgxMaskModule} from 'ngx-mask';
 
 const routes: Routes = [
   {
@@ -55,6 +56,7 @@ const routes: Routes = [
     CredixNavigationTableModule,
     SimplebarAngularModule,
     MatIconModule,
+    NgxMaskModule,
   ],
   providers: [
     PublicServicesService

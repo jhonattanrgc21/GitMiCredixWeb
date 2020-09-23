@@ -1,3 +1,27 @@
 .favorites-services {
 
+  &__options-wrapper {
+    width: 252px;
+  }
+
+  &__option {
+    padding: 20px 0 16px 0;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &__label {
+      font-size: 16px;
+      color: #3e3e3e;
+
+      &.is-selected {
+        font-weight: bold;
+      }
+    }
+  }
 }

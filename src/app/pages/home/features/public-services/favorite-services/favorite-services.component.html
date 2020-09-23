@@ -1,8 +1,24 @@
 <credix-navigation-table [headers]="tableHeaders" class="favorites-services">
 
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
-
-
+    <div class="favorites-services__options-wrapper" fxLayout="column">
+      <a (click)="favoriteServiceDetail(favorites)"
+         *ngFor="let favorites of publicFavoriteService" class="pointer"
+         fxLayout="column">
+        <span [class.is-selected]="optionSelected === favorites.publicServiceFavoriteId" fxLayout="row"
+              fxLayoutAlign="flex-start center">
+           <mat-icon [svgIcon]="favorites.icon" class="mr-16px"
+                     style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
+          {{favorites.publicServiceFavoriteName}}
+        </span>
+        <span class="truncate">
+          {{
+          category === 'Recargas' || category === 'Telefonía' ? (favorites.serviceReference | mask: '0000-0000') :
+            favorites.publicServiceProviderPrefix + '-' + favorites.serviceReference
+          }}
+        </span>
+      </a>
+    </div>
   </ngx-simplebar>
 
   <div fxLayout="column" right>
