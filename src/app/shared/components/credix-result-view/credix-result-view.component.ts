@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 export class CredixResultViewComponent implements OnInit {
   @Input() title: string;
   @Input() resultTile: string;
-  @Input() resultMessage: string;
+  @Input() resultMessage = '';
   @Input() status: 'success' | 'error' | 'warning';
   @Input() buttonText: string;
   @Input() routeTo: string;

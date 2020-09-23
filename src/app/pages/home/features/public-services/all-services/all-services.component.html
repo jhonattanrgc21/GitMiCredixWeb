@@ -18,11 +18,11 @@
       <ng-container *ngIf="categorySelected?.publicServiceCategoryId === category.publicServiceCategoryId">
         <div *ngFor="let enterprise of enterprises" class="all-public-services__enterprises-wrapper" fxLayout="row"
              fxLayoutAlign="space-between">
-          <a (click)="getPublicService(enterprise.publicServiceEnterpriseId)"
-             [ngClass]="{'bold' : enterprise.publicServiceEnterpriseId === enterpriseId}"
+          <a (click)="getPublicService(enterprise)"
+             [ngClass]="{'bold' : enterprise.publicServiceEnterpriseId === enterpriseSelected?.publicServiceEnterpriseId}"
              class="truncate pointer">
             {{enterprise.publicServiceEnterpriseDescription}}</a>
-          <mat-icon *ngIf="enterprise.publicServiceEnterpriseId === enterpriseId"
+          <mat-icon *ngIf="enterprise.publicServiceEnterpriseId === enterpriseSelected?.publicServiceEnterpriseId"
                     style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
         </div>
       </ng-container>
@@ -32,7 +32,9 @@
   </ngx-simplebar>
 
   <div class="all-public-services__services" fxLayout="column" right>
-    <a *ngFor="let publicService of publicServices" class="pointer" fxLayout="row" fxLayoutAlign="flex-start center">
+    <a (click)="newPublicService(publicService)" *ngFor="let publicService of publicServices" class="pointer"
+       fxLayout="row"
+       fxLayoutAlign="flex-start center">
       <mat-icon [svgIcon]="categorySelected?.icon" class="mr-16px"
                 style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
       {{publicService.publicServiceName}}

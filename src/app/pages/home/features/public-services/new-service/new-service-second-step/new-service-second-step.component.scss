@@ -1,0 +1,46 @@
+.new-service-second-step {
+  padding: 0 84px;
+  margin-top: 32px;
+
+  &__content {
+    width: 100%;
+
+    &:not(:last-of-type) {
+      padding-bottom: 16px;
+    }
+
+    &:not(:first-of-type) {
+      padding-top: 16px;
+    }
+
+    &__input {
+      height: 43px;
+
+      &.favorite {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .left-content {
+    width: 351px;
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+
+  .new-service-second-step {
+    padding: 0 78px;
+
+    &__content {
+      width: 100%;
+    }
+
+    .left-content {
+      width: 238px;
+    }
+
+  }
+
+}

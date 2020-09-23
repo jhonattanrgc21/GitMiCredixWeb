@@ -1,0 +1,61 @@
+<div class="new-service-second-step" fxLayout="column">
+
+  <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="150px"><strong>{{referenceName}}</strong></span>
+
+    <div class="left-content mb-8px" fxLayout="column">
+      <span><strong>{{reference}}</strong></span>
+      <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
+                              label="Guardar como favorito"></credix-checkbox-button>
+      <credix-input-field *ngIf="showInput" [formControl]="favoriteControl"
+                          class="new-service-second-step__content__input favorite"
+                          label="Nombre del favorito"></credix-input-field>
+    </div>
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="150px"><strong>Datos de la factura</strong></span>
+
+    <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Nombre</span>
+        <span>{{name}}</span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Mes al cobro</span>
+        <span>{{month}}</span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Vencimiento</span>
+        <span>{{expirationDate | dateFormatter : 'alphanumeric'}}</span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Recibos pendientes</span>
+        <span>{{receipts}}</span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span><strong>Monto a pagar</strong></span>
+        <span><credix-numeric-block [value]="amount" fontWeight="bold" prefix="₡"></credix-numeric-block></span>
+      </div>
+    </div>
+
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <credix-code-link></credix-code-link>
+
+    <credix-code-input [(codeFormControl)]="credixCodeControl" [length]="6"
+                       class="new-service-second-step__content__input  left-content"
+                       errorMessage="Introduzca el codigo de confirmación"></credix-code-input>
+  </div>
+
+</div>

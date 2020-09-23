@@ -12,8 +12,10 @@ const iconPerCategory = [
   {category: 'Telefonía', icon: 'phone'},
   {category: 'Electricidad', icon: 'public_services'},
   {category: 'Agua', icon: 'water'},
-  {category: 'Internet y cable', icon: 'television'},
+  {category: 'Internet y Cable', icon: 'internet_cable'},
   {category: 'Municipalidades', icon: 'municipalidad'},
+  {category: 'Mantenimiento', icon: 'municipalidad'},
+  {category: 'Educación', icon: 'municipalidad'},
 ];
 
 @Injectable()

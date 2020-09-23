@@ -3,6 +3,7 @@ import {PublicServicesApiService} from '../../../../../core/services/public-serv
 import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
 import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
 import {PublicService} from '../../../../../shared/models/public-service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-all-services',
@@ -18,9 +19,10 @@ export class AllServicesComponent implements OnInit {
   enterprises: PublicServiceEnterprise[] = [];
   publicServices: PublicService[] = [];
   categorySelected: PublicServiceCategory;
-  enterpriseId: number;
+  enterpriseSelected: PublicServiceEnterprise;
 
-  constructor(private publicServicesApiService: PublicServicesApiService) {
+  constructor(private publicServicesApiService: PublicServicesApiService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -39,9 +41,19 @@ export class AllServicesComponent implements OnInit {
       .subscribe(enterprises => this.enterprises = enterprises);
   }
 
-  getPublicService(enterpriseId: number) {
-    this.enterpriseId = enterpriseId;
-    this.publicServicesApiService.getPublicServiceByEnterprise(enterpriseId)
+  getPublicService(enterprise: PublicServiceEnterprise) {
+    this.enterpriseSelected = enterprise;
+    this.publicServicesApiService.getPublicServiceByEnterprise(enterprise.publicServiceEnterpriseId)
       .subscribe(publicServices => this.publicServices = publicServices);
+  }
+
+  newPublicService(publicService: PublicService) {
+    this.router.navigate([
+      publicService.publicServiceCategory === 'Recargas' ? '/home/public-services/recharge/category' : '/home/public-services/category',
+      this.categorySelected.publicServiceCategoryId,
+      'enterprise',
+      this.enterpriseSelected.publicServiceEnterpriseId,
+      'service',
+      publicService.publicServiceId]);
   }
 }
