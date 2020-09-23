@@ -2,11 +2,11 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChi
 import {FormControl} from '@angular/forms';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {PersonalCreditService} from '../personal-credit.service';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {PersonalCreditSummary} from '../../../../../shared/models/personal-credit-summary';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {finalize} from 'rxjs/operators';
 import {Quota} from '../../../../../shared/models/quota';
+import {CustomerApiService} from '../../../../../core/services/customer-api.service';
 
 const MIN_AMOUNT = 100000;
 const CENTER_AMOUNT = 300000;
@@ -41,7 +41,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
 
   constructor(private modalService: ModalService,
               private personalCreditService: PersonalCreditService,
-              private globalRequestsService: GlobalRequestsService) {
+              private customerApiServices: CustomerApiService) {
   }
 
   ngOnInit(): void {
@@ -74,7 +74,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   }
 
   getQuotas() {
-    this.globalRequestsService.getQuotas(1)
+    this.customerApiServices.getQuotas(1)
       .pipe(finalize(() => this.getPersonalCreditsSummaries()))
       .subscribe(response => {
         this.quotas = response.sort((a, b) => a.quota - b.quota);

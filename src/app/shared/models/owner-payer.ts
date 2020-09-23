@@ -3,10 +3,10 @@ export interface OwnerPayer {
   districtDescription: string;
   districtCode: number;
   cantonDescription: string;
-  provinceDescription: string,
+  provinceDescription: string;
   payerName: string;
   provinceCode: number;
-  payerPhone: number,
+  payerPhone: number;
   email: string;
   payerIdType: number;
   payerId: number;

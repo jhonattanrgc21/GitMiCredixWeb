@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AutomaticsService} from '../automatics/automatics.service';
-import {PublicServiceCategoryModel} from '../../../../../shared/models/public-service-category.model';
-import {PublicServiceEnterpriseModel} from '../../../../../shared/models/public-service-enterprise.model';
+import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
+import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
 import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {DatePipe} from '@angular/common';
-import {PublicServiceModel} from '../../../../../shared/models/public-service.model';
+import {PublicService} from '../../../../../shared/models/public-service';
 import {Router} from '@angular/router';
 import {FavoritesManagementService} from '../favorites-management.service';
 
@@ -18,9 +18,9 @@ import {FavoritesManagementService} from '../favorites-management.service';
 export class AddAutomaticsComponent implements OnInit {
 
   periodicityList: { description: string; id: number; }[] = [];
-  publicServicesCategory: PublicServiceCategoryModel[];
-  publicCompany: PublicServiceEnterpriseModel[];
-  publicServices: PublicServiceModel[];
+  publicServicesCategory: PublicServiceCategory[];
+  publicCompany: PublicServiceEnterprise[];
+  publicServices: PublicService[];
   result: { status: string; message: string; title: string; };
   // tslint:disable-next-line:max-line-length
   data: { publicServiceCategoryId: number; publicServiceEnterpriseId: number; publicServiceId: number; favoriteName: string; phoneNumber: number };
@@ -91,9 +91,6 @@ export class AddAutomaticsComponent implements OnInit {
 
   getFromFavorites() {
     if (this.favoritesManagementService.redirect) {
-
-
-      console.log(this.favoritesManagementService.valuesFromFavorites);
       this.data = {
         publicServiceCategoryId: this.favoritesManagementService.valuesFromFavorites.publicServiceCategoryId,
         publicServiceEnterpriseId: this.favoritesManagementService.valuesFromFavorites.publicServiceEnterpriseId,

@@ -32,6 +32,9 @@ import {CredixDividerModule} from '../../../../shared/directives/credix-divider/
 import {ModalService} from '../../../../core/services/modal.service';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {AccountApiService} from '../../../../core/services/account-api.service';
+import {GlobalApiService} from '../../../../core/services/global-api.service';
+import {CustomerApiService} from '../../../../core/services/customer-api.service';
 
 const routes: Routes = [
   {
@@ -78,7 +81,11 @@ const routes: Routes = [
   ],
   providers: [
     SendMoneyService,
-    ModalService]
+    ModalService,
+    AccountApiService,
+    GlobalApiService,
+    CustomerApiService
+  ]
 })
 export class SendMoneyModule {
 }

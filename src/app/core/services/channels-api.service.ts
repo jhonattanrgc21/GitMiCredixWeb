@@ -20,6 +20,7 @@ export class ChannelsApiService {
   @Cacheable({
     maxCacheCount: 3
   })
+
   getAccountSummary(cardId: number) {
     return this.httpService.post('canales', this.accountSummaryUri, {
       cardId,

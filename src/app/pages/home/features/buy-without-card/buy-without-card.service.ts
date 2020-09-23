@@ -1,61 +1,29 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
 import {HttpService} from '../../../../core/services/http.service';
 import {StorageService} from '../../../../core/services/storage.service';
-import {map} from 'rxjs/operators';
 
 @Injectable()
 export class BuyWithoutCardService {
-  private readonly getCardListByIdentificationUri = 'account/cardlistbyidentification';
   private readonly generatePinUri = 'touchandpay/generatepin';
+  private readonly validateSeedUri = 'security/validateseed';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
   }
 
-  // tslint:disable-next-line:variable-name
-  private _dataGeneratePin = new Subject<{
-    applicantIdentification: string,
-    lifeTimePin: number,
-    message: string,
-    pin: string,
-    printName: string
-  }>();
-
-  get dataGeneratePin(): Observable<{
-    applicantIdentification: string,
-    lifeTimePin: number,
-    message: string,
-    pin: string,
-    printName: string
-  }> {
-    return this._dataGeneratePin.asObservable();
-  }
-
-  emitDataGeneratePin(applicantIdentification: string, lifeTimePin: number, message: string, pin: string, printName: string) {
-    this._dataGeneratePin.next({applicantIdentification, lifeTimePin, message, pin, printName});
-  }
-
-  generatePin(code: string) {
-    return this.httpService.post('canales', this.generatePinUri,
+  checkCredixCode(credixCode: string) {
+    return this.httpService.post('canales', this.validateSeedUri,
       {
-        cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId,
-        userIdCreate: this.storageService.getCurrentUser().userId,
-        codeCredix: code
+        identification: this.storageService.getIdentification(),
+        otp: +credixCode
       });
   }
 
-  getCardListByIdentification(identification: string) {
-    return this.httpService.post('canales', this.getCardListByIdentificationUri, {identification})
-      .pipe(
-        map(response => {
-          if (response.type === 'success') {
-            return response.cardNumberList;
-          } else {
-            return [];
-          }
-        })
-      );
+  generatePin(cardId: number) {
+    return this.httpService.post('canales', this.generatePinUri,
+      {
+        cardId,
+        userIdCreate: this.storageService.getCurrentUser().userId
+      });
   }
-
 }

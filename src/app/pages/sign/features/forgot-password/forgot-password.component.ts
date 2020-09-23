@@ -4,7 +4,7 @@ import {finalize} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {HttpService} from 'src/app/core/services/http.service';
-import {IdentificationType} from '../../../../shared/models/IdentificationType';
+import {IdentificationType} from '../../../../shared/models/identification-type';
 import {getIdentificationMaskByType} from '../../../../shared/utils';
 import {GlobalApiService} from '../../../../core/services/global-api.service';
 

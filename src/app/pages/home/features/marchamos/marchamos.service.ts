@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {ConsultVehicle} from '../../../../shared/models/consultVehicle.models';
-import {BillingHistory} from '../../../../shared/models/billingHistory.models';
-import {OwnerPayer} from '../../../../shared/models/ownerPayer.model';
+import {ConsultVehicle} from '../../../../shared/models/consult-vehicle';
+import {BillingHistory} from '../../../../shared/models/billing-history';
+import {OwnerPayer} from '../../../../shared/models/owner-payer';
 
 
 @Injectable()

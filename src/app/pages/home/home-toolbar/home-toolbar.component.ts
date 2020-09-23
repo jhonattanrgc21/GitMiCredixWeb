@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {HomeService} from '../../home.service';
-import {GoHomeService} from '../../../../core/services/go-home.service';
+import {HomeService} from '../home.service';
+import {GoHomeService} from '../../../core/services/go-home.service';
 
 @Component({
   // tslint:disable-next-line:component-selector

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {StorageService} from '../../../../../core/services/storage.service';
-import {Card} from '../../../../../shared/models/card.model';
+import {Card} from '../../../../../shared/models/card';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {AccountSummary} from '../../../../../shared/models/account-summary';

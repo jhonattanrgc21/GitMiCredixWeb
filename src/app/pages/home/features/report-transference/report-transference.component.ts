@@ -2,13 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Currency} from '../../../../shared/models/currency';
 import {ReportTransferenceService} from './report-transference.service';
-import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import {GlobalApiService} from '../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-report-transference',
@@ -35,7 +35,7 @@ export class ReportTransferenceComponent implements OnInit {
   link: string;
 
   constructor(private reportTransferenceService: ReportTransferenceService,
-              private globalRequestsService: GlobalRequestsService,
+              private globalApiService: GlobalApiService,
               private modalService: ModalService,
               private toastService: CredixToastService,
               private router: Router,
@@ -44,7 +44,7 @@ export class ReportTransferenceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.globalRequestsService.getCurrencies().subscribe(currencies => this.currencies = currencies);
+    this.globalApiService.getCurrencies().subscribe(currencies => this.currencies = currencies);
     this.os = this.deviceService.getDeviceInfo().os;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Reportar transferencia').tags)

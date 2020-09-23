@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../core/services/storage.service';
-import {GlobalRequestsService} from '../../core/services/global-requests.service';
 import {globalCacheBusterNotifier} from 'ngx-cacheable';
 
 @Component({
@@ -10,13 +9,12 @@ import {globalCacheBusterNotifier} from 'ngx-cacheable';
 })
 export class SignComponent implements OnInit {
 
-  constructor(private storageService: StorageService,
-              private globalRequestsService: GlobalRequestsService) {
-    this.globalRequestsService.clearCache();
+  constructor(private storageService: StorageService) {
   }
 
   ngOnInit(): void {
     this.storageService.removeCurrentSession();
     globalCacheBusterNotifier.next();
   }
+
 }

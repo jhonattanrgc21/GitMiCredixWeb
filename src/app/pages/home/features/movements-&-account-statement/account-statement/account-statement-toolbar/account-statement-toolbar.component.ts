@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../../../../../core/services/storage.service';
-import {Card} from '../../../../../../shared/models/card.model';
+import {Card} from '../../../../../../shared/models/card';
 import {MaskCard} from '../../../../../../shared/utils/MaskCard';
-import {GlobalRequestsService} from '../../../../../../core/services/global-requests.service';
 import {FormControl} from '@angular/forms';
 import {AccountStatementService} from '../account-statement.service';
 import {finalize} from 'rxjs/operators';
 import {ScrollService} from '../../../../../../core/services/scroll.service';
 import {CredixToastService} from '../../../../../../core/services/credix-toast.service';
+import {GlobalApiService} from '../../../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-account-statement-toolbar',
@@ -35,7 +35,7 @@ export class AccountStatementToolbarComponent implements OnInit {
               private storageService: StorageService,
               private scrollService: ScrollService,
               private toastService: CredixToastService,
-              private globalRequestsService: GlobalRequestsService) {
+              private globalApiResource: GlobalApiService) {
     this.principalCard = storageService.getCurrentCards().find(card => card.category === 'Principal');
     this.cardNumberMasked = MaskCard(this.principalCard.cardNumber);
   }
@@ -57,7 +57,7 @@ export class AccountStatementToolbarComponent implements OnInit {
   }
 
   getCurrencies() {
-    this.globalRequestsService.getCurrencies()
+    this.globalApiResource.getCurrencies()
       .pipe(finalize(() => this.getAccountStatement()))
       .subscribe(currencies => {
         currencies.sort(((a, b) => a.id - b.id));

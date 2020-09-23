@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DeliveryPlace} from '../../../../../../shared/models/deliveryPlace.model';
-import {GlobalRequestsService} from '../../../../../../core/services/global-requests.service';
+import {DeliveryPlace} from '../../../../../../shared/models/delivery-place';
 import {FormControl, Validators} from '@angular/forms';
 import {Address} from '../../../../../../shared/models/address';
 import {ModalService} from '../../../../../../core/services/modal.service';
@@ -9,6 +8,8 @@ import {StorageService} from '../../../../../../core/services/storage.service';
 import {AdditionalCardsManagementService} from '../../additional-cards-management.service';
 import {TagsService} from '../../../../../../core/services/tags.service';
 import {Tag} from '../../../../../../shared/models/tag';
+import {GlobalApiService} from '../../../../../../core/services/global-api.service';
+import {ChannelsApiService} from '../../../../../../core/services/channels-api.service';
 
 @Component({
   selector: 'app-new-additional-card-second-step',
@@ -32,7 +33,8 @@ export class NewAdditionalCardSecondStepComponent implements OnInit {
   linkTag: string;
   subtitleTag: string;
 
-  constructor(private globalRequestsService: GlobalRequestsService,
+  constructor(private globalApiService: GlobalApiService,
+              private channelsApiService: ChannelsApiService,
               private additionalCardsManagementService: AdditionalCardsManagementService,
               private storageService: StorageService,
               private tagsService: TagsService,
@@ -47,11 +49,11 @@ export class NewAdditionalCardSecondStepComponent implements OnInit {
   }
 
   getDeliveryPlaces() {
-    this.globalRequestsService.getDeliveryPlaces().subscribe(deliveryPlaces => this.deliveryPlaces = deliveryPlaces);
+    this.globalApiService.getDeliveryPlaces().subscribe(deliveryPlaces => this.deliveryPlaces = deliveryPlaces);
   }
 
   getUserAddress() {
-    this.globalRequestsService.getThAddresses()
+    this.channelsApiService.getThAddresses()
       .subscribe(thAddresses => {
         const address = thAddresses.addresses.find(tad => tad.tadId === 2);
         this.userPhoneNumber = thAddresses.phone;

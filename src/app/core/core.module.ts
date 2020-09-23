@@ -8,7 +8,6 @@ import {AuthorizationGuard} from './guards/authorization.guard';
 import {HttpService} from './services/http.service';
 import {SecurityService} from './services/security.service';
 import {StorageService} from './services/storage.service';
-import {GlobalRequestsService} from './services/global-requests.service';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {GoHomeService} from './services/go-home.service';
 import {TagsService} from './services/tags.service';
@@ -39,7 +38,6 @@ const maskConfig: Partial<IConfig> = {
     CredixToastService,
     HttpService,
     SecurityService,
-    GlobalRequestsService,
     GlobalApiService,
     ChannelsApiService,
     ApplicantApiService,

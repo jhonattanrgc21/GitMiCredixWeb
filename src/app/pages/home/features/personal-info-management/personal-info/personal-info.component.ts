@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {PersonalInfoManagementService} from '../personal-info-management.service';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
+import {ApplicantApiService} from '../../../../../core/services/applicant-api.service';
 
 @Component({
   selector: 'app-personal-info',
@@ -23,7 +23,7 @@ export class PersonalInfoComponent implements OnInit {
   os: string;
 
   constructor(private personalInfoManagementService: PersonalInfoManagementService,
-              private globalRequestsService: GlobalRequestsService,
+              private applicantApiService: ApplicantApiService,
               private storageService: StorageService,
               private toastService: CredixToastService,
               private router: Router,
@@ -42,7 +42,7 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   getApplicantProfilePhoto() {
-    this.globalRequestsService.getApplicantProfilePhoto().subscribe(profilePhoto => {
+    this.applicantApiService.getApplicantProfilePhoto().subscribe(profilePhoto => {
       this.profilePhoto = profilePhoto ? `data:image/png;base64,${profilePhoto}` : 'assets/images/avatar.png';
     });
   }
@@ -59,13 +59,12 @@ export class PersonalInfoComponent implements OnInit {
     this.personalInfoManagementService.saveApplicantProfilePhoto(image, format, size).subscribe(response => {
       if (response.type === 'success') {
         this.getApplicantProfilePhoto();
-        this.globalRequestsService.clearUserApplicantProfileImage();
       }
     });
   }
 
   getApplicantInfo() {
-    this.globalRequestsService.getUserApplicantInfo(this.storageService.getCurrentUser().accountNumber)
+    this.applicantApiService.getUserApplicantInfo(this.storageService.getCurrentUser().accountNumber)
       .subscribe(applicantInfo => {
         if (applicantInfo) {
           this.email = applicantInfo.applicant.email;

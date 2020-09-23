@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {GlobalRequestsService} from '../../../../../core/services/global-requests.service';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Occupation} from '../../../../../shared/models/occupation';
@@ -14,6 +13,8 @@ import {PersonalInfoManagementService} from '../personal-info-management.service
 import {finalize} from 'rxjs/operators';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {ModalService} from '../../../../../core/services/modal.service';
+import {ApplicantApiService} from '../../../../../core/services/applicant-api.service';
+import {GlobalApiService} from '../../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-personal-info-editor',
@@ -50,7 +51,8 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
   done = false;
 
   constructor(private personalInfoManagementService: PersonalInfoManagementService,
-              private globalRequestsService: GlobalRequestsService,
+              private applicantApiService: ApplicantApiService,
+              private globalApiService: GlobalApiService,
               private toastService: CredixToastService,
               private storageService: StorageService,
               private modalService: ModalService,
@@ -81,7 +83,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
       this.personalInfoFormGroup.controls.district.setValue(this.personalInfoManagementService.applicantInfo.district);
       this.personalInfoFormGroup.controls.addressDetail.setValue(this.personalInfoManagementService.applicantInfo.addressDetail);
     } else {
-      this.globalRequestsService.getUserApplicantInfo(this.storageService.getCurrentUser().accountNumber)
+      this.applicantApiService.getUserApplicantInfo(this.storageService.getCurrentUser().accountNumber)
         .pipe(finalize(() => this.initFormGroup()))
         .subscribe(applicantInfo => {
           if (applicantInfo) {
@@ -107,10 +109,10 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
 
   getFormData() {
     forkJoin([
-      this.globalRequestsService.getCountries(),
-      this.globalRequestsService.getProvinces(),
-      this.globalRequestsService.getIncomeTypes(),
-      this.globalRequestsService.getOccupations()
+      this.globalApiService.getCountries(),
+      this.globalApiService.getProvinces(),
+      this.globalApiService.getIncomeTypes(),
+      this.globalApiService.getOccupations()
     ])
       .pipe(finalize(() => this.initFormGroup()))
       .subscribe(values => {
@@ -122,11 +124,11 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
   }
 
   getCanton(provinceId: number) {
-    this.globalRequestsService.getCantons(provinceId).subscribe(cantons => this.cantons = cantons);
+    this.globalApiService.getCantons(provinceId).subscribe(cantons => this.cantons = cantons);
   }
 
   getDistrict(cantonId: number) {
-    this.globalRequestsService.getDistricts(cantonId).subscribe(districts => this.districts = districts);
+    this.globalApiService.getDistricts(cantonId).subscribe(districts => this.districts = districts);
   }
 
   edit() {

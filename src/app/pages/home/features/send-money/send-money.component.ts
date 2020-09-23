@@ -6,11 +6,11 @@ import {ModalService} from '../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
-import {GlobalRequestsService} from '../../../../core/services/global-requests.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {finalize} from 'rxjs/operators';
+import {AccountApiService} from '../../../../core/services/account-api.service';
 
 @Component({
   selector: 'app-send-money',
@@ -53,7 +53,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
               private router: Router,
               private datePipe: DatePipe,
               public toastService: CredixToastService,
-              public globalService: GlobalRequestsService,
+              private accountApiService: AccountApiService,
               private tagsService: TagsService) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
@@ -122,7 +122,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   }
 
   getIbanAccount() {
-    this.globalService.getIbanAccounts().subscribe((ibanAccounts) => {
+    this.accountApiService.getIbanAccounts().subscribe((ibanAccounts) => {
       if (ibanAccounts.length > 0) {
         this.ibanOrigin = ibanAccounts[0].ibanAccountNumber;
       }

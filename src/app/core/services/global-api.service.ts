@@ -10,8 +10,8 @@ import {Canton} from '../../shared/models/canton';
 import {District} from '../../shared/models/district';
 import {Occupation} from '../../shared/models/occupation';
 import {IncomeType} from '../../shared/models/income-type';
-import {DeliveryPlace} from '../../shared/models/deliveryPlace.model';
-import {IdentificationType} from '../../shared/models/IdentificationType';
+import {DeliveryPlace} from '../../shared/models/delivery-place';
+import {IdentificationType} from '../../shared/models/identification-type';
 
 @Injectable()
 export class GlobalApiService {

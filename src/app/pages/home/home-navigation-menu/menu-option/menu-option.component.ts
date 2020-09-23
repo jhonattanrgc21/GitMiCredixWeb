@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HomeNavigationMenuService} from '../home-navigation-menu.service';
-import {HomeService} from '../../../home.service';
-import {GoHomeService} from '../../../../../core/services/go-home.service';
-import {ModalService} from '../../../../../core/services/modal.service';
-import {TagsService} from '../../../../../core/services/tags.service';
-import {Tag} from '../../../../../shared/models/tag';
+import {HomeService} from '../../home.service';
+import {GoHomeService} from '../../../../core/services/go-home.service';
+import {ModalService} from '../../../../core/services/modal.service';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-menu-option',

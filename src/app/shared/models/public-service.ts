@@ -1,4 +1,4 @@
-export interface PublicServiceModel {
+export interface PublicService {
   publicServiceProvider: string;
   publicServiceProviderPrefix: string;
   publicServiceCode: number;
