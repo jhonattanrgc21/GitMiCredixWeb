@@ -4,32 +4,74 @@
 
   <credix-stepper #newServiceStepper>
 
-    <cdk-step [label]="'Consultar'" [stepControl]="consultFormGroup">
-      <app-new-service-first-step [consultFormGroup]="consultFormGroup"
+    <cdk-step [label]="'Consultar'" [stepControl]="contractControl">
+      <app-new-service-first-step [contractControl]="contractControl"
+                                  [hasReceipts]="hasReceipts"
                                   [referenceLabel]="referenceName"></app-new-service-first-step>
     </cdk-step>
 
-    <cdk-step [label]="'Confirmación'" [stepControl]="confirmFormGroup">
-      <app-new-service-second-step></app-new-service-second-step>
+    <cdk-step [label]="'Confirmación'" [stepControl]="credixCodeControl">
+      <app-new-service-second-step (saveFavoriteEvent)="saveAsFavorite = $event"
+                                   [amount]="pendingReceipts?.receipts[0].totalAmount"
+                                   [credixCodeControl]="credixCodeControl"
+                                   [expirationDate]="expirationDate"
+                                   [favoriteControl]="favoriteControl"
+                                   [month]="month"
+                                   [name]="pendingReceipts?.clientName"
+                                   [receipts]="pendingReceipts?.numberPendingReceipts"
+                                   [referenceName]="referenceName"
+                                   [reference]="contractControl.value"></app-new-service-second-step>
     </cdk-step>
 
   </credix-stepper>
 
   <div class="new-service__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-    <credix-button (buttonClick)="stepperIndex === 0 ? continue() : openModal()"
-                   [disabled]="stepperIndex === 0 ? consultFormGroup.invalid : confirmFormGroup.invalid"
+    <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
+                   [disabled]="stepperIndex === 0 ? contractControl.invalid :
+                    saveAsFavorite ? credixCodeControl.invalid && favoriteControl.invalid : credixCodeControl.invalid"
                    [text]="stepperIndex === 0 ? 'Continuar' : 'Pagar'"></credix-button>
   </div>
-
-
 </mat-card>
 
 <ng-template #doneNewServiceTemplate>
   <app-credix-result-view [resultMessage]="message"
-                          [resultTile]="title"
+                          [resultTile]="status === 'success' ? '¡Éxito!' : 'Opps'"
                           [status]="status"
-                          [title]="''"
-                          buttonText="Listo"
-                          routeTo="/home"></app-credix-result-view>
+                          [title]="title"
+                          buttonText="Realizar otro pago"
+                          routeTo="/home/public-services">
+
+    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+      <mat-divider class="mb-24px" credixDivider></mat-divider>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="120px"><strong>Dates del pago</strong></p>
+
+        <div fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Monto</span>
+            <div>
+              <credix-numeric-block [prefix]="'₡'" [value]="amount"
+                                    class="tr" fontWeight="bold"></credix-numeric-block>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Contrato</span>
+            <span class="tr"><strong>{{contractControl.value}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Fecha</span>
+            <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
+          </div>
+        </div>
+
+      </div>
+
+      <credix-link-button class="mt-16px" fxFlexAlign="center">Ampliar plazo</credix-link-button>
+      <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
+    </div>
+  </app-credix-result-view>
 </ng-template>

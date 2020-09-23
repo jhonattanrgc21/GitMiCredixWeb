@@ -23,6 +23,16 @@ import {NewServiceFirstStepComponent} from './new-service/new-service-first-step
 import {NewServiceSecondStepComponent} from './new-service/new-service-second-step/new-service-second-step.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
+import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {MatDividerModule} from '@angular/material/divider';
+import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
+import {CredixCheckboxButtonModule} from '../../../../shared/components/credix-checkbox-button/credix-checkbox-button.module';
+import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
+import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
+import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
+import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 
 const routes: Routes = [
   {
@@ -79,6 +89,16 @@ const routes: Routes = [
     CredixResultViewModule,
     ReactiveFormsModule,
     CredixInputFieldModule,
+    CredixDividerModule,
+    MatDividerModule,
+    CredixNumericBlockModule,
+    CredixCodeLinkModule,
+    CredixCodeInputModule,
+    CredixCheckboxButtonModule,
+    DateFormatterModule,
+    CredixLinkButtonModule,
+    CredixShareButtonModule,
+    CredixResultNotificationModule,
   ],
   providers: [
     PublicServicesService

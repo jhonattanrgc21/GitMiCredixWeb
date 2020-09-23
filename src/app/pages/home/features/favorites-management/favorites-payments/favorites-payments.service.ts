@@ -53,9 +53,6 @@ export class FavoritesPaymentsService {
     );
   }
 
-
-  // @ts-ignore
-  // tslint:disable-next-line:max-line-length
   setPublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, credixCode: number) {
     return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
       accountId: this.storageService.getCurrentUser().actId,

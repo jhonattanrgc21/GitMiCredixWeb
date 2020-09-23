@@ -11,6 +11,10 @@
     }
   }
 
+  ::ng-deep .credix-result-notification__title {
+    width: 320px;
+  }
+
 }
 
 @media screen and (max-width: 1199px) {
