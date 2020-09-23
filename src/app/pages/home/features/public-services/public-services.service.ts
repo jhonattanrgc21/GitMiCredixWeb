@@ -11,7 +11,7 @@ export class PublicServicesService {
   }
 
   getReferenceName(publicServiceCategoryId: number): Observable<string> {
-    return this.httpService.post('canales', this.getReferenceNameUri, {publicServiceCategoryId})
+    return this.httpService.post('incomex', this.getReferenceNameUri, {publicServiceCategoryId})
       .pipe(
         map((response) => {
             if (response.type === 'success') {
