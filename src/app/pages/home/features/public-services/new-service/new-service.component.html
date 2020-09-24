@@ -12,6 +12,7 @@
 
     <cdk-step [label]="'Confirmación'" [stepControl]="credixCodeControl">
       <app-new-service-second-step (saveFavoriteEvent)="saveAsFavorite = $event"
+                                   [currencySymbol]="currencySymbol"
                                    [amount]="pendingReceipts?.receipts[0].totalAmount"
                                    [credixCodeControl]="credixCodeControl"
                                    [expirationDate]="expirationDate"
@@ -52,7 +53,7 @@
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>Monto</span>
             <div>
-              <credix-numeric-block [prefix]="'₡'" [value]="pendingReceipts?.receipts[0].totalAmount"
+              <credix-numeric-block [prefix]="currencySymbol" [value]="pendingReceipts?.receipts[0].totalAmount"
                                     class="tr" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>

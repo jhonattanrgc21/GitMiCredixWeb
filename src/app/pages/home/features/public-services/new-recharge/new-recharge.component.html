@@ -29,8 +29,8 @@
                              *ngFor="let amount of amounts, let last = last"
                              [label]="last ? 'Otro': null"
                              [ngClass]="{'mb-16px' : !last}"
-                             [value]="amount">
-          <credix-numeric-block *ngIf="!last" [value]="amount" prefix="₡"></credix-numeric-block>
+                             [value]="amount.amount">
+          <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>
         </credix-radio-button>
 
         <credix-input-field *ngIf="anotherAmount" class="new-recharge__content__input favorite mb-8px"
@@ -54,7 +54,7 @@
 
   <div class="new-recharge__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-    <credix-button (buttonClick)="openModal()" [disabled]="null" text="reecargar"></credix-button>
+    <credix-button (buttonClick)="checkPendingReceipts()" [disabled]="null" text="reecargar"></credix-button>
   </div>
 </form>
 

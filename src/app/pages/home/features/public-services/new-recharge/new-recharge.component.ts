@@ -20,12 +20,12 @@ export class NewRechargeComponent implements OnInit {
     credixCode: new FormControl(null, [Validators.required]),
   });
   favoriteControl = new FormControl(null);
-  amounts = [
-    '1.000,00',
-    '2.000,00',
-    '5.000,00',
-    '10.000,00',
-    'Otro',
+  amounts: { amount: string, id: number }[] = [
+    {id: 1, amount: '1.000,00'},
+    {id: 1, amount: '2.000,00'},
+    {id: 1, amount: '5.000,00'},
+    {id: 1, amount: '10.000,00'},
+    {id: 1, amount: 'Otro'},
   ];
   anotherAmount = false;
   saveAsFavorite = false;
@@ -33,7 +33,6 @@ export class NewRechargeComponent implements OnInit {
   hasReceipts = true;
   pendingReceipts: PendingReceipts;
   publicServiceId: number;
-  referenceName: string;
   name: string;
   month: string;
   expirationDate: Date;
@@ -53,14 +52,18 @@ export class NewRechargeComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.publicServiceId = +params.serviceId;
       this.getEnterprise(+params.categoryId, +params.enterpriseId);
-      this.publicServicesService.getReferenceName(+params.categoryId).subscribe(referenceName => this.referenceName = referenceName);
     });
+    // this.getMinAmounts();
   }
 
   getEnterprise(categoryId: number, enterpriseId: number) {
     this.publicServicesApiService.getPublicServiceEnterpriseByCategory(categoryId).subscribe(publicServiceEnterprises =>
       this.title = publicServiceEnterprises
         .find(enterprise => enterprise.publicServiceEnterpriseId === enterpriseId).publicServiceEnterpriseDescription);
+  }
+
+  getMinAmounts() {
+    this.publicServicesService.getMinAmounts().subscribe(amounts => this.amounts = [...amounts, {id: 10, amount: 'Otro'}]);
   }
 
   onCheckboxChanged(checked: boolean) {

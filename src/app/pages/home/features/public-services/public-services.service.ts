@@ -11,6 +11,7 @@ export class PublicServicesService {
   private readonly getReferenceNameUri = 'publicservicebncr/namereferencebypublicservicecategory';
   private readonly getPendingReceiptsUri = 'publicservicebncr/pendingreceipts';
   private readonly payPublicServiceUri = 'publicservicebncr/servicepayment';
+  private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -66,4 +67,15 @@ export class PublicServicesService {
       codeCredix: credixCode
     });
   }
+
+  getMinAmounts() {
+    return this.httpService.post('incomex', this.getMinAmountsUri).pipe(map(response => {
+      if (response.type === 'success') {
+        return response.rechargeAmountList;
+      } else {
+        return [];
+      }
+    }));
+  }
+
 }

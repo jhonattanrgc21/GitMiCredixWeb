@@ -18,6 +18,7 @@ export class NewServiceComponent implements OnInit {
   contractControl = new FormControl(null, [Validators.required]);
   credixCodeControl = new FormControl(null, [Validators.required]);
   favoriteControl = new FormControl(null, [Validators.required]);
+  currencySymbol = '₡';
   saveAsFavorite = false;
   stepperIndex = 0;
   done = false;
@@ -102,6 +103,7 @@ export class NewServiceComponent implements OnInit {
         this.pendingReceipts = pendingReceipts;
         this.month = getMontByMonthNumber(ConvertStringDateToDate(pendingReceipts.receipts[0].receiptPeriod).getMonth());
         this.expirationDate = ConvertStringDateToDate(pendingReceipts.receipts[0].expirationDate);
+        this.currencySymbol = pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
         this.continue();
       } else {
         this.hasReceipts = false;
