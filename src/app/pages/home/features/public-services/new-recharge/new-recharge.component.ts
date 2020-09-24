@@ -16,7 +16,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 export class NewRechargeComponent implements OnInit {
   rechargeFormGroup: FormGroup = new FormGroup({
     phoneNumber: new FormControl(null, [Validators.required]),
-    amount: new FormControl(null, [Validators.required]),
+    amount: new FormControl(null, [Validators.required, Validators.min(1000)]),
     credixCode: new FormControl(null, [Validators.required]),
   });
   favoriteControl = new FormControl(null);
