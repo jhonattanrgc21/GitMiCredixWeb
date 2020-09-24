@@ -30,7 +30,7 @@ export class GlobalApiService {
 
   @Cacheable()
   getIdentificationTypes(): Observable<IdentificationType[]> {
-    return this.httpService.post('canales', 'global/identification-types')
+    return this.httpService.post('canales', this.identificationTypesUri)
       .pipe(
         map((response) => {
           if (response.type === 'success') {

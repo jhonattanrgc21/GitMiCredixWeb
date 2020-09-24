@@ -7,6 +7,7 @@ import {HttpService} from 'src/app/core/services/http.service';
 import {IdentificationType} from '../../../../shared/models/identification-type';
 import {getIdentificationMaskByType} from '../../../../shared/utils';
 import {GlobalApiService} from '../../../../core/services/global-api.service';
+import {CredixToastService} from '../../../../core/services/credix-toast.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -15,13 +16,10 @@ import {GlobalApiService} from '../../../../core/services/global-api.service';
 })
 export class ForgotPasswordComponent implements OnInit {
   @ViewChild('forgotPasswordTemplate') forgotPasswordTemplate: TemplateRef<any>;
-  message = '';
-  showErrorMessage = false;
   identificationTypes: IdentificationType[];
   hide = true;
   type = 'password';
   identificationMask = '0-0000-0000';
-  submitted = false;
   forgotPassForm: FormGroup = new FormGroup(
     {
       identType: new FormControl(null, [Validators.required]),
@@ -36,7 +34,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private httpService: HttpService,
-    private globalApiService: GlobalApiService) {
+    private globalApiService: GlobalApiService,
+    private toastService: CredixToastService) {
   }
 
   get f() {
@@ -50,9 +49,8 @@ export class ForgotPasswordComponent implements OnInit {
   getIdentificationTypes() {
     this.globalApiService.getIdentificationTypes()
       .pipe(finalize(() => this.identificationTypeChanged()))
-      .subscribe(
-        (identificationTypes) => this.identificationTypes = identificationTypes.filter((idt) => idt.id > 0)
-      );
+      .subscribe(identificationTypes =>
+        this.identificationTypes = identificationTypes.filter((idt) => idt.id > 0));
   }
 
   submit() {
@@ -62,28 +60,14 @@ export class ForgotPasswordComponent implements OnInit {
           'canales',
           'security/user/forgetusernameandpasswordbyidentification',
           {
-            codeCredix: this.forgotPassForm.get('code').value,
-            typeIdentification: this.forgotPassForm.get('identType').value,
-            identification: this.forgotPassForm.get('identNumber').value,
-            channelId: 102,
-            password: CryptoJS.SHA256(
-              this.forgotPassForm.get('password').value
-            ).toString(),
-            passwordConfirmation: CryptoJS.SHA256(
-              this.forgotPassForm.get('confirmPassword').value
-            ).toString(),
-          }
-        )
-        .subscribe((res) => {
-          this.submitted = true;
-          if (res.type === 'success') {
-            this.message = res.message;
-            this.showErrorMessage = true;
-          } else {
-            this.message = res.message;
-            this.showErrorMessage = true;
-          }
-        });
+            codeCredix: this.forgotPassForm.controls.code.value,
+            typeIdentification: this.forgotPassForm.controls.identType.value,
+            identification: this.forgotPassForm.controls.identNumber.value,
+            password: CryptoJS.SHA256(this.forgotPassForm.get('password').value).toString(),
+            passwordConfirmation: CryptoJS.SHA256(this.forgotPassForm.get('confirmPassword').value).toString(),
+          }).subscribe(response => {
+        this.toastService.show({type: response.type, text: response.descriptionOne});
+      });
     }
   }
 
