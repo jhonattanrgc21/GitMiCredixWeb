@@ -1,0 +1,13 @@
+<div class="new-service-first-step" fxLayout="column" fxLayoutGap="80px">
+
+  <div class="new-service-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="150px"><strong>{{referenceLabel}}</strong></span>
+
+    <credix-input-field [label]="referenceLabel" class="new-service-first-step__content__input"
+                        [formControl]="contractControl"></credix-input-field>
+  </div>
+
+  <credix-result-notification *ngIf="!hasReceipts" status="info"
+                              title="No tiene ninguna factura pendiente"></credix-result-notification>
+
+</div>

@@ -1,0 +1,53 @@
+.new-recharge {
+  height: 662px;
+  position: relative;
+
+  &__container {
+    padding: 0 84px;
+  }
+
+  &__content {
+    width: 100%;
+
+    &__input {
+      height: 43px;
+
+      &.favorite {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .left-content {
+    width: 380px;
+  }
+
+  &__footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #E9E9E9;
+    padding: 16px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .new-recharge {
+    height: 886px;
+
+    .padding {
+      padding: 0 78px;
+    }
+
+    &__content__input.favorite {
+      margin-left: 0;
+    }
+
+    .left-content {
+      width: 266px;
+    }
+  }
+
+}
