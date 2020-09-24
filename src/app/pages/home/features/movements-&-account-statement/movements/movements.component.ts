@@ -3,6 +3,7 @@ import {MovementsService} from './movements.service';
 import {Movement} from '../../../../../shared/models/movement';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-movements',
@@ -20,13 +21,18 @@ export class MovementsComponent implements OnInit {
   columnFourTag: string;
 
   constructor(private movementsService: MovementsService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     this.movementsService.dataSourceObs.subscribe(movements => this.movementDataSource = movements);
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Movimientos').tags));
+  }
+
+  goToExtendTerm(movementId: number) {
+    this.router.navigate(['/home/extend-term', movementId]);
   }
 
   getTags(tags: Tag[]) {
