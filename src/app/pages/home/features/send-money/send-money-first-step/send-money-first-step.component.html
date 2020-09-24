@@ -15,8 +15,8 @@
 
     <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
       <div class="first-step__favorites" fxLayout="column">
-        <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="{{stepOpt3 || 'Favoritos'}}" name="accountType"
-                             [(checked)]="checked1" value="1"></credix-radio-button>
+        <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="{{stepOpt3 || 'Favoritos'}}"
+                             name="accountType" value="1"></credix-radio-button>
 
         <credix-select *ngIf="showFavoriteAccountsSelect" class="first-step__favorites__select ml-20px"
                        [formControl]="favoriteAccountControl" label="Cuentas favoritas">
@@ -42,8 +42,8 @@
       </div>
 
       <div>
-        <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="{{stepOpt4 || 'Otra cuenta'}}" name="accountType"
-                             value="2" [(checked)]="checked2"></credix-radio-button>
+        <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="{{stepOpt4 || 'Otra cuenta'}}"
+                             name="accountType" value="2"></credix-radio-button>
 
         <div *ngIf="info && showDetails" class="ml-20px mt-16px" fxLayout="column" fxLayoutGap="8px">
 
@@ -52,7 +52,7 @@
             <span><strong>{{info.aliasName}}</strong></span>
           </div>
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span>{{stepTag2 ||'Identificación'}}</span>
+            <span>{{stepTag2 || 'Identificación'}}</span>
             <span><strong>{{info.identification}}</strong></span>
           </div>
           <div fxLayout="row" fxLayoutAlign="space-between">
@@ -63,7 +63,8 @@
             <span>{{stepTag4 || 'IBAN'}}</span>
             <span><strong>{{info.ibanAccount}}</strong></span>
           </div>
-          <credix-link-button (click)="openModal(info)" class="first-step__edit-button">{{stepLink || 'Editar'}}</credix-link-button>
+          <credix-link-button (click)="openModal(info)"
+                              class="first-step__edit-button">{{stepLink || 'Editar'}}</credix-link-button>
         </div>
       </div>
     </div>

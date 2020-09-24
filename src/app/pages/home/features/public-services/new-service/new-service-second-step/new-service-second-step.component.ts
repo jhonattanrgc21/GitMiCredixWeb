@@ -11,6 +11,7 @@ export class NewServiceSecondStepComponent implements OnInit {
   @Input() favoriteControl = new FormControl(null);
   @Input() referenceName: string;
   @Input() reference: string;
+  @Input() currencySymbol: string;
   @Input() amount: string;
   @Input() name: string;
   @Input() month: string;

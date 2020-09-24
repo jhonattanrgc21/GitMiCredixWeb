@@ -33,6 +33,8 @@ import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
+import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
+import {DigitOnlyModule} from '../../../../shared/directives/digit-only/digit-only.module';
 
 const routes: Routes = [
   {
@@ -99,6 +101,8 @@ const routes: Routes = [
     CredixLinkButtonModule,
     CredixShareButtonModule,
     CredixResultNotificationModule,
+    CredixRadioButtonModule,
+    DigitOnlyModule,
   ],
   providers: [
     PublicServicesService

@@ -42,7 +42,7 @@
 
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto a pagar</strong></span>
-        <span><credix-numeric-block [value]="amount" fontWeight="bold" prefix="₡"></credix-numeric-block></span>
+        <span><credix-numeric-block [prefix]="currencySymbol" [value]="amount" fontWeight="bold"></credix-numeric-block></span>
       </div>
     </div>
 
