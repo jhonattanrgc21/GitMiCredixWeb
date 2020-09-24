@@ -80,14 +80,23 @@ export class ExtendTermComponent implements OnInit {
   }
 
   getAllowedMovements() {
-    this.extendTermService.getAllowedMovements().subscribe(allowedMovements => {
-      if (allowedMovements.length) {
-        this.empty = false;
-        this.allowedMovements = allowedMovements;
-      } else {
-        this.empty = true;
-      }
-    });
+    this.extendTermService.getAllowedMovements()
+      .pipe(finalize(() => this.checkMovementParam()))
+      .subscribe(allowedMovements => {
+        if (allowedMovements.length) {
+          this.empty = false;
+          this.allowedMovements = allowedMovements;
+        } else {
+          this.empty = true;
+        }
+      });
+  }
+
+  checkMovementParam() {
+    if (this.movementIdParam) {
+      this.getAllowedMovementDetail(this.allowedMovements
+        .find(allowedMovement => allowedMovement.movementId === this.movementIdParam));
+    }
   }
 
   calculateQuota(movementId: string) {
