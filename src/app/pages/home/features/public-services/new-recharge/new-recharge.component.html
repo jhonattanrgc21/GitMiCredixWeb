@@ -13,7 +13,7 @@
                             mask="0000-0000"></credix-input-field>
         <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
                                 label="Guardar como favorito"></credix-checkbox-button>
-        <credix-input-field *ngIf="saveAsFavorite" [formControl]="favoriteControl"
+        <credix-input-field *ngIf="saveAsFavorite" formControlName="favorite"
                             class="new-recharge__content__input favorite"
                             label="Nombre del favorito"></credix-input-field>
       </div>
@@ -54,7 +54,8 @@
 
   <div class="new-recharge__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-    <credix-button (buttonClick)="checkPendingReceipts()" [disabled]="null" text="reecargar"></credix-button>
+    <credix-button (buttonClick)="openModal()" [disabled]="rechargeFormGroup.invalid"
+                   text="Recargar"></credix-button>
   </div>
 </form>
 
@@ -66,35 +67,35 @@
                           buttonText="Realizar otro pago"
                           routeTo="/home/public-services">
 
-    <!--  <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
-        <mat-divider class="mb-24px" credixDivider></mat-divider>
+    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+      <mat-divider class="mb-24px" credixDivider></mat-divider>
 
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <p fxFlex="120px"><strong>Dates del pago</strong></p>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="145px"><strong>Datos de la recarga</strong></p>
 
-          <div fxLayout="column" fxLayoutGap="8px">
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <span fxFlex>Monto</span>
-              <div>
-                <credix-numeric-block [prefix]="'₡'" [value]="pendingReceipts?.receipts[0].totalAmount"
-                                      class="tr" fontWeight="bold"></credix-numeric-block>
-              </div>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <span fxFlex="60px">Contrato</span>
-              <span class="tr"><strong>{{contractControl.value}}</strong></span>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <span fxFlex="60px">Fecha</span>
-              <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
+        <div fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Monto</span>
+            <div>
+              <credix-numeric-block [prefix]="'₡'" [value]="rechargeFormGroup.controls.amount?.value"
+                                    fontWeight="bold"></credix-numeric-block>
             </div>
           </div>
 
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Celular</span>
+            <span class="tr"><strong>{{rechargeFormGroup.controls.phoneNumber?.value}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Fecha</span>
+            <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
+          </div>
         </div>
 
-        <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
-      </div>-->
+      </div>
+
+      <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
+    </div>
   </app-credix-result-view>
 </ng-template>

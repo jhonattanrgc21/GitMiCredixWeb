@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
 import {finalize} from 'rxjs/operators';
-import {ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../shared/utils';
 import {PublicServicesService} from '../public-services.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -16,16 +15,16 @@ import {ModalService} from '../../../../../core/services/modal.service';
 export class NewRechargeComponent implements OnInit {
   rechargeFormGroup: FormGroup = new FormGroup({
     phoneNumber: new FormControl(null, [Validators.required]),
-    amount: new FormControl(null, [Validators.required, Validators.min(1000)]),
+    amount: new FormControl(null, [Validators.required]),
     credixCode: new FormControl(null, [Validators.required]),
+    favorite: new FormControl(null),
   });
-  favoriteControl = new FormControl(null);
   amounts: { amount: string, id: number }[] = [
     {id: 1, amount: '1.000,00'},
     {id: 1, amount: '2.000,00'},
     {id: 1, amount: '5.000,00'},
     {id: 1, amount: '10.000,00'},
-    {id: 1, amount: 'Otro'},
+    {id: 1, amount: 'Otro'}
   ];
   anotherAmount = false;
   saveAsFavorite = false;
@@ -34,8 +33,6 @@ export class NewRechargeComponent implements OnInit {
   pendingReceipts: PendingReceipts;
   publicServiceId: number;
   name: string;
-  month: string;
-  expirationDate: Date;
   title: string;
   message: string;
   status: 'success' | 'error';
@@ -49,11 +46,11 @@ export class NewRechargeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getMinAmounts();
     this.route.params.subscribe(params => {
       this.publicServiceId = +params.serviceId;
       this.getEnterprise(+params.categoryId, +params.enterpriseId);
     });
-    // this.getMinAmounts();
   }
 
   getEnterprise(categoryId: number, enterpriseId: number) {
@@ -68,48 +65,60 @@ export class NewRechargeComponent implements OnInit {
 
   onCheckboxChanged(checked: boolean) {
     this.saveAsFavorite = checked;
+    this.rechargeFormGroup.controls.favorite.reset();
     if (this.saveAsFavorite) {
-      this.favoriteControl.setValidators([Validators.required]);
+      this.rechargeFormGroup.controls.favorite.setValidators([Validators.required]);
+    } else {
+      this.rechargeFormGroup.controls.favorite.clearValidators();
     }
+    this.rechargeFormGroup.controls.favorite.updateValueAndValidity();
   }
 
   onAmountChanged(value) {
     if (value !== 'Otro') {
       this.anotherAmount = false;
+      this.rechargeFormGroup.controls.amount.setValidators([Validators.required]);
       this.rechargeFormGroup.controls.amount.setValue(value);
     } else {
+      this.rechargeFormGroup.controls.amount.reset();
+      this.rechargeFormGroup.controls.amount.setValidators([Validators.required, Validators.min(1000)]);
       this.anotherAmount = true;
     }
+    this.rechargeFormGroup.controls.amount.updateValueAndValidity();
   }
 
   openModal() {
     this.modalService.confirmationPopup('¿Desea realizar esta recarga?').subscribe(confirmation => {
       if (confirmation) {
-        const receipt = this.pendingReceipts.receipts[0];
-        this.publicServicesService.payPublicService(
-          this.publicServiceId,
-          +receipt.serviceValue,
-          receipt.totalAmount,
-          +receipt.receiptPeriod,
-          receipt.expirationDate,
-          receipt.billNumber)
-          .pipe(finalize(() => this.done = true))
-          .subscribe(response => {
-            this.status = response.type;
-            this.message = response.responseDescription || response.message;
-            if (response.type === 'success' && this.saveAsFavorite) {
-              this.saveFavorite();
-            }
-          });
+        this.checkPendingReceipts();
       }
     });
+  }
+
+  recharge() {
+    const receipt = this.pendingReceipts.receipts[0];
+    this.publicServicesService.payPublicService(
+      this.publicServiceId,
+      +receipt.serviceValue,
+      this.rechargeFormGroup.controls.amount.value,
+      +receipt.receiptPeriod,
+      receipt.expirationDate,
+      receipt.billNumber)
+      .pipe(finalize(() => this.done = true))
+      .subscribe(response => {
+        this.status = response.type;
+        this.message = response.responseDescription || response.message;
+        if (response.type === 'success' && this.saveAsFavorite) {
+          this.saveFavorite();
+        }
+      });
   }
 
   saveFavorite() {
     this.publicServicesService.savePublicServiceFavorite(
       this.publicServiceId,
       this.rechargeFormGroup.controls.phoneNumber.value,
-      this.favoriteControl.value,
+      this.rechargeFormGroup.controls.favorite.value,
       this.rechargeFormGroup.controls.credixCode.value).subscribe();
   }
 
@@ -122,8 +131,7 @@ export class NewRechargeComponent implements OnInit {
       .subscribe(pendingReceipts => {
         if (pendingReceipts.receipts) {
           this.pendingReceipts = pendingReceipts;
-          this.month = getMontByMonthNumber(ConvertStringDateToDate(pendingReceipts.receipts[0].receiptPeriod).getMonth());
-          this.expirationDate = ConvertStringDateToDate(pendingReceipts.receipts[0].expirationDate);
+          this.recharge();
         } else {
           this.hasReceipts = false;
         }
