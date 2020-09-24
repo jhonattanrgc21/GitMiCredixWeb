@@ -29,11 +29,16 @@ import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {ExtendTermService} from './extend-term.service';
 
 
 const routes: Routes = [
   {
     path: '',
+    component: ExtendTermComponent
+  },
+  {
+    path: ':movementId',
     component: ExtendTermComponent
   }
 ];
@@ -69,7 +74,8 @@ const routes: Routes = [
     CredixDividerModule,
     CredixResultViewModule
   ],
-  providers: [ModalService]
+  providers: [ModalService,
+    ExtendTermService]
 })
 export class ExtendTermModule {
 }
