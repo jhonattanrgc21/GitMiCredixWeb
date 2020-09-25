@@ -202,6 +202,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         }
       });
     }
+
     this.marchamosService.amountProducts = this.arrayOfAmountProducts;
     (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
   }

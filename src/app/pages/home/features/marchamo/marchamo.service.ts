@@ -10,7 +10,7 @@ export class MarchamoService {
   consultVehicle: ConsultVehicle;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
-  amountProducts: { amounts: number; productCode: number; }[];
+  amountProducts: { amounts: number; productCode: number; }[] = [];
   iva: number;
   commission: number;
   total: number;

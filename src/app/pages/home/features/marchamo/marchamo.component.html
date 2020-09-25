@@ -23,11 +23,13 @@
 
     <cdk-step label="{{step4 || 'Confirmar'}}" [stepControl]="confirmForm">
       <app-marchamo-fourth-step [confirmForm]="confirmForm"
+                                [amountTotalProducts]="totalAmountItemsProducts"
                                 [contactInfo]="{name: pickUpForm.controls.name?.value,
                                  phone: pickUpForm.controls.phoneNumber?.value,
                                   email: pickUpForm.controls.email?.value}"
                                 [deliveryPlace]="pickUpForm.controls.address?.value"
-                                [isActive]="stepperIndex === 3"></app-marchamo-fourth-step>
+                                [isActive]="stepperIndex === 3"
+                                [totalAmount]="marchamoTotal"></app-marchamo-fourth-step>
     </cdk-step>
 
   </credix-stepper>

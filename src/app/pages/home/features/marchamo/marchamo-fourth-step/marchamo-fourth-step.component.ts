@@ -63,13 +63,13 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   }
 
   getTags(tags: Tag[]) {
-    this.step4TagIva = tags.find(tag => tag.description === 'marchamo.stepper4.tagIVA').value;
-    this.step4Subt1 = tags.find(tag => tag.description === 'marchamo.stepper4.subtitle1').value;
-    this.step4TagCom = tags.find(tag => tag.description === 'marchamo.stepper4.tagComision').value;
-    this.step4TagT = tags.find(tag => tag.description === 'marchamo.stepper4.tagTotal').value;
-    this.step4TagSeg = tags.find(tag => tag.description === 'marchamo.stepper4.tagSeguros').value;
-    this.step4Sub2 = tags.find(tag => tag.description === 'marchamo.stepper4.subtitle2').value;
-    this.step4Subt3 = tags.find(tag => tag.description === 'marchamo.stepper4.subtitle3').value;
-    this.step4TagMarch = tags.find(tag => tag.description === 'marchamo.stepper4.tagMarchamo').value;
+    this.step4TagIva = tags.find(tag => tag.description === 'marchamo.stepper4.tagIVA')?.value;
+    this.step4Subt1 = tags.find(tag => tag.description === 'marchamo.stepper4.subtitle1')?.value;
+    this.step4TagCom = tags.find(tag => tag.description === 'marchamo.stepper4.tagComision')?.value;
+    this.step4TagT = tags.find(tag => tag.description === 'marchamo.stepper4.tagTotal')?.value;
+    this.step4TagSeg = tags.find(tag => tag.description === 'marchamo.stepper4.tagSeguros')?.value;
+    this.step4Sub2 = tags.find(tag => tag.description === 'marchamo.stepper4.subtitle2')?.value;
+    this.step4Subt3 = tags.find(tag => tag.description === 'marchamo.stepper4.subtitle3')?.value;
+    this.step4TagMarch = tags.find(tag => tag.description === 'marchamo.stepper4.tagMarchamo')?.value;
   }
 }
