@@ -5,6 +5,7 @@ import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {Challenge} from '../../../../shared/models/challenge';
 import {AwardsService} from './awards.service';
+import {ModalAwardsComponent} from './modal-awards/modal-awards.component';
 
 @Component({
   selector: 'app-awards',
@@ -45,30 +46,10 @@ export class AwardsComponent implements OnInit {
   }
 
   open(challenge: Challenge) {
-    /* switch (modal) {
-       case 'completed':
-         this.modalService.open({
-           component: ModalAwardsComponent, title: 'Premios',
-           data: {modal, id: i, array: this.completed}
-         }, {
-           width: 376,
-           height: 586,
-           disableClose: true,
-           panelClass: 'awards-result-panel'
-         }, 2);
-         break;
-       case 'in-progress':
-         this.modalService.open({
-           component: ModalAwardsComponent, title: 'Premios',
-           data: {modal, id: i, array: this.inProgress}
-         }, {
-           width: 376,
-           height: 586,
-           disableClose: true,
-           panelClass: 'awards-result-panel'
-         }, 2);
-         break;
-     }*/
+    this.modalService.open({
+      component: ModalAwardsComponent, title: 'Premios',
+      data: {challenge, challenges: this.tabId === 1 ? this.inProgressChallenges : this.completedChallenges}
+    }, {width: 376, height: 586, disableClose: true, panelClass: 'awards-panel'}, 2);
   }
 
   getUserChallenges() {

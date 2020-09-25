@@ -1,69 +1,52 @@
-<div *ngIf="data.data.modal == 'in-progress'" class="modal-awards" fxLayout="column" fxLayoutGap="16px">
+<div class="modal-awards" fxLayout="column" fxLayoutGap="16px">
 
-  <div class="modal-awards__header" fxLayout="row" fxLayoutAlign="space-between">
-    <span>{{award.in_progress_name}}</span>
-  </div>
+  <span class="modal-awards__title">{{challenge.in_progress_name}}</span>
 
-  <img [alt]="award.in_progress_name" [src]="award.image" class="modal-awards__img">
-  <div *ngIf="award.goal_type == 4" class="modal-awards__actions" fxLayout="row" fxLayoutAlign="space-between"
+  <img [alt]="challenge.in_progress_name" [src]="challenge.image" class="modal-awards__img">
+
+  <div *ngIf="challenge.goal_type === 4" class="modal-awards__actions" fxLayout="row" fxLayoutAlign="center"
        fxLayoutGap="16px">
-    <span class="modal-awards__actions__span-title">{{award.progress}}</span>
-    <div>
-      <span>Aciones<br>acumuladas</span>
-    </div>
+    <span>{{ challenge.progress }}</span>
+    <span>Aciones acumuladas</span>
   </div>
-  <credix-progress-bar *ngIf="award.goal_type == 1" [goal]="award.goal_qty" [value]="award.progress"
-                       label="Meta de transacciones">
-  </credix-progress-bar>
-  <p class="pr-16px pl-16px pb-16px">{{award.in_progress_description}}</p>
+
+  <credix-progress-bar *ngIf="challenge.goal_type !== 4"
+                       [goal]="challenge.goal_qty"
+                       [value]="challenge.progress"
+                       class="modal-awards__progress"
+                       label="Meta de transacciones"></credix-progress-bar>
+
+  <p class="modal-awards__text">{{challenge.in_progress_description}}</p>
+
 </div>
-
-<div *ngIf="data.data.modal == 'completed'" class="modal-awards" fxLayout="column" fxLayoutGap="16px">
-
-  <div class="modal-awards__header" fxLayout="row" fxLayoutAlign="space-between">
-    <span>{{award.completed_name}}</span>
-  </div>
-
-  <img [alt]="award.completed_name" [src]="award.image" class="modal-awards__img">
-  <div *ngIf="award.goal_type == 4" class="awards__cards-container__footer__actions" fxLayout="row"
-       fxLayoutAlign="space-between"
-       fxLayoutGap="16px">
-    <span class="awards__cards-container__footer__actions__span-title">{{award.progress}}</span>
-    <div>
-        <span>Aciones<br>
-          acumuladas</span>
-    </div>
-  </div>
-  <credix-progress-bar *ngIf="award.goal_type == 1" [goal]="award.goal_qty" [value]="award.goal_qty"
-                       label="Meta de transacciones">
-  </credix-progress-bar>
-  <p class="pr-16px pl-16px pb-16px">{{award.completed_description}}</p>
-</div>
-
 
 <ng-template #footer>
-  <div fxLayout="row" fxLayoutAlign="flex-start">
+  <div fxLayout="row">
     <credix-share-button></credix-share-button>
 
-    <div class="modal-awards__paginator" fxLayout="column" fxLayoutAlign="flex-start center">
+    <div class="modal-awards__paginator" fxLayout="column" fxLayoutAlign="center center">
       <span class="modal-awards__paginator__title-span">Premios</span>
+
       <div fxLayout="row" fxLayoutGap="16px">
-        <button (click)="back()" [disabled]="currentAward === 0"
+        <button (click)="back()" [disabled]="currentChallenge === 0"
                 class="modal-awards__paginator__btn" mat-icon-button>
-          <mat-icon [class.is-enable]="currentAward !== 0"
+          <mat-icon [class.is-enable]="currentChallenge !== 0"
                     svgIcon="chevron_left"></mat-icon>
         </button>
 
-        <span class="modal-awards__paginator__pag-span">{{currentAward + 1}} de {{awardLength}}</span>
+        <span class="modal-awards__paginator__pag-span">{{currentChallenge + 1}} de {{challenges.length}}</span>
 
-        <button (click)="next()" [disabled]="currentAward === (awardLength - 1)"
+        <button (click)="next()" [disabled]="currentChallenge === (challenges.length - 1)"
                 class="modal-awards__paginator__btn" mat-icon-button>
-          <mat-icon [class.is-enable]="currentAward !== (awardLength - 1)"
+          <mat-icon [class.is-enable]="currentChallenge !== (challenges.length - 1)"
                     svgIcon="chevron_right"></mat-icon>
         </button>
       </div>
+
     </div>
+
   </div>
+
 </ng-template>
 
 
