@@ -1,169 +1,129 @@
 .awards {
 
-  &__simple-bar {
-    height: calc(200px - 20px);
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
+  &__header {
 
-  &__banner-tab {
-
-    h1 {
-      margin-bottom: 20px;
+    &__text-wrapper {
+      width: 542px;
     }
 
-    ::ng-deep .credix-tab {
-      margin-bottom: 18px !important;
-    }
-
-    &__progress-div {
-
-      &__msg {
-        margin-bottom: 21px;
-        font-size: 16px;
-        width: 542px;
-      }
-
-      h2 {
-        margin-bottom: 10px;
-      }
-
-      &__p {
-        font-weight: bold;
-        font-size: 16px;
-      }
-    }
-
-    &__card-progress {
+    &--in-progress {
       background-image: url("../../../../../assets/images/award_banner.png") !important;
       background-size: cover !important;
       height: 279px;
     }
 
-    &__card-finished {
+    &--finished {
       background-image: none !important;
+      height: 137px;
     }
   }
 
-  &__cards-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 16px;
-    grid-row-gap: 16px;
+  &__card {
+    width: 430px;
+    height: 239px;
+    position: relative;
 
-    &__card {
-      width: 430px;
-      height: 239px;
+    &:nth-of-type(odd) {
+      margin-right: 16px;
+    }
 
-      &.in-progress {
-        height: 260px;
-      }
-
+    &:not(:last-of-type) {
+      margin-bottom: 16px;
     }
 
     &__content {
       width: 100%;
 
-      h2 {
-        margin-bottom: 8px;
-        text-align: left;
+      &__title, &__text {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
       }
 
-      &__main {
-        width: 100%;
-        height: 85px;
+      &__text {
         font-size: 14px;
         line-height: 22px;
         text-align: left;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
-    }
 
-    &__img {
-      width: 160px;
-      height: 160px;
-      border-radius: 100%;
-      border: 4px solid #F2F2F2;
+      &__img {
+        width: 160px;
+        height: 160px;
+        border-radius: 100%;
+        border: 4px solid #F2F2F2;
+      }
     }
 
     &__footer {
-      height: 40px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 0 16px 16px 16px;
+      width: 100%;
 
-      &__link {
-        padding: 10px 0;
+      &__detail-btn {
+        height: 16px;
       }
 
-      &__actions {
+      &__action-progress {
 
-        &__span-title {
-          color: #19D27E;
-          font-size: 32px;
+        span:first-of-type {
           font-weight: bold;
-          margin-top: 3px;
+          font-size: 32px;
+          color: #19D27E;
         }
 
-        div {
-          line-height: 15px;
-
-          span {
-            font-size: 14px;
-            color: #3E3E3E;
-          }
+        span:last-of-type {
+          font-size: 14px;
+          width: 76px;
+          line-height: 14px;
         }
       }
     }
   }
 
-  &__result-notification {
-    height: 509px;
+  &__result-container {
+
+    &--in-progress {
+      height: 367px;
+    }
+
+    &--finished {
+      height: 509px;
+    }
 
     ::ng-deep.credix-result-notification__title {
-      width: 300px;
-      line-height: 24px;
-    }
-
-    &.in-progress {
-      ::ng-deep.credix-result-notification__title {
-        width: 268px;
-      }
+      width: 286px;
     }
   }
+
+  ::ng-deep .credix-progress-bar {
+    min-width: 215px !important;
+  }
+
 }
 
 @media screen and (max-width: 1199px) {
 
   .awards {
 
-    &__cards-container__card {
+    &__card {
       width: 360px;
       height: 263px;
+    }
 
-      &.in-progress {
-        height: 286px;
+    &__result-container {
+
+      &--in-progress {
+        height: 591px;
+      }
+
+      &--finished {
+        height: 733px;
       }
     }
 
-    &__cards-container__img {
-      width: 142px !important;
-      height: 142px !important;
-    }
-
-    &__result-notification {
-      height: 733px;
-    }
   }
 
-}
-
-::ng-deep .credix-progress-bar {
-  min-width: 215px !important;
-}
-
-::ng-deep .credix-progress-bar__line.is-over {
-  background-color: #19d27e;
-}
-
-::ng-deep .credix-progress-bar__line {
-  background-color: #e9e9e9;
 }

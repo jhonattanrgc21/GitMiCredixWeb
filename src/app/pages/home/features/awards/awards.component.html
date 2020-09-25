@@ -1,101 +1,67 @@
 <div class="awards" fxLayout="column" fxLayoutGap="16px">
-  <div class="awards__banner-tab" fxLayout="row" fxLayoutGap="16px">
-    <mat-card [ngClass]="showInProgress ?
-    'awards__banner-tab__card-progress': 'awards__banner-tab__card-finished'" credixCard fxFlex="100">
 
-      <h1>Premios</h1>
+  <mat-card [ngClass]="tabId === 1 ?
+            'awards__header--in-progress': 'awards__header--finished'" class="awards__header" credixCard
+            fxLayout="column"
+            fxLayoutGap="16px">
 
-      <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
-      <div *ngIf="showInProgress" class="awards__banner-tab__progress-div">
-        <h2>{{titleTag || '¡Complete desafíos y gane con Credix!'}}</h2>
-        <p class="awards__banner-tab__progress-div__msg">
-          {{descriptionTag}}
-        </p>
+    <h1>Premios</h1>
+
+    <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+
+    <div *ngIf="tabId === 1" class="awards__header__text-wrapper" fxLayout="column" fxLayoutGap="8px">
+      <h2>{{titleTag || '¡Complete desafíos y gane con Credix!'}}</h2>
+      <p class="awards__banner-tab__progress-div__msg">
+        {{descriptionTag}}
+      </p>
+    </div>
+
+  </mat-card>
+
+  <div *ngIf="challenges.length > 0" class="awards__card-container" fxLayout="row wrap">
+    <mat-card *ngFor="let challenge of challenges; let i = index" class="awards__card"
+              credixCard fxLayout="column" fxLayoutAlign="space-between">
+
+      <div class="awards__card__content" fxLayout="row" fxLayoutAlign="space-between">
+        <div fxFlex="50%" fxLayout="column" fxLayoutGap="8px">
+          <h2 class="awards__card__content__title">{{ challenge.in_progress_name }}</h2>
+          <p class="awards__card__content__text">
+            {{ challenge.in_progress_description }}
+          </p>
+        </div>
+
+        <img alt="desafios credix" class="awards__card__content__img" src="{{ challenge.image }}"/>
       </div>
+
+      <div class="awards__card__footer" fxLayout="row" fxLayoutAlign="space-between">
+        <credix-progress-bar *ngIf="challenge.goal_type !== 4" [goal]="challenge.goal_qty"
+                             [value]="challenge.progress"
+                             class="awards__cards-container__footer__probar"
+                             label="Meta de transacciones"></credix-progress-bar>
+
+        <div *ngIf="challenge.goal_type == 4" class="awards__card__footer__action-progress" fxLayout="row"
+             fxLayoutAlign="space-between"
+             fxLayoutGap="16px">
+          <span>{{ challenge.progress }}</span>
+          <span>Aciones<br/>acumuladas</span>
+        </div>
+
+        <credix-link-button (click)="open(challenge)" class="awards__card__footer__detail-btn" fxFlexAlign="flex-end">
+          {{linkTag || 'Ver detalle'}}
+        </credix-link-button>
+      </div>
+
     </mat-card>
   </div>
 
-  <div *ngIf="(showInProgress && inProgress.length > 0) || (!showInProgress && completed.length > 0)"
-       class="awards__cards-container">
-
-    <ng-container *ngFor="let award of awards; let i = index">
-      <mat-card *ngIf="!award.completed" [class.in-progress]="showInProgress" class="awards__cards-container__card"
-                credixCard fxLayout="column" fxLayoutAlign="space-between">
-
-        <div class="awards__cards-container__content" fxLayout="row" fxLayoutAlign="space-between">
-
-          <div fxFlex="50%" fxLayout="column">
-            <h2>{{ award.in_progress_name }}</h2>
-            <p class="awards__cards-container__content__main mb-16px">
-              {{ award.in_progress_description }}
-            </p>
-          </div>
-
-          <img alt="CREDIX-PREMIOS" class="awards__cards-container__img" src="{{ award.image }}"/>
-        </div>
-
-        <div class="awards__cards-container__footer" fxLayout="row" fxLayoutAlign="space-between">
-          <div *ngIf="award.goal_type !== 4">
-            <credix-progress-bar [goal]="award.goal_qty" [value]="award.progress"
-                                 class="awards__cards-container__footer__probar"
-                                 label="Meta de transacciones"></credix-progress-bar>
-          </div>
-          <div *ngIf="award.goal_type == 4" class="awards__cards-container__footer__actions" fxLayout="row"
-               fxLayoutAlign="space-between" fxLayoutGap="16px">
-            <span class="awards__cards-container__footer__actions__span-title">{{ award.progress }}</span>
-            <div>
-              <span>Aciones<br/>acumuladas</span>
-            </div>
-          </div>
-
-          <credix-link-button (click)="open(i, 'in-progress')" class="awards__cards-container__footer__link">
-            {{linkTag || 'Ver detalle'}}
-          </credix-link-button>
-        </div>
-
-      </mat-card>
-
-      <mat-card *ngIf="award.completed" [class.in-progress]="!showInProgress" class="awards__cards-container__card"
-                credixCard fxLayout="column" fxLayoutAlign="space-between">
-
-        <div class="awards__cards-container__content" fxLayout="row" fxLayoutAlign="space-between">
-
-          <div class="w-100 truncate" fxLayout="column">
-            <h2>{{ award.completed_name }}</h2>
-            <p class="awards__cards-container__content__main">
-              {{ award.completed_description }}
-            </p>
-          </div>
-
-          <img alt="CREDIX-PREMIOS" class="awards__cards-container__img" src="{{ award.image }}"/>
-        </div>
-
-        <div class="awards__cards-container__footer" fxLayout="row" fxLayoutAlign="space-between">
-          <div *ngIf="award.goal_type == 1">
-            <credix-progress-bar [goal]="award.goal_qty" [value]="award.goal_qty"
-                                 class="awards__cards-container__footer__probar"
-                                 label="Meta de transacciones"></credix-progress-bar>
-          </div>
-          <div *ngIf="award.goal_type == 4" class="awards__cards-container__footer__actions" fxLayout="row"
-               fxLayoutAlign="space-between" fxLayoutGap="16px">
-            <span class="awards__cards-container__footer__actions__span-title">{{ award.progress }}</span>
-            <div>
-              <span>Aciones<br/>acumuladas</span>
-            </div>
-          </div>
-
-          <credix-link-button (click)="open(i, 'completed')" class="awards__cards-container__footer__link">
-            {{linkTag || 'Ver detalle'}}
-          </credix-link-button>
-        </div>
-      </mat-card>
-    </ng-container>
-  </div>
-
-  <mat-card *ngIf="(showInProgress && inProgress.length === 0) || (!showInProgress && completed.length === 0)"
-            [class.in-progress]="showInProgress" class="awards__result-notification" credixCard
-            fxLayoutAlign="center center">
-    <credix-result-notification [title]="showInProgress ? warningOneTag : warningTwoTag" status="info">
-    </credix-result-notification>
+  <mat-card *ngIf="challenges.length === 0" [ngClass]="tabId === 1 ?
+            'awards__result-container--in-progress': 'awards__result-container--finished'"
+            class="awards__result-container"
+            credixCard
+            fxLayout="row" fxLayoutAlign="center center">
+    <credix-result-notification [title]="tabId === 1 ?
+                              'No tiene premios en este momento.' : 'No tiene premios en este momento.'"
+                                status="info"></credix-result-notification>
   </mat-card>
+
 </div>
