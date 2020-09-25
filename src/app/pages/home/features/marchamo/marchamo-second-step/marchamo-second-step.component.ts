@@ -293,12 +293,12 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   getTags(tags: Tag[]) {
-    this.step2Subt1 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle1').value;
-    this.step2Link = tags.find(tag => tag.description === 'marchamo.stepper2.link').value;
-    this.step2Subt3 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle3').value;
-    this.step2TagDiv = tags.find(tag => tag.description === 'marchamo.stepper2.tagdividr').value;
-    this.step2Subt2 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle2').value;
-    this.step2Com = tags.find(tag => tag.description === 'marchamo.stepper2.comision').value;
-    this.step2TagT = tags.find(tag => tag.description === 'marchamo.stepper2.tagTodos').value;
+    this.step2Subt1 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle1')?.value;
+    this.step2Link = tags.find(tag => tag.description === 'marchamo.stepper2.link')?.value;
+    this.step2Subt3 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle3')?.value;
+    this.step2TagDiv = tags.find(tag => tag.description === 'marchamo.stepper2.tagdividr')?.value;
+    this.step2Subt2 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle2')?.value;
+    this.step2Com = tags.find(tag => tag.description === 'marchamo.stepper2.comision')?.value;
+    this.step2TagT = tags.find(tag => tag.description === 'marchamo.stepper2.tagTodos')?.value;
   }
 }

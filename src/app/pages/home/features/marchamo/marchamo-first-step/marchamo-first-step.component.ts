@@ -80,11 +80,11 @@ export class MarchamoFirstStepComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.step1Tag1 = tags.find(tag => tag.description === 'marchamo.stepper1.tag1').value;
-    this.step1Tag2 = tags.find(tag => tag.description === 'marchamo.stepper1.tag2').value;
-    this.step1Tag3 = tags.find(tag => tag.description === 'marchamo.stepper1.tag3').value;
-    this.step1Tag4 = tags.find(tag => tag.description === 'marchamo.stepper1.tag4').value;
-    this.step1Tag5 = tags.find(tag => tag.description === 'marchamo.stepper1.tag5').value;
-    this.step1Subt = tags.find(tag => tag.description === 'marchamo.stepper1.subtitle').value;
+    this.step1Tag1 = tags.find(tag => tag.description === 'marchamo.stepper1.tag1')?.value;
+    this.step1Tag2 = tags.find(tag => tag.description === 'marchamo.stepper1.tag2')?.value;
+    this.step1Tag3 = tags.find(tag => tag.description === 'marchamo.stepper1.tag3')?.value;
+    this.step1Tag4 = tags.find(tag => tag.description === 'marchamo.stepper1.tag4')?.value;
+    this.step1Tag5 = tags.find(tag => tag.description === 'marchamo.stepper1.tag5')?.value;
+    this.step1Subt = tags.find(tag => tag.description === 'marchamo.stepper1.subtitle')?.value;
   }
 }

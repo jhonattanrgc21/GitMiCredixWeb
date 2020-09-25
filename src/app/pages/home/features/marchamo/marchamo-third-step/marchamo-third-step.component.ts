@@ -129,11 +129,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   getTags(tags: Tag[]) {
-    this.secondSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle2').value;
-    this.subOptionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option2').value;
-    this.subOptionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option1').value;
-    this.optionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1').value;
-    this.optionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option2').value;
-    this.firstSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle1').value;
+    this.secondSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle2')?.value;
+    this.subOptionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option2')?.value;
+    this.subOptionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option1')?.value;
+    this.optionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1')?.value;
+    this.optionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option2')?.value;
+    this.firstSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle1')?.value;
   }
 }

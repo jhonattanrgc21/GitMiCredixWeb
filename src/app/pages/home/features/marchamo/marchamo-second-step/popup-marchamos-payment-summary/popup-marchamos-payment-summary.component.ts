@@ -44,12 +44,12 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.resumeTag4 = tags.find(tag => tag.description === 'marchamo.resumen.tag4').value;
-    this.resumeTag2 = tags.find(tag => tag.description === 'marchamo.resumen.tag2').value;
-    this.resumeTag1 = tags.find(tag => tag.description === 'marchamo.resumen.tag1').value;
-    this.resumeTag3 = tags.find(tag => tag.description === 'marchamo.resumen.tag3').value;
-    this.resumeTag5 = tags.find(tag => tag.description === 'marchamo.resumen.tag5').value;
-    this.resumeDisclaimer = tags.find(tag => tag.description === 'marchamo.resumen.disclaimer').value;
+    this.resumeTag4 = tags.find(tag => tag.description === 'marchamo.resumen.tag4')?.value;
+    this.resumeTag2 = tags.find(tag => tag.description === 'marchamo.resumen.tag2')?.value;
+    this.resumeTag1 = tags.find(tag => tag.description === 'marchamo.resumen.tag1')?.value;
+    this.resumeTag3 = tags.find(tag => tag.description === 'marchamo.resumen.tag3')?.value;
+    this.resumeTag5 = tags.find(tag => tag.description === 'marchamo.resumen.tag5')?.value;
+    this.resumeDisclaimer = tags.find(tag => tag.description === 'marchamo.resumen.disclaimer')?.value;
 
   }
 
