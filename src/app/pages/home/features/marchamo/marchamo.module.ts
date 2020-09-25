@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MarchamosComponent} from './marchamos.component';
+import {MarchamoComponent} from './marchamo.component';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexModule} from '@angular/flex-layout';
 import {SharedModule} from '../../../../shared/shared.module';
@@ -17,7 +17,6 @@ import {CredixRadioButtonModule} from '../../../../shared/components/credix-radi
 import {CredixLinkButtonModule} from 'src/app/shared/components/credix-link-button/credix-link-button.module';
 import {PopupMarchamosDetailComponent} from './marchamo-second-step/popup-marchamos-detail/popup-marchamos-detail.component';
 import {CredixCodeInputModule} from 'src/app/shared/components/credix-code-input/credix-code-input.module';
-import {PopupMarchamosNewDirectionComponent} from './popup-marchamos-new-direction/popup-marchamos-new-direction.component';
 import {SimplebarAngularModule} from 'simplebar-angular';
 // tslint:disable-next-line:max-line-length
 import {PopupMarchamosPaymentSummaryComponent} from './marchamo-second-step/popup-marchamos-payment-summary/popup-marchamos-payment-summary.component';
@@ -29,31 +28,35 @@ import {MarchamoFirstStepComponent} from './marchamo-first-step/marchamo-first-s
 import {CredixSelectModule} from 'src/app/shared/components/credix-select/credix-select.module';
 import {CredixInputFieldModule} from 'src/app/shared/components/credix-input-field/credix-input-field.module';
 import {MarchamoSecondStepComponent} from './marchamo-second-step/marchamo-second-step.component';
-import {PaymentSummaryComponent} from './payment-summary/payment-summary.component';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
-import {MarchamosService} from './marchamos.service';
+import {MarchamoService} from './marchamo.service';
 import {MarchamoThirdStepComponent} from './marchamo-third-step/marchamo-third-step.component';
 import {MarchamoFourthStepComponent} from './marchamo-fourth-step/marchamo-fourth-step.component';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
-import {CustomerApiService} from '../../../../core/services/customer-api.service';
+import {NewAddressPopupComponent} from './marchamo-third-step/new-address-popup/new-address-popup.component';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
+import {CredixTextareaFieldModule} from '../../../../shared/components/credix-textarea-field/credix-textarea-field.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: MarchamosComponent
+    component: MarchamoComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    MarchamosComponent,
+    MarchamoComponent,
     MarchamoFirstStepComponent,
-    MarchamoSecondStepComponent, PopupMarchamosDetailComponent, PopupMarchamosPaymentSummaryComponent,
-    MarchamoThirdStepComponent, PopupMarchamosNewDirectionComponent,
-    MarchamoFourthStepComponent, PaymentSummaryComponent,
+    MarchamoSecondStepComponent,
+    PopupMarchamosDetailComponent,
+    PopupMarchamosPaymentSummaryComponent,
+    MarchamoThirdStepComponent,
+    NewAddressPopupComponent,
+    MarchamoFourthStepComponent
   ],
-  entryComponents: [MarchamosComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -79,14 +82,16 @@ const routes: Routes = [
     NgxMaskModule,
     CredixCardsModule,
     CredixDividerModule,
-    CredixCodeLinkModule
+    CredixCodeLinkModule,
+    CredixResultViewModule,
+    DateFormatterModule,
+    CredixTextareaFieldModule
   ],
   providers: [
-    MarchamosService,
-    ModalService,
-    CustomerApiService
+    MarchamoService,
+    ModalService
   ]
 
 })
-export class MarchamosModule {
+export class MarchamoModule {
 }

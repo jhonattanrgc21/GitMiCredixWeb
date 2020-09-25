@@ -11,7 +11,7 @@ import {Tag} from '../../../../../../shared/models/tag';
 export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   iva = 0;
   totalAmountItemsProducts = 0;
-  comission: number;
+  commission: number;
   marchamo: number;
   quotesToPay: { quotes: number, quotesAmount: number } = {quotes: 0, quotesAmount: 0};
   totalAmount = 0;
@@ -22,20 +22,21 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   resumeTag1;
   resumeDisclaimer;
 
-  constructor(private tagsService: TagsService, public dialogRef: MatDialogRef<PopupMarchamosPaymentSummaryComponent>,
+  constructor(private tagsService: TagsService,
+              public dialogRef: MatDialogRef<PopupMarchamosPaymentSummaryComponent>,
               @Inject(MAT_DIALOG_DATA) public data) {
   }
 
   ngOnInit(): void {
     this.data.data.forEach(values => {
       this.iva = (typeof values.iva === 'string') ? +values.iva : values.iva;
-      this.comission = values.commission;
+      this.commission = values.commission;
       this.marchamo = (typeof values.marchamos === 'string') ? +values.marchamos.replace('.', '') : values.marchamos,
         this.quotesToPay = values.quotesToPay;
       values.itemsProductsAmount.forEach(itemProduct => {
         this.totalAmountItemsProducts = this.totalAmountItemsProducts + itemProduct.amounts;
       });
-      this.totalAmount = this.totalAmount + this.marchamo + this.iva + this.comission + this.totalAmountItemsProducts;
+      this.totalAmount = this.totalAmount + this.marchamo + this.iva + this.commission + this.totalAmountItemsProducts;
     });
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
@@ -43,14 +44,13 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.resumeTag4 = tags.find(tag => tag.description === 'marchamos.resumen.tag4').value;
-    this.resumeTag2 = tags.find(tag => tag.description === 'marchamos.resumen.tag2').value;
-    this.resumeTag1 = tags.find(tag => tag.description === 'marchamos.resumen.tag1').value;
-    this.resumeTag3 = tags.find(tag => tag.description === 'marchamos.resumen.tag3').value;
-    this.resumeTag5 = tags.find(tag => tag.description === 'marchamos.resumen.tag5').value;
-    this.resumeDisclaimer = tags.find(tag => tag.description === 'marchamos.resumen.disclaimer').value;
+    this.resumeTag4 = tags.find(tag => tag.description === 'marchamo.resumen.tag4').value;
+    this.resumeTag2 = tags.find(tag => tag.description === 'marchamo.resumen.tag2').value;
+    this.resumeTag1 = tags.find(tag => tag.description === 'marchamo.resumen.tag1').value;
+    this.resumeTag3 = tags.find(tag => tag.description === 'marchamo.resumen.tag3').value;
+    this.resumeTag5 = tags.find(tag => tag.description === 'marchamo.resumen.tag5').value;
+    this.resumeDisclaimer = tags.find(tag => tag.description === 'marchamo.resumen.disclaimer').value;
 
-}
-
+  }
 
 }

@@ -28,15 +28,14 @@ export class PopupMarchamosDetailComponent implements OnInit {
     );
   }
 
-  getTags(tags: Tag[]) {
-    this.popUpTagT = tags.find(tag => tag.description === 'marchamos.popup.tagTotal').value;
-    this.popUpTitle = tags.find(tag => tag.description === 'marchamos.popup.title').value;
-  }
-
   calculateTotalAmount() {
     this.billingHistorys.forEach(values => {
       this.totalAmount = this.totalAmount + values.itemCurrentAmount;
     });
   }
 
+  getTags(tags: Tag[]) {
+    this.popUpTagT = tags.find(tag => tag.description === 'marchamo.popup.tagTotal').value;
+    this.popUpTitle = tags.find(tag => tag.description === 'marchamo.popup.title').value;
+  }
 }

@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {MarchamosComponent} from './marchamos.component';
+import {MarchamoComponent} from './marchamo.component';
 
 describe('MarchamosComponent', () => {
-  let component: MarchamosComponent;
-  let fixture: ComponentFixture<MarchamosComponent>;
+  let component: MarchamoComponent;
+  let fixture: ComponentFixture<MarchamoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MarchamosComponent]
+      declarations: [MarchamoComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MarchamosComponent);
+    fixture = TestBed.createComponent(MarchamoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,24 @@
+.additional-card-new-address {
+  height: 100%;
+  position: relative;
+
+  &__input {
+    height: 43px;
+  }
+
+  &__button {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+}
+
+::ng-deep .additional-card-address-panel {
+  .mat-dialog-container {
+    padding-bottom: 32px;
+
+    .credix-popup__title {
+      width: 250px;
+    }
+  }
+}

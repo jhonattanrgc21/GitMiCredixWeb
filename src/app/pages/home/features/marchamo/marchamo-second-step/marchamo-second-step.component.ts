@@ -6,13 +6,14 @@ import {Item} from '../../../../../shared/models/item';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {HttpService} from '../../../../../core/services/http.service';
 import {PopupMarchamosPaymentSummaryComponent} from './popup-marchamos-payment-summary/popup-marchamos-payment-summary.component';
-import {MarchamosService} from '../marchamos.service';
+import {MarchamoService} from '../marchamo.service';
 import {StorageService} from 'src/app/core/services/storage.service';
 import {OwnerPayer} from 'src/app/shared/models/owner-payer';
 import {Quota} from '../../../../../shared/models/quota';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
 import {CustomerApiService} from '../../../../../core/services/customer-api.service';
+import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 
 @Component({
   selector: 'app-marchamo-second-step',
@@ -27,10 +28,10 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     firstQuotaDate: new FormControl(null)
   });
   @Input() isActive = false;
-  executed = false;
-  totalAmount = 0;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
+  executed = false;
+  totalAmount = 0;
   isChecked = false;
   isCheckedAll = false;
   step = 0;
@@ -124,7 +125,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   step2Link: string;
   step2TagDiv: string;
 
-  constructor(private marchamosService: MarchamosService,
+  constructor(private marchamosService: MarchamoService,
               private customerApiService: CustomerApiService,
               private httpService: HttpService,
               private modalService: ModalService,
@@ -137,10 +138,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.marchamosService.consultVehicleAndBillingHistory.subscribe(value => {
-      this.totalAmount = value.consultVehicle.amount;
-      this.billingHistories = value.billingHistories;
-    });
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
@@ -149,18 +146,11 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.isActive && this.isActive && !this.executed) {
       this.executed = true;
+      this.totalAmount = this.marchamosService.consultVehicle.amount;
+      this.billingHistories = this.marchamosService.billingHistories;
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
     }
-  }
-  getTags(tags: Tag[]) {
-    this.step2Subt1 = tags.find(tag => tag.description === 'marchamos.stepper2.subtitle1').value;
-    this.step2Link = tags.find(tag => tag.description === 'marchamos.stepper2.link').value;
-    this.step2Subt3 = tags.find(tag => tag.description === 'marchamos.stepper2.subtitle3').value;
-    this.step2TagDiv = tags.find(tag => tag.description === 'marchamos.stepper2.tagdividr').value;
-    this.step2Subt2 = tags.find(tag => tag.description === 'marchamos.stepper2.subtitle2').value;
-    this.step2Com = tags.find(tag => tag.description === 'marchamos.stepper2.comision').value;
-    this.step2TagT = tags.find(tag => tag.description === 'marchamos.stepper2.tagTodos').value;
   }
 
   showMarchamoDetail() {
@@ -169,7 +159,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       hideCloseButton: false,
       title: 'Detalle del marchamo',
       data: this.billingHistories
-    }, {width: 384, height: 673, disableClose: false, panelClass: 'marchamo-detail-panel'});
+    }, {width: 390, minHeight: 500, disableClose: false, panelClass: 'marchamo-detail-panel'});
   }
 
   showQuotaDetail() {
@@ -189,12 +179,10 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   getValueCheckBoxes(event: any) {
     if (event.checked) {
-      // agrega los valores al formArray 1 x 1
       (this.additionalProducts).push(new FormGroup({
-          productCode: new FormControl(event.value)
-        })
-      );
-      // agrega los valores al arreglo para dinamismo de calculo tanto para el modal como para el step
+        productCode: new FormControl(event.value)
+      }));
+
       this.arrayOfAmountProducts.push({
         amounts: this.itemProduct.find(product => product.productCode === event.value).amount,
         productCode: event.value
@@ -214,8 +202,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         }
       });
     }
-    this.marchamosService.emitAmountItemsProducts(this.arrayOfAmountProducts);
-    this.isCheckedAll = this.additionalProducts.length >= 3;
+    this.marchamosService.amountProducts = this.arrayOfAmountProducts;
+    (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
   }
 
   getValueOfCheckBoxAll(event) {
@@ -240,6 +228,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.additionalProducts.setValue([]);
       this.arrayOfAmountProducts.splice(0, this.itemProduct.length);
     }
+    (this.arrayOfAmountProducts.length < 3) ? this.isChecked = false : this.isChecked = true;
   }
 
   allChecked(event?: any) {
@@ -279,14 +268,14 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   getCommission(quotas: number) {
     this.httpService.post('marchamos', 'pay/calculatecommission', {
-      channelId: 102,
       amount: this.totalAmount,
       commissionQuotasId: quotas
     }).subscribe(response => {
       if (typeof response.result === 'string') {
-        this.commission = +response.result.replace('.', '').replace(',', '.');
-        this.iva = +response.iva.replace('.', '').replace(',', '.');
-        this.marchamosService.emitIvaAndCommission(this.iva, this.commission);
+        this.commission = ConvertStringAmountToNumber(response.result);
+        this.iva = ConvertStringAmountToNumber(response.iva);
+        this.marchamosService.iva = this.iva;
+        this.marchamosService.commission = this.commission;
       }
     });
   }
@@ -296,10 +285,19 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       channelId: 107,
       payerId: null,
       accountNumber: this.storageService.getCurrentUser().accountNumber
-    })
-      .subscribe(response => {
-        this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
-        this.marchamosService.emitOwnerPayerInfo(this.ownerPayer);
-      });
+    }).subscribe(response => {
+      this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
+      this.marchamosService.ownerPayer = this.ownerPayer;
+    });
+  }
+
+  getTags(tags: Tag[]) {
+    this.step2Subt1 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle1').value;
+    this.step2Link = tags.find(tag => tag.description === 'marchamo.stepper2.link').value;
+    this.step2Subt3 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle3').value;
+    this.step2TagDiv = tags.find(tag => tag.description === 'marchamo.stepper2.tagdividr').value;
+    this.step2Subt2 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle2').value;
+    this.step2Com = tags.find(tag => tag.description === 'marchamo.stepper2.comision').value;
+    this.step2TagT = tags.find(tag => tag.description === 'marchamo.stepper2.tagTodos').value;
   }
 }

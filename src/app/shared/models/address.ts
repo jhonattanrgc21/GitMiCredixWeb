@@ -8,5 +8,5 @@ export interface Address {
   district: District;
   detail: string;
   name: string;
-  phoneNumber: string;
+  phoneNumber: number;
 }

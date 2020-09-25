@@ -1,0 +1,32 @@
+.marchamo-third-step {
+  padding: 0 84px;
+
+  &__content {
+    width: 100%;
+    padding-top: 16px;
+  }
+
+  &__sub-content {
+    margin-left: 28px;
+    width: 352px;
+  }
+
+  .left-content {
+    width: 380px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .marchamo-third-step {
+    padding: 0 78px;
+
+    &__sub-content {
+      margin-left: 0;
+    }
+
+    .left-content {
+      width: 266px;
+    }
+  }
+}
