@@ -2,7 +2,6 @@
   padding: 0 84px;
 
   &__input {
-    width: 380px;
     height: 43px;
 
     &:last-of-type {
@@ -10,10 +9,8 @@
     }
   }
 
-  &__table {
-    td {
-      width: 100px;
-    }
+  .left-content {
+    width: 380px;
   }
 }
 
@@ -21,5 +18,9 @@
 
   .marchamo-first-step {
     padding: 0 78px;
+
+    .left-content {
+      width: 266px;
+    }
   }
 }
