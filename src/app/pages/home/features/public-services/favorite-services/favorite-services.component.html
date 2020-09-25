@@ -2,27 +2,60 @@
 
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
-      <a (click)="favoriteServiceDetail(favorites)"
-         *ngFor="let favorites of publicFavoriteService" class="pointer"
-         fxLayout="column">
-        <span [class.is-selected]="optionSelected === favorites.publicServiceFavoriteId" fxLayout="row"
-              fxLayoutAlign="flex-start center">
-           <mat-icon [svgIcon]="favorites.icon" class="mr-16px"
-                     style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
-          {{favorites.publicServiceFavoriteName}}
-        </span>
-        <span class="truncate">
-          {{
-          category === 'Recargas' || category === 'Telefonía' ? (favorites.serviceReference | mask: '0000-0000') :
-            favorites.publicServiceProviderPrefix + '-' + favorites.serviceReference
-          }}
-        </span>
+      <a (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference)"
+         *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
+         fxLayout="row">
+        <mat-icon [svgIcon]="favorites.icon" class="mr-16px" fxFlex="16px"
+                  style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
+        <div class="favorites-services__labels" fxFlex="180px" fxLayout="column">
+          <span [class.is-selected]="optionSelected == favorites.publicServiceFavoriteId" fxLayout="row"
+                fxLayoutAlign="flex-start center">
+            {{favorites.publicServiceFavoriteName}}
+          </span>
+          <span class="truncate">
+            {{
+            category === 'Recargas' || category === 'Telefonía' ? (favorites.serviceReference | mask: '0000-0000') :
+              favorites.publicServiceProviderPrefix + '-' + favorites.serviceReference
+            }}
+          </span>
+        </div>
+        <mat-icon *ngIf="optionSelected == favorites.publicServiceFavoriteId" fxFlex
+                  style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
       </a>
     </div>
   </ngx-simplebar>
 
-  <div fxLayout="column" right>
-
+  <div fxLayout="column" fxLayoutAlign="center center" right>
+    <div *ngIf="dataDetail !== null" class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Compañía</span>
+        <span *ngIf="company !== undefined" class="tr">{{company}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Nombre</span>
+        <span class="tr">{{(dataDetail !== undefined) ? dataDetail.clientName : ''}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Mes al cobro</span>
+        <span *ngIf="month !== undefined" class="tr">{{month}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Vencimiento</span>
+        <span class="tr">
+          {{(expirationDate !== undefined) ? (expirationDate | dateFormatter : 'alphanumeric') : ''}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Recibos pendientes</span>
+        <span class="tr">{{(dataDetail !== undefined) ? dataDetail.numberPendingReceipts : ''}}</span>
+      </div>
+      <div *ngIf="amountOfPay !== undefined" class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
+        <span><strong>Monto a pagar</strong></span>
+        <credix-numeric-block [value]="amountOfPay" prefix="₡"></credix-numeric-block>
+      </div>
+    </div>
+    <div *ngIf="dataDetail !== null" class="favorites-services__footer">
+      <credix-button (buttonClick)="pay()" fxLayoutAlign="flex-end center" text="Pagar"></credix-button>
+    </div>
   </div>
 
 </credix-navigation-table>

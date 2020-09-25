@@ -215,7 +215,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       });
     }
     this.marchamosService.emitAmountItemsProducts(this.arrayOfAmountProducts);
-    this.isCheckedAll = this.additionalProducts.length >= 3;
+    (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
   }
 
   getValueOfCheckBoxAll(event) {
@@ -240,6 +240,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.additionalProducts.setValue([]);
       this.arrayOfAmountProducts.splice(0, this.itemProduct.length);
     }
+    (this.arrayOfAmountProducts.length < 3) ? this.isChecked = false : this.isChecked = true;
   }
 
   allChecked(event?: any) {

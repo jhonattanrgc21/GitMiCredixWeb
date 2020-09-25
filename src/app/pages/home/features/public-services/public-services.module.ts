@@ -16,6 +16,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {NewRechargeComponent} from './new-recharge/new-recharge.component';
 import {NewServiceComponent} from './new-service/new-service.component';
 import {NgxMaskModule} from 'ngx-mask';
+import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
+import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
+import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
 
 const routes: Routes = [
   {
@@ -57,6 +60,9 @@ const routes: Routes = [
     SimplebarAngularModule,
     MatIconModule,
     NgxMaskModule,
+    CredixButtonModule,
+    DateFormatterModule,
+    CredixNumericBlockModule,
   ],
   providers: [
     PublicServicesService

@@ -22,6 +22,11 @@ export class AutomaticsServicesComponent implements OnInit {
     this.getAllSchedule();
   }
 
+  schedulePaymentsDetail(data) {
+    console.log(data);
+
+  }
+
   getAllSchedule() {
     this.publicServicesService.getAllSchedulersPayment()
       .subscribe((response) => {
