@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Challenge} from '../../../../../shared/models/challenge';
 
 @Component({
   selector: 'app-modal-awards',
@@ -7,18 +8,16 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
   styleUrls: ['./modal-awards.component.scss'],
 })
 export class ModalAwardsComponent implements OnInit, AfterViewInit {
+  currentChallenge: number;
+  challenge: Challenge;
+  challenges: Challenge[];
   @ViewChild('footer') footer: TemplateRef<any>;
-  currentAward: number;
-  awardLength = 0;
-  award;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data,
-    public dialogRef: MatDialogRef<ModalAwardsComponent>
-  ) {
-    this.currentAward = this.data.data.id;
-    this.awardLength = this.data.data.array.length;
-    this.award = this.data.data.array[this.currentAward];
+  constructor(@Inject(MAT_DIALOG_DATA) public data,
+              public dialogRef: MatDialogRef<ModalAwardsComponent>) {
+    this.challenge = this.data.data.challenge;
+    this.challenges = this.data.data.challenges;
+    this.currentChallenge = this.challenges.findIndex(c => c.id === this.challenge.id);
   }
 
   ngOnInit(): void {
@@ -30,14 +29,13 @@ export class ModalAwardsComponent implements OnInit, AfterViewInit {
   }
 
   back() {
-    this.currentAward = this.currentAward - 1;
-    this.award = this.data.data.array[this.currentAward];
-
+    this.currentChallenge = this.currentChallenge - 1;
+    this.challenge = this.challenges[this.currentChallenge];
   }
 
   next() {
-    this.currentAward = this.currentAward + 1;
-    this.award = this.data.data.array[this.currentAward];
+    this.currentChallenge = this.currentChallenge + 1;
+    this.challenge = this.challenges[this.currentChallenge];
   }
 
 }

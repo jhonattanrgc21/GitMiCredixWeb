@@ -1,0 +1,83 @@
+<form [formGroup]="pickUpForm" class="marchamo-third-step" fxLayout="column">
+
+  <div class="marchamo-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="250px"><strong>{{firstSubtitle || 'Correo electrónico'}}</strong></span>
+
+    <credix-input-field class="left-content" formControlName="email"
+                        label="Correo registrado"></credix-input-field>
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="marchamo-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="184px"><strong>{{secondSubtitle || 'Lugar de retiro'}}</strong></span>
+
+    <div [fxLayoutGap]="placeRadioButton === 1 ? '0' : '16px'" class="left-content"
+         fxLayout="column">
+
+      <div fxLayout="column">
+        <credix-radio-button (emitRadioButton)="(placeRadioButton = 1) && getDeliveryPlaces()"
+                             [checked]="false"
+                             [label]="optionOneTag ||'Sucursales Credix'"
+                             [value]="1" name="places"></credix-radio-button>
+
+        <credix-select *ngIf="placeRadioButton === 1" class="marchamo-third-step__sub-content"
+                       formControlName="deliveryPlace" label="Seleccione la más cercana">
+          <mat-option *ngFor="let delivery of deliveryPlaces" [value]="delivery.id">
+            {{delivery.description}}
+          </mat-option>
+        </credix-select>
+      </div>
+
+      <div fxLayout="column" fxLayoutGap="8px">
+        <credix-radio-button (emitRadioButton)="placeRadioButton = 2"
+                             [checked]="false"
+                             [label]="optionTwoTag || 'Domicilio'"
+                             [value]="2" name="places">
+        </credix-radio-button>
+
+        <div *ngIf="placeRadioButton === 2" class="marchamo-third-step__sub-content"
+             fxLayout="column"
+             fxLayoutGap="16px">
+
+          <credix-radio-button (emitRadioButton)="addressRadioButton = 1"
+                               [label]="subOptionOneTag || 'Dirección registrada en Credix'"
+                               [value]="1" name="address">
+          </credix-radio-button>
+
+          <div *ngIf="addressRadioButton == 1 && (phoneNumber && userAddress)">
+            <ng-container *ngTemplateOutlet="addressDetail"></ng-container>
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="16px">
+            <credix-radio-button (emitRadioButton)="(addressRadioButton = 2) && openNewAddressModal()"
+                                 [label]="subOptionTwoTag  || 'User otra dirección'"
+                                 [value]="2"
+                                 name="address"></credix-radio-button>
+
+            <credix-link-button (click)="editNewAddress()" *ngIf="newAddress">Editar</credix-link-button>
+          </div>
+
+          <div *ngIf="addressRadioButton == 2 && newAddress">
+            <ng-container *ngTemplateOutlet="addressDetail"></ng-container>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</form>
+
+<ng-template #addressDetail>
+  <div fxLayout="column">
+    <span><strong>{{addressRadioButton == 1 ? name : newAddress?.name}}</strong></span>
+    <span>
+      <strong>{{(addressRadioButton == 1 ? phoneNumber : newAddress?.phoneNumber) | mask: '0000-0000'}}</strong>
+    </span>
+    <span>{{addressRadioButton == 1 ? userAddress :
+      newAddress?.detail + ', ' + newAddress?.province.description + ', ' + newAddress?.canton.description + ', ' + newAddress?.district.description}}</span>
+    <mat-divider *ngIf="addressRadioButton == 1" class="mt-16px" credixDivider></mat-divider>
+  </div>
+</ng-template>
+

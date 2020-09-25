@@ -24,7 +24,7 @@ const routes: Routes = [
       },
       {
         path: 'marchamos',
-        loadChildren: () => import('./features/marchamos/marchamos.module.js').then(m => m.MarchamosModule)
+        loadChildren: () => import('./features/marchamo/marchamo.module.js').then(m => m.MarchamoModule)
       },
       {
         path: 'payment-places',

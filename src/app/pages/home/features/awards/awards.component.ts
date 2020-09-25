@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalService} from '../../../../core/services/modal.service';
-import {ModalAwardsComponent} from './modal-awards/modal-awards.component';
 import {StorageService} from '../../../../core/services/storage.service';
-import {HttpService} from '../../../../core/services/http.service';
-import {map} from 'rxjs/operators';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import {Challenge} from '../../../../shared/models/challenge';
+import {AwardsService} from './awards.service';
+import {ModalAwardsComponent} from './modal-awards/modal-awards.component';
 
 @Component({
   selector: 'app-awards',
@@ -15,12 +15,12 @@ import {Tag} from '../../../../shared/models/tag';
 export class AwardsComponent implements OnInit {
   tabs = [
     {id: 1, name: 'En progreso'},
-    {id: 2, name: 'Finalizados'},
+    {id: 2, name: 'Finalizados'}
   ];
-  showInProgress = true;
-  completed = [];
-  inProgress = [];
-  awards = [];
+  tabId = 1;
+  completedChallenges: Challenge[] = [];
+  inProgressChallenges: Challenge[] = [];
+  challenges: Challenge[] = [];
   options = {autoHide: false, scrollbarMinSize: 100};
   titleTag: string;
   descriptionTag: string;
@@ -31,7 +31,7 @@ export class AwardsComponent implements OnInit {
   constructor(private modalService: ModalService,
               private storageService: StorageService,
               private tagsService: TagsService,
-              private httpService: HttpService) {
+              private awardsService: AwardsService) {
   }
 
   ngOnInit(): void {
@@ -41,58 +41,28 @@ export class AwardsComponent implements OnInit {
   }
 
   tabSelected(tab) {
-    this.showInProgress = tab.id === 1;
-    this.awards = this.showInProgress ? this.inProgress : this.completed;
+    this.tabId = tab.id;
+    this.challenges = this.tabId === 1 ? this.inProgressChallenges : this.completedChallenges;
   }
 
-  open(i, modal: 'in-progress' | 'completed') {
-    switch (modal) {
-      case 'completed':
-        this.modalService.open({
-          component: ModalAwardsComponent, title: 'Premios',
-          data: {modal, id: i, array: this.completed}
-        }, {
-          width: 376,
-          height: 586,
-          disableClose: true,
-          panelClass: 'awards-result-panel'
-        }, 2);
-        break;
-      case 'in-progress':
-        this.modalService.open({
-          component: ModalAwardsComponent, title: 'Premios',
-          data: {modal, id: i, array: this.inProgress}
-        }, {
-          width: 376,
-          height: 586,
-          disableClose: true,
-          panelClass: 'awards-result-panel'
-        }, 2);
-        break;
-    }
+  open(challenge: Challenge) {
+    this.modalService.open({
+      component: ModalAwardsComponent, title: 'Premios',
+      data: {challenge, challenges: this.tabId === 1 ? this.inProgressChallenges : this.completedChallenges}
+    }, {width: 376, height: 586, disableClose: true, panelClass: 'awards-panel'}, 2);
   }
 
   getUserChallenges() {
-    const sibUserId = this.storageService.getCurrentUser().userId;
-    this.httpService
-      .post('canales', `messagesrewards/challenges/user/${sibUserId}`, {
-        channelId: 102,
-        usuId: sibUserId,
-      })
-      .pipe(map(response => {
-        return response.json;
-      }))
-      .subscribe((response) => {
-        response.forEach((award) => {
-          if (award.completed) {
-            this.completed.push(award);
-          } else {
-            this.inProgress.push(award);
-          }
-        });
-
-        this.awards = this.inProgress;
+    this.awardsService.getChallenges().subscribe(challenges => {
+      challenges.forEach((challenge) => {
+        if (challenge.completed) {
+          this.completedChallenges.push(challenge);
+        } else {
+          this.inProgressChallenges.push(challenge);
+        }
       });
+      this.challenges = this.inProgressChallenges;
+    });
   }
 
   getTags(tags: Tag[]) {
