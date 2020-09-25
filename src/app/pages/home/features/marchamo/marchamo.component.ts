@@ -41,6 +41,10 @@ export class MarchamoComponent implements OnInit {
     moreProtectionAmount: 7140.00
   };
   plateNumber: string;
+  name: string;
+  email: string;
+  phoneNumber: number;
+  address: string;
   stepperIndex = 0;
   commission = 0;
   iva = 0;
@@ -113,6 +117,10 @@ export class MarchamoComponent implements OnInit {
         });
         break;
       case 3:
+        this.name = this.pickUpForm.controls.name.value;
+        this.phoneNumber = this.pickUpForm.controls.phoneNumber?.value;
+        this.email = this.pickUpForm.controls.email.value;
+        this.address = this.pickUpForm.controls.address.value;
         this.disableButton = this.confirmForm.invalid;
         this.confirmForm.valueChanges.subscribe(() => {
           this.disableButton = this.confirmForm.invalid;

@@ -59,9 +59,24 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.isActive && this.isActive) {
-      this.getDeliveryPlaces();
       this.getUserAddress();
+      this.pickUpForm.controls.person.setValue(this.storageService.getCurrentUser().aplicantName);
     }
+  }
+
+  placesRadioButtonChanged(value: number) {
+    this.placeRadioButton = value;
+    if (value === 1) {
+      this.getDeliveryPlaces();
+      this.pickUpForm.controls.deliveryPlace.setValidators([Validators.required]);
+      this.pickUpForm.controls.phoneNumber.clearValidators();
+      this.pickUpForm.controls.person.clearValidators();
+    } else {
+      this.pickUpForm.controls.deliveryPlace.clearValidators();
+      this.pickUpForm.controls.phoneNumber.setValidators([Validators.required]);
+      this.pickUpForm.controls.person.setValidators([Validators.required]);
+    }
+    this.pickUpForm.updateValueAndValidity();
   }
 
   getDeliveryPlaces() {
