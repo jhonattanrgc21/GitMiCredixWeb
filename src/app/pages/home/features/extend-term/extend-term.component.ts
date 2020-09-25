@@ -6,9 +6,9 @@ import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
+import {ExtendTermQuota} from '../../../../shared/models/extend-term-quota';
 import {AllowedMovement} from '../../../../shared/models/allowed-movement';
 import {ExtendTermService} from './extend-term.service';
-import {ExtendTermQuota} from '../../../../shared/models/extend-term-quota';
 
 @Component({
   selector: 'app-extend-term',

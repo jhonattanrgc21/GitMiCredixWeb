@@ -11,7 +11,6 @@
         <p class="awards__banner-tab__progress-div__msg">
           {{descriptionTag}}
         </p>
-        <!--<p class="awards__banner-tab__progress-div__p">¡Es hora de ganar!</p>-->
       </div>
     </mat-card>
   </div>
@@ -35,9 +34,8 @@
           <img alt="CREDIX-PREMIOS" class="awards__cards-container__img" src="{{ award.image }}"/>
         </div>
 
-
         <div class="awards__cards-container__footer" fxLayout="row" fxLayoutAlign="space-between">
-          <div *ngIf="award.goal_type == 1">
+          <div *ngIf="award.goal_type !== 4">
             <credix-progress-bar [goal]="award.goal_qty" [value]="award.progress"
                                  class="awards__cards-container__footer__probar"
                                  label="Meta de transacciones"></credix-progress-bar>
