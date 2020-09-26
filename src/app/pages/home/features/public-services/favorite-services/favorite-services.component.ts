@@ -3,6 +3,8 @@ import {PublicServiceFavoriteByUser} from '../../../../../shared/models/public-s
 import {PublicServicesService} from '../public-services.service';
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
 import {getMontByMonthNumber} from '../../../../../shared/utils/getMonthByMonthNumber';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorite-services',
@@ -17,15 +19,27 @@ export class FavoriteServicesComponent implements OnInit {
   category: string;
   company: string;
   amountOfPay: string;
+  paymentSend = false;
+  message: string;
+  status: 'success' | 'error';
+  title: string;
   expirationDate: Date;
+  dataResponse: {
+    amountPaid: string;
+    quotes: string;
+    phoneNumber: number;
+    date: string;
+  };
 
   tableHeaders = [
     {label: 'Servicios', width: '283px'},
     {label: 'Datos de la factura', width: 'auto'}
   ];
 
-  constructor(private publicService: PublicServicesService) {
+  constructor(private publicService: PublicServicesService,
+              private modalService: ModalService) {
     this.dataDetail = null;
+    this.dataResponse = null;
   }
 
   ngOnInit(): void {
@@ -38,7 +52,6 @@ export class FavoriteServicesComponent implements OnInit {
       .find(elem => elem.publicServiceId === publicServiceId).publicServiceEnterpriseDescription;
     this.publicService.checkPendingReceipts(publicServiceId, accessKey)
       .subscribe((response) => {
-        console.log(response);
         this.dataDetail = response;
         const months: Date = new Date(this.dataDetail.date);
         this.month = getMontByMonthNumber(months.getMonth());
@@ -58,13 +71,33 @@ export class FavoriteServicesComponent implements OnInit {
   }
 
   pay() {
-    if (this.dataDetail.receipts !== null) {
-      this.publicService.payPublicService(this.optionSelected,
-        +this.dataDetail.receipts.find(elem => elem.serviceValue).serviceValue,
-        this.dataDetail.receipts.find(elem => elem.totalAmount).totalAmount,
-        +this.dataDetail.receipts.find(elem => elem.receiptPeriod).receiptPeriod,
-        this.dataDetail.receipts.find(elem => elem.expirationDate).expirationDate,
-        this.dataDetail.receipts.find(elem => elem.billNumber).billNumber);
-    }
+    this.modalService.confirmationPopup('¿Desea realizar esta pago?', '', 380, 203)
+      .subscribe((confirm) => {
+        if (confirm) {
+          if (this.dataDetail.receipts !== null) {
+            this.publicService.payPublicService(this.optionSelected,
+              +this.dataDetail.receipts.find(elem => elem.serviceValue).serviceValue,
+              this.dataDetail.receipts.find(elem => elem.totalAmount).totalAmount,
+              +this.dataDetail.receipts.find(elem => elem.receiptPeriod).receiptPeriod,
+              this.dataDetail.receipts.find(elem => elem.expirationDate).expirationDate,
+              this.dataDetail.receipts.find(elem => elem.billNumber).billNumber)
+              .pipe(finalize(() => this.paymentSend = true))
+              .subscribe((response) => {
+                console.log(response);
+                this.message = response.message;
+                this.status = response.type;
+                this.title = response.titleOne;
+
+                this.dataResponse = {
+                  amountPaid: response.amountPaid,
+                  quotes: response.totalPaymentConcepts,
+                  phoneNumber: response.reference,
+                  date: response.date
+                };
+              });
+          }
+        }
+      });
+
   }
 }

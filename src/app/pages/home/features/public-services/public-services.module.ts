@@ -19,6 +19,11 @@ import {NgxMaskModule} from 'ngx-mask';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
 import {CredixNumericBlockModule} from '../../../../shared/components/credix-numeric-block/credix-numeric-block.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {MatDividerModule} from '@angular/material/divider';
+import {PhoneMaskModule} from '../../../../shared/pipes/phone-mask/phone-mask.module';
+import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
+import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
 
 const routes: Routes = [
   {
@@ -63,6 +68,11 @@ const routes: Routes = [
     CredixButtonModule,
     DateFormatterModule,
     CredixNumericBlockModule,
+    CredixResultViewModule,
+    MatDividerModule,
+    PhoneMaskModule,
+    CredixLinkButtonModule,
+    CredixShareButtonModule,
   ],
   providers: [
     PublicServicesService

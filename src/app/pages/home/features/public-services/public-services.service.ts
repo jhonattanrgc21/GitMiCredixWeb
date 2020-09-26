@@ -25,8 +25,19 @@ export class PublicServicesService {
   private readonly getPendingReceiptsUri = 'publicservicebncr/pendingreceipts';
   private readonly payPublicServiceUri = 'publicservicebncr/servicepayment';
 
+  // tslint:disable-next-line:variable-name
+  private _IdSchedule: number;
+
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
+  }
+
+  get idSchedule(): number {
+    return this._IdSchedule;
+  }
+
+  set idScheduleToUpdate(id: number) {
+    this._IdSchedule = id;
   }
 
   @Cacheable()
@@ -96,6 +107,4 @@ export class PublicServicesService {
       billNumber
     });
   }
-
-
 }

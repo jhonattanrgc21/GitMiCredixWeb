@@ -4,51 +4,59 @@
     <div class="automatics-services__options-wrapper" fxLayout="column">
       <a (click)="schedulePaymentsDetail(schedule)"
          *ngFor="let schedule of schedulePayments" class="automatics-services__option pointer"
-         fxLayout="column">
-        <span [class.is-selected]="schedule === schedule.id" fxLayout="row"
-              fxLayoutAlign="flex-start center">
-           <mat-icon [svgIcon]="schedule.icon" class="mr-16px"
-                     style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
-          {{schedule.alias}}
-        </span>
-        <span class="truncate">
-
-        </span>
+         fxLayout="row">
+        <mat-icon [svgIcon]="schedule.icon" class="mr-16px" fxFlex="16px"
+                  style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
+        <div class="automatics-services__label" fxFlex="180px" fxLayout="column">
+          <span [class.is-selected]="optionSelected === schedule.id" fxLayout="row"
+                fxLayoutAlign="flex-start center">
+            {{schedule.alias}}
+          </span>
+          <span class="truncate">
+            {{ category === 'Recargas' || category === 'Telefonía' ? (schedule.key | mask: '0000-0000')
+            : schedule.publicServiceDescription + '-' + schedule.key  }}
+          </span>
+        </div>
+        <mat-icon *ngIf="optionSelected === schedule.id" fxFlex
+                  style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
       </a>
     </div>
 
   </ngx-simplebar>
 
   <div fxLayout="column" right>
-    <div class="automatics-services__table" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="dataToDetail !== null" class="automatics-services__table" fxLayout="column" fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
-        <span class="tr">C.N.F.L.</span>
+        <span class="tr">{{dataToDetail.publicServiceDescription}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Nombre</span>
-        <span class="tr">Sergio Marquina</span>
+        <span class="tr">{{dataToDetail.alias}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Mes al cobro</span>
-        <span class="tr">Setiembre</span>
+        <span class="tr">{{dataToDetail.monthToCharge}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Vencimiento</span>
-        <span class="tr">30 Set 2019</span>
+        <span class="tr">{{dataToDetail.startDate | dateFormatter: 'alphanumeric'}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Pago automático</span>
-        <span class="tr">30 Set 2019</span>
+        <span class="tr">{{dataToDetail.startDate | dateFormatter: 'alphanumeric'}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Periocidad</span>
-        <span class="tr">Mensual</span>
+        <span class="tr">{{dataToDetail.periodicity}}</span>
       </div>
       <div class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto máximo a pagar</strong></span>
-        <span class="tr"><strong>¢30.000,00</strong></span>
+        <credix-numeric-block [value]="dataToDetail.maxAmount" prefix="₡"></credix-numeric-block>
       </div>
+    </div>
+    <div *ngIf="dataToDetail !== null" class="automatics-services__footer">
+      <credix-button (buttonClick)="edit()" fxLayoutAlign="flex-end center" text="Editar"></credix-button>
     </div>
   </div>
 

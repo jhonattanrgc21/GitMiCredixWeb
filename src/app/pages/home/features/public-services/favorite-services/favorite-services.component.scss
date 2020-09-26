@@ -12,11 +12,9 @@
     }
 
     &__label {
-      font-size: 16px;
-      color: #3e3e3e;
-
-      &.is-selected {
-        font-weight: bold;
+      span {
+        font-size: 16px;
+        color: #3e3e3e;
       }
     }
   }
@@ -38,4 +36,8 @@
 
 .mt-2px {
   margin-top: 2px !important;
+}
+
+.is-selected {
+  font-weight: bold;
 }
