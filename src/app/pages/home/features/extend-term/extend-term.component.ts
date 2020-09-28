@@ -29,7 +29,6 @@ export class ExtendTermComponent implements OnInit {
   message = 'El plazo de su compra ha sido extendido correctamente.';
   status: 'success' | 'error';
   done = false;
-  currencyCode = '$';
   empty = false;
   quotaSliderStep = 1;
   quotaSliderMin = 3;
