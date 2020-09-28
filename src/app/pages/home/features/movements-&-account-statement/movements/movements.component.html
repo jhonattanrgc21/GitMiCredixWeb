@@ -19,14 +19,15 @@
       <mat-header-cell *matHeaderCellDef credixHeaderCell>{{columnThreeTag || 'Monto'}}</mat-header-cell>
       <mat-cell *matCellDef="let element"
                 [class.is-green]="element.movementType == 'Pago'" credixCell>
-        <credix-numeric-block [prefix]="element.currencySimbol" [value]="element.originAmount" fontSize="16"
+        <credix-numeric-block [prefix]="element.currencySimbol" [value]="element.originAmount"
                               fontWeight="bold"></credix-numeric-block>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="quotas">
       <mat-header-cell *matHeaderCellDef credixHeaderCell>{{columnFourTag || 'Cuotas'}} </mat-header-cell>
-      <mat-cell *matCellDef="let element" credixCell>
+      <mat-cell *matCellDef="let element" [class.is-green]="element.movementType == 'Pago'"
+                credixCell>
         <span *ngIf="element.quota !== 0">
           {{element.quota === 1 ? 'A ' + element.quota + ' cuota' : 'A ' + element.quota + ' cuotas'}}</span>
       </mat-cell>

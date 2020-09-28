@@ -13,8 +13,19 @@
       justify-content: flex-start !important;
     }
 
-    mat-cell:first-of-type {
-      text-align: left !important;
+    mat-cell {
+
+      &:first-of-type {
+        text-align: left !important;
+      }
+
+      &.is-green {
+        color: #19D27E;
+
+        ::ng-deep .credix-numeric-block__integer, ::ng-deep .credix-numeric-block__decimal {
+          color: #19D27E !important;
+        }
+      }
     }
 
     mat-header-cell, mat-cell {
@@ -46,11 +57,6 @@
         text-align: right !important;
       }
     }
-
-    .is-green {
-      color: #19D27E;
-    }
   }
-
 
 }

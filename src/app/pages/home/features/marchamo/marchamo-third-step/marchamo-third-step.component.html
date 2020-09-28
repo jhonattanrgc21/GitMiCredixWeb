@@ -12,11 +12,10 @@
   <div class="marchamo-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <span fxFlex="184px"><strong>{{secondSubtitle || 'Lugar de retiro'}}</strong></span>
 
-    <div [fxLayoutGap]="placeRadioButton === 1 ? '0' : '16px'" class="left-content"
-         fxLayout="column">
+    <div [fxLayoutGap]="placeRadioButton === 1 ? '0' : '16px'" class="left-content" fxLayout="column">
 
       <div fxLayout="column">
-        <credix-radio-button (emitRadioButton)="(placeRadioButton = 1) && getDeliveryPlaces()"
+        <credix-radio-button (emitRadioButton)="placesRadioButtonChanged(1)"
                              [checked]="false"
                              [label]="optionOneTag ||'Sucursales Credix'"
                              [value]="1" name="places"></credix-radio-button>
@@ -30,7 +29,7 @@
       </div>
 
       <div fxLayout="column" fxLayoutGap="8px">
-        <credix-radio-button (emitRadioButton)="placeRadioButton = 2"
+        <credix-radio-button (emitRadioButton)="placesRadioButtonChanged(2)"
                              [checked]="false"
                              [label]="optionTwoTag || 'Domicilio'"
                              [value]="2" name="places">

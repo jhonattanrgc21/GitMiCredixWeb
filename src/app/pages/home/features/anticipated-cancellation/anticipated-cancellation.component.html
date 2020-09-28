@@ -8,12 +8,11 @@
   <div class="mb-16px" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
     <span><strong>{{balanceTag || 'Saldo a favor'}}</strong></span>
     <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol : dollarsSymbol"
-                          [value]="tabId === 1 ? colonesBalance : dollarsBalance" fontSize="24"
-                          fontWeight="bold">
+                          [value]="tabId === 1 ? colonesBalance : dollarsBalance" fontSize="24" fontWeight="bold">
     </credix-numeric-block>
   </div>
 
-  <ngx-simplebar [fxFlex]="empty ? '0 0 0' : '100%'" [options]="{autoHide: false, scrollbarMinSize: 100}"
+  <ngx-simplebar [fxFlex]="empty ? '0 0 0' : '100%'" [options]="{autoHide: false}"
                  class="anticipated-cancellation__table-wrapper">
     <mat-table [dataSource]="dataSource" class="anticipated-cancellation__table">
 

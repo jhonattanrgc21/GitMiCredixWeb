@@ -2,7 +2,6 @@
 
   &__slider {
     width: 100%;
-   // pointer-events: none;
   }
 
   &__footer {
@@ -52,6 +51,7 @@
       bottom: -17px;
       right: -20px;
       transform: none !important;
+      box-shadow: 0 3px 6px #00000029;
 
       &:hover {
         background-color: #D0D0D0;

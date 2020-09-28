@@ -1,5 +1,5 @@
 .personal-credit-first-step {
-  padding: 0 100px;
+  padding: 0 84px;
   margin-top: 32px;
 
   &__content {
@@ -13,15 +13,9 @@
   .credix-slider--no-units ::ng-deep.credix-slider__units {
     display: none;
   }
-
-  &__divider {
-    width: 100%;
-    border: 1px solid #E9E9E9;
-    margin: 16px 0 16px 0;
-  }
 }
 
-::ng-deep.summary-panel .mat-dialog-container {
+::ng-deep .summary-panel .mat-dialog-container {
   padding: 36px !important;
 
   .credix-popup__title {

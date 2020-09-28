@@ -41,9 +41,14 @@ export class MarchamoComponent implements OnInit {
     moreProtectionAmount: 7140.00
   };
   plateNumber: string;
+  name: string;
+  email: string;
+  phoneNumber: number;
+  address: string;
   stepperIndex = 0;
   commission = 0;
   iva = 0;
+  marchamoTotal = 0;
   totalAmountItemsProducts = 0;
   total = 0;
   done = false;
@@ -99,6 +104,7 @@ export class MarchamoComponent implements OnInit {
       case 1:
         this.getPromo();
         this.plateNumber = this.marchamosService.consultVehicle.plateNumber;
+        this.marchamoTotal = this.marchamosService.consultVehicle.amount;
         this.disableButton = this.secureAndQuotesForm.invalid;
         this.secureAndQuotesForm.valueChanges.subscribe(() => {
           this.disableButton = this.secureAndQuotesForm.invalid;
@@ -111,6 +117,10 @@ export class MarchamoComponent implements OnInit {
         });
         break;
       case 3:
+        this.name = this.pickUpForm.controls.name.value;
+        this.phoneNumber = this.pickUpForm.controls.phoneNumber?.value;
+        this.email = this.pickUpForm.controls.email.value;
+        this.address = this.pickUpForm.controls.address.value;
         this.disableButton = this.confirmForm.invalid;
         this.confirmForm.valueChanges.subscribe(() => {
           this.disableButton = this.confirmForm.invalid;
@@ -178,12 +188,12 @@ export class MarchamoComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.title = tags.find(tag => tag.description === 'marchamo.title').value;
-    this.resumeTag1 = tags.find(tag => tag.description === 'marchamo.resumen.tag1').value;
-    this.step1 = tags.find(tag => tag.description === 'marchamo.stepper1').value;
-    this.step2 = tags.find(tag => tag.description === 'marchamo.stepper2').value;
-    this.step3 = tags.find(tag => tag.description === 'marchamo.stepper3').value;
-    this.step4 = tags.find(tag => tag.description === 'marchamo.stepper4').value;
+    this.title = tags.find(tag => tag.description === 'marchamo.title')?.value;
+    this.resumeTag1 = tags.find(tag => tag.description === 'marchamo.resumen.tag1')?.value;
+    this.step1 = tags.find(tag => tag.description === 'marchamo.stepper1')?.value;
+    this.step2 = tags.find(tag => tag.description === 'marchamo.stepper2')?.value;
+    this.step3 = tags.find(tag => tag.description === 'marchamo.stepper3')?.value;
+    this.step4 = tags.find(tag => tag.description === 'marchamo.stepper4')?.value;
   }
 
 }

@@ -6,17 +6,16 @@
 
   <credix-navigation-table [headers]="tableHeaders" [hide]="empty" class="mt-24px">
 
-    <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="extend-term__menu-options" left>
-      <div class="pl-16px pr-16px" fxLayout="column">
+    <ngx-simplebar [options]="{autoHide: false}" class="extend-term__menu-options" left>
+      <div class="pl-16px pr-16px w-100" fxLayout="column">
         <a (click)="getAllowedMovementDetail(allowedMovement)"
            *ngFor="let allowedMovement of allowedMovements, let last = last"
            class="extend-term__option" fxLayout="column">
           <div fxLayout="row" fxLayoutAlign="space-between center">
             <p [class.is-selected]="allowedMovementSelected?.movementId == allowedMovement.movementId"
-               class="extend-term__option__label truncate"
-               fxFlex="150px">{{allowedMovement.establishmentName}}</p>
+               class="extend-term__option__label truncate" fxFlex>{{allowedMovement.establishmentName}}</p>
             <p class="tr extend-term__content__date">
-              {{allowedMovement.originDate | dateFormatter: "alphanumeric"}}
+              {{allowedMovement.originDate | dateFormatter: "shortAlphanumeric"}}
             </p>
           </div>
           <span [class.is-selected]="allowedMovementSelected?.movementId == allowedMovement.movementId"
@@ -24,7 +23,7 @@
               <credix-numeric-block [prefix]="allowedMovement.originCurrency.currency"
                                     [value]="allowedMovement.originAmount" fontSize="16"
                                     fontWeight="allowedMovementSelected?.id == option.id ? 'bold': 'normal'"></credix-numeric-block>
-              a {{ allowedMovement.totalPlanQuota }} Cuotas
+              a {{ allowedMovement.totalPlanQuota }} cuotas
             </span>
           <span *ngIf="allowedMovementSelected?.movementId == allowedMovement.movementId"
                 class="extend-term__option__arrow"></span>
@@ -44,7 +43,7 @@
         <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
                               [value]="allowedMovementSelected?.originAmount"
                               fontSize="14" fontWeight="bold"></credix-numeric-block>
-        a {{ allowedMovementSelected?.totalPlanQuota }} Cuotas
+        a {{ allowedMovementSelected?.totalPlanQuota }} cuotas
       </p>
 
       <div class="extend-term__content-right__option" fxLayout="row" fxLayoutAlign="space-between">
@@ -107,7 +106,7 @@
         </div>
 
         <p class="extend-term__message">
-          {{disclaTag || '* IVA y comisión se cargarán en el próximo estado de cuenta'}}.</p>
+          {{disclaTag || '*IVA y comisión se cargarán en el próximo estado de cuenta'}}.</p>
       </div>
     </div>
 
@@ -120,7 +119,7 @@
   <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="openConfirmationModal()" *ngIf="allowedMovementSelected"
                    [disabled]="allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo"
-                   text="Ampliar Plazo">
+                   text="Ampliar plazo">
     </credix-button>
   </div>
 </mat-card>
@@ -131,37 +130,37 @@
                           [status]="status"
                           [title]="titleTag || 'Ampliar plazo de compra'"
                           buttonText="Listo"
-                          routeTo="/home">
+                          routeTo="/home/extend-term">
 
     <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
       <mat-divider class="mb-24px" credixDivider></mat-divider>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <p fxFlex="175px"><strong>Datos de la ampliación</strong></p>
+        <span fxFlex="175px"><strong>Datos de la ampliación</strong></span>
 
         <div fxLayout="column" fxLayoutGap="8px">
+
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="95px">{{comercioResult || 'Comercio'}}</span>
-            <span class="tr"><strong>{{allowedMovementSelected?.establishmentName}}</strong></span>
+            <span fxFlex="90px">{{comercioResult || 'Comercio'}}</span>
+            <span class="truncate tr" fxFlex="200px">
+              <strong>{{allowedMovementSelected?.establishmentName.trim()}}</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>{{newQuota || 'Cuota nueva'}}</span>
-            <div>
-              <credix-numeric-block [prefix]="currencyCode" [value]="quotaSelected?.feeAmount" fontSize="16"
-                                    fontWeight="bold">
-              </credix-numeric-block>
-            </div>
+            <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
+                                  [value]="quotaSelected?.amountPerQuota" fontWeight="bold">
+            </credix-numeric-block>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="95px">Plazo nuevo</span>
-            <span class="tr"><strong>{{ quotaSelected?.quotaTo }} Cuota</strong></span>
+            <span fxFlex>Plazo nuevo</span>
+            <span><strong>{{ quotaSelected?.quotaTo }} Cuota</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="95px">{{dateTag || 'Fecha'}}</span>
-            <span class="tr"><strong>{{today | dateFormatter: 'numeric'}}</strong></span>
+            <span fxFlex>{{dateTag || 'Fecha'}}</span>
+            <span><strong>{{today | dateFormatter: 'numeric'}}</strong></span>
           </div>
 
         </div>

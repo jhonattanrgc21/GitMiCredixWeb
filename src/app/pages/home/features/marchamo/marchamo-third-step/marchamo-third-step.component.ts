@@ -59,9 +59,24 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.isActive && this.isActive) {
-      this.getDeliveryPlaces();
       this.getUserAddress();
+      this.pickUpForm.controls.person.setValue(this.storageService.getCurrentUser().aplicantName);
     }
+  }
+
+  placesRadioButtonChanged(value: number) {
+    this.placeRadioButton = value;
+    if (value === 1) {
+      this.getDeliveryPlaces();
+      this.pickUpForm.controls.deliveryPlace.setValidators([Validators.required]);
+      this.pickUpForm.controls.phoneNumber.clearValidators();
+      this.pickUpForm.controls.person.clearValidators();
+    } else {
+      this.pickUpForm.controls.deliveryPlace.clearValidators();
+      this.pickUpForm.controls.phoneNumber.setValidators([Validators.required]);
+      this.pickUpForm.controls.person.setValidators([Validators.required]);
+    }
+    this.pickUpForm.updateValueAndValidity();
   }
 
   getDeliveryPlaces() {
@@ -114,11 +129,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   getTags(tags: Tag[]) {
-    this.secondSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle2').value;
-    this.subOptionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option2').value;
-    this.subOptionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option1').value;
-    this.optionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1').value;
-    this.optionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option2').value;
-    this.firstSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle1').value;
+    this.secondSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle2')?.value;
+    this.subOptionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option2')?.value;
+    this.subOptionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option1')?.value;
+    this.optionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1')?.value;
+    this.optionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option2')?.value;
+    this.firstSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle1')?.value;
   }
 }

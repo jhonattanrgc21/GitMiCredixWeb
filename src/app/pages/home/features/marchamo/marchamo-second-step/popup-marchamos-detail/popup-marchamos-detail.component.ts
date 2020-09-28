@@ -35,7 +35,7 @@ export class PopupMarchamosDetailComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.popUpTagT = tags.find(tag => tag.description === 'marchamo.popup.tagTotal').value;
-    this.popUpTitle = tags.find(tag => tag.description === 'marchamo.popup.title').value;
+    this.popUpTagT = tags.find(tag => tag.description === 'marchamo.popup.tagTotal')?.value;
+    this.popUpTitle = tags.find(tag => tag.description === 'marchamo.popup.title')?.value;
   }
 }

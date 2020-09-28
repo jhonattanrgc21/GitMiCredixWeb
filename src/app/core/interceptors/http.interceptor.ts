@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, finalize, map} from 'rxjs/operators';
 import {StorageService} from '../services/storage.service';
 import {CredixToastService} from '../services/credix-toast.service';
 import {LoadingSpinnerService} from '../services/loading-spinner.service';
@@ -43,26 +43,11 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          if ((request.url.search(this.canalesUrL) !== -1 || request.url.search(this.marchamosUrl) !== -1 ||
-            request.url.search(this.incomexUrl) !== -1)) {
-            this.requestsCount--;
-            if (this.requestsCount === 0) {
-              this.loadingSpinnerService.stopLoading();
-            }
-          }
 
           if (event.headers) {
             if (event.headers.get('x-auth-token') != null) {
               this.storageService.setCurrentToken(event.headers.get('x-auth-token'));
               this.print();
-            }
-          }
-
-          if ((event.body.titleOne === 'error' || event.body.type === 'error')) {
-            const message = event.body.message || event.body.descriptionOne || event.body.json?.message;
-
-            if (message) {
-              this.toastService.show({text: message, type: 'error'});
             }
           }
 
@@ -73,11 +58,16 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
         return event;
       }),
       catchError((error: HttpErrorResponse) => {
+        return throwError(error);
+      }),
+      finalize(() => {
         if (request.url.search(this.canalesUrL) !== -1 || request.url.search(this.marchamosUrl) !== -1 ||
           request.url.search(this.incomexUrl) !== -1) {
-          this.loadingSpinnerService.stopLoading();
+          this.requestsCount--;
+          if (this.requestsCount === 0) {
+            this.loadingSpinnerService.stopLoading();
+          }
         }
-        return throwError(error);
       })
     );
   }
