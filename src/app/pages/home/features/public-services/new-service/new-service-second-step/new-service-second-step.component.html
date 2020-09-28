@@ -1,4 +1,4 @@
-<div class="new-service-second-step" fxLayout="column">
+<form [formGroup]="confirmFormGroup" class="new-service-second-step" fxLayout="column">
 
   <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <span fxFlex="150px"><strong>{{referenceName}}</strong></span>
@@ -7,7 +7,7 @@
       <span><strong>{{reference}}</strong></span>
       <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
                               label="Guardar como favorito"></credix-checkbox-button>
-      <credix-input-field *ngIf="showInput" [formControl]="favoriteControl"
+      <credix-input-field *ngIf="showInput" formControlName="favorite"
                           class="new-service-second-step__content__input favorite"
                           label="Nombre del favorito"></credix-input-field>
     </div>
@@ -53,9 +53,9 @@
   <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <credix-code-link></credix-code-link>
 
-    <credix-code-input [(codeFormControl)]="credixCodeControl" [length]="6"
-                       class="new-service-second-step__content__input  left-content"
-                       errorMessage="Introduzca el codigo de confirmación"></credix-code-input>
+    <credix-code-input class="new-service-second-step__content__input left-content" formControlName="credixCode">
+      <span error>Introduzca el código credix.</span>
+    </credix-code-input>
   </div>
 
-</div>
+</form>

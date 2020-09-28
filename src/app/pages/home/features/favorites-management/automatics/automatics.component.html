@@ -45,10 +45,8 @@
 
     <div *ngIf="data.alias !== ''" class="mt-24px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>
-      <credix-code-input [(codeFormControl)]="codeCredix"
-                         [length]="6"
-                         class="automatics__input disabled"
-                         errorMessage="Introduzca el codigo de confirmación">
+      <credix-code-input [formControl]="codeCredix" class="automatics__input disabled">
+        <span error>Introduzca el código credix.</span>
       </credix-code-input>
     </div>
   </form>

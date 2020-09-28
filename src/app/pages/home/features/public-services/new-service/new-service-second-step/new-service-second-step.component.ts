@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-new-service-second-step',
@@ -7,8 +7,10 @@ import {FormControl, Validators} from '@angular/forms';
   styleUrls: ['./new-service-second-step.component.scss']
 })
 export class NewServiceSecondStepComponent implements OnInit {
-  @Input() credixCodeControl = new FormControl(null, [Validators.required]);
-  @Input() favoriteControl = new FormControl(null);
+  @Input() confirmFormGroup: FormGroup = new FormGroup({
+    credixCode: new FormControl(null, [Validators.required]),
+    favorite: new FormControl(null)
+  });
   @Input() referenceName: string;
   @Input() reference: string;
   @Input() currencySymbol: string;
@@ -29,6 +31,15 @@ export class NewServiceSecondStepComponent implements OnInit {
   onCheckboxChanged(checked: boolean) {
     this.showInput = checked;
     this.saveFavoriteEvent.emit(checked);
+    this.confirmFormGroup.controls.favorite.reset();
+
+    if (this.showInput) {
+      this.confirmFormGroup.controls.favorite.setValidators([Validators.required]);
+    } else {
+      this.confirmFormGroup.controls.favorite.clearValidators();
+    }
+
+    this.confirmFormGroup.controls.favorite.updateValueAndValidity();
   }
 
 }

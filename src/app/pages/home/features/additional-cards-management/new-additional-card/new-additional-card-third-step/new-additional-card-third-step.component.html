@@ -39,10 +39,11 @@
   <mat-divider class="mb-16px mt-16px" credixDivider></mat-divider>
 
   <div class="new-additional-card-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-     <credix-code-link></credix-code-link>
+    <credix-code-link></credix-code-link>
 
-    <credix-code-input [(codeFormControl)]="confirmFormControl" [length]="6" class="left-content"
-                       errorMessage="Introduzca el codigo de confirmación"></credix-code-input>
+    <credix-code-input [formControl]="confirmFormControl" class="left-content">
+      <span error>Introduzca el código credix.</span>
+    </credix-code-input>
   </div>
 
 </div>

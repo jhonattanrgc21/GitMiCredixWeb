@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {PublicServicesService} from '../public-services.service';
@@ -16,8 +16,10 @@ import {finalize} from 'rxjs/operators';
 })
 export class NewServiceComponent implements OnInit {
   contractControl = new FormControl(null, [Validators.required]);
-  credixCodeControl = new FormControl(null, [Validators.required]);
-  favoriteControl = new FormControl(null, [Validators.required]);
+  confirmFormGroup: FormGroup = new FormGroup({
+    credixCode: new FormControl(null, [Validators.required]),
+    favorite: new FormControl(null)
+  });
   currencySymbol = '₡';
   saveAsFavorite = false;
   stepperIndex = 0;
@@ -83,8 +85,8 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesService.savePublicServiceFavorite(
       this.publicServiceId,
       this.contractControl.value,
-      this.favoriteControl.value,
-      this.credixCodeControl.value).subscribe();
+      this.confirmFormGroup.controls.favorite.value,
+      this.confirmFormGroup.controls.credixCode.value).subscribe();
   }
 
   back() {

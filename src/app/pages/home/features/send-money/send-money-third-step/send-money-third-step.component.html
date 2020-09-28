@@ -70,8 +70,9 @@
   <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
     <credix-code-link></credix-code-link>
 
-    <credix-code-input [(codeFormControl)]="codeControl" class="right-content"
-                       errorMessage="Código erroneo"></credix-code-input>
+    <credix-code-input [formControl]="codeControl" class="right-content">
+      <span error>Introduzca el código credix.</span>
+    </credix-code-input>
   </div>
 
 </div>

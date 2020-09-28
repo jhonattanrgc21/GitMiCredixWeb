@@ -1,8 +1,8 @@
 <div class="buy-without-card-first-step" fxLayout="row" fxLayoutAlign="space-between">
   <credix-code-link></credix-code-link>
 
-  <credix-code-input [(codeFormControl)]="credixCode" [length]="6" class="buy-without-card-first-step__input"
-                     errorMessage="Introduzca el código de confirmación.">
+  <credix-code-input [formControl]="credixCode" class="buy-without-card-first-step__input">
+    <span error>Introduzca el código credix.</span>
   </credix-code-input>
 
 </div>

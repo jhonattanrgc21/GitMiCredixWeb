@@ -79,9 +79,10 @@
     <div class="personal-info-editor__content mt-16px" fxLayout="row" fxLayoutAlign="space-between">
       <credix-code-link></credix-code-link>
 
-      <credix-code-input [(codeFormControl)]="personalInfoFormGroup.controls.code"
-                         class="personal-info-editor__content__right-wrapper"
-                         errorMessage="Código erroneo"></credix-code-input>
+      <credix-code-input class="personal-info-editor__content__right-wrapper"
+                         formControlName="code">
+        <span error>Introduzca el código credix.</span>
+      </credix-code-input>
     </div>
 
     <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">

@@ -46,9 +46,9 @@
     <div class="new-recharge__content" fxLayout="row" fxLayoutAlign="space-between">
       <credix-code-link></credix-code-link>
 
-      <credix-code-input [codeFormControl]="rechargeFormGroup.controls.credixCode" [length]="6"
-                         class="new-recharge__content__input  left-content"
-                         errorMessage="Introduzca el codigo de confirmación"></credix-code-input>
+      <credix-code-input class="new-recharge__content__input left-content" formControlName="credixCode">
+        <span error>Introduzca el código credix.</span>
+      </credix-code-input>
     </div>
   </div>
 

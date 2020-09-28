@@ -52,8 +52,8 @@
         </p>
       </div>
 
-      <credix-code-input [(codeFormControl)]="codeCredix" [length]="6" class="add-favorites-payment__form"
-                         errorMessage="Introduzca el codigo de confirmación">
+      <credix-code-input [formControl]="codeCredix" class="add-favorites-payment__form">
+        <span error>Introduzca el código credix.</span>
       </credix-code-input>
     </div>
 

@@ -26,7 +26,7 @@ export class ForgotPasswordComponent implements OnInit {
       identNumber: new FormControl({value: null, disabled: true}, [Validators.required]),
       password: new FormControl(null, [Validators.required]),
       confirmPassword: new FormControl(null, [Validators.required]),
-      code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     },
     {validators: this.passwordValidator}
   );
@@ -60,7 +60,7 @@ export class ForgotPasswordComponent implements OnInit {
           'canales',
           'security/user/forgetusernameandpasswordbyidentification',
           {
-            codeCredix: this.forgotPassForm.controls.code.value,
+            codeCredix: this.forgotPassForm.controls.credixCode.value,
             typeIdentification: this.forgotPassForm.controls.identType.value,
             identification: this.forgotPassForm.controls.identNumber.value,
             password: CryptoJS.SHA256(this.forgotPassForm.get('password').value).toString(),

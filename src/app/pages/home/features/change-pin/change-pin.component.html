@@ -35,8 +35,8 @@
       <credix-code-link></credix-code-link>
 
       <form [formGroup]="changePinForm">
-        <credix-code-input [(codeFormControl)]="changePinForm.controls.code" [length]="6" class="change-pin__code tr"
-                           errorMessage="Ingrése código MiCredix">
+        <credix-code-input class="change-pin__code tr" formControlName="code">
+          <span error>Introduzca el código credix.</span>
         </credix-code-input>
       </form>
     </div>

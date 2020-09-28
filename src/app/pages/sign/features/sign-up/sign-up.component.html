@@ -34,12 +34,8 @@
 
       <form [formGroup]="newUserSecondStepForm" fxLayout="column">
 
-        <credix-code-input
-          [(codeFormControl)]="fSecondControl.credixCode"
-          [length]="6"
-          class="w-100 mb-16px"
-          errorMessage="Introduzca el codigo de confirmación">
-        </credix-code-input>
+        <credix-code-input class="w-100 mb-16px" formControlName="credixCode">
+          <span error>Introduzca el código credix</span></credix-code-input>
 
         <div class="mb-24px" fxLayout="column" fxLayoutAlign="start center">
           <span>¿No ha recibido el código?</span>

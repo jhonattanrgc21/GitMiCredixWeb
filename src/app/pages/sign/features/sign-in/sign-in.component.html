@@ -51,11 +51,9 @@
     </p>
 
     <form [formGroup]="newDeviceFormGroup" class="w-100 mb-32px">
-      <credix-code-input [(codeFormControl)]="g.otp" [length]="6">
+      <credix-code-input formControlName="credixCode">
+        <span error>El código ingresado es erróneo. Inténtelo de nuevo.</span>
       </credix-code-input>
-      <mat-error *ngIf="showErrorMessage">
-        El código ingresado es erróneo. Inténtelo de nuevo.
-      </mat-error>
     </form>
 
     <div class="w-100" fxLayout="column" fxLayoutAlign="center center">

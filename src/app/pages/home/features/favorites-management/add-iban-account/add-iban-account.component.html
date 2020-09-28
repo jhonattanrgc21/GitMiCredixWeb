@@ -31,8 +31,9 @@
     <div fxLayout="row" fxLayoutAlign="space-between">
       <credix-code-link></credix-code-link>
 
-      <credix-code-input [(codeFormControl)]="codeCredix" [length]="6" class="add-iban-account__form"
-                         errorMessage="Introduzca el codigo de confirmación"></credix-code-input>
+      <credix-code-input [formControl]="codeCredix" class="add-iban-account__form">
+        <span error>Introduzca el código credix.</span>
+      </credix-code-input>
     </div>
   </div>
 
