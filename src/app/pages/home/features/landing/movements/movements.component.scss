@@ -17,6 +17,10 @@
 
       &.is-green {
         color: #19D27E;
+
+        ::ng-deep .credix-numeric-block__integer, ::ng-deep .credix-numeric-block__decimal {
+          color: #19D27E !important;
+        }
       }
     }
 
@@ -35,12 +39,8 @@
       font-weight: bold !important;
       flex: 35% !important;
     }
-
   }
 
-  .is-green {
-    color: #19D27E;
-  }
 }
 
 @media screen and (max-width: 1199px) {

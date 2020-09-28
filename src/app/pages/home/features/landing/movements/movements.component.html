@@ -15,9 +15,9 @@
     </ng-container>
 
     <ng-container matColumnDef="amount">
-      <mat-cell *matCellDef="let element" credixCell>
-        <credix-numeric-block [prefix]="element.currencySimbol" [value]="element.originAmount" fontSize="16"
-                              [class.is-green]="element.movementType == 'Pago'" fontWeight></credix-numeric-block>
+      <mat-cell *matCellDef="let element" [class.is-green]="element.movementType == 'Pago'" credixCell>
+        <credix-numeric-block [class.is-green]="element.movementType == 'Pago'" [prefix]="element.currencySimbol"
+                              [value]="element.originAmount" fontWeight="bold"></credix-numeric-block>
       </mat-cell>
     </ng-container>
 
