@@ -1,14 +1,18 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http.service';
 import {Cacheable} from 'ngx-cacheable';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {StorageService} from './storage.service';
+
+export const cleanProfilePhoto$ = new Subject();
 
 @Injectable()
 export class ApplicantApiService {
   private readonly userApplicantInfoUri = 'applicant/finduserapplicantaccountnumber';
   private readonly getApplicantProfilePhotoUri = 'applicant/getProfilePhotoApplicant';
+  private newPhotoSub = new Subject();
+  newPhoto$ = this.newPhotoSub.asObservable();
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -29,13 +33,15 @@ export class ApplicantApiService {
       );
   }
 
-  @Cacheable()
+  @Cacheable({
+    cacheBusterObserver: cleanProfilePhoto$.asObservable()
+  })
   getApplicantProfilePhoto(): Observable<string> {
     return this.httpService.post('canales', this.getApplicantProfilePhotoUri, {
       identification: this.storageService.getIdentification()
     }).pipe(
       map(response => {
-        if (response.type === 'success') {
+        if (response.imgBase64) {
           return response.imgBase64;
         } else {
           return null;
@@ -43,4 +49,7 @@ export class ApplicantApiService {
       }));
   }
 
+  emitNewPhoto(): void {
+    this.newPhotoSub.next();
+  }
 }

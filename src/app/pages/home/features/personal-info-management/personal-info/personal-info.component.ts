@@ -42,9 +42,8 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   getApplicantProfilePhoto() {
-    this.applicantApiService.getApplicantProfilePhoto().subscribe(profilePhoto => {
-      this.profilePhoto = profilePhoto ? `data:image/png;base64,${profilePhoto}` : 'assets/images/avatar.png';
-    });
+    this.applicantApiService.getApplicantProfilePhoto().subscribe(profilePhoto =>
+      this.profilePhoto = profilePhoto ? `data:image/png;base64,${profilePhoto}` : 'assets/images/avatar.png');
   }
 
   onImageUploaded(image) {

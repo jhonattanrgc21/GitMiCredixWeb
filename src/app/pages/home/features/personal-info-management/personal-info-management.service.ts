@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
 import {StorageService} from '../../../../core/services/storage.service';
+import {CacheBuster} from 'ngx-cacheable';
+import {cleanProfilePhoto$} from '../../../../core/services/applicant-api.service';
 
 @Injectable()
 export class PersonalInfoManagementService {
@@ -22,6 +24,9 @@ export class PersonalInfoManagementService {
               private storageService: StorageService) {
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: cleanProfilePhoto$
+  })
   saveApplicantProfilePhoto(image: string, format: string, size: number) {
     return this.httpService.post('canales', this.saveApplicantProfilePhotoUri, {
       identification: this.storageService.getIdentification(),

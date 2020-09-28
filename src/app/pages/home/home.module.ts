@@ -16,6 +16,7 @@ import {ModalService} from '../../core/services/modal.service';
 import {CredixResultNotificationModule} from '../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
+import {HomeNavigationMenuService} from './home-navigation-menu/home-navigation-menu.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {SimplebarAngularModule} from 'simplebar-angular';
   ],
   providers: [
     HomeService,
+    HomeNavigationMenuService,
     ModalService
   ]
 })
