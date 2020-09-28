@@ -23,16 +23,10 @@
       </credix-select>
 
       <credix-input-field class="report-transference__input" formControlName="amount" label="Monto"
-                          mask="separator">
-      </credix-input-field>
+                          mask="separator"></credix-input-field>
 
-      <credix-input-field (click)="openCalendar()"
-                          [displayValue]="reportTransferenceGroup.controls.date.value | dateFormatter: 'alphanumeric'"
-                          [readonly]="true"
-                          class="report-transference__input calendar" formControlName="date" label="Fecha de pago">
-        <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
-      </credix-input-field>
-
+      <credix-date-picker class="report-transference__input"
+                          formControlName="date" label="Fecha de pago"></credix-date-picker>
 
       <credix-image-upload (imageChanged)="addVoucher($event)"
                            *ngIf="!this.image" [os]="os" class="report-transference__image-uploader"
@@ -41,9 +35,7 @@
       <img *ngIf="this.image" [src]="this.image.file" alt="Reporte de transferencia"
            class="report-transference__image"/>
 
-      <credix-link-button (click)="this.image=null"
-                          *ngIf="this.image">Eliminar
-      </credix-link-button>
+      <credix-link-button (click)="this.image = null" *ngIf="this.image">Eliminar</credix-link-button>
     </form>
 
   </div>

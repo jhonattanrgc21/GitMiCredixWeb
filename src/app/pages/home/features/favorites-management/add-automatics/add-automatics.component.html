@@ -37,13 +37,8 @@
         <credix-input-field class="add-automatics__form__input" formControlName="maxAmount"
                             label="Monto máximo a pagar" mask="separator"></credix-input-field>
 
-        <credix-input-field (click)="openCalendar()"
-                            [displayValue]="newAutomaticsForm.controls.startDate.value | dateFormatter: 'alphanumeric'"
-                            [readonly]="true"
-                            class="add-automatics__form__input" formControlName="startDate"
-                            label="Fecha inicial de pago">
-          <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
-        </credix-input-field>
+        <credix-date-picker class="add-automatics__form__input"
+                            formControlName="startDate" label="Fecha inicial de pago"></credix-date-picker>
 
         <credix-select class="add-automatics__form__input mb-8px " formControlName="periodicity" label="Periocidad">
           <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
@@ -56,17 +51,9 @@
     <mat-divider credixDivider></mat-divider>
 
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <div fxFlex="210px" fxLayout="column">
-        <span><strong>Código MiCredix</strong></span>
-        <p style="font-size: 14px;">Ingrese el código generado en la aplicación
-          <credix-link-button>
-            Código MiCredix
-            <mat-icon style="width: 6px; height: 10px; fill:#239DF7" svgIcon="chevron_right"></mat-icon>
-          </credix-link-button>
-        </p>
-      </div>
+      <credix-code-link></credix-code-link>
 
-      <credix-code-input [(codeFormControl)]="codeCredix" [length]="6" class="add-iban-account__form"
+      <credix-code-input [(codeFormControl)]="codeCredix" [length]="6" class="add-automatics__form"
                          errorMessage="Introduzca el codigo de confirmación">
       </credix-code-input>
     </div>
@@ -76,7 +63,7 @@
     <div fxLayoutGap="16px">
       <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
       <credix-button (buttonClick)="addAutomaticPayment()"
-                     [disabled]="!newAutomaticsForm.valid" text="Añadir"></credix-button>
+                     [disabled]="newAutomaticsForm.invalid" text="Añadir"></credix-button>
     </div>
   </div>
 </mat-card>

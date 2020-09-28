@@ -16,14 +16,18 @@ import {FavoritesManagementService} from '../favorites-management.service';
   styleUrls: ['./add-automatics.component.scss']
 })
 export class AddAutomaticsComponent implements OnInit {
-
   periodicityList: { description: string; id: number; }[] = [];
   publicServicesCategory: PublicServiceCategory[];
   publicCompany: PublicServiceEnterprise[];
   publicServices: PublicService[];
   result: { status: string; message: string; title: string; };
-  // tslint:disable-next-line:max-line-length
-  data: { publicServiceCategoryId: number; publicServiceEnterpriseId: number; publicServiceId: number; favoriteName: string; phoneNumber: number };
+  data: {
+    publicServiceCategoryId: number;
+    publicServiceEnterpriseId: number;
+    publicServiceId: number;
+    favoriteName: string;
+    phoneNumber: number
+  };
   done = false;
   resultAutomatics: boolean;
   newAutomaticsForm: FormGroup = new FormGroup({
@@ -63,6 +67,7 @@ export class AddAutomaticsComponent implements OnInit {
 
     this.getFromFavorites();
   }
+
   getPeriodicityList() {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
@@ -108,19 +113,10 @@ export class AddAutomaticsComponent implements OnInit {
       this.newAutomaticsForm.controls.publicService
         .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceId);
 
-
       this.newAutomaticsForm.controls.nameOfAutomatics.setValue(this.favoritesManagementService.valuesFromFavorites.favoriteName);
 
       this.newAutomaticsForm.controls.phoneNumber.setValue(this.favoritesManagementService.valuesFromFavorites.phoneNumber);
     }
-  }
-
-  openCalendar() {
-    this.modalService.calendarPopup().subscribe(modal => {
-      if (modal) {
-        this.newAutomaticsForm.controls.startDate.setValue(modal.date);
-      }
-    });
   }
 
   back() {
@@ -144,11 +140,11 @@ export class AddAutomaticsComponent implements OnInit {
             this.done = true;
             this.result = {
               status: response.type,
-              message: response.message,
+              message: response.message || response.descriptionOne,
               title: response.titleOne
             };
           });
       }
-      });
+    });
   }
 }

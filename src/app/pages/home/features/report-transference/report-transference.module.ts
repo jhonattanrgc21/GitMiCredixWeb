@@ -19,6 +19,7 @@ import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-
 import {CredixImageUploadModule} from '../../../../shared/components/credix-image-upload/credix-image-upload.module';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
+import {CredixDatePickerModule} from '../../../../shared/components/credix-date-picker/credix-date-picker.module';
 
 const routes: Routes = [
   {
@@ -46,7 +47,8 @@ const routes: Routes = [
     DateFormatterModule,
     CredixImageUploadModule,
     CredixResultNotificationModule,
-    CredixResultViewModule
+    CredixResultViewModule,
+    CredixDatePickerModule
   ],
   providers: [
     ReportTransferenceService,

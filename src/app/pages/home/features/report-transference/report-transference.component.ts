@@ -57,7 +57,7 @@ export class ReportTransferenceComponent implements OnInit {
   }
 
   openCalendar() {
-    this.modalService.calendarPopup(null, new Date()).subscribe(modal => {
+    this.modalService.openCalendarPopup(null, new Date()).subscribe(modal => {
       if (modal) {
         this.reportTransferenceGroup.controls.date.setValue(modal.date);
       }

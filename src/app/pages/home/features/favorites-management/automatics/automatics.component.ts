@@ -13,19 +13,23 @@ import {ToastData} from '../../../../../shared/components/credix-toast/credix-to
   styleUrls: ['./automatics.component.scss']
 })
 export class AutomaticsComponent implements OnInit, AfterViewInit {
-
   isUpdating = false;
-  // tslint:disable-next-line:max-line-length
-  data: { publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; };
+  data: {
+    publicServiceDescription: string;
+    alias: string;
+    id: number;
+    maxAmount: number;
+    periodicityDescription: string;
+    startDate: string;
+    key: number;
+  };
   automaticsDetailForm: FormGroup = new FormGroup({
     favoriteName: new FormControl(null),
     maxAmount: new FormControl(null),
     startDate: new FormControl(null),
     periodicity: new FormControl(null)
   });
-
   codeCredix: FormControl = new FormControl(null);
-
   periodicityList: { description: string; id: number; }[] = [];
 
   constructor(private favoritesManagementService: FavoritesManagementService,
@@ -69,16 +73,8 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   getPeriodicityList() {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
-      // tslint:disable-next-line:max-line-length
-      this.automaticsDetailForm.controls.periodicity.setValue(this.periodicityList.find(elem => elem.description === this.data.periodicityDescription).id);
-    });
-  }
-
-  openCalendar() {
-    this.modalService.calendarPopup().subscribe(modal => {
-      if (modal) {
-        this.automaticsDetailForm.controls.startDate.setValue(modal.date);
-      }
+      this.automaticsDetailForm.controls.periodicity
+        .setValue(this.periodicityList.find(elem => elem.description === this.data.periodicityDescription).id);
     });
   }
 

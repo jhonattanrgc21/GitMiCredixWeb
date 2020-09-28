@@ -13,6 +13,7 @@ import {AutomaticsService} from './automatics.service';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {DateFormatterModule} from '../../../../../shared/pipes/date-formatter/date-formatter.module';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
+import {CredixDatePickerModule} from '../../../../../shared/components/credix-date-picker/credix-date-picker.module';
 
 const routes: Routes = [
   {
@@ -35,7 +36,8 @@ const routes: Routes = [
     CredixSelectModule,
     CredixLinkButtonModule,
     CredixCodeInputModule,
-    DateFormatterModule
+    DateFormatterModule,
+    CredixDatePickerModule
   ],
   providers: [
     ModalService,

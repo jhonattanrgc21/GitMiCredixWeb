@@ -64,7 +64,7 @@ export class ModalService {
     return dialogRef.afterClosed();
   }
 
-  public calendarPopup(startDate?: Date, endDate?: Date): Observable<any> {
+  public openCalendarPopup(startDate?: Date, endDate?: Date): Observable<any> {
     let dialogRef: MatDialogRef<CredixCalendarComponent>;
     dialogRef = this.dialog.open(CredixCalendarComponent, {
       disableClose: true,
@@ -75,7 +75,6 @@ export class ModalService {
     });
     dialogRef.componentInstance.endDate = endDate;
     dialogRef.componentInstance.startDate = startDate;
-
     return dialogRef.afterClosed();
   }
 }

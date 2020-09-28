@@ -9,8 +9,8 @@ import {MatDialogRef} from '@angular/material/dialog';
 export class CredixCalendarComponent implements OnInit {
   startDate: Date;
   endDate: Date;
-  weeks: [number[]?] = [];
   date = new Date();
+  weeks: [number[]?] = [];
   year = 1999;
   dayOfWeek = '';
   month = '';

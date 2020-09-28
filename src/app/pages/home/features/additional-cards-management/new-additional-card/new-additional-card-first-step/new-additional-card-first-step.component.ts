@@ -64,7 +64,7 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
   }
 
   openCalendar() {
-    this.modalService.calendarPopup(null, new Date()).subscribe(modal => {
+    this.modalService.openCalendarPopup(null, new Date()).subscribe(modal => {
       if (modal) {
         this.userInfoFormGroup.controls.birthday.setValue(modal.date);
       }

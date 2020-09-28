@@ -32,13 +32,8 @@
         <div *ngIf="userInfoFormGroup.controls.email.errors?.email" error>Correo electrónico inválido</div>
       </credix-input-field>
 
-      <credix-input-field (click)="openCalendar()"
-                          [displayValue]="userInfoFormGroup.controls.birthday.value | dateFormatter: 'alphanumeric'"
-                          [readonly]="true" class="new-additional-card-first-step__content__input"
-                          formControlName="birthday"
-                          label="Fecha de nacimiento">
-        <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
-      </credix-input-field>
+      <credix-date-picker class="new-additional-card-first-step__content__input"
+                          formControlName="birthday" label="Fecha de nacimiento"></credix-date-picker>
     </div>
   </div>
 
@@ -49,14 +44,10 @@
 
     <credix-slider (inputChange)="sliderChanged($event)"
                    (valueChange)="sliderChanged($event)"
+                   [instructions]="limitTag || 'Deseo asignar a esta tarjeta el'"
                    class="new-additional-card-first-step__content__slider"
                    displayMax="100%"
                    displayMin="25%"
-                   [instructions]="limitTag || 'Deseo asignar a esta tarjeta el'"
-                   max="100"
-                   min="25"
-                   step="25"
-                   units="%"
-                   value="25"></credix-slider>
+                   max="100" min="25" step="25" units="%" value="25"></credix-slider>
   </div>
 </form>

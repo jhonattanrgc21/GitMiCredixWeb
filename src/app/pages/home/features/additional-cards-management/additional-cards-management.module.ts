@@ -34,6 +34,7 @@ import {CredixResultViewModule} from '../../../../shared/components/credix-resul
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 import {ChannelsApiService} from '../../../../core/services/channels-api.service';
 import {GlobalApiService} from '../../../../core/services/global-api.service';
+import {CredixDatePickerModule} from '../../../../shared/components/credix-date-picker/credix-date-picker.module';
 
 const routes: Routes = [
   {
@@ -79,7 +80,8 @@ const routes: Routes = [
     CredixTextareaFieldModule,
     CredixCodeInputModule,
     CredixResultViewModule,
-    CredixCodeLinkModule
+    CredixCodeLinkModule,
+    CredixDatePickerModule
   ],
   providers: [
     AdditionalCardsManagementService,
