@@ -56,7 +56,8 @@
       </div>
     </div>
     <div *ngIf="dataToDetail !== null" class="automatics-services__footer">
-      <credix-button (buttonClick)="edit()" fxLayoutAlign="flex-end center" text="Editar"></credix-button>
+      <credix-button fxLayoutAlign="flex-end center" route="/home/favorites-management/automatics?q={{dataToDetail.id}}"
+                     text="Editar"></credix-button>
     </div>
   </div>
 

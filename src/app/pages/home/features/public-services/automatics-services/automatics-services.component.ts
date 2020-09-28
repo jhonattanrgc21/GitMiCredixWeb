@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {PublicServicesService} from '../public-services.service';
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
 import {getMontByMonthNumber} from '../../../../../shared/utils/getMonthByMonthNumber';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-automatics-services',
@@ -28,8 +27,7 @@ export class AutomaticsServicesComponent implements OnInit {
     publicServiceDescription: string
   };
 
-  constructor(private publicServicesService: PublicServicesService,
-              private router: Router) {
+  constructor(private publicServicesService: PublicServicesService) {
     this.dataToDetail = null;
   }
 
@@ -56,13 +54,7 @@ export class AutomaticsServicesComponent implements OnInit {
     this.publicServicesService.getAllSchedulersPayment()
       .subscribe((response) => {
         this.schedulePayments = response;
-        console.log(response);
         this.category = this.schedulePayments.find(elem => elem.publicServiceCategoryName).publicServiceCategoryName;
       });
-  }
-
-  edit() {
-    this.router.navigate(['/home/favorites-management/automatics']);
-    this.publicServicesService.idScheduleToUpdate = this.dataToDetail.id;
   }
 }

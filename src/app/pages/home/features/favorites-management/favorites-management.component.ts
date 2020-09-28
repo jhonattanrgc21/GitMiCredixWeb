@@ -298,9 +298,17 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   getIdOfPublicServices() {
-    if (this.tabId === 3 && this.publicServiceServices.idSchedule !== null) {
-      this.optionSelected = this.publicServiceServices.idSchedule;
-      console.log(this.accounts.find(elem => elem.id === this.publicServiceServices.idSchedule));
+    const idSchedule = this.router.parseUrl(this.router.url).queryParams.id;
+    if (this.tabId === 3 && idSchedule !== null) {
+      this.tabs.find(elem => elem.id === 3);
+      this.optionSelected = idSchedule;
+      this.favoriteManagementService.emitAutomaticsPaymentData(this.accounts.find(elem => elem.id === idSchedule).account,
+        this.accounts.find(elem => elem.id === idSchedule).name,
+        this.accounts.find(elem => elem.id === idSchedule).id,
+        this.accounts.find(elem => elem.id === idSchedule).maxAmount,
+        this.accounts.find(elem => elem.id === idSchedule).periodicityDescription,
+        this.accounts.find(elem => elem.id === idSchedule).startDate,
+        this.accounts.find(elem => elem.id === idSchedule).key);
     }
 
   }

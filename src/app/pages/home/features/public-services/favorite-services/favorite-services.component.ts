@@ -83,7 +83,6 @@ export class FavoriteServicesComponent implements OnInit {
               this.dataDetail.receipts.find(elem => elem.billNumber).billNumber)
               .pipe(finalize(() => this.paymentSend = true))
               .subscribe((response) => {
-                console.log(response);
                 this.message = response.message;
                 this.status = response.type;
                 this.title = response.titleOne;
