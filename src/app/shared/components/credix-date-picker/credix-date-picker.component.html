@@ -1,0 +1,14 @@
+<div (click)="openCalendar()" class="credix-date-picker">
+  <mat-form-field [class.has-value]="control.value != null && control.value != ''"
+                  [color]="control.invalid && control.touched ? 'warn' : 'primary'"
+                  appearance="standard" class="credix-date-picker__field">
+    <mat-label>{{this.label}}</mat-label>
+    <input (blur)="onTouch()"
+           [formControl]="control"
+           [readonly]="true"
+           autocomplete="off" class="credix-date-picker__input"
+           matInput/>
+    <mat-icon class="credix-date-picker__calendar-icon" matSuffix svgIcon="calendar"></mat-icon>
+  </mat-form-field>
+  <span class="credix-date-picker__value">{{this.control.value | dateFormatter: 'alphanumeric'}}</span>
+</div>
