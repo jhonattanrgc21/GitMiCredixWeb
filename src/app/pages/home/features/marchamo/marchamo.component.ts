@@ -35,11 +35,6 @@ export class MarchamoComponent implements OnInit {
   confirmForm: FormGroup = new FormGroup({
     credixCode: new FormControl(null, [Validators.required])
   });
-  amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
-    responsabilityCivilAmount: 8745.00,
-    roadAsistanceAmount: 3359.00,
-    moreProtectionAmount: 7140.00
-  };
   plateNumber: string;
   name: string;
   email: string;
@@ -74,8 +69,6 @@ export class MarchamoComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkNextStep();
-    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount +
-      this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );

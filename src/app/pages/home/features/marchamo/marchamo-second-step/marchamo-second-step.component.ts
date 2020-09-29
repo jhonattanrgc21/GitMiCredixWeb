@@ -203,13 +203,13 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       });
     }
 
-    this.marchamosService.amountProducts = this.arrayOfAmountProducts;
+    this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
     (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
   }
 
   getValueOfCheckBoxAll(event) {
+    this.allChecked(event.checked);
     if (event.checked) {
-      this.allChecked(event.checked);
       this.itemProduct.forEach(value => {
         this.arrayOfAmountProducts.push({
           amounts: value.amount,
@@ -224,7 +224,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         this.additionalProducts.removeAt(3);
       }
     } else {
-      this.allChecked(event.checked);
       this.additionalProducts.controls.splice(0, this.itemProduct.length);
       this.additionalProducts.setValue([]);
       this.arrayOfAmountProducts.splice(0, this.itemProduct.length);
@@ -282,14 +281,10 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   getOwnersPayerInfo() {
-    this.httpService.post('marchamos', 'owners/payerinfo', {
-      channelId: 107,
-      payerId: null,
-      accountNumber: this.storageService.getCurrentUser().accountNumber
-    }).subscribe(response => {
-      this.ownerPayer = response.REQUESTRESULT.soaResultPayerInfo.header;
-      this.marchamosService.ownerPayer = this.ownerPayer;
-    });
+    this.marchamosService.getOwnersPayerInfo()
+      .subscribe((response) => {
+        this.ownerPayer = response;
+      });
   }
 
   getTags(tags: Tag[]) {
