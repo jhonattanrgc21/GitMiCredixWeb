@@ -51,7 +51,8 @@
                           [status]="status"
                           [title]="title || 'Marchamo'"
                           buttonText="Realizar otro pago"
-                          routeTo="/home/marchamo">
+                          (changeTemplate)="changeTemplate($event)"
+                          routeTo="/home/marchamos">
 
     <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
       <mat-divider class="mb-24px" credixDivider></mat-divider>

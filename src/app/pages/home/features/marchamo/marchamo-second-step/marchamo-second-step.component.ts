@@ -66,6 +66,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       amount: 7140.00
     }
   ];
+  haveAdditionalProducts: boolean;
   arrayOfAmountProducts: { amounts: number; productCode: number; }[] = [];
   firstPaymentDates = [
     {
@@ -141,6 +142,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+    this.haveAdditionalProducts = this.marchamosService.haveAdditionalProducts;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -228,10 +230,10 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.additionalProducts.setValue([]);
       this.arrayOfAmountProducts.splice(0, this.itemProduct.length);
     }
-    (this.arrayOfAmountProducts.length < 3) ? this.isChecked = false : this.isChecked = true;
+    (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
   }
 
-  allChecked(event?: any) {
+  allChecked(event?: boolean) {
     this.isChecked = event;
   }
 
@@ -267,17 +269,16 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   getCommission(quotas: number) {
-    this.httpService.post('marchamos', 'pay/calculatecommission', {
-      amount: this.totalAmount,
-      commissionQuotasId: quotas
-    }).subscribe(response => {
-      if (typeof response.result === 'string') {
-        this.commission = ConvertStringAmountToNumber(response.result);
-        this.iva = ConvertStringAmountToNumber(response.iva);
-        this.marchamosService.iva = this.iva;
-        this.marchamosService.commission = this.commission;
-      }
-    });
+
+    this.marchamosService.getCommission(quotas, this.totalAmount)
+      .subscribe((response) => {
+        if (typeof response.result === 'string') {
+          this.commission = ConvertStringAmountToNumber(response.result);
+          this.iva = ConvertStringAmountToNumber(response.iva);
+          this.marchamosService.iva = this.iva;
+          this.marchamosService.commission = this.commission;
+        }
+      });
   }
 
   getOwnersPayerInfo() {

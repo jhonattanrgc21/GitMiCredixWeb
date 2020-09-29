@@ -55,12 +55,14 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   }
 
   getTotalSum() {
-    this.total = this.total + this.totalMarchamo + this.totalOfItemProduct + this.iva + this.commission;
+    let sum: number;
+    sum = this.totalMarchamo + this.totalOfItemProduct + this.iva + this.commission;
+    this.total = sum;
   }
 
   computeCalculate() {
-    this.totalOfItemProduct = this.amountOfItemProduct.reduce((a, b) => a + b.amounts, 0);
-    console.log(this.totalOfItemProduct);
+    this.totalOfItemProduct = (this.amountOfItemProduct !== undefined) ?
+      this.amountOfItemProduct.reduce((a, b) => a + b.amounts, 0) : 0;
   }
 
   getTags(tags: Tag[]) {

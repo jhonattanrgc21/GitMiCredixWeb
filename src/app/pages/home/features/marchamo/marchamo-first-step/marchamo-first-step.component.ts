@@ -50,13 +50,15 @@ export class MarchamoFirstStepComponent implements OnInit {
       .getConsultVehicle(this.consultForm.controls.vehicleType.value.toString(),
         this.consultForm.controls.plateNumber.value.toUpperCase())
       .subscribe((response) => {
-        console.log(response);
         this.consultVehicle = response.header;
-        this.consultVehicle.amount = typeof response.header.amount === 'string' ?
-          +response.header.amount.replace('.', '').replace(',', '.') :
-          response.header.amount;
+        // this.consultVehicle.amount = typeof response.header.amount === 'string' ?
+        //   +response.header.amount.replace('.', '').replace(',', '.') :
+        //   response.header.amount;
+        this.consultVehicle.amount = response.item.reduce((a, b) => a + b.itemCurrentAmount, 0);
+        this.marchamosService.marchamoAmount = this.consultVehicle.amount;
         this.marchamosService.consultVehicle = this.consultVehicle;
         this.marchamosService.billingHistories = response.item;
+        this.marchamosService.haveAdditionalProducts = response.aditionalProducts.length > 0;
         if (this.marchamosService.consultVehicle && this.marchamosService.billingHistories) {
           this.marchamosService.emitVehicleConsulted();
         }

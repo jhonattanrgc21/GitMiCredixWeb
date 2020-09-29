@@ -9,6 +9,7 @@ import {HttpService} from '../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {StorageService} from '../../../../core/services/storage.service';
+import {DeliveryPlace} from '../../../../shared/models/delivery-place';
 
 
 @Injectable()
@@ -17,6 +18,9 @@ export class MarchamoService {
   private readonly getVehicleConsultUri = 'pay/vehicleconsult';
   private readonly getOwnerPayerInfoUri = 'owners/payerinfo';
   private readonly getCalculateComissionUri = 'pay/calculatecommission';
+  marchamoAmount: number;
+  haveAdditionalProducts: boolean;
+  private readonly getDeliveryPlacesUri = 'pay/deliveryplaces';
   consultVehicle: ConsultVehicle;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
@@ -29,6 +33,8 @@ export class MarchamoService {
   iva: number;
   commission: number;
   total: number;
+  private readonly getPromoApplyUri = 'pay/promoapply';
+  private readonly paySoapayUri = 'pay/soapay';
   // tslint:disable-next-line:variable-name
   private _vehicleConsulted = new Subject();
   vehicleConsulted$ = this._vehicleConsulted.asObservable();
@@ -128,5 +134,73 @@ export class MarchamoService {
         }
       })
     );
+  }
+
+  @Cacheable()
+  getDeliveryPlaces(): Observable<DeliveryPlace[]> {
+    return this.httpService.post('marchamos', this.getDeliveryPlacesUri)
+      .pipe(map((response) => {
+          if (response.type === 'success') {
+            return response.deliveryPlacesList.filter(x => x.id !== 6);
+          } else {
+            return [];
+          }
+        })
+      );
+  }
+
+  @Cacheable()
+  getPromoApply(): Observable<any> {
+    return this.httpService.post('marchamos', this.getPromoApplyUri,
+      {accountNumber: this.storageService.getCurrentUser().accountNumber.toString()})
+      .pipe(
+        map((response) => {
+          if (response.type === 'success' && response.promoStatus.type === 'success') {
+            return response.promoStatus.paymentList;
+          } else {
+            return [];
+          }
+        })
+      );
+  }
+
+  setSoaPay(
+    aditionalProducts: { productCode: number }[],
+    deliveryPlaceId: number,
+    domicilePerson: string,
+    domicilePhone: string,
+    domicilePlace: string,
+    email: string,
+    firstPayment: string,
+    plateClassId: number,
+    plateNumber: string,
+    promoStatus: number,
+    quotasId: number) {
+    return this.httpService.post('marchamos', this.paySoapayUri,
+      {
+        aditionalProducts,
+        amount: this.consultVehicle.amount,
+        cardNumber: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardNumber,
+        deliveryPlaceId,
+        authenticationNumberCommission: '0000',
+        authenticationNumberMarchamo1: '000000',
+        domicilePerson,
+        domicilePhone,
+        domicilePlace,
+        email,
+        ownerEmail: this.ownerPayer.email,
+        extraCardStatus: '0',
+        firstPayment,
+        payId: this.consultVehicle.payId,
+        payerId: this.ownerPayer.payerId,
+        period: this.consultVehicle.period,
+        phoneNumber: this.consultVehicle.contactPhone,
+        plateClassId,
+        plateNumber,
+        promoStatus,
+        quotasId,
+        transactionTypeId: 1,
+        requiredBill: '1'
+      });
   }
 }
