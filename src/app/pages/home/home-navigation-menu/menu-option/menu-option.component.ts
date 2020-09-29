@@ -63,6 +63,8 @@ export class MenuOptionComponent implements OnInit {
       this.menus.forEach(menu => {
         menu.submenus = this.submenus.filter(sub => sub.parentId === menu.name);
       });
+
+      console.log(this.menus);
     });
   }
 
@@ -85,7 +87,7 @@ export class MenuOptionComponent implements OnInit {
     this.activeMenu = menuId;
     this.activeSubmenu = submenuId;
 
-    if (this.activeSubmenu !== 15) {
+    if (route !== '/home/increase-limit') {
       this.router.navigate([route]);
     } else {
       this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?')
