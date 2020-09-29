@@ -35,7 +35,8 @@
   <div class="send-money__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
       <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="next()" [disabled]="disableButton"
+      <credix-button (buttonClick)="next()"
+                     [disabled]="disableButton"
                      [text]="selectedIndex >= 2 ? 'Transferir' : 'Continuar'"></credix-button>
     </div>
   </div>
@@ -87,7 +88,6 @@
         </div>
       </div>
 
-      <!--<credix-link-button class="mt-16px" fxFlexAlign="center">Ampliar plazo</credix-link-button>-->
       <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
     </div>
   </app-credix-result-view>

@@ -75,14 +75,13 @@ export class BuyWithoutCardComponent implements OnInit {
   }
 
   checkCredixCode() {
-    this.buyWithOutCardService.checkCredixCode(this.codeCredix.value)
-      .subscribe(response => {
-          if (response.type === 'success') {
-            this.generatePin();
-            this.onCardChanged();
-          }
+    this.buyWithOutCardService.checkCredixCode(this.codeCredix.value).subscribe(response => {
+        if (response.type === 'success') {
+          this.generatePin();
+          this.onCardChanged();
         }
-      );
+      }
+    );
   }
 
   getTags(tags: Tag[]) {
