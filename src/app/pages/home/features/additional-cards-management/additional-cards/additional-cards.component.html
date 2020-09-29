@@ -28,22 +28,23 @@
       </div>
 
       <credix-slider class="additional-cards__slider"
-                     (inputChange)="enableButton($event, additionalCard.cardId)"
-                     (valueChange)="enableButton($event, additionalCard.cardId)"
+                     (inputChange)="setCredit($event, additionalCard)"
+                     (valueChange)="setCredit($event, additionalCard)"
                      [value]="additionalCard.limitPercentage"
+                     [instructions]="limitTag || 'Límite asignado'"
                      displayMax="100%"
                      displayMin="25%"
-                     [instructions]="limitTag || 'Límite asignado'"
                      max="100"
                      min="25"
                      step="25"
                      units="%"></credix-slider>
 
-      <credix-button (click)="setNewCreditLimit()" [disabled]="cardId !== additionalCard.cardId"
+      <credix-button (click)="setNewCreditLimit()"
+                     [disabled]="cardId !== additionalCard.cardId
+                     || creditLimit === additionalCard.limitPercentage || creditLimit === 0"
                      class="additional-cards__card__button"
                      fxFlexAlign="flex-end" text="Aplicar cambio"></credix-button>
     </mat-card>
-
   </div>
 
 </div>

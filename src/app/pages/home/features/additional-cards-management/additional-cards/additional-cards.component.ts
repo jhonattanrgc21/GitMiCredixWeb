@@ -39,9 +39,9 @@ export class AdditionalCardsComponent implements OnInit {
     this.router.navigate(['/home/additional-cards-management/new-card']);
   }
 
-  enableButton(creditLimit: number, cardId: number) {
-    this.cardId = cardId;
+  setCredit(creditLimit: number, additionalCard: AdditionalCard) {
     this.creditLimit = creditLimit;
+    this.cardId = additionalCard.cardId;
   }
 
   setNewCreditLimit() {
