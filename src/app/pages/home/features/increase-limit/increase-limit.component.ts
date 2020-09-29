@@ -23,7 +23,7 @@ export class IncreaseLimitComponent implements OnInit {
 
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Cambiar PIN').tags));
+        this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags));
 
     this.increaseLimitService.increaseLimit().subscribe(response => {
         this.show = true;
@@ -46,12 +46,8 @@ export class IncreaseLimitComponent implements OnInit {
     );
   }
 
-  goHome() {
-    this.router.navigate(['/home']);
-  }
-
   getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'cambiarpin.title').value;
+    this.titleTag = tags.find(tag => tag.description === 'aumento.title')?.value;
   }
 
 }
