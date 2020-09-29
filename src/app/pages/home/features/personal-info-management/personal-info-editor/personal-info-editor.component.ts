@@ -89,22 +89,18 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
           if (applicantInfo) {
             this.personalInfoManagementService.applicantInfo = {
               email: applicantInfo.applicant.email,
-              phoneNumber: applicantInfo.applicant.phoneApplicant.find(phone => phone.phoneType.id = 1).phone,
+              phoneNumber: applicantInfo.applicant.phoneApplicant.find(phone => phone.phoneType.id === 1).phone,
               country: applicantInfo.applicant.country?.id,
               occupation: applicantInfo.applicant.personApplicant.occupation?.id,
-              addressDetail: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).detail,
+              addressDetail: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).detail,
               incomeType: applicantInfo.applicant.typeIncomeApplicant?.id,
-              province: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).province.id,
-              canton: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).canton.id,
-              district: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).district.id
+              province: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).province.id,
+              canton: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).canton.id,
+              district: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).district.id
             };
           }
         });
     }
-  }
-
-  goBack() {
-    this.router.navigate(['/home/personal-info']);
   }
 
   getFormData() {

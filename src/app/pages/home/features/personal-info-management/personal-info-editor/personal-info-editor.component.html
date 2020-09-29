@@ -86,7 +86,8 @@
     </div>
 
     <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="goBack()" text="Atrás" type="secondary"></credix-button>
+      <credix-button [routerLink]="['/home/personal-info']"
+                     text="Atrás" type="secondary"></credix-button>
       <credix-button (buttonClick)="edit()"
                      [disabled]="personalInfoFormGroup.invalid
                      || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)"

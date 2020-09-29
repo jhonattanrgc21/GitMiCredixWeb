@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {CacheBuster} from 'ngx-cacheable';
-import {cleanProfilePhoto$} from '../../../../core/services/applicant-api.service';
+import {cleanProfilePhoto$, cleanUserInfo$} from '../../../../core/services/applicant-api.service';
 
 @Injectable()
 export class PersonalInfoManagementService {
@@ -36,6 +36,9 @@ export class PersonalInfoManagementService {
     });
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: cleanUserInfo$
+  })
   updateApplicantInfo(applicantInfo: {
     email: string; phoneApplicant: string; countryId: number; incomeOriginId: number; occupationId: number;
     provinceId: number; cantonId: number; districtId: number; addressApplicant: string; credixCode: string
