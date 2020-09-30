@@ -4,7 +4,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {RouterModule} from '@angular/router';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ShareButtonsModule} from 'ngx-sharebuttons/buttons';
 import {ShareIconsModule} from 'ngx-sharebuttons/icons';
 import {MatMenuModule} from '@angular/material/menu';
@@ -25,7 +24,6 @@ import {CredixShareButtonComponent} from './credix-share-button.component';
     CredixButtonModule,
     MatIconModule,
     MatDialogModule,
-    FontAwesomeModule,
     MatMenuModule,
     ShareButtonsModule,
     ShareIconsModule
