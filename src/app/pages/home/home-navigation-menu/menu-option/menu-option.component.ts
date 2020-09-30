@@ -63,8 +63,6 @@ export class MenuOptionComponent implements OnInit {
       this.menus.forEach(menu => {
         menu.submenus = this.submenus.filter(sub => sub.parentId === menu.name);
       });
-
-      console.log(this.menus);
     });
   }
 

@@ -27,6 +27,7 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
   });
   identificationTypes: IdentificationType[];
   identificationMask = '0-0000-0000';
+  today = new Date();
   limitTag: string;
   subTitleTag: string;
 

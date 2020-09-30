@@ -17,6 +17,8 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/for
 })
 export class CredixDatePickerComponent implements OnInit, ControlValueAccessor {
   @Input() label: string;
+  @Input() startDate: Date = new Date(1900, 1, 1);
+  @Input() endDate: Date = new Date(2999, 1, 1);
   control = new FormControl(null);
 
   constructor(private modalService: ModalService) {
@@ -27,7 +29,7 @@ export class CredixDatePickerComponent implements OnInit, ControlValueAccessor {
   }
 
   openCalendar() {
-    this.modalService.openCalendarPopup().subscribe(modal => {
+    this.modalService.openCalendarPopup(this.startDate, this.endDate).subscribe(modal => {
       if (modal) {
         this.control.setValue(modal.date);
       }

@@ -24,6 +24,7 @@ export class ReportTransferenceComponent implements OnInit {
   });
   image: { file: string; name: string; size: number, type: string };
   os: string;
+  today = new Date();
   currencies: Currency[] = [];
   open = false;
   banks = ['BAC', 'Banco Nacional'];

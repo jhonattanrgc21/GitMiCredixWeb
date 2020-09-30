@@ -64,7 +64,8 @@
       &.is-disabled {
         color: #9B9B9B !important;
         background: none !important;
-        border-radius: none !important;
+        border-radius: 0 !important;
+        pointer-events: none !important;
       }
 
       &.is-active {
@@ -90,6 +91,10 @@
 
       &:last-of-type {
         color: #E42313;
+
+        &.is-disabled {
+          color: #9B9B9B;
+        }
       }
 
       &:hover {

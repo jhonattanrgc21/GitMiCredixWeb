@@ -25,7 +25,7 @@
       <credix-input-field class="report-transference__input" formControlName="amount" label="Monto"
                           mask="separator"></credix-input-field>
 
-      <credix-date-picker class="report-transference__input"
+      <credix-date-picker [endDate]="today" class="report-transference__input"
                           formControlName="date" label="Fecha de pago"></credix-date-picker>
 
       <credix-image-upload (imageChanged)="addVoucher($event)"

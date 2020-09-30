@@ -74,11 +74,11 @@ export class PublicServicesService {
     return this.httpService.post('incomex', this.getReferenceNameUri, {publicServiceCategoryId})
       .pipe(
         map((response) => {
-          if (response.type === 'success') {
-            return response.nombreReferencia;
-          } else {
-            return '';
-          }
+            if (response.type === 'success') {
+              return response.nombreReferencia;
+            } else {
+              return '';
+            }
           }
         ));
   }
