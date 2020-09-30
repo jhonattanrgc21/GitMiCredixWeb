@@ -5,6 +5,7 @@ import {FavoritesManagementService} from './favorites-management.service';
 import {AccountsFavoriteManagement} from '../../../../shared/models/accounts-favorite-management';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ToastData} from '../../../../shared/components/credix-toast/credix-toast-config';
+import {PublicServicesService} from '../public-services/public-services.service';
 
 @Component({
   selector: 'app-favorites-management',
@@ -31,7 +32,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   constructor(private toastService: CredixToastService,
               private router: Router,
               private favoriteManagementService: FavoritesManagementService,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private publicServiceServices: PublicServicesService) {
   }
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getIsUpdating();
+    this.getIdOfPublicServices();
   }
 
   getDetailFavorite(option) {
@@ -292,5 +295,21 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
           }
         }
       });
+  }
+
+  getIdOfPublicServices() {
+    const idSchedule = this.router.parseUrl(this.router.url).queryParams.id;
+    if (this.tabId === 3 && idSchedule !== null) {
+      this.tabs.find(elem => elem.id === 3);
+      this.optionSelected = idSchedule;
+      this.favoriteManagementService.emitAutomaticsPaymentData(this.accounts.find(elem => elem.id === idSchedule).account,
+        this.accounts.find(elem => elem.id === idSchedule).name,
+        this.accounts.find(elem => elem.id === idSchedule).id,
+        this.accounts.find(elem => elem.id === idSchedule).maxAmount,
+        this.accounts.find(elem => elem.id === idSchedule).periodicityDescription,
+        this.accounts.find(elem => elem.id === idSchedule).startDate,
+        this.accounts.find(elem => elem.id === idSchedule).key);
+    }
+
   }
 }

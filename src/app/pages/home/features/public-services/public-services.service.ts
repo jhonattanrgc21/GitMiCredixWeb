@@ -5,6 +5,20 @@ import {Observable} from 'rxjs';
 import {PendingReceipts} from '../../../../shared/models/pending-receipts';
 import {ConvertStringDateToDate} from '../../../../shared/utils';
 import {StorageService} from '../../../../core/services/storage.service';
+import {PublicServiceFavoriteByUser} from '../../../../shared/models/public-service-favorite-by-user';
+import {Cacheable} from 'ngx-cacheable';
+import {SchedulePayments} from '../../../../shared/models/schedule-payments';
+
+const iconPerCategory = [
+  {category: 'Recargas', icon: 'cellphone'},
+  {category: 'Telefonía', icon: 'phone'},
+  {category: 'Electricidad', icon: 'public_services'},
+  {category: 'Agua', icon: 'water'},
+  {category: 'Internet y Cable', icon: 'internet_cable'},
+  {category: 'Municipalidades', icon: 'municipalidad'},
+  {category: 'Mantenimiento', icon: 'municipalidad'},
+  {category: 'Educación', icon: 'municipalidad'},
+];
 
 @Injectable()
 export class PublicServicesService {
@@ -12,20 +26,59 @@ export class PublicServicesService {
   private readonly getPendingReceiptsUri = 'publicservicebncr/pendingreceipts';
   private readonly payPublicServiceUri = 'publicservicebncr/servicepayment';
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
+  public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
+  private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
+  }
+
+  @Cacheable()
+  getPublicServicesFavoritesByUser(): Observable<PublicServiceFavoriteByUser[]> {
+    return this.httpService.post('canales', this.getPublicServiceFavoriteByUserUri,
+      {
+        userId: this.storageService.getCurrentUser().userId,
+        channelId: 102
+      }).pipe(
+      map((response) => {
+        if (response.type === 'success') {
+          (response.publicServiceFavoriteList as PublicServiceFavoriteByUser[]).forEach(category => {
+            category.icon = iconPerCategory.find(icon => icon.category === category.publicServiceCategory)?.icon;
+          });
+          return response.publicServiceFavoriteList;
+        } else {
+          return [];
+        }
+      })
+    );
+  }
+
+  @Cacheable()
+  getAllSchedulersPayment(): Observable<SchedulePayments[]> {
+    return this.httpService.post('canales', this.getSchedulerPaymentsUserUri, {channelId: 102})
+      .pipe(
+        map((response) => {
+          if (response.scheduledPayList?.length > 0 && response.message === 'Operación exitosa') {
+            (response.scheduledPayList as SchedulePayments[]).forEach(category => {
+              category.icon = iconPerCategory.find(icon => icon.category === category.publicServiceCategoryName)?.icon;
+            });
+            return response.scheduledPayList;
+          } else {
+            return [];
+          }
+        })
+      );
   }
 
   getReferenceName(publicServiceCategoryId: number): Observable<string> {
     return this.httpService.post('incomex', this.getReferenceNameUri, {publicServiceCategoryId})
       .pipe(
         map((response) => {
-            if (response.type === 'success') {
-              return response.nombreReferencia;
-            } else {
-              return '';
-            }
+          if (response.type === 'success') {
+            return response.nombreReferencia;
+          } else {
+            return '';
+          }
           }
         ));
   }

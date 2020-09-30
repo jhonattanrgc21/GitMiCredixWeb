@@ -35,6 +35,7 @@ import {CredixShareButtonModule} from '../../../../shared/components/credix-shar
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
 import {DigitOnlyModule} from '../../../../shared/directives/digit-only/digit-only.module';
+import {NgxMaskModule} from 'ngx-mask';
 
 const routes: Routes = [
   {
@@ -103,6 +104,7 @@ const routes: Routes = [
     CredixResultNotificationModule,
     CredixRadioButtonModule,
     DigitOnlyModule,
+    NgxMaskModule,
   ],
   providers: [
     PublicServicesService

@@ -23,6 +23,6 @@ export interface AccountsFavoriteManagement {
   id?: number;
   maxAmount?: number;
   periodicityDescription?: string;
-  startDate?: Date;
+  startDate?: string;
   key?: number;
 }
