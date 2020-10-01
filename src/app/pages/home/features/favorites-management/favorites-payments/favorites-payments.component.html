@@ -1,4 +1,4 @@
-<div *ngIf="data !== undefined" class="favorites-payments" fxLayout="column">
+<div *ngIf="data !== undefined && data !== null" class="favorites-payments" fxLayout="column">
   <span class="favorites-payments__title"><strong>{{data?.publicServiceAccessKeyDescription}}</strong></span>
   <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
     <span>Número de contrato</span>

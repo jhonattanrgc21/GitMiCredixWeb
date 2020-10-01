@@ -8,6 +8,9 @@ import {ToastData} from '../../../../shared/components/credix-toast/credix-toast
 import {AccountApiService} from '../../../../core/services/account-api.service';
 import {PublicServicesApiService} from '../../../../core/services/public-services-api.service';
 import {ChannelsApiService} from '../../../../core/services/channels-api.service';
+import {FavoriteIbanAccount} from '../../../../shared/models/favorite-iban-account';
+import {PublicServiceFavoriteByUser} from '../../../../shared/models/public-service-favorite-by-user';
+import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 
 @Component({
   selector: 'app-favorites-management',
@@ -52,8 +55,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   getDetailFavorite(option) {
     this.optionSelected = this.tabId === 1 ? option.IdAccountFavorite : this.tabId === 2 ? option.publicServiceFavoriteId : option.id;
 
-    if (option.publicServiceCode !== undefined) {
-      this.favoriteManagementService.publicServicesData = {
+    if (option.publicServiceFavoriteId !== undefined || true) {
+      const favoritePublicService: PublicServiceFavoriteByUser = {
         accountNumber: option.account,
         publicServiceFavoriteName: option.name,
         serviceReference: option.serviceReference,
@@ -72,10 +75,11 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         publicServiceEnterpriseCode: option.publicServiceEnterpriseCode,
         accountId: option.accountId
       };
+      this.favoriteManagementService.emitFavoritePublicServiceData(favoritePublicService);
     }
 
     if (option.IdAccountFavorite !== undefined) {
-      this.favoriteManagementService.ibanAccountData = {
+      const ibanAccount: FavoriteIbanAccount = {
         aliasName: option.name,
         IdAccountFavorite: option.IdAccountFavorite,
         ibanAccount: option.account,
@@ -83,11 +87,11 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         identification: option.identification,
         typeIdentificacionId: option.typeIdentificacionId
       };
+      this.favoriteManagementService.emitIbanAccountData(ibanAccount);
     }
 
     if (option.id !== undefined) {
-      // tslint:disable-next-line:max-line-length
-      this.favoriteManagementService.schedulePaymentsData = {
+      const schedulePayment: SchedulePayments = {
         publicServiceDescription: option.account,
         alias: option.name,
         id: option.id,
@@ -98,6 +102,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         publicServiceCategoryId: option.publicServiceCategoryId,
         publicServiceCategoryName: option.publicServiceCategoryName
       };
+      this.favoriteManagementService.emitSchedulePaymentData(schedulePayment);
     }
   }
 
@@ -142,18 +147,16 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   initServicesEngine(tabId: number) {
+    this.accounts = [];
     switch (tabId) {
       case 1:
         this.getFavoritesIban();
-        this.accounts = [];
         break;
       case 2:
         this.getPublicService();
-        this.accounts = [];
         break;
       case 3:
         this.getSchedulePayment();
-        this.accounts = [];
         break;
     }
   }
@@ -350,7 +353,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     if (this.tabId === 3 && idSchedule !== null) {
       this.tabs.find(elem => elem.id === 3);
       this.optionSelected = idSchedule;
-      this.favoriteManagementService.schedulePaymentsData = {
+      const schedulePayments: SchedulePayments = {
         publicServiceDescription: this.accounts.find(elem => elem.id === idSchedule).account,
         alias: this.accounts.find(elem => elem.id === idSchedule).name,
         id: this.accounts.find(elem => elem.id === idSchedule).id,
@@ -361,7 +364,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         publicServiceCategoryId: this.accounts.find(elem => elem.id === idSchedule).publicServiceCategoryId,
         publicServiceCategoryName: this.accounts.find(elem => elem.id === idSchedule).publicServiceCategoryName
       };
+      this.favoriteManagementService.emitSchedulePaymentData(schedulePayments);
     }
-
   }
 }

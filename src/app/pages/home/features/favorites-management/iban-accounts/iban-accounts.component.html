@@ -1,4 +1,4 @@
-<div *ngIf="data !== undefined" class="iban-accounts" fxLayout="column">
+<div *ngIf="data !== undefined && data !== null" class="iban-accounts" fxLayout="column">
   <span class="mb-8px"><strong>{{data?.ibanBank}}</strong></span>
   <span class="mb-24px">{{data?.ibanAccount}}</span>
   <credix-input-field (keyup)="updating($event)"

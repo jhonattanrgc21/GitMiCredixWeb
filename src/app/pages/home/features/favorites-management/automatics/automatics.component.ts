@@ -45,18 +45,20 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   }
 
   getSchedulePayment() {
-    this.data = this.favoritesManagementService.schedulePayments;
-    this.automaticsDetailForm.controls.favoriteName.setValue(this.data.alias);
-    this.automaticsDetailForm.controls.maxAmount.setValue(this.data.maxAmount);
-    this.automaticsDetailForm.controls.startDate.setValue(this.data.startDate);
-    this.getPeriodicityList();
+    this.favoritesManagementService.schedulePayments.subscribe((response) => {
+      this.data = response;
+      this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias);
+      this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount);
+      this.automaticsDetailForm.controls.startDate.setValue(this.data?.startDate);
+      this.getPeriodicityList();
+    });
   }
 
   getPeriodicityList() {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
       this.automaticsDetailForm.controls.periodicity
-        .setValue(this.periodicityList.find(elem => elem.description === this.data.periodicityDescription).id);
+        .setValue(this.periodicityList?.find(elem => elem.description === this.data.periodicityDescription).id);
     });
   }
 

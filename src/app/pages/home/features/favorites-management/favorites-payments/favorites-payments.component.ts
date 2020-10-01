@@ -32,8 +32,10 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
   }
 
   getAccountDetail() {
-    this.data = this.favoritesManagementService.publicServices;
-    this.favoritesPaymentDetail.setValue(this.data.publicServiceFavoriteName);
+    this.favoritesManagementService.publicServices.subscribe((response) => {
+      this.data = response;
+      this.favoritesPaymentDetail.setValue(this.data?.publicServiceFavoriteName);
+    });
   }
 
   getUpdateAlert() {

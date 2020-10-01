@@ -32,8 +32,10 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   }
 
   getIbanAccountDetail() {
-    this.data = this.favoritesManagementService.ibanAccount;
-    this.ibanAccountDetailInput.setValue(this.data.aliasName);
+    this.favoritesManagementService.ibanAccount.subscribe((response) => {
+      this.data = response;
+      this.ibanAccountDetailInput.setValue(this.data?.aliasName);
+    });
   }
 
   getUpdateAlert() {
