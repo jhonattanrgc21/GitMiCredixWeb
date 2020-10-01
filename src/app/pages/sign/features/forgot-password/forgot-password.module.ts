@@ -16,6 +16,7 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {ForgotPasswordService} from './forgot-password.service';
 
 const routes: Routes = [
   {
@@ -43,7 +44,10 @@ const routes: Routes = [
     CredixCodeLinkModule
 
   ],
-  providers: [ModalService]
+  providers: [
+    ForgotPasswordService,
+    ModalService
+  ]
 })
 export class ForgotPasswordModule {
 }
