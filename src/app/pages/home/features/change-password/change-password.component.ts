@@ -1,13 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import * as CryptoJS from 'crypto-js';
-import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
-import {Router} from '@angular/router';
-import {StorageService} from '../../../../core/services/storage.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
+import {ChangePasswordService} from './change-password.service';
 
 @Component({
   selector: 'app-change-password',
@@ -18,28 +15,25 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup = new FormGroup({
     password: new FormControl(null, [Validators.required]),
     confirmPassword: new FormControl(null, [Validators.required]),
-    code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   }, {validators: this.passwordValidator});
   hidePassword = true;
   hideConfirmPassword = true;
   type: 'text' | 'password' = 'password';
   done = false;
   title: string;
-  status: string;
+  status: 'success' | 'error';
   message: string;
   identType: number;
   titleTag: string;
   questionTag: string;
 
-  constructor(private modalService: ModalService,
-              private httpService: HttpService,
-              private tagsService: TagsService,
-              private router: Router,
-              private storageService: StorageService) {
+  constructor(private changePasswordService: ChangePasswordService,
+              private modalService: ModalService,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
-    this.getIdentType();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Cambiar clave').tags));
   }
@@ -57,17 +51,6 @@ export class ChangePasswordComponent implements OnInit {
     }
   }
 
-  getIdentType() {
-    this.httpService.post('canales', 'applicant/finduserapplicantidentification',
-      {
-        channelId: 102,
-        identification: this.storageService.getIdentification()
-
-      }).subscribe(res => {
-      this.identType = res.json.detail.applicant.identificationType.id;
-    });
-  }
-
   confirm() {
     this.modalService.confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
       .subscribe((confirmation) => {
@@ -78,27 +61,22 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changePassword() {
-    this.httpService.post('canales', 'security/user/forgetusernameandpasswordbyidentification', {
-      codeCredix: this.changePasswordForm.get('code').value,
-      typeIdentification: this.identType,
-      identification: this.storageService.getIdentification(),
-      password: CryptoJS.SHA256(this.changePasswordForm.get('password').value),
-      passwordConfirmation: CryptoJS.SHA256(this.changePasswordForm.get('password').value),
-    })
-      .pipe(finalize(() => this.done = true))
-      .subscribe((resp) => {
-        this.title = resp.titleOne;
-        this.status = resp.type;
-        this.message = resp.descriptionOne;
+    this.changePasswordService
+      .changePassword(this.changePasswordForm.controls.credixCode.value, this.changePasswordForm.controls.password.value)
+      .pipe(finalize(() => this.done = this.changePasswordForm.controls.credixCode.valid))
+      .subscribe(result => {
+        this.title = result.title;
+        this.status = result.type;
+        this.message = result.message;
+        if (result.status && result.status === 406) {
+          this.changePasswordForm.controls.credixCode.setErrors({invalid: true});
+          this.changePasswordForm.updateValueAndValidity();
+        }
       });
   }
 
-  goBack() {
-    this.router.navigate(['/home']).then();
-  }
-
   getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'cambiarclave.title').value;
-    this.questionTag = tags.find(tag => tag.description === 'cambiarclave.question').value;
+    this.titleTag = tags.find(tag => tag.description === 'cambiarclave.title')?.value;
+    this.questionTag = tags.find(tag => tag.description === 'cambiarclave.question')?.value;
   }
 }

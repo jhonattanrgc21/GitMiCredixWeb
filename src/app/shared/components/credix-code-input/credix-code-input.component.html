@@ -1,8 +1,9 @@
-<mat-form-field appearance="outline" class="credix-code-input">
+<mat-form-field [color]="ngControl.invalid && ngControl.touched ? 'warn' : 'primary'" appearance="outline"
+                class="credix-code-input">
   <input (blur)="onTouch()" [formControl]="control"
          autocomplete="off" inputmode="numeric"
          mask="000000" matInput maxlength="6" minLength="6">
-  <div *ngIf="control.invalid && control.touched" class="credix-code-input__error">
+  <div *ngIf="ngControl.invalid && ngControl.touched" class="credix-code-input__error">
     <ng-content select="[error]"></ng-content>
   </div>
 </mat-form-field>

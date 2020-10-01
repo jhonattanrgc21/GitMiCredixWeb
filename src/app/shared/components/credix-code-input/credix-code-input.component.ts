@@ -1,5 +1,5 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Component, forwardRef, Injector, OnInit} from '@angular/core';
+import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -16,11 +16,13 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/for
 })
 export class CredixCodeInputComponent implements OnInit, ControlValueAccessor {
   control: FormControl = new FormControl();
+  ngControl;
 
-  constructor() {
+  constructor(public injector: Injector) {
   }
 
   ngOnInit(): void {
+    this.ngControl = this.injector.get(NgControl);
     this.control.valueChanges.subscribe(value => this.propagateChange(value));
   }
 

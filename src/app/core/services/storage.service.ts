@@ -15,6 +15,8 @@ export class StorageService {
       userId: data.json.userId,
       aplId: data.json.aplId,
       actId: data.json.actId,
+      idtId: data.json.typeIdentification,
+      identification,
       accountNumber: data.json.accountNumber,
       securityToken: data.json.securityToken,
       aplicantName: data.json.aplicantName

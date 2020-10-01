@@ -23,16 +23,13 @@ export class SignInComponent implements OnInit {
     password: new FormControl(null, [Validators.required])
   });
   newDeviceFormGroup: FormGroup = new FormGroup(
-    {
-      credixCode: new FormControl('', [Validators.required, Validators.minLength(6)])
-    });
+    {credixCode: new FormControl('', [Validators.required, Validators.minLength(6)])});
   sessionActivateModal: MatDialogRef<any>;
   newDeviceModal: MatDialogRef<any>;
   showErrorMessage = false;
   forward = false;
   phone = '';
   hide = true;
-
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
   @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
 
@@ -42,7 +39,6 @@ export class SignInComponent implements OnInit {
               private storageService: StorageService,
               private router: Router,
               private toastService: CredixToastService) {
-
   }
 
   get f() {
@@ -58,21 +54,19 @@ export class SignInComponent implements OnInit {
 
   login() {
     this.httpService.post('canales', 'security/userlogin', {
-      username: this.signInformGroup.get('identification').value,
+      username: this.signInformGroup.controls.identification.value,
       password: CryptoJS.SHA256(this.signInformGroup.get('password').value).toString(),
       channelId: 102,
       deviceIdentifier: 1213123134,
       typeIncome: 2
     }).subscribe(data => {
         if (data.titleOne === 'success') {
-          this.storageService.setCurrentSession(data, this.signInformGroup.get('identification').value);
+          this.storageService.setCurrentSession(data, this.signInformGroup.controls.identification.value);
           this.deviceInfo();
         } else if (data.titleOne === 'warn') {
           if (data.json.message === 'El usuario ya tiene una sesion activa') {
             this.open('session-activate');
           }
-        } else if (data.titleOne === 'error') {
-
         }
       }
     );
@@ -109,8 +103,7 @@ export class SignInComponent implements OnInit {
 
   closeSessionActivate() {
     this.httpService.post('canales', 'security/logoutbyusername', {
-      username: this.signInformGroup.get('identification').value,
-      channelId: 102,
+      username: this.signInformGroup.controls.identification.value,
       deviceIdentifier: 1213123134,
       typeIncome: 2
     }).subscribe(data => {
@@ -125,8 +118,7 @@ export class SignInComponent implements OnInit {
 
   sendOtp() {
     this.httpService.post('canales', 'security/getdatamaskednameapplicantsendotp', {
-      identification: this.signInformGroup.get('identification').value,
-      channelId: 102,
+      identification: this.signInformGroup.controls.identification.value,
       typeIdentification: 1
     }).subscribe(data => {
       if (data.type === 'success') {
@@ -146,7 +138,6 @@ export class SignInComponent implements OnInit {
 
   validateOtp() {
     this.httpService.post('canales', 'security/validateonetimepassword', {
-      channelId: 102,
       userId: 12345,
       validateToken: 1,
       usernameSecurity: 'sts_sac',

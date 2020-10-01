@@ -1,12 +1,12 @@
 <mat-card *ngIf="!done else donePinTemplate" class="change-pin" credixCard fxLayout="column">
   <h1>{{titleTag || 'Cambiar PIN'}}</h1>
 
-  <div class="change-pin__content">
+  <form [formGroup]="changePinForm" class="change-pin__content" fxLayout="column" fxLayoutGap="16px">
 
-    <div fxLayout="row" fxLayoutAlign="space-between start">
+    <div fxLayout="row" fxLayoutAlign="space-between">
       <span><strong>Nuevo PIN</strong></span>
 
-      <div class="tr" fxLayout="column">
+      <div class="left-content" fxLayout="column">
         <form [formGroup]="changePinForm">
           <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.pin"
                               [type]="hidePin ? 'password' : 'text'" class="change-pin__input"
@@ -17,7 +17,7 @@
                       suffix></mat-icon>
           </credix-input-field>
 
-          <credix-input-field [type]="type" class="change-pin__input" formControlName="confirmPin"
+          <credix-input-field [type]="type" formControlName="confirmPin"
                               label="Confirme su nuevo PIN" mask="0000">
             <mat-icon (click)="hideConfirmPin = !hideConfirmPin; type = hideConfirmPin === true ? 'password': 'text'"
                       [ngClass]="{'disabled-color': !changePinForm.controls.confirmPin.value}"
@@ -31,18 +31,19 @@
 
     <mat-divider credixDivider></mat-divider>
 
-    <div class="mt-16px" fxLayout="row" fxLayoutAlign="space-between start">
+    <div fxLayout="row" fxLayoutAlign="space-between">
       <credix-code-link></credix-code-link>
 
-      <form [formGroup]="changePinForm">
-        <credix-code-input class="change-pin__code tr" formControlName="code">
-          <span error>Introduzca el código credix.</span>
-        </credix-code-input>
-      </form>
+      <credix-code-input class="left-content" formControlName="credixCode">
+           <span *ngIf="changePinForm.controls.credixCode.hasError('required')"
+                 error>Introduzca el código credix.</span>
+        <span *ngIf="changePinForm.controls.credixCode.hasError('invalid')"
+              error>Código credix inválido.</span>
+      </credix-code-input>
     </div>
-  </div>
+  </form>
 
-  <div class="change-pin__content__footer" fxLayout="row" fxLayoutAlign="flex-end">
+  <div class="change-pin__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <credix-button (buttonClick)="confirm()" [disabled]="changePinForm.invalid"
                    text="Confirmar"></credix-button>
   </div>

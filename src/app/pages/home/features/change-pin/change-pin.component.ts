@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import * as CryptoJS from 'crypto-js';
 import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
-import {Router} from '@angular/router';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
+import {ChangePinService} from './change-pin.service';
 
 @Component({
   selector: 'app-change-pin',
@@ -17,7 +16,7 @@ export class ChangePinComponent implements OnInit {
   changePinForm: FormGroup = new FormGroup({
     pin: new FormControl(null, [Validators.required]),
     confirmPin: new FormControl(null, [Validators.required]),
-    code: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   }, {validators: this.pinValidator});
   hidePin = true;
   hideConfirmPin = true;
@@ -29,10 +28,10 @@ export class ChangePinComponent implements OnInit {
   titleTag: string;
   questionTag: string;
 
-  constructor(private modalService: ModalService,
+  constructor(private changePinService: ChangePinService,
+              private modalService: ModalService,
               private httpService: HttpService,
-              private tagsService: TagsService,
-              private router: Router) {
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
@@ -54,33 +53,30 @@ export class ChangePinComponent implements OnInit {
   }
 
   confirm() {
-    this.modalService
-      .confirmationPopup(this.questionTag || '¿Desea realizar este cambio?').subscribe((confirmation) => {
-      if (confirmation) {
-        this.changePin();
-      }
-    });
-  }
-
-  changePin() {
-    this.httpService.post('canales', 'security/modifysecuritykey', {
-      newSecurityKey: CryptoJS.SHA256(this.changePinForm.get('pin').value),
-      codeCredix: this.changePinForm.get('code').value
-    })
-      .pipe(finalize(() => this.done = true))
-      .subscribe((resp) => {
-        this.title = resp.titleOne;
-        this.status = resp.type;
-        this.message = resp.descriptionOne;
+    this.modalService.confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
+      .subscribe((confirmation) => {
+        if (confirmation) {
+          this.changePin();
+        }
       });
   }
 
-  goBack() {
-    this.router.navigate(['/home']).then();
+  changePin() {
+    this.changePinService.changePin(this.changePinForm.controls.pin.value, this.changePinForm.controls.credixCode.value)
+      .pipe(finalize(() => this.done = this.changePinForm.controls.credixCode.valid))
+      .subscribe(result => {
+        this.title = result.title;
+        this.status = result.type;
+        this.message = result.message;
+        if (result.status && result.status === 406) {
+          this.changePinForm.controls.credixCode.setErrors({invalid: true});
+          this.changePinForm.updateValueAndValidity();
+        }
+      });
   }
 
   getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'cambiarpin.title').value;
-    this.questionTag = tags.find(tag => tag.description === 'cambiarpin.question').value;
+    this.titleTag = tags.find(tag => tag.description === 'cambiarpin.title')?.value;
+    this.questionTag = tags.find(tag => tag.description === 'cambiarpin.question')?.value;
   }
 }
