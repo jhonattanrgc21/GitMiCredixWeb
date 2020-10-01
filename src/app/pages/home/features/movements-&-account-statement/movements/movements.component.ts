@@ -36,10 +36,10 @@ export class MovementsComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.linkTag = tags.find(tag => tag.description === 'movimientos.link').value;
-    this.columnOneTag = tags.find(tag => tag.description === 'movimientos.table.column1').value;
-    this.columnTwoTag = tags.find(tag => tag.description === 'movimientos.table.column2').value;
-    this.columnThreeTag = tags.find(tag => tag.description === 'movimientos.table.column3').value;
-    this.columnFourTag = tags.find(tag => tag.description === 'movimientos.table.column4').value;
+    this.linkTag = tags.find(tag => tag.description === 'movimientos.link')?.value;
+    this.columnOneTag = tags.find(tag => tag.description === 'movimientos.table.column1')?.value;
+    this.columnTwoTag = tags.find(tag => tag.description === 'movimientos.table.column2')?.value;
+    this.columnThreeTag = tags.find(tag => tag.description === 'movimientos.table.column3')?.value;
+    this.columnFourTag = tags.find(tag => tag.description === 'movimientos.table.column4')?.value;
   }
 }

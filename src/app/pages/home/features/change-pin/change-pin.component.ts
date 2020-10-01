@@ -6,6 +6,7 @@ import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
 import {ChangePinService} from './change-pin.service';
+import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-change-pin',
@@ -29,6 +30,7 @@ export class ChangePinComponent implements OnInit {
   questionTag: string;
 
   constructor(private changePinService: ChangePinService,
+              private credixCodeErrorService: CredixCodeErrorService,
               private modalService: ModalService,
               private httpService: HttpService,
               private tagsService: TagsService) {
@@ -37,6 +39,10 @@ export class ChangePinComponent implements OnInit {
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Cambiar PIN').tags));
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.changePinForm.controls.credixCode.setErrors({invalid: true});
+      this.changePinForm.updateValueAndValidity();
+    });
   }
 
   confirm() {
@@ -55,10 +61,6 @@ export class ChangePinComponent implements OnInit {
         this.title = result.title;
         this.status = result.type;
         this.message = result.message;
-        if (result.status && result.status === 406) {
-          this.changePinForm.controls.credixCode.setErrors({invalid: true});
-          this.changePinForm.updateValueAndValidity();
-        }
       });
   }
 
@@ -69,14 +71,14 @@ export class ChangePinComponent implements OnInit {
 
   pinValidator(control: FormGroup): ValidationErrors | null {
     const pin = control.get('pin');
-    const repeatpin = control.get('confirmPin');
-    if (repeatpin.errors && !repeatpin.errors.pinError) {
+    const confirmPin = control.get('confirmPin');
+    if (confirmPin.errors && !confirmPin.errors.pinError) {
       return;
     }
-    if (pin.value !== repeatpin.value) {
-      repeatpin.setErrors({pinError: true});
+    if (pin.value !== confirmPin.value) {
+      confirmPin.setErrors({pinError: true});
     } else {
-      repeatpin.setErrors(null);
+      confirmPin.setErrors(null);
     }
   }
 }

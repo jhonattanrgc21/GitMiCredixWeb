@@ -53,8 +53,8 @@ export class ReportTransferenceComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'reportar.title').value;
-    this.link = tags.find(tag => tag.description === 'reportar.link').value;
+    this.titleTag = tags.find(tag => tag.description === 'reportar.title')?.value;
+    this.link = tags.find(tag => tag.description === 'reportar.link')?.value;
   }
 
   openCalendar() {
@@ -93,9 +93,5 @@ export class ReportTransferenceComponent implements OnInit {
         this.title = this.status === 'success' ? '¡Éxito!' : 'Error';
       });
     }
-  }
-
-  goHome() {
-    this.router.navigate(['/home']);
   }
 }

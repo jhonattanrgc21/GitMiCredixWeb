@@ -38,7 +38,6 @@ export class SendMoneyThirdStepComponent implements OnInit, OnChanges {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Enviar dinero').tags)
     );
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,17 +52,17 @@ export class SendMoneyThirdStepComponent implements OnInit, OnChanges {
   }
 
   getTags(tags: Tag[]) {
-    this.step3Subt2 = tags.find(tag => tag.description === 'enviardinero.stepper3.subtitle2').value;
-    this.step3Tag5 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag5').value;
-    this.step3Tag6 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag6').value;
-    this.step3Tag9 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag9').value;
-    this.step3Tag8 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag8').value;
-    this.step3Tag4 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag4').value;
-    this.step3Tag7 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag7').value;
-    this.step3Tag3 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag3').value;
-    this.step3Tag1 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag1').value;
-    this.step3Tag2 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag2').value;
-    this.step3Subt1 = tags.find(tag => tag.description === 'enviardinero.stepper3.subtitle1').value;
+    this.step3Subt2 = tags.find(tag => tag.description === 'enviardinero.stepper3.subtitle2')?.value;
+    this.step3Tag5 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag5')?.value;
+    this.step3Tag6 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag6')?.value;
+    this.step3Tag9 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag9')?.value;
+    this.step3Tag8 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag8')?.value;
+    this.step3Tag4 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag4')?.value;
+    this.step3Tag7 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag7')?.value;
+    this.step3Tag3 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag3')?.value;
+    this.step3Tag1 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag1')?.value;
+    this.step3Tag2 = tags.find(tag => tag.description === 'enviardinero.stepper3.tag2')?.value;
+    this.step3Subt1 = tags.find(tag => tag.description === 'enviardinero.stepper3.subtitle1')?.value;
   }
 
 }

@@ -22,10 +22,11 @@ export class ChangePasswordService {
       codeCredix,
       password: CryptoJS.SHA256(password),
       passwordConfirmation: CryptoJS.SHA256(password)
-    }).pipe(
-      map(response => {
-        return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
-      }));
+    })
+      .pipe(
+        map(response => {
+          return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
+        }));
   }
 
 }

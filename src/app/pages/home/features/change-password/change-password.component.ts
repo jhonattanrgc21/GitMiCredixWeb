@@ -5,6 +5,7 @@ import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
 import {ChangePasswordService} from './change-password.service';
+import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-change-password',
@@ -29,6 +30,7 @@ export class ChangePasswordComponent implements OnInit {
   questionTag: string;
 
   constructor(private changePasswordService: ChangePasswordService,
+              private credixCodeErrorService: CredixCodeErrorService,
               private modalService: ModalService,
               private tagsService: TagsService) {
   }
@@ -36,6 +38,10 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Cambiar clave').tags));
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.changePasswordForm.controls.credixCode.setErrors({invalid: true});
+      this.changePasswordForm.updateValueAndValidity();
+    });
   }
 
   confirm() {
@@ -55,10 +61,6 @@ export class ChangePasswordComponent implements OnInit {
         this.title = result.title;
         this.status = result.type;
         this.message = result.message;
-        if (result.status && result.status === 406) {
-          this.changePasswordForm.controls.credixCode.setErrors({invalid: true});
-          this.changePasswordForm.updateValueAndValidity();
-        }
       });
   }
 

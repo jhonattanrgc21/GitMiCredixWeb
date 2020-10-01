@@ -14,6 +14,7 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
 import {ModalService} from '../../../../../core/services/modal.service';
 import {ApplicantApiService} from '../../../../../core/services/applicant-api.service';
 import {GlobalApiService} from '../../../../../core/services/global-api.service';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-personal-info-editor',
@@ -50,6 +51,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
   done = false;
 
   constructor(private personalInfoManagementService: PersonalInfoManagementService,
+              private credixCodeErrorService: CredixCodeErrorService,
               private applicantApiService: ApplicantApiService,
               private globalApiService: GlobalApiService,
               private toastService: CredixToastService,
@@ -59,14 +61,22 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.personalInfoFormGroup.controls.email.valueChanges.subscribe(value => this.hideEmailMask = value.length === 0);
-    this.personalInfoFormGroup.controls.phoneNumber.valueChanges.subscribe(value => this.hidePhoneNumberMask = value.length === 0);
-    this.personalInfoFormGroup.controls.province.valueChanges.subscribe(value => this.getCanton(value));
-    this.personalInfoFormGroup.controls.canton.valueChanges.subscribe(value => this.getDistrict(value));
+    this.setSubscriptions();
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.personalInfoFormGroup.controls.code.setErrors({invalid: true});
+      this.personalInfoFormGroup.updateValueAndValidity();
+    });
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => this.getFormData(), 0);
+  }
+
+  setSubscriptions() {
+    this.personalInfoFormGroup.controls.email.valueChanges.subscribe(value => this.hideEmailMask = value.length === 0);
+    this.personalInfoFormGroup.controls.phoneNumber.valueChanges.subscribe(value => this.hidePhoneNumberMask = value.length === 0);
+    this.personalInfoFormGroup.controls.province.valueChanges.subscribe(value => this.getCanton(value));
+    this.personalInfoFormGroup.controls.canton.valueChanges.subscribe(value => this.getDistrict(value));
   }
 
   initFormGroup() {
@@ -148,10 +158,6 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
             this.title = result.title;
             this.status = result.type;
             this.message = result.message;
-            if (result.status && result.status === 406) {
-              this.personalInfoFormGroup.controls.code.setErrors({invalid: true});
-              this.personalInfoFormGroup.updateValueAndValidity();
-            }
           });
       }
     });

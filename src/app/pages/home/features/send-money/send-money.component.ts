@@ -11,6 +11,7 @@ import {Tag} from '../../../../shared/models/tag';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {finalize} from 'rxjs/operators';
 import {AccountApiService} from '../../../../core/services/account-api.service';
+import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-send-money',
@@ -49,30 +50,28 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
   @ViewChild('sendMoneyStepper') stepper: CdkStepper;
 
   constructor(private sendMoneyService: SendMoneyService,
-              private modalService: ModalService,
-              private router: Router,
-              private datePipe: DatePipe,
-              public toastService: CredixToastService,
+              private credixCodeErrorService: CredixCodeErrorService,
               private accountApiService: AccountApiService,
-              private tagsService: TagsService) {
+              private modalService: ModalService,
+              public toastService: CredixToastService,
+              private tagsService: TagsService,
+              private router: Router,
+              private datePipe: DatePipe) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
   ngOnInit(): void {
     this.getIbanAccount();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Enviar dinero').tags)
-    );
+      this.getTags(functionality.find(fun => fun.description === 'Enviar dinero').tags));
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.confirmForm.controls.code.setErrors({invalid: true});
+      this.confirmForm.updateValueAndValidity();
+    });
   }
 
   ngAfterViewInit(): void {
     this.setEnableButton();
-  }
-
-  getTags(tags: Tag[]) {
-    this.step = tags.find(tag => tag.description === 'enviardinero.stepper1').value;
-    this.step2 = tags.find(tag => tag.description === 'enviardinero.stepper2').value;
-    this.step3 = tags.find(tag => tag.description === 'enviardinero.stepper3').value;
   }
 
   setEnableButton() {
@@ -129,6 +128,20 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     });
   }
 
+  openConfirmationModal() {
+    this.modalService.confirmationPopup('¿Desea realizar esta transferencia?')
+      .subscribe(confirmation => {
+        if (confirmation) {
+          if (this.informationForm.controls.account.value.favName) {
+            this.saveNewAccount();
+          }
+          this.sendMoney();
+        } else {
+          this.selectedIndex = 2;
+        }
+      });
+  }
+
   sendMoney() {
     this.sendMoneyService.sendMoney(
       this.ibanOrigin.trim(),
@@ -148,10 +161,6 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
         this.title = result.title;
         this.status = result.type;
         this.message = result.message;
-        if (result.status && result.status === 406) {
-          this.confirmForm.controls.code.setErrors({invalid: true});
-          this.confirmForm.updateValueAndValidity();
-        }
         if (result.type !== 'success') {
           this.selectedIndex = 2;
         }
@@ -172,19 +181,9 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openConfirmationModal() {
-    this.modalService
-      .confirmationPopup('¿Desea realizar esta transferencia?')
-      .subscribe((res) => {
-        if (res) {
-          if (this.informationForm.controls.account.value.favName) {
-            this.saveNewAccount();
-          }
-
-          this.sendMoney();
-        } else {
-          this.selectedIndex = 2;
-        }
-      });
+  getTags(tags: Tag[]) {
+    this.step = tags.find(tag => tag.description === 'enviardinero.stepper1')?.value;
+    this.step2 = tags.find(tag => tag.description === 'enviardinero.stepper2')?.value;
+    this.step3 = tags.find(tag => tag.description === 'enviardinero.stepper3')?.value;
   }
 }
