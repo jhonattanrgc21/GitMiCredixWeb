@@ -38,19 +38,6 @@ export class ChangePasswordComponent implements OnInit {
       this.getTags(functionality.find(fun => fun.description === 'Cambiar clave').tags));
   }
 
-  passwordValidator(control: FormGroup): ValidationErrors | null {
-    const password = control.get('password');
-    const repeatPassword = control.get('confirmPassword');
-    if (repeatPassword.errors && !repeatPassword.errors.passwordError) {
-      return;
-    }
-    if (password.value !== repeatPassword.value) {
-      repeatPassword.setErrors({passwordError: true});
-    } else {
-      repeatPassword.setErrors(null);
-    }
-  }
-
   confirm() {
     this.modalService.confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
       .subscribe((confirmation) => {
@@ -78,5 +65,18 @@ export class ChangePasswordComponent implements OnInit {
   getTags(tags: Tag[]) {
     this.titleTag = tags.find(tag => tag.description === 'cambiarclave.title')?.value;
     this.questionTag = tags.find(tag => tag.description === 'cambiarclave.question')?.value;
+  }
+
+  passwordValidator(control: FormGroup): ValidationErrors | null {
+    const password = control.get('password');
+    const repeatPassword = control.get('confirmPassword');
+    if (repeatPassword.errors && !repeatPassword.errors.passwordError) {
+      return;
+    }
+    if (password.value !== repeatPassword.value) {
+      repeatPassword.setErrors({passwordError: true});
+    } else {
+      repeatPassword.setErrors(null);
+    }
   }
 }

@@ -39,19 +39,6 @@ export class ChangePinComponent implements OnInit {
       this.getTags(functionality.find(fun => fun.description === 'Cambiar PIN').tags));
   }
 
-  pinValidator(control: FormGroup): ValidationErrors | null {
-    const pin = control.get('pin');
-    const repeatpin = control.get('confirmPin');
-    if (repeatpin.errors && !repeatpin.errors.pinError) {
-      return;
-    }
-    if (pin.value !== repeatpin.value) {
-      repeatpin.setErrors({pinError: true});
-    } else {
-      repeatpin.setErrors(null);
-    }
-  }
-
   confirm() {
     this.modalService.confirmationPopup(this.questionTag || '¿Desea realizar este cambio?')
       .subscribe((confirmation) => {
@@ -78,5 +65,18 @@ export class ChangePinComponent implements OnInit {
   getTags(tags: Tag[]) {
     this.titleTag = tags.find(tag => tag.description === 'cambiarpin.title')?.value;
     this.questionTag = tags.find(tag => tag.description === 'cambiarpin.question')?.value;
+  }
+
+  pinValidator(control: FormGroup): ValidationErrors | null {
+    const pin = control.get('pin');
+    const repeatpin = control.get('confirmPin');
+    if (repeatpin.errors && !repeatpin.errors.pinError) {
+      return;
+    }
+    if (pin.value !== repeatpin.value) {
+      repeatpin.setErrors({pinError: true});
+    } else {
+      repeatpin.setErrors(null);
+    }
   }
 }
