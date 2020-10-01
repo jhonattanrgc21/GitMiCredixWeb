@@ -1,17 +1,17 @@
-<div class="automatics" fxLayout="column">
+<div *ngIf="data !== undefined" class="automatics" fxLayout="column">
 
-  <div *ngIf="data.id > 0" class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
     <span>Número de contrato</span>
-    <span><strong>{{data.id}}</strong></span>
+    <span><strong>{{data?.key}}</strong></span>
   </div>
 
-  <div *ngIf="data.publicServiceDescription !== ''" class="mb-20px" fxLayout="row" fxLayoutAlign="space-between"
+  <div class="mb-20px" fxLayout="row" fxLayoutAlign="space-between"
        fxLayoutGap="16px">
     <span>Compañía</span>
-    <span class="truncate" fxFlex><strong>{{data.publicServiceDescription}}</strong></span>
+    <span class="truncate" fxFlex><strong>{{data?.publicServiceDescription}}</strong></span>
   </div>
 
-  <form [class.enabled]="isUpdating" [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="8px">
+  <form [class.enabled]="isUpdating" [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="16px">
 
     <credix-input-field (keyup)="updating($event)"
                         *ngIf="data.alias !== ''"
@@ -43,7 +43,7 @@
       </mat-option>
     </credix-select>
 
-    <div *ngIf="data.alias !== ''" class="mt-24px" fxLayout="column">
+    <div class="mt-24px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>
       <credix-code-input [formControl]="codeCredix" class="automatics__input disabled">
         <span error>Introduzca el código credix.</span>

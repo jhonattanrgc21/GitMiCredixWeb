@@ -7,6 +7,7 @@ import {PublicService} from '../../../../../shared/models/public-service';
 import {Router} from '@angular/router';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {FavoritesManagementService} from '../favorites-management.service';
+import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -29,6 +30,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
 
   constructor(private favoritesPaymentsService: FavoritesPaymentsService,
+              private publicServiceApi: PublicServicesApiService,
               private router: Router,
               private modalService: ModalService,
               private favoritesManagementService: FavoritesManagementService) {
@@ -51,20 +53,20 @@ export class AddFavoritesPaymentComponent implements OnInit {
   }
 
   getCategory() {
-    this.favoritesPaymentsService.getPublicCategoryServices()
+    this.publicServiceApi.getPublicServiceCategories()
       .subscribe((response) => {
         this.publicServicesCategory = response;
       });
   }
 
-  getCompany(publicServicesId: number) {
-    this.favoritesPaymentsService.getPublicEnterpriseServicesByCategory(publicServicesId).subscribe((response) => {
+  getCompany(categoryId: number) {
+    this.publicServiceApi.getPublicServiceEnterpriseByCategory(categoryId).subscribe((response) => {
       this.publicCompany = response;
     });
   }
 
   getService(enterpriseId: number) {
-    this.favoritesPaymentsService.getPublicServicesByEnterprise(enterpriseId)
+    this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
         this.publicServices = response;
       });

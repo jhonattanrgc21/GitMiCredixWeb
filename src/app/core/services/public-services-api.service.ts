@@ -6,6 +6,8 @@ import {map} from 'rxjs/operators';
 import {PublicServiceEnterprise} from '../../shared/models/public-service-enterprise';
 import {PublicServiceCategory} from '../../shared/models/public-service-category';
 import {PublicService} from '../../shared/models/public-service';
+import {StorageService} from './storage.service';
+import {PublicServiceFavoriteByUser} from '../../shared/models/public-service-favorite-by-user';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -23,8 +25,10 @@ export class PublicServicesApiService {
   private readonly getPublicServiceCategoriesUri = 'publicservice/publicservicecategory';
   private readonly getPublicServiceEnterpriseByCategoryUri = 'publicservice/publicserviceenterpriselistbycategory';
   private readonly getPublicServiceByEnterpriseUri = 'publicservice/publicservicelistbyenterpriseid';
+  private readonly getAllFavoritePublicServiceUri = 'publicservice/findallpublicservicefavoritebyuser';
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService,
+              private storageService: StorageService) {
   }
 
   @Cacheable()
@@ -71,5 +75,21 @@ export class PublicServicesApiService {
             return [];
           }
         }));
+  }
+
+  @Cacheable()
+  getAllFavoritePublicServiceByUser(): Observable<PublicServiceFavoriteByUser[]> {
+    return this.httpService.post('canales', this.getAllFavoritePublicServiceUri, {
+      userId: this.storageService.getCurrentUser().userId
+    })
+      .pipe(
+        map((response) => {
+          if (response.publicServiceFavoriteList?.length > 0 && response.message === 'Operación exitosa') {
+            return response.publicServiceFavoriteList;
+          } else {
+            return [];
+          }
+        })
+      );
   }
 }

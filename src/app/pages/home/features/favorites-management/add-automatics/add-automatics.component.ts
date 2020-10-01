@@ -3,12 +3,12 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AutomaticsService} from '../automatics/automatics.service';
 import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
 import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
-import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {DatePipe} from '@angular/common';
 import {PublicService} from '../../../../../shared/models/public-service';
 import {Router} from '@angular/router';
 import {FavoritesManagementService} from '../favorites-management.service';
+import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 
 @Component({
   selector: 'app-add-automatics',
@@ -20,6 +20,7 @@ export class AddAutomaticsComponent implements OnInit {
   publicServicesCategory: PublicServiceCategory[];
   publicCompany: PublicServiceEnterprise[];
   publicServices: PublicService[];
+  today = new Date();
   result: { status: string; message: string; title: string; };
   data: {
     publicServiceCategoryId: number;
@@ -37,17 +38,17 @@ export class AddAutomaticsComponent implements OnInit {
     phoneNumber: new FormControl(null, [Validators.required]),
     nameOfAutomatics: new FormControl(null, [Validators.required]),
     maxAmount: new FormControl(null, [Validators.required]),
-    startDate: new FormControl(null, [Validators.required]),
+    startDate: new FormControl(new Date(), [Validators.required]),
     periodicity: new FormControl(null, [Validators.required]),
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
 
   constructor(private automaticsService: AutomaticsService,
-              private favoritesPaymentsService: FavoritesPaymentsService,
               private favoritesManagementService: FavoritesManagementService,
               private modalService: ModalService,
               private router: Router,
-              public datePipe: DatePipe) {
+              public datePipe: DatePipe,
+              private publicServiceApi: PublicServicesApiService) {
   }
 
   get newAutomaticsControls() {
@@ -75,20 +76,20 @@ export class AddAutomaticsComponent implements OnInit {
   }
 
   getCategoryServices() {
-    this.favoritesPaymentsService.getPublicCategoryServices()
+    this.publicServiceApi.getPublicServiceCategories()
       .subscribe((response) => {
         this.publicServicesCategory = response;
       });
   }
 
   getCompany(publicCategoryId: number) {
-    this.favoritesPaymentsService.getPublicEnterpriseServicesByCategory(publicCategoryId).subscribe((response) => {
+    this.publicServiceApi.getPublicServiceEnterpriseByCategory(publicCategoryId).subscribe((response) => {
       this.publicCompany = response;
     });
   }
 
   getService(enterpriseId: number) {
-    this.favoritesPaymentsService.getPublicServicesByEnterprise(enterpriseId)
+    this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
         this.publicServices = response;
       });
