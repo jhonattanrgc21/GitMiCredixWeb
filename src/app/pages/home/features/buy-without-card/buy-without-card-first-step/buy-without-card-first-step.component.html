@@ -2,7 +2,10 @@
   <credix-code-link></credix-code-link>
 
   <credix-code-input [formControl]="credixCode" class="buy-without-card-first-step__input">
-    <span error>Introduzca el código credix.</span>
+   <span *ngIf="credixCode.hasError('required')"
+         error>Introduzca el código credix.</span>
+    <span *ngIf="credixCode.hasError('invalid')"
+          error>Código credix inválido.</span>
   </credix-code-input>
 
 </div>

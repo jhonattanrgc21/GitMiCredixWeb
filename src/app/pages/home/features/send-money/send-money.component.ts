@@ -143,13 +143,16 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
       this.total,
       this.informationForm.controls.account.value.identification,
       this.confirmForm.controls.code.value
-    )
-      .pipe(finalize(() => this.done = true))
-      .subscribe((res) => {
-        this.message = res.message;
-        this.status = res.type;
-        this.title = res.titleOne;
-        if (res.type !== 'success') {
+    ).pipe(finalize(() => this.done = this.confirmForm.controls.code.valid))
+      .subscribe(result => {
+        this.title = result.title;
+        this.status = result.type;
+        this.message = result.message;
+        if (result.status && result.status === 406) {
+          this.confirmForm.controls.code.setErrors({invalid: true});
+          this.confirmForm.updateValueAndValidity();
+        }
+        if (result.type !== 'success') {
           this.selectedIndex = 2;
         }
       });

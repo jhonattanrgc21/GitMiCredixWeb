@@ -108,7 +108,8 @@ export class PublicServicesService {
     });
   }
 
-  savePublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, credixCode: number) {
+  savePublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, credixCode: number):
+    Observable<{ type: 'success' | 'error', status?: number, message: string, title: string }> {
     return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
       accountId: this.storageService.getCurrentUser().actId,
       publicServiceId,
@@ -118,7 +119,10 @@ export class PublicServicesService {
       aliasName,
       publicServiceAccessKeyId: 1,
       codeCredix: credixCode
-    });
+    }).pipe(
+      map(response => {
+        return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
+      }));
   }
 
   getMinAmounts() {

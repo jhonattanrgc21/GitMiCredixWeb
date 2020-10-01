@@ -6,6 +6,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-additional-card',
@@ -111,12 +112,16 @@ export class NewAdditionalCardComponent implements OnInit {
       +this.userInfoFormGroup.controls.creditLimit.value,
       this.pickUpPlaceFormGroup.controls.address.value,
       this.confirmFormGroup.controls.credixCode.value
-    ).subscribe(response => {
-      this.done = true;
-      this.title = response.titleOne;
-      this.message = response.descriptionOne;
-      this.status = response.type;
-    });
+    ).pipe(finalize(() => this.done = this.confirmFormGroup.controls.credixCode.valid))
+      .subscribe(result => {
+        this.title = result.title;
+        this.status = result.type;
+        this.message = result.message;
+        if (result.status && result.status === 406) {
+          this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
+          this.confirmFormGroup.updateValueAndValidity();
+        }
+      });
   }
 
   getTags(tags: Tag[]) {

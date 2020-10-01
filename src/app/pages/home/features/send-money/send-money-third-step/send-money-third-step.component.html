@@ -71,7 +71,10 @@
     <credix-code-link></credix-code-link>
 
     <credix-code-input [formControl]="codeControl" class="right-content">
-      <span error>Introduzca el código credix.</span>
+       <span *ngIf="codeControl.hasError('required')"
+             error>Introduzca el código credix.</span>
+      <span *ngIf="codeControl.hasError('invalid')"
+            error>Código credix inválido.</span>
     </credix-code-input>
   </div>
 

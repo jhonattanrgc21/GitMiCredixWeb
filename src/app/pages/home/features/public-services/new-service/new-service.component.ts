@@ -86,7 +86,12 @@ export class NewServiceComponent implements OnInit {
       this.publicServiceId,
       this.contractControl.value,
       this.confirmFormGroup.controls.favorite.value,
-      this.confirmFormGroup.controls.credixCode.value).subscribe();
+      this.confirmFormGroup.controls.credixCode.value).subscribe(result => {
+      if (result.status && result.status === 406) {
+        this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
+        this.confirmFormGroup.updateValueAndValidity();
+      }
+    });
   }
 
   back() {

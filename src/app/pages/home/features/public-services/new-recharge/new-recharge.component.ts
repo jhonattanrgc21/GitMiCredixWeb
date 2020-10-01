@@ -119,7 +119,12 @@ export class NewRechargeComponent implements OnInit {
       this.publicServiceId,
       this.rechargeFormGroup.controls.phoneNumber.value,
       this.rechargeFormGroup.controls.favorite.value,
-      this.rechargeFormGroup.controls.credixCode.value).subscribe();
+      this.rechargeFormGroup.controls.credixCode.value).subscribe(result => {
+      if (result.status && result.status === 406) {
+        this.rechargeFormGroup.controls.credixCode.setErrors({invalid: true});
+        this.rechargeFormGroup.updateValueAndValidity();
+      }
+    });
   }
 
   back() {

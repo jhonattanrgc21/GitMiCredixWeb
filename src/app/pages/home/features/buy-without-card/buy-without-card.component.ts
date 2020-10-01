@@ -15,7 +15,7 @@ import {finalize} from 'rxjs/operators';
   styleUrls: ['./buy-without-card.component.scss']
 })
 export class BuyWithoutCardComponent implements OnInit {
-  codeCredix: FormControl = new FormControl(null, [Validators.required]);
+  codeCredix: FormControl = new FormControl(null, [Validators.required, Validators.minLength(6)]);
   cardControl: FormControl = new FormControl(null, [Validators.required]);
   cards: Card[];
   applicantIdentification: string;
@@ -69,16 +69,20 @@ export class BuyWithoutCardComponent implements OnInit {
   }
 
   onCardChanged() {
-    this.cardControl.valueChanges.subscribe(value => {
+    this.cardControl.valueChanges.subscribe(() => {
       this.generatePin();
     });
   }
 
   checkCredixCode() {
-    this.buyWithOutCardService.checkCredixCode(this.codeCredix.value).subscribe(response => {
-        if (response.type === 'success') {
+    this.buyWithOutCardService.checkCredixCode(this.codeCredix.value).subscribe(result => {
+        if (result.type === 'success') {
           this.generatePin();
           this.onCardChanged();
+        }
+
+        if (result.status && result.status === 406) {
+          this.codeCredix.setErrors({invalid: true});
         }
       }
     );

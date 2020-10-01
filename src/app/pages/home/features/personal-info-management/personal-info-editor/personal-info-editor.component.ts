@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Occupation} from '../../../../../shared/models/occupation';
@@ -55,8 +54,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
               private globalApiService: GlobalApiService,
               private toastService: CredixToastService,
               private storageService: StorageService,
-              private modalService: ModalService,
-              private router: Router) {
+              private modalService: ModalService) {
     this.name = storageService.getCurrentUser().aplicantName;
   }
 
@@ -72,17 +70,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
   }
 
   initFormGroup() {
-    if (this.personalInfoManagementService.applicantInfo) {
-      this.personalInfoFormGroup.controls.email.setValue(this.personalInfoManagementService.applicantInfo.email);
-      this.personalInfoFormGroup.controls.phoneNumber.setValue(this.personalInfoManagementService.applicantInfo.phoneNumber);
-      this.personalInfoFormGroup.controls.country.setValue(this.personalInfoManagementService.applicantInfo.country);
-      this.personalInfoFormGroup.controls.incomeType.setValue(this.personalInfoManagementService.applicantInfo.incomeType);
-      this.personalInfoFormGroup.controls.occupation.setValue(this.personalInfoManagementService.applicantInfo.occupation);
-      this.personalInfoFormGroup.controls.province.setValue(this.personalInfoManagementService.applicantInfo.province);
-      this.personalInfoFormGroup.controls.canton.setValue(this.personalInfoManagementService.applicantInfo.canton);
-      this.personalInfoFormGroup.controls.district.setValue(this.personalInfoManagementService.applicantInfo.district);
-      this.personalInfoFormGroup.controls.addressDetail.setValue(this.personalInfoManagementService.applicantInfo.addressDetail);
-    } else {
+    if (!this.personalInfoManagementService.applicantInfo) {
       this.applicantApiService.getUserApplicantInfo(this.storageService.getCurrentUser().accountNumber)
         .pipe(finalize(() => this.initFormGroup()))
         .subscribe(applicantInfo => {
@@ -100,6 +88,16 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
             };
           }
         });
+    } else {
+      this.personalInfoFormGroup.controls.email.setValue(this.personalInfoManagementService.applicantInfo.email);
+      this.personalInfoFormGroup.controls.phoneNumber.setValue(this.personalInfoManagementService.applicantInfo.phoneNumber);
+      this.personalInfoFormGroup.controls.country.setValue(this.personalInfoManagementService.applicantInfo.country);
+      this.personalInfoFormGroup.controls.incomeType.setValue(this.personalInfoManagementService.applicantInfo.incomeType);
+      this.personalInfoFormGroup.controls.occupation.setValue(this.personalInfoManagementService.applicantInfo.occupation);
+      this.personalInfoFormGroup.controls.province.setValue(this.personalInfoManagementService.applicantInfo.province);
+      this.personalInfoFormGroup.controls.canton.setValue(this.personalInfoManagementService.applicantInfo.canton);
+      this.personalInfoFormGroup.controls.district.setValue(this.personalInfoManagementService.applicantInfo.district);
+      this.personalInfoFormGroup.controls.addressDetail.setValue(this.personalInfoManagementService.applicantInfo.addressDetail);
     }
   }
 
@@ -134,7 +132,6 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
           this.personalInfoManagementService.applicantInfo.email : this.personalInfoFormGroup.controls.email.value;
         const phoneApplicant = (this.personalInfoFormGroup.controls.phoneNumber.value.toString()).includes('*') ?
           this.personalInfoManagementService.applicantInfo.phoneNumber : this.personalInfoFormGroup.controls.phoneNumber.value;
-
         this.personalInfoManagementService.updateApplicantInfo({
           email,
           phoneApplicant,
@@ -146,15 +143,18 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
           districtId: this.personalInfoFormGroup.controls.district.value,
           addressApplicant: this.personalInfoFormGroup.controls.addressDetail.value,
           credixCode: this.personalInfoFormGroup.controls.code.value,
-        }).subscribe(response => {
-          this.done = true;
-          this.status = response.type;
-          this.title = response.titleOne;
-          this.message = response.descriptionOne;
-        });
+        }).pipe(finalize(() => this.done = this.personalInfoFormGroup.controls.code.valid))
+          .subscribe(result => {
+            this.title = result.title;
+            this.status = result.type;
+            this.message = result.message;
+            if (result.status && result.status === 406) {
+              this.personalInfoFormGroup.controls.code.setErrors({invalid: true});
+              this.personalInfoFormGroup.updateValueAndValidity();
+            }
+          });
       }
     });
-
   }
 
 }
