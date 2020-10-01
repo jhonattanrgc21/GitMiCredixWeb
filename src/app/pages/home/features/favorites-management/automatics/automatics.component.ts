@@ -6,6 +6,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {DatePipe} from '@angular/common';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {ToastData} from '../../../../../shared/components/credix-toast/credix-toast-config';
+import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
 
 @Component({
   selector: 'app-automatics',
@@ -14,15 +15,7 @@ import {ToastData} from '../../../../../shared/components/credix-toast/credix-to
 })
 export class AutomaticsComponent implements OnInit, AfterViewInit {
   isUpdating = false;
-  data: {
-    publicServiceDescription: string;
-    alias: string;
-    id: number;
-    maxAmount: number;
-    periodicityDescription: string;
-    startDate: string;
-    key: number;
-  };
+  data: SchedulePayments;
   automaticsDetailForm: FormGroup = new FormGroup({
     favoriteName: new FormControl(null),
     maxAmount: new FormControl(null),
@@ -37,7 +30,6 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
               private modalService: ModalService,
               public datePipe: DatePipe,
               private toastService: CredixToastService) {
-    this.data = {periodicityDescription: '', alias: '', id: 0, maxAmount: 0, publicServiceDescription: '', startDate: '', key: 0};
   }
 
   get automaticsDetailControls() {
@@ -53,21 +45,11 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   }
 
   getSchedulePayment() {
-    this.favoritesManagementService.automaticsPaymentData.subscribe(response => {
-      this.data = {
-        publicServiceDescription: response.publicServiceDescription,
-        alias: response.alias,
-        id: response.id,
-        maxAmount: response.maxAmount,
-        periodicityDescription: response.periodicityDescription,
-        startDate: response.startDate,
-        key: response.key
-      };
-      this.automaticsDetailForm.controls.favoriteName.setValue(this.data.alias);
-      this.automaticsDetailForm.controls.maxAmount.setValue(this.data.maxAmount);
-      this.automaticsDetailForm.controls.startDate.setValue(this.data.startDate);
-      this.getPeriodicityList();
-    });
+    this.data = this.favoritesManagementService.schedulePayments;
+    this.automaticsDetailForm.controls.favoriteName.setValue(this.data.alias);
+    this.automaticsDetailForm.controls.maxAmount.setValue(this.data.maxAmount);
+    this.automaticsDetailForm.controls.startDate.setValue(this.data.startDate);
+    this.getPeriodicityList();
   }
 
   getPeriodicityList() {

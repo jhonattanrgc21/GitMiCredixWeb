@@ -1,15 +1,15 @@
 export interface PublicServiceFavoriteByUser {
   publicServiceFavoriteName: string;
   serviceReference: string;
+  accountNumber: number;
+  accountId: number;
   publicServiceCategory: string;
   publicServiceName: string;
   publicServiceAccessKeyDescription: string;
-  accountNumber: number;
   publicServiceId: number;
   publicServiceEnterpriseId: number;
   publicServiceProvider: string;
   publicServiceProviderPrefix: string;
-  accountId: number;
   publicServiceEnterpriseDescription: string;
   publicServiceAccessKeyId: number;
   publicServiceCode: number;

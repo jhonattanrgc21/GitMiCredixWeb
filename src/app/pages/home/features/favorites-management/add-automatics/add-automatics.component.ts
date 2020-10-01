@@ -20,6 +20,7 @@ export class AddAutomaticsComponent implements OnInit {
   publicServicesCategory: PublicServiceCategory[];
   publicCompany: PublicServiceEnterprise[];
   publicServices: PublicService[];
+  today = new Date();
   result: { status: string; message: string; title: string; };
   data: {
     publicServiceCategoryId: number;
@@ -37,7 +38,7 @@ export class AddAutomaticsComponent implements OnInit {
     phoneNumber: new FormControl(null, [Validators.required]),
     nameOfAutomatics: new FormControl(null, [Validators.required]),
     maxAmount: new FormControl(null, [Validators.required]),
-    startDate: new FormControl(null, [Validators.required]),
+    startDate: new FormControl(new Date(), [Validators.required]),
     periodicity: new FormControl(null, [Validators.required]),
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);

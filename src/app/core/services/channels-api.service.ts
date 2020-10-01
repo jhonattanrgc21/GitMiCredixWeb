@@ -6,12 +6,14 @@ import {StorageService} from './storage.service';
 import {Observable} from 'rxjs';
 import {AdditionalCard} from '../../shared/models/additional-card';
 import {ThAddress} from '../../shared/models/th-address';
+import {SchedulePayments} from '../../shared/models/schedule-payments';
 
 @Injectable()
 export class ChannelsApiService {
   private readonly accountSummaryUri = 'channels/accountsummary';
   private readonly getAdditionalCardsUri = 'channels/getlistsadditionalcardsth';
   private readonly thAddressesUri = 'channels/getaddressth';
+  private readonly getSchedulePaymentsUri = 'schedulerpayment/getscheduledpays';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -68,6 +70,20 @@ export class ChannelsApiService {
             return {addresses: response.json.address, email: response.json.email, phone: response.json.phone};
           } else {
             return null;
+          }
+        })
+      );
+  }
+
+  @Cacheable()
+  getAllSchedulersPayment(): Observable<SchedulePayments[]> {
+    return this.httpService.post('canales', this.getSchedulePaymentsUri)
+      .pipe(
+        map((response) => {
+          if (response.scheduledPayList?.length > 0 && response.message === 'Operación exitosa') {
+            return response.scheduledPayList;
+          } else {
+            return [];
           }
         })
       );
