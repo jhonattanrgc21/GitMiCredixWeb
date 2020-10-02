@@ -25,7 +25,8 @@ export class SignInComponent implements OnInit {
   newDeviceModal: MatDialogRef<any>;
   errorOtpMessage: string;
   otpSent = false;
-  phone = '';
+  phone: string;
+  userId: number;
   hide = true;
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
   @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
@@ -69,13 +70,14 @@ export class SignInComponent implements OnInit {
     this.signInService.sendOtp(this.otpSent, this.signInformGroup.controls.identification.value).subscribe(user => {
       if (user) {
         this.phone = user.phoneNumber;
+        this.userId = user.userId;
         this.otpSent = true;
       }
     });
   }
 
   validateOtp() {
-    this.signInService.validateOtp(+this.newDeviceFormGroup.controls.credixCode.value).subscribe(result => {
+    this.signInService.validateOtp(+this.newDeviceFormGroup.controls.credixCode.value, this.userId).subscribe(result => {
       if (result.status === 'success') {
         this.saveDevice();
       } else {

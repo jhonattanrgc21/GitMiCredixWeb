@@ -88,7 +88,8 @@ export class SignInService {
       );
   }
 
-  sendOtp(optSent: boolean, identification: string, typeIdentification: number = 1): Observable<{ phoneNumber: string; email: string }> {
+  sendOtp(optSent: boolean, identification: string, typeIdentification: number = 1):
+    Observable<{ userId: number, phoneNumber: string; email: string }> {
     return this.httpService.post('canales', 'security/getdatamaskednameapplicantsendotp', {
       identification,
       typeIdentification
@@ -104,7 +105,7 @@ export class SignInService {
         }),
       map(response => {
         if (response.type === 'success') {
-          return {phoneNumber: response.phone, email: response.email};
+          return {userId: response.userId, phoneNumber: response.phone, email: response.email};
         } else {
           return null;
         }
@@ -112,7 +113,7 @@ export class SignInService {
     );
   }
 
-  validateOtp(confirmationCode: number, userId: number = 12345): Observable<{ status: 'success' | 'error', message: string }> {
+  validateOtp(confirmationCode: number, userId): Observable<{ status: 'success' | 'error', message: string }> {
     return this.httpService.post('canales', this.validateOtpUri, {
       userId,
       validateToken: 1,

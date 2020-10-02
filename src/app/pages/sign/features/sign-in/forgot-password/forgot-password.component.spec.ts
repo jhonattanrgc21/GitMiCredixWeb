@@ -27,8 +27,8 @@ describe('ForgotPasswordComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
     component = fixture.componentInstance;
-    //debug = fixture.debugElement.query(By.css('ng-template'))
-    //element = debug.nativeElement;
+    // debug = fixture.debugElement.query(By.css('ng-template'))
+    // element = debug.nativeElement;
     fixture.detectChanges();
   });
 
@@ -37,11 +37,11 @@ describe('ForgotPasswordComponent', () => {
   });
 
   it('form invalid when empty', () => {
-    expect(component.forgotPassForm.valid).toBeFalsy();
+    expect(component.forgotPasswordForm.valid).toBeFalsy();
   });
 
   it('button shouldn\'t work when invalid', () => {
-    expect(component.forgotPassForm.valid).toBeFalsy();
+    expect(component.forgotPasswordForm.valid).toBeFalsy();
     spyOn(component, 'submit');
     element = fixture.debugElement.query(By.css('credix-button')).nativeElement;
     element.click();
@@ -50,25 +50,25 @@ describe('ForgotPasswordComponent', () => {
   });
 
   it('form should be invalid if passwords do not match', () => {
-    expect(component.forgotPassForm.valid).toBeFalsy();
-    component.forgotPassForm.controls['identType'].setValue('Cédula de identidad');
-    component.forgotPassForm.controls['identNumber'].setValue('26245152');
-    component.forgotPassForm.controls['password'].setValue('12345');
-    component.forgotPassForm.controls['confirmPassword'].setValue('123456');
-    component.forgotPassForm.controls['code'].setValue('681379');
-    expect(component.forgotPassForm.valid).toBeFalsy();
+    expect(component.forgotPasswordForm.valid).toBeFalsy();
+    component.forgotPasswordForm.controls.identificationType.setValue('Cédula de identidad');
+    component.forgotPasswordForm.controls.identification.setValue('26245152');
+    component.forgotPasswordForm.controls.password.setValue('12345');
+    component.forgotPasswordForm.controls.confirmPassword.setValue('123456');
+    component.forgotPasswordForm.controls.code.setValue('681379');
+    expect(component.forgotPasswordForm.valid).toBeFalsy();
 
   });
 
   it('submitting a form when valid', fakeAsync(() => {
-    expect(component.forgotPassForm.valid).toBeFalsy();
+    expect(component.forgotPasswordForm.valid).toBeFalsy();
     expect(component.submitted).toBeFalsy();
-    component.forgotPassForm.controls['identType'].setValue('Cédula de identidad');
-    component.forgotPassForm.controls['identNumber'].setValue('26245152');
-    component.forgotPassForm.controls['password'].setValue('12345');
-    component.forgotPassForm.controls['confirmPassword'].setValue('12345');
-    component.forgotPassForm.controls['code'].setValue('681379');
-    expect(component.forgotPassForm.valid).toBeTruthy();
+    component.forgotPasswordForm.controls.identType.setValue('Cédula de identidad');
+    component.forgotPasswordForm.controls.identNumber.setValue('26245152');
+    component.forgotPasswordForm.controls.password.setValue('12345');
+    component.forgotPasswordForm.controls.confirmPassword.setValue('12345');
+    component.forgotPasswordForm.controls.code.setValue('681379');
+    expect(component.forgotPasswordForm.valid).toBeTruthy();
     spyOn(component, 'submit');
     element = fixture.debugElement.query(By.css('credix-button')).nativeElement;
     element.click();

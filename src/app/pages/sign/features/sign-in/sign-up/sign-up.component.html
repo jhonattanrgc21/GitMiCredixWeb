@@ -30,16 +30,20 @@
 
     <cdk-step [label]="'Validar teléfono'" [stepControl]="newUserSecondStepForm">
       <p class="modal-new-user__stepper--parrafe">Ingrese el código que hemos enviado al teléfono
-        registrado: {{cellNumber}}</p>
+        registrado: {{phoneNumber}}</p>
 
       <form [formGroup]="newUserSecondStepForm" fxLayout="column">
 
         <credix-code-input class="w-100 mb-16px" formControlName="credixCode">
-          <span error>Introduzca el código credix</span></credix-code-input>
+           <span *ngIf="newUserSecondStepForm.controls.credixCode.hasError('required')"
+                 class="mb-8px" error>Introduzca el código credix.</span>
+          <span *ngIf="newUserSecondStepForm.controls.credixCode.hasError('invalid')"
+                class="mb-8px" error>Código credix inválido.</span>
+        </credix-code-input>
 
         <div class="mb-24px" fxLayout="column" fxLayoutAlign="start center">
           <span>¿No ha recibido el código?</span>
-          <credix-link-button (click)=getCodeAgain()>Enviar nuevamente</credix-link-button>
+          <credix-link-button (click)=sendOtp()>Enviar nuevamente</credix-link-button>
         </div>
 
         <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por
@@ -47,7 +51,7 @@
           o visite una de nuestras sucursales para solicitar el cambio.</p>
 
         <credix-button
-          (buttonClick)=sendPasswordSecurity()
+          (buttonClick)=validateOtp()
           [disabled]="!newUserSecondStepForm.valid"
           class="modal-new-user__button step-two"
           fxFlexAlign="flex-start"
