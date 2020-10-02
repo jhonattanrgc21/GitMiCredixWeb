@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-automatics',
@@ -139,9 +140,14 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
           +this.codeCredix.value)
+          .pipe(finalize(() => {
+            if (!this.codeCredix.hasError('invalid')) {
+              this.done = true;
+            }
+          }))
           .subscribe((response) => {
             this.resultAutomatics = !this.resultAutomatics;
-            this.done = true;
+
             this.result = {
               status: response.type,
               message: response.message || response.descriptionOne,
