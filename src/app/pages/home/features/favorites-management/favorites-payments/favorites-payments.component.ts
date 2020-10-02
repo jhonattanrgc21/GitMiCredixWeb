@@ -29,6 +29,7 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
+    this.getDeletedSuccess();
   }
 
   getAccountDetail() {
@@ -67,5 +68,13 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
         this.isUpdating = this.favoritesPaymentDetail.valid;
       });
     }
+  }
+
+  getDeletedSuccess() {
+    this.favoritesManagementService.deleted.subscribe((response) => {
+      if (response.automatics) {
+        this.data = null;
+      }
+    });
   }
 }

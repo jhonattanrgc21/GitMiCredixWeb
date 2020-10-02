@@ -45,6 +45,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
+    this.getDeletedSuccess();
   }
 
   getSchedulePayment() {
@@ -121,6 +122,14 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
       this.codeCredix.setErrors({invalid: true});
       this.automaticsDetailForm.updateValueAndValidity();
+    });
+  }
+
+  getDeletedSuccess() {
+    this.favoritesManagementService.deleted.subscribe((response) => {
+      if (response.automatics) {
+        this.data = null;
+      }
     });
   }
 }

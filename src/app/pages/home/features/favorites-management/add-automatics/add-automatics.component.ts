@@ -138,7 +138,7 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.phoneNumber.value,
           this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
-          this.codeCredix.value)
+          +this.codeCredix.value)
           .subscribe((response) => {
             this.resultAutomatics = !this.resultAutomatics;
             this.done = true;

@@ -72,8 +72,13 @@ export class AddIbanAccountComponent implements OnInit {
           this.newFavoriteIbanForm.controls.ibanAccount.value,
           this.newFavoriteIbanForm.controls.identificationType.value,
           this.newFavoriteIbanForm.controls.identification.value,
-          this.codeCredix.value).subscribe((response) => {
-          this.done = true;
+          this.codeCredix.value)
+          .pipe(finalize(() => {
+            if (!this.codeCredix.hasError('invalid')) {
+              this.done = true;
+            }
+          }))
+          .subscribe((response) => {
           this.result = {
             status: response.type,
             message: response.message,
