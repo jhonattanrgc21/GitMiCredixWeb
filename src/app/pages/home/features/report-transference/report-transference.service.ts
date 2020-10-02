@@ -15,7 +15,7 @@ export class ReportTransferenceService {
     bank: string; currency: number; amount: number; paymentDate: string; imagebase64?: string; imageType?: string
   }) {
     return this.httpService.post('canales', this.reportTransferenceUri, {
-      ...body, username: this.storageService.getIdentification()
+      ...body, username: this.storageService.getCurrentUser().identification
     }).pipe(map(response => {
       return {type: response.type, message: response.descriptionOne};
     }));

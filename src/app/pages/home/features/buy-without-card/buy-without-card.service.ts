@@ -16,7 +16,7 @@ export class BuyWithoutCardService {
   checkCredixCode(credixCode: string): Observable<{ type: 'success' | 'error', status?: number, message: string, title: string }> {
     return this.httpService.post('canales', this.validateSeedUri,
       {
-        identification: this.storageService.getIdentification(),
+        identification: this.storageService.getCurrentUser().identification,
         otp: +credixCode
       }).pipe(
       map(response => {

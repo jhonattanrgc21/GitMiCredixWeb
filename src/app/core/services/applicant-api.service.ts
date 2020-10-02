@@ -39,7 +39,7 @@ export class ApplicantApiService {
   })
   getApplicantProfilePhoto(): Observable<string> {
     return this.httpService.post('canales', this.getApplicantProfilePhotoUri, {
-      identification: this.storageService.getIdentification()
+      identification: this.storageService.getCurrentUser().identification
     }).pipe(
       map(response => {
         if (response.imgBase64) {

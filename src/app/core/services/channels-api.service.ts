@@ -63,7 +63,7 @@ export class ChannelsApiService {
   @Cacheable()
   getThAddresses(): Observable<{ addresses: ThAddress[], email: string; phone: number }> {
     return this.httpService
-      .post('canales', this.thAddressesUri, {identification: this.storageService.getIdentification()})
+      .post('canales', this.thAddressesUri, {identification: this.storageService.getCurrentUser().identification})
       .pipe(
         map((response) => {
           if (response.titleOne === 'success') {

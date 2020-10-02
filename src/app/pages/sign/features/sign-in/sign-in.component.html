@@ -43,7 +43,6 @@
   </div>
 </ng-template>
 
-
 <ng-template #newDeviceTemplate>
   <div class="h-100" fxLayout="column" fxLayoutAlign="flex-start center">
     <p class="mb-16px">
@@ -52,13 +51,16 @@
 
     <form [formGroup]="newDeviceFormGroup" class="w-100 mb-32px">
       <credix-code-input formControlName="credixCode">
-        <span error>El código ingresado es erróneo. Inténtelo de nuevo.</span>
+                <span *ngIf="newDeviceFormGroup.controls.credixCode.hasError('required')"
+                      error>Introduzca el código de verificación.</span>
+        <span *ngIf="newDeviceFormGroup.controls.credixCode.hasError('invalid')"
+              error>{{errorOtpMessage}}</span>
       </credix-code-input>
     </form>
 
     <div class="w-100" fxLayout="column" fxLayoutAlign="center center">
       <span>¿No ha recibido el código?</span>
-      <credix-link-button (click)="forwardOtp()">Enviar nuevamente</credix-link-button>
+      <credix-link-button (click)="sendOtp()">Enviar nuevamente</credix-link-button>
     </div>
 
 

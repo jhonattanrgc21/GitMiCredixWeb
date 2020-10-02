@@ -30,7 +30,7 @@ export class PersonalInfoManagementService {
   })
   saveApplicantProfilePhoto(image: string, format: string, size: number) {
     return this.httpService.post('canales', this.saveApplicantProfilePhotoUri, {
-      identification: this.storageService.getIdentification(),
+      identification: this.storageService.getCurrentUser().identification,
       imagebase64: image,
       formatImage: format,
       size

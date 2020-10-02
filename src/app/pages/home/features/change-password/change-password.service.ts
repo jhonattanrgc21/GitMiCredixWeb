@@ -16,9 +16,9 @@ export class ChangePasswordService {
   changePassword(codeCredix: string, password: string):
     Observable<{ type: 'success' | 'error', status?: number, message: string, title: string }> {
     return this.httpService.post('canales', this.changePasswordUri, {
-      typeIdentification: this.storageService.getCurrentUser().idtId,
+      typeIdentification: this.storageService.getCurrentUser().typeIdentification,
       identification: this.storageService.getCurrentUser().identification,
-      username: this.storageService.getIdentification(),
+      username: this.storageService.getCurrentUser().identification,
       codeCredix,
       password: CryptoJS.SHA256(password),
       passwordConfirmation: CryptoJS.SHA256(password)
