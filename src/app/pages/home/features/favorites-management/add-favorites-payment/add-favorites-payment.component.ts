@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -33,7 +34,8 @@ export class AddFavoritesPaymentComponent implements OnInit {
               private publicServiceApi: PublicServicesApiService,
               private router: Router,
               private modalService: ModalService,
-              private favoritesManagementService: FavoritesManagementService) {
+              private favoritesManagementService: FavoritesManagementService,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   get newFavoritesPaymentControls() {
@@ -50,6 +52,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
+    this.getCredixCodeError();
   }
 
   getCategory() {
@@ -106,5 +109,12 @@ export class AddFavoritesPaymentComponent implements OnInit {
       favoriteName: this.newFavoritesPaymentControls.favoriteName.value,
       phoneNumber: this.newFavoritesPaymentControls.phoneNumber.value
     };
+  }
+
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.codeCredix.setErrors({invalid: true});
+      this.newFavoritesPaymentForm.updateValueAndValidity();
+    });
   }
 }

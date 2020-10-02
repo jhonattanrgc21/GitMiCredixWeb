@@ -6,6 +6,7 @@ import {finalize} from 'rxjs/operators';
 import {getIdentificationMaskByType} from '../../../../../shared/utils';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Router} from '@angular/router';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-add-iban-account',
@@ -28,12 +29,14 @@ export class AddIbanAccountComponent implements OnInit {
 
   constructor(private ibanAccountService: IbanAccountsService,
               private modalService: ModalService,
-              private router: Router) {
+              private router: Router,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
     this.resultIban = false;
     this.identificationType();
+    this.getCredixCodeError();
   }
 
   identificationType() {
@@ -81,4 +84,10 @@ export class AddIbanAccountComponent implements OnInit {
     });
   }
 
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.codeCredix.setErrors({invalid: true});
+      this.newFavoriteIbanForm.updateValueAndValidity();
+    });
+  }
 }

@@ -7,6 +7,7 @@ import {DatePipe} from '@angular/common';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {ToastData} from '../../../../../shared/components/credix-toast/credix-toast-config';
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-automatics',
@@ -29,7 +30,8 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
               private automaticsService: AutomaticsService,
               private modalService: ModalService,
               public datePipe: DatePipe,
-              private toastService: CredixToastService) {
+              private toastService: CredixToastService,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   get automaticsDetailControls() {
@@ -38,6 +40,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getSchedulePayment();
+    this.getCredixCodeError();
   }
 
   ngAfterViewInit() {
@@ -111,6 +114,13 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.automaticsDetailForm.controls.periodicity.valueChanges.subscribe(value => {
       this.favoritesManagementService.updating();
       this.isUpdating = this.automaticsDetailForm.valid;
+    });
+  }
+
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.codeCredix.setErrors({invalid: true});
+      this.automaticsDetailForm.updateValueAndValidity();
     });
   }
 }

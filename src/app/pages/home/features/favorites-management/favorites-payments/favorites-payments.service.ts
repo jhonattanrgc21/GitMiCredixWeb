@@ -16,7 +16,6 @@ export class FavoritesPaymentsService {
       serviceReference,
       paymentDay: 21,
       userId: this.storageService.getCurrentUser().userId,
-      channelId: 102,
       aliasName,
       publicServiceAccessKeyId: 1,
       codeCredix: credixCode
@@ -27,7 +26,6 @@ export class FavoritesPaymentsService {
     return this.httpService.post('canales', 'publicservice/updatenamepublicservicefavorite', {
       publicServiceFavoriteId,
       name,
-      channelId: 102,
       userId: this.storageService.getCurrentUser().userId
     });
   }
