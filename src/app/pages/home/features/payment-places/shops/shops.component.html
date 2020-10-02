@@ -11,10 +11,10 @@
     </div>
 
     <div *ngIf="paymentPlaceDetail" class="shops__right-content" fxLayout="column" right>
-      <span>{{paymentPlaceDetail?.name | titlecase}}</span>
+      <span class="shops__right-content__title">{{paymentPlaceDetail?.name | titlecase}}</span>
 
       <div fxLayout="row" fxLayoutGap="76px">
-        <span fxFlex="250px"><strong>{{firstSubtitleTag || 'Detalles'}}</strong></span>
+        <span class="bold" fxFlex="250px"><strong>{{firstSubtitleTag || 'Detalles'}}</strong></span>
 
         <ul *ngFor="let restriction of paymentPlaceDetail?.paymentPlaceRestriction" class="pa0" fxFlex>
           <li>{{ restriction.description }}</li>
@@ -24,7 +24,7 @@
       <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
 
       <div fxLayout="row" fxLayoutGap="76px">
-        <span fxFlex="250px"><strong>{{secondSubtitleTag || 'Información de contacto'}}</strong></span>
+        <span class="bold" fxFlex="250px"><strong>{{secondSubtitleTag || 'Información de contacto'}}</strong></span>
 
         <ul class="list pa0" fxFlex>
           <li class="mb-8px">
