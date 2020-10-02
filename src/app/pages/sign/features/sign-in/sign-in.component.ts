@@ -1,12 +1,12 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalService} from '../../../../core/services/modal.service';
-import {SignUpComponent} from '../sign-up/sign-up.component';
-import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
+import {SignUpComponent} from './sign-up/sign-up.component';
 import {MatDialogRef} from '@angular/material/dialog';
 import {StorageService} from '../../../../core/services/storage.service';
 import {Router} from '@angular/router';
 import {SignInService} from './sign-in.service';
+import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
 
 
 @Component({

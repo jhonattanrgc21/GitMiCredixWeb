@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ModalResponseSignUpComponent } from './modal-response-sign-up.component';
+import {ModalResponseSignUpComponent} from './modal-response-sign-up.component';
 
 describe('ModalResponseSignUpComponent', () => {
   let component: ModalResponseSignUpComponent;

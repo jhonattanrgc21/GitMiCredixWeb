@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {ModalService} from '../../../../core/services/modal.service';
+import {ModalService} from '../../../../../core/services/modal.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {IdentificationType} from 'src/app/shared/models/identification-type';
@@ -8,10 +8,10 @@ import {finalize} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import {CredixToastService} from 'src/app/core/services/credix-toast.service';
 import {CdkStepper} from '@angular/cdk/stepper';
-import {getIdentificationMaskByType} from '../../../../shared/utils';
+import {getIdentificationMaskByType} from '../../../../../shared/utils';
 import {ModalResponseSignUpComponent} from './modal-response-sign-up/modal-response-sign-up.component';
 import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
-import {GlobalApiService} from '../../../../core/services/global-api.service';
+import {GlobalApiService} from '../../../../../core/services/global-api.service';
 
 @Component({
   selector: 'app-sign-up',

@@ -14,6 +14,17 @@ import {CredixResultNotificationModule} from '../../../../shared/components/cred
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
 import {SignInService} from './sign-in.service';
+import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
+import {SignUpComponent} from './sign-up/sign-up.component';
+import {CredixStepperSignUpComponent} from './sign-up/credix-stepper-sign-up/credix-stepper-sign-up.component';
+import {ModalResponseSignUpComponent} from './sign-up/modal-response-sign-up/modal-response-sign-up.component';
+import {ForgotPasswordService} from './forgot-password/forgot-password.service';
+import {SignUpService} from './sign-up/sign-up.service';
+import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {CdkStepperModule} from '@angular/cdk/stepper';
+import {StepperModule} from '../../../../shared/directives/stepper/stepper.module';
+import {MatStepperModule} from '@angular/material/stepper';
 
 const routes: Routes = [
   {
@@ -23,7 +34,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SignInComponent],
+  declarations: [
+    SignInComponent,
+    ForgotPasswordComponent,
+    SignUpComponent,
+    CredixStepperSignUpComponent,
+    ModalResponseSignUpComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -36,10 +53,17 @@ const routes: Routes = [
     CredixCardsModule,
     CredixResultNotificationModule,
     CredixCodeInputModule,
-    CredixInputFieldModule
+    CredixInputFieldModule,
+    CredixSelectModule,
+    CredixCodeLinkModule,
+    CdkStepperModule,
+    StepperModule,
+    MatStepperModule
   ],
   providers: [
     SignInService,
+    ForgotPasswordService,
+    SignUpService,
     ModalService
   ]
 })
