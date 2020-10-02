@@ -53,7 +53,10 @@
       </div>
 
       <credix-code-input [formControl]="codeCredix" class="add-favorites-payment__form">
-        <span error>Introduzca el código credix.</span>
+          <span *ngIf="codeCredix.hasError('required')"
+                error>Introduzca el código credix.</span>
+        <span *ngIf="codeCredix.hasError('invalid')"
+              error>Código credix inválido.</span>
       </credix-code-input>
     </div>
 
