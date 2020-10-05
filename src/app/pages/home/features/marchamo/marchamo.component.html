@@ -24,10 +24,9 @@
     <cdk-step label="{{step4 || 'Confirmar'}}" [stepControl]="confirmForm">
       <app-marchamo-fourth-step [confirmForm]="confirmForm"
                                 [contactInfo]="{name: name, phone: phoneNumber, email: email}"
-                                [amountTotalProducts]="totalAmountItemsProducts"
                                 [deliveryPlace]="address"
                                 [isActive]="stepperIndex === 3"
-                                [totalAmount]="marchamoTotal"></app-marchamo-fourth-step>
+                                [totalMarchamo]="marchamoTotal"></app-marchamo-fourth-step>
     </cdk-step>
 
   </credix-stepper>
@@ -52,7 +51,8 @@
                           [status]="status"
                           [title]="title || 'Marchamo'"
                           buttonText="Realizar otro pago"
-                          routeTo="/home/marchamo">
+                          (changeTemplate)="changeTemplate($event)"
+                          routeTo="/home/marchamos">
 
     <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
       <mat-divider class="mb-24px" credixDivider></mat-divider>

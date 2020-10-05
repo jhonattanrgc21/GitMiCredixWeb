@@ -80,10 +80,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   getDeliveryPlaces() {
-    this.httpService.post('marchamos', 'pay/deliveryplaces')
+    this.marchamoService.getDeliveryPlaces()
       .pipe(finalize(() => this.onDeliveryPlaceChanged()))
-      .subscribe(response =>
-        this.deliveryPlaces = response.deliveryPlacesList.filter(x => x.id !== 6));
+      .subscribe((response) => {
+        this.deliveryPlaces = response;
+      });
   }
 
   getUserAddress() {
