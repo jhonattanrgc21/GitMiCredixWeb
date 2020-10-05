@@ -3,10 +3,13 @@ import {HttpService} from './http.service';
 import {Cacheable} from 'ngx-cacheable';
 import {map} from 'rxjs/operators';
 import {StorageService} from './storage.service';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {AdditionalCard} from '../../shared/models/additional-card';
 import {ThAddress} from '../../shared/models/th-address';
 import {SchedulePayments} from '../../shared/models/schedule-payments';
+
+
+export const cleanSchedulePayments$ = new Subject();
 
 @Injectable()
 export class ChannelsApiService {
@@ -75,7 +78,9 @@ export class ChannelsApiService {
       );
   }
 
-  @Cacheable()
+  @Cacheable({
+    cacheBusterObserver: cleanSchedulePayments$.asObservable()
+  })
   getAllSchedulersPayment(): Observable<SchedulePayments[]> {
     return this.httpService.post('canales', this.getSchedulePaymentsUri)
       .pipe(

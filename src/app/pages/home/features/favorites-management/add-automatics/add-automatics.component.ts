@@ -9,6 +9,8 @@ import {PublicService} from '../../../../../shared/models/public-service';
 import {Router} from '@angular/router';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-automatics',
@@ -48,7 +50,8 @@ export class AddAutomaticsComponent implements OnInit {
               private modalService: ModalService,
               private router: Router,
               public datePipe: DatePipe,
-              private publicServiceApi: PublicServicesApiService) {
+              private publicServiceApi: PublicServicesApiService,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   get newAutomaticsControls() {
@@ -67,6 +70,7 @@ export class AddAutomaticsComponent implements OnInit {
     });
 
     this.getFromFavorites();
+    this.getCredixCodeError();
   }
 
   getPeriodicityList() {
@@ -135,10 +139,15 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.phoneNumber.value,
           this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
-          this.codeCredix.value)
+          +this.codeCredix.value)
+          .pipe(finalize(() => {
+            if (!this.codeCredix.hasError('invalid')) {
+              this.done = true;
+            }
+          }))
           .subscribe((response) => {
             this.resultAutomatics = !this.resultAutomatics;
-            this.done = true;
+
             this.result = {
               status: response.type,
               message: response.message || response.descriptionOne,
@@ -146,6 +155,13 @@ export class AddAutomaticsComponent implements OnInit {
             };
           });
       }
+    });
+  }
+
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.codeCredix.setErrors({invalid: true});
+      this.newAutomaticsForm.updateValueAndValidity();
     });
   }
 }

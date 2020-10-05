@@ -5,6 +5,10 @@ import {Observable, Subject} from 'rxjs';
 import {FavoriteIbanAccount} from '../../../../shared/models/favorite-iban-account';
 import {PublicServiceFavoriteByUser} from '../../../../shared/models/public-service-favorite-by-user';
 import {SchedulePayments} from '../../../../shared/models/schedule-payments';
+import {CacheBuster} from 'ngx-cacheable';
+import {cleanIbanFavoriteAccount$} from '../../../../core/services/account-api.service';
+import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
+import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
 
 @Injectable()
 export class FavoritesManagementService {
@@ -28,6 +32,17 @@ export class FavoritesManagementService {
   private __confirmUpdate: Subject<{ confirm: boolean }> = new Subject<{ confirm: boolean }>();
   // tslint:disable-next-line:variable-name
   private _redirectToAutomatics: boolean;
+
+  // tslint:disable-next-line:variable-name
+  private _deleted: Subject<{
+    iban?: boolean;
+    publicServices?: boolean;
+    automatics?: boolean;
+  }> = new Subject<{
+    iban?: boolean;
+    publicServices?: boolean;
+    automatics?: boolean;
+  }>();
 
   // tslint:disable-next-line:variable-name max-line-length
   private _valuesFromFavorites: {
@@ -94,6 +109,14 @@ export class FavoritesManagementService {
     return this.__updateSuccess.asObservable();
   }
 
+  get deleted(): Observable<{
+    iban?: boolean;
+    publicServices?: boolean;
+    automatics?: boolean;
+  }> {
+    return this._deleted.asObservable();
+  }
+
   // Emit Methods of favorites
   emitIbanAccountData(favoriteIban: FavoriteIbanAccount) {
     this._ibanAccountData.next(favoriteIban);
@@ -119,12 +142,22 @@ export class FavoritesManagementService {
     this.__updateSuccess.next();
   }
 
+  emitDeletedSuccess(iban?: boolean, publicServices?: boolean, automatics?: boolean) {
+    this._deleted.next({iban, publicServices, automatics});
+  }
+
+  @CacheBuster({
+    cacheBusterNotifier: cleanIbanFavoriteAccount$
+  })
   setDeleteIbanAccount(ibanId: number) {
     return this.httpService.post('canales', this.deleteIbanAccountUri, {
       IdAccountFavorite: ibanId
     });
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: cleanFavoritesPublicService$
+  })
   setDeletePublicService(publicId: number) {
     return this.httpService.post('canales', this.deleteFavoritePublicServiceUri, {
       publicServiceFavoriteId: publicId,
@@ -132,6 +165,9 @@ export class FavoritesManagementService {
     });
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: cleanSchedulePayments$
+  })
   setDeleteAutomatics(schedulerPayId: number) {
     return this.httpService.post('canales', this.deleteSchedulePaymentUri, {
       schedulerPayId

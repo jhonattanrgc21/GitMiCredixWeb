@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http.service';
 import {Cacheable} from 'ngx-cacheable';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {PublicServiceEnterprise} from '../../shared/models/public-service-enterprise';
 import {PublicServiceCategory} from '../../shared/models/public-service-category';
@@ -19,6 +19,8 @@ const iconPerCategory = [
   {category: 'Mantenimiento', icon: 'municipalidad'},
   {category: 'Educación', icon: 'municipalidad'},
 ];
+
+export const cleanFavoritesPublicService$ = new Subject();
 
 @Injectable()
 export class PublicServicesApiService {
@@ -77,7 +79,9 @@ export class PublicServicesApiService {
         }));
   }
 
-  @Cacheable()
+  @Cacheable({
+    cacheBusterObserver: cleanFavoritesPublicService$.asObservable()
+  })
   getAllFavoritePublicServiceByUser(): Observable<PublicServiceFavoriteByUser[]> {
     return this.httpService.post('canales', this.getAllFavoritePublicServiceUri, {
       userId: this.storageService.getCurrentUser().userId

@@ -190,6 +190,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   delete(tabId: number) {
+    this.accounts = [];
     switch (tabId) {
       case 1:
         this.modalService.confirmationPopup('¿Desea eliminar esta cuenta IBAN?').subscribe((confirm) => {
@@ -203,8 +204,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
 
                 this.toastService.show(data);
                 if (response.message === 'Operación exitosa') {
-                  this.accounts = [];
                   this.getFavoritesIban();
+                  this.favoriteManagementService.emitDeletedSuccess(true, null, null);
                 }
               });
           }
@@ -223,8 +224,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
 
                   this.toastService.show(data);
                   if (response.message === 'Operación exitosa') {
-                    this.accounts = [];
                     this.getPublicService();
+                    this.favoriteManagementService.emitDeletedSuccess(null, true, null);
                   }
                 });
             }
@@ -243,8 +244,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
                 this.toastService.show(data);
 
                 if (response.message === 'Operación exitosa') {
-                  this.accounts = [];
                   this.getSchedulePayment();
+                  this.favoriteManagementService.emitDeletedSuccess(null, null, true);
                 }
               });
           }

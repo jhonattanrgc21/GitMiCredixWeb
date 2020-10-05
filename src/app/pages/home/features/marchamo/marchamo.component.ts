@@ -8,6 +8,7 @@ import {MarchamoService} from './marchamo.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
+import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-marchamos',
@@ -35,6 +36,11 @@ export class MarchamoComponent implements OnInit {
   confirmForm: FormGroup = new FormGroup({
     credixCode: new FormControl(null, [Validators.required])
   });
+  amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
+    responsabilityCivilAmount: 8745.00,
+    roadAsistanceAmount: 3359.00,
+    moreProtectionAmount: 7140.00
+  };
   plateNumber: string;
   name: string;
   email: string;
@@ -64,14 +70,18 @@ export class MarchamoComponent implements OnInit {
               private marchamosService: MarchamoService,
               private modalService: ModalService,
               private storageService: StorageService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
     this.checkNextStep();
+    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount +
+      this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+    this.getCredixCodeError();
   }
 
   continue() {
@@ -97,7 +107,7 @@ export class MarchamoComponent implements OnInit {
       case 1:
         this.getPromo();
         this.plateNumber = this.marchamosService.consultVehicle.plateNumber;
-        this.marchamoTotal = this.marchamosService.marchamoAmount;
+        this.marchamoTotal = this.marchamosService.consultVehicle.amount;
         this.disableButton = this.secureAndQuotesForm.invalid;
         this.secureAndQuotesForm.valueChanges.subscribe(() => {
           this.disableButton = this.secureAndQuotesForm.invalid;
@@ -110,7 +120,7 @@ export class MarchamoComponent implements OnInit {
         });
         break;
       case 3:
-        this.name = this.pickUpForm.controls.person.value;
+        this.name = this.pickUpForm.controls.name.value;
         this.phoneNumber = this.pickUpForm.controls.phoneNumber?.value;
         this.email = this.pickUpForm.controls.email.value;
         this.address = this.pickUpForm.controls.address.value;
@@ -127,28 +137,43 @@ export class MarchamoComponent implements OnInit {
   }
 
   getPromo() {
-    this.marchamosService.getPromoApply()
-      .subscribe((response) => {
-        this.promoStatus = {
-          promoStatusId: response[0].promoStatus,
-          paymentDate: response[0].paymentDate
-        };
-      });
+    this.httpService.post('marchamos', 'pay/promoapply',
+      {accountNumber: this.storageService.getCurrentUser().accountNumber.toString()}).subscribe(response => {
+      this.promoStatus = {
+        promoStatusId: response.promoStatus.paymentList[0].promoStatus,
+        paymentDate: response.promoStatus.paymentList[0].paymentDate
+      };
+    });
   }
 
   secureToPay() {
-    this.marchamosService.setSoaPay(this.secureAndQuotesForm.controls.additionalProducts.value,
-      this.pickUpForm.controls.deliveryPlace.value === null ? 1 : this.pickUpForm.controls.deliveryPlace.value,
-      this.pickUpForm.controls.person.value,
-      this.pickUpForm.controls.phoneNumber.value,
-      this.pickUpForm.controls.address.value,
-      this.pickUpForm.controls.email.value,
-      this.secureAndQuotesForm.controls.firstQuotaDate.value,
-      +this.consultForm.controls.vehicleType.value,
-      this.consultForm.controls.plateNumber.value.toUpperCase(),
-      this.promoStatus.promoStatusId,
-      this.secureAndQuotesForm.controls.quotaId.value)
-      .pipe(finalize(() => this.done = true))
+    this.total = this.marchamosService.total;
+    this.httpService.post('marchamos', 'pay/soapay',
+      {
+        aditionalProducts: this.secureAndQuotesForm.controls.additionalProducts.value,
+        amount: this.marchamosService.consultVehicle.amount,
+        cardNumber: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardNumber,
+        deliveryPlaceId: this.pickUpForm.controls.pickUp.value === null ? 1 : this.pickUpForm.controls.deliveryPlace.value,
+        authenticationNumberCommission: '0000',
+        authenticationNumberMarchamo1: '000000',
+        domicilePerson: this.pickUpForm.controls.person.value,
+        domicilePhone: this.pickUpForm.controls.phoneNumber.value,
+        domicilePlace: this.pickUpForm.controls.address.value,
+        email: this.pickUpForm.controls.email.value,
+        ownerEmail: this.marchamosService.ownerPayer.email,
+        extraCardStatus: '0',
+        firstPayment: this.secureAndQuotesForm.controls.firstQuotaDate.value,
+        payId: this.marchamosService.consultVehicle.payId,
+        payerId: this.marchamosService.ownerPayer.payerId,
+        period: this.marchamosService.consultVehicle.period,
+        phoneNumber: this.marchamosService.consultVehicle.contactPhone,
+        plateClassId: +this.consultForm.controls.vehicleType.value,
+        plateNumber: this.consultForm.controls.plateNumber.value.toUpperCase(),
+        promoStatus: this.promoStatus.promoStatusId,
+        quotasId: this.secureAndQuotesForm.controls.quotaId.value,
+        transactionTypeId: 1,
+        requiredBill: '1'
+      }).pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;
         this.message = response.message;
@@ -174,9 +199,13 @@ export class MarchamoComponent implements OnInit {
     this.step4 = tags.find(tag => tag.description === 'marchamo.stepper4')?.value;
   }
 
-  changeTemplate(confirm: boolean) {
-    this.done = confirm;
-    this.stepperIndex = (this.done === false) ? 0 : this.stepper.selectedIndex;
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.confirmForm.controls.credixCode.setErrors({invalid: true});
+      this.pickUpForm.updateValueAndValidity();
+      this.secureAndQuotesForm.updateValueAndValidity();
+      this.consultForm.updateValueAndValidity();
+    });
   }
 
 }
