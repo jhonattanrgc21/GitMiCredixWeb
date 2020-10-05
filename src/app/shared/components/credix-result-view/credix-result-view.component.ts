@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -13,7 +13,6 @@ export class CredixResultViewComponent implements OnInit {
   @Input() status: 'success' | 'error' | 'warning';
   @Input() buttonText: string;
   @Input() routeTo: string;
-  @Output() changeTemplate: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private router: Router) {
   }
@@ -22,7 +21,6 @@ export class CredixResultViewComponent implements OnInit {
   }
 
   go() {
-    this.changeTemplate.emit(false);
     this.router.navigate([this.routeTo]).then();
   }
 }
