@@ -6,8 +6,7 @@
 
     <cdk-step [label]="'Consultar'" [stepControl]="contractControl">
       <app-new-service-first-step [contractControl]="contractControl"
-                                  [hasReceipts]="hasReceipts"
-                                  [referenceLabel]="referenceName"></app-new-service-first-step>
+                                  [hasReceipts]="hasReceipts"></app-new-service-first-step>
     </cdk-step>
 
     <cdk-step [label]="'Confirmación'" [stepControl]="confirmFormGroup">
@@ -19,7 +18,6 @@
                                    [month]="month"
                                    [name]="pendingReceipts?.clientName"
                                    [receipts]="pendingReceipts?.numberPendingReceipts"
-                                   [referenceName]="referenceName"
                                    [reference]="contractControl.value"></app-new-service-second-step>
     </cdk-step>
 

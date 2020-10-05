@@ -11,7 +11,6 @@ export class NewServiceSecondStepComponent implements OnInit {
     credixCode: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null)
   });
-  @Input() referenceName: string;
   @Input() reference: string;
   @Input() currencySymbol: string;
   @Input() amount: string;

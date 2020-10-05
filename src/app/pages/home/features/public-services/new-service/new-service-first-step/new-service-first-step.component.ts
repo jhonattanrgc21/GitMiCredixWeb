@@ -8,7 +8,6 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class NewServiceFirstStepComponent implements OnInit {
   @Input() contractControl = new FormControl(null, [Validators.required]);
-  @Input() referenceLabel: string;
   @Input() hasReceipts = true;
 
   constructor() {

@@ -27,7 +27,6 @@ export class NewServiceComponent implements OnInit {
   hasReceipts = true;
   pendingReceipts: PendingReceipts;
   publicServiceId: number;
-  referenceName: string;
   name: string;
   month: string;
   expirationDate: Date;
@@ -48,7 +47,6 @@ export class NewServiceComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.publicServiceId = +params.serviceId;
       this.getEnterprise(+params.categoryId, +params.enterpriseId);
-      this.publicServicesService.getReferenceName(+params.categoryId).subscribe(referenceName => this.referenceName = referenceName);
     });
   }
 
