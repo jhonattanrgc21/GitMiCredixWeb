@@ -19,6 +19,7 @@
                                    [month]="month"
                                    [name]="pendingReceipts?.clientName"
                                    [receipts]="pendingReceipts?.numberPendingReceipts"
+                                   [isActive]="stepperIndex === 1"
                                    [reference]="contractFormGroup.controls.contractControl.value"></app-new-service-second-step>
     </cdk-step>
 
@@ -64,6 +65,8 @@
             <span fxFlex="60px">Fecha</span>
             <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
+
+          <credix-link-button>Ver comprobante</credix-link-button>
         </div>
 
       </div>

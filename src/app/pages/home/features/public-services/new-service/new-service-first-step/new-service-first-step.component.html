@@ -4,14 +4,15 @@
     <span fxFlex="150px"><strong>Datos de referencia</strong></span>
 
     <form [formGroup]="contractFormGroup" fxLayout="column" fxLayoutGap="16px">
-      <credix-select *ngIf="quantityOfKeys !== 1" [label]="'Tipo de referencia'"
+      <credix-select *ngIf="quantityOfKeys !== 1 && keys.length > 1" [label]="'Tipo de referencia'"
                      class="new-service-first-step__content__select" formControlName="keysControl">
         <mat-option *ngFor="let key of keys" [value]="key.keyType">
           {{key.description}}
         </mat-option>
       </credix-select>
 
-      <credix-input-field [formControl]="contractFormGroup.controls.contractControl" [label]="'Número de contrato'"
+      <credix-input-field [formControl]="contractFormGroup.controls.contractControl"
+                          [label]="keys.length > 1 ? 'Número de contrato' : keys[0].description"
                           class="new-service-first-step__content__input"></credix-input-field>
     </form>
   </div>

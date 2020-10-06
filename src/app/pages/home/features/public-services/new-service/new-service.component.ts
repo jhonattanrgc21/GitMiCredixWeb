@@ -22,7 +22,8 @@ export class NewServiceComponent implements OnInit {
   });
   confirmFormGroup: FormGroup = new FormGroup({
     credixCode: new FormControl(null, [Validators.required]),
-    favorite: new FormControl(null)
+    favorite: new FormControl(null),
+    amount: new FormControl(null)
   });
   currencySymbol = '₡';
   saveAsFavorite = false;

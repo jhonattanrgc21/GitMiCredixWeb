@@ -20,6 +20,8 @@ export class NewServiceFirstStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.quantityOfKeys === 1 && this.keys.length === 1) {
+      this.contractFormGroup.controls.keysControl.setValue(this.keys[0].keyType);
+    }
   }
-
 }
