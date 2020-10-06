@@ -24,6 +24,7 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   @Output() saveFavoriteEvent = new EventEmitter<boolean>();
   showInput = false;
   radioCheck = false;
+  selectPayment = '';
 
   constructor() {
   }
@@ -34,6 +35,9 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.isActive && this.isActive) {
       switch (this.paymentType) {
+        case 'E':
+          this.confirmFormGroup.controls.amount.setValue(this.amount);
+          break;
         case 'C':
           this.confirmFormGroup.controls.amount.setValidators([Validators.required]);
           break;
@@ -62,8 +66,9 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   }
 
   onSelectRadioButtons(event) {
+    this.selectPayment = event.value;
     if (event.value === 'totalAmountPending') {
-      this.confirmFormGroup.controls.amount.setValue(+this.amount);
+      this.confirmFormGroup.controls.amount.setValue(this.amount);
     }
   }
 
