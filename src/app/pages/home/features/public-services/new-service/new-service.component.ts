@@ -8,6 +8,7 @@ import {ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../shar
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
+import {Keys} from '../../../../../shared/models/keys';
 
 @Component({
   selector: 'app-new-service',
@@ -15,7 +16,10 @@ import {finalize} from 'rxjs/operators';
   styleUrls: ['./new-service.component.scss']
 })
 export class NewServiceComponent implements OnInit {
-  contractControl = new FormControl(null, [Validators.required]);
+  contractFormGroup = new FormGroup({
+    contractControl: new FormControl(null, [Validators.required]),
+    keysControl: new FormControl(null, [Validators.required])
+  });
   confirmFormGroup: FormGroup = new FormGroup({
     credixCode: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null)
@@ -32,6 +36,9 @@ export class NewServiceComponent implements OnInit {
   expirationDate: Date;
   title: string;
   message: string;
+  keys: Keys[];
+  quantityOfKeys = 0;
+  paymentType = '';
   status: 'success' | 'error';
   today = new Date();
   @ViewChild('newServiceStepper') stepper: CdkStepper;
@@ -47,6 +54,7 @@ export class NewServiceComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.publicServiceId = +params.serviceId;
       this.getEnterprise(+params.categoryId, +params.enterpriseId);
+      this.getPublicService(+params.enterpriseId, this.publicServiceId);
     });
   }
 
@@ -54,6 +62,15 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesApiService.getPublicServiceEnterpriseByCategory(categoryId).subscribe(publicServiceEnterprises =>
       this.title = publicServiceEnterprises
         .find(enterprise => enterprise.publicServiceEnterpriseId === enterpriseId).publicServiceEnterpriseDescription);
+  }
+
+  getPublicService(enterpriseId: number, publicServiceId: number) {
+    this.publicServicesApiService.getPublicServiceByEnterprise(enterpriseId).subscribe(publicService => {
+      this.keys = publicService.find(elem => elem.publicServiceId === publicServiceId).keys;
+      this.quantityOfKeys = publicService
+        .find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
+      this.paymentType = publicService.find(elem => elem.publicServiceId === publicServiceId).paymentType;
+    });
   }
 
   openModal() {
@@ -82,7 +99,7 @@ export class NewServiceComponent implements OnInit {
   saveFavorite() {
     this.publicServicesService.savePublicServiceFavorite(
       this.publicServiceId,
-      this.contractControl.value,
+      this.contractFormGroup.controls.contractControl.value,
       this.confirmFormGroup.controls.favorite.value,
       this.confirmFormGroup.controls.credixCode.value).subscribe(result => {
       if (result.status && result.status === 406) {
@@ -103,7 +120,10 @@ export class NewServiceComponent implements OnInit {
   }
 
   checkPendingReceipts() {
-    this.publicServicesService.checkPendingReceipts(this.publicServiceId, this.contractControl.value).subscribe(pendingReceipts => {
+    this.publicServicesService.checkPendingReceipts(this.publicServiceId,
+      this.contractFormGroup.controls.contractControl.value,
+      this.contractFormGroup.controls.keysControl.value
+    ).subscribe(pendingReceipts => {
       if (pendingReceipts.receipts) {
         this.pendingReceipts = pendingReceipts;
         this.month = getMontByMonthNumber(ConvertStringDateToDate(pendingReceipts.receipts[0].receiptPeriod).getMonth());

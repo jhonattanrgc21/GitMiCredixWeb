@@ -38,7 +38,6 @@ export class PublicServicesService {
     return this.httpService.post('canales', this.getPublicServiceFavoriteByUserUri,
       {
         userId: this.storageService.getCurrentUser().userId,
-        channelId: 102
       }).pipe(
       map((response) => {
         if (response.type === 'success') {
@@ -83,8 +82,8 @@ export class PublicServicesService {
         ));
   }
 
-  checkPendingReceipts(publicServiceId: number, accessKey: number): Observable<PendingReceipts> {
-    return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey})
+  checkPendingReceipts(publicServiceId: number, accessKey: number, keyType: number): Observable<PendingReceipts> {
+    return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType})
       .pipe(
         map((response: PendingReceipts) => {
             response.receipts = response.receipts.sort((a, b) =>

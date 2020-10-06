@@ -3,8 +3,17 @@
   <div class="new-service-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <span fxFlex="150px"><strong>Datos de referencia</strong></span>
 
-    <credix-input-field [label]="'Número de contrato'" class="new-service-first-step__content__input"
-                        [formControl]="contractControl"></credix-input-field>
+    <form [formGroup]="contractFormGroup" fxLayout="column" fxLayoutGap="16px">
+      <credix-select *ngIf="quantityOfKeys !== 1" [label]="'Tipo de referencia'"
+                     class="new-service-first-step__content__select" formControlName="keysControl">
+        <mat-option *ngFor="let key of keys" [value]="key.keyType">
+          {{key.description}}
+        </mat-option>
+      </credix-select>
+
+      <credix-input-field [formControl]="contractFormGroup.controls.contractControl" [label]="'Número de contrato'"
+                          class="new-service-first-step__content__input"></credix-input-field>
+    </form>
   </div>
 
   <credix-result-notification *ngIf="!hasReceipts" status="info"

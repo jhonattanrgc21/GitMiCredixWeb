@@ -36,6 +36,8 @@ import {CredixResultNotificationModule} from '../../../../shared/components/cred
 import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
 import {DigitOnlyModule} from '../../../../shared/directives/digit-only/digit-only.module';
 import {NgxMaskModule} from 'ngx-mask';
+import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
+import {MatOptionModule} from '@angular/material/core';
 
 const routes: Routes = [
   {
@@ -82,6 +84,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CredixCardsModule,
     MatCardModule,
+    MatOptionModule,
     CredixTabModule,
     CredixNavigationTableModule,
     SimplebarAngularModule,
@@ -105,6 +108,7 @@ const routes: Routes = [
     CredixRadioButtonModule,
     DigitOnlyModule,
     NgxMaskModule,
+    CredixSelectModule,
   ],
   providers: [
     PublicServicesService
