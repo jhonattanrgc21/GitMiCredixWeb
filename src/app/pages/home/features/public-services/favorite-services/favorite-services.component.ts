@@ -46,18 +46,18 @@ export class FavoriteServicesComponent implements OnInit {
     this.getFavoritePublicServiceDetail();
   }
 
-  favoriteServiceDetail(publicServiceId: number, accessKey: number) {
+  favoriteServiceDetail(publicServiceId: number, accessKey: number, keyType: string) {
     this.optionSelected = publicServiceId;
     this.company = this.publicFavoriteService
       .find(elem => elem.publicServiceId === publicServiceId).publicServiceEnterpriseDescription;
-    this.publicService.checkPendingReceipts(publicServiceId, accessKey)
+    this.publicService.checkPendingReceipts(publicServiceId, accessKey, keyType)
       .subscribe((response) => {
         this.dataDetail = response;
         const months: Date = new Date(this.dataDetail.date);
         this.month = getMontByMonthNumber(months.getMonth());
         if (this.dataDetail.receipts !== null) {
-          this.expirationDate = new Date(this.dataDetail.receipts.find(elem => elem.expirationDate).expirationDate);
-          this.amountOfPay = this.dataDetail.receipts.find(elem => elem.totalAmount).totalAmount;
+          this.expirationDate = new Date(this.dataDetail.receipts.expirationDate);
+          this.amountOfPay = this.dataDetail.receipts.totalAmount;
         }
       });
   }
@@ -76,11 +76,11 @@ export class FavoriteServicesComponent implements OnInit {
         if (confirm) {
           if (this.dataDetail.receipts !== null) {
             this.publicService.payPublicService(this.optionSelected,
-              +this.dataDetail.receipts.find(elem => elem.serviceValue).serviceValue,
-              this.dataDetail.receipts.find(elem => elem.totalAmount).totalAmount,
-              +this.dataDetail.receipts.find(elem => elem.receiptPeriod).receiptPeriod,
-              this.dataDetail.receipts.find(elem => elem.expirationDate).expirationDate,
-              this.dataDetail.receipts.find(elem => elem.billNumber).billNumber)
+              +this.dataDetail.receipts.serviceValue,
+              this.dataDetail.receipts.totalAmount,
+              +this.dataDetail.receipts.receiptPeriod,
+              this.dataDetail.receipts.expirationDate,
+              this.dataDetail.receipts.billNumber)
               .pipe(finalize(() => this.paymentSend = true))
               .subscribe((response) => {
                 this.message = response.message;

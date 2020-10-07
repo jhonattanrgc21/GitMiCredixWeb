@@ -3,9 +3,10 @@
 
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
-      <a (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference)"
-         *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
-         fxLayout="row">
+      <a
+        (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference, favorites.publicServiceAccessKeyType.toString())"
+        *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
+        fxLayout="row">
         <mat-icon [svgIcon]="favorites.icon" class="mr-16px" fxFlex="16px"
                   style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
         <div fxFlex="180px" fxLayout="column">
@@ -27,7 +28,7 @@
   </ngx-simplebar>
 
   <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
-    <div class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="dataDetail !== null" class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
         <span *ngIf="company !== null" class="tr">{{company}}</span>
