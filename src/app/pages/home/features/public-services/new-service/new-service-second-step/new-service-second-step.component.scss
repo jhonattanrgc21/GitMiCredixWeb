@@ -15,9 +15,14 @@
 
     &__input {
       height: 43px;
+      width: 351px;
 
       &.favorite {
         margin-left: 20px;
+      }
+
+      &.amount-to-pay {
+        margin-left: 16px;
       }
     }
   }
@@ -25,7 +30,6 @@
   .left-content {
     width: 351px;
   }
-
 }
 
 @media screen and (max-width: 1199px) {
@@ -35,6 +39,10 @@
 
     &__content {
       width: 100%;
+
+      &__input {
+        width: 238px;
+      }
     }
 
     .left-content {

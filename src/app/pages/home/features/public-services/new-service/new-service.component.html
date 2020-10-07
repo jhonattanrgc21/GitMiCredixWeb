@@ -4,21 +4,24 @@
 
   <credix-stepper #newServiceStepper>
 
-    <cdk-step [label]="'Consultar'" [stepControl]="contractControl">
-      <app-new-service-first-step [contractControl]="contractControl"
-                                  [hasReceipts]="hasReceipts"></app-new-service-first-step>
+    <cdk-step [label]="'Consultar'" [stepControl]="contractFormGroup">
+      <app-new-service-first-step [contractFormGroup]="contractFormGroup"
+                                  [hasReceipts]="hasReceipts"
+                                  [keys]="keys"></app-new-service-first-step>
     </cdk-step>
 
     <cdk-step [label]="'Confirmación'" [stepControl]="confirmFormGroup">
       <app-new-service-second-step (saveFavoriteEvent)="saveAsFavorite = $event"
                                    [confirmFormGroup]="confirmFormGroup"
                                    [currencySymbol]="currencySymbol"
-                                   [amount]="pendingReceipts?.receipts[0].totalAmount"
+                                   [amount]="pendingReceipts?.receipts.totalAmount"
                                    [expirationDate]="expirationDate"
                                    [month]="month"
                                    [name]="pendingReceipts?.clientName"
                                    [receipts]="pendingReceipts?.numberPendingReceipts"
-                                   [reference]="contractControl.value"></app-new-service-second-step>
+                                   [isActive]="stepperIndex === 1"
+                                   [paymentType]="paymentType"
+                                   [reference]="contractFormGroup.controls.contractControl.value"></app-new-service-second-step>
     </cdk-step>
 
   </credix-stepper>
@@ -26,7 +29,7 @@
   <div class="new-service__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
     <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
-                   [disabled]="stepperIndex === 0 ? contractControl.invalid : confirmFormGroup.invalid"
+                   [disabled]="stepperIndex === 0 ? contractFormGroup.invalid : confirmFormGroup.invalid"
                    [text]="stepperIndex === 0 ? 'Continuar' : 'Pagar'"></credix-button>
   </div>
 </mat-card>
@@ -56,13 +59,15 @@
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="60px">Contrato</span>
-            <span class="tr"><strong>{{contractControl.value}}</strong></span>
+            <span class="tr"><strong>{{contractFormGroup.controls.contractControl.value}}</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="60px">Fecha</span>
             <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
+
+          <credix-link-button (click)="openBillingModal()">Ver comprobante</credix-link-button>
         </div>
 
       </div>
