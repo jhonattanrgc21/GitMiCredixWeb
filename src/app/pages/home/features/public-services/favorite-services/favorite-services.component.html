@@ -4,7 +4,7 @@
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
       <a
-        (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference, favorites.publicServiceAccessKeyType.toString())"
+        (click)="favoriteServiceDetail(favorites)"
         *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
         fxLayout="row">
         <mat-icon [svgIcon]="favorites.icon" class="mr-16px" fxFlex="16px"
@@ -28,14 +28,14 @@
   </ngx-simplebar>
 
   <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
-    <div *ngIf="dataDetail !== null" class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="pendingReceipt !== null" class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
         <span *ngIf="company !== null" class="tr">{{company}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Nombre</span>
-        <span class="tr">{{dataDetail?.clientName}}</span>
+        <span class="tr">{{pendingReceipt?.clientName}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Mes al cobro</span>
@@ -48,7 +48,7 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Recibos pendientes</span>
-        <span class="tr">{{ dataDetail?.numberPendingReceipts}}</span>
+        <span class="tr">{{ pendingReceipt?.numberPendingReceipts}}</span>
       </div>
       <div class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto a pagar</strong></span>

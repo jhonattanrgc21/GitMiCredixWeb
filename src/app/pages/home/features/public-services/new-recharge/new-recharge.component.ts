@@ -102,6 +102,7 @@ export class NewRechargeComponent implements OnInit {
       +receipt.serviceValue,
       this.rechargeFormGroup.controls.amount.value,
       +receipt.receiptPeriod,
+      null,
       receipt.expirationDate,
       receipt.billNumber)
       .pipe(finalize(() => this.done = true))

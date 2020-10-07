@@ -84,6 +84,7 @@ export class NewServiceComponent implements OnInit {
           +receipt.serviceValue,
           amount,
           +receipt.receiptPeriod,
+          +this.contractFormGroup.controls.keysControl.value,
           receipt.expirationDate,
           +receipt.billNumber,
           this.confirmFormGroup.controls.credixCode.value)

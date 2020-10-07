@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PublicServiceFavoriteByUser} from '../../../../../shared/models/public-service-favorite-by-user';
 import {PublicServicesService} from '../public-services.service';
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
-import {getMontByMonthNumber} from '../../../../../shared/utils/getMonthByMonthNumber';
+import {getMontByMonthNumber} from '../../../../../shared/utils';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
 
@@ -14,8 +14,8 @@ import {finalize} from 'rxjs/operators';
 export class FavoriteServicesComponent implements OnInit {
   publicFavoriteService: PublicServiceFavoriteByUser[] = [];
   month: string;
-  dataDetail: PendingReceipts;
-  optionSelected = 0;
+  pendingReceipt: PendingReceipts;
+  optionSelected: PublicServiceFavoriteByUser;
   category: string;
   company: string;
   amountOfPay: string;
@@ -38,7 +38,7 @@ export class FavoriteServicesComponent implements OnInit {
 
   constructor(private publicService: PublicServicesService,
               private modalService: ModalService) {
-    this.dataDetail = null;
+    this.pendingReceipt = null;
     this.dataResponse = null;
   }
 
@@ -46,18 +46,19 @@ export class FavoriteServicesComponent implements OnInit {
     this.getFavoritePublicServiceDetail();
   }
 
-  favoriteServiceDetail(publicServiceId: number, accessKey: number, keyType: string) {
-    this.optionSelected = publicServiceId;
+  favoriteServiceDetail(favorite: PublicServiceFavoriteByUser) {
+    this.optionSelected = favorite;
     this.company = this.publicFavoriteService
-      .find(elem => elem.publicServiceId === publicServiceId).publicServiceEnterpriseDescription;
-    this.publicService.checkPendingReceipts(publicServiceId, accessKey, keyType)
-      .subscribe((response) => {
-        this.dataDetail = response;
-        const months: Date = new Date(this.dataDetail.date);
+      .find(elem => elem.publicServiceId === this.optionSelected.publicServiceId).publicServiceEnterpriseDescription;
+    this.publicService.checkPendingReceipts(
+      this.optionSelected.publicServiceId, +this.optionSelected.serviceReference, this.optionSelected.publicServiceAccessKeyType)
+      .subscribe(pendingReceipt => {
+        this.pendingReceipt = pendingReceipt;
+        const months: Date = new Date(this.pendingReceipt.date);
         this.month = getMontByMonthNumber(months.getMonth());
-        if (this.dataDetail.receipts !== null) {
-          this.expirationDate = new Date(this.dataDetail.receipts.expirationDate);
-          this.amountOfPay = this.dataDetail.receipts.totalAmount;
+        if (this.pendingReceipt.receipts !== null) {
+          this.expirationDate = new Date(this.pendingReceipt.receipts.expirationDate);
+          this.amountOfPay = this.pendingReceipt.receipts.totalAmount;
         }
       });
   }
@@ -74,13 +75,15 @@ export class FavoriteServicesComponent implements OnInit {
     this.modalService.confirmationPopup('¿Desea realizar esta pago?', '', 380, 203)
       .subscribe((confirm) => {
         if (confirm) {
-          if (this.dataDetail.receipts !== null) {
-            this.publicService.payPublicService(this.optionSelected,
-              +this.dataDetail.receipts.serviceValue,
-              this.dataDetail.receipts.totalAmount,
-              +this.dataDetail.receipts.receiptPeriod,
-              this.dataDetail.receipts.expirationDate,
-              this.dataDetail.receipts.billNumber)
+          if (this.pendingReceipt.receipts !== null) {
+            this.publicService.payPublicService(
+              this.optionSelected.publicServiceId,
+              +this.pendingReceipt.receipts.serviceValue,
+              this.pendingReceipt.receipts.totalAmount,
+              +this.pendingReceipt.receipts.receiptPeriod,
+              this.optionSelected.publicServiceAccessKeyType,
+              this.pendingReceipt.receipts.expirationDate,
+              this.pendingReceipt.receipts.billNumber)
               .pipe(finalize(() => this.paymentSend = true))
               .subscribe((response) => {
                 this.message = response.message;

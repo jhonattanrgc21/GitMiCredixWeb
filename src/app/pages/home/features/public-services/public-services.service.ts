@@ -82,15 +82,10 @@ export class PublicServicesService {
   }
 
   checkPendingReceipts(publicServiceId: number, accessKey: number, keyType?: number): Observable<PendingReceipts> {
-    return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType})
-      .pipe(
-        map((response: PendingReceipts) => {
-            return response;
-          }
-        ));
+    return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType});
   }
 
-  payPublicService(publicServiceId: number, serviceValue: number, amount: string, term: number,
+  payPublicService(publicServiceId: number, serviceValue: number, amount: string, term: number, keyType: number,
                    expirationDate: string, billNumber: string | number, codeCredix?: string): Observable<any> {
     return this.httpService.post('incomex', this.payPublicServiceUri, {
       cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId.toString(),
@@ -99,6 +94,7 @@ export class PublicServicesService {
       serviceValue,
       amount,
       term,
+      keyType,
       expirationDate,
       billNumber,
       codeCredix
