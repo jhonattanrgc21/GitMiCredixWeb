@@ -9,6 +9,8 @@ import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
 import {Keys} from '../../../../../shared/models/keys';
+import {PopupReceiptComponent} from './popup-receipt/popup-receipt.component';
+import {PopupReceipt} from '../../../../../shared/models/popup-receipt';
 
 @Component({
   selector: 'app-new-service',
@@ -38,7 +40,9 @@ export class NewServiceComponent implements OnInit {
   title: string;
   message: string;
   keys: Keys[];
-  quantityOfKeys = 0;
+  quantityOfKeys: number;
+  publicServiceName: string;
+  dataToModal: PopupReceipt;
   paymentType = '';
   status: 'success' | 'error';
   today = new Date();
@@ -71,6 +75,7 @@ export class NewServiceComponent implements OnInit {
       this.quantityOfKeys = publicService
         .find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
       this.paymentType = publicService.find(elem => elem.publicServiceId === publicServiceId).paymentType;
+      this.publicServiceName = publicService.find(elem => elem.publicServiceId === publicServiceId).publicServiceName;
     });
   }
 
@@ -85,8 +90,8 @@ export class NewServiceComponent implements OnInit {
           amount,
           +receipt.receiptPeriod,
           receipt.expirationDate,
-          +receipt.billNumber,
-          this.confirmFormGroup.controls.credixCode.value)
+          receipt.billNumber,
+          this.contractFormGroup.controls.keysControl.value)
           .pipe(finalize(() => this.done = true))
           .subscribe(response => {
             this.status = response.type;
@@ -94,6 +99,25 @@ export class NewServiceComponent implements OnInit {
             if (response.type === 'success' && this.saveAsFavorite) {
               this.saveFavorite();
             }
+            this.dataToModal = {
+              institution: [{companyCode: response.companyCode, companyName: response.companyName}],
+              agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
+              agencyCode: response.agencyCode,
+              cashier: 'Credix',
+              currencyCode: this.pendingReceipts.currencyCode,
+              clientName: this.pendingReceipts.clientName,
+              billNumber: this.pendingReceipts.receipts.billNumber,
+              invoiceNumber: this.pendingReceipts.receipts.receipt,
+              paymentStatus: 'Aplicado',
+              movementDate: this.pendingReceipts.date,
+              expirationDate: this.pendingReceipts.receipts.expirationDate,
+              period: this.pendingReceipts.receipts.receiptPeriod,
+              reference: response.reference,
+              typeOfValor: 'EFECTIVO',
+              amount: response.amountPaid,
+              paymentConcepts: response.paymentConcepts,
+              informativeConcepts: response.informativeConcepts
+            };
           });
       }
     });
@@ -142,6 +166,8 @@ export class NewServiceComponent implements OnInit {
   openBillingModal() {
     this.modalService.open({
       title: 'Comprobante',
+      data: this.dataToModal,
+      component: PopupReceiptComponent,
     }, {height: 673, width: 380, disableClose: false});
   }
 }

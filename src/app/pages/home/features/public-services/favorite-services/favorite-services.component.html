@@ -4,7 +4,7 @@
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
       <a
-        (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference, favorites.publicServiceAccessKeyType.toString())"
+        (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference, favorites.publicServiceAccessKeyType)"
         *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
         fxLayout="row">
         <mat-icon [svgIcon]="favorites.icon" class="mr-16px" fxFlex="16px"
@@ -16,7 +16,9 @@
           </span>
           <span class="truncate">
             {{
-            category === 'Recargas' || category === 'Telefonía' ? (favorites.serviceReference | mask: '0000-0000') :
+
+              getCategoryForMask(favorites.publicServiceFavoriteId) === 'Recargas' || getCategoryForMask(favorites.publicServiceFavoriteId) === 'Telefonía' ?
+                  (favorites.serviceReference | mask: '0000-0000') :
               favorites.publicServiceProviderPrefix + '-' + favorites.serviceReference
             }}
           </span>

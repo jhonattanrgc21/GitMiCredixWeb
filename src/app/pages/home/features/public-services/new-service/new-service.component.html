@@ -1,4 +1,5 @@
-<mat-card *ngIf="!done else doneNewServiceTemplate" class="new-service" credixCard fxLayout="column" fxLayoutGap="4px">
+<mat-card *ngIf="!done else doneNewServiceTemplate" [class.second-step-height]="stepperIndex === 1" class="new-service"
+          credixCard fxLayout="column" fxLayoutGap="4px">
 
   <h1 class="mb-16px">{{title}}</h1>
 
@@ -7,7 +8,8 @@
     <cdk-step [label]="'Consultar'" [stepControl]="contractFormGroup">
       <app-new-service-first-step [contractFormGroup]="contractFormGroup"
                                   [hasReceipts]="hasReceipts"
-                                  [keys]="keys"></app-new-service-first-step>
+                                  [keys]="keys"
+                                  [quantityOfKeys]="quantityOfKeys"></app-new-service-first-step>
     </cdk-step>
 
     <cdk-step [label]="'Confirmación'" [stepControl]="confirmFormGroup">
@@ -52,7 +54,7 @@
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>Monto</span>
             <div>
-              <credix-numeric-block [prefix]="currencySymbol" [value]="pendingReceipts?.receipts[0].totalAmount"
+              <credix-numeric-block [prefix]="currencySymbol" [value]="confirmFormGroup.controls.amount.value"
                                     class="tr" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>
