@@ -35,10 +35,19 @@ export class ExtendTermService {
   calculateQuotaByMovement(movementId: string): Observable<ExtendTermQuota[]> {
     return this.httpService.post('canales', this.calculateQuotaUri, {movementId})
       .pipe(
-        map((response) => {
-            if (response.type === 'success') {
-              return response.listQuota;
-            } else {
+        map(response => {
+          if (response.type === 'success') {
+            return [{
+              feeAmount: '0,00',
+              feePercentage: 0,
+              quotaTo: (response.listQuota as ExtendTermQuota[])[0].quotaFrom,
+              amountPerQuota: '0,00',
+              quotaFrom: 0,
+              financedPlan: 0,
+              purchaseAmount: '0,00',
+              IVA: '0,00'
+            }, ...response.listQuota];
+          } else {
               return [];
             }
           }

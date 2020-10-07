@@ -72,7 +72,8 @@
           <p fxFlex="95px">{{resultNew || 'Plazo nuevo'}}</p>
           <span [ngClass]="{'extend-term__text-disabled' :
           allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
-            <strong>{{ quotaSelected?.quotaTo }} {{monthTag || 'meses'}}</strong></span>
+            <strong>{{ allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo ? 0 : quotaSelected?.quotaTo }}
+              {{monthTag || 'meses'}}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">

@@ -116,11 +116,12 @@ export class ExtendTermComponent implements OnInit {
 
   openConfirmationModal() {
     if (this.quotaSelected) {
-      this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este pago?').subscribe(confirmation => {
-        if (confirmation) {
-          this.saveQuota();
-        }
-      });
+      this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este pago?')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            this.saveQuota();
+          }
+        });
     }
   }
 
