@@ -46,7 +46,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Vencimiento</span>
         <span class="tr">
-          {{expirationDate | dateFormatter : 'alphanumeric'}}</span>
+          {{expirationDate !== undefined ? (expirationDate | dateFormatter : 'alphanumeric') : '' }}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Recibos pendientes</span>
@@ -59,7 +59,7 @@
     </div>
 
     <div class="favorites-services__footer">
-      <credix-button (buttonClick)="pay()" [disabled]="dataDetail.receipts === null" fxLayoutAlign="flex-end center"
+      <credix-button (buttonClick)="pay()" [disabled]="dataDetail?.receipts == null" fxLayoutAlign="flex-end center"
                      text="Pagar"></credix-button>
     </div>
   </div>
@@ -99,12 +99,12 @@
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="60px">Teléfono</span>
-            <span class="tr"><strong>{{dataResponse.phoneNumber | mask: '0000-0000'}}</strong></span>
+            <span class="tr"><strong>{{dataResponse?.phoneNumber | mask: '0000-0000'}}</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="60px">Fecha</span>
-            <span class="tr"><strong>{{dataResponse.date | dateFormatter: 'alphanumeric'}}</strong></span>
+            <span class="tr"><strong>{{dataResponse?.date | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
 
         </div>

@@ -60,7 +60,7 @@ export class FavoriteServicesComponent implements OnInit {
         const months: Date = new Date(this.dataDetail.date);
         this.month = getMontByMonthNumber(months.getMonth());
         if (this.dataDetail.receipts !== null) {
-          this.expirationDate = new Date(this.dataDetail.receipts.expirationDate);
+          this.expirationDate = new Date(this.dataDetail?.receipts.expirationDate);
           this.amountOfPay = this.dataDetail.receipts.totalAmount;
         }
       });
