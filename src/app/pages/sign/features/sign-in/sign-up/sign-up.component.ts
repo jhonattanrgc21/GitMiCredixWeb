@@ -7,7 +7,6 @@ import {finalize} from 'rxjs/operators';
 import {CredixToastService} from 'src/app/core/services/credix-toast.service';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {getIdentificationMaskByType} from '../../../../../shared/utils';
-import {ModalResponseSignUpComponent} from './modal-response-sign-up/modal-response-sign-up.component';
 import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 import {GlobalApiService} from '../../../../../core/services/global-api.service';
 import {SignUpService} from './sign-up.service';
@@ -101,18 +100,15 @@ export class SignUpComponent implements OnInit {
   }
 
   submit() {
-    this.signUpService.checkPassword(this.userId, this.newUserThirdStepForm.controls.newPassword.value).subscribe(response => {
-      this.showPopupResult({message: response.message, status: response.type, title: response.titleOne});
-      this.dialogRef.close();
-    });
-  }
-
-  showPopupResult(data?: any) {
-    this.modalService.open({
-      component: ModalResponseSignUpComponent,
-      hideCloseButton: true,
-      data
-    }, {width: 376, height: 368, disableClose: true, panelClass: 'modal-response-sign-up-panel'});
+    this.signUpService.checkPassword(this.userId, this.newUserThirdStepForm.controls.newPassword.value)
+      .subscribe(response => {
+        if (response.type === 'success') {
+          this.dialogRef.close({
+            identification: this.newUserFirstStepForm.controls.identification.value,
+            password: this.newUserThirdStepForm.controls.newPassword.value
+          });
+        }
+      });
   }
 
   identificationChanged() {

@@ -1,0 +1,10 @@
+<div [ngClass]="data.type === 'sign-up' ?
+            'popup-completed--sign-up': 'popup-completed--forgot-pass'" class="popup-completed" fxLayout="column"
+     fxLayoutAlign="space-between">
+
+  <credix-result-notification [message]="data.message" [title]="data.title"
+                              status="success"></credix-result-notification>
+
+  <credix-button class="w-100" mat-dialog-close text="Ingresar"></credix-button>
+
+</div>

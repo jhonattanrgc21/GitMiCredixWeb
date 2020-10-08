@@ -6,6 +6,7 @@ import {CredixCodeErrorService} from '../../../../../core/services/credix-code-e
 import {getIdentificationMaskByType} from '../../../../../shared/utils';
 import {IdentificationType} from '../../../../../shared/models/identification-type';
 import {GlobalApiService} from '../../../../../core/services/global-api.service';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-forgot-password',
@@ -30,7 +31,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(private forgotPasswordService: ForgotPasswordService,
               private credixCodeErrorService: CredixCodeErrorService,
-              private globalApiService: GlobalApiService) {
+              private globalApiService: GlobalApiService,
+              private dialogRef: MatDialogRef<ForgotPasswordComponent>) {
   }
 
   ngOnInit(): void {
@@ -53,7 +55,16 @@ export class ForgotPasswordComponent implements OnInit {
       this.forgotPasswordForm.controls.credixCode.value,
       this.forgotPasswordForm.controls.identificationType.value,
       this.forgotPasswordForm.controls.identification.value,
-      this.forgotPasswordForm.controls.password.value).subscribe();
+      this.forgotPasswordForm.controls.password.value)
+      .pipe(finalize(() => {
+        if (this.forgotPasswordForm.controls.credixCode.hasError('invalid')) {
+          this.dialogRef.close({
+            identification: this.forgotPasswordForm.controls.identification.value,
+            password: this.forgotPasswordForm.controls.password.value
+          });
+        }
+      }))
+      .subscribe();
   }
 
   identificationTypeChanged() {

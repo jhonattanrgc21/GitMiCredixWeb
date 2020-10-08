@@ -25,7 +25,7 @@ export class ChangePasswordService {
     })
       .pipe(
         map(response => {
-          return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
+          return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status || 200};
         }));
   }
 
