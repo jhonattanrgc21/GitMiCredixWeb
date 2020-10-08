@@ -11,9 +11,7 @@
       </credix-input-field>
 
       <credix-input-field [type]="hide ? 'password' : 'text'" focusLabel="Clave"
-                          formControlName="password" label="Digite su clave"
-                          panelClass="sign-in-password-panel"
-                          tooltipOffsetY="2">
+                          formControlName="password" label="Digite su clave">
         <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
       </credix-input-field>
 

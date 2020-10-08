@@ -69,13 +69,8 @@ export class FavoriteServicesComponent implements OnInit {
     this.publicService.getPublicServicesFavoritesByUser()
       .subscribe((response) => {
         this.publicFavoriteService = response;
+        console.log(this.publicFavoriteService);
       });
-  }
-
-  getCategoryForMask(idFavoritePublicService: number) {
-    console.log(1);
-    return this.category = this.publicFavoriteService
-      .find(elem => elem.publicServiceFavoriteId === idFavoritePublicService).publicServiceCategory;
   }
 
   pay() {
