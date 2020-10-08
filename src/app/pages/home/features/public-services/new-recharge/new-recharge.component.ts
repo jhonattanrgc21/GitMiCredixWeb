@@ -7,6 +7,7 @@ import {PublicServicesApiService} from '../../../../../core/services/public-serv
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Keys} from '../../../../../shared/models/keys';
+import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 
 @Component({
   selector: 'app-new-recharge',
@@ -94,7 +95,8 @@ export class NewRechargeComponent implements OnInit {
       this.rechargeFormGroup.controls.amount.setValue(value);
     } else {
       this.rechargeFormGroup.controls.amount.reset();
-      this.rechargeFormGroup.controls.amount.setValidators([Validators.required, Validators.min(1000)]);
+      this.rechargeFormGroup.controls.amount.setValidators([Validators.required,
+        Validators.min(ConvertStringAmountToNumber(this.amounts[0].amount))]);
       this.anotherAmount = true;
     }
     this.rechargeFormGroup.controls.amount.updateValueAndValidity();

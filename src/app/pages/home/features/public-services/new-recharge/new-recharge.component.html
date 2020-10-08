@@ -36,7 +36,7 @@
         <credix-input-field *ngIf="anotherAmount" class="new-recharge__content__input favorite mb-8px"
                             formControlName="amount" label="Otro monto"
                             mask="separator">
-          <div error>El monto mínimo permitido es ₡1.000,00</div>
+          <div error>El monto mínimo permitido es ₡{{amounts[0].amount}}</div>
         </credix-input-field>
       </div>
     </div>
