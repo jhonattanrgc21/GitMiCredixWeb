@@ -55,6 +55,7 @@ export class FavoriteServicesComponent implements OnInit {
     this.keyType = keyType;
     this.publicService.checkPendingReceipts(publicServiceId, accessKey, keyType)
       .subscribe((response) => {
+        console.log(response);
         this.dataDetail = response;
         const months: Date = new Date(this.dataDetail.date);
         this.month = getMontByMonthNumber(months.getMonth());
