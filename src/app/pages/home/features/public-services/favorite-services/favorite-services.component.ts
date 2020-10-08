@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PublicServiceFavoriteByUser} from '../../../../../shared/models/public-service-favorite-by-user';
 import {PublicServicesService} from '../public-services.service';
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
-import {getMontByMonthNumber} from '../../../../../shared/utils';
+import {ConvertStringAmountToNumber, getMontByMonthNumber} from '../../../../../shared/utils';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
 
@@ -14,8 +14,8 @@ import {finalize} from 'rxjs/operators';
 export class FavoriteServicesComponent implements OnInit {
   publicFavoriteService: PublicServiceFavoriteByUser[] = [];
   month: string;
-  pendingReceipt: PendingReceipts;
-  optionSelected: PublicServiceFavoriteByUser;
+  dataDetail: PendingReceipts;
+  optionSelected = 0;
   category: string;
   company: string;
   amountOfPay: string;
@@ -24,6 +24,7 @@ export class FavoriteServicesComponent implements OnInit {
   status: 'success' | 'error';
   title: string;
   expirationDate: Date;
+  keyType: number;
   dataResponse: {
     amountPaid: string;
     quotes: string;
@@ -38,7 +39,7 @@ export class FavoriteServicesComponent implements OnInit {
 
   constructor(private publicService: PublicServicesService,
               private modalService: ModalService) {
-    this.pendingReceipt = null;
+    this.dataDetail = null;
     this.dataResponse = null;
   }
 
@@ -46,19 +47,20 @@ export class FavoriteServicesComponent implements OnInit {
     this.getFavoritePublicServiceDetail();
   }
 
-  favoriteServiceDetail(favorite: PublicServiceFavoriteByUser) {
-    this.optionSelected = favorite;
+  favoriteServiceDetail(publicServiceId: number, accessKey: number, keyType: number) {
+    this.optionSelected = publicServiceId;
     this.company = this.publicFavoriteService
-      .find(elem => elem.publicServiceId === this.optionSelected.publicServiceId).publicServiceEnterpriseDescription;
-    this.publicService.checkPendingReceipts(
-      this.optionSelected.publicServiceId, +this.optionSelected.serviceReference, this.optionSelected.publicServiceAccessKeyType)
-      .subscribe(pendingReceipt => {
-        this.pendingReceipt = pendingReceipt;
-        const months: Date = new Date(this.pendingReceipt.date);
+      .find(elem => elem.publicServiceId === publicServiceId).publicServiceEnterpriseDescription;
+    this.keyType = keyType;
+    this.publicService.checkPendingReceipts(publicServiceId, accessKey, keyType)
+      .subscribe((response) => {
+        console.log(response);
+        this.dataDetail = response;
+        const months: Date = new Date(this.dataDetail.date);
         this.month = getMontByMonthNumber(months.getMonth());
-        if (this.pendingReceipt.receipts !== null) {
-          this.expirationDate = new Date(this.pendingReceipt.receipts.expirationDate);
-          this.amountOfPay = this.pendingReceipt.receipts.totalAmount;
+        if (this.dataDetail.receipts !== null) {
+          this.expirationDate = new Date(this.dataDetail?.receipts.expirationDate);
+          this.amountOfPay = this.dataDetail.receipts.totalAmount;
         }
       });
   }
@@ -67,23 +69,28 @@ export class FavoriteServicesComponent implements OnInit {
     this.publicService.getPublicServicesFavoritesByUser()
       .subscribe((response) => {
         this.publicFavoriteService = response;
-        this.category = this.publicFavoriteService.find(elem => elem.publicServiceCategory).publicServiceCategory;
       });
+  }
+
+  getCategoryForMask(idFavoritePublicService: number) {
+    console.log(1);
+    return this.category = this.publicFavoriteService
+      .find(elem => elem.publicServiceFavoriteId === idFavoritePublicService).publicServiceCategory;
   }
 
   pay() {
     this.modalService.confirmationPopup('¿Desea realizar esta pago?', '', 380, 203)
       .subscribe((confirm) => {
         if (confirm) {
-          if (this.pendingReceipt.receipts !== null) {
-            this.publicService.payPublicService(
-              this.optionSelected.publicServiceId,
-              +this.pendingReceipt.receipts.serviceValue,
-              this.pendingReceipt.receipts.totalAmount,
-              +this.pendingReceipt.receipts.receiptPeriod,
-              this.optionSelected.publicServiceAccessKeyType,
-              this.pendingReceipt.receipts.expirationDate,
-              this.pendingReceipt.receipts.billNumber)
+          if (this.dataDetail.receipts !== null) {
+            const amount = ConvertStringAmountToNumber(this.dataDetail.receipts.totalAmount).toString();
+            this.publicService.payPublicService(this.optionSelected,
+              +this.dataDetail.receipts.serviceValue,
+              amount,
+              +this.dataDetail.receipts.receiptPeriod,
+              this.keyType,
+              this.dataDetail.receipts.expirationDate,
+              this.dataDetail.receipts.billNumber)
               .pipe(finalize(() => this.paymentSend = true))
               .subscribe((response) => {
                 this.message = response.message;

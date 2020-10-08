@@ -1,0 +1,18 @@
+.receipt {
+  width: 316px;
+  height: 693px;
+
+  &__info {
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  &__tag {
+    width: 149px;
+  }
+
+  &__footer {
+    width: 316px;
+  }
+}

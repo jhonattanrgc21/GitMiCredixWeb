@@ -4,7 +4,7 @@
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
       <a
-        (click)="favoriteServiceDetail(favorites)"
+        (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference, favorites.publicServiceAccessKeyType)"
         *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
         fxLayout="row">
         <mat-icon [svgIcon]="favorites.icon" class="mr-16px" fxFlex="16px"
@@ -16,7 +16,8 @@
           </span>
           <span class="truncate">
             {{
-            category === 'Recargas' || category === 'Telefonía' ? (favorites.serviceReference | mask: '0000-0000') :
+            getCategoryForMask(favorites.publicServiceFavoriteId) === 'Recargas' || getCategoryForMask(favorites.publicServiceFavoriteId) === 'Telefonía' ?
+              (favorites.serviceReference | mask: '0000-0000') :
               favorites.publicServiceProviderPrefix + '-' + favorites.serviceReference
             }}
           </span>
@@ -28,14 +29,14 @@
   </ngx-simplebar>
 
   <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
-    <div *ngIf="pendingReceipt !== null" class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="dataDetail !== null" class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
         <span *ngIf="company !== null" class="tr">{{company}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Nombre</span>
-        <span class="tr">{{pendingReceipt?.clientName}}</span>
+        <span class="tr">{{dataDetail?.clientName}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Mes al cobro</span>
@@ -44,11 +45,11 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Vencimiento</span>
         <span class="tr">
-          {{expirationDate | dateFormatter : 'alphanumeric'}}</span>
+          {{expirationDate !== undefined ? (expirationDate | dateFormatter : 'alphanumeric') : '' }}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Recibos pendientes</span>
-        <span class="tr">{{ pendingReceipt?.numberPendingReceipts}}</span>
+        <span class="tr">{{ dataDetail?.numberPendingReceipts}}</span>
       </div>
       <div class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto a pagar</strong></span>
@@ -57,7 +58,8 @@
     </div>
 
     <div class="favorites-services__footer">
-      <credix-button (buttonClick)="pay()" fxLayoutAlign="flex-end center" text="Pagar"></credix-button>
+      <credix-button (buttonClick)="pay()" [disabled]="dataDetail?.receipts == null" fxLayoutAlign="flex-end center"
+                     text="Pagar"></credix-button>
     </div>
   </div>
 
@@ -96,12 +98,12 @@
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="60px">Teléfono</span>
-            <span class="tr"><strong>{{dataResponse.phoneNumber | mask: '0000-0000'}}</strong></span>
+            <span class="tr"><strong>{{dataResponse?.phoneNumber | mask: '0000-0000'}}</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="60px">Fecha</span>
-            <span class="tr"><strong>{{dataResponse.date | dateFormatter: 'alphanumeric'}}</strong></span>
+            <span class="tr"><strong>{{dataResponse?.date | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
 
         </div>

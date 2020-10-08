@@ -6,6 +6,7 @@ import {PublicServicesService} from '../public-services.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalService} from '../../../../../core/services/modal.service';
+import {Keys} from '../../../../../shared/models/keys';
 
 @Component({
   selector: 'app-new-recharge',
@@ -36,6 +37,8 @@ export class NewRechargeComponent implements OnInit {
   title: string;
   message: string;
   status: 'success' | 'error';
+  keys: Keys[];
+  quantityOfKeys: number;
   today = new Date();
 
   constructor(private publicServicesService: PublicServicesService,
@@ -50,6 +53,7 @@ export class NewRechargeComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.publicServiceId = +params.serviceId;
       this.getEnterprise(+params.categoryId, +params.enterpriseId);
+      this.getPublicService(+params.enterpriseId, this.publicServiceId);
     });
   }
 
@@ -57,6 +61,15 @@ export class NewRechargeComponent implements OnInit {
     this.publicServicesApiService.getPublicServiceEnterpriseByCategory(categoryId).subscribe(publicServiceEnterprises =>
       this.title = publicServiceEnterprises
         .find(enterprise => enterprise.publicServiceEnterpriseId === enterpriseId).publicServiceEnterpriseDescription);
+  }
+
+  getPublicService(enterpriseId: number, publicServiceId: number) {
+    this.publicServicesApiService.getPublicServiceByEnterprise(enterpriseId).subscribe(publicService => {
+      this.keys = publicService.find(elem => elem.publicServiceId === publicServiceId).keys;
+      this.quantityOfKeys = publicService
+        .find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
+
+    });
   }
 
   getMinAmounts() {
@@ -104,7 +117,8 @@ export class NewRechargeComponent implements OnInit {
       +receipt.receiptPeriod,
       null,
       receipt.expirationDate,
-      receipt.billNumber)
+      receipt.billNumber,
+      1)
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;
