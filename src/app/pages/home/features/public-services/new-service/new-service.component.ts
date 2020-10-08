@@ -116,7 +116,8 @@ export class NewServiceComponent implements OnInit {
               typeOfValor: 'EFECTIVO',
               amount: response.amountPaid,
               paymentConcepts: response.paymentConcepts,
-              informativeConcepts: response.informativeConcepts
+              informativeConcepts: response.informativeConcepts,
+              currencySymbol: this.currencySymbol
             };
           });
       }

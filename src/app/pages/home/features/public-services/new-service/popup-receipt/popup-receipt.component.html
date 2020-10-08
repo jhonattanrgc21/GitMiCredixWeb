@@ -24,7 +24,8 @@
       <span><strong>Conceptos de pago</strong></span>
       <div *ngFor="let conceptPay of dataShowModal.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between">
         <span class="receipt__tag">{{conceptPay.conceptDescription.toLowerCase()}}</span>
-        <span><strong>{{conceptPay.conceptAmount}}</strong></span>
+        <credix-numeric-block [prefix]="dataShowModal.currencySymbol" [value]="+conceptPay.conceptAmount" class="tr"
+                              fontWeight="bold"></credix-numeric-block>
       </div>
     </div>
 

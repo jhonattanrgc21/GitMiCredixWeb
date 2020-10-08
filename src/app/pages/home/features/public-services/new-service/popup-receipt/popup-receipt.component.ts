@@ -9,13 +9,14 @@ import {PopupReceipt} from '../../../../../../shared/models/popup-receipt';
 })
 export class PopupReceiptComponent implements OnInit {
   dataShowModal: PopupReceipt;
+  currencySymbol: string;
 
   constructor(public dialogRef: MatDialogRef<PopupReceiptComponent>,
               @Inject(MAT_DIALOG_DATA) public data) {
   }
 
   ngOnInit(): void {
-    this.dataShowModal = this.data;
+    this.dataShowModal = this.data.data;
   }
 
 }

@@ -26,4 +26,5 @@ export interface PopupReceipt {
     conceptDescription: string;
   }[];
   informativeConcepts: any[];
+  currencySymbol?: string;
 }
