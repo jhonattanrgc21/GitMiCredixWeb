@@ -19,11 +19,11 @@
       </div>
     </div>
 
-    <div *ngIf="dataShowModal.paymentConcepts !== null" class="receipt__info-table" fxLayout="column"
+    <div class="receipt__info-table" fxLayout="column"
          fxLayoutGap="16px">
       <span><strong>Conceptos de pago</strong></span>
       <div *ngFor="let conceptPay of dataShowModal.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between">
-        <span class="receipt__tag">{{conceptPay.conceptDescription}}</span>
+        <span class="receipt__tag">{{conceptPay.conceptDescription.toLowerCase()}}</span>
         <span><strong>{{conceptPay.conceptAmount}}</strong></span>
       </div>
     </div>
