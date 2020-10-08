@@ -6,6 +6,7 @@ import {CredixResultNotificationModule} from '../credix-result-notification/cred
 import {CredixCardsModule} from '../../directives/credix-cards/credix-cards.module';
 import {FlexModule} from '@angular/flex-layout';
 import {CredixButtonModule} from '../credix-button/credix-button.module';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {CredixButtonModule} from '../credix-button/credix-button.module';
     CredixResultNotificationModule,
     CredixCardsModule,
     FlexModule,
-    CredixButtonModule
+    CredixButtonModule,
+    RouterModule
   ]
 })
 export class CredixResultViewModule {
