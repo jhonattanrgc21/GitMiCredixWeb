@@ -57,7 +57,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.forgotPasswordForm.controls.identification.value,
       this.forgotPasswordForm.controls.password.value)
       .pipe(finalize(() => {
-        if (this.forgotPasswordForm.controls.credixCode.hasError('invalid')) {
+        if (!this.forgotPasswordForm.controls.credixCode.hasError('invalid')) {
           this.dialogRef.close({
             identification: this.forgotPasswordForm.controls.identification.value,
             password: this.forgotPasswordForm.controls.password.value
