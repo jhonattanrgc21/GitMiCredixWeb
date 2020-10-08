@@ -1,30 +1,33 @@
-<div class="receipt" fxLayout="column">
-  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="receipt__info"
-                 fxLayout="column"
-                 fxLayoutGap="16px">
+<ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}">
+
+  <div class="receipt" fxLayout="column" fxLayoutGap="16px">
 
     <div class="receipt__info-table" fxLayout="column" fxLayoutGap="16px">
       <span><strong>Datos generales</strong></span>
+
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span class="receipt__tag">Recargos del seguro obligatorio</span>
         <span><strong>123456789</strong></span>
       </div>
+
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span class="receipt__tag">Aporte al consejo de seguridad vial</span>
         <span><strong>3 Meses</strong></span>
       </div>
+
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span class="receipt__tag">Impuesto a la propiedad de vehículos</span>
         <span><strong>Cualquiera</strong></span>
       </div>
     </div>
 
-    <div class="receipt__info-table" fxLayout="column"
-         fxLayoutGap="16px">
+    <div class="receipt__info-table" fxLayout="column" fxLayoutGap="16px">
       <span><strong>Conceptos de pago</strong></span>
+
       <div *ngFor="let conceptPay of dataShowModal.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between">
         <span class="receipt__tag">{{conceptPay.conceptDescription.toLowerCase()}}</span>
-        <credix-numeric-block [prefix]="dataShowModal.currencySymbol" [value]="+conceptPay.conceptAmount" class="tr"
+
+        <credix-numeric-block [prefix]="dataShowModal.currencySymbol" [value]="+conceptPay.conceptAmount"
                               fontWeight="bold"></credix-numeric-block>
       </div>
     </div>
@@ -32,6 +35,7 @@
     <div *ngIf="dataShowModal.informativeConcepts !== null" class="receipt__info-table" fxLayout="column"
          fxLayoutGap="16px">
       <span><strong>Conceptos informativos</strong></span>
+
       <div *ngFor="let conceptInformative of dataShowModal.informativeConcepts" fxLayout="row"
            fxLayoutAlign="space-between">
         <span class="receipt__tag">{{conceptInformative.conceptDescription}}</span>
@@ -40,5 +44,7 @@
     </div>
 
     <p class="receipt__footer">* Servicio brindado mediante convenio con el Banco Nacional de Costa Rica.</p>
-  </ngx-simplebar>
-</div>
+
+  </div>
+</ngx-simplebar>
+

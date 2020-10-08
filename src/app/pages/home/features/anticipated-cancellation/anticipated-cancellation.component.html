@@ -7,6 +7,7 @@
 
   <div class="mb-16px" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
     <span><strong>{{balanceTag || 'Saldo a favor'}}</strong></span>
+
     <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol : dollarsSymbol"
                           [value]="tabId === 1 ? colonesBalance : dollarsBalance" fontSize="24" fontWeight="bold">
     </credix-numeric-block>
@@ -55,7 +56,9 @@
                   selection.indexOf(element) === -1 &&
                   (+element.saldoPendiente) > (tabId === 1 ? colonesBalance : dollarsBalance)}"
                   credixCell>
-          {{tabId === 1 ? colonesSymbol : dollarsSymbol}}{{element.saldoPendiente}} </mat-cell>
+          <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol: dollarsSymbol"
+                                [value]="element.saldoPendiente" fontWeight="bold"></credix-numeric-block>
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="quotas">
@@ -97,7 +100,6 @@
 
 </mat-card>
 
-
 <ng-template #doneCancellationTemplate>
   <app-credix-result-view [resultMessage]="message"
                           [resultTile]="title"
@@ -109,18 +111,18 @@
       <mat-divider class="mb-24px" credixDivider></mat-divider>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <p fxFlex="250px"><strong>Datos de la cancelación anticipada</strong></p>
+        <p fxFlex="280px"><strong>Datos de la cancelación anticipada</strong></p>
 
         <div fxLayout="column" fxLayoutGap="8px">
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>Datos de la cancelación anticipada</span>
+          <div fxLayout="row" fxLayoutGap="55px">
+            <span fxFlex>Monto cancelado</span>
             <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol: dollarsSymbol"
                                   [value]="totalCancelled" fontWeight="bold"></credix-numeric-block>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>Consumos cancelados</span>
-            <span class="tr"><strong>{{selection.length}}</strong></span>
+            <span><strong>{{selection.length}}</strong></span>
           </div>
         </div>
       </div>

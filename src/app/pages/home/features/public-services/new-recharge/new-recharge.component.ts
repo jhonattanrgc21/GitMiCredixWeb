@@ -117,8 +117,7 @@ export class NewRechargeComponent implements OnInit {
       +receipt.receiptPeriod,
       null,
       receipt.expirationDate,
-      receipt.billNumber,
-      1)
+      receipt.billNumber)
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;

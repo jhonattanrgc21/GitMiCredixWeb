@@ -13,6 +13,7 @@ export class CredixNumericBlockComponent implements OnInit, OnChanges {
   @Input() fontWeight: 'normal' | 'bold' = 'normal';
   integerValue: string;
   decimalValue: string;
+  sign = '+';
 
   constructor() {
   }
@@ -28,6 +29,7 @@ export class CredixNumericBlockComponent implements OnInit, OnChanges {
           this.value.split(',')[1].substring(0, this.value.split(',')[1].length === 2 ? 2 : 1)
           : '00';
       } else {
+        this.sign = this.value >= 0 ? '+' : '-';
         this.integerValue = Math.trunc(this.value).toLocaleString('es');
         this.decimalValue = (this.value + '').split('.')[1] ? (this.value + '').split('.')[1].substring(0, 2) : '00';
       }

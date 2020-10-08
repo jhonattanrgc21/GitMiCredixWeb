@@ -53,20 +53,18 @@
         <div fxLayout="column" fxLayoutGap="8px">
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>Monto</span>
-            <div>
-              <credix-numeric-block [prefix]="currencySymbol" [value]="confirmFormGroup.controls.amount.value"
-                                    class="tr" fontWeight="bold"></credix-numeric-block>
-            </div>
+            <credix-numeric-block [prefix]="currencySymbol" [value]="confirmFormGroup.controls.amount.value"
+                                  class="tr" fontWeight="bold"></credix-numeric-block>
           </div>
 
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Contrato</span>
-            <span class="tr"><strong>{{contractFormGroup.controls.contractControl.value}}</strong></span>
+          <div fxLayout="row" fxLayoutGap="16px">
+            <span fxFlex>Contrato</span>
+            <span class="tr truncate"><strong>{{contractFormGroup.controls.contractControl.value}}</strong></span>
           </div>
 
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Fecha</span>
-            <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
+          <div fxLayout="row" fxLayoutGap="16px">
+            <span fxFlex>Fecha</span>
+            <span class="tr truncate"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
 
           <credix-link-button (click)="openBillingModal()">Ver comprobante</credix-link-button>
