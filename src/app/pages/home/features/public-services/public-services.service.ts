@@ -82,7 +82,11 @@ export class PublicServicesService {
   }
 
   checkPendingReceipts(publicServiceId: number, accessKey: number, keyType?: number): Observable<PendingReceipts> {
-    return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType});
+    return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType})
+      .pipe(
+        map((response) => {
+          return response.type && response.type === 'error' ? null : response;
+        }));
   }
 
   payPublicService(publicServiceId: number, serviceValue: number, amount: string, term: number, keyType: number,

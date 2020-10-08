@@ -32,7 +32,8 @@
 
     <credix-result-notification *ngIf="!hasReceipts" class="favorites-services__notification"
                                 status="info" title="No tiene ninguna factura pendiente"></credix-result-notification>
-    <div *ngIf="hasReceipts && dataDetail !== null" class="favorites-services__table" fxLayout="column"
+
+    <div *ngIf="hasReceipts && dataDetail" class="favorites-services__table" fxLayout="column"
          fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>

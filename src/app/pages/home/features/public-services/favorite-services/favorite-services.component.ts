@@ -17,7 +17,7 @@ export class FavoriteServicesComponent implements OnInit {
   dataDetail: PendingReceipts;
   optionSelected = 0;
   company: string;
-  hasReceipts: boolean;
+  hasReceipts = true;
   amountOfPay: string;
   paymentSend = false;
   message: string;
@@ -31,7 +31,6 @@ export class FavoriteServicesComponent implements OnInit {
     phoneNumber: number;
     date: string;
   };
-
   tableHeaders = [
     {label: 'Servicios', width: '283px'},
     {label: 'Datos de la factura', width: 'auto'}
@@ -39,8 +38,6 @@ export class FavoriteServicesComponent implements OnInit {
 
   constructor(private publicService: PublicServicesService,
               private modalService: ModalService) {
-    this.dataDetail = null;
-    this.dataResponse = null;
   }
 
   ngOnInit(): void {
@@ -55,15 +52,15 @@ export class FavoriteServicesComponent implements OnInit {
     this.publicService.checkPendingReceipts(publicServiceId, accessKey, keyType)
       .subscribe((response) => {
         this.dataDetail = response;
-        const months: Date = new Date(this.dataDetail.date);
-        this.month = getMontByMonthNumber(months.getMonth());
-        if (this.dataDetail.receipts === null || response.type === 'error') {
+        if (this.dataDetail === null || this.dataDetail.receipts === null) {
           this.hasReceipts = false;
           this.company = null;
           this.expirationDate = null;
           this.dataDetail = null;
           this.month = null;
         } else {
+          const months: Date = new Date(this.dataDetail.date);
+          this.month = getMontByMonthNumber(months.getMonth());
           this.expirationDate = new Date(this.dataDetail?.receipts.expirationDate);
           this.amountOfPay = this.dataDetail.receipts.totalAmount;
           this.hasReceipts = true;
@@ -75,7 +72,6 @@ export class FavoriteServicesComponent implements OnInit {
     this.publicService.getPublicServicesFavoritesByUser()
       .subscribe((response) => {
         this.publicFavoriteService = response;
-        console.log(this.publicFavoriteService);
       });
   }
 
@@ -83,7 +79,7 @@ export class FavoriteServicesComponent implements OnInit {
     this.modalService.confirmationPopup('¿Desea realizar esta pago?', '', 380, 203)
       .subscribe((confirm) => {
         if (confirm) {
-          if (this.dataDetail.receipts !== null) {
+          if (this.dataDetail?.receipts !== null) {
             const amount = ConvertStringAmountToNumber(this.dataDetail.receipts.totalAmount).toString();
             this.publicService.payPublicService(this.optionSelected,
               +this.dataDetail.receipts.serviceValue,
