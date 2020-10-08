@@ -16,8 +16,8 @@ export class FavoriteServicesComponent implements OnInit {
   month: string;
   dataDetail: PendingReceipts;
   optionSelected = 0;
-  category: string;
   company: string;
+  hasReceipts: boolean;
   amountOfPay: string;
   paymentSend = false;
   message: string;
@@ -54,13 +54,19 @@ export class FavoriteServicesComponent implements OnInit {
     this.keyType = keyType;
     this.publicService.checkPendingReceipts(publicServiceId, accessKey, keyType)
       .subscribe((response) => {
-        console.log(response);
         this.dataDetail = response;
         const months: Date = new Date(this.dataDetail.date);
         this.month = getMontByMonthNumber(months.getMonth());
-        if (this.dataDetail.receipts !== null) {
+        if (this.dataDetail.receipts === null || response.type === 'error') {
+          this.hasReceipts = false;
+          this.company = null;
+          this.expirationDate = null;
+          this.dataDetail = null;
+          this.month = null;
+        } else {
           this.expirationDate = new Date(this.dataDetail?.receipts.expirationDate);
           this.amountOfPay = this.dataDetail.receipts.totalAmount;
+          this.hasReceipts = true;
         }
       });
   }

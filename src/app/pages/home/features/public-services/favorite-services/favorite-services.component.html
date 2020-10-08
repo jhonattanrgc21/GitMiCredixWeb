@@ -29,7 +29,11 @@
   </ngx-simplebar>
 
   <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
-    <div *ngIf="dataDetail !== null" class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
+
+    <credix-result-notification *ngIf="!hasReceipts" class="favorites-services__notification"
+                                status="info" title="No tiene ninguna factura pendiente"></credix-result-notification>
+    <div *ngIf="hasReceipts && dataDetail !== null" class="favorites-services__table" fxLayout="column"
+         fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
         <span *ngIf="company !== null" class="tr">{{company}}</span>
