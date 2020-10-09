@@ -2,8 +2,9 @@
   height: 662px;
   position: relative;
 
-  &__container {
-    padding: 0 84px;
+  &__first-step {
+    padding: 0 184px 0 84px;
+    margin-top: 32px;
   }
 
   &__content {
@@ -11,10 +12,7 @@
 
     &__input {
       height: 43px;
-
-      &.favorite {
-        margin-left: 20px;
-      }
+      width: 266px;
     }
   }
 
@@ -30,6 +28,10 @@
     border-top: 1px solid #E9E9E9;
     padding: 16px;
   }
+}
+
+.second-step-height {
+  height: 727px;
 }
 
 @media screen and (max-width: 1199px) {
