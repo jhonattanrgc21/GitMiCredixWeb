@@ -6,7 +6,7 @@
       <div class="left-content mb-8px" fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span>Número de celular</span>
-          <span><strong>{{phoneNumber}}</strong></span>
+          <span><strong>{{phoneNumber | mask: '0000-0000'}}</strong></span>
         </div>
         <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
                                 label="Guardar como favorito"></credix-checkbox-button>
