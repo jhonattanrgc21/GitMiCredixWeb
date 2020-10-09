@@ -23,8 +23,9 @@
 
   <div class="buy-without-card__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="stepperIndex === 0 ? checkCredixCode() : goHome()"
-                   [disabled]="codeCredix.invalid"
-                   [text]="stepperIndex === 0 ? 'Continuar' : 'Listo'"></credix-button>
+                   [disabled]="codeCredix.invalid">
+      {{stepperIndex === 0 ? 'Continuar' : 'Listo'}}
+    </credix-button>
   </div>
 
 </mat-card>

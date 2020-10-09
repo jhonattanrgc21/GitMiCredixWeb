@@ -119,8 +119,8 @@
 
   <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="openConfirmationModal()" *ngIf="allowedMovementSelected"
-                   [disabled]="allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo"
-                   text="Ampliar plazo">
+                   [disabled]="allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo">
+      Ampliar plazo
     </credix-button>
   </div>
 </mat-card>

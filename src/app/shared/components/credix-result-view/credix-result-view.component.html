@@ -9,8 +9,8 @@
   </div>
 
   <div class="bottom-btn-wrapper" fxLayout="row" fxLayoutAlign="flex-end">
-    <credix-button (click)="buttonPressed.emit()"
-                   [routerLink]="[routeTo]"
-                   [text]="buttonText" class="mr-16px"></credix-button>
+    <credix-button (click)="buttonPressed.emit()" [routerLink]="[routeTo]" class="mr-16px">
+      {{buttonText}}
+    </credix-button>
   </div>
 </mat-card>

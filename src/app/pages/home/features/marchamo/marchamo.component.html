@@ -34,12 +34,16 @@
   <div class="marchamos__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
       <credix-button (buttonClick)="consult()" *ngIf="stepperIndex === 0" [disabled]="consultForm.invalid"
-                     text="Consultar" type="secondary"></credix-button>
-      <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 3" [disabled]="disableButton"
-                     [text]="'Continuar'"></credix-button>
-      <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton"
-                     [text]="'Pagar'"></credix-button>
+                     type="secondary">
+        Consultar
+      </credix-button>
+      <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" type="secondary">Atrás</credix-button>
+      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 3" [disabled]="disableButton">
+        Continuar
+      </credix-button>
+      <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton">
+        Pagar
+      </credix-button>
     </div>
   </div>
 

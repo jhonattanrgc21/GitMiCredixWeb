@@ -23,8 +23,8 @@
           (buttonClick)=verifyRegistryUser()
           [disabled]="!newUserFirstStepForm.valid"
           class="modal-new-user__button step-one"
-          fxFlexAlign="flex-start"
-          text="Continuar"></credix-button>
+          fxFlexAlign="flex-start">Continuar
+        </credix-button>
       </form>
     </cdk-step>
 
@@ -54,8 +54,8 @@
           (buttonClick)=validateOtp()
           [disabled]="!newUserSecondStepForm.valid"
           class="modal-new-user__button step-two"
-          fxFlexAlign="flex-start"
-          text="Continuar"></credix-button>
+          fxFlexAlign="flex-start">Continuar
+        </credix-button>
 
       </form>
     </cdk-step>
@@ -82,8 +82,8 @@
           (buttonClick)=submit()
           [disabled]="!newUserThirdStepForm.valid"
           class="modal-new-user__button step-three"
-          fxFlexAlign="flex-end"
-          text="Ingresar"></credix-button>
+          fxFlexAlign="flex-end">Ingresar
+        </credix-button>
       </form>
     </cdk-step>
 

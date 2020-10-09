@@ -89,12 +89,11 @@
     </div>
 
     <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button [routerLink]="['/home/personal-info']"
-                     text="Atrás" type="secondary"></credix-button>
+      <credix-button [routerLink]="['/home/personal-info']" type="secondary">Atrás</credix-button>
       <credix-button (buttonClick)="edit()"
                      [disabled]="personalInfoFormGroup.invalid
-                     || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)"
-                     text="Guardar">
+                     || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)">
+        Guardar
       </credix-button>
     </div>
   </form>

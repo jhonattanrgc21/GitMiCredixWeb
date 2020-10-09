@@ -15,8 +15,7 @@
         <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
       </credix-input-field>
 
-      <credix-button (click)="login()" [disabled]="signInformGroup.invalid" class="w-100"
-                     text="Ingresar"></credix-button>
+      <credix-button (click)="login()" [disabled]="signInformGroup.invalid" class="w-100">Ingresar</credix-button>
     </form>
 
     <span class="sign-in__card__sign-up-span">¿Nuevo en MiCredix?
@@ -35,9 +34,10 @@
                                 status="warning"
                                 title="Sesión activa detectada"></credix-result-notification>
 
-    <credix-button (buttonClick)="closeSessionActivate()" class="w-100" text="Continuar"></credix-button>
-    <credix-button (buttonClick)="sessionActivateModal.close()" class="w-100" text="Cancelar"
-                   type="secondary"></credix-button>
+    <credix-button (buttonClick)="closeSessionActivate()" class="w-100">Continuar</credix-button>
+    <credix-button (buttonClick)="sessionActivateModal.close()" class="w-100"
+                   type="secondary">Cancelar
+    </credix-button>
   </div>
 </ng-template>
 
@@ -66,11 +66,12 @@
 
     <p class="mb-16px f-14px">
       Si este no es su teléfono o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX
-      <credix-link-button text="2227-3349">()</credix-link-button>
+      <credix-link-button>2227-3349</credix-link-button>
       o visite una de nuestras sucursales para solicitar el cambio.
     </p>
 
-    <credix-button (buttonClick)="validateOtp()" [disabled]="newDeviceFormGroup.invalid" class="w-100"
-                   text="Ingresar"></credix-button>
+    <credix-button (buttonClick)="validateOtp()" [disabled]="newDeviceFormGroup.invalid" class="w-100">
+      Ingresar
+    </credix-button>
   </div>
 </ng-template>

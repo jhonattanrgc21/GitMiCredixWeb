@@ -3,8 +3,9 @@
   <mat-card class="additional-cards__toolbar" credixCard fxLayout="column" fxLayoutGap="16px">
     <h1>{{titleTag || 'Tarjetas adicionales'}}</h1>
 
-    <credix-button (click)="goToNewAdditionalCard()" class="additional-cards__toolbar__button"
-                   text="Agregar tarjeta adicional"></credix-button>
+    <credix-button (click)="goToNewAdditionalCard()" class="additional-cards__toolbar__button">
+      Agregar tarjeta adicional
+    </credix-button>
   </mat-card>
 
   <div *ngIf="additionalCards.length > 0 else noAdditionalCards" fxLayout="row wrap">
@@ -43,7 +44,9 @@
                      [disabled]="cardId !== additionalCard.cardId
                      || creditLimit === additionalCard.limitPercentage || creditLimit === 0"
                      class="additional-cards__card__button"
-                     fxFlexAlign="flex-end" text="Aplicar cambio"></credix-button>
+                     fxFlexAlign="flex-end">
+        Aplicar cambio
+      </credix-button>
     </mat-card>
   </div>
 
