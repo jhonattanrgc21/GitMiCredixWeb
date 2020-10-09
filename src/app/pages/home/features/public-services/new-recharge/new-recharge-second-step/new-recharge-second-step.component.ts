@@ -16,7 +16,7 @@ export class NewRechargeSecondStepComponent implements OnInit {
     favorite: new FormControl(null),
   });
   @Input() amounts: { amount: string, id: number }[];
-  @Input() phoneNumber: FormControl = new FormControl(null, [Validators.required]);
+  @Input() phoneNumber: number;
   @Output() saveFavoriteEvent = new EventEmitter<boolean>();
   showInput = false;
   anotherAmount = false;

@@ -4,9 +4,10 @@
       <span fxFlex="150px"><strong>Número a recargar</strong></span>
 
       <div class="left-content mb-8px" fxLayout="column">
-        <credix-input-field [formControl]="phoneNumber" class="new-recharge-second-step__content__input mb-16px"
-                            focusLabel="Número de celular" label="Digite el número de celular"
-                            mask="0000-0000"></credix-input-field>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span>Número de celular</span>
+          <span><strong>{{phoneNumber}}</strong></span>
+        </div>
         <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
                                 label="Guardar como favorito"></credix-checkbox-button>
         <credix-input-field *ngIf="showInput" class="new-recharge-second-step__content__input favorite"

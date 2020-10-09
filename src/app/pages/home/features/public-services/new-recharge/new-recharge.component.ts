@@ -154,9 +154,9 @@ export class NewRechargeComponent implements OnInit {
   }
 
   checkPendingReceipts() {
-    this.publicServicesService.checkPendingReceipts(this.publicServiceId, this.rechargeFormGroup.controls.phoneNumber.value)
+    this.publicServicesService.checkPendingReceipts(this.publicServiceId, this.phoneNumber.value)
       .subscribe(pendingReceipts => {
-        if (pendingReceipts.receipts) {
+        if (pendingReceipts?.receipts) {
           this.pendingReceipts = pendingReceipts;
           this.continue();
         } else {
