@@ -60,8 +60,7 @@
                            [value]="'totalAmountPending'"
                            label="Monto pendiente total"
                            name="selectPayment"></credix-radio-button>
-      <credix-radio-button #other
-                           (emitRadioButton)="onSelectRadioButtons($event)"
+      <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
                            [checked]="radioCheck"
                            [value]="'another'"
                            label="Otro"
@@ -72,6 +71,13 @@
                           label="Monto"
                           mask="separator"
                           thousandSeparator=".">
+        <div error>
+          {{
+          confirmFormGroup.controls.amount.hasError('min') ? 'El monto tiene que ser mayor o igual a ' + amount :
+            confirmFormGroup.controls.amount.hasError('max') ? 'El monto tiene que ser menor o igual a ' + amount :
+              confirmFormGroup.controls.amount.hasError('required') ? 'ingrese el monto' : null
+          }}
+        </div>
       </credix-input-field>
 
     </div>

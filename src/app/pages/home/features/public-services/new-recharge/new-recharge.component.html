@@ -1,65 +1,44 @@
-<form *ngIf="!done else doneNewRechargeTemplate" [formGroup]="rechargeFormGroup" class="new-recharge" credixCard
-      fxLayout="column" fxLayoutGap="4px">
-
+<mat-card *ngIf="!done else doneNewRechargeTemplate" [class.second-step-height]="stepperIndex === 1"
+          class="new-recharge"
+          credixCard
+          fxLayout="column"
+          fxLayoutGap="4px">
   <h1 class="mb-16px">{{title}}</h1>
 
-  <div class="new-recharge__container" fxLayout="column" fxLayoutGap="16px">
-    <div class="new-recharge__content" fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex="150px"><strong>Número a recargar</strong></span>
-
-      <div class="left-content mb-8px" fxLayout="column">
-        <credix-input-field class="new-recharge__content__input mb-16px" focusLabel="Número de celular"
-                            formControlName="phoneNumber" label="Digite el número de celular"
-                            mask="0000-0000"></credix-input-field>
-        <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
-                                label="Guardar como favorito"></credix-checkbox-button>
-        <credix-input-field *ngIf="saveAsFavorite" formControlName="favorite"
-                            class="new-recharge__content__input favorite"
-                            label="Nombre del favorito"></credix-input-field>
+  <credix-stepper #newRechargeStepper>
+    <cdk-step [label]="'Consultar'" [stepControl]="phoneNumber">
+      <div class="new-recharge__first-step" fxLayout="column" fxLayoutGap="80px">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex="150px"><strong>Datos de referencia</strong></span>
+          <credix-input-field [formControl]="phoneNumber" class="new-recharge__content__input mb-16px"
+                              focusLabel="Número de celular" label="Digite el número de celular"
+                              mask="0000-0000"></credix-input-field>
+        </div>
+        <credix-result-notification *ngIf="!hasReceipts" status="info"
+                                    title="No tiene ninguna factura pendiente"></credix-result-notification>
       </div>
-    </div>
+    </cdk-step>
 
-    <mat-divider credixDivider></mat-divider>
-
-    <div class="new-recharge__content" fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex="155px"><strong>Monto de la recarga</strong></span>
-
-      <div class="left-content" fxLayout="column">
-        <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
-                             *ngFor="let amount of amounts, let last = last"
-                             [label]="last ? 'Otro': null"
-                             [ngClass]="{'mb-16px' : !last}"
-                             [value]="amount.amount">
-          <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>
-        </credix-radio-button>
-
-        <credix-input-field *ngIf="anotherAmount" class="new-recharge__content__input favorite mb-8px"
-                            formControlName="amount" label="Otro monto"
-                            mask="separator">
-          <div error>El monto mínimo permitido es ₡{{amounts[0].amount}}</div>
-        </credix-input-field>
-      </div>
-    </div>
-
-    <mat-divider credixDivider></mat-divider>
-
-    <div class="new-recharge__content" fxLayout="row" fxLayoutAlign="space-between">
-      <credix-code-link></credix-code-link>
-
-      <credix-code-input class="new-recharge__content__input left-content" formControlName="credixCode">
-       <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('required')"
-             error>Introduzca el código credix.</span>
-        <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('invalid')"
-              error>Código credix inválido.</span>
-      </credix-code-input>
-    </div>
-  </div>
+    <cdk-step [label]="'Pagar'" [stepControl]="rechargeFormGroup">
+      <app-new-recharge-second-step
+        (saveFavoriteEvent)="saveAsFavorite"
+        [amounts]="amounts"
+        [phoneNumber]="phoneNumber.value"
+        [rechargeFormGroup]="rechargeFormGroup"
+        [title]="title">
+      </app-new-recharge-second-step>
+    </cdk-step>
+  </credix-stepper>
 
   <div class="new-recharge__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
-    <credix-button (buttonClick)="openModal()" [disabled]="rechargeFormGroup.invalid">Recargar</credix-button>
+    <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
+                   [disabled]="stepperIndex === 0 ? phoneNumber.invalid : rechargeFormGroup.invalid">
+      {{stepperIndex === 0 ? 'Continuar' : 'Recargar'}}
+    </credix-button>
   </div>
-</form>
+</mat-card>
+
 
 <ng-template #doneNewRechargeTemplate>
   <app-credix-result-view [resultMessage]="message"
@@ -93,6 +72,7 @@
             <span fxFlex="60px">Fecha</span>
             <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
+          <credix-link-button (click)="openBillingModal()">Ver comprobante</credix-link-button>
         </div>
 
       </div>
