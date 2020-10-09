@@ -14,7 +14,6 @@ export class AutomaticsServicesComponent implements OnInit {
     {label: 'Datos del pago', width: 'auto'}
   ];
   optionSelected = 0;
-  category: string;
 
   schedulePayments: SchedulePayments[] = [];
   dataToDetail: {
@@ -54,7 +53,6 @@ export class AutomaticsServicesComponent implements OnInit {
     this.publicServicesService.getAllSchedulersPayment()
       .subscribe((response) => {
         this.schedulePayments = response;
-        this.category = this.schedulePayments.find(elem => elem.publicServiceCategoryName).publicServiceCategoryName;
       });
   }
 }
