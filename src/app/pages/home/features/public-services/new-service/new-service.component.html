@@ -29,10 +29,11 @@
   </credix-stepper>
 
   <div class="new-service__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
+    <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
     <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
-                   [disabled]="stepperIndex === 0 ? contractFormGroup.invalid : confirmFormGroup.invalid"
-                   [text]="stepperIndex === 0 ? 'Continuar' : 'Pagar'"></credix-button>
+                   [disabled]="stepperIndex === 0 ? contractFormGroup.invalid : confirmFormGroup.invalid">
+      {{stepperIndex === 0 ? 'Continuar' : 'Pagar'}}
+    </credix-button>
   </div>
 </mat-card>
 

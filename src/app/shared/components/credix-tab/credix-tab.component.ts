@@ -1,4 +1,16 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren
+} from '@angular/core';
 
 const INIT_OFFSET = 0;
 
@@ -8,12 +20,12 @@ const INIT_OFFSET = 0;
   templateUrl: './credix-tab.component.html',
   styleUrls: ['./credix-tab.component.scss']
 })
-export class CredixTabComponent implements OnInit, OnChanges {
+export class CredixTabComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() tabs: Tab[];
+  @Input() active: Tab;
+  @Output() activeChange = new EventEmitter<Tab>();
   @Output() selectionEvent: EventEmitter<Tab> = new EventEmitter<Tab>();
-  activeTab = '';
-  activeIndex = 0;
-  previousIndex = 0;
+  @ViewChildren('element') tabElements: QueryList<ElementRef>;
   currentOffset = 0;
   displacement = 0;
 
@@ -23,20 +35,36 @@ export class CredixTabComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.activeTab = this.tabs[0]?.name;
-    this.displacement = INIT_OFFSET;
-    this.currentOffset = INIT_OFFSET;
+  ngAfterViewInit() {
+    setTimeout(() => this.changeTabPosition(), 0);
   }
 
-  isTabSelected(tab: Tab, index: number, offsetLeft: number) {
-    this.selectionEvent.emit(tab);
-    this.activeTab = tab.name;
-    if (this.activeIndex !== index) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.tabElements) {
+      setTimeout(() => this.changeTabPosition(), 0);
+    }
+  }
+
+  changeTabPosition() {
+    if (!this.active) {
+      this.active = this.tabs[0];
+      this.displacement = INIT_OFFSET;
+      this.currentOffset = INIT_OFFSET;
+    } else {
+      const index = this.tabs.findIndex(tab => tab.id === this.active.id);
+      const offsetLeft = this.tabElements.toArray()[index].nativeElement.offsetLeft;
       const offset = offsetLeft === 0 ? offsetLeft : offsetLeft - 5;
       this.displacement = offset - this.currentOffset + this.displacement;
-      this.previousIndex = this.activeIndex;
-      this.activeIndex = index;
+      this.currentOffset = offset;
+    }
+  }
+
+  isTabSelected(tab: Tab, offsetLeft: number) {
+    if (this.active.id !== tab.id) {
+      this.selectionEvent.emit(tab);
+      const offset = offsetLeft === 0 ? offsetLeft : offsetLeft - 5;
+      this.displacement = offset - this.currentOffset + this.displacement;
+      this.active = tab;
       this.currentOffset = offset;
     }
   }

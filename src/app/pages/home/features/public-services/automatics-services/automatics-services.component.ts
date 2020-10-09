@@ -15,7 +15,6 @@ export class AutomaticsServicesComponent implements OnInit {
   ];
   optionSelected = 0;
   category: string;
-
   schedulePayments: SchedulePayments[] = [];
   dataToDetail: {
     id: number;
@@ -38,7 +37,6 @@ export class AutomaticsServicesComponent implements OnInit {
   schedulePaymentsDetail(data) {
     this.optionSelected = data.id;
     const date: Date = new Date(data.startDate);
-
     this.dataToDetail = {
       id: data.id,
       alias: data.alias,

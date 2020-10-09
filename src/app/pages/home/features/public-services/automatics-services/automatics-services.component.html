@@ -58,8 +58,8 @@
 
     <div class="automatics-services__footer">
       <credix-button fxLayoutAlign="flex-end center"
-                     route="/home/favorites-management/automatics?q={{dataToDetail?.id}}"
-                     text="Editar"></credix-button>
+                     [routerLink]="['/home/favorites-management/automatics', dataToDetail?.id]">Editar
+      </credix-button>
     </div>
   </div>
 

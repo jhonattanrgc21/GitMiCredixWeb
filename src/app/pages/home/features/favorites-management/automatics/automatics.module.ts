@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: '',
     component: AutomaticsComponent
+  },
+  {
+    path: ':id',
+    component: AutomaticsComponent
   }
 ];
 

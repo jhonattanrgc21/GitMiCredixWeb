@@ -56,9 +56,8 @@
   </div>
 
   <div class="new-recharge__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-    <credix-button (buttonClick)="openModal()" [disabled]="rechargeFormGroup.invalid"
-                   text="Recargar"></credix-button>
+    <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="openModal()" [disabled]="rechargeFormGroup.invalid">Recargar</credix-button>
   </div>
 </form>
 

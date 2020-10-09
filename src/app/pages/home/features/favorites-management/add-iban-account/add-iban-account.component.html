@@ -42,10 +42,10 @@
 
   <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
       <credix-button (buttonClick)="addIbanFavoriteAccount()"
-                     [disabled]="!newFavoriteIbanForm.valid || !codeCredix.valid"
-                     text="Añadir"></credix-button>
+                     [disabled]="!newFavoriteIbanForm.valid || !codeCredix.valid">Añadir
+      </credix-button>
     </div>
   </div>
 </mat-card>
@@ -64,7 +64,7 @@
 
     <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
       <div fxLayoutGap="16px">
-        <credix-button (buttonClick)="back()" text="Listo"></credix-button>
+        <credix-button (buttonClick)="back()">Listo</credix-button>
       </div>
     </div>
   </mat-card>
