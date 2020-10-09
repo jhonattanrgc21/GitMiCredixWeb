@@ -10,6 +10,7 @@ import {Keys} from '../../../../../shared/models/keys';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {PopupReceiptComponent} from '../popup-receipt/popup-receipt.component';
 import {PopupReceipt} from '../../../../../shared/models/popup-receipt';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 
 @Component({
     selector: 'app-new-recharge',
@@ -44,7 +45,6 @@ export class NewRechargeComponent implements OnInit {
     message: string;
     status: 'success' | 'error';
     keys: Keys[];
-    quantityOfKeys: number;
     today = new Date();
     @ViewChild('newRechargeStepper') stepper: CdkStepper;
 
@@ -52,11 +52,17 @@ export class NewRechargeComponent implements OnInit {
                 private publicServicesApiService: PublicServicesApiService,
                 private router: Router,
                 private modalService: ModalService,
+                private credixCodeErrorService: CredixCodeErrorService,
                 private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
         this.getMinAmounts();
+        this.setErrorCredixCode();
+        this.getRouteParams();
+    }
+
+    getRouteParams() {
         this.route.params.subscribe(params => {
             this.publicServiceId = +params.serviceId;
             this.getEnterprise(+params.categoryId, +params.enterpriseId);
@@ -73,10 +79,6 @@ export class NewRechargeComponent implements OnInit {
     getPublicService(enterpriseId: number, publicServiceId: number) {
         this.publicServicesApiService.getPublicServiceByEnterprise(enterpriseId).subscribe(publicService => {
             this.keys = publicService.find(elem => elem.publicServiceId === publicServiceId).keys;
-            console.log(this.keys);
-            this.quantityOfKeys = publicService
-                .find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
-
         });
     }
 
@@ -139,12 +141,7 @@ export class NewRechargeComponent implements OnInit {
             this.publicServiceId,
             this.rechargeFormGroup.controls.phoneNumber.value,
             this.rechargeFormGroup.controls.favorite.value,
-            this.rechargeFormGroup.controls.credixCode.value).subscribe(result => {
-            if (result.status && result.status === 406) {
-                this.rechargeFormGroup.controls.credixCode.setErrors({invalid: true});
-                this.rechargeFormGroup.updateValueAndValidity();
-            }
-        });
+            this.rechargeFormGroup.controls.credixCode.value).subscribe();
     }
 
     back() {
@@ -167,6 +164,13 @@ export class NewRechargeComponent implements OnInit {
                     this.hasReceipts = false;
                 }
             });
+    }
+
+    setErrorCredixCode() {
+        this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+            this.rechargeFormGroup.controls.credixCode.setErrors({invalid: true});
+            this.rechargeFormGroup.updateValueAndValidity();
+        });
     }
 
     openBillingModal() {
