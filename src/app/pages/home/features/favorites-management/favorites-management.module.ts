@@ -27,6 +27,8 @@ import {IbanAccountsService} from './iban-accounts/iban-accounts.service';
 import {FavoritesPaymentsService} from './favorites-payments/favorites-payments.service';
 import {AutomaticsService} from './automatics/automatics.service';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
+import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {CredixDatePickerModule} from '../../../../shared/components/credix-date-picker/credix-date-picker.module';
 
 const routes: Routes = [
   {
@@ -48,6 +50,10 @@ const routes: Routes = [
       },
       {
         path: 'automatics',
+        loadChildren: () => import('./automatics/automatics.module').then(m => m.AutomaticsModule)
+      },
+      {
+        path: 'automatics/:id',
         loadChildren: () => import('./automatics/automatics.module').then(m => m.AutomaticsModule)
       }
     ]
@@ -92,6 +98,8 @@ const routes: Routes = [
     NgxMaskModule,
     DateFormatterModule,
     SimplebarAngularModule,
+    CredixCodeLinkModule,
+    CredixDatePickerModule,
   ],
   providers: [
     FavoritesManagementService,

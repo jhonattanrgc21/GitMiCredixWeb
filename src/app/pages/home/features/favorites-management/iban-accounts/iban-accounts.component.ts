@@ -4,6 +4,7 @@ import {FavoritesManagementService} from '../favorites-management.service';
 import {IbanAccountsService} from './iban-accounts.service';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {ToastData} from '../../../../../shared/components/credix-toast/credix-toast-config';
+import {FavoriteIbanAccount} from '../../../../../shared/models/favorite-iban-account';
 
 @Component({
   selector: 'app-iban-accounts',
@@ -13,17 +14,13 @@ import {ToastData} from '../../../../../shared/components/credix-toast/credix-to
 export class IbanAccountsComponent implements OnInit, AfterViewInit {
 
   showContent = false;
-  data: { ibanAccount: string; IdAccountFavorite: number; };
+  data: FavoriteIbanAccount;
   ibanAccountDetailInput: FormControl = new FormControl(null);
   isUpdating = false;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private ibanAccountsService: IbanAccountsService,
               private toastService: CredixToastService) {
-    this.data = {
-      ibanAccount: '',
-      IdAccountFavorite: 0
-    };
   }
 
   ngOnInit(): void {
@@ -32,15 +29,13 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
+    this.getDeletedSuccess();
   }
 
   getIbanAccountDetail() {
-    this.favoritesManagementService.ibanAccountData.subscribe(response => {
-      this.data = {
-        ibanAccount: response.ibanAccount,
-        IdAccountFavorite: response.IdAccountFavorite
-      };
-      this.ibanAccountDetailInput.setValue(response.aliasName);
+    this.favoritesManagementService.ibanAccount.subscribe((response) => {
+      this.data = response;
+      this.ibanAccountDetailInput.setValue(this.data?.aliasName);
     });
   }
 
@@ -73,5 +68,13 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
         this.isUpdating = this.ibanAccountDetailInput.valid;
       });
     }
+  }
+
+  getDeletedSuccess() {
+    this.favoritesManagementService.deleted.subscribe((response) => {
+      if (response.iban) {
+        this.data = null;
+      }
+    });
   }
 }

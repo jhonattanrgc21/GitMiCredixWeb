@@ -21,6 +21,7 @@ import {CredixResultNotificationModule} from '../../../../shared/components/cred
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {ChangePasswordService} from './change-password.service';
 
 const routes: Routes = [
   {
@@ -51,9 +52,11 @@ const routes: Routes = [
     CredixDividerModule,
     CredixResultViewModule,
     CredixCodeLinkModule
-
   ],
-  providers: [ModalService]
+  providers: [
+    ChangePasswordService,
+    ModalService
+  ]
 })
 export class ChangePasswordModule {
 }

@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {FlexModule} from '@angular/flex-layout';
 import {RouterModule, Routes} from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
-
 import {ExtendTermComponent} from './extend-term.component';
 import {CredixPopupModule} from '../../../../shared/components/credix-popup/credix-popup.module';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';

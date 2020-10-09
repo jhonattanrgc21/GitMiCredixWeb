@@ -2,7 +2,7 @@
   <div [ngClass]="[!toggleGradient ? 'credix-payment-bar__horizontal-line--yellow-to-red' :
        'credix-payment-bar__horizontal-line--green-to-yellow']"
        class="credix-payment-bar__horizontal-line">
-    <div [style.left]="displacement + '%'" class="credix-payment-bar__meter">
+    <div [style.left]="'calc(' + displacement + '% - 12px)'" class="credix-payment-bar__meter">
       <span class="credix-payment-bar__meter__label">{{meterLabel}}</span>
       <span class="credix-payment-bar__meter__line"></span>
     </div>

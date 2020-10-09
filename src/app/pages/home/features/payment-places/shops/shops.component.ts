@@ -48,7 +48,7 @@ export class ShopsComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.firstSubtitleTag = tags.find(tag => tag.description === 'lugares.tab1.subtitle1').value;
-    this.secondSubtitleTag = tags.find(tag => tag.description === 'lugares.tab1.subtitle2').value;
+    this.firstSubtitleTag = tags.find(tag => tag.description === 'lugares.tab1.subtitle1')?.value;
+    this.secondSubtitleTag = tags.find(tag => tag.description === 'lugares.tab1.subtitle2')?.value;
   }
 }

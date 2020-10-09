@@ -2,6 +2,11 @@ export interface AccountsFavoriteManagement {
   name: string;
   account: any;
   IdAccountFavorite?: number;
+  identification?: string;
+  ibanBank?: string;
+  ibanAccount?: string;
+  aliasName?: string;
+  typeIdentificacionId?: string;
   publicServiceFavoriteName?: string;
   serviceReference?: string;
   publicServiceCategory?: string;
@@ -15,7 +20,7 @@ export interface AccountsFavoriteManagement {
   publicServiceEnterpriseDescription?: string;
   publicServiceAccessKeyId?: number;
   publicServiceCode?: number;
-  publicServiceFavoriteId?: string;
+  publicServiceFavoriteId?: number | string;
   publicServiceAccessKeyType?: number;
   publicServiceEnterpriseCode?: string;
   publicServiceDescription?: string;
@@ -23,6 +28,8 @@ export interface AccountsFavoriteManagement {
   id?: number;
   maxAmount?: number;
   periodicityDescription?: string;
-  startDate?: Date;
+  startDate?: string;
   key?: number;
+  publicServiceCategoryId?: number;
+  publicServiceCategoryName?: string;
 }

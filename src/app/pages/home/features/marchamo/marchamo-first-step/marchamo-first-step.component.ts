@@ -41,42 +41,28 @@ export class MarchamoFirstStepComponent implements OnInit {
   }
 
   getVehicleTypes() {
-    this.httpService.post('marchamos', 'pay/platetypes', {channelId: 102})
-      .subscribe(response => {
-        this.vehicleTypes = response.plateTypesList;
-      });
+    this.marchamosService.getVehiclePlate()
+      .subscribe((response) => this.vehicleTypes = response);
   }
 
   consult() {
-    this.httpService.post('marchamos', 'pay/vehicleconsult', {
-      plateClassId: this.consultForm.controls.vehicleType.value.toString(),
-      plateNumber: this.consultForm.controls.plateNumber.value.toUpperCase(),
-      aditionalProducts: [
-        //  {
-        //    productCode: 5
-        //  },
-        //  {
-        //    productCode: 6
-        //  },
-        //  {
-        //    productCode: 8
-        //  }
-      ]
-    }).subscribe(response => {
-      if (response.type === 'success') {
-        this.consultVehicle = response.REQUESTRESULT.soaResultVehicleConsult.header;
-        this.consultVehicle.amount = typeof response.REQUESTRESULT.soaResultVehicleConsult.header.amount === 'string' ?
-          +response.REQUESTRESULT.soaResultVehicleConsult.header.amount.replace('.', '').replace(',', '.') :
-          response.REQUESTRESULT.soaResultVehicleConsult.header.amount;
+    this.marchamosService
+      .getConsultVehicle(this.consultForm.controls.vehicleType.value.toString(),
+        this.consultForm.controls.plateNumber.value.toUpperCase())
+      .subscribe((response) => {
+        this.consultVehicle = response.header;
+        // this.consultVehicle.amount = typeof response.header.amount === 'string' ?
+        //   +response.header.amount.replace('.', '').replace(',', '.') :
+        //   response.header.amount;
+        this.consultVehicle.amount = response.item.reduce((a, b) => a + b.itemCurrentAmount, 0);
+        this.marchamosService.marchamoAmount = this.consultVehicle.amount;
         this.marchamosService.consultVehicle = this.consultVehicle;
-        this.marchamosService.billingHistories = response.REQUESTRESULT.soaResultVehicleConsult.item;
+        this.marchamosService.billingHistories = response.item;
+        this.marchamosService.haveAdditionalProducts = response.aditionalProducts.length > 0;
         if (this.marchamosService.consultVehicle && this.marchamosService.billingHistories) {
           this.marchamosService.emitVehicleConsulted();
         }
-      } else {
-        this.toastService.show({text: response.message, type: 'error'});
-      }
-    });
+      });
   }
 
   getTags(tags: Tag[]) {

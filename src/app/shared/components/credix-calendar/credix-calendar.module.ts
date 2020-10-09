@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {CredixCalendarComponent} from './credix-calendar.component';
 import {FlexModule} from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [CredixCalendarComponent],
@@ -12,7 +13,8 @@ import {MatButtonModule} from '@angular/material/button';
   imports: [
     CommonModule,
     FlexModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
   ]
 })
 export class CredixCalendarModule {

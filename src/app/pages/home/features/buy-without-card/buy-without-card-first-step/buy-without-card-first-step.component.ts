@@ -23,7 +23,7 @@ export class BuyWithoutCardFirstStepComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.step1 = tags.find(tag => tag.description === 'compra.stepper1').value;
+    this.step1 = tags.find(tag => tag.description === 'compra.stepper1')?.value;
 }
 
 }

@@ -79,17 +79,21 @@
     <div class="personal-info-editor__content mt-16px" fxLayout="row" fxLayoutAlign="space-between">
       <credix-code-link></credix-code-link>
 
-      <credix-code-input [(codeFormControl)]="personalInfoFormGroup.controls.code"
-                         class="personal-info-editor__content__right-wrapper"
-                         errorMessage="Código erroneo"></credix-code-input>
+      <credix-code-input class="personal-info-editor__content__right-wrapper"
+                         formControlName="code">
+       <span *ngIf="personalInfoFormGroup.controls.code.hasError('required')"
+             error>Introduzca el código credix.</span>
+        <span *ngIf="personalInfoFormGroup.controls.code.hasError('invalid')"
+              error>Código credix inválido.</span>
+      </credix-code-input>
     </div>
 
     <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="goBack()" text="Atrás" type="secondary"></credix-button>
+      <credix-button [routerLink]="['/home/personal-info']" type="secondary">Atrás</credix-button>
       <credix-button (buttonClick)="edit()"
                      [disabled]="personalInfoFormGroup.invalid
-                     || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)"
-                     text="Guardar">
+                     || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)">
+        Guardar
       </credix-button>
     </div>
   </form>

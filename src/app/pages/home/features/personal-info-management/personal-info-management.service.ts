@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {CacheBuster} from 'ngx-cacheable';
-import {cleanProfilePhoto$} from '../../../../core/services/applicant-api.service';
+import {cleanProfilePhoto$, cleanUserInfo$} from '../../../../core/services/applicant-api.service';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class PersonalInfoManagementService {
@@ -29,17 +30,32 @@ export class PersonalInfoManagementService {
   })
   saveApplicantProfilePhoto(image: string, format: string, size: number) {
     return this.httpService.post('canales', this.saveApplicantProfilePhotoUri, {
-      identification: this.storageService.getIdentification(),
+      identification: this.storageService.getCurrentUser().identification,
       imagebase64: image,
       formatImage: format,
       size
     });
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: cleanUserInfo$
+  })
   updateApplicantInfo(applicantInfo: {
-    email: string; phoneApplicant: string; countryId: number; incomeOriginId: number; occupationId: number;
-    provinceId: number; cantonId: number; districtId: number; addressApplicant: string; credixCode: string
+    email: string;
+    phoneApplicant: string;
+    countryId: number;
+    incomeOriginId: number;
+    occupationId: number;
+    provinceId: number;
+    cantonId: number;
+    districtId: number;
+    addressApplicant: string;
+    credixCode: string
   }) {
-    return this.httpService.post('canales', this.updateApplicantInfoUri, {...applicantInfo});
+    return this.httpService.post('canales', this.updateApplicantInfoUri, {...applicantInfo})
+      .pipe(
+        map(response => {
+          return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
+        }));
   }
 }

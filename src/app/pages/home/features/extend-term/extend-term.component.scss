@@ -44,6 +44,10 @@
 
   &__text-disabled {
     color: #D2D2D2;
+
+    ::ng-deep .credix-numeric-block__integer, ::ng-deep .credix-numeric-block__decimal {
+      color: #D2D2D2;
+    }
   }
 
   &__message {

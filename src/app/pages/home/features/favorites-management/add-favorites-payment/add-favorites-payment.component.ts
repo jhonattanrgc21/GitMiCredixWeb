@@ -7,6 +7,9 @@ import {PublicService} from '../../../../../shared/models/public-service';
 import {Router} from '@angular/router';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {FavoritesManagementService} from '../favorites-management.service';
+import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -29,9 +32,11 @@ export class AddFavoritesPaymentComponent implements OnInit {
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
 
   constructor(private favoritesPaymentsService: FavoritesPaymentsService,
+              private publicServiceApi: PublicServicesApiService,
               private router: Router,
               private modalService: ModalService,
-              private favoritesManagementService: FavoritesManagementService) {
+              private favoritesManagementService: FavoritesManagementService,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   get newFavoritesPaymentControls() {
@@ -48,23 +53,24 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
+    this.getCredixCodeError();
   }
 
   getCategory() {
-    this.favoritesPaymentsService.getPublicCategoryServices()
+    this.publicServiceApi.getPublicServiceCategories()
       .subscribe((response) => {
         this.publicServicesCategory = response;
       });
   }
 
-  getCompany(publicServicesId: number) {
-    this.favoritesPaymentsService.getPublicEnterpriseServicesByCategory(publicServicesId).subscribe((response) => {
+  getCompany(categoryId: number) {
+    this.publicServiceApi.getPublicServiceEnterpriseByCategory(categoryId).subscribe((response) => {
       this.publicCompany = response;
     });
   }
 
   getService(enterpriseId: number) {
-    this.favoritesPaymentsService.getPublicServicesByEnterprise(enterpriseId)
+    this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
         this.publicServices = response;
       });
@@ -82,8 +88,12 @@ export class AddFavoritesPaymentComponent implements OnInit {
             this.newFavoritesPaymentControls.publicService.value,
             this.newFavoritesPaymentControls.phoneNumber.value,
             this.newFavoritesPaymentControls.favoriteName.value,
-            +this.codeCredix.value).subscribe((response) => {
-            this.done = true;
+            +this.codeCredix.value)
+            .pipe(finalize(() => {
+              if (!this.codeCredix.hasError('invalid')) {
+                this.done = true;
+              }
+            })).subscribe((response) => {
             this.result = {
               status: response.type || response.titleOne,
               message: response.descriptionOne,
@@ -104,5 +114,12 @@ export class AddFavoritesPaymentComponent implements OnInit {
       favoriteName: this.newFavoritesPaymentControls.favoriteName.value,
       phoneNumber: this.newFavoritesPaymentControls.phoneNumber.value
     };
+  }
+
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.codeCredix.setErrors({invalid: true});
+      this.newFavoritesPaymentForm.updateValueAndValidity();
+    });
   }
 }

@@ -36,7 +36,7 @@
         <credix-input-field *ngIf="anotherAmount" class="new-recharge__content__input favorite mb-8px"
                             formControlName="amount" label="Otro monto"
                             mask="separator">
-          <div error>El monto mínimo permitido es ₡1.000,00</div>
+          <div error>El monto mínimo permitido es ₡{{amounts[0].amount}}</div>
         </credix-input-field>
       </div>
     </div>
@@ -46,16 +46,18 @@
     <div class="new-recharge__content" fxLayout="row" fxLayoutAlign="space-between">
       <credix-code-link></credix-code-link>
 
-      <credix-code-input [codeFormControl]="rechargeFormGroup.controls.credixCode" [length]="6"
-                         class="new-recharge__content__input  left-content"
-                         errorMessage="Introduzca el codigo de confirmación"></credix-code-input>
+      <credix-code-input class="new-recharge__content__input left-content" formControlName="credixCode">
+       <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('required')"
+             error>Introduzca el código credix.</span>
+        <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('invalid')"
+              error>Código credix inválido.</span>
+      </credix-code-input>
     </div>
   </div>
 
   <div class="new-recharge__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-    <credix-button (buttonClick)="openModal()" [disabled]="rechargeFormGroup.invalid"
-                   text="Recargar"></credix-button>
+    <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="openModal()" [disabled]="rechargeFormGroup.invalid">Recargar</credix-button>
   </div>
 </form>
 

@@ -67,22 +67,22 @@ export class PersonalInfoComponent implements OnInit {
       .subscribe(applicantInfo => {
         if (applicantInfo) {
           this.email = applicantInfo.applicant.email;
-          this.phoneNumber = applicantInfo.applicant.phoneApplicant?.find(phone => phone.phoneType.id = 1).phone;
+          this.phoneNumber = applicantInfo.applicant.phoneApplicant?.find(phone => phone.phoneType.id === 1).phone;
           this.nationality = applicantInfo.applicant.country?.description;
           this.typeIncome = applicantInfo.applicant.typeIncomeApplicant?.description;
           this.occupation = applicantInfo.applicant.personApplicant?.occupation.description;
-          this.address = applicantInfo.applicant.addressApplicant?.find(add => add.addressType.id = 1).detail;
+          this.address = applicantInfo.applicant.addressApplicant?.find(add => add.addressType.id === 1).detail;
 
           this.personalInfoManagementService.applicantInfo = {
             email: this.email,
             phoneNumber: this.phoneNumber,
+            addressDetail: this.address,
             country: applicantInfo.applicant.country?.id,
             occupation: applicantInfo.applicant.personApplicant.occupation?.id,
-            addressDetail: this.address,
             incomeType: applicantInfo.applicant.typeIncomeApplicant?.id,
-            province: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).province.id,
-            canton: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).canton.id,
-            district: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id = 1).district.id
+            province: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).province.id,
+            canton: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).canton.id,
+            district: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).district.id
           };
         }
       });

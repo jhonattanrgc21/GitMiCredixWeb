@@ -5,6 +5,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {DigitOnlyModule} from '../../directives/digit-only/digit-only.module';
+import {NgxMaskModule} from 'ngx-mask';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {DigitOnlyModule} from '../../directives/digit-only/digit-only.module';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    DigitOnlyModule
+    DigitOnlyModule,
+    NgxMaskModule
   ]
 })
 export class CredixCodeInputModule {

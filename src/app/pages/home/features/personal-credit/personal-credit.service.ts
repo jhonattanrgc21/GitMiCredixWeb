@@ -53,7 +53,7 @@ export class PersonalCreditService {
 
   checkIbanColonesAccount(ibanAccount: string) {
     return this.httpService.post('canales', this.getIbanAccountInfoUri, {
-      identification: this.storageService.getIdentification(),
+      identification: this.storageService.getCurrentUser().identification,
       ibanAccount,
       currencyValidationTag: 'L',
       bankValidationTag: '1'

@@ -52,23 +52,23 @@ export class DigitalPaymentsComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.phoneNumberTag = tags.find(tag => tag.description === 'lugares.tab2.link').value;
-    this.firstSubtitleTag = tags.find(tag => tag.description === 'lugares.tab2.subtitle1').value;
-    this.secondSubtitleTag = tags.find(tag => tag.description === 'lugares.tab2.subtitle2').value;
-    this.thirdSubtitleTag = tags.find(tag => tag.description === 'lugares.tab2.subtitle3').value;
-    this.credixTag = tags.find(tag => tag.description === 'lugares.tab2.tag.credix').value;
-    this.dollarTag = tags.find(tag => tag.description === 'lugares.tab2.tag.dolares').value;
-    this.colonesTag = tags.find(tag => tag.description === 'lugares.tab2.tag.colones').value;
-    this.accountNameTag = tags.find(tag => tag.description === 'lugares.tab2.tag.nombre').value;
-    this.ibanDollarsTag = tags.find(tag => tag.description === 'lugares.tab2.tag.ibandolares').value;
-    this.ibanColonesTag = tags.find(tag => tag.description === 'lugares.tab2.tag.ibancolones').value;
-    this.identificationTag = tags.find(tag => tag.description === 'lugares.tab2.tag.cedula2').value;
-    this.legalIdentificationTag = tags.find(tag => tag.description === 'lugares.tab2.tag.cedula').value;
-    this.firstTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag.sinpem').value;
-    this.secondTexTag = tags.find(tag => tag.description === 'lugares.tab2.tag.trans1').value;
-    this.thirdTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag.trans2').value;
-    this.fourthTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag10').value;
-    this.fifthTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag11').value;
-    this.sixthTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag12').value;
+    this.phoneNumberTag = tags.find(tag => tag.description === 'lugares.tab2.link')?.value;
+    this.firstSubtitleTag = tags.find(tag => tag.description === 'lugares.tab2.subtitle1')?.value;
+    this.secondSubtitleTag = tags.find(tag => tag.description === 'lugares.tab2.subtitle2')?.value;
+    this.thirdSubtitleTag = tags.find(tag => tag.description === 'lugares.tab2.subtitle3')?.value;
+    this.credixTag = tags.find(tag => tag.description === 'lugares.tab2.tag.credix')?.value;
+    this.dollarTag = tags.find(tag => tag.description === 'lugares.tab2.tag.dolares')?.value;
+    this.colonesTag = tags.find(tag => tag.description === 'lugares.tab2.tag.colones')?.value;
+    this.accountNameTag = tags.find(tag => tag.description === 'lugares.tab2.tag.nombre')?.value;
+    this.ibanDollarsTag = tags.find(tag => tag.description === 'lugares.tab2.tag.ibandolares')?.value;
+    this.ibanColonesTag = tags.find(tag => tag.description === 'lugares.tab2.tag.ibancolones')?.value;
+    this.identificationTag = tags.find(tag => tag.description === 'lugares.tab2.tag.cedula2')?.value;
+    this.legalIdentificationTag = tags.find(tag => tag.description === 'lugares.tab2.tag.cedula')?.value;
+    this.firstTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag.sinpem')?.value;
+    this.secondTexTag = tags.find(tag => tag.description === 'lugares.tab2.tag.trans1')?.value;
+    this.thirdTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag.trans2')?.value;
+    this.fourthTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag10')?.value;
+    this.fifthTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag11')?.value;
+    this.sixthTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag12')?.value;
   }
 }

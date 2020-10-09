@@ -27,6 +27,7 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
   });
   identificationTypes: IdentificationType[];
   identificationMask = '0-0000-0000';
+  today = new Date();
   limitTag: string;
   subTitleTag: string;
 
@@ -64,7 +65,7 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
   }
 
   openCalendar() {
-    this.modalService.calendarPopup(null, new Date()).subscribe(modal => {
+    this.modalService.openCalendarPopup(null, new Date()).subscribe(modal => {
       if (modal) {
         this.userInfoFormGroup.controls.birthday.setValue(modal.date);
       }

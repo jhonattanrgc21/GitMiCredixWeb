@@ -3,10 +3,10 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,
 import {Observable, throwError} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {StorageService} from '../services/storage.service';
-import {CredixToastService} from '../services/credix-toast.service';
 import {LoadingSpinnerService} from '../services/loading-spinner.service';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
+import {CredixCodeErrorService} from '../services/credix-code-error.service';
 
 @Injectable()
 export class HttpRequestsResponseInterceptor implements HttpInterceptor {
@@ -17,7 +17,7 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
   private printUserInfo = true;
 
   constructor(private storageService: StorageService,
-              private toastService: CredixToastService,
+              private credixCodeErrorService: CredixCodeErrorService,
               private loadingSpinnerService: LoadingSpinnerService,
               private router: Router) {
   }
@@ -49,6 +49,10 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
               this.storageService.setCurrentToken(event.headers.get('x-auth-token'));
               this.print();
             }
+          }
+
+          if (event.body.status && event.body.status === 406) {
+            this.credixCodeErrorService.emitCredixCodeError();
           }
 
           if (event.body.status === 401) {

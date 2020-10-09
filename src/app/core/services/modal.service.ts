@@ -23,14 +23,9 @@ export class ModalService {
     };
   }
 
-  open(data: DialogData, options: DialogOptions = {
-         width: 800,
-         minHeight: 0,
-         height: 200,
-         disableClose: true
-       },
-       option: 1 | 2 = 1): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
-    switch (option) {
+  public open(data: DialogData, options: DialogOptions = {width: 800, minHeight: 0, height: 200, disableClose: true},
+              modalType: 1 | 2 = 1): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
+    switch (modalType) {
       case 1:
         return this.dialog.open<CredixPopupComponent, DialogData>(
           CredixPopupComponent,
@@ -64,7 +59,7 @@ export class ModalService {
     return dialogRef.afterClosed();
   }
 
-  public calendarPopup(startDate?: Date, endDate?: Date): Observable<any> {
+  public openCalendarPopup(startDate?: Date, endDate?: Date): Observable<any> {
     let dialogRef: MatDialogRef<CredixCalendarComponent>;
     dialogRef = this.dialog.open(CredixCalendarComponent, {
       disableClose: true,
@@ -75,7 +70,18 @@ export class ModalService {
     });
     dialogRef.componentInstance.endDate = endDate;
     dialogRef.componentInstance.startDate = startDate;
+    return dialogRef.afterClosed();
+  }
 
+  public openModalContainer(component: any, width: number | 'auto', height: number | 'auto', data: any):
+    Observable<boolean> {
+    const dialogRef = this.dialog.open(component, {
+      disableClose: true,
+      width: width === 'auto' ? width : `${width}px`,
+      height: height === 'auto' ? height : `${height}px`,
+      autoFocus: false,
+      data
+    });
     return dialogRef.afterClosed();
   }
 }

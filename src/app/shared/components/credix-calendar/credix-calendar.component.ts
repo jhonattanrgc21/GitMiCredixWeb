@@ -9,38 +9,24 @@ import {MatDialogRef} from '@angular/material/dialog';
 export class CredixCalendarComponent implements OnInit {
   startDate: Date;
   endDate: Date;
-  weeks: [number[]?] = [];
   date = new Date();
-  year = 1999;
+  selectedDate: Date;
+  weeks: [Date[]?] = [];
   dayOfWeek = '';
   month = '';
   longMonth = '';
-  activeDay = 0;
-  endDateYear: number;
-  endDateMonth: number;
-  endDateDay: number;
-  startDateYear: number;
-  startDateMonth: number;
-  startDateDay: number;
 
   constructor(public dialog: MatDialogRef<CredixCalendarComponent>) {
     this.getDate();
-    this.activeDay = this.date.getDate();
   }
 
   ngOnInit(): void {
-    this.endDateYear = this.endDate?.getFullYear();
-    this.endDateMonth = this.endDate?.getMonth() + 1;
-    this.endDateDay = this.endDate?.getDate();
-    this.startDateYear = this.startDate?.getFullYear();
-    this.startDateMonth = this.startDate?.getMonth() + 1;
-    this.startDateDay = this.startDate?.getDate();
+
   }
 
   getDate() {
     this.getDayOfWeek(this.date.getDay());
     this.getMonth(this.date.getMonth());
-    this.year = this.date.getFullYear();
     this.getWeeksInMonth(this.date.getFullYear(), this.date.getMonth());
   }
 
@@ -54,53 +40,52 @@ export class CredixCalendarComponent implements OnInit {
     this.getDate();
   }
 
-  close() {
-    this.dialog.close();
+  onDateClick(date: Date) {
+    this.selectedDate = date;
   }
 
   submit() {
-    this.dialog.close({date: new Date(this.date.getFullYear(), this.date.getMonth(), this.activeDay)});
+    this.dialog.close({date: this.selectedDate});
   }
 
   private getWeeksInMonth(year: number, month: number) {
     this.weeks = [];
     const daysInMonth: number = new Date(year, month + 1, 0).getDate();
     let dayOfWeek: number = new Date(year, month, 1).getDay();
-    let week = [0, 0, 0, 0, 0, 0, 0];
+    let week = [null, null, null, null, null, null, null];
 
     for (let i = 1; i <= daysInMonth; i++) {
       switch (dayOfWeek) {
         case 0 :
-          week[0] = i;
+          week[0] = new Date(year, month, i);
           break;
         case 1 :
-          week[1] = i;
+          week[1] = new Date(year, month, i);
           break;
         case 2 :
-          week[2] = i;
+          week[2] = new Date(year, month, i);
           break;
         case 3 :
-          week[3] = i;
+          week[3] = new Date(year, month, i);
           break;
         case 4 :
-          week[4] = i;
+          week[4] = new Date(year, month, i);
           break;
         case 5 :
-          week[5] = i;
+          week[5] = new Date(year, month, i);
           break;
         case 6 :
-          week[6] = i;
+          week[6] = new Date(year, month, i);
           break;
       }
 
       if (dayOfWeek === 6 || i === daysInMonth) {
         this.weeks.push(week);
-        week = [0, 0, 0, 0, 0, 0, 0];
+        week = [null, null, null, null, null, null, null];
       }
 
       dayOfWeek = new Date(year, month, i + 1).getDay();
     }
-
   }
 
   private getDayOfWeek(dayOfWeek: number) {

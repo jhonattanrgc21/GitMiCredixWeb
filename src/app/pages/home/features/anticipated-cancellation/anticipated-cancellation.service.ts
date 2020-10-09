@@ -3,6 +3,7 @@ import {HttpService} from '../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {Cancellation} from '../../../../shared/models/cancellation';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class AnticipatedCancellationService {
@@ -40,11 +41,14 @@ export class AnticipatedCancellationService {
     );
   }
 
-  saveAnticipatedCancellation(initialBalance: number, finalBalance: number, paymentList: Cancellation[]) {
+  saveAnticipatedCancellation(initialBalance: number, finalBalance: number, paymentList: Cancellation[]):
+    Observable<{ title: string, message: string, type: 'success' | 'error' }> {
     return this.httpService.post('canales', this.saveAnticipatedCancellationUri, {
       saldoInicial: initialBalance,
       saldoFinal: finalBalance,
       advancePaymentList: paymentList,
-    });
+    }).pipe(
+      map(response => ({title: response.titleOne, message: response.descriptionOne, type: response.type}))
+    );
   }
 }

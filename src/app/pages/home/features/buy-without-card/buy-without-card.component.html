@@ -13,7 +13,7 @@
       <app-buy-without-card-second-step [cardControl]="cardControl"
                                         [cards]="cards"
                                         [identification]="applicantIdentification"
-                                        [isActive]="(stepperIndex === 1)"
+                                        [isActive]="stepperIndex === 1"
                                         [lifeTimePin]="lifeTimePin"
                                         [name]="name"
                                         [pin]="pin"></app-buy-without-card-second-step>
@@ -22,8 +22,10 @@
   </credix-stepper>
 
   <div class="buy-without-card__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (click)="stepperIndex === 0 ? checkCredixCode() : goHome()" [disabled]="!codeCredix.valid"
-                   [text]="stepperIndex === 0 ? 'Continuar' : 'Listo' " fxLayoutAlign="flex-end"></credix-button>
+    <credix-button (buttonClick)="stepperIndex === 0 ? checkCredixCode() : goHome()"
+                   [disabled]="codeCredix.invalid">
+      {{stepperIndex === 0 ? 'Continuar' : 'Listo'}}
+    </credix-button>
   </div>
 
 </mat-card>

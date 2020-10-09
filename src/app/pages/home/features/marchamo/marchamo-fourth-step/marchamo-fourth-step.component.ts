@@ -16,10 +16,11 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   @Input() isActive = false;
   @Input() contactInfo: { name: string, phone: number, email: string };
   @Input() deliveryPlace: string;
-  @Input() total: number;
-  @Input() amountTotalProducts: number;
-  @Input() totalAmount: number;
+  @Input() totalMarchamo: number;
   @Input() iva: number;
+  amountOfItemProduct: { amounts: number; productCode: number; }[];
+  totalOfItemProduct = 0;
+  total = 0;
   commission: number;
   step4TagIva: string;
   step4Subt1: string;
@@ -32,6 +33,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
 
   constructor(private tagsService: TagsService,
               private marchamosService: MarchamoService) {
+    this.amountOfItemProduct = null;
   }
 
   ngOnInit(): void {
@@ -46,20 +48,21 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
     if (changes.isActive && this.isActive) {
       this.iva = this.marchamosService.iva;
       this.commission = this.marchamosService.commission;
-      this.marchamosService.amountProducts.forEach(value => {
-        this.computeCalculate(value.amounts);
-      });
+      this.amountOfItemProduct = this.marchamosService.amountProducts;
+      this.computeCalculate();
       this.getTotalSum();
     }
   }
 
   getTotalSum() {
-    this.total = this.total + this.totalAmount + this.amountTotalProducts + this.iva + this.commission;
-    this.marchamosService.total = this.total;
+    let sum: number;
+    sum = this.totalMarchamo + this.totalOfItemProduct + this.iva + this.commission;
+    this.total = sum;
   }
 
-  computeCalculate(value: number) {
-    this.amountTotalProducts += value;
+  computeCalculate() {
+    this.totalOfItemProduct = (this.amountOfItemProduct !== undefined) ?
+      this.amountOfItemProduct.reduce((a, b) => a + b.amounts, 0) : 0;
   }
 
   getTags(tags: Tag[]) {

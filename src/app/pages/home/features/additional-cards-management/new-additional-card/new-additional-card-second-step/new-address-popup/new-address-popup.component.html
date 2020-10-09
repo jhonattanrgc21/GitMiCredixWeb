@@ -30,11 +30,11 @@
                       label="Persona que recibe"></credix-input-field>
 
   <credix-input-field class="additional-card-new-address__input" formControlName="phoneNumber"
-                      label="Teléfono de quién recibe"
+                      label="Teléfono de quien recibe"
                       mask="0000-0000"></credix-input-field>
 
   <credix-button (click)="submit()"
                  [disabled]="newAddressFormGroup.invalid || (newAddressFormGroup.valid && !newAddressFormGroup.dirty)"
-                 class="additional-card-new-address__button"
-                 text="Agregar"></credix-button>
+                 class="additional-card-new-address__button">Agregar
+  </credix-button>
 </form>

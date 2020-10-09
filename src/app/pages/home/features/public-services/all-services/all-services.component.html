@@ -3,9 +3,8 @@
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
 
     <div *ngFor="let category of categories"
-         [class.is-open]="categorySelected?.publicServiceCategoryId === category.publicServiceCategoryId"
-         class="all-public-services__categories-container"
-         fxLayout="column">
+         [class.is-open]="categorySelected?.publicServiceCategoryId === category.publicServiceCategoryId && openSubmenu"
+         class="all-public-services__categories-container" fxLayout="column">
       <a (click)="getPublicServiceEnterpriseByCategory(category)" class="pointer"
          fxLayout="row" fxLayoutAlign="space-between">
         <span fxLayout="row" fxLayoutAlign="flex-start center">
@@ -22,7 +21,8 @@
              [ngClass]="{'bold' : enterprise.publicServiceEnterpriseId === enterpriseSelected?.publicServiceEnterpriseId}"
              class="truncate pointer">
             {{enterprise.publicServiceEnterpriseDescription}}</a>
-          <mat-icon *ngIf="enterprise.publicServiceEnterpriseId === enterpriseSelected?.publicServiceEnterpriseId"
+          <mat-icon *ngIf="enterprise.publicServiceEnterpriseId === enterpriseSelected?.publicServiceEnterpriseId
+                          && openSubmenu"
                     style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
         </div>
       </ng-container>

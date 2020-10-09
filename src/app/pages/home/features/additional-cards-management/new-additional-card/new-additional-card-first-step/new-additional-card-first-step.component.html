@@ -6,10 +6,10 @@
     <div class="new-additional-card-first-step__content__form" fxLayout="column" fxLayoutAlign="flex-start flex-end"
          fxLayoutGap="10px">
       <credix-input-field class="new-additional-card-first-step__content__input" formControlName="name"
-                          label="Nombre"></credix-input-field>
+                          label="Nombre del adicional"></credix-input-field>
 
       <credix-input-field class="new-additional-card-first-step__content__input" formControlName="lastName"
-                          label="Appellidos"></credix-input-field>
+                          label="Apellidos del adicional"></credix-input-field>
 
       <credix-select class="new-additional-card-first-step__content__input" formControlName="identificationType"
                      label="Tipo de identificación">
@@ -20,25 +20,20 @@
 
       <credix-input-field [mask]="identificationMask" class="new-additional-card-first-step__content__input"
                           focusLabel="Identificación"
-                          formControlName="identification" label="Número de identificación">
+                          formControlName="identification" label="Número de identificación  del adicional">
       </credix-input-field>
 
       <credix-input-field class="new-additional-card-first-step__content__input" formControlName="phoneNumber"
-                          label="Teléfono" mask="0000 0000">
+                          label="Teléfono del adicional" mask="0000 0000">
       </credix-input-field>
 
       <credix-input-field class="new-additional-card-first-step__content__input" formControlName="email"
-                          label="Correo electrónico">
+                          label="Correo electrónico del adicional">
         <div *ngIf="userInfoFormGroup.controls.email.errors?.email" error>Correo electrónico inválido</div>
       </credix-input-field>
 
-      <credix-input-field (click)="openCalendar()"
-                          [displayValue]="userInfoFormGroup.controls.birthday.value | dateFormatter: 'alphanumeric'"
-                          [readonly]="true" class="new-additional-card-first-step__content__input"
-                          formControlName="birthday"
-                          label="Fecha de nacimiento">
-        <mat-icon class="calendar-icon" suffix svgIcon="calendar"></mat-icon>
-      </credix-input-field>
+      <credix-date-picker [endDate]="today" class="new-additional-card-first-step__content__input"
+                          formControlName="birthday" label="Fecha de nacimiento del adicional"></credix-date-picker>
     </div>
   </div>
 
@@ -49,14 +44,10 @@
 
     <credix-slider (inputChange)="sliderChanged($event)"
                    (valueChange)="sliderChanged($event)"
+                   [instructions]="limitTag || 'Deseo asignar a esta tarjeta el'"
                    class="new-additional-card-first-step__content__slider"
                    displayMax="100%"
                    displayMin="25%"
-                   [instructions]="limitTag || 'Deseo asignar a esta tarjeta el'"
-                   max="100"
-                   min="25"
-                   step="25"
-                   units="%"
-                   value="25"></credix-slider>
+                   max="100" min="25" step="25" units="%" value="25"></credix-slider>
   </div>
 </form>

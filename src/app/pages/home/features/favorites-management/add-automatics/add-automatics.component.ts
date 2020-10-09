@@ -3,12 +3,14 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AutomaticsService} from '../automatics/automatics.service';
 import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
 import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
-import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {DatePipe} from '@angular/common';
 import {PublicService} from '../../../../../shared/models/public-service';
 import {Router} from '@angular/router';
 import {FavoritesManagementService} from '../favorites-management.service';
+import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-automatics',
@@ -16,14 +18,19 @@ import {FavoritesManagementService} from '../favorites-management.service';
   styleUrls: ['./add-automatics.component.scss']
 })
 export class AddAutomaticsComponent implements OnInit {
-
   periodicityList: { description: string; id: number; }[] = [];
   publicServicesCategory: PublicServiceCategory[];
   publicCompany: PublicServiceEnterprise[];
   publicServices: PublicService[];
+  today = new Date();
   result: { status: string; message: string; title: string; };
-  // tslint:disable-next-line:max-line-length
-  data: { publicServiceCategoryId: number; publicServiceEnterpriseId: number; publicServiceId: number; favoriteName: string; phoneNumber: number };
+  data: {
+    publicServiceCategoryId: number;
+    publicServiceEnterpriseId: number;
+    publicServiceId: number;
+    favoriteName: string;
+    phoneNumber: number
+  };
   done = false;
   resultAutomatics: boolean;
   newAutomaticsForm: FormGroup = new FormGroup({
@@ -33,17 +40,18 @@ export class AddAutomaticsComponent implements OnInit {
     phoneNumber: new FormControl(null, [Validators.required]),
     nameOfAutomatics: new FormControl(null, [Validators.required]),
     maxAmount: new FormControl(null, [Validators.required]),
-    startDate: new FormControl(null, [Validators.required]),
+    startDate: new FormControl(new Date(), [Validators.required]),
     periodicity: new FormControl(null, [Validators.required]),
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
 
   constructor(private automaticsService: AutomaticsService,
-              private favoritesPaymentsService: FavoritesPaymentsService,
               private favoritesManagementService: FavoritesManagementService,
               private modalService: ModalService,
               private router: Router,
-              public datePipe: DatePipe) {
+              public datePipe: DatePipe,
+              private publicServiceApi: PublicServicesApiService,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   get newAutomaticsControls() {
@@ -62,7 +70,9 @@ export class AddAutomaticsComponent implements OnInit {
     });
 
     this.getFromFavorites();
+    this.getCredixCodeError();
   }
+
   getPeriodicityList() {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
@@ -70,20 +80,20 @@ export class AddAutomaticsComponent implements OnInit {
   }
 
   getCategoryServices() {
-    this.favoritesPaymentsService.getPublicCategoryServices()
+    this.publicServiceApi.getPublicServiceCategories()
       .subscribe((response) => {
         this.publicServicesCategory = response;
       });
   }
 
   getCompany(publicCategoryId: number) {
-    this.favoritesPaymentsService.getPublicEnterpriseServicesByCategory(publicCategoryId).subscribe((response) => {
+    this.publicServiceApi.getPublicServiceEnterpriseByCategory(publicCategoryId).subscribe((response) => {
       this.publicCompany = response;
     });
   }
 
   getService(enterpriseId: number) {
-    this.favoritesPaymentsService.getPublicServicesByEnterprise(enterpriseId)
+    this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
         this.publicServices = response;
       });
@@ -108,19 +118,10 @@ export class AddAutomaticsComponent implements OnInit {
       this.newAutomaticsForm.controls.publicService
         .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceId);
 
-
       this.newAutomaticsForm.controls.nameOfAutomatics.setValue(this.favoritesManagementService.valuesFromFavorites.favoriteName);
 
       this.newAutomaticsForm.controls.phoneNumber.setValue(this.favoritesManagementService.valuesFromFavorites.phoneNumber);
     }
-  }
-
-  openCalendar() {
-    this.modalService.calendarPopup().subscribe(modal => {
-      if (modal) {
-        this.newAutomaticsForm.controls.startDate.setValue(modal.date);
-      }
-    });
   }
 
   back() {
@@ -138,17 +139,29 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.phoneNumber.value,
           this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
-          this.codeCredix.value)
+          +this.codeCredix.value)
+          .pipe(finalize(() => {
+            if (!this.codeCredix.hasError('invalid')) {
+              this.done = true;
+            }
+          }))
           .subscribe((response) => {
             this.resultAutomatics = !this.resultAutomatics;
-            this.done = true;
+
             this.result = {
               status: response.type,
-              message: response.message,
+              message: response.message || response.descriptionOne,
               title: response.titleOne
             };
           });
       }
-      });
+    });
+  }
+
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.codeCredix.setErrors({invalid: true});
+      this.newAutomaticsForm.updateValueAndValidity();
+    });
   }
 }

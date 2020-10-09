@@ -6,19 +6,20 @@ import {map} from 'rxjs/operators';
 import {StorageService} from './storage.service';
 
 export const cleanProfilePhoto$ = new Subject();
+export const cleanUserInfo$ = new Subject();
 
 @Injectable()
 export class ApplicantApiService {
   private readonly userApplicantInfoUri = 'applicant/finduserapplicantaccountnumber';
   private readonly getApplicantProfilePhotoUri = 'applicant/getProfilePhotoApplicant';
-  private newPhotoSub = new Subject();
-  newPhoto$ = this.newPhotoSub.asObservable();
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
   }
 
-  @Cacheable()
+  @Cacheable({
+    cacheBusterObserver: cleanUserInfo$.asObservable()
+  })
   getUserApplicantInfo(accountNumber: number): Observable<any> {
     return this.httpService
       .post('canales', this.userApplicantInfoUri, {accountNumber})
@@ -38,7 +39,7 @@ export class ApplicantApiService {
   })
   getApplicantProfilePhoto(): Observable<string> {
     return this.httpService.post('canales', this.getApplicantProfilePhotoUri, {
-      identification: this.storageService.getIdentification()
+      identification: this.storageService.getCurrentUser().identification
     }).pipe(
       map(response => {
         if (response.imgBase64) {
@@ -47,9 +48,5 @@ export class ApplicantApiService {
           return null;
         }
       }));
-  }
-
-  emitNewPhoto(): void {
-    this.newPhotoSub.next();
   }
 }

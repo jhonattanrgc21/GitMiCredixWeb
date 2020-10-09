@@ -24,6 +24,7 @@ export class ReportTransferenceComponent implements OnInit {
   });
   image: { file: string; name: string; size: number, type: string };
   os: string;
+  today = new Date();
   currencies: Currency[] = [];
   open = false;
   banks = ['BAC', 'Banco Nacional'];
@@ -52,12 +53,12 @@ export class ReportTransferenceComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'reportar.title').value;
-    this.link = tags.find(tag => tag.description === 'reportar.link').value;
+    this.titleTag = tags.find(tag => tag.description === 'reportar.title')?.value;
+    this.link = tags.find(tag => tag.description === 'reportar.link')?.value;
   }
 
   openCalendar() {
-    this.modalService.calendarPopup(null, new Date()).subscribe(modal => {
+    this.modalService.openCalendarPopup(null, new Date()).subscribe(modal => {
       if (modal) {
         this.reportTransferenceGroup.controls.date.setValue(modal.date);
       }
@@ -92,9 +93,5 @@ export class ReportTransferenceComponent implements OnInit {
         this.title = this.status === 'success' ? '¡Éxito!' : 'Error';
       });
     }
-  }
-
-  goHome() {
-    this.router.navigate(['/home']);
   }
 }

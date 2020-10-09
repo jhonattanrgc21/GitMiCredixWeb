@@ -3,33 +3,32 @@
   height: 662px;
 
   &__content {
-    margin: 32px 85px 0 85px;
-
-    &__footer {
-      width: 100%;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      border-top: 1px solid #e9e9e9;
-      padding: 16px;
-    }
+    width: 100%;
+    padding: 0 84px;
+    margin-top: 40px;
   }
 
-  &__input {
-    height: 42.5px;
-
-    ::ng-deep.mat-form-field-infix {
-      width: 190px;
-    }
+  &__footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-top: 1px solid #e9e9e9;
+    padding: 16px;
   }
 
-  &__code {
-    height: 40px;
+  .left-content {
+    width: 380px;
 
-    ::ng-deep.mat-form-field-infix {
-      width: 355px;
+    credix-input-field {
+      height: 43px;
+      margin-bottom: 8px;
     }
   }
+}
+
+::ng-deep .password-panel .credix-password-field-tooltip {
+  border-radius: 0 0 8px 8px !important;
 }
 
 @media screen and (max-width: 1199px) {
@@ -38,19 +37,12 @@
     height: 886px;
 
     &__content {
-      margin: 40px 78px 0 78px;
+      width: 100%;
+      padding: 0 78px;
     }
 
-    &__input {
-      ::ng-deep.mat-form-field-infix {
-        width: 135px;
-      }
-    }
-
-    &__code {
-      ::ng-deep.mat-form-field-infix {
-        width: 245px;
-      }
+    .left-content {
+      width: 266px;
     }
   }
 }

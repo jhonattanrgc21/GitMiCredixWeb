@@ -72,7 +72,8 @@
           <p fxFlex="95px">{{resultNew || 'Plazo nuevo'}}</p>
           <span [ngClass]="{'extend-term__text-disabled' :
           allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
-            <strong>{{ quotaSelected?.quotaTo }} {{monthTag || 'meses'}}</strong></span>
+            <strong>{{ allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo ? 0 : quotaSelected?.quotaTo }}
+              {{monthTag || 'meses'}}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
@@ -86,7 +87,7 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <p fxFlex="95px">{{comisionTag || 'Comisión'}}*</p>
+          <p fxFlex="95px">{{comisionTag || 'Comisión (%)'}}*</p>
           <div [ngClass]="{'extend-term__text-disabled' :
           allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
             <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
@@ -118,8 +119,8 @@
 
   <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="openConfirmationModal()" *ngIf="allowedMovementSelected"
-                   [disabled]="allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo"
-                   text="Ampliar plazo">
+                   [disabled]="allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo">
+      Ampliar plazo
     </credix-button>
   </div>
 </mat-card>
@@ -160,7 +161,7 @@
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>{{dateTag || 'Fecha'}}</span>
-            <span><strong>{{today | dateFormatter: 'numeric'}}</strong></span>
+            <span><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
 
         </div>

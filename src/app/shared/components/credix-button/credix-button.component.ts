@@ -9,7 +9,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class CredixButtonComponent implements OnInit {
   @Input() type: 'primary' | 'secondary' = 'primary';
   @Input() disabled = false;
-  @Input() text = '';
   @Input() route = '';
   @Output() buttonClick = new EventEmitter();
 

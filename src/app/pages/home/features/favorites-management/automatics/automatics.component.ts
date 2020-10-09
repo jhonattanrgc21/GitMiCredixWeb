@@ -6,6 +6,9 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {DatePipe} from '@angular/common';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {ToastData} from '../../../../../shared/components/credix-toast/credix-toast-config';
+import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-automatics',
@@ -13,27 +16,25 @@ import {ToastData} from '../../../../../shared/components/credix-toast/credix-to
   styleUrls: ['./automatics.component.scss']
 })
 export class AutomaticsComponent implements OnInit, AfterViewInit {
-
-  isUpdating = false;
-  // tslint:disable-next-line:max-line-length
-  data: { publicServiceDescription: string; alias: string; id: number; maxAmount: number; periodicityDescription: string; startDate: string; key: number; };
+  data: SchedulePayments;
   automaticsDetailForm: FormGroup = new FormGroup({
     favoriteName: new FormControl(null),
     maxAmount: new FormControl(null),
     startDate: new FormControl(null),
     periodicity: new FormControl(null)
   });
-
   codeCredix: FormControl = new FormControl(null);
-
   periodicityList: { description: string; id: number; }[] = [];
+  isUpdating = false;
+  idParam: number;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
               private modalService: ModalService,
               public datePipe: DatePipe,
-              private toastService: CredixToastService) {
-    this.data = {periodicityDescription: '', alias: '', id: 0, maxAmount: 0, publicServiceDescription: '', startDate: '', key: 0};
+              private toastService: CredixToastService,
+              private credixCodeErrorService: CredixCodeErrorService,
+              private route: ActivatedRoute) {
   }
 
   get automaticsDetailControls() {
@@ -41,27 +42,22 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.idParam = +this.route.snapshot.params?.id;
     this.getSchedulePayment();
+    this.getCredixCodeError();
   }
 
   ngAfterViewInit() {
     this.getUpdateAlert();
+    this.getDeletedSuccess();
   }
 
   getSchedulePayment() {
-    this.favoritesManagementService.automaticsPaymentData.subscribe(response => {
-      this.data = {
-        publicServiceDescription: response.publicServiceDescription,
-        alias: response.alias,
-        id: response.id,
-        maxAmount: response.maxAmount,
-        periodicityDescription: response.periodicityDescription,
-        startDate: response.startDate,
-        key: response.key
-      };
-      this.automaticsDetailForm.controls.favoriteName.setValue(this.data.alias);
-      this.automaticsDetailForm.controls.maxAmount.setValue(this.data.maxAmount);
-      this.automaticsDetailForm.controls.startDate.setValue(this.data.startDate);
+    this.favoritesManagementService.schedulePayments.subscribe((response) => {
+      this.data = response;
+      this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias);
+      this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount);
+      this.automaticsDetailForm.controls.startDate.setValue(this.data?.startDate);
       this.getPeriodicityList();
     });
   }
@@ -69,16 +65,8 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   getPeriodicityList() {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
-      // tslint:disable-next-line:max-line-length
-      this.automaticsDetailForm.controls.periodicity.setValue(this.periodicityList.find(elem => elem.description === this.data.periodicityDescription).id);
-    });
-  }
-
-  openCalendar() {
-    this.modalService.calendarPopup().subscribe(modal => {
-      if (modal) {
-        this.automaticsDetailForm.controls.startDate.setValue(modal.date);
-      }
+      this.automaticsDetailForm.controls.periodicity
+        .setValue(this.periodicityList?.find(elem => elem.description === this.data.periodicityDescription).id);
     });
   }
 
@@ -131,6 +119,21 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.automaticsDetailForm.controls.periodicity.valueChanges.subscribe(value => {
       this.favoritesManagementService.updating();
       this.isUpdating = this.automaticsDetailForm.valid;
+    });
+  }
+
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.codeCredix.setErrors({invalid: true});
+      this.automaticsDetailForm.updateValueAndValidity();
+    });
+  }
+
+  getDeletedSuccess() {
+    this.favoritesManagementService.deleted.subscribe((response) => {
+      if (response.automatics) {
+        this.data = null;
+      }
     });
   }
 }

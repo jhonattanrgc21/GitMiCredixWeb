@@ -20,6 +20,7 @@ export class AllServicesComponent implements OnInit {
   publicServices: PublicService[] = [];
   categorySelected: PublicServiceCategory;
   enterpriseSelected: PublicServiceEnterprise;
+  openSubmenu = false;
 
   constructor(private publicServicesApiService: PublicServicesApiService,
               private router: Router) {
@@ -35,6 +36,7 @@ export class AllServicesComponent implements OnInit {
   }
 
   getPublicServiceEnterpriseByCategory(category: PublicServiceCategory) {
+    this.openSubmenu = this.categorySelected === category ? !this.openSubmenu : true;
     this.categorySelected = category;
     this.enterprises = [];
     this.publicServicesApiService.getPublicServiceEnterpriseByCategory(category.publicServiceCategoryId)

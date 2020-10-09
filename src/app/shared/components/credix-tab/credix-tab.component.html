@@ -1,13 +1,13 @@
 <div class="credix-tab">
   <ng-container *ngFor="let tab of tabs, let index = index">
-    <label #element [class.is-checked]="index === activeIndex" class="credix-tab__label">
-      <input (click)="isTabSelected(tab, index, element.offsetLeft)"
-             (keydown.enter)="isTabSelected(tab, index, element.offsetLeft)" class="credix-tab__input"
+    <label #element [class.is-checked]="tab.id === active?.id" class="credix-tab__label">
+      <input (click)="isTabSelected(tab, element.offsetLeft)"
+             (keydown.enter)="isTabSelected(tab, element.offsetLeft)" class="credix-tab__input"
              name="view"
              type="radio">
       {{tab.name}}
     </label>
   </ng-container>
-  <span [style.left.px]="displacement" class="credix-tab__selection">{{activeTab}}</span>
+  <span [style.left.px]="displacement" class="credix-tab__selection">{{active?.name}}</span>
 </div>
 

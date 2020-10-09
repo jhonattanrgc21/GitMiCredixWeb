@@ -6,6 +6,7 @@ import {finalize} from 'rxjs/operators';
 import {getIdentificationMaskByType} from '../../../../../shared/utils';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Router} from '@angular/router';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-add-iban-account',
@@ -28,12 +29,14 @@ export class AddIbanAccountComponent implements OnInit {
 
   constructor(private ibanAccountService: IbanAccountsService,
               private modalService: ModalService,
-              private router: Router) {
+              private router: Router,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
     this.resultIban = false;
     this.identificationType();
+    this.getCredixCodeError();
   }
 
   identificationType() {
@@ -69,16 +72,27 @@ export class AddIbanAccountComponent implements OnInit {
           this.newFavoriteIbanForm.controls.ibanAccount.value,
           this.newFavoriteIbanForm.controls.identificationType.value,
           this.newFavoriteIbanForm.controls.identification.value,
-          this.codeCredix.value).subscribe((response) => {
-          this.done = true;
-          this.result = {
-            status: response.type,
-            message: response.message,
-            title: response.titleOne
-          };
-        });
+          this.codeCredix.value)
+          .pipe(finalize(() => {
+            if (!this.codeCredix.hasError('invalid')) {
+              this.done = true;
+            }
+          }))
+          .subscribe((response) => {
+            this.result = {
+              status: response.type,
+              message: response.message,
+              title: response.titleOne
+            };
+          });
       }
     });
   }
 
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.codeCredix.setErrors({invalid: true});
+      this.newFavoriteIbanForm.updateValueAndValidity();
+    });
+  }
 }

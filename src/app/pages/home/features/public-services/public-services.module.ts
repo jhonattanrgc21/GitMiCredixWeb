@@ -35,6 +35,10 @@ import {CredixShareButtonModule} from '../../../../shared/components/credix-shar
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
 import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
 import {DigitOnlyModule} from '../../../../shared/directives/digit-only/digit-only.module';
+import {NgxMaskModule} from 'ngx-mask';
+import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
+import {MatOptionModule} from '@angular/material/core';
+import {PopupReceiptComponent} from './new-service/popup-receipt/popup-receipt.component';
 
 const routes: Routes = [
   {
@@ -74,13 +78,15 @@ const routes: Routes = [
     NewRechargeComponent,
     NewServiceComponent,
     NewServiceFirstStepComponent,
-    NewServiceSecondStepComponent],
+    NewServiceSecondStepComponent,
+    PopupReceiptComponent],
   imports: [
     CommonModule,
     FlexModule,
     RouterModule.forChild(routes),
     CredixCardsModule,
     MatCardModule,
+    MatOptionModule,
     CredixTabModule,
     CredixNavigationTableModule,
     SimplebarAngularModule,
@@ -103,6 +109,8 @@ const routes: Routes = [
     CredixResultNotificationModule,
     CredixRadioButtonModule,
     DigitOnlyModule,
+    NgxMaskModule,
+    CredixSelectModule,
   ],
   providers: [
     PublicServicesService

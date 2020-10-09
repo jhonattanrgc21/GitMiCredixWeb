@@ -35,8 +35,10 @@
   </credix-stepper>
 
   <div class="personal-credit__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" text="Atrás" type="secondary"></credix-button>
-    <credix-button (buttonClick)="next()" [disabled]="disableButton" [text]="buttonText"></credix-button>
+    <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="next()" [disabled]="disableButton">
+      {{buttonText}}
+    </credix-button>
   </div>
 
 </mat-card>

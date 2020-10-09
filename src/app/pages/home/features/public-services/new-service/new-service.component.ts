@@ -1,13 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {PublicServicesService} from '../public-services.service';
-import {ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../shared/utils';
+import {ConvertStringAmountToNumber, ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../shared/utils';
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
+import {Keys} from '../../../../../shared/models/keys';
+import {PopupReceiptComponent} from './popup-receipt/popup-receipt.component';
+import {PopupReceipt} from '../../../../../shared/models/popup-receipt';
 
 @Component({
   selector: 'app-new-service',
@@ -15,9 +18,15 @@ import {finalize} from 'rxjs/operators';
   styleUrls: ['./new-service.component.scss']
 })
 export class NewServiceComponent implements OnInit {
-  contractControl = new FormControl(null, [Validators.required]);
-  credixCodeControl = new FormControl(null, [Validators.required]);
-  favoriteControl = new FormControl(null, [Validators.required]);
+  contractFormGroup = new FormGroup({
+    contractControl: new FormControl(null, [Validators.required]),
+    keysControl: new FormControl(null, [Validators.required])
+  });
+  confirmFormGroup: FormGroup = new FormGroup({
+    credixCode: new FormControl(null, [Validators.required]),
+    favorite: new FormControl(null),
+    amount: new FormControl(null)
+  });
   currencySymbol = '₡';
   saveAsFavorite = false;
   stepperIndex = 0;
@@ -25,12 +34,16 @@ export class NewServiceComponent implements OnInit {
   hasReceipts = true;
   pendingReceipts: PendingReceipts;
   publicServiceId: number;
-  referenceName: string;
   name: string;
   month: string;
   expirationDate: Date;
   title: string;
   message: string;
+  keys: Keys[];
+  quantityOfKeys: number;
+  publicServiceName: string;
+  dataToModal: PopupReceipt;
+  paymentType = '';
   status: 'success' | 'error';
   today = new Date();
   @ViewChild('newServiceStepper') stepper: CdkStepper;
@@ -46,7 +59,7 @@ export class NewServiceComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.publicServiceId = +params.serviceId;
       this.getEnterprise(+params.categoryId, +params.enterpriseId);
-      this.publicServicesService.getReferenceName(+params.categoryId).subscribe(referenceName => this.referenceName = referenceName);
+      this.getPublicService(+params.enterpriseId, this.publicServiceId);
     });
   }
 
@@ -56,17 +69,30 @@ export class NewServiceComponent implements OnInit {
         .find(enterprise => enterprise.publicServiceEnterpriseId === enterpriseId).publicServiceEnterpriseDescription);
   }
 
+  getPublicService(enterpriseId: number, publicServiceId: number) {
+    this.publicServicesApiService.getPublicServiceByEnterprise(enterpriseId).subscribe(publicService => {
+      this.keys = publicService.find(elem => elem.publicServiceId === publicServiceId).keys;
+      this.quantityOfKeys = publicService
+        .find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
+      this.paymentType = publicService.find(elem => elem.publicServiceId === publicServiceId).paymentType;
+      this.publicServiceName = publicService.find(elem => elem.publicServiceId === publicServiceId).publicServiceName;
+    });
+  }
+
   openModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
       if (confirmation) {
-        const receipt = this.pendingReceipts.receipts[0];
+        const receipt = this.pendingReceipts.receipts;
+        const amount = ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString();
         this.publicServicesService.payPublicService(
           this.publicServiceId,
           +receipt.serviceValue,
-          receipt.totalAmount,
+          amount,
           +receipt.receiptPeriod,
+          +this.contractFormGroup.controls.keysControl.value,
           receipt.expirationDate,
-          receipt.billNumber)
+          receipt.billNumber,
+          this.contractFormGroup.controls.keysControl.value)
           .pipe(finalize(() => this.done = true))
           .subscribe(response => {
             this.status = response.type;
@@ -74,6 +100,26 @@ export class NewServiceComponent implements OnInit {
             if (response.type === 'success' && this.saveAsFavorite) {
               this.saveFavorite();
             }
+            this.dataToModal = {
+              institution: [{companyCode: response.companyCode, companyName: response.companyName}],
+              agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
+              agencyCode: response.agencyCode,
+              cashier: 'Credix',
+              currencyCode: this.pendingReceipts.currencyCode,
+              clientName: this.pendingReceipts.clientName,
+              billNumber: this.pendingReceipts.receipts.billNumber,
+              invoiceNumber: this.pendingReceipts.receipts.receipt,
+              paymentStatus: 'Aplicado',
+              movementDate: this.pendingReceipts.date,
+              expirationDate: this.pendingReceipts.receipts.expirationDate,
+              period: this.pendingReceipts.receipts.receiptPeriod,
+              reference: response.reference,
+              typeOfValor: 'EFECTIVO',
+              amount: response.amountPaid,
+              paymentConcepts: response.paymentConcepts,
+              informativeConcepts: response.informativeConcepts,
+              currencySymbol: this.currencySymbol
+            };
           });
       }
     });
@@ -82,9 +128,14 @@ export class NewServiceComponent implements OnInit {
   saveFavorite() {
     this.publicServicesService.savePublicServiceFavorite(
       this.publicServiceId,
-      this.contractControl.value,
-      this.favoriteControl.value,
-      this.credixCodeControl.value).subscribe();
+      this.contractFormGroup.controls.contractControl.value,
+      this.confirmFormGroup.controls.favorite.value,
+      this.confirmFormGroup.controls.credixCode.value).subscribe(result => {
+      if (result.status && result.status === 406) {
+        this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
+        this.confirmFormGroup.updateValueAndValidity();
+      }
+    });
   }
 
   back() {
@@ -98,16 +149,24 @@ export class NewServiceComponent implements OnInit {
   }
 
   checkPendingReceipts() {
-    this.publicServicesService.checkPendingReceipts(this.publicServiceId, this.contractControl.value).subscribe(pendingReceipts => {
+    this.publicServicesService.checkPendingReceipts(this.publicServiceId,
+      this.contractFormGroup.controls.contractControl.value,
+      this.contractFormGroup.controls.keysControl.value
+    ).subscribe(pendingReceipts => {
       if (pendingReceipts.receipts) {
         this.pendingReceipts = pendingReceipts;
-        this.month = getMontByMonthNumber(ConvertStringDateToDate(pendingReceipts.receipts[0].receiptPeriod).getMonth());
-        this.expirationDate = ConvertStringDateToDate(pendingReceipts.receipts[0].expirationDate);
+        this.month = getMontByMonthNumber(ConvertStringDateToDate(pendingReceipts.receipts.receiptPeriod).getMonth());
+        this.expirationDate = ConvertStringDateToDate(pendingReceipts.receipts.expirationDate);
         this.currencySymbol = pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
         this.continue();
       } else {
         this.hasReceipts = false;
       }
     });
+  }
+
+  openBillingModal() {
+    this.modalService.open({title: 'Comprobante', data: this.dataToModal, component: PopupReceiptComponent},
+      {height: 673, width: 380, disableClose: true, panelClass: 'new-service-receipt'});
   }
 }

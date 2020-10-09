@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class AdditionalCardsManagementService {
@@ -27,7 +28,8 @@ export class AdditionalCardsManagementService {
   }
 
   saveAdditionalCard(name: string, lastNames: string, idIdentificationType: number, identification: string, phone: string, email: string,
-                     birthday: string, limitPercentage: number, retreatPlace: string, credixCode: string) {
+                     birthday: string, limitPercentage: number, retreatPlace: string, credixCode: string):
+    Observable<{ type: 'success' | 'error', status?: number, message: string, title: string }> {
     return this.httpService.post('canales', this.saveAdditionalCardUri, {
       name,
       lastNames,
@@ -39,7 +41,10 @@ export class AdditionalCardsManagementService {
       limitPercentage,
       retreatPlace,
       credixCode,
-    });
+    }).pipe(
+      map(response => {
+        return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
+      }));
   }
 
   setCreditLimit(cardId: number, limitPercentage: number) {
