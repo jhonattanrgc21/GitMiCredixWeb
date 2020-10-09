@@ -11,6 +11,7 @@ import {ChannelsApiService} from '../../../../core/services/channels-api.service
 import {FavoriteIbanAccount} from '../../../../shared/models/favorite-iban-account';
 import {PublicServiceFavoriteByUser} from '../../../../shared/models/public-service-favorite-by-user';
 import {SchedulePayments} from '../../../../shared/models/schedule-payments';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorites-management',
@@ -312,6 +313,12 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
 
   getSchedulePayment() {
     this.channelsApiService.getAllSchedulersPayment()
+      .pipe(finalize(() => {
+        if (this.idParam) {
+          const option = this.accounts.find(acc => acc.id === this.idParam);
+          this.getDetailFavorite(option);
+        }
+      }))
       .subscribe((response) => {
         this.empty = response.length === 0;
         if (!this.empty) {
