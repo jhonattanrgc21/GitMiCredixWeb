@@ -9,7 +9,7 @@ import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
 import {Keys} from '../../../../../shared/models/keys';
-import {PopupReceiptComponent} from './popup-receipt/popup-receipt.component';
+import {PopupReceiptComponent} from '../popup-receipt/popup-receipt.component';
 import {PopupReceipt} from '../../../../../shared/models/popup-receipt';
 
 @Component({

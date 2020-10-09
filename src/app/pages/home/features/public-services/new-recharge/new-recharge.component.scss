@@ -2,19 +2,13 @@
   height: 662px;
   position: relative;
 
-  &__container {
-    padding: 0 84px;
-  }
+
 
   &__content {
     width: 100%;
 
     &__input {
       height: 43px;
-
-      &.favorite {
-        margin-left: 20px;
-      }
     }
   }
 
@@ -30,6 +24,10 @@
     border-top: 1px solid #E9E9E9;
     padding: 16px;
   }
+}
+
+.second-step-height {
+  height: 727px;
 }
 
 @media screen and (max-width: 1199px) {

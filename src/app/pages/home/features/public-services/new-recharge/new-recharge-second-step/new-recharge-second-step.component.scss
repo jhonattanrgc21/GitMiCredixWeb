@@ -1,0 +1,19 @@
+.new-recharge-second-step {
+
+  &__container {
+    padding: 0 84px;
+  }
+
+  &__content {
+    width: 100%;
+
+    &__input {
+      height: 43px;
+
+      &.favorite {
+        margin-left: 20px;
+      }
+    }
+  }
+
+}

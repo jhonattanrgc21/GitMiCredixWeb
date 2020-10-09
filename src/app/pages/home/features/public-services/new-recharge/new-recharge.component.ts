@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
 import {finalize} from 'rxjs/operators';
@@ -7,7 +7,9 @@ import {PublicServicesApiService} from '../../../../../core/services/public-serv
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Keys} from '../../../../../shared/models/keys';
-import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
+import {CdkStepper} from '@angular/cdk/stepper';
+import {PopupReceiptComponent} from '../popup-receipt/popup-receipt.component';
+import {PopupReceipt} from '../../../../../shared/models/popup-receipt';
 
 @Component({
   selector: 'app-new-recharge',
@@ -15,8 +17,8 @@ import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
   styleUrls: ['./new-recharge.component.scss']
 })
 export class NewRechargeComponent implements OnInit {
+  phoneNumber: FormControl = new FormControl(null, [Validators.required]);
   rechargeFormGroup: FormGroup = new FormGroup({
-    phoneNumber: new FormControl(null, [Validators.required]),
     amount: new FormControl(null, [Validators.required]),
     credixCode: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null),
@@ -28,7 +30,9 @@ export class NewRechargeComponent implements OnInit {
     {id: 1, amount: '10.000,00'},
     {id: 1, amount: 'Otro'}
   ];
-  anotherAmount = false;
+  stepperIndex = 0;
+  dataToModal: PopupReceipt;
+  currencySymbol = '₡';
   saveAsFavorite = false;
   done = false;
   hasReceipts = true;
@@ -41,7 +45,7 @@ export class NewRechargeComponent implements OnInit {
   keys: Keys[];
   quantityOfKeys: number;
   today = new Date();
-
+  @ViewChild('newRechargeStepper') stepper: CdkStepper;
   constructor(private publicServicesService: PublicServicesService,
               private publicServicesApiService: PublicServicesApiService,
               private router: Router,
@@ -77,47 +81,22 @@ export class NewRechargeComponent implements OnInit {
     this.publicServicesService.getMinAmounts().subscribe(amounts => this.amounts = [...amounts, {id: 10, amount: 'Otro'}]);
   }
 
-  onCheckboxChanged(checked: boolean) {
-    this.saveAsFavorite = checked;
-    this.rechargeFormGroup.controls.favorite.reset();
-    if (this.saveAsFavorite) {
-      this.rechargeFormGroup.controls.favorite.setValidators([Validators.required]);
-    } else {
-      this.rechargeFormGroup.controls.favorite.clearValidators();
-    }
-    this.rechargeFormGroup.controls.favorite.updateValueAndValidity();
-  }
-
-  onAmountChanged(value) {
-    if (value !== 'Otro') {
-      this.anotherAmount = false;
-      this.rechargeFormGroup.controls.amount.setValidators([Validators.required]);
-      this.rechargeFormGroup.controls.amount.setValue(value);
-    } else {
-      this.rechargeFormGroup.controls.amount.reset();
-      this.rechargeFormGroup.controls.amount.setValidators([Validators.required,
-        Validators.min(ConvertStringAmountToNumber(this.amounts[0].amount))]);
-      this.anotherAmount = true;
-    }
-    this.rechargeFormGroup.controls.amount.updateValueAndValidity();
-  }
-
   openModal() {
     this.modalService.confirmationPopup('¿Desea realizar esta recarga?').subscribe(confirmation => {
       if (confirmation) {
-        this.checkPendingReceipts();
+        this.recharge();
       }
     });
   }
 
   recharge() {
-    const receipt = this.pendingReceipts.receipts[0];
+    const receipt = this.pendingReceipts.receipts;
     this.publicServicesService.payPublicService(
       this.publicServiceId,
       +receipt.serviceValue,
       this.rechargeFormGroup.controls.amount.value,
       +receipt.receiptPeriod,
-      null,
+      57,
       receipt.expirationDate,
       receipt.billNumber)
       .pipe(finalize(() => this.done = true))
@@ -127,6 +106,27 @@ export class NewRechargeComponent implements OnInit {
         if (response.type === 'success' && this.saveAsFavorite) {
           this.saveFavorite();
         }
+
+        this.dataToModal = {
+          institution: [{companyCode: response.companyCode, companyName: response.companyName}],
+          agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
+          agencyCode: response.agencyCode,
+          cashier: 'Credix',
+          currencyCode: this.pendingReceipts.currencyCode,
+          clientName: this.pendingReceipts.clientName,
+          billNumber: this.pendingReceipts.receipts.billNumber,
+          invoiceNumber: this.pendingReceipts.receipts.receipt,
+          paymentStatus: 'Aplicado',
+          movementDate: this.pendingReceipts.date,
+          expirationDate: this.pendingReceipts.receipts.expirationDate,
+          period: this.pendingReceipts.receipts.receiptPeriod,
+          reference: response.reference,
+          typeOfValor: 'EFECTIVO',
+          amount: response.amountPaid,
+          paymentConcepts: response.paymentConcepts,
+          informativeConcepts: response.informativeConcepts,
+          currencySymbol: this.currencySymbol
+        };
       });
   }
 
@@ -144,7 +144,13 @@ export class NewRechargeComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['/home/public-services']);
+    this.stepperIndex === 0 ? this.router.navigate(['/home/public-services']) : this.stepper.previous();
+    this.stepperIndex = this.stepper.selectedIndex;
+  }
+
+  continue() {
+    this.stepper.next();
+    this.stepperIndex = this.stepper.selectedIndex;
   }
 
   checkPendingReceipts() {
@@ -152,11 +158,15 @@ export class NewRechargeComponent implements OnInit {
       .subscribe(pendingReceipts => {
         if (pendingReceipts.receipts) {
           this.pendingReceipts = pendingReceipts;
-          this.recharge();
+          this.continue();
         } else {
           this.hasReceipts = false;
         }
       });
   }
 
+  openBillingModal() {
+    this.modalService.open({title: 'Comprobante', data: this.dataToModal, component: PopupReceiptComponent},
+      {height: 673, width: 380, disableClose: false});
+  }
 }
