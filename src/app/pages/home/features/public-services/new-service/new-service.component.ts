@@ -167,6 +167,6 @@ export class NewServiceComponent implements OnInit {
 
   openBillingModal() {
     this.modalService.open({title: 'Comprobante', data: this.dataToModal, component: PopupReceiptComponent},
-      {height: 673, width: 380, disableClose: false});
+      {height: 673, width: 380, disableClose: true, panelClass: 'new-service-receipt'});
   }
 }
