@@ -39,7 +39,7 @@
              fxLayout="column"
              fxLayoutGap="16px">
 
-          <credix-radio-button (emitRadioButton)="addressRadioButton = 1"
+          <credix-radio-button (emitRadioButton)="domicileRadioButtonChanged(1)"
                                [label]="subOptionOneTag || 'Dirección registrada en Credix'"
                                [value]="1" name="address">
           </credix-radio-button>
@@ -49,7 +49,7 @@
           </div>
 
           <div fxLayout="row" fxLayoutGap="16px">
-            <credix-radio-button (emitRadioButton)="(addressRadioButton = 2) && openNewAddressModal()"
+            <credix-radio-button (emitRadioButton)="domicileRadioButtonChanged(2)"
                                  [label]="subOptionTwoTag  || 'User otra dirección'"
                                  [value]="2"
                                  name="address"></credix-radio-button>
@@ -70,11 +70,11 @@
 
 <ng-template #addressDetail>
   <div fxLayout="column">
-    <span><strong>{{addressRadioButton == 1 ? name : newAddress?.name}}</strong></span>
+    <span><strong>{{addressRadioButton === 1 ? name : newAddress?.name}}</strong></span>
     <span>
-      <strong>{{(addressRadioButton == 1 ? phoneNumber : newAddress?.phoneNumber) | mask: '0000-0000'}}</strong>
+      <strong>{{(addressRadioButton === 1 ? phoneNumber : newAddress?.phoneNumber) | mask: '0000-0000'}}</strong>
     </span>
-    <span>{{addressRadioButton == 1 ? userAddress :
+    <span>{{addressRadioButton === 1 ? userAddress :
       newAddress?.detail + ', ' + newAddress?.province.description + ', ' + newAddress?.canton.description + ', ' + newAddress?.district.description}}</span>
     <mat-divider *ngIf="addressRadioButton == 1" class="mt-16px" credixDivider></mat-divider>
   </div>

@@ -147,35 +147,21 @@ export class MarchamoComponent implements OnInit {
   }
 
   secureToPay() {
-    this.total = this.marchamosService.total;
-    //  this.marchamosService.setSoaPay()
-    //   .subscribe();
-    this.httpService.post('marchamos', 'pay/soapay',
-      {
-        aditionalProducts: this.secureAndQuotesForm.controls.additionalProducts.value,
-        amount: this.marchamosService.consultVehicle.amount,
-        cardNumber: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardNumber,
-        deliveryPlaceId: this.pickUpForm.controls.pickUp.value === null ? 1 : this.pickUpForm.controls.deliveryPlace.value,
-        authenticationNumberCommission: '0000',
-        authenticationNumberMarchamo1: '000000',
-        domicilePerson: this.pickUpForm.controls.person.value,
-        domicilePhone: this.pickUpForm.controls.phoneNumber.value,
-        domicilePlace: this.pickUpForm.controls.address.value,
-        email: this.pickUpForm.controls.email.value,
-        ownerEmail: this.marchamosService.ownerPayer.email,
-        extraCardStatus: '0',
-        firstPayment: this.secureAndQuotesForm.controls.firstQuotaDate.value,
-        payId: this.marchamosService.consultVehicle.payId,
-        payerId: this.marchamosService.ownerPayer.payerId,
-        period: this.marchamosService.consultVehicle.period,
-        phoneNumber: this.marchamosService.consultVehicle.contactPhone,
-        plateClassId: +this.consultForm.controls.vehicleType.value,
-        plateNumber: this.consultForm.controls.plateNumber.value.toUpperCase(),
-        promoStatus: this.promoStatus.promoStatusId,
-        quotasId: this.secureAndQuotesForm.controls.quotaId.value,
-        transactionTypeId: 1,
-        requiredBill: '1'
-      }).pipe(finalize(() => this.done = true))
+    const deliveryPlaceId: number = this.pickUpForm.controls.deliveryPlace.value === null ?
+      1 : this.pickUpForm.controls.deliveryPlace.value;
+    this.marchamosService.setSoaPay(
+      this.secureAndQuotesForm.controls.additionalProducts.value,
+      deliveryPlaceId,
+      this.pickUpForm.controls.person.value,
+      this.pickUpForm.controls.phoneNumber.value,
+      this.pickUpForm.controls.address.value,
+      this.pickUpForm.controls.email.value,
+      this.secureAndQuotesForm.controls.firstQuotaDate.value,
+      +this.consultForm.controls.vehicleType.value,
+      this.consultForm.controls.plateNumber.value.toUpperCase(),
+      this.promoStatus.promoStatusId,
+      this.secureAndQuotesForm.controls.quotaId.value)
+      .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;
         this.message = response.message;
