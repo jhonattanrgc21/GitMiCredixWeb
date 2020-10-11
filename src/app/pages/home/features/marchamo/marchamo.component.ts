@@ -120,7 +120,7 @@ export class MarchamoComponent implements OnInit {
         });
         break;
       case 3:
-        this.name = this.pickUpForm.controls.name.value;
+        this.name = this.pickUpForm.controls.person.value;
         this.phoneNumber = this.pickUpForm.controls.phoneNumber?.value;
         this.email = this.pickUpForm.controls.email.value;
         this.address = this.pickUpForm.controls.address.value;
@@ -148,6 +148,8 @@ export class MarchamoComponent implements OnInit {
 
   secureToPay() {
     this.total = this.marchamosService.total;
+    //  this.marchamosService.setSoaPay()
+    //   .subscribe();
     this.httpService.post('marchamos', 'pay/soapay',
       {
         aditionalProducts: this.secureAndQuotesForm.controls.additionalProducts.value,
