@@ -9,6 +9,7 @@ import {ToastData} from '../../../../../shared/components/credix-toast/credix-to
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 import {ActivatedRoute} from '@angular/router';
+import {Periodicity} from '../../../../../shared/models/periodicity';
 
 @Component({
   selector: 'app-automatics',
@@ -24,9 +25,9 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     periodicity: new FormControl(null)
   });
   codeCredix: FormControl = new FormControl(null);
-  periodicityList: { description: string; id: number; }[] = [];
-  isUpdating = false;
+  periodicityList: Periodicity[];
   idParam: number;
+  today: Date;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
@@ -50,14 +51,19 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.getUpdateAlert();
     this.getDeletedSuccess();
+    this.scheduleDetailFormChanged();
   }
 
   getSchedulePayment() {
     this.favoritesManagementService.schedulePayments.subscribe((response) => {
+      this.codeCredix.reset(null, {emitEvent: false});
       this.data = response;
-      this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias);
-      this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount);
-      this.automaticsDetailForm.controls.startDate.setValue(this.data?.startDate);
+      this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
+      this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount, {onlySelf: false, emitEvent: false});
+      this.automaticsDetailForm.controls.startDate.setValue(this.data?.startDate, {onlySelf: false, emitEvent: false});
+      this.automaticsDetailForm.markAsPristine();
+      this.automaticsDetailControls.periodicity.markAsUntouched({onlySelf: true});
+      this.today = new Date(this.data?.startDate);
       this.getPeriodicityList();
     });
   }
@@ -66,7 +72,8 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.automaticsService.getPeriodicity().subscribe((response) => {
       this.periodicityList = response;
       this.automaticsDetailForm.controls.periodicity
-        .setValue(this.periodicityList?.find(elem => elem.description === this.data.periodicityDescription).id);
+        .setValue(this.periodicityList?.find(elem => elem.description === this.data.periodicityDescription).id,
+          {onlySelf: false, emitEvent: false});
     });
   }
 
@@ -96,30 +103,20 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
         if (response.message === 'Operación exitosa') {
           this.favoritesManagementService.emitUpdateSuccessAlert();
         }
-        this.codeCredix.reset(null, {emitEvent: false});
+        this.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
       });
   }
 
-  updating(event) {
-    if (event.key !== '' && event.code !== '') {
-      this.automaticsDetailForm.controls.favoriteName.valueChanges.subscribe(value => {
-        this.favoritesManagementService.updating();
-        this.isUpdating = this.automaticsDetailForm.valid;
+  scheduleDetailFormChanged() {
+    this.automaticsDetailForm.valueChanges
+      .subscribe(() => {
+        if (this.automaticsDetailControls.favoriteName.dirty ||
+          this.automaticsDetailControls.maxAmount.dirty ||
+          this.automaticsDetailControls.startDate.dirty ||
+          this.automaticsDetailControls.periodicity.touched) {
+          this.favoritesManagementService.updating();
+        }
       });
-      this.automaticsDetailForm.controls.maxAmount.valueChanges.subscribe(value => {
-        this.favoritesManagementService.updating();
-        this.isUpdating = this.automaticsDetailForm.valid;
-      });
-    }
-    this.automaticsDetailForm.controls.startDate.valueChanges.subscribe(value => {
-      this.favoritesManagementService.updating();
-      this.isUpdating = this.automaticsDetailForm.valid;
-    });
-
-    this.automaticsDetailForm.controls.periodicity.valueChanges.subscribe(value => {
-      this.favoritesManagementService.updating();
-      this.isUpdating = this.automaticsDetailForm.valid;
-    });
   }
 
   getCredixCodeError() {
@@ -137,3 +134,4 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     });
   }
 }
+
