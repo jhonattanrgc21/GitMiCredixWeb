@@ -13,27 +13,26 @@
 
   <form [class.enabled]="isUpdating" [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="16px">
 
-    <credix-input-field (keyup)="updating($event)"
-                        *ngIf="data.alias !== ''"
-                        [class.enabled]="isUpdating"
+    <credix-input-field *ngIf="data.alias"
+                        [class.enabled]="automaticsDetailControls.favoriteName.dirty"
                         class="automatics__input disabled"
                         formControlName="favoriteName"
                         label="Nombre del favorito"></credix-input-field>
 
-    <credix-input-field (keyup)="updating($event)"
-                        *ngIf="data.startDate !== ''"
-                        [class.enabled]="isUpdating"
+    <credix-input-field *ngIf="data.startDate"
+                        [class.enabled]="automaticsDetailControls.maxAmount.dirty"
                         class="automatics__input disabled"
                         formControlName="maxAmount"
                         label="Monto máximo a pagar"
                         mask="separator"></credix-input-field>
 
-    <credix-date-picker *ngIf="data.startDate !== ''"
-                        [class.enabled]="isUpdating"
+    <credix-date-picker *ngIf="data.startDate"
+                        [class.enabled]="automaticsDetailControls.startDate.dirty"
+                        [startDate]="today"
                         class="automatics__input disabled"
                         formControlName="startDate" label="Fecha inicial de pago"></credix-date-picker>
 
-    <credix-select *ngIf="data.periodicityDescription !== ''"
+    <credix-select *ngIf="data.periodicityDescription"
                    class="automatics__input disabled"
                    [class.enabled]="isUpdating"
                    formControlName="periodicity"

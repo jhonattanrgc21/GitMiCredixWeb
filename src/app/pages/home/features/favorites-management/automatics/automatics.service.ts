@@ -23,19 +23,6 @@ export class AutomaticsService {
       );
   }
 
-  getCurrency() {
-    return this.httpServices.post('canales', 'global/currencies')
-      .pipe(
-        map((response) => {
-          if (response.type === 'success' && response.status === 200) {
-            return response.currencies;
-          } else {
-            return [];
-          }
-        })
-      );
-  }
-
   // tslint:disable-next-line:max-line-length
   setAutomaticsPayment(transTypeId: number, publicSrvcId: number, periodId: number, startDat: string, k: string, maxAmnt: number, alias: string, codeCredix: number) {
     return this.httpServices.post('canales', 'schedulerpayment/createschedulerpayment', {

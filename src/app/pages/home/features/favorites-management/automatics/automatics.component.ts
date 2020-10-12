@@ -24,6 +24,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   });
   codeCredix: FormControl = new FormControl(null);
   periodicityList: { description: string; id: number; }[] = [];
+  today: Date;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
@@ -42,14 +43,17 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
+    this.periodicityUpdate();
   }
 
   getSchedulePayment() {
     this.favoritesManagementService.schedulePayments.subscribe((response) => {
+      this.codeCredix.reset(null, {emitEvent: false});
       this.data = response;
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias);
       this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount);
       this.automaticsDetailForm.controls.startDate.setValue(this.data?.startDate);
+      this.today = new Date(this.data?.startDate);
       this.getPeriodicityList();
     });
   }
@@ -92,25 +96,17 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  updating(event) {
-    if (event.key !== '' && event.code !== '') {
-      this.automaticsDetailForm.controls.favoriteName.valueChanges.subscribe(value => {
-        this.favoritesManagementService.updating();
-        this.isUpdating = this.automaticsDetailForm.valid;
+  periodicityUpdate() {
+    this.automaticsDetailControls.periodicity.valueChanges.subscribe(() => {
+      this.isUpdating = true;
+      this.favoritesManagementService.updating();
       });
-      this.automaticsDetailForm.controls.maxAmount.valueChanges.subscribe(value => {
-        this.favoritesManagementService.updating();
-        this.isUpdating = this.automaticsDetailForm.valid;
-      });
+    if (this.automaticsDetailControls.favoriteName.dirty ||
+      this.automaticsDetailControls.maxAmount.dirty ||
+      this.automaticsDetailControls.startDate.dirty) {
+      console.log('si es veldad');
+      this.favoritesManagementService.updating();
     }
-    this.automaticsDetailForm.controls.startDate.valueChanges.subscribe(value => {
-      this.favoritesManagementService.updating();
-      this.isUpdating = this.automaticsDetailForm.valid;
-    });
-
-    this.automaticsDetailForm.controls.periodicity.valueChanges.subscribe(value => {
-      this.favoritesManagementService.updating();
-      this.isUpdating = this.automaticsDetailForm.valid;
-    });
+    }
   }
-}
+
