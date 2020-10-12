@@ -94,7 +94,6 @@ export class FavoritesManagementService {
     return this.__updateSuccess.asObservable();
   }
 
-  // Emit Methods of favorites
   emitIbanAccountData(favoriteIban: FavoriteIbanAccount) {
     this._ibanAccountData.next(favoriteIban);
   }

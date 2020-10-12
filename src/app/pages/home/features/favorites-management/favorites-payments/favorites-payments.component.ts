@@ -29,12 +29,13 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
+    this.favoritesPublicServiceNameChanged();
   }
 
   getAccountDetail() {
     this.favoritesManagementService.publicServices.subscribe((response) => {
       this.data = response;
-      this.favoritesPaymentDetail.setValue(this.data?.publicServiceFavoriteName);
+      this.favoritesPaymentDetail.setValue(this.data?.publicServiceFavoriteName, {emitEvent: false});
     });
   }
 
@@ -60,12 +61,12 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  updating(event) {
-    if (event.key !== '' && event.code !== '') {
-      this.favoritesPaymentDetail.valueChanges.subscribe(value => {
+  favoritesPublicServiceNameChanged() {
+    this.favoritesPaymentDetail.valueChanges.subscribe(() => {
+      if (this.favoritesPaymentDetail.dirty) {
         this.favoritesManagementService.updating();
-        this.isUpdating = this.favoritesPaymentDetail.valid;
+      }
       });
     }
   }
-}
+

@@ -34,7 +34,7 @@
 
     <credix-select *ngIf="data.periodicityDescription"
                    class="automatics__input disabled"
-                   [class.enabled]="isUpdating"
+                   [class.enabled]="automaticsDetailControls.periodicity.touched"
                    formControlName="periodicity"
                    label="Periocidad">
       <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">

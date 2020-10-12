@@ -1,4 +1,4 @@
-<div *ngIf="data !== undefined && data !== null" class="favorites-payments" fxLayout="column">
+<div *ngIf="data !== undefined && data" class="favorites-payments" fxLayout="column">
   <span class="favorites-payments__title"><strong>{{data?.publicServiceAccessKeyDescription}}</strong></span>
   <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
     <span>Número de contrato</span>
@@ -9,8 +9,7 @@
     <span>{{data?.publicServiceEnterpriseDescription}}</span>
   </div>
 
-  <credix-input-field (keyup)="updating($event)"
-                      [class.enabled]="isUpdating"
+  <credix-input-field [class.enabled]="favoritesPaymentDetail.dirty"
                       [formControl]="favoritesPaymentDetail"
                       class="favorites-payments__input disabled" label="Nombre de favorito"></credix-input-field>
 </div>
