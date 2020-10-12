@@ -53,7 +53,12 @@ export class SignInService {
               aplicantName: response.json.aplicantName,
               accountNumber: response.json.accountNumber,
             },
-            cards: response.json.cardNumberList
+            cards: (response.json.cardNumberList as Card[])
+              .map(card => ({
+                ...card,
+                cardNumber:
+                  `${card.cardNumber.substr(card.cardNumber.length - 8, 4)} ${card.cardNumber.substr(card.cardNumber.length - 4, card.cardNumber.length)}`
+              }))
           };
         } else {
           return null;

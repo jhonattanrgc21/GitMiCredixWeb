@@ -5,7 +5,7 @@
     <span fxFlex="250px">
       <strong>{{account === 0 ? 'Desembolso por cheque' : 'Desembolso por transferencia a:'}}</strong></span>
 
-    <div *ngIf="account !== 0" class="left-content" fxFlex="60" fxLayout="row" fxLayoutAlign="space-between">
+    <div *ngIf="account !== 0" class="left-content" fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex>IBAN</span>
 
       <span>{{account}}</span>
@@ -36,7 +36,7 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>Plazo</span>
-          <strong>{{term}} {{term === 1 ? 'Mes' : 'Meses'}}</strong>
+          <span><strong>{{term}} {{term === 1 ? 'Mes' : 'Meses'}}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
