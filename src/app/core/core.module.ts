@@ -8,7 +8,7 @@ import {AuthorizationGuard} from './guards/authorization.guard';
 import {HttpService} from './services/http.service';
 import {StorageService} from './services/storage.service';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
-import {GoHomeService} from './services/go-home.service';
+import {NavigationService} from './services/navigation.service';
 import {TagsService} from './services/tags.service';
 import {ScrollService} from './services/scroll.service';
 import {GlobalApiService} from './services/global-api.service';
@@ -45,7 +45,7 @@ const maskConfig: Partial<IConfig> = {
     CustomerApiService,
     PublicServicesApiService,
     TagsService,
-    GoHomeService,
+    NavigationService,
     StorageService,
     ScrollService,
     AuthorizationGuard,
