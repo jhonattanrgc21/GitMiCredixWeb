@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {HomeService} from '../home.service';
-import {GoHomeService} from '../../../core/services/go-home.service';
+import {NavigationService} from '../../../core/services/navigation.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,7 +14,7 @@ export class HomeToolbarComponent implements OnInit {
   svgIcon: 'menu-close' | 'menu' = 'menu-close';
 
   constructor(private homeService: HomeService,
-              private goHomeService: GoHomeService) {
+              private goHomeService: NavigationService) {
   }
 
   ngOnInit(): void {

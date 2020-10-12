@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PublicServicesService} from '../public-services.service';
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
 import {getMontByMonthNumber} from '../../../../../shared/utils/getMonthByMonthNumber';
+import {NavigationService} from '../../../../../core/services/navigation.service';
 
 @Component({
   selector: 'app-automatics-services',
@@ -26,7 +27,8 @@ export class AutomaticsServicesComponent implements OnInit {
     publicServiceDescription: string
   };
 
-  constructor(private publicServicesService: PublicServicesService) {
+  constructor(private publicServicesService: PublicServicesService,
+              private navigationService: NavigationService) {
     this.dataToDetail = null;
   }
 
@@ -53,5 +55,9 @@ export class AutomaticsServicesComponent implements OnInit {
       .subscribe((response) => {
         this.schedulePayments = response;
       });
+  }
+
+  onSubmenuChanged() {
+    this.navigationService.submenuChanged('favorites-management');
   }
 }
