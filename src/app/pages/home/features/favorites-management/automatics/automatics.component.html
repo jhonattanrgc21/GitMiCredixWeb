@@ -11,7 +11,7 @@
     <span class="truncate" fxFlex><strong>{{data?.publicServiceDescription}}</strong></span>
   </div>
 
-  <form [class.enabled]="isUpdating" [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="16px">
+  <form [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="16px">
 
     <credix-input-field *ngIf="data.alias"
                         [class.enabled]="automaticsDetailControls.favoriteName.dirty"

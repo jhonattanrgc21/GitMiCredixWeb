@@ -9,6 +9,7 @@ import {ToastData} from '../../../../../shared/components/credix-toast/credix-to
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 import {ActivatedRoute} from '@angular/router';
+import {Periodicity} from '../../../../../shared/models/periodicity';
 
 @Component({
   selector: 'app-automatics',
@@ -16,7 +17,6 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./automatics.component.scss']
 })
 export class AutomaticsComponent implements OnInit, AfterViewInit {
-  isUpdating = false;
   data: SchedulePayments;
   automaticsDetailForm: FormGroup = new FormGroup({
     favoriteName: new FormControl(null),
@@ -25,7 +25,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     periodicity: new FormControl(null)
   });
   codeCredix: FormControl = new FormControl(null);
-  periodicityList: { description: string; id: number; }[] = [];
+  periodicityList: Periodicity[];
   idParam: number;
   today: Date;
 

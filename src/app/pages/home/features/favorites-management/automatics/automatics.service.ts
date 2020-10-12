@@ -2,18 +2,22 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {StorageService} from '../../../../../core/services/storage.service';
-import {CacheBuster} from 'ngx-cacheable';
+import {Cacheable, CacheBuster} from 'ngx-cacheable';
 import {cleanSchedulePayments$} from '../../../../../core/services/channels-api.service';
+import {Observable} from 'rxjs';
+import {Periodicity} from '../../../../../shared/models/periodicity';
 
 @Injectable()
 export class AutomaticsService {
+  private readonly getPeriodicityUri = 'schedulerpayment/getperiodicitylist';
 
   constructor(private httpServices: HttpService,
               private storageServices: StorageService) {
   }
 
-  getPeriodicity() {
-    return this.httpServices.post('canales', 'schedulerpayment/getperiodicitylist', {})
+  @Cacheable()
+  getPeriodicity(): Observable<Periodicity[]> {
+    return this.httpServices.post('canales', this.getPeriodicityUri)
       .pipe(
         map((response) => {
           if (response.length > 0) {

@@ -13,7 +13,6 @@ import {PublicServiceFavoriteByUser} from '../../../../../shared/models/public-s
 })
 export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
-  isUpdating = false;
   data: PublicServiceFavoriteByUser;
   favoritesPaymentDetail: FormControl = new FormControl(null);
 
@@ -37,6 +36,7 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
     this.favoritesManagementService.publicServices.subscribe((response) => {
       this.data = response;
       this.favoritesPaymentDetail.setValue(this.data?.publicServiceFavoriteName, {emitEvent: false});
+      this.favoritesPaymentDetail.markAsPristine();
     });
   }
 
@@ -69,12 +69,13 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
       }
       });
     }
-      getDeletedSuccess() {
-        this.favoritesManagementService.deleted.subscribe((response) => {
+
+  getDeletedSuccess() {
+    this.favoritesManagementService.deleted
+      .subscribe((response) => {
           if (response.automatics) {
             this.data = null;
           }
-        });
-      }
+      });
     }
   }
