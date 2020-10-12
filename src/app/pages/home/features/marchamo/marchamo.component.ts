@@ -8,6 +8,7 @@ import {MarchamoService} from './marchamo.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
+import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-marchamos',
@@ -69,7 +70,8 @@ export class MarchamoComponent implements OnInit {
               private marchamosService: MarchamoService,
               private modalService: ModalService,
               private storageService: StorageService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
@@ -79,6 +81,7 @@ export class MarchamoComponent implements OnInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+    this.getCredixCodeError();
   }
 
   continue() {
@@ -194,6 +197,15 @@ export class MarchamoComponent implements OnInit {
     this.step2 = tags.find(tag => tag.description === 'marchamo.stepper2')?.value;
     this.step3 = tags.find(tag => tag.description === 'marchamo.stepper3')?.value;
     this.step4 = tags.find(tag => tag.description === 'marchamo.stepper4')?.value;
+  }
+
+  getCredixCodeError() {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.confirmForm.controls.credixCode.setErrors({invalid: true});
+      this.pickUpForm.updateValueAndValidity();
+      this.secureAndQuotesForm.updateValueAndValidity();
+      this.consultForm.updateValueAndValidity();
+    });
   }
 
 }

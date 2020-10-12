@@ -31,10 +31,10 @@ export class MovementsAccountStatementComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'movimientos.title').value;
+    this.titleTag = tags.find(tag => tag.description === 'movimientos.title')?.value;
     this.tabs = [
-      {id: 1, name: tags.find(tag => tag.description === 'movimientos.tab1').value || 'Pagos digitales'},
-      {id: 2, name: tags.find(tag => tag.description === 'movimientos.tab2').value || 'Comercios'},
+      {id: 1, name: tags.find(tag => tag.description === 'movimientos.tab1')?.value || 'Pagos digitales'},
+      {id: 2, name: tags.find(tag => tag.description === 'movimientos.tab2')?.value || 'Comercios'},
     ];
   }
 }

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Keys} from '../../../../../../shared/models/keys';
 
 @Component({
   selector: 'app-new-service-first-step',
@@ -7,14 +8,23 @@ import {FormControl, Validators} from '@angular/forms';
   styleUrls: ['./new-service-first-step.component.scss']
 })
 export class NewServiceFirstStepComponent implements OnInit {
-  @Input() contractControl = new FormControl(null, [Validators.required]);
-  @Input() referenceLabel: string;
+  @Input() contractFormGroup = new FormGroup({
+    contractControl: new FormControl(null, [Validators.required]),
+    keysControl: new FormControl(null, [Validators.required])
+  });
   @Input() hasReceipts = true;
+  @Input() keys: Keys[];
+  @Input() quantityOfKeys: number;
 
   constructor() {
   }
 
   ngOnInit(): void {
+    if (this.keys.length === 1) {
+      this.contractFormGroup.controls.keysControl.setValue(this.keys[0].keyType);
+    }
+    if (this.contractFormGroup.controls.contractControl.valid) {
+      this.contractFormGroup.enable();
+    }
   }
-
 }

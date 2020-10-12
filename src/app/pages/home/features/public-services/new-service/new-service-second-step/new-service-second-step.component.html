@@ -1,7 +1,7 @@
 <form [formGroup]="confirmFormGroup" class="new-service-second-step" fxLayout="column">
 
   <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="150px"><strong>{{referenceName}}</strong></span>
+    <span fxFlex="150px"><strong>Datos de referencia</strong></span>
 
     <div class="left-content mb-8px" fxLayout="column">
       <span><strong>{{reference}}</strong></span>
@@ -48,13 +48,51 @@
 
   </div>
 
+  <mat-divider *ngIf="paymentType !== 'E'" credixDivider></mat-divider>
+
+  <div *ngIf="paymentType !== 'E'" class="new-service-second-step__content"
+       fxLayout="row"
+       fxLayoutAlign="space-between">
+    <span><strong>Monto a pagar</strong></span>
+    <div class="left-content" fxLayout="column">
+      <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
+                           [checked]="radioCheck"
+                           [value]="'totalAmountPending'"
+                           label="Monto pendiente total"
+                           name="selectPayment"></credix-radio-button>
+      <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
+                           [checked]="radioCheck"
+                           [value]="'another'"
+                           label="Otro"
+                           name="selectPayment"></credix-radio-button>
+      <credix-input-field *ngIf="selectPayment === 'another'"
+                          class="new-service-second-step__content__input amount-to-pay"
+                          formControlName="amount"
+                          label="Monto"
+                          mask="separator"
+                          thousandSeparator=".">
+        <div error>
+          {{
+          confirmFormGroup.controls.amount.hasError('min') ? 'El monto tiene que ser mayor o igual a ' + amount :
+            confirmFormGroup.controls.amount.hasError('max') ? 'El monto tiene que ser menor o igual a ' + amount :
+              confirmFormGroup.controls.amount.hasError('required') ? 'ingrese el monto' : null
+          }}
+        </div>
+      </credix-input-field>
+
+    </div>
+  </div>
+
   <mat-divider credixDivider></mat-divider>
 
   <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <credix-code-link></credix-code-link>
 
     <credix-code-input class="new-service-second-step__content__input left-content" formControlName="credixCode">
-      <span error>Introduzca el código credix.</span>
+     <span *ngIf="confirmFormGroup.controls.credixCode.hasError('required')"
+           error>Introduzca el código credix.</span>
+      <span *ngIf="confirmFormGroup.controls.credixCode.hasError('invalid')"
+            error>Código credix inválido.</span>
     </credix-code-input>
   </div>
 

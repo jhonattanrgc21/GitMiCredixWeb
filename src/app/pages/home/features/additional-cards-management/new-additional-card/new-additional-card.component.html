@@ -24,11 +24,15 @@
 
   <div class="new-additional-card__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 2" [disabled]="disableButton"
-                     text="Continuar"></credix-button>
-      <credix-button (buttonClick)="openModal()" *ngIf="stepperIndex === 2" [disabled]="disableButton"
-                     text="Solicitar"></credix-button>
+      <credix-button (buttonClick)="back()" type="secondary">
+        Atrás
+      </credix-button>
+      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 2" [disabled]="disableButton">
+        Continuar
+      </credix-button>
+      <credix-button (buttonClick)="openModal()" *ngIf="stepperIndex === 2" [disabled]="disableButton">
+        Solicitar
+      </credix-button>
     </div>
   </div>
 

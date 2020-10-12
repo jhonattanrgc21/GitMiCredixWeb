@@ -54,18 +54,6 @@ export class SendMoneyFirstStepComponent implements OnInit {
     );
   }
 
-  getTags(tags: Tag[]) {
-    this.stepTag1 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag1').value;
-    this.stepTag3 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag3').value;
-    this.stepOpt3 = tags.find(tag => tag.description === 'enviardinero.stepper1.option3').value;
-    this.stepLink = tags.find(tag => tag.description === 'enviardinero.stepper1.link').value;
-    this.stepTag4 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag4').value;
-    this.stepTag2 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag2').value;
-    this.stepSubt3 = tags.find(tag => tag.description === 'enviardinero.stepper1.subtitle3').value;
-    this.stepOpt4 = tags.find(tag => tag.description === 'enviardinero.stepper1.option4').value;
-    this.stepSubt2 = tags.find(tag => tag.description === 'enviardinero.stepper1.subtitle2').value;
-  }
-
   getCurrencies() {
     this.globalApiService.getCurrencies().subscribe((currencies) => {
       if (currencies) {
@@ -117,6 +105,17 @@ export class SendMoneyFirstStepComponent implements OnInit {
         this.favoriteAccountControl.setValue(ibanAccount);
       }
     });
+  }
 
+  getTags(tags: Tag[]) {
+    this.stepTag1 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag1')?.value;
+    this.stepTag3 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag3')?.value;
+    this.stepOpt3 = tags.find(tag => tag.description === 'enviardinero.stepper1.option3')?.value;
+    this.stepLink = tags.find(tag => tag.description === 'enviardinero.stepper1.link')?.value;
+    this.stepTag4 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag4')?.value;
+    this.stepTag2 = tags.find(tag => tag.description === 'enviardinero.stepper1.tag2')?.value;
+    this.stepSubt3 = tags.find(tag => tag.description === 'enviardinero.stepper1.subtitle3')?.value;
+    this.stepOpt4 = tags.find(tag => tag.description === 'enviardinero.stepper1.option4')?.value;
+    this.stepSubt2 = tags.find(tag => tag.description === 'enviardinero.stepper1.subtitle2')?.value;
   }
 }

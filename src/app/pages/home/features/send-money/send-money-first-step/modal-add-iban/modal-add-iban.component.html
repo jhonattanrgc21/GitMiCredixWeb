@@ -25,8 +25,8 @@
     <credix-input-field *ngIf="showFavorite" class="add-account__form__input" formControlName="favName"
                         label="Nombre del favorito"></credix-input-field>
 
-    <credix-button (click)="submit()" [disabled]="newAccountForm.invalid" class="add-account__form__button"
-                   text="Añadir">
+    <credix-button (click)="submit()" [disabled]="newAccountForm.invalid" class="add-account__form__button">
+      Añadir
     </credix-button>
 
   </form>

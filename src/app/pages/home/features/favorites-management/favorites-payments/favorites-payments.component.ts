@@ -29,6 +29,7 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
+    this.getDeletedSuccess();
     this.favoritesPublicServiceNameChanged();
   }
 
@@ -68,5 +69,12 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
       }
       });
     }
+      getDeletedSuccess() {
+        this.favoritesManagementService.deleted.subscribe((response) => {
+          if (response.automatics) {
+            this.data = null;
+          }
+        });
+      }
+    }
   }
-

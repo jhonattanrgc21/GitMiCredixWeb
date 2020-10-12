@@ -53,7 +53,10 @@
       </div>
 
       <credix-code-input [formControl]="codeCredix" class="add-favorites-payment__form">
-        <span error>Introduzca el código credix.</span>
+          <span *ngIf="codeCredix.hasError('required')"
+                error>Introduzca el código credix.</span>
+        <span *ngIf="codeCredix.hasError('invalid')"
+              error>Código credix inválido.</span>
       </credix-code-input>
     </div>
 
@@ -61,10 +64,10 @@
 
   <div class="add-favorites-payment__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" text="Atrás" type="secondary"></credix-button>
+      <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
       <credix-button (buttonClick)="addFavoritePayment()"
-                     [disabled]="!newFavoritesPaymentForm.valid || !codeCredix.valid"
-                     text="Añadir"></credix-button>
+                     [disabled]="!newFavoritesPaymentForm.valid || !codeCredix.valid">Añadir
+      </credix-button>
     </div>
   </div>
 </mat-card>
@@ -88,7 +91,7 @@
 
     <div class="add-favorites-payment__footer" fxLayout="row" fxLayoutAlign="flex-end">
       <div fxLayoutGap="16px">
-        <credix-button (buttonClick)="back()" text="Listo"></credix-button>
+        <credix-button (buttonClick)="back()">Listo</credix-button>
       </div>
     </div>
   </mat-card>

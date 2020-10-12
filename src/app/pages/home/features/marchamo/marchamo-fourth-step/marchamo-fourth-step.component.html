@@ -27,7 +27,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>{{step4TagMarch || 'Marchamo'}}</span>
         <credix-numeric-block
-          [value]="totalAmount"
+          [value]="totalMarchamo"
           fontWeight="bold"
           prefix="₡">
         </credix-numeric-block>
@@ -35,7 +35,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>{{step4TagSeg || 'Seguros'}}</span>
         <credix-numeric-block
-          [value]="amountTotalProducts"
+          [value]="totalOfItemProduct"
           fontWeight="bold"
           prefix="₡">
         </credix-numeric-block>
@@ -73,7 +73,10 @@
 
     <form [formGroup]="confirmForm" fxFlex="380px">
       <credix-code-input class="w-50" formControlName="credixCode">
-        <span error>Introduzca el código credix.</span>
+       <span *ngIf="confirmForm.controls.codeCredix.hasError('required')"
+             error>Introduzca el código credix.</span>
+        <span *ngIf="confirmForm.controls.codeCredix.hasError('invalid')"
+              error>Código credix inválido.</span>
       </credix-code-input>
     </form>
   </div>

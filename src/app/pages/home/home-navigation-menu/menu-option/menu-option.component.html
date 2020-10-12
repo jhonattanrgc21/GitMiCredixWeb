@@ -5,7 +5,7 @@
         'is-pre-active' : preActiveMenu == menu.id,
         'is-open' : preActiveMenu == menu.id && openSubmenu }">
     <hr *ngIf="!first" class="menu-options__line">
-    <button (click)="menuClick(menu.id, menu.route, menu.submenus?.length, first)"
+    <button (click)="menuChanged(menu.id, menu.route, menu.submenus?.length, first)"
             class="menu-options__menu menu-options__button menu-items">
       <span class="menu-label">{{menu.name}}</span>
       <mat-icon *ngIf="!first && menu.submenus"
@@ -14,7 +14,7 @@
     </button>
     <div [class.is-open]="preActiveMenu == menu.id && openSubmenu" class="menu-options__submenus">
       <ng-container *ngFor="let submenu of menu.submenus, let last = last">
-        <button (click)="submenuClick(menu.id, submenu.id, submenu.route)"
+        <button (click)="submenuChanged(menu.id, submenu.id, submenu.route)"
                 [class.is-active]="activeSubmenu == submenu.id"
                 class="menu-options__button menu-options__submenu">
           <mat-icon [svgIcon]="submenu.icon" class="submenu-icon"></mat-icon>

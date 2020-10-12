@@ -13,7 +13,8 @@
             {{schedule.alias}}
           </span>
           <span class="truncate">
-            {{ category === 'Recargas' || category === 'Telefonía' ? (schedule.key | mask: '0000-0000')
+            {{ schedule.publicServiceCategoryName === 'Recargas' || schedule.publicServiceCategoryName === 'Telefonía' ?
+            (schedule.key | mask: '0000-0000')
             : schedule.publicServiceDescription + '-' + schedule.key  }}
           </span>
         </div>
@@ -25,7 +26,7 @@
   </ngx-simplebar>
 
   <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
-    <div class="automatics-services__table" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="dataToDetail" class="automatics-services__table" fxLayout="column" fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
         <span class="tr">{{dataToDetail?.publicServiceDescription}}</span>
@@ -57,9 +58,9 @@
     </div>
 
     <div class="automatics-services__footer">
-      <credix-button fxLayoutAlign="flex-end center"
-                     route="/home/favorites-management/automatics?q={{dataToDetail?.id}}"
-                     text="Editar"></credix-button>
+      <credix-button (click)="onSubmenuChanged()" *ngIf="dataToDetail" fxLayoutAlign="flex-end center"
+                     [routerLink]="['/home/favorites-management/automatics', dataToDetail?.id]">Editar
+      </credix-button>
     </div>
   </div>
 

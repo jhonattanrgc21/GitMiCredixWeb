@@ -87,14 +87,18 @@
 
     &--in-progress {
       height: 367px;
+
+      ::ng-deep .credix-result-notification__title {
+        width: 280px;
+      }
     }
 
     &--finished {
       height: 509px;
-    }
 
-    ::ng-deep.credix-result-notification__title {
-      width: 286px;
+      ::ng-deep .credix-result-notification__title {
+        width: 300px;
+      }
     }
   }
 

@@ -3,7 +3,7 @@ import {LandingService} from './landing.service';
 import {Movement} from '../../../../shared/models/movement';
 import {StorageService} from '../../../../core/services/storage.service';
 import {AccountSummary} from '../../../../shared/models/account-summary';
-import {GoHomeService} from '../../../../core/services/go-home.service';
+import {NavigationService} from '../../../../core/services/navigation.service';
 import {ChannelsApiService} from '../../../../core/services/channels-api.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class LandingComponent implements OnInit {
   cardId: number;
 
   constructor(private landingService: LandingService,
-              private goHomeService: GoHomeService,
+              private goHomeService: NavigationService,
               private channelsApiService: ChannelsApiService,
               private storageService: StorageService) {
     this.goHomeService.goHome();

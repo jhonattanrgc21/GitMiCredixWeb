@@ -3,9 +3,10 @@
 
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
-      <a (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference)"
-         *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
-         fxLayout="row">
+      <a
+        (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference, favorites.publicServiceAccessKeyType)"
+        *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
+        fxLayout="row">
         <mat-icon [svgIcon]="favorites.icon" class="mr-16px" fxFlex="16px"
                   style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
         <div fxFlex="180px" fxLayout="column">
@@ -15,7 +16,8 @@
           </span>
           <span class="truncate">
             {{
-            category === 'Recargas' || category === 'Telefonía' ? (favorites.serviceReference | mask: '0000-0000') :
+            favorites.publicServiceCategory === 'Recargas' || favorites.publicServiceCategory === 'Telefonía' ?
+              (favorites.serviceReference | mask: '0000-0000') :
               favorites.publicServiceProviderPrefix + '-' + favorites.serviceReference
             }}
           </span>
@@ -27,7 +29,12 @@
   </ngx-simplebar>
 
   <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
-    <div class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
+
+    <credix-result-notification *ngIf="!hasReceipts" class="favorites-services__notification"
+                                status="info" title="No tiene ninguna factura pendiente"></credix-result-notification>
+
+    <div *ngIf="hasReceipts && dataDetail" class="favorites-services__table" fxLayout="column"
+         fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
         <span *ngIf="company !== null" class="tr">{{company}}</span>
@@ -43,7 +50,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Vencimiento</span>
         <span class="tr">
-          {{expirationDate | dateFormatter : 'alphanumeric'}}</span>
+          {{expirationDate !== undefined ? (expirationDate | dateFormatter : 'alphanumeric') : '' }}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Recibos pendientes</span>
@@ -56,7 +63,9 @@
     </div>
 
     <div class="favorites-services__footer">
-      <credix-button (buttonClick)="pay()" fxLayoutAlign="flex-end center" text="Pagar"></credix-button>
+      <credix-button (buttonClick)="pay()" [disabled]="dataDetail?.receipts == null" fxLayoutAlign="flex-end center">
+        Pagar
+      </credix-button>
     </div>
   </div>
 
@@ -95,12 +104,12 @@
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="60px">Teléfono</span>
-            <span class="tr"><strong>{{dataResponse.phoneNumber | mask: '0000-0000'}}</strong></span>
+            <span class="tr"><strong>{{dataResponse?.phoneNumber | mask: '0000-0000'}}</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="60px">Fecha</span>
-            <span class="tr"><strong>{{dataResponse.date | dateFormatter: 'alphanumeric'}}</strong></span>
+            <span class="tr"><strong>{{dataResponse?.date | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
 
         </div>

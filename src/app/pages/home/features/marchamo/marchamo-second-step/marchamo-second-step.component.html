@@ -17,7 +17,8 @@
   <div class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <span fxFlex="155px"><strong>{{step2Subt2 || 'Seguros opcionales'}}</strong></span>
 
-    <div class="marchamo-second-step__content__middle" fxLayout="column" fxLayoutGap="8px">
+    <div *ngIf="haveAdditionalProducts" class="marchamo-second-step__content__middle" fxLayout="column"
+         fxLayoutGap="8px">
       <credix-checkbox-button
         (emitCheckBox)="getValueCheckBoxes($event)"
         *ngFor="let item of itemProduct"
@@ -29,7 +30,8 @@
                               label="{{step2TagT || 'Todos'}}"></credix-checkbox-button>
     </div>
 
-    <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="8px">
+    <div *ngIf="haveAdditionalProducts" fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end"
+         fxLayoutGap="8px">
       <credix-numeric-block *ngFor="let item of itemProduct" [value]="item.amount" fontSize="16"
                             fontWeight="bold" prefix="₡"></credix-numeric-block>
     </div>

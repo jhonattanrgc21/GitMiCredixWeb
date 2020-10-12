@@ -24,10 +24,9 @@
     <cdk-step label="{{step4 || 'Confirmar'}}" [stepControl]="confirmForm">
       <app-marchamo-fourth-step [confirmForm]="confirmForm"
                                 [contactInfo]="{name: name, phone: phoneNumber, email: email}"
-                                [amountTotalProducts]="totalAmountItemsProducts"
                                 [deliveryPlace]="address"
                                 [isActive]="stepperIndex === 3"
-                                [totalAmount]="marchamoTotal"></app-marchamo-fourth-step>
+                                [totalMarchamo]="marchamoTotal"></app-marchamo-fourth-step>
     </cdk-step>
 
   </credix-stepper>
@@ -35,12 +34,16 @@
   <div class="marchamos__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
       <credix-button (buttonClick)="consult()" *ngIf="stepperIndex === 0" [disabled]="consultForm.invalid"
-                     text="Consultar" type="secondary"></credix-button>
-      <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" text="Atrás" type="secondary"></credix-button>
-      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 3" [disabled]="disableButton"
-                     [text]="'Continuar'"></credix-button>
-      <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton"
-                     [text]="'Pagar'"></credix-button>
+                     type="secondary">
+        Consultar
+      </credix-button>
+      <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" type="secondary">Atrás</credix-button>
+      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 3" [disabled]="disableButton">
+        Continuar
+      </credix-button>
+      <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton">
+        Pagar
+      </credix-button>
     </div>
   </div>
 
@@ -52,7 +55,7 @@
                           [status]="status"
                           [title]="title || 'Marchamo'"
                           buttonText="Realizar otro pago"
-                          routeTo="/home/marchamo">
+                          routeTo="/home/marchamos">
 
     <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
       <mat-divider class="mb-24px" credixDivider></mat-divider>

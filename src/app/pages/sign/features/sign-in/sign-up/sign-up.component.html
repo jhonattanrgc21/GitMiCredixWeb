@@ -2,8 +2,8 @@
   <p class="modal-new-user__parrafe">Ingrese los siguientes datos para crear una clave nueva.</p>
 
   <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
-    <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
 
+    <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
       <form [formGroup]="newUserFirstStepForm" class="modal-new-user_first-form" fxLayout="column"
             fxLayoutGap="space-between">
 
@@ -23,23 +23,27 @@
           (buttonClick)=verifyRegistryUser()
           [disabled]="!newUserFirstStepForm.valid"
           class="modal-new-user__button step-one"
-          fxFlexAlign="flex-start"
-          text="Continuar"></credix-button>
+          fxFlexAlign="flex-start">Continuar
+        </credix-button>
       </form>
     </cdk-step>
 
     <cdk-step [label]="'Validar teléfono'" [stepControl]="newUserSecondStepForm">
       <p class="modal-new-user__stepper--parrafe">Ingrese el código que hemos enviado al teléfono
-        registrado: {{cellNumber}}</p>
+        registrado: {{phoneNumber}}</p>
 
       <form [formGroup]="newUserSecondStepForm" fxLayout="column">
 
         <credix-code-input class="w-100 mb-16px" formControlName="credixCode">
-          <span error>Introduzca el código credix</span></credix-code-input>
+           <span *ngIf="newUserSecondStepForm.controls.credixCode.hasError('required')"
+                 class="mb-8px" error>Introduzca el código credix.</span>
+          <span *ngIf="newUserSecondStepForm.controls.credixCode.hasError('invalid')"
+                class="mb-8px" error>Código credix inválido.</span>
+        </credix-code-input>
 
         <div class="mb-24px" fxLayout="column" fxLayoutAlign="start center">
           <span>¿No ha recibido el código?</span>
-          <credix-link-button (click)=getCodeAgain()>Enviar nuevamente</credix-link-button>
+          <credix-link-button (click)=sendOtp()>Enviar nuevamente</credix-link-button>
         </div>
 
         <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por
@@ -47,11 +51,11 @@
           o visite una de nuestras sucursales para solicitar el cambio.</p>
 
         <credix-button
-          (buttonClick)=sendPasswordSecurity()
+          (buttonClick)=validateOtp()
           [disabled]="!newUserSecondStepForm.valid"
           class="modal-new-user__button step-two"
-          fxFlexAlign="flex-start"
-          text="Continuar"></credix-button>
+          fxFlexAlign="flex-start">Continuar
+        </credix-button>
 
       </form>
     </cdk-step>
@@ -78,8 +82,8 @@
           (buttonClick)=submit()
           [disabled]="!newUserThirdStepForm.valid"
           class="modal-new-user__button step-three"
-          fxFlexAlign="flex-end"
-          text="Ingresar"></credix-button>
+          fxFlexAlign="flex-end">Ingresar
+        </credix-button>
       </form>
     </cdk-step>
 

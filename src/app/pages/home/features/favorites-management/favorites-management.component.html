@@ -1,7 +1,7 @@
 <mat-card class="favorites-management" credixCard fxLayout="column" fxLayoutGap="16px">
   <h1>Gestionar favoritos</h1>
 
-  <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
+  <credix-tab (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex]" [tabs]="tabs"></credix-tab>
 
   <credix-navigation-table [headers]="tableHeaders" [hide]="empty">
 
@@ -32,17 +32,20 @@
       </ngx-simplebar>
 
       <div class="favorites-management__add-footer" fxLayoutAlign="center center">
-        <credix-button (buttonClick)="add(tabId)" [text]="buttonText"></credix-button>
+        <credix-button (buttonClick)="add(tabId)">
+          {{'Añadir ' + (tabId === 1 ? 'cuenta IBAN' : tabId === 2 ? 'pago favorito' : 'pago automático')}}
+        </credix-button>
       </div>
     </div>
 
     <div class="relative h-100" fxLayout="column" fxLayoutAlign="flex-start center" right>
       <router-outlet></router-outlet>
+
       <div *ngIf="optionSelected !== 0" class="favorites-management__footer" fxLayout="row"
            fxLayoutAlign="flex-end center"
            fxLayoutGap="16px">
-        <credix-button (buttonClick)="delete(tabId)" text="Eliminar" type="secondary"></credix-button>
-        <credix-button (buttonClick)="update(tabId)" [disabled]="!updating" text="Guardar"></credix-button>
+        <credix-button (buttonClick)="delete(tabId)" type="secondary">Eliminar</credix-button>
+        <credix-button (buttonClick)="update(tabId)" [disabled]="!updating">Guardar</credix-button>
       </div>
     </div>
 
@@ -56,7 +59,9 @@
 
 
   <div *ngIf="empty" class="favorites-management__footer pr-16px" fxLayout="row" fxLayoutAlign="flex-end center">
-    <credix-button (buttonClick)="add(tabId)" [text]="buttonText"></credix-button>
+    <credix-button (buttonClick)="add(tabId)">
+      {{'Añadir ' + (tabId === 1 ? 'cuenta IBAN' : tabId === 2 ? 'pago favorito' : 'pago automático')}}
+    </credix-button>
   </div>
 
 </mat-card>

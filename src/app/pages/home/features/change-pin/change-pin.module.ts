@@ -20,6 +20,7 @@ import {ChangePinComponent} from './change-pin.component';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
+import {ChangePinService} from './change-pin.service';
 
 const routes: Routes = [
   {
@@ -52,7 +53,10 @@ const routes: Routes = [
     CredixCodeLinkModule
 
   ],
-  providers: [ModalService]
+  providers: [
+    ChangePinService,
+    ModalService
+  ]
 })
 export class ChangePinModule {
 }

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HomeNavigationMenuService} from '../home-navigation-menu.service';
 import {HomeService} from '../../home.service';
-import {GoHomeService} from '../../../../core/services/go-home.service';
+import {NavigationService} from '../../../../core/services/navigation.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
@@ -23,7 +23,7 @@ export class MenuOptionComponent implements OnInit {
   questionTag: string;
 
   constructor(private router: Router,
-              private goHomeService: GoHomeService,
+              private navigationService: NavigationService,
               private tagsService: TagsService,
               private homeService: HomeService,
               private modalService: ModalService,
@@ -32,15 +32,33 @@ export class MenuOptionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMenus();
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags));
-    this.goHomeService.goHomeObs.subscribe(() => {
+    this.goHomeEvents();
+    this.subscribeToTags();
+    this.routeChanged();
+    this.homeNavigationMenuService.closeSubmenuObs.subscribe(() => this.openSubmenu = false);
+  }
+
+  routeChanged() {
+    this.navigationService.submenuChanged$.subscribe(route => {
+      const submenu = this.submenus.find(sub => sub.route.split('/')[2] === route);
+      const menu = this.menus.find(men => men.name === submenu.parentId);
+      this.menuChanged(menu.id, menu.route, this.submenus.filter(sub => sub.parentId === menu.name).length, false);
+      this.submenuChanged(menu.id, submenu.id, submenu.route, false);
+    });
+  }
+
+  goHomeEvents() {
+    this.navigationService.goHomeObs.subscribe(() => {
       this.openSubmenu = false;
       this.activeSubmenu = 0;
       this.preActiveMenu = 0;
       this.activeMenu = 1;
     });
-    this.homeNavigationMenuService.closeSubmenuObs.subscribe(() => this.openSubmenu = false);
+  }
+
+  subscribeToTags() {
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags));
   }
 
   getMenus() {
@@ -61,12 +79,14 @@ export class MenuOptionComponent implements OnInit {
       }
 
       this.menus.forEach(menu => {
-        menu.submenus = this.submenus.filter(sub => sub.parentId === menu.name);
+        if (menu.id !== 1) {
+          menu.submenus = this.submenus.filter(sub => sub.parentId === menu.name);
+        }
       });
     });
   }
 
-  menuClick(menuId: number, route: string, submenusSize: number, isFirst: boolean) {
+  menuChanged(menuId: number, route: string, submenusSize: number, isFirst: boolean) {
     this.homeNavigationMenuService.closeMessages();
     this.openSubmenu = this.preActiveMenu === menuId ? !this.openSubmenu : !isFirst;
     this.preActiveMenu = menuId;
@@ -81,13 +101,15 @@ export class MenuOptionComponent implements OnInit {
     }
   }
 
-  submenuClick(menuId: number, submenuId: number, route: string) {
+  submenuChanged(menuId: number, submenuId: number, route: string, navigate = true) {
     this.activeMenu = menuId;
     this.activeSubmenu = submenuId;
 
-    if (route !== '/home/increase-limit') {
+    if (route !== '/home/increase-limit' && navigate) {
       this.router.navigate([route]);
-    } else {
+    }
+
+    if (route === '/home/increase-limit') {
       this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?')
         .subscribe(confirmation => {
           if (confirmation) {

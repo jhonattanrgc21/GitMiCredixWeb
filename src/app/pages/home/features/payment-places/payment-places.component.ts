@@ -13,7 +13,7 @@ import {Tag} from '../../../../shared/models/tag';
 export class PaymentPlacesComponent implements OnInit {
   tabs = [
     {id: 1, name: 'Pagos digitales'},
-    {id: 2, name: 'Comercios'},
+    {id: 2, name: 'Comercios'}
   ];
   titleTag: string;
 
@@ -34,10 +34,10 @@ export class PaymentPlacesComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'lugares.title').value;
+    this.titleTag = tags.find(tag => tag.description === 'lugares.title')?.value;
     this.tabs = [
-      {id: 1, name: tags.find(tag => tag.description === 'lugares.tab2').value || 'Pagos digitales'},
-      {id: 2, name: tags.find(tag => tag.description === 'lugares.tab1').value || 'Comercios'},
+      {id: 1, name: tags.find(tag => tag.description === 'lugares.tab2')?.value || 'Pagos digitales'},
+      {id: 2, name: tags.find(tag => tag.description === 'lugares.tab1')?.value || 'Comercios'},
     ];
   }
 }

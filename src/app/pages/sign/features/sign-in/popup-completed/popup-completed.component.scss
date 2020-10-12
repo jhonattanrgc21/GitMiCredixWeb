@@ -1,0 +1,33 @@
+.popup-completed {
+  height: 100%;
+
+  &--sign-up {
+    ::ng-deep {
+
+      .credix-result-notification__icon {
+        height: 70px !important;
+        width: 70px !important;
+        margin-bottom: 40px !important;
+      }
+
+      .credix-result-notification__title {
+        margin-bottom: 16px !important;
+      }
+    }
+  }
+
+  &--forgot-pass {
+    ::ng-deep {
+
+      .credix-result-notification__icon {
+        height: 90px !important;
+        width: 90px !important;
+      }
+
+      .credix-result-notification__icon, .credix-result-notification__title {
+        margin-bottom: 24px !important;
+      }
+    }
+  }
+
+}

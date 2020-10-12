@@ -59,11 +59,6 @@ export class SendMoneySecondStepComponent implements OnInit {
     );
   }
 
-  getTags(tags: Tag[]) {
-    this.step2Tag1 = tags.find(tag => tag.description === 'enviardinero.stepper2.tag1').value;
-    this.step2Subt1 = tags.find(tag => tag.description === 'enviardinero.stepper2.subtitle1').value;
-}
-
   change() {
     this.commissionRate = this.quotas.find((elem) => elem.quota === this.quotasControl.value).commissionRate;
     this.commission = this.amountToSendControl.value * (this.commissionRate / 100);
@@ -115,5 +110,10 @@ export class SendMoneySecondStepComponent implements OnInit {
       },
       {width: 380, height: 301, disableClose: false, panelClass: 'details-panel'}, 1
     );
+  }
+
+  getTags(tags: Tag[]) {
+    this.step2Tag1 = tags.find(tag => tag.description === 'enviardinero.stepper2.tag1')?.value;
+    this.step2Subt1 = tags.find(tag => tag.description === 'enviardinero.stepper2.subtitle1')?.value;
   }
 }

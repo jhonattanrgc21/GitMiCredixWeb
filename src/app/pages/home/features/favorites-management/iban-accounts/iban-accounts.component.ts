@@ -29,6 +29,7 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getUpdateAlert();
+    this.getDeletedSuccess();
   }
 
   getIbanAccountDetail() {
@@ -67,5 +68,13 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
         this.isUpdating = this.ibanAccountDetailInput.valid;
       });
     }
+  }
+
+  getDeletedSuccess() {
+    this.favoritesManagementService.deleted.subscribe((response) => {
+      if (response.iban) {
+        this.data = null;
+      }
+    });
   }
 }

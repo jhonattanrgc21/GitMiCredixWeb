@@ -1,9 +1,0 @@
-<div class="modal-response-sign-up" fxLayout="column">
-  <credix-result-notification [message]="data.data.message" [status]="data.data.status" fxFlex
-                              [title]="data.data.title"></credix-result-notification>
-
-  <credix-button (buttonClick)=close()
-                 [text]="data.data.status.success ? 'Ingresar' : 'Volver'"
-                 class="modal-response-sign-up__button">
-  </credix-button>
-</div>

@@ -116,11 +116,12 @@ export class ExtendTermComponent implements OnInit {
 
   openConfirmationModal() {
     if (this.quotaSelected) {
-      this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este pago?').subscribe(confirmation => {
-        if (confirmation) {
-          this.saveQuota();
-        }
-      });
+      this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este pago?')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            this.saveQuota();
+          }
+        });
     }
   }
 
@@ -138,19 +139,19 @@ export class ExtendTermComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.comisionTag = tags.find(tag => tag.description === 'ampliar.tag.comision').value;
-    this.comercioResult = tags.find(tag => tag.description === 'ampliar.result.comercio').value;
-    this.subtitle = tags.find(tag => tag.description === 'ampliar.subtitle').value;
-    this.question = tags.find(tag => tag.description === 'ampliar.question').value;
-    this.titleTag = tags.find(tag => tag.description === 'ampliar.title').value;
-    this.disclaTag = tags.find(tag => tag.description === 'ampliar.disclaimer').value;
-    this.monthTag = tags.find(tag => tag.description === 'ampliar.tag.meses').value;
-    this.warningTag = tags.find(tag => tag.description === 'ampliar.message.warning').value;
-    this.dateTag = tags.find(tag => tag.description === 'ampliar.result.fecha').value;
-    this.quotaTag = tags.find(tag => tag.description === 'ampliar.tag.cuota').value;
-    this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo').value;
-    this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota').value;
-    this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo').value;
+    this.comisionTag = tags.find(tag => tag.description === 'ampliar.tag.comision')?.value;
+    this.comercioResult = tags.find(tag => tag.description === 'ampliar.result.comercio')?.value;
+    this.subtitle = tags.find(tag => tag.description === 'ampliar.subtitle')?.value;
+    this.question = tags.find(tag => tag.description === 'ampliar.question')?.value;
+    this.titleTag = tags.find(tag => tag.description === 'ampliar.title')?.value;
+    this.disclaTag = tags.find(tag => tag.description === 'ampliar.disclaimer')?.value;
+    this.monthTag = tags.find(tag => tag.description === 'ampliar.tag.meses')?.value;
+    this.warningTag = tags.find(tag => tag.description === 'ampliar.message.warning')?.value;
+    this.dateTag = tags.find(tag => tag.description === 'ampliar.result.fecha')?.value;
+    this.quotaTag = tags.find(tag => tag.description === 'ampliar.tag.cuota')?.value;
+    this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo')?.value;
+    this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota')?.value;
+    this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo')?.value;
   }
 
 }

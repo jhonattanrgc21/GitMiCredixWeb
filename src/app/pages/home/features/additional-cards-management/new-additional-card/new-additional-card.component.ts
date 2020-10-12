@@ -6,6 +6,8 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {finalize} from 'rxjs/operators';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-new-additional-card',
@@ -42,6 +44,7 @@ export class NewAdditionalCardComponent implements OnInit {
   thirdStepperTag: string;
 
   constructor(private additionalCardsManagementService: AdditionalCardsManagementService,
+              private credixCodeErrorService: CredixCodeErrorService,
               private modalService: ModalService,
               private tagsService: TagsService,
               private router: Router) {
@@ -51,6 +54,10 @@ export class NewAdditionalCardComponent implements OnInit {
     this.checkStep();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Tarjetas adicionales').tags));
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
+      this.confirmFormGroup.updateValueAndValidity();
+    });
   }
 
   goBack() {
@@ -107,22 +114,23 @@ export class NewAdditionalCardComponent implements OnInit {
       this.userInfoFormGroup.controls.identification.value,
       this.userInfoFormGroup.controls.phoneNumber.value.toString(),
       this.userInfoFormGroup.controls.email.value,
+      // tslint:disable-next-line:max-line-length
       `${birthday.getFullYear()}${birthday.getMonth() < 10 ? '0' + (birthday.getMonth() + 1) : birthday.getMonth() + 1}${birthday.getDate() < 10 ? '0' + (birthday.getDate() + 1) : birthday.getDate() + 1}`,
       +this.userInfoFormGroup.controls.creditLimit.value,
       this.pickUpPlaceFormGroup.controls.address.value,
       this.confirmFormGroup.controls.credixCode.value
-    ).subscribe(response => {
-      this.done = true;
-      this.title = response.titleOne;
-      this.message = response.descriptionOne;
-      this.status = response.type;
-    });
+    ).pipe(finalize(() => this.done = this.confirmFormGroup.controls.credixCode.valid))
+      .subscribe(result => {
+        this.title = result.title;
+        this.status = result.type;
+        this.message = result.message;
+      });
   }
 
   getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'adicionales.title').value;
-    this.firstStepperTag = tags.find(tag => tag.description === 'adicionales.stepper1').value;
-    this.secondStepperTag = tags.find(tag => tag.description === 'adicionales.stepper2').value;
-    this.thirdStepperTag = tags.find(tag => tag.description === 'adicionales.stepper3').value;
+    this.titleTag = tags.find(tag => tag.description === 'adicionales.title')?.value;
+    this.firstStepperTag = tags.find(tag => tag.description === 'adicionales.stepper1')?.value;
+    this.secondStepperTag = tags.find(tag => tag.description === 'adicionales.stepper2')?.value;
+    this.thirdStepperTag = tags.find(tag => tag.description === 'adicionales.stepper3')?.value;
   }
 }

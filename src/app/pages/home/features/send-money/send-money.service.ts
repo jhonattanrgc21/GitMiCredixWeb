@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class SendMoneyService {
@@ -35,7 +36,8 @@ export class SendMoneyService {
   }
 
   sendMoney(ibanOrigin, crcId, creationDate, amountTransfer, ibanDestinity, typeDestinationId,
-            nameDestination, period, commissionAmount, totalAmount, identification, credixCode) {
+            nameDestination, period, commissionAmount, totalAmount, identification, credixCode):
+    Observable<{ type: 'success' | 'error', status?: number, message: string, title: string }> {
     return this.httpService
       .post('canales', this.sendMoneyUri, {
         ibanOrigin,
@@ -53,7 +55,10 @@ export class SendMoneyService {
         identification,
         trsId: 1,
         credixCode
-      });
+      }).pipe(
+        map(response => {
+          return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
+        }));
   }
 
   getAccountByIbanNumber(identification, ibanAccount, currencyValidationTag) {

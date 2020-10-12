@@ -1,15 +1,13 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SecurityService} from '../../../../core/services/security.service';
-import * as CryptoJS from 'crypto-js';
 import {ModalService} from '../../../../core/services/modal.service';
-import {SignUpComponent} from '../sign-up/sign-up.component';
-import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
+import {SignUpComponent} from './sign-up/sign-up.component';
 import {MatDialogRef} from '@angular/material/dialog';
-import {HttpService} from '../../../../core/services/http.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {Router} from '@angular/router';
-import {CredixToastService} from '../../../../core/services/credix-toast.service';
+import {SignInService} from './sign-in.service';
+import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
+import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
 
 
 @Component({
@@ -23,56 +21,90 @@ export class SignInComponent implements OnInit {
     password: new FormControl(null, [Validators.required])
   });
   newDeviceFormGroup: FormGroup = new FormGroup(
-    {
-      credixCode: new FormControl('', [Validators.required, Validators.minLength(6)])
-    });
+    {credixCode: new FormControl('', [Validators.required, Validators.minLength(6)])});
   sessionActivateModal: MatDialogRef<any>;
   newDeviceModal: MatDialogRef<any>;
-  showErrorMessage = false;
-  forward = false;
-  phone = '';
+  errorOtpMessage: string;
+  otpSent = false;
+  phone: string;
+  userId: number;
   hide = true;
-
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
   @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
 
-  constructor(private securityService: SecurityService,
+  constructor(private signInService: SignInService,
               private modalService: ModalService,
-              private httpService: HttpService,
               private storageService: StorageService,
-              private router: Router,
-              private toastService: CredixToastService) {
-
-  }
-
-  get f() {
-    return this.signInformGroup.controls;
-  }
-
-  get g() {
-    return this.newDeviceFormGroup.controls;
+              private router: Router) {
   }
 
   ngOnInit(): void {
+    this.signInService.newDevice$.subscribe(() => this.open('session-activate'));
   }
 
   login() {
-    this.httpService.post('canales', 'security/userlogin', {
-      username: this.signInformGroup.get('identification').value,
-      password: CryptoJS.SHA256(this.signInformGroup.get('password').value).toString(),
-      channelId: 102,
-      deviceIdentifier: 1213123134,
-      typeIncome: 2
-    }).subscribe(data => {
-        if (data.titleOne === 'success') {
-          this.storageService.setCurrentSession(data, this.signInformGroup.get('identification').value);
+    this.signInService.login(this.signInformGroup.controls.identification.value, this.signInformGroup.controls.password.value)
+      .subscribe(response => {
+        if (response) {
+          this.storageService.setCurrentSession(response.user, response.cards);
+          this.otpSent = false;
           this.deviceInfo();
-        } else if (data.titleOne === 'warn') {
-          if (data.json.message === 'El usuario ya tiene una sesion activa') {
-            this.open('session-activate');
-          }
-        } else if (data.titleOne === 'error') {
+        }
+      });
+  }
 
+  deviceInfo() {
+    this.signInService.getDeviceInfo()
+      .subscribe(response => {
+        if (response.status === 'success' && (response.id === 0 || response.id === 2)) {
+          this.sendOtp();
+          this.open('new-device');
+        }
+
+        if (response.status === 'success' && response.id === 1) {
+          this.router.navigate(['/home']).then();
+        }
+      });
+  }
+
+  sendOtp() {
+    this.signInService.sendOtp(this.otpSent, this.signInformGroup.controls.identification.value).subscribe(user => {
+      if (user) {
+        this.phone = user.phoneNumber;
+        this.userId = user.userId;
+        this.otpSent = true;
+      }
+    });
+  }
+
+  validateOtp() {
+    this.signInService.validateOtp(+this.newDeviceFormGroup.controls.credixCode.value, this.userId).subscribe(result => {
+      if (result.status === 'success') {
+        this.saveDevice();
+      } else {
+        this.newDeviceFormGroup.controls.credixCode.setErrors({invalid: true});
+        this.newDeviceFormGroup.updateValueAndValidity();
+        this.errorOtpMessage = result.message;
+      }
+    });
+  }
+
+  saveDevice() {
+    this.signInService.saveDevice().subscribe(status => {
+      if (status === 'success') {
+        this.router.navigate(['/home']).then();
+      } else {
+        this.newDeviceModal.close();
+      }
+    });
+  }
+
+  closeSessionActivate() {
+    this.signInService.logout(this.signInformGroup.controls.identification.value).subscribe(status => {
+        if (status === 'success') {
+          this.storageService.removeCurrentSession();
+          this.sessionActivateModal.close();
+          this.login();
         }
       }
     );
@@ -82,11 +114,23 @@ export class SignInComponent implements OnInit {
     switch (modal) {
       case 'sign-up':
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
-          {width: 376, minHeight: 623, disableClose: true, panelClass: 'sign-up-panel'});
+          {width: 376, minHeight: 623, disableClose: true, panelClass: 'sign-up-panel'}).afterClosed().subscribe(user => {
+          this.signInformGroup.controls.identification.setValue(user.identification);
+          this.signInformGroup.controls.password.setValue(user.password);
+          this.openCompletedModal(376, 349, {
+            title: '¡Ha finalizado su registro!',
+            message: '¡Felicidades! Ya puede disfrutar nuestros beneficios ingresando a la aplicación.',
+            type: 'sign-up'
+          });
+        });
         break;
       case 'forgot-pass':
         this.modalService.open({component: ForgotPasswordComponent, title: '¿Olvidó su clave?'},
-          {width: 376, height: 663, disableClose: true});
+          {width: 376, height: 663, disableClose: true}).afterClosed().subscribe(user => {
+          this.signInformGroup.controls.identification.setValue(user.identification);
+          this.signInformGroup.controls.password.setValue(user.password);
+          this.openCompletedModal(376, 349, {title: '¡Éxito!', message: 'Su clave ha sido cambiada.', type: 'forgot-pass'});
+        });
         break;
       case 'session-activate':
         this.sessionActivateModal = this.modalService.open({template: this.sessionActiveTemplate, hideCloseButton: true},
@@ -107,100 +151,9 @@ export class SignInComponent implements OnInit {
     }
   }
 
-  closeSessionActivate() {
-    this.httpService.post('canales', 'security/logoutbyusername', {
-      username: this.signInformGroup.get('identification').value,
-      channelId: 102,
-      deviceIdentifier: 1213123134,
-      typeIncome: 2
-    }).subscribe(data => {
-        if (data.type === 'success') {
-          this.storageService.removeCurrentSession();
-          this.sessionActivateModal.close();
-          this.login();
-        }
-      }
-    );
-  }
-
-  sendOtp() {
-    this.httpService.post('canales', 'security/getdatamaskednameapplicantsendotp', {
-      identification: this.signInformGroup.get('identification').value,
-      channelId: 102,
-      typeIdentification: 1
-    }).subscribe(data => {
-      if (data.type === 'success') {
-        if (this.forward === false) {
-          this.phone = data.phone;
-          this.open('new-device');
-        } else {
-          this.toastService.show({text: 'SMS enviado nuevamente', type: 'success'});
-        }
-      }
-      if (data.type === 'error') {
-        this.phone = '88**-**88';
-        this.open('new-device');
-      }
-    });
-  }
-
-  validateOtp() {
-    this.httpService.post('canales', 'security/validateonetimepassword', {
-      channelId: 102,
-      userId: 12345,
-      validateToken: 1,
-      usernameSecurity: 'sts_sac',
-      passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
-      confirmationCode: this.newDeviceFormGroup.controls.credixCode.value
-    }).subscribe(data => {
-      if (data.type === 'success') {
-        this.saveDevice();
-      } else {
-        this.showErrorMessage = data.descriptionOne;
-      }
-    });
-  }
-
-  saveDevice() {
-    this.httpService.post('canales', 'channels/savedevice', {
-      deviceIdentification: '12345',
-      platform: 1,
-      uuid: 12345,
-      carrierName: 'AT&T',
-      platformVersion: '8.2.3',
-      manufacturer: 'Xiaomi',
-      model: 'Redmi note 8 pro',
-      isoCountryCode: 'VE',
-      mobileNetworkCode: '123',
-      mobileCountryCode: '123',
-      numberPhone: '1234567890',
-      isActive: '1'
-    }).subscribe(data => {
-      if (data.type === 'success') {
-        this.newDeviceModal.close();
-        this.router.navigate(['/home']).then();
-      } else {
-        this.newDeviceModal.close();
-        this.router.navigate(['/home']).then();
-      }
-    });
-  }
-
-  forwardOtp() {
-    this.forward = true;
-    this.sendOtp();
-  }
-
-  deviceInfo() {
-    this.forward = false;
-    this.httpService.post('canales', 'channels/getdeviceinfo', {uuid: 12345}).subscribe(data => {
-      if (data.type === 'success' && (data.id === 0 || data.id === 2)) {
-        this.sendOtp();
-      } else if (data.type === 'success' && data.id === 1) {
-        this.router.navigate(['/home']).then();
-      } else if (data.type === 'error') {
-        this.router.navigate(['/home']).then();
-      }
+  openCompletedModal(width: number, height: number, data: any) {
+    this.modalService.openModalContainer(PopupCompletedComponent, width, height, data).subscribe(() => {
+      this.login();
     });
   }
 

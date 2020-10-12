@@ -107,6 +107,8 @@ export class AccountStatementToolbarComponent implements OnInit {
       .subscribe(response => {
         if (response.type === 'success') {
           this.toastService.show({text: 'Estado de cuenta enviado', type: 'success'});
+        } else {
+          this.toastService.show({text: response.message, type: 'error'});
         }
       });
   }

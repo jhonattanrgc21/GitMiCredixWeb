@@ -4,7 +4,7 @@ import {ModalMessagesComponent} from './modal-messages/modal-messages.component'
 import {Message} from '../../../../shared/models/message';
 import {HomeService} from '../../home.service';
 import {ModalService} from '../../../../core/services/modal.service';
-import {GoHomeService} from '../../../../core/services/go-home.service';
+import {NavigationService} from '../../../../core/services/navigation.service';
 
 @Component({
   selector: 'app-menu-messages',
@@ -19,7 +19,7 @@ export class MenuMessagesComponent implements OnInit {
 
   constructor(private homeService: HomeService,
               private homeNavigationMenuService: HomeNavigationMenuService,
-              private goHomeService: GoHomeService,
+              private goHomeService: NavigationService,
               private modalService: ModalService) {
   }
 

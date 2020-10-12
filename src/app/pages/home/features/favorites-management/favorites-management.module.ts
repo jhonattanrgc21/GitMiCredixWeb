@@ -51,6 +51,10 @@ const routes: Routes = [
       {
         path: 'automatics',
         loadChildren: () => import('./automatics/automatics.module').then(m => m.AutomaticsModule)
+      },
+      {
+        path: 'automatics/:id',
+        loadChildren: () => import('./automatics/automatics.module').then(m => m.AutomaticsModule)
       }
     ]
   },

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -13,6 +13,7 @@ export class CredixResultViewComponent implements OnInit {
   @Input() status: 'success' | 'error' | 'warning';
   @Input() buttonText: string;
   @Input() routeTo: string;
+  @Output() buttonPressed = new EventEmitter();
 
   constructor(private router: Router) {
   }

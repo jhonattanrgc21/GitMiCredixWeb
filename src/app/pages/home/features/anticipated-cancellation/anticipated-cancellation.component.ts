@@ -109,6 +109,9 @@ export class AnticipatedCancellationComponent implements OnInit {
         this.done = true;
       }))
       .subscribe(response => {
+        this.title = response.title;
+        this.message = response.message;
+        this.status = response.type;
         if (response.type === 'success') {
           this.totalCancelled = this.tabId === 1 ?
             this.initialColonesBalance - this.colonesBalance : this.initialDollarsBalance - this.dollarsBalance;

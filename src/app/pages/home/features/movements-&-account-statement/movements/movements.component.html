@@ -36,7 +36,8 @@
     <ng-container matColumnDef="extend">
       <mat-header-cell *matHeaderCellDef credixHeaderCell></mat-header-cell>
       <mat-cell *matCellDef="let element" credixCell>
-        <credix-link-button (click)="goToExtendTerm(element.movementId)"
+        <credix-link-button (click)="onSubmenuChanged()"
+                            [routerLink]="['/home/extend-term', element.movementId]"
                             *ngIf="element.quantifiableMovement">
           {{linkTag || 'Ampliar plazo'}}
         </credix-link-button>
