@@ -89,16 +89,14 @@ export class NewServiceComponent implements OnInit {
   openModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
       if (confirmation) {
-        const receipt = this.pendingReceipts.receipts;
-        const amount = ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString();
         this.publicServicesService.payPublicService(
           this.publicServiceId,
-          +receipt.serviceValue,
-          amount,
-          +receipt.receiptPeriod,
+          +this.pendingReceipts.receipts.serviceValue,
+          ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString(),
+          +this.pendingReceipts.receipts.receiptPeriod,
           +this.contractFormGroup.controls.keysControl.value,
-          receipt.expirationDate,
-          receipt.billNumber,
+          this.pendingReceipts.receipts.expirationDate,
+          this.pendingReceipts.receipts.billNumber,
           this.contractFormGroup.controls.keysControl.value)
           .pipe(finalize(() => this.done = true))
           .subscribe(response => {
