@@ -69,7 +69,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   getDetailFavorite(option) {
     this.optionSelected = this.tabId === 1 ? option.IdAccountFavorite : this.tabId === 2 ? option.publicServiceFavoriteId : option.id;
 
-    if (option.publicServiceFavoriteId !== undefined || true) {
+    if (option.publicServiceFavoriteId) {
       const favoritePublicService: PublicServiceFavoriteByUser = {
         accountNumber: option.account,
         publicServiceFavoriteName: option.name,
@@ -90,6 +90,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         accountId: option.accountId
       };
       this.favoriteManagementService.emitFavoritePublicServiceData(favoritePublicService);
+      this.updating = false;
     }
 
     if (option.IdAccountFavorite) {
@@ -102,6 +103,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         typeIdentificacionId: option.typeIdentificacionId
       };
       this.favoriteManagementService.emitIbanAccountData(ibanAccount);
+      this.updating = false;
     }
 
     if (option.id) {
@@ -117,6 +119,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         publicServiceCategoryName: option.publicServiceCategoryName
       };
       this.favoriteManagementService.emitSchedulePaymentData(schedulePayment);
+      this.updating = false;
     }
   }
 

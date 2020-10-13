@@ -13,10 +13,8 @@ import {FavoriteIbanAccount} from '../../../../../shared/models/favorite-iban-ac
 })
 export class IbanAccountsComponent implements OnInit, AfterViewInit {
 
-  showContent = false;
   data: FavoriteIbanAccount;
   ibanAccountDetailInput: FormControl = new FormControl(null);
-  isUpdating = false;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private ibanAccountsService: IbanAccountsService,
@@ -30,12 +28,14 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.getUpdateAlert();
     this.getDeletedSuccess();
+    this.ibanAccountDetailChanged();
   }
 
   getIbanAccountDetail() {
     this.favoritesManagementService.ibanAccount.subscribe((response) => {
       this.data = response;
-      this.ibanAccountDetailInput.setValue(this.data?.aliasName);
+      this.ibanAccountDetailInput.setValue(this.data?.aliasName, {emitEvent: false});
+      this.ibanAccountDetailInput.markAsPristine();
     });
   }
 
@@ -61,13 +61,12 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  updating(event) {
-    if (event.key !== '' && event.code !== '') {
-      this.ibanAccountDetailInput.valueChanges.subscribe((value) => {
+  ibanAccountDetailChanged() {
+    this.ibanAccountDetailInput.valueChanges.subscribe(() => {
+      if (this.ibanAccountDetailInput.dirty) {
         this.favoritesManagementService.updating();
-        this.isUpdating = this.ibanAccountDetailInput.valid;
+      }
       });
-    }
   }
 
   getDeletedSuccess() {

@@ -8,7 +8,7 @@
                   class="movements-toolbar__field__card-icon"></mat-icon>
         <div fxLayout="column">
           <span><strong>{{cardFormControl.value.name}}</strong></span>
-          <span>{{cardFormControl.value.typeCard}} {{selectedCardNumber}}</span>
+          <span>{{cardFormControl.value.typeCard}} {{cardFormControl.value.cardNumber}}</span>
         </div>
       </mat-select-trigger>
       <mat-option *ngFor="let card of cards; let last = last" [value]="card" class="movements-toolbar__options">

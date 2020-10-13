@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {GoHomeService} from './go-home.service';
+import {NavigationService} from './navigation.service';
 
 describe('GoHomeService', () => {
-  let service: GoHomeService;
+  let service: NavigationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GoHomeService);
+    service = TestBed.inject(NavigationService);
   });
 
   it('should be created', () => {

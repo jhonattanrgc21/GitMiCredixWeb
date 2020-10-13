@@ -13,7 +13,6 @@ import {PublicServiceFavoriteByUser} from '../../../../../shared/models/public-s
 })
 export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
 
-  isUpdating = false;
   data: PublicServiceFavoriteByUser;
   favoritesPaymentDetail: FormControl = new FormControl(null);
 
@@ -30,12 +29,14 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.getUpdateAlert();
     this.getDeletedSuccess();
+    this.favoritesPublicServiceNameChanged();
   }
 
   getAccountDetail() {
     this.favoritesManagementService.publicServices.subscribe((response) => {
       this.data = response;
-      this.favoritesPaymentDetail.setValue(this.data?.publicServiceFavoriteName);
+      this.favoritesPaymentDetail.setValue(this.data?.publicServiceFavoriteName, {emitEvent: false});
+      this.favoritesPaymentDetail.markAsPristine();
     });
   }
 
@@ -61,20 +62,20 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  updating(event) {
-    if (event.key !== '' && event.code !== '') {
-      this.favoritesPaymentDetail.valueChanges.subscribe(value => {
+  favoritesPublicServiceNameChanged() {
+    this.favoritesPaymentDetail.valueChanges.subscribe(() => {
+      if (this.favoritesPaymentDetail.dirty) {
         this.favoritesManagementService.updating();
-        this.isUpdating = this.favoritesPaymentDetail.valid;
+      }
+      });
+    }
+
+  getDeletedSuccess() {
+    this.favoritesManagementService.deleted
+      .subscribe((response) => {
+          if (response.automatics) {
+            this.data = null;
+          }
       });
     }
   }
-
-  getDeletedSuccess() {
-    this.favoritesManagementService.deleted.subscribe((response) => {
-      if (response.automatics) {
-        this.data = null;
-      }
-    });
-  }
-}

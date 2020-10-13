@@ -11,7 +11,7 @@
         {{cardFormControl.value.category == 'Principal' ? cardFormControl.value.typeCard : cardFormControl.value.name}}
       </span>
       <span *ngIf="cardFormControl.value.category == 'Principal'">
-          {{formatPrincipalCard(cardFormControl.value.cardNumber)}}
+          {{cardFormControl.value.cardNumber}}
       </span>
       <mat-icon class="balances-card__arrow-icon" svgIcon="collapse"></mat-icon>
     </mat-select-trigger>

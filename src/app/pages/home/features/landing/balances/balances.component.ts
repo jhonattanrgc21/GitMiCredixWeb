@@ -74,10 +74,6 @@ export class BalancesComponent implements OnInit, OnChanges {
     });
   }
 
-  formatPrincipalCard(value: string): string {
-    return `${value.substr(value.length - 8, 4)} ${value.substr(value.length - 4, value.length)}`;
-  }
-
   copyIbanAccount(text: string, crcId: 188 | 840) {
     crcId === 188 ? this.isCopyingColonesIban = true : this.isCopyingDollarsIban = true;
     this.toastService.show({text, type: 'success'});

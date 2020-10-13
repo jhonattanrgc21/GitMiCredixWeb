@@ -58,7 +58,7 @@
     </div>
 
     <div class="automatics-services__footer">
-      <credix-button *ngIf="dataToDetail" fxLayoutAlign="flex-end center"
+      <credix-button (click)="onSubmenuChanged()" *ngIf="dataToDetail" fxLayoutAlign="flex-end center"
                      [routerLink]="['/home/favorites-management/automatics', dataToDetail?.id]">Editar
       </credix-button>
     </div>
