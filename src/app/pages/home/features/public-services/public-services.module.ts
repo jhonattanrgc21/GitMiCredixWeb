@@ -40,6 +40,7 @@ import {CredixSelectModule} from '../../../../shared/components/credix-select/cr
 import {MatOptionModule} from '@angular/material/core';
 import {PopupReceiptComponent} from './popup-receipt/popup-receipt.component';
 import {NewRechargeSecondStepComponent} from './new-recharge/new-recharge-second-step/new-recharge-second-step.component';
+import {CredixSearchBoxModule} from 'src/app/shared/components/credix-search-box/credix-search-box.module';
 
 const routes: Routes = [
   {
@@ -81,7 +82,8 @@ const routes: Routes = [
     NewServiceFirstStepComponent,
     NewServiceSecondStepComponent,
     PopupReceiptComponent,
-    NewRechargeSecondStepComponent],
+    NewRechargeSecondStepComponent
+  ],
   imports: [
     CommonModule,
     FlexModule,
@@ -90,6 +92,7 @@ const routes: Routes = [
     MatCardModule,
     MatOptionModule,
     CredixTabModule,
+    CredixSearchBoxModule,
     CredixNavigationTableModule,
     SimplebarAngularModule,
     MatIconModule,
