@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Keys} from '../../../../../../shared/models/keys';
+import {Keys} from '../../../../../../../shared/models/keys';
 
 @Component({
   selector: 'app-new-service-first-step',

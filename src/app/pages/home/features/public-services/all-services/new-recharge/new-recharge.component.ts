@@ -1,26 +1,26 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
+import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
 import {finalize} from 'rxjs/operators';
-import {PublicServicesService} from '../public-services.service';
-import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
+import {PublicServicesService} from '../../public-services.service';
+import {PublicServicesApiService} from '../../../../../../core/services/public-services-api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ModalService} from '../../../../../core/services/modal.service';
-import {Keys} from '../../../../../shared/models/keys';
+import {ModalService} from '../../../../../../core/services/modal.service';
+import {Keys} from '../../../../../../shared/models/keys';
 import {CdkStepper} from '@angular/cdk/stepper';
-import {PopupReceiptComponent} from '../popup-receipt/popup-receipt.component';
-import {PopupReceipt} from '../../../../../shared/models/popup-receipt';
-import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
+import {PopupReceiptComponent} from '../../popup-receipt/popup-receipt.component';
+import {PopupReceipt} from '../../../../../../shared/models/popup-receipt';
+import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 
 @Component({
-    selector: 'app-new-recharge',
-    templateUrl: './new-recharge.component.html',
-    styleUrls: ['./new-recharge.component.scss']
+  selector: 'app-new-recharge',
+  templateUrl: './new-recharge.component.html',
+  styleUrls: ['./new-recharge.component.scss']
 })
 export class NewRechargeComponent implements OnInit {
-    phoneNumber: FormControl = new FormControl(null,
-        [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
-    rechargeFormGroup: FormGroup = new FormGroup({
+  phoneNumber: FormControl = new FormControl(null,
+    [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+  rechargeFormGroup: FormGroup = new FormGroup({
         amount: new FormControl(null, [Validators.required]),
         credixCode: new FormControl(null, [Validators.required]),
         favorite: new FormControl(null),

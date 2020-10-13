@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ConvertStringAmountToNumber} from '../../../../../../shared/utils';
+import {ConvertStringAmountToNumber} from '../../../../../../../shared/utils';
 
 @Component({
   selector: 'app-new-recharge-second-step',
