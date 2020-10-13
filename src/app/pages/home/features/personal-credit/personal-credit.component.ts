@@ -98,7 +98,8 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
               this.stepper.next();
               this.stepperIndex++;
             } else {
-              this.toastService.show({text: 'Cuenta incorrecta', type: 'error'});
+              this.personalCreditService.emitErrorIbanAccount();
+              console.log(response);
             }
           });
         } else {

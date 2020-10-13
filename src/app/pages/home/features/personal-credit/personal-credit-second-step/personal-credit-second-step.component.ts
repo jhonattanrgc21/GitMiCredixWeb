@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {PersonalCreditService} from '../personal-credit.service';
 
 @Component({
   selector: 'app-personal-credit-second-step',
@@ -10,10 +11,13 @@ export class PersonalCreditSecondStepComponent implements OnInit {
   @Input() accountControl: FormControl = new FormControl(null);
   radioButtonSelected = 0;
 
-  constructor() {
+  constructor(private personalCreditService: PersonalCreditService) {
   }
 
   ngOnInit(): void {
+    this.personalCreditService.errorIbanAccount$.subscribe(() => {
+      this.accountControl.setErrors({invalid: true});
+    });
   }
 
   radioButtonChanged(event) {
