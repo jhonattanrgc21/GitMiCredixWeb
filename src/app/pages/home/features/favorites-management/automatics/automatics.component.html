@@ -1,14 +1,13 @@
 <div *ngIf="data !== undefined" class="automatics" fxLayout="column">
 
-  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
     <span>Número de contrato</span>
-    <span><strong>{{data?.key}}</strong></span>
+    <span class="truncate tr" fxFlex><strong>{{data?.key}}</strong></span>
   </div>
 
-  <div class="mb-20px" fxLayout="row" fxLayoutAlign="space-between"
-       fxLayoutGap="16px">
+  <div class="mb-20px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
     <span>Compañía</span>
-    <span class="truncate" fxFlex><strong>{{data?.publicServiceDescription}}</strong></span>
+    <span class="truncate tr" fxFlex><strong>{{data?.publicServiceDescription}}</strong></span>
   </div>
 
   <form [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="16px">
