@@ -55,6 +55,7 @@
                           [status]="status"
                           [title]="title || 'Marchamo'"
                           buttonText="Realizar otro pago"
+                          (buttonPressed)="redirectTemplate()"
                           routeTo="/home/marchamos">
 
     <div *ngIf="status === 'success'" class="w-100" fxLayout="column">

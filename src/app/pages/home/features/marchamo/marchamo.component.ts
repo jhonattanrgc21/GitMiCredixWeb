@@ -149,6 +149,8 @@ export class MarchamoComponent implements OnInit {
   secureToPay() {
     const deliveryPlaceId: number = this.pickUpForm.controls.deliveryPlace.value === null ?
       1 : this.pickUpForm.controls.deliveryPlace.value;
+    const ownerEmail: string = this.marchamosService.ownerPayer.email === '' ?
+      this.pickUpForm.controls.email.value : this.marchamosService.ownerPayer.email;
     this.marchamosService.setSoaPay(
       this.secureAndQuotesForm.controls.additionalProducts.value,
       deliveryPlaceId,
@@ -161,9 +163,12 @@ export class MarchamoComponent implements OnInit {
       this.consultForm.controls.plateNumber.value.toUpperCase(),
       this.promoStatus.promoStatusId,
       this.secureAndQuotesForm.controls.quotaId.value,
-      this.pickUpForm.controls.phoneNumber.value)
+      this.pickUpForm.controls.phoneNumber.value,
+      ownerEmail
+    )
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
+        console.log(response);
         this.status = response.type;
         this.message = response.message;
       });
@@ -177,6 +182,11 @@ export class MarchamoComponent implements OnInit {
         this.stepperIndex = 3;
       }
     });
+  }
+
+  redirectTemplate() {
+    this.done = false;
+    this.stepperIndex = 0;
   }
 
   getTags(tags: Tag[]) {
