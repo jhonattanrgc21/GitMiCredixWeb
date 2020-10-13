@@ -2,16 +2,16 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
-import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
-import {PublicServicesService} from '../public-services.service';
-import {ConvertStringAmountToNumber, ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../shared/utils';
-import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
-import {ModalService} from '../../../../../core/services/modal.service';
+import {PublicServicesApiService} from '../../../../../../core/services/public-services-api.service';
+import {PublicServicesService} from '../../public-services.service';
+import {ConvertStringAmountToNumber, ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../../shared/utils';
+import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
+import {ModalService} from '../../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
-import {Keys} from '../../../../../shared/models/keys';
-import {PopupReceiptComponent} from '../popup-receipt/popup-receipt.component';
-import {PopupReceipt} from '../../../../../shared/models/popup-receipt';
-import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
+import {Keys} from '../../../../../../shared/models/keys';
+import {PopupReceiptComponent} from '../../popup-receipt/popup-receipt.component';
+import {PopupReceipt} from '../../../../../../shared/models/popup-receipt';
+import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-new-service',
@@ -89,16 +89,14 @@ export class NewServiceComponent implements OnInit {
   openModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
       if (confirmation) {
-        const receipt = this.pendingReceipts.receipts;
-        const amount = ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString();
         this.publicServicesService.payPublicService(
           this.publicServiceId,
-          +receipt.serviceValue,
-          amount,
-          +receipt.receiptPeriod,
+          +this.pendingReceipts.receipts.serviceValue,
+          ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString(),
+          +this.pendingReceipts.receipts.receiptPeriod,
           +this.contractFormGroup.controls.keysControl.value,
-          receipt.expirationDate,
-          receipt.billNumber,
+          this.pendingReceipts.receipts.expirationDate,
+          this.pendingReceipts.receipts.billNumber,
           this.contractFormGroup.controls.keysControl.value)
           .pipe(finalize(() => this.done = true))
           .subscribe(response => {

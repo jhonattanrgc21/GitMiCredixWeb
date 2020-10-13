@@ -13,14 +13,14 @@ import {PublicServicesService} from './public-services.service';
 import {CredixNavigationTableModule} from '../../../../shared/components/credix-navigation-table/credix-navigation-table.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {MatIconModule} from '@angular/material/icon';
-import {NewRechargeComponent} from './new-recharge/new-recharge.component';
-import {NewServiceComponent} from './new-service/new-service.component';
+import {NewRechargeComponent} from './all-services/new-recharge/new-recharge.component';
+import {NewServiceComponent} from './all-services/new-service/new-service.component';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import {CredixStepperModule} from '../../../../shared/components/credix-stepper/credix-stepper.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
-import {NewServiceFirstStepComponent} from './new-service/new-service-first-step/new-service-first-step.component';
-import {NewServiceSecondStepComponent} from './new-service/new-service-second-step/new-service-second-step.component';
+import {NewServiceFirstStepComponent} from './all-services/new-service/new-service-first-step/new-service-first-step.component';
+import {NewServiceSecondStepComponent} from './all-services/new-service/new-service-second-step/new-service-second-step.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
@@ -39,7 +39,8 @@ import {NgxMaskModule} from 'ngx-mask';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {MatOptionModule} from '@angular/material/core';
 import {PopupReceiptComponent} from './popup-receipt/popup-receipt.component';
-import {NewRechargeSecondStepComponent} from './new-recharge/new-recharge-second-step/new-recharge-second-step.component';
+import {NewRechargeSecondStepComponent} from './all-services/new-recharge/new-recharge-second-step/new-recharge-second-step.component';
+import {CredixSearchBoxModule} from 'src/app/shared/components/credix-search-box/credix-search-box.module';
 
 const routes: Routes = [
   {
@@ -81,7 +82,8 @@ const routes: Routes = [
     NewServiceFirstStepComponent,
     NewServiceSecondStepComponent,
     PopupReceiptComponent,
-    NewRechargeSecondStepComponent],
+    NewRechargeSecondStepComponent
+  ],
   imports: [
     CommonModule,
     FlexModule,
@@ -90,6 +92,7 @@ const routes: Routes = [
     MatCardModule,
     MatOptionModule,
     CredixTabModule,
+    CredixSearchBoxModule,
     CredixNavigationTableModule,
     SimplebarAngularModule,
     MatIconModule,

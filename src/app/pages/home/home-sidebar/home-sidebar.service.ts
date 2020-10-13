@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 
 @Injectable()
-export class HomeNavigationMenuService {
+export class HomeSidebarService {
   private closeMessagesSub = new Subject();
   closeMessagesObs = this.closeMessagesSub.asObservable();
   private closeSubmenuSub = new Subject();

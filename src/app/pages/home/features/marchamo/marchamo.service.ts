@@ -175,12 +175,13 @@ export class MarchamoService {
     plateClassId: number,
     plateNumber: string,
     promoStatus: number,
-    quotasId: number) {
+    quotasId: number,
+    phoneNumber: number) {
     return this.httpService.post('marchamos', this.paySoapayUri,
       {
         aditionalProducts,
         amount: this.consultVehicle.amount,
-        cardNumber: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardNumber,
+        cardNumber: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
         deliveryPlaceId,
         authenticationNumberCommission: '0000',
         authenticationNumberMarchamo1: '000000',
@@ -194,7 +195,7 @@ export class MarchamoService {
         payId: this.consultVehicle.payId,
         payerId: this.ownerPayer.payerId,
         period: this.consultVehicle.period,
-        phoneNumber: this.consultVehicle.contactPhone,
+        phoneNumber,
         plateClassId,
         plateNumber,
         promoStatus,

@@ -28,6 +28,7 @@ export class PublicServicesApiService {
   private readonly getPublicServiceEnterpriseByCategoryUri = 'publicservice/publicserviceenterpriselistbycategory';
   private readonly getPublicServiceByEnterpriseUri = 'publicservice/publicservicelistbyenterpriseid';
   private readonly getAllFavoritePublicServiceUri = 'publicservice/findallpublicservicefavoritebyuser';
+  private readonly getAllPublicServiceUri = 'publicservice/findAll';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -95,5 +96,25 @@ export class PublicServicesApiService {
           }
         })
       );
+  }
+
+
+  getAllPublicService(): Observable<PublicService[]> {
+    return this.httpService.post('canales', this.getAllPublicServiceUri)
+      .pipe(
+        map((response) => {
+          if (response.type === 'success') {
+            return response.publicServiceList.map(service => {
+              service.icon = iconPerCategory.find(icon => icon.category === service.publicServiceCategory.name)?.icon;
+              return {
+                title: service.publicServiceCategory.name,
+                description: service.description,
+                icon: service.icon ? service.icon : ''
+              };
+            });
+          } else {
+            return [];
+          }
+        }));
   }
 }

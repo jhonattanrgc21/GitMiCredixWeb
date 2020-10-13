@@ -73,9 +73,9 @@
 
     <form [formGroup]="confirmForm" fxFlex="380px">
       <credix-code-input class="w-50" formControlName="credixCode">
-       <span *ngIf="confirmForm.controls.codeCredix.hasError('required')"
+       <span *ngIf="confirmForm.controls.credixCode.hasError('required')"
              error>Introduzca el código credix.</span>
-        <span *ngIf="confirmForm.controls.codeCredix.hasError('invalid')"
+        <span *ngIf="confirmForm.controls.credixCode.hasError('invalid')"
               error>Código credix inválido.</span>
       </credix-code-input>
     </form>
