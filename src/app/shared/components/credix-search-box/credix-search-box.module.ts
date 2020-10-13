@@ -6,6 +6,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {CredixDividerModule} from '../../directives/credix-divider/credix-divider.module';
 import {MatRippleModule} from '@angular/material/core';
+import {HighlightSearchModule} from '../../pipes/highlight-search/highlight-search.module';
 
 @NgModule({
   declarations: [CredixSearchBoxComponent],
@@ -20,6 +21,7 @@ import {MatRippleModule} from '@angular/material/core';
     MatDividerModule,
     CredixDividerModule,
     MatRippleModule,
+    HighlightSearchModule,
   ]
 })
 export class CredixSearchBoxModule {
