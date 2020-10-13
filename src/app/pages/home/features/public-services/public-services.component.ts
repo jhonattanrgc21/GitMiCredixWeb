@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import { PublicServicesApiService } from 'src/app/core/services/public-services-api.service';
+import {PublicService} from '../../../../shared/models/public-service';
+PublicServicesApiService
+
 
 @Component({
   selector: 'app-public-services',
@@ -13,11 +17,19 @@ export class PublicServicesComponent implements OnInit {
     {id: 3, name: 'Automáticos'}
   ];
   tabId: number;
+  publicServices: any = [];
 
-  constructor(private router: Router) {
+  constructor(private publicServicesApiService: PublicServicesApiService, private router: Router) {
   }
 
   ngOnInit(): void {
+    this.getAllPublicService();
+  }
+
+  getAllPublicService() {
+    this.publicServicesApiService.getAllPublicService().subscribe(publicServices => {
+      this.publicServices = publicServices;
+    });
   }
 
   tabSelected(tab) {

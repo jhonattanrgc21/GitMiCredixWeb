@@ -1,0 +1,19 @@
+<div class="search_box_container">
+    <div [class]="searchBoxStyle" style="position: absolute;  z-index: 1; left: 8px; top: 8px;">
+        <div class="search_icon_content">
+            <mat-icon svgIcon="search" class="search_icon"></mat-icon>
+        </div>
+        <input type="text" [class]="searchInputStyle" placeholder="¿Qué desea pagar?" [(ngModel)]="inputValue" (ngModelChange)="inputTextChanged()">
+    </div>
+    <div [class]="searchPanelStyle">
+        <div class="panel_item_content" *ngFor="let item of searchObject">
+            <div class="panel_item_header">
+                <mat-icon [svgIcon]="item.icon" class="search_icon" style="margin-right: 12px;"></mat-icon>
+                <p class="item_title">{{item.title}}</p>
+            </div>
+            <div class="item_body_content">
+                <p class="item_body">{{item.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>

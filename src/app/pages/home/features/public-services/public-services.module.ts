@@ -38,6 +38,7 @@ import {DigitOnlyModule} from '../../../../shared/directives/digit-only/digit-on
 import {NgxMaskModule} from 'ngx-mask';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {MatOptionModule} from '@angular/material/core';
+import { CredixSearchBoxModule } from 'src/app/shared/components/credix-search-box/credix-search-box.module';
 
 const routes: Routes = [
   {
@@ -86,6 +87,7 @@ const routes: Routes = [
     MatCardModule,
     MatOptionModule,
     CredixTabModule,
+    CredixSearchBoxModule,
     CredixNavigationTableModule,
     SimplebarAngularModule,
     MatIconModule,
