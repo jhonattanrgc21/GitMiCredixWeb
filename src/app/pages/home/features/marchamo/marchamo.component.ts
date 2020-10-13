@@ -137,12 +137,12 @@ export class MarchamoComponent implements OnInit {
   }
 
   getPromo() {
-    this.httpService.post('marchamos', 'pay/promoapply',
-      {accountNumber: this.storageService.getCurrentUser().accountNumber.toString()}).subscribe(response => {
-      this.promoStatus = {
-        promoStatusId: response.promoStatus.paymentList[0].promoStatus,
-        paymentDate: response.promoStatus.paymentList[0].paymentDate
-      };
+    this.marchamosService.getPromoApply()
+      .subscribe(response => {
+        this.promoStatus = {
+          promoStatusId: response[0].promoStatus,
+          paymentDate: response[0].paymentDate
+        };
     });
   }
 
@@ -153,14 +153,15 @@ export class MarchamoComponent implements OnInit {
       this.secureAndQuotesForm.controls.additionalProducts.value,
       deliveryPlaceId,
       this.pickUpForm.controls.person.value,
-      this.pickUpForm.controls.phoneNumber.value,
+      this.pickUpForm.controls.phoneNumber.value.toString(),
       this.pickUpForm.controls.address.value,
       this.pickUpForm.controls.email.value,
       this.secureAndQuotesForm.controls.firstQuotaDate.value,
       +this.consultForm.controls.vehicleType.value,
       this.consultForm.controls.plateNumber.value.toUpperCase(),
       this.promoStatus.promoStatusId,
-      this.secureAndQuotesForm.controls.quotaId.value)
+      this.secureAndQuotesForm.controls.quotaId.value,
+      this.pickUpForm.controls.phoneNumber.value)
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;
