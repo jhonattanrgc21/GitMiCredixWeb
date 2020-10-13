@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {HomeNavigationMenuService} from './home-navigation-menu.service';
+import {HomeSidebarService} from './home-sidebar.service';
 
 describe('HomeNavigationMenuService', () => {
-  let service: HomeNavigationMenuService;
+  let service: HomeSidebarService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HomeNavigationMenuService);
+    service = TestBed.inject(HomeSidebarService);
   });
 
   it('should be created', () => {

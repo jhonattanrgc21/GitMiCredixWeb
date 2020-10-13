@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {HomeNavigationMenuService} from '../home-navigation-menu.service';
+import {HomeSidebarService} from '../home-sidebar.service';
 import {HomeService} from '../../home.service';
 import {NavigationService} from '../../../../core/services/navigation.service';
 import {ModalService} from '../../../../core/services/modal.service';
@@ -27,7 +27,7 @@ export class MenuOptionComponent implements OnInit {
               private tagsService: TagsService,
               private homeService: HomeService,
               private modalService: ModalService,
-              private homeNavigationMenuService: HomeNavigationMenuService) {
+              private homeNavigationMenuService: HomeSidebarService) {
   }
 
   ngOnInit(): void {

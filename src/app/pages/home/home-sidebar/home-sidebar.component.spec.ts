@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {HomeNavigationMenuComponent} from './home-navigation-menu.component';
+import {HomeSidebarComponent} from './home-sidebar.component';
 
 describe('SidebarComponent', () => {
-  let component: HomeNavigationMenuComponent;
-  let fixture: ComponentFixture<HomeNavigationMenuComponent>;
+  let component: HomeSidebarComponent;
+  let fixture: ComponentFixture<HomeSidebarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeNavigationMenuComponent]
+      declarations: [HomeSidebarComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeNavigationMenuComponent);
+    fixture = TestBed.createComponent(HomeSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

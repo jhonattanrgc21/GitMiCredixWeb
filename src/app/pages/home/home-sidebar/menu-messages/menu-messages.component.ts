@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HomeNavigationMenuService} from '../home-navigation-menu.service';
+import {HomeSidebarService} from '../home-sidebar.service';
 import {ModalMessagesComponent} from './modal-messages/modal-messages.component';
 import {Message} from '../../../../shared/models/message';
 import {HomeService} from '../../home.service';
@@ -18,7 +18,7 @@ export class MenuMessagesComponent implements OnInit {
   options = {autoHide: false, scrollbarMinSize: 100};
 
   constructor(private homeService: HomeService,
-              private homeNavigationMenuService: HomeNavigationMenuService,
+              private homeNavigationMenuService: HomeSidebarService,
               private goHomeService: NavigationService,
               private modalService: ModalService) {
   }
