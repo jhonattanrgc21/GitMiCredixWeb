@@ -65,7 +65,10 @@
   }
 
   .disabled {
-    color: #d2d2d2;
+
+    mat-cell {
+      color: #d2d2d2;
+    }
 
     ::ng-deep .credix-numeric-block__integer, ::ng-deep .credix-numeric-block__decimal {
       color: #d2d2d2 !important;

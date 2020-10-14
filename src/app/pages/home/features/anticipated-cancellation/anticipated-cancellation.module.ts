@@ -31,6 +31,7 @@ import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-
 import {AnticipatedCancellationService} from './anticipated-cancellation.service';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
+import {CastToNumberModule} from '../../../../shared/pipes/cast-to-number/cast-to-number.module';
 
 const routes: Routes = [
   {
@@ -69,7 +70,8 @@ const routes: Routes = [
     MatCheckboxModule,
     DateFormatterModule,
     CredixResultViewModule,
-    CredixDividerModule
+    CredixDividerModule,
+    CastToNumberModule
 
   ],
   providers: [
