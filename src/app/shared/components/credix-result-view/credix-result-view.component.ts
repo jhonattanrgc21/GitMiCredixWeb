@@ -10,7 +10,7 @@ export class CredixResultViewComponent implements OnInit {
   @Input() title: string;
   @Input() resultTile: string;
   @Input() resultMessage = '';
-  @Input() status: 'success' | 'error' | 'warning';
+  @Input() status: 'success' | 'error' | 'warn';
   @Input() buttonText: string;
   @Input() routeTo: string;
   @Output() buttonPressed = new EventEmitter();
