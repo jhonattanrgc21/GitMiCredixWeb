@@ -1,9 +1,8 @@
-<mat-card *ngIf="!done else doneSendMoneyTemplate" [class.full-height]="selectedIndex >= 2" class="send-money"
-          credixCard fxLayout="column"
-          fxLayoutGap="16px">
+<mat-card *ngIf="!done else doneSendMoneyTemplate" class="send-money"
+          credixCard fxLayout="column" fxLayoutGap="16px">
   <h1>Enviar dinero</h1>
 
-  <credix-stepper #sendMoneyStepper class="send-money__stepper">
+  <credix-stepper #sendMoneyStepper class="send-money__stepper" fxFlex>
     <cdk-step [stepControl]="informationForm" fxLayout="column" label="{{step || 'Información'}}">
       <app-send-money-first-step (currencyPrefixEvent)="currencyPrefix = $event"
                                  (typeDestinationEvent)="typeDestination = $event"
@@ -32,14 +31,11 @@
     </cdk-step>
   </credix-stepper>
 
-  <div class="send-money__footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" type="secondary">Atrás</credix-button>
-      <credix-button (buttonClick)="next()"
-                     [disabled]="disableButton">
-        {{selectedIndex >= 2 ? 'Transferir' : 'Continuar'}}
-      </credix-button>
-    </div>
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="next()" [disabled]="disableButton">
+      {{selectedIndex >= 2 ? 'Transferir' : 'Continuar'}}
+    </credix-button>
   </div>
 </mat-card>
 
