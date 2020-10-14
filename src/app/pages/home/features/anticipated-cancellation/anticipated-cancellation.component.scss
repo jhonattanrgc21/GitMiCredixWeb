@@ -1,13 +1,14 @@
 .anticipated-cancellation {
   position: relative;
-  height: 662px;
+  max-height: 662px;
+  height: 100%;
 
   &__title {
     margin-bottom: 4px;
   }
 
   &__table-wrapper {
-    max-height: 380px;
+    max-height: 380px !important;
     margin-left: -16px !important;
     margin-right: -16px !important;
   }
@@ -93,7 +94,7 @@
 @media screen and (max-width: 1199px) {
 
   .anticipated-cancellation {
-    height: 886px;
+    max-height: 886px;
 
 
     &__table-wrapper {

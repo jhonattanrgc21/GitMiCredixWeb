@@ -1,7 +1,6 @@
 .personal-info {
-  position: relative;
-  height: 662px;
-
+  max-height: 662px;
+  height: 100%;
 
   &__container {
     padding: 0 84px;
@@ -29,15 +28,6 @@
     width: 97px;
     height: 97px;
     border: 4px solid #F2F2F2;
-  }
-
-  &__footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid #E9E9E9;
-    padding: 16px;
   }
 
 }

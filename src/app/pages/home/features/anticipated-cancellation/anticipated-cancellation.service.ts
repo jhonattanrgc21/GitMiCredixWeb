@@ -25,14 +25,14 @@ export class AnticipatedCancellationService {
   }> {
     return this.httpService.post('canales', this.pendingQuotasUri).pipe(
       map(response => {
-        if (response.type === 'success') {
-          return {
-            dollarCancellations: response.CuotasDolares,
-            colonesCancellations: response.CuotasColones,
-            dollarsBalance: response.SaldoDisponibleDolares,
-            colonesBalance: response.SaldoDisponibleColones
-          };
-        }
+          if (response.type === 'success') {
+            return {
+              dollarCancellations: response.CuotasDolares,
+              colonesCancellations: [...response.CuotasColones, ...response.CuotasColones, ...response.CuotasColones],
+              dollarsBalance: response.SaldoDisponibleDolares,
+              colonesBalance: response.SaldoDisponibleColones
+            };
+          }
           return null;
         }
       )

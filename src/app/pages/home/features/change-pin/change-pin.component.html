@@ -1,17 +1,18 @@
 <mat-card *ngIf="!done else donePinTemplate" class="change-pin" credixCard fxLayout="column">
   <h1>{{titleTag || 'Cambiar PIN'}}</h1>
 
-  <form [formGroup]="changePinForm" class="change-pin__content" fxLayout="column" fxLayoutGap="16px">
+  <form [formGroup]="changePinForm" class="change-pin__content" fxFlex fxLayout="column"
+        fxLayoutGap="16px">
 
     <div fxLayout="row" fxLayoutAlign="space-between">
       <span><strong>Nuevo PIN</strong></span>
 
       <div class="left-content" fxLayout="column">
-          <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.pin"
-                              [type]="hidePin ? 'password' : 'text'" class="change-pin__input"
-                              focusLabel="Clave" formControlName="pin" label="Nuevo PIN" mask="0000"
-                              panelClass="sign-in-password-panel" tooltipOffsetY="-8" tooltipType="pin">
-            <mat-icon (click)="hidePin = !hidePin" [ngClass]="{'disabled-color': !changePinForm.controls.pin.value}"
+        <credix-input-field [credixPasswordFieldTooltip]="changePinForm.controls.pin"
+                            [type]="hidePin ? 'password' : 'text'" class="change-pin__input"
+                            focusLabel="Clave" formControlName="pin" label="Nuevo PIN" mask="0000"
+                            panelClass="sign-in-password-panel" tooltipOffsetY="-8" tooltipType="pin">
+          <mat-icon (click)="hidePin = !hidePin" [ngClass]="{'disabled-color': !changePinForm.controls.pin.value}"
                       [svgIcon]="hidePin ? 'eye-outline' : 'eye-off-outline'"
                       suffix></mat-icon>
           </credix-input-field>
@@ -42,7 +43,7 @@
     </div>
   </form>
 
-  <div class="change-pin__footer" fxLayout="row" fxLayoutAlign="flex-end">
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
     <credix-button (buttonClick)="confirm()" [disabled]="changePinForm.invalid">Confirmar</credix-button>
   </div>
 </mat-card>

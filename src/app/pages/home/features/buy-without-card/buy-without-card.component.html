@@ -3,7 +3,7 @@
 
   <span class="mb-24px">{{subtitle || '¿Olvidó su tarjeta? Compre con su tarjeta virtual.'}}</span>
 
-  <credix-stepper #buyWithOutCard>
+  <credix-stepper #buyWithOutCard fxFlex>
 
     <cdk-step [stepControl]="codeCredix" fxLayout="column" label="{{step1 || 'Código MiCredix'}}">
       <app-buy-without-card-first-step [credixCode]="codeCredix"></app-buy-without-card-first-step>
@@ -21,7 +21,7 @@
 
   </credix-stepper>
 
-  <div class="buy-without-card__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="stepperIndex === 0 ? checkCredixCode() : goHome()"
                    [disabled]="codeCredix.invalid">
       {{stepperIndex === 0 ? 'Continuar' : 'Listo'}}
