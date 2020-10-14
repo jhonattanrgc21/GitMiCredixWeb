@@ -4,6 +4,8 @@ import {Tag} from '../../../../shared/models/tag';
 import {AnticipatedCancellationService} from './anticipated-cancellation.service';
 import {Cancellation} from '../../../../shared/models/cancellation';
 import {finalize} from 'rxjs/operators';
+import {ConvertStringAmountToNumber} from '../../../../shared/utils';
+import {ConvertNumberToStringAmount} from '../../../../shared/utils/convert-number-to-string-amount';
 
 @Component({
   selector: 'app-anticipated-cancellation',
@@ -17,10 +19,10 @@ export class AnticipatedCancellationComponent implements OnInit {
   dollarsCancellations: Cancellation[] = [];
   colonesCancellations: Cancellation[] = [];
   tabId = 1;
-  colonesBalance = 0;
-  initialColonesBalance = 0;
-  dollarsBalance = 0;
-  initialDollarsBalance = 0;
+  colonesBalance: string;
+  initialColonesBalance: string;
+  dollarsBalance: string;
+  initialDollarsBalance: string;
   paymentList = [];
   colonesSymbol = '₡';
   dollarsSymbol = '$';
@@ -114,7 +116,8 @@ export class AnticipatedCancellationComponent implements OnInit {
         this.status = response.type;
         if (response.type === 'success') {
           this.totalCancelled = this.tabId === 1 ?
-            this.initialColonesBalance - this.colonesBalance : this.initialDollarsBalance - this.dollarsBalance;
+            ConvertStringAmountToNumber(this.initialColonesBalance) - ConvertStringAmountToNumber(this.colonesBalance) :
+            ConvertStringAmountToNumber(this.initialDollarsBalance) - ConvertStringAmountToNumber(this.dollarsBalance);
         }
       });
   }
@@ -124,10 +127,16 @@ export class AnticipatedCancellationComponent implements OnInit {
       .splice(this.selection.findIndex(can => can === cancellation), 1);
     if (this.tabId === 1) {
       this.colonesBalance = checked ?
-        this.colonesBalance - (+cancellation.saldoPendiente) : this.colonesBalance + (+cancellation.saldoPendiente);
+        ConvertNumberToStringAmount(
+          ConvertStringAmountToNumber(this.colonesBalance) - ConvertStringAmountToNumber(cancellation.saldoPendiente)) :
+        ConvertNumberToStringAmount(
+          ConvertStringAmountToNumber(this.colonesBalance) + ConvertStringAmountToNumber(cancellation.saldoPendiente));
     } else {
       this.dollarsBalance = checked ?
-        this.dollarsBalance - (+cancellation.saldoPendiente) : this.dollarsBalance + (+cancellation.saldoPendiente);
+        ConvertNumberToStringAmount(
+          ConvertStringAmountToNumber(this.dollarsBalance) - ConvertStringAmountToNumber(cancellation.saldoPendiente)) :
+        ConvertNumberToStringAmount(
+          ConvertStringAmountToNumber(this.dollarsBalance) + ConvertStringAmountToNumber(cancellation.saldoPendiente));
     }
   }
 

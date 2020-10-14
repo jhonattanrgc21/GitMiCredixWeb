@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PublicServicesService} from '../public-services.service';
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
-import {getMontByMonthNumber} from '../../../../../shared/utils/getMonthByMonthNumber';
+import {getMontByMonthNumber} from '../../../../../shared/utils/get-month-by-month-number';
 import {NavigationService} from '../../../../../core/services/navigation.service';
 
 @Component({

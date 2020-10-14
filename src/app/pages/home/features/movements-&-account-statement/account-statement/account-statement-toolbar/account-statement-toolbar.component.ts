@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../../../../../core/services/storage.service';
 import {Card} from '../../../../../../shared/models/card';
-import {MaskCard} from '../../../../../../shared/utils/MaskCard';
+import {MaskCard} from '../../../../../../shared/utils/mask-card';
 import {FormControl} from '@angular/forms';
 import {AccountStatementService} from '../account-statement.service';
 import {finalize} from 'rxjs/operators';

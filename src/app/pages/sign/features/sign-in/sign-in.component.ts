@@ -29,6 +29,7 @@ export class SignInComponent implements OnInit {
   phone: string;
   userId: number;
   hide = true;
+  errorMessage: string;
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
   @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
 
@@ -45,12 +46,17 @@ export class SignInComponent implements OnInit {
   login() {
     this.signInService.login(this.signInformGroup.controls.identification.value, this.signInformGroup.controls.password.value)
       .subscribe(response => {
-        if (response) {
-          this.storageService.setCurrentSession(response.user, response.cards);
-          this.otpSent = false;
-          this.deviceInfo();
-        }
-      });
+          if (response) {
+            this.storageService.setCurrentSession(response.user, response.cards);
+            this.otpSent = false;
+            this.deviceInfo();
+          }
+        },
+        (error: Error) => {
+          this.errorMessage = error.message;
+          this.signInformGroup.controls.password.setErrors({invalid: true});
+          this.signInformGroup.updateValueAndValidity();
+        });
   }
 
   deviceInfo() {
