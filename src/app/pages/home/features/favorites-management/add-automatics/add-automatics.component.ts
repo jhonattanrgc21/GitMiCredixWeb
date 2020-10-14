@@ -141,9 +141,12 @@ export class AddAutomaticsComponent implements OnInit {
       this.newAutomaticsForm.controls.publicService
         .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceId);
 
+      this.newAutomaticsForm.controls.keyType
+        .setValue(this.favoritesManagementService.valuesFromFavorites.keyType);
+
       this.newAutomaticsForm.controls.nameOfAutomatics.setValue(this.favoritesManagementService.valuesFromFavorites.favoriteName);
 
-      this.newAutomaticsForm.controls.phoneNumber.setValue(this.favoritesManagementService.valuesFromFavorites.contractControl);
+      this.newAutomaticsForm.controls.contractControl.setValue(this.favoritesManagementService.valuesFromFavorites.contractControl);
     }
   }
 

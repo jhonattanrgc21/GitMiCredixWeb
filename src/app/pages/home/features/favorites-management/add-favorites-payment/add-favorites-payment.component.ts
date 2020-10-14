@@ -80,7 +80,6 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   getCompany(categoryId: number) {
     this.publicServiceApi.getPublicServiceEnterpriseByCategory(categoryId).subscribe((response) => {
-      console.log(response);
       this.publicCompany = response;
     });
   }
@@ -88,7 +87,6 @@ export class AddFavoritesPaymentComponent implements OnInit {
   getService(enterpriseId: number) {
     this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
-        console.log(response);
         this.publicServices = response;
       });
   }
