@@ -165,7 +165,8 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.contractControl.value.toString(),
           this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
-          +this.codeCredix.value)
+          +this.codeCredix.value,
+          this.newAutomaticsControls.keyType.value)
           .pipe(finalize(() => {
             if (!this.codeCredix.hasError('invalid')) {
               this.done = true;
