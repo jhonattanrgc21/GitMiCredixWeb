@@ -38,8 +38,9 @@
         </credix-select>
 
         <credix-input-field class="add-favorites-payment__form__input"
-                            formControlName="phoneNumber" label="Número de teléfono"
-                            mask="0000-0000"></credix-input-field>
+                            [label]="keys?.length > 1 ? label : keys[0]?.description"
+                            [mask]="mask"
+                            formControlName="contractControl"></credix-input-field>
 
         <credix-input-field class="add-favorites-payment__form__input mb-8px" formControlName="favoriteName"
                             label="Nombre del favorito"></credix-input-field>

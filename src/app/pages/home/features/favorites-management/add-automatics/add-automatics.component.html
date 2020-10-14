@@ -31,9 +31,19 @@
           </mat-option>
         </credix-select>
 
-        <credix-input-field class="add-automatics__form__input" formControlName="phoneNumber"
-                            label="Número de teléfono"
-                            mask="0000-0000"></credix-input-field>
+        <credix-select class="add-automatics__form__input"
+                       formControlName="keyType"
+                       label="Tipo de referencia">
+          <mat-option *ngFor="let key of keys"
+                      [value]="key.keyType">
+            {{key.description}}
+          </mat-option>
+        </credix-select>
+
+        <credix-input-field [label]="keys?.length > 1 ? label : keys[0]?.description"
+                            [mask]="mask"
+                            class="add-automatics__form__input"
+                            formControlName="contractControl"></credix-input-field>
 
         <credix-input-field class="add-automatics__form__input" formControlName="nameOfAutomatics"
                             label="Nombre del pago automático"></credix-input-field>
@@ -82,20 +92,12 @@
 
 <ng-template #doneNewAutomaticsTemplate>
 
-  <mat-card class="add-automatics" credixCard fxLayout="column">
-
-    <h1>Añadir pago automático</h1>
-
-    <div fxFlex fxLayoutAlign="center center">
-      <credix-result-notification [message]="result.message" [status]="result.status" [title]="result.title">
-      </credix-result-notification>
-    </div>
-
-    <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
-      <div fxLayoutGap="16px">
-        <credix-button (buttonClick)="back()">Listo</credix-button>
-      </div>
-    </div>
-  </mat-card>
-
+  <app-credix-result-view
+    [resultMessage]="result.message"
+    [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
+    [status]="result.status"
+    [title]="result.title"
+    buttonText="Listo"
+    routeTo="/home/favorites-management/automatics">
+  </app-credix-result-view>
 </ng-template>
