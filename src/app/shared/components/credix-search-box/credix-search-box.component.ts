@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { Component, Input, OnInit, HostListener, Output, EventEmitter } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,6 +9,7 @@ import {FormControl} from '@angular/forms';
 })
 export class CredixSearchBoxComponent implements OnInit {
   @Input() initialObject: any;
+  @Output() returnResponse: EventEmitter<any> = new EventEmitter<any>();
   COMPONENT_CLASSES: any = {
     SEARCH_BOX: {
       PRINCIPAL: 'search_box',
@@ -35,6 +36,20 @@ export class CredixSearchBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.onInputChanged();
+  }
+
+  @HostListener('focusout')
+  onFocusout() {
+    setTimeout(() => {
+      this.searchBoxStyle = this.COMPONENT_CLASSES.SEARCH_BOX.PRINCIPAL;
+      this.searchInputStyle = this.COMPONENT_CLASSES.SEARCH_INPUT_TEXT.PRINCIPAL;
+      this.searchPanelStyle = this.COMPONENT_CLASSES.SEARCH_PANEL.PRINCIPAL;
+      this.inputControl.reset();
+    }, 300);
+  }
+
+  onClickItem(item: any){
+    this.returnResponse.emit(item);
   }
 
   onInputChanged() {

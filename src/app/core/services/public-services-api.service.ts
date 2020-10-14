@@ -109,7 +109,9 @@ export class PublicServicesApiService {
               return {
                 title: service.publicServiceCategory.name,
                 description: service.description,
-                icon: service.icon ? service.icon : ''
+                icon: service.icon ? service.icon : '',
+                id: service.id,
+                publicServiceCategoryId: service.publicServiceCategory.id
               };
             });
           } else {
