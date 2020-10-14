@@ -30,6 +30,13 @@
           </mat-option>
         </credix-select>
 
+        <credix-select class="add-favorites-payment__form__input" formControlName="keyType" label="Tipo de referencia">
+          <mat-option *ngFor="let key of keys"
+                      [value]="key.keyType">
+            {{key.description}}
+          </mat-option>
+        </credix-select>
+
         <credix-input-field class="add-favorites-payment__form__input"
                             formControlName="phoneNumber" label="Número de teléfono"
                             mask="0000-0000"></credix-input-field>
@@ -74,26 +81,21 @@
 
 <ng-template #doneNewFavoriteTemplate>
 
-  <mat-card class="add-favorites-payment" credixCard fxLayout="column">
+  <app-credix-result-view
+    [resultMessage]="result.message"
+    [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
+    [status]="result.status"
+    [title]="result.title"
+    buttonText="Listo"
+    routeTo="/home/favorites-management/favorites-payments">
 
-    <h1>Añadir pago favorito</h1>
-
-    <div fxFlex fxLayout="column" fxLayoutAlign="center center">
-      <credix-result-notification [message]="result.message" [status]="result.status" [title]="result.title">
-      </credix-result-notification>
+    <div *ngIf="result.status === 'success'" class="w-100" fxLayout="column">
       <credix-link-button (click)="addToAutomatics()"
                           *ngIf="result.status === 'success'"
                           fxLayoutAlign="center center"
                           style="width: 212px; height: 24px; margin-top: 16px;">Agregar a pagos automáticos
       </credix-link-button>
     </div>
-
-
-    <div class="add-favorites-payment__footer" fxLayout="row" fxLayoutAlign="flex-end">
-      <div fxLayoutGap="16px">
-        <credix-button (buttonClick)="back()">Listo</credix-button>
-      </div>
-    </div>
-  </mat-card>
+  </app-credix-result-view>
 
 </ng-template>

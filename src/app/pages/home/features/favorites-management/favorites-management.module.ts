@@ -29,6 +29,7 @@ import {AutomaticsService} from './automatics/automatics.service';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
 import {CredixDatePickerModule} from '../../../../shared/components/credix-date-picker/credix-date-picker.module';
+import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 
 const routes: Routes = [
   {
@@ -100,6 +101,7 @@ const routes: Routes = [
     SimplebarAngularModule,
     CredixCodeLinkModule,
     CredixDatePickerModule,
+    CredixResultViewModule,
   ],
   providers: [
     FavoritesManagementService,
