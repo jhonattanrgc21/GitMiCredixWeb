@@ -23,7 +23,8 @@ export class AddFavoritesPaymentComponent implements OnInit {
   publicServices: PublicService[];
   done = false;
   result: { status: 'success' | 'error'; message: string; title: string; };
-  keys: Keys[];
+  keys: Keys[] = [];
+  label: string;
   mask: string;
   quantityOfKeys: number;
   newFavoritesPaymentForm: FormGroup = new FormGroup({
@@ -31,7 +32,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
     publicServiceCompany: new FormControl(null, [Validators.required]),
     publicService: new FormControl(null, [Validators.required]),
     keyType: new FormControl(null, [Validators.required]),
-    phoneNumber: new FormControl(null, [Validators.required]),
+    contractControl: new FormControl(null, [Validators.required]),
     favoriteName: new FormControl(null, [Validators.required])
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
@@ -60,7 +61,12 @@ export class AddFavoritesPaymentComponent implements OnInit {
     });
 
     this.newFavoritesPaymentForm.controls.publicService.valueChanges.subscribe(value => {
-      this.getKeysAndQuantityKeys(value);
+      this.getKeysByPublicService(value);
+    });
+
+    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
+      this.label = this.keys.find(elem => elem.keyType === value).description;
+      this.getMaskByKeyType(value);
     });
     this.getCredixCodeError();
   }
@@ -87,7 +93,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
       });
   }
 
-  getKeysAndQuantityKeys(publicServiceId: number) {
+  getKeysByPublicService(publicServiceId: number) {
     this.keys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).keys;
     this.quantityOfKeys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
   }
@@ -96,6 +102,12 @@ export class AddFavoritesPaymentComponent implements OnInit {
     switch (keyType) {
       case 52:
         this.mask = '0000-0000';
+        break;
+      case 99:
+        this.mask = '0-0000-0000';
+        break;
+      default:
+        this.mask = '';
         break;
     }
   }
@@ -108,11 +120,11 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.modalService.confirmationPopup('¿Desea añadir este pago favorito?', '', 380, 197)
       .subscribe(confirm => {
         if (confirm) {
-          this.favoritesPaymentsService.setPublicServiceFavorite(
-            this.newFavoritesPaymentControls.publicService.value,
-            this.newFavoritesPaymentControls.phoneNumber.value,
+          this.favoritesPaymentsService
+            .setPublicServiceFavorite(this.newFavoritesPaymentControls.publicService.value,
+              this.newFavoritesPaymentControls.contractControl.value,
             this.newFavoritesPaymentControls.favoriteName.value,
-            this.keys[0].keyType,
+              this.newFavoritesPaymentControls.keyType.value,
             +this.codeCredix.value)
             .pipe(finalize(() => {
               if (!this.codeCredix.hasError('invalid')) {
@@ -136,8 +148,9 @@ export class AddFavoritesPaymentComponent implements OnInit {
       publicServiceCategoryId: this.newFavoritesPaymentControls.publicServicesCategory.value,
       publicServiceEnterpriseId: this.newFavoritesPaymentControls.publicServiceCompany.value,
       publicServiceId: this.newFavoritesPaymentControls.publicService.value,
+      keyType: this.newFavoritesPaymentControls.keyType.value,
       favoriteName: this.newFavoritesPaymentControls.favoriteName.value,
-      phoneNumber: this.newFavoritesPaymentControls.phoneNumber.value
+      contractControl: this.newFavoritesPaymentControls.contractControl.value
     };
   }
 
