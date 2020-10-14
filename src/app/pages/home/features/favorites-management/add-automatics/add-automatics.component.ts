@@ -11,6 +11,7 @@ import {FavoritesManagementService} from '../favorites-management.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
+import {Keys} from '../../../../../shared/models/keys';
 
 @Component({
   selector: 'app-add-automatics',
@@ -23,7 +24,9 @@ export class AddAutomaticsComponent implements OnInit {
   publicCompany: PublicServiceEnterprise[];
   publicServices: PublicService[];
   today = new Date();
-  result: { status: string; message: string; title: string; };
+  result: { status: 'success' | 'error'; message: string; title: string; };
+  keys: Keys[];
+  quantityOfKeys: number;
   data: {
     publicServiceCategoryId: number;
     publicServiceEnterpriseId: number;

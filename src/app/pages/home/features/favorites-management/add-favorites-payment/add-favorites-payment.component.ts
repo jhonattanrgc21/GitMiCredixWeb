@@ -10,6 +10,7 @@ import {FavoritesManagementService} from '../favorites-management.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
+import {Keys} from '../../../../../shared/models/keys';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -21,11 +22,15 @@ export class AddFavoritesPaymentComponent implements OnInit {
   publicCompany: PublicServiceEnterprise[];
   publicServices: PublicService[];
   done = false;
-  result: { status: string; message: string; title: string; };
+  result: { status: 'success' | 'error'; message: string; title: string; };
+  keys: Keys[];
+  mask: string;
+  quantityOfKeys: number;
   newFavoritesPaymentForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
     publicServiceCompany: new FormControl(null, [Validators.required]),
     publicService: new FormControl(null, [Validators.required]),
+    keyType: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
     favoriteName: new FormControl(null, [Validators.required])
   });
@@ -53,6 +58,10 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
+
+    this.newFavoritesPaymentForm.controls.publicService.valueChanges.subscribe(value => {
+      this.getKeysAndQuantityKeys(value);
+    });
     this.getCredixCodeError();
   }
 
@@ -65,6 +74,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   getCompany(categoryId: number) {
     this.publicServiceApi.getPublicServiceEnterpriseByCategory(categoryId).subscribe((response) => {
+      console.log(response);
       this.publicCompany = response;
     });
   }
@@ -72,8 +82,22 @@ export class AddFavoritesPaymentComponent implements OnInit {
   getService(enterpriseId: number) {
     this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
+        console.log(response);
         this.publicServices = response;
       });
+  }
+
+  getKeysAndQuantityKeys(publicServiceId: number) {
+    this.keys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).keys;
+    this.quantityOfKeys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
+  }
+
+  getMaskByKeyType(keyType: number) {
+    switch (keyType) {
+      case 52:
+        this.mask = '0000-0000';
+        break;
+    }
   }
 
   back() {
@@ -88,6 +112,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
             this.newFavoritesPaymentControls.publicService.value,
             this.newFavoritesPaymentControls.phoneNumber.value,
             this.newFavoritesPaymentControls.favoriteName.value,
+            this.keys[0].keyType,
             +this.codeCredix.value)
             .pipe(finalize(() => {
               if (!this.codeCredix.hasError('invalid')) {
