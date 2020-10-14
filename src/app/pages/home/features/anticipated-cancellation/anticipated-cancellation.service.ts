@@ -28,7 +28,7 @@ export class AnticipatedCancellationService {
           if (response.type === 'success') {
             return {
               dollarCancellations: response.CuotasDolares,
-              colonesCancellations: [...response.CuotasColones, ...response.CuotasColones, ...response.CuotasColones],
+              colonesCancellations: response.CuotasColones,
               dollarsBalance: response.SaldoDisponibleDolares,
               colonesBalance: response.SaldoDisponibleColones
             };

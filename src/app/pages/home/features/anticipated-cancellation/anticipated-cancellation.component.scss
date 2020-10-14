@@ -7,10 +7,14 @@
     margin-bottom: 4px;
   }
 
-  &__table-wrapper {
-    max-height: 380px !important;
+  &__scrollbar {
+    height: 360px !important;
     margin-left: -16px !important;
     margin-right: -16px !important;
+  }
+
+  &__table-wrapper {
+    height: 360px !important;
   }
 
   &__table {
@@ -66,7 +70,6 @@
   }
 
   .disabled {
-
     mat-cell {
       color: #d2d2d2;
     }
@@ -75,30 +78,24 @@
       color: #d2d2d2 !important;
     }
   }
-
-  &__footer {
-    border-top: 1px solid #e9e9e9;
-    padding-top: 16px;
-    margin-left: -16px;
-    margin-right: -16px;
-  }
 }
 
 :host ::ng-deep {
-
   .credix-result-view__content-container {
     padding: 0 148px !important;
   }
 }
 
 @media screen and (max-width: 1199px) {
-
   .anticipated-cancellation {
     max-height: 886px;
 
+    &__scrollbar {
+      height: 360px !important;
+    }
 
     &__table-wrapper {
-      height: 600px;
+      height: 578px;
     }
   }
 }

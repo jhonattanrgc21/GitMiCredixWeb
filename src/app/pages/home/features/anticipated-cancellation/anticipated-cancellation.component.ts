@@ -27,7 +27,7 @@ export class AnticipatedCancellationComponent implements OnInit {
   colonesSymbol = '₡';
   dollarsSymbol = '$';
   totalCancelled: number;
-  empty = false;
+  empty = true;
   tabs = [
     {id: 1, name: 'Colones'},
     {id: 2, name: 'Dólares'},
