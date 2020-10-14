@@ -29,6 +29,10 @@ export class PublicServicesComponent implements OnInit {
     });
   }
 
+  onSearchBoxResponse(response: any) {
+    console.log('search box response: ', response);
+  }
+
   tabSelected(tab) {
     this.tabId = tab.id;
     switch (tab.id) {

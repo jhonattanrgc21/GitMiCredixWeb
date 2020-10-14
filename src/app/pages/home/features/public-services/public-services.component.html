@@ -4,7 +4,7 @@
   <div fxLayout="row" fxLayoutAlign="space-between">
     <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
 
-    <credix-search-box [initialObject]="publicServices"></credix-search-box>
+    <credix-search-box [initialObject]="publicServices" (returnResponse)="onSearchBoxResponse($event)"></credix-search-box>
   </div>
 
   <router-outlet></router-outlet>
