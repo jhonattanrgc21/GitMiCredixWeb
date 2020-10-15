@@ -81,20 +81,19 @@
 </mat-card>
 
 <ng-template #doneNewFavoriteTemplate>
-
   <app-credix-result-view
     [resultMessage]="result.message"
     [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
     [status]="result.status"
-    [title]="result.title"
+    title="'Añadir pago favorito'"
     buttonText="Listo"
     routeTo="/home/favorites-management/favorites-payments">
 
-    <div *ngIf="result.status === 'success'" class="w-100" fxLayout="column">
+    <div *ngIf="result.status === 'success'" class="w-100" fxLayout="column" fxLayoutAlign="center center">
       <credix-link-button (click)="addToAutomatics()"
                           *ngIf="result.status === 'success'"
                           fxLayoutAlign="center center"
-                          style="width: 212px; height: 24px; margin-top: 16px;">Agregar a pagos automáticos
+                          style="margin-top: -8px;">Agregar a pagos automáticos
       </credix-link-button>
     </div>
   </app-credix-result-view>
