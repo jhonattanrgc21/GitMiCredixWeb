@@ -1,7 +1,7 @@
 <mat-card *ngIf="!done else doneNewServiceTemplate" [class.second-step-height]="stepperIndex === 1" class="new-service"
           credixCard fxLayout="column" fxLayoutGap="4px">
 
-  <h1 class="mb-16px">{{title}}</h1>
+  <h1 class="mb-16px">{{publicServiceName}}</h1>
 
   <credix-stepper #newServiceStepper>
 
@@ -41,7 +41,7 @@
   <app-credix-result-view [resultMessage]="message"
                           [resultTile]="status === 'success' ? '¡Éxito!' : 'Opps..'"
                           [status]="status"
-                          [title]="title"
+                          [title]="publicServiceName"
                           buttonText="Realizar otro pago"
                           routeTo="/home/public-services">
 

@@ -6,9 +6,9 @@
     <input [class]="searchInputStyle" [formControl]="inputControl" placeholder="¿Qué desea pagar?" type="text">
   </div>
   <div [class]="searchPanelStyle">
-    <div *ngFor="let item of searchObject, let last = last" class="panel_item_content" (click)="onClickItem(item)">
+    <div (click)="onClickItem(item)" *ngFor="let item of searchingResult, let last = last" class="panel_item_content">
       <div class="panel_item_header">
-        <mat-icon [svgIcon]="item.icon" class="search_icon" style="margin-right: 12px;"></mat-icon>
+        <mat-icon *ngIf="item.icon" [svgIcon]="item.icon" class="search_icon" style="margin-right: 12px;"></mat-icon>
         <span class="item_title">{{item.title}}</span>
       </div>
       <div class="item_body_content">

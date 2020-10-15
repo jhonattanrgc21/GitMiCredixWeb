@@ -15,5 +15,6 @@ export interface PublicService {
   agreementCurrency: string;
   periodicity: Periodicity[];
   latePayment: string;
+  icon?: string;
 }
 

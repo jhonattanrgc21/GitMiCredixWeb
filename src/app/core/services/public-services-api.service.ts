@@ -98,7 +98,7 @@ export class PublicServicesApiService {
       );
   }
 
-
+  @Cacheable()
   getAllPublicService(): Observable<PublicService[]> {
     return this.httpService.post('canales', this.getAllPublicServiceUri)
       .pipe(
@@ -107,12 +107,21 @@ export class PublicServicesApiService {
             return response.publicServiceList.map(service => {
               service.icon = iconPerCategory.find(icon => icon.category === service.publicServiceCategory.name)?.icon;
               return {
-                title: service.publicServiceCategory.name,
-                description: service.description,
-                icon: service.icon ? service.icon : '',
-                id: service.id,
-                publicServiceCategoryId: service.publicServiceCategory.id
-              };
+                publicServiceProvider: '',
+                publicServiceProviderPrefix: '',
+                publicServiceCode: service.code,
+                publicServiceCategory: service.publicServiceCategory.name,
+                publicServiceName: service.description,
+                publicServiceId: service.id,
+                keys: service.keys,
+                quantityOfKeys: service.quantityOfKeys,
+                paymentType: service.paymentType,
+                validateAntiquity: service.validateAntiquity,
+                agreementCurrency: service.agreementCurrency,
+                periodicity: service.periodicity,
+                latePayment: service.latePayment,
+                icon: service.icon ? service.icon : ''
+              } as PublicService;
             });
           } else {
             return [];

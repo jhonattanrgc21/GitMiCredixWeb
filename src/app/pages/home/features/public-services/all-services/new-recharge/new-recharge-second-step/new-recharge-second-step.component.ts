@@ -8,7 +8,6 @@ import {ConvertStringAmountToNumber} from '../../../../../../../shared/utils';
   styleUrls: ['./new-recharge-second-step.component.scss']
 })
 export class NewRechargeSecondStepComponent implements OnInit {
-
   @Input() rechargeFormGroup: FormGroup = new FormGroup({
     phoneNumber: new FormControl(null, [Validators.required]),
     amount: new FormControl(null, [Validators.required]),
