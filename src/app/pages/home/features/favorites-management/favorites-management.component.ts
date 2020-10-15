@@ -196,6 +196,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
                   this.favoriteManagementService.emitDeletedSuccess(true, null, null);
                 }
               });
+          } else {
+            this.getFavoritesIban();
           }
         });
         break;
@@ -216,6 +218,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
                     this.favoriteManagementService.emitDeletedSuccess(null, true, null);
                   }
                 });
+            } else {
+              this.getPublicService();
             }
           });
         break;
@@ -236,6 +240,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
                   this.favoriteManagementService.emitDeletedSuccess(null, null, true);
                 }
               });
+          } else {
+            this.getSchedulePayment();
           }
         });
         break;
