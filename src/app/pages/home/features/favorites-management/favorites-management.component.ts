@@ -182,7 +182,6 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   delete(tabId: number) {
-    this.accounts = [];
     switch (tabId) {
       case 1:
         this.modalService.confirmationPopup('¿Desea eliminar esta cuenta IBAN?').subscribe((confirm) => {
@@ -264,10 +263,10 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   getFavoritesIban() {
+    this.accounts = [];
     this.accountApiService.getAllAccountIbanFavoriteByUser()
       .subscribe((response) => {
         this.empty = response.length === 0;
-
         if (!this.empty) {
           for (const values of response) {
             this.accounts.push({
@@ -284,10 +283,10 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   getPublicService() {
+    this.accounts = [];
     this.publicServiceApi.getAllFavoritePublicServiceByUser()
       .subscribe((response) => {
         this.empty = response.length === 0;
-
         if (!this.empty) {
           for (const values of response) {
             this.accounts.push({
@@ -315,6 +314,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   getSchedulePayment() {
+    this.accounts = [];
     this.channelsApiService.getAllSchedulersPayment()
       .pipe(finalize(() => {
         if (this.idParam) {
