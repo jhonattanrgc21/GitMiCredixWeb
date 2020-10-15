@@ -23,7 +23,6 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     background-color: #ffffff;
-    min-height: 478px;
 
     &__left {
       border-right: 1px solid #e9e9e9;
@@ -33,63 +32,6 @@
 
     &__right {
       padding: 16px;
-    }
-  }
-
-  &__option {
-    position: relative;
-    padding: 16px 16px 16px 0;
-    width: 100%;
-    text-align: left;
-    background-color: inherit;
-    cursor: pointer;
-    border-style: none;
-    outline: none;
-    align-items: center;
-    display: flex;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid #e9e9e9;
-    }
-
-    &:hover {
-      .navigation-table__option__icon {
-        color: #e42313;
-      }
-
-      .navigation-table__option__label {
-        font-weight: bold;
-      }
-    }
-
-    &__icon {
-      width: 16px;
-      color: #b5b5b5;
-
-      &.is-selected {
-        color: #e42313;
-      }
-    }
-
-    &__label {
-      padding-left: 16px;
-      font-size: 16px;
-      color: #3e3e3e;
-
-      &.is-selected {
-        font-weight: bold;
-      }
-    }
-
-    &__arrow {
-      height: fit-content;
-
-      &:after {
-        content: url(./chevron_right_icon.svg);
-        position: absolute;
-        right: 0;
-        top: 20px;
-      }
     }
   }
 }
