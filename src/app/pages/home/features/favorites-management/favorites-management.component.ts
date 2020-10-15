@@ -263,12 +263,12 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   getFavoritesIban() {
-    this.accounts = [];
     this.accountApiService.getAllAccountIbanFavoriteByUser()
       .subscribe((response) => {
         this.empty = response.length === 0;
+        this.accounts = [];
         if (!this.empty) {
-          for (const values of response) {
+          response.forEach(values => {
             this.accounts.push({
               name: values.aliasName,
               account: values.ibanAccount,
@@ -277,18 +277,18 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               ibanBank: values.ibanBank,
               typeIdentificacionId: values.typeIdentificacionId
             });
-          }
+          });
         }
       });
   }
 
   getPublicService() {
-    this.accounts = [];
     this.publicServiceApi.getAllFavoritePublicServiceByUser()
       .subscribe((response) => {
         this.empty = response.length === 0;
         if (!this.empty) {
-          for (const values of response) {
+          this.accounts = [];
+          response.forEach(values => {
             this.accounts.push({
               name: values.publicServiceFavoriteName,
               account: values.accountNumber,
@@ -308,13 +308,12 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               publicServiceEnterpriseCode: values.publicServiceEnterpriseCode,
               accountId: values.accountId
             });
-          }
+          });
         }
       });
   }
 
   getSchedulePayment() {
-    this.accounts = [];
     this.channelsApiService.getAllSchedulersPayment()
       .pipe(finalize(() => {
         if (this.idParam) {
@@ -324,8 +323,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
       }))
       .subscribe((response) => {
         this.empty = response.length === 0;
+        this.accounts = [];
         if (!this.empty) {
-          for (const values of response) {
+          response.forEach(values => {
             this.accounts.push({
               name: values.alias,
               account: values.publicServiceDescription,
@@ -337,7 +337,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               publicServiceCategoryName: values.publicServiceCategoryName,
               publicServiceCategoryId: values.publicServiceCategoryId
             });
-          }
+          });
         }
       });
   }
