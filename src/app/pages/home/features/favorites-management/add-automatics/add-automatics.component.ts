@@ -165,7 +165,7 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.contractControl.value.toString(),
           this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
-          +this.codeCredix.value,
+          this.codeCredix.value.toString(),
           this.newAutomaticsControls.keyType.value)
           .pipe(finalize(() => {
             if (!this.codeCredix.hasError('invalid')) {
@@ -177,7 +177,7 @@ export class AddAutomaticsComponent implements OnInit {
 
             this.result = {
               status: response.type,
-              message: response.message || response.descriptionOne,
+              message: response.descriptionOne || response.message,
               title: response.titleOne
             };
           });

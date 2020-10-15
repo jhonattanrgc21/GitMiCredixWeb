@@ -238,7 +238,6 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
       });
   }
 
-
   checkIsUpdating() {
     this.favoriteManagementService.update.subscribe(() => {
       this.updating = true;

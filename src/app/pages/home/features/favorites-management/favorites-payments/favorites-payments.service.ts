@@ -18,7 +18,7 @@ export class FavoritesPaymentsService {
                            serviceReference: string,
                            aliasName: string,
                            publicServiceAccessKeyId: number,
-                           codeCredix: number) {
+                           codeCredix: string) {
     return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
       accountId: this.storageService.getCurrentUser().actId,
       publicServiceId,

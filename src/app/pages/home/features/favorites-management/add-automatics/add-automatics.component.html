@@ -91,12 +91,11 @@
 
 
 <ng-template #doneNewAutomaticsTemplate>
-
   <app-credix-result-view
     [resultMessage]="result.message"
     [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
     [status]="result.status"
-    [title]="result.title"
+    [title]="'Añadir pago automático'"
     buttonText="Listo"
     routeTo="/home/favorites-management/automatics">
   </app-credix-result-view>

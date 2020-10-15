@@ -119,9 +119,9 @@ export class AddFavoritesPaymentComponent implements OnInit {
           this.favoritesPaymentsService
             .setPublicServiceFavorite(this.newFavoritesPaymentControls.publicService.value,
               this.newFavoritesPaymentControls.contractControl.value,
-            this.newFavoritesPaymentControls.favoriteName.value,
+              this.newFavoritesPaymentControls.favoriteName.value,
               this.newFavoritesPaymentControls.keyType.value,
-            +this.codeCredix.value)
+              this.codeCredix.value.toString())
             .pipe(finalize(() => {
               if (!this.codeCredix.hasError('invalid')) {
                 this.done = true;
