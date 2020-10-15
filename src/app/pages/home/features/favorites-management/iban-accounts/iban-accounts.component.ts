@@ -2,8 +2,6 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {IbanAccountsService} from './iban-accounts.service';
-import {CredixToastService} from '../../../../../core/services/credix-toast.service';
-import {ToastData} from '../../../../../shared/components/credix-toast/credix-toast-config';
 import {FavoriteIbanAccount} from '../../../../../shared/models/favorite-iban-account';
 
 @Component({
@@ -12,13 +10,12 @@ import {FavoriteIbanAccount} from '../../../../../shared/models/favorite-iban-ac
   styleUrls: ['./iban-accounts.component.scss']
 })
 export class IbanAccountsComponent implements OnInit, AfterViewInit {
-
+  ibanAccountDetailControl: FormControl = new FormControl(null);
   data: FavoriteIbanAccount;
-  ibanAccountDetailInput: FormControl = new FormControl(null);
+  errorMessage: string;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
-              private ibanAccountsService: IbanAccountsService,
-              private toastService: CredixToastService) {
+              private ibanAccountsService: IbanAccountsService) {
   }
 
   ngOnInit(): void {
@@ -34,39 +31,36 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   getIbanAccountDetail() {
     this.favoritesManagementService.ibanAccount.subscribe((response) => {
       this.data = response;
-      this.ibanAccountDetailInput.setValue(this.data?.aliasName, {emitEvent: false});
-      this.ibanAccountDetailInput.markAsPristine();
+      this.ibanAccountDetailControl.setValue(this.data?.aliasName, {emitEvent: false});
+      this.ibanAccountDetailControl.markAsPristine();
     });
   }
 
   getUpdateAlert() {
-    this.favoritesManagementService.confirmUpdate.subscribe((response) => {
-      if (response.confirm && this.data.IdAccountFavorite !== undefined) {
-        this.setUpdateIban(this.data.IdAccountFavorite, this.ibanAccountDetailInput.value);
+    this.favoritesManagementService.confirmUpdate.subscribe(response => {
+      if (response.confirm && this.data.IdAccountFavorite) {
+        this.setUpdateIban(this.data.IdAccountFavorite, this.ibanAccountDetailControl.value);
       }
     });
   }
 
   setUpdateIban(ibanId: number, alias: string) {
     this.ibanAccountsService.updateIbanAccount(ibanId, alias).subscribe((response) => {
-      const data: ToastData = {
-        text: response.message,
-        type: response.type,
-      };
-      this.toastService.show(data);
-
-      if (response.message === 'Operación exitosa') {
+      if (response.type === 'success') {
         this.favoritesManagementService.emitUpdateSuccessAlert();
+      } else {
+        this.errorMessage = response.message;
+        this.ibanAccountDetailControl.setErrors({invalid: true});
       }
     });
   }
 
   ibanAccountDetailChanged() {
-    this.ibanAccountDetailInput.valueChanges.subscribe(() => {
-      if (this.ibanAccountDetailInput.dirty) {
+    this.ibanAccountDetailControl.valueChanges.subscribe(() => {
+      if (this.ibanAccountDetailControl.dirty) {
         this.favoritesManagementService.updating();
       }
-      });
+    });
   }
 
   getDeletedSuccess() {

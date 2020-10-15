@@ -1,7 +1,9 @@
-<div *ngIf="data !== undefined && data" class="iban-accounts" fxLayout="column">
+<div *ngIf="data" class="iban-accounts" fxLayout="column">
   <span class="mb-8px"><strong>{{data?.ibanBank}}</strong></span>
   <span class="mb-24px">{{data?.ibanAccount}}</span>
-  <credix-input-field [class.enabled]="ibanAccountDetailInput.dirty"
-                      [formControl]="ibanAccountDetailInput"
-                      class="iban-accounts__input disabled" label="Nombre de favorito"></credix-input-field>
+  <credix-input-field [class.enabled]="ibanAccountDetailControl.dirty"
+                      [formControl]="ibanAccountDetailControl"
+                      class="iban-accounts__input disabled" label="Nombre de favorito">
+    <span *ngIf="ibanAccountDetailControl.hasError('invalid')" error>{{errorMessage}}</span>
+  </credix-input-field>
 </div>
