@@ -24,7 +24,6 @@ export class AddFavoritesPaymentComponent implements OnInit {
   done = false;
   result: { status: 'success' | 'error'; message: string; title: string; };
   keys: Keys[] = [];
-  label: string;
   mask: string;
   quantityOfKeys: number;
   newFavoritesPaymentForm: FormGroup = new FormGroup({
@@ -65,7 +64,6 @@ export class AddFavoritesPaymentComponent implements OnInit {
     });
 
     this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
-      this.label = this.keys.find(elem => elem.keyType === value).description;
       this.getMaskByKeyType(value);
     });
     this.getCredixCodeError();

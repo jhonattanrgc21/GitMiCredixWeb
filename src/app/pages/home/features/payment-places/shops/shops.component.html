@@ -1,6 +1,6 @@
 <div class="shops" fxLayout="column">
 
-  <credix-navigation-table [headers]="tableHeaders">
+  <credix-navigation-table [headers]="tableHeaders" fxFlex>
 
     <div class="w-100" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="9px" left>
       <a (click)="getPaymentPlaceDetail(paymentPlace)" *ngFor="let paymentPlace of paymentPlaces"

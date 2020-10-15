@@ -34,7 +34,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'digital-payments',
+        redirectTo: 'shops',
         pathMatch: 'full'
       },
       {

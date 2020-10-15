@@ -1,11 +1,15 @@
 .payment-places {
-  width: 877px;
-  min-height: 662px;
+  max-height: 646px;
+  height: 100%;
+  padding-bottom: 0 !important;
+
+  router-outlet + ::ng-deep * {
+    flex: 1 1 0;
+  }
 }
 
 @media screen and (max-width: 1199px) {
   .payment-places {
-    width: 736px;
-    min-height: 886px;
+    max-height: 886px;
   }
 }

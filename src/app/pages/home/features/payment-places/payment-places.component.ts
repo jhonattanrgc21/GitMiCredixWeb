@@ -12,8 +12,8 @@ import {Tag} from '../../../../shared/models/tag';
 })
 export class PaymentPlacesComponent implements OnInit {
   tabs = [
-    {id: 1, name: 'Pagos digitales'},
-    {id: 2, name: 'Comercios'}
+    {id: 1, name: 'Comercios'},
+    {id: 2, name: 'Pagos digitales'},
   ];
   titleTag: string;
 
@@ -30,14 +30,14 @@ export class PaymentPlacesComponent implements OnInit {
   }
 
   tabSelected(tab) {
-    this.router.navigate([tab.id === 1 ? 'home/payment-places/digital-payments' : 'home/payment-places/shops']);
+    this.router.navigate([tab.id === 1 ? 'home/payment-places/shops' : 'home/payment-places/digital-payments']);
   }
 
   getTags(tags: Tag[]) {
     this.titleTag = tags.find(tag => tag.description === 'lugares.title')?.value;
     this.tabs = [
-      {id: 1, name: tags.find(tag => tag.description === 'lugares.tab2')?.value || 'Pagos digitales'},
-      {id: 2, name: tags.find(tag => tag.description === 'lugares.tab1')?.value || 'Comercios'},
+      {id: 1, name: tags.find(tag => tag.description === 'lugares.tab1')?.value || 'Comercios'},
+      {id: 2, name: tags.find(tag => tag.description === 'lugares.tab2')?.value || 'Pagos digitales'}
     ];
   }
 }
