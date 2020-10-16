@@ -21,14 +21,6 @@ export class SignInService {
   constructor(private httpService: HttpService,
               private deviceService: DeviceDetectorService,
               private toastService: CredixToastService) {
-    console.log(this.deviceService.browser);
-    console.log(this.deviceService.browser_version);
-    console.log(this.deviceService.device);
-    console.log(this.deviceService.getDeviceInfo());
-    console.log(this.deviceService.os);
-    console.log(this.deviceService.os_version);
-    console.log(this.deviceService.ua);
-    console.log(this.deviceService.userAgent);
   }
 
   login(username: string, password: string, deviceIdentifier: number = 1213123134, typeIncome: number = 2):
