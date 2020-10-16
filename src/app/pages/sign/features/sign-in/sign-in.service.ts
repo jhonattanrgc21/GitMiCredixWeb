@@ -6,6 +6,7 @@ import {CredixToastService} from '../../../../core/services/credix-toast.service
 import {User} from '../../../../shared/models/user';
 import {map, tap} from 'rxjs/operators';
 import {Card} from '../../../../shared/models/card';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Injectable()
 export class SignInService {
@@ -13,11 +14,21 @@ export class SignInService {
   private readonly logoutUri = 'security/logoutbyusername';
   private readonly getDeviceInfoUri = 'channels/getdeviceinfo';
   private readonly validateOtpUri = 'security/validateonetimepassword';
+  private readonly saveDeviceUri = 'channels/savedevice';
   private newDeviceSub = new Subject();
   newDevice$ = this.newDeviceSub.asObservable();
 
   constructor(private httpService: HttpService,
+              private deviceService: DeviceDetectorService,
               private toastService: CredixToastService) {
+    console.log(this.deviceService.browser);
+    console.log(this.deviceService.browser_version);
+    console.log(this.deviceService.device);
+    console.log(this.deviceService.getDeviceInfo());
+    console.log(this.deviceService.os);
+    console.log(this.deviceService.os_version);
+    console.log(this.deviceService.ua);
+    console.log(this.deviceService.userAgent);
   }
 
   login(username: string, password: string, deviceIdentifier: number = 1213123134, typeIncome: number = 2):
@@ -49,6 +60,7 @@ export class SignInService {
               .map(card => ({
                 ...card,
                 cardNumber:
+                // tslint:disable-next-line:max-line-length
                   `${card.cardNumber.substr(card.cardNumber.length - 8, 4)} ${card.cardNumber.substr(card.cardNumber.length - 4, card.cardNumber.length)}`
               }))
           };
@@ -128,18 +140,18 @@ export class SignInService {
   }
 
   saveDevice(): Observable<'success' | 'error'> {
-    return this.httpService.post('canales', 'channels/savedevice', {
+    return this.httpService.post('canales', this.saveDeviceUri, {
       deviceIdentification: '12345',
-      platform: 1,
+      platform: this.deviceService.os === 'Mac' ? 1 : this.deviceService.os === 'Android' ? 2 : 3,
       uuid: 12345,
-      carrierName: 'AT&T',
-      platformVersion: '8.2.3',
-      manufacturer: 'Xiaomi',
-      model: 'Redmi note 8 pro',
-      isoCountryCode: 'VE',
-      mobileNetworkCode: '123',
-      mobileCountryCode: '123',
-      numberPhone: '1234567890',
+      manufacturer: this.deviceService.os,
+      model: this.deviceService.os,
+      platformVersion: this.deviceService.os_version,
+      carrierName: 'No encontrado',
+      isoCountryCode: 'No encontrado',
+      mobileNetworkCode: 'No encontrado',
+      mobileCountryCode: 'No encontrado',
+      numberPhone: 'No encontrado',
       isActive: '1'
     }).pipe(
       tap(response => {
