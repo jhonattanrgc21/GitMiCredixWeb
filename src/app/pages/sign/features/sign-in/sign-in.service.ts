@@ -7,6 +7,7 @@ import {User} from '../../../../shared/models/user';
 import {map, tap} from 'rxjs/operators';
 import {Card} from '../../../../shared/models/card';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {StorageService} from '../../../../core/services/storage.service';
 
 @Injectable()
 export class SignInService {
@@ -20,15 +21,16 @@ export class SignInService {
 
   constructor(private httpService: HttpService,
               private deviceService: DeviceDetectorService,
+              private storageService: StorageService,
               private toastService: CredixToastService) {
   }
 
-  login(username: string, password: string, deviceIdentifier: number = 12345, typeIncome: number = 2):
+  login(username: string, password: string, typeIncome: number = 2):
     Observable<{ user: User, cards: Card[] }> {
     return this.httpService.post('canales', this.loginUri, {
       username,
       password: CryptoJS.SHA256(password).toString(),
-      deviceIdentifier,
+      deviceIdentifier: this.storageService.getUuid(),
       typeIncome
     }).pipe(
       tap(response => {
@@ -82,8 +84,8 @@ export class SignInService {
     );
   }
 
-  getDeviceInfo(uuid = 12345): Observable<{ status: string; id: number }> {
-    return this.httpService.post('canales', this.getDeviceInfoUri, {uuid})
+  getDeviceInfo(): Observable<{ status: string; id: number }> {
+    return this.httpService.post('canales', this.getDeviceInfoUri, {uuid: this.storageService.getUuid()})
       .pipe(
         map(response => ({status: response.type, id: response.id}))
       );
@@ -128,17 +130,17 @@ export class SignInService {
 
   saveDevice(): Observable<'success' | 'error'> {
     return this.httpService.post('canales', this.saveDeviceUri, {
-      deviceIdentification: '12345',
-      uuid: 12345,
+      deviceIdentification: this.storageService.getUuid(),
+      uuid: this.storageService.getUuid(),
       platform: this.deviceService.os === 'Mac' ? 1 : this.deviceService.os === 'Android' ? 2 : 3,
       manufacturer: this.deviceService.os,
       model: this.deviceService.os,
       platformVersion: this.deviceService.os_version,
       carrierName: 'No encontrado',
-      isoCountryCode: 'No encontrado',
-      mobileNetworkCode: 'No encontrado',
-      mobileCountryCode: 'No encontrado',
-      numberPhone: 'No encontrado',
+      isoCountryCode: 'XXXXXXXXXX',
+      mobileNetworkCode: 'XXXXXXXXXX',
+      mobileCountryCode: 'XXXXXXXXXX',
+      numberPhone: '0000000000',
       isActive: '1'
     }).pipe(
       tap(response => {

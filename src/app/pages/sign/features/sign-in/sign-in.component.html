@@ -52,8 +52,6 @@
 
     <form [formGroup]="newDeviceFormGroup" class="w-100 mb-32px">
       <credix-code-input formControlName="credixCode">
-                <span *ngIf="newDeviceFormGroup.controls.credixCode.hasError('required')"
-                      error>Introduzca el código de verificación.</span>
         <span *ngIf="newDeviceFormGroup.controls.credixCode.hasError('invalid')"
               error>{{errorOtpMessage}}</span>
       </credix-code-input>

@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 import {SignInService} from './sign-in.service';
 import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
 import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
-
+import {v4 as uuidv4} from 'uuid';
 
 @Component({
   selector: 'app-sign-in',
@@ -41,6 +41,9 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.signInService.newDevice$.subscribe(() => this.open('session-activate'));
+    if (!this.storageService.getUuid()) {
+      this.storageService.setUuid(uuidv4());
+    }
   }
 
   login() {
@@ -87,6 +90,7 @@ export class SignInComponent implements OnInit {
     this.signInService.validateOtp(+this.newDeviceFormGroup.controls.credixCode.value, this.userId).subscribe(result => {
       if (result.status === 'success') {
         this.saveDevice();
+        this.newDeviceModal.close();
       } else {
         this.newDeviceFormGroup.controls.credixCode.setErrors({invalid: true});
         this.newDeviceFormGroup.updateValueAndValidity();
