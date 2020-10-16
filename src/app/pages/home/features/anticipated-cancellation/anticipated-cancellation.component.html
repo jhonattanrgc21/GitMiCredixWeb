@@ -8,92 +8,88 @@
   <div class="mb-16px" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
     <span><strong>{{balanceTag || 'Saldo a favor'}}</strong></span>
 
-    <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol : dollarsSymbol"
+    <credix-numeric-block *ngIf="tabId === 1 ? colonesBalance : dollarsBalance"
+                          [prefix]="tabId === 1 ? colonesSymbol : dollarsSymbol"
                           [value]="tabId === 1 ? colonesBalance : dollarsBalance" fontSize="24" fontWeight="bold">
     </credix-numeric-block>
   </div>
 
-  <ngx-simplebar [fxFlex]="empty ? '0 0 0' : '100%'" [options]="{autoHide: false}"
-                 class="anticipated-cancellation__table-wrapper">
-    <mat-table [dataSource]="dataSource" class="anticipated-cancellation__table">
+  <ngx-simplebar [options]="{autoHide: false}" class="anticipated-cancellation__scrollbar" fxFlex>
 
-      <ng-container matColumnDef="select">
-        <mat-header-cell *matHeaderCellDef credixHeaderCell>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element" credixCell>
-          <credix-checkbox-button (emitCheckBox)="change($event.checked, element)"
-                                  [disable]="
+    <div class="anticipated-cancellation__table-wrapper" fxLayout="column">
+      <mat-table [dataSource]="dataSource" class="anticipated-cancellation__table">
+
+        <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            <credix-checkbox-button (emitCheckBox)="change($event.checked, element)"
+                                    [disable]="
                                   selection.indexOf(element) === -1 &&
-                                  (+element.saldoPendiente) > (tabId === 1 ? colonesBalance : dollarsBalance)"
-                                  [value]="element">
-          </credix-checkbox-button>
-        </mat-cell>
-      </ng-container>
+                                  (element.saldoPendiente  | castToNumber) >
+                                  (tabId === 1 ? (colonesBalance | castToNumber) : (dollarsBalance | castToNumber))"
+                                    [value]="element">
+            </credix-checkbox-button>
+          </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="date">
-        <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
-        <mat-cell *matCellDef="let element" [ngClass]="{'disabled' :
-                  selection.indexOf(element) === -1 &&
-                  (+element.saldoPendiente) > (tabId === 1 ? colonesBalance : dollarsBalance)}"
-                  credixCell>
-          {{element.fechaOrigen | dateFormatter: 'alphanumeric'}}
-        </mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.fechaOrigen | dateFormatter: 'alphanumeric'}}
+          </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="commerce">
-        <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
-        <mat-cell *matCellDef="let element" [ngClass]="{'disabled' :
-                  selection.indexOf(element) === -1 &&
-                  (+element.saldoPendiente) > (tabId === 1 ? colonesBalance : dollarsBalance)}"
-                  credixCell>
-          {{element.pdv}} </mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="commerce">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.pdv}} </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="amount">
-        <mat-header-cell *matHeaderCellDef
-                         credixHeaderCell> {{pendingBalanceTag || 'Saldo pendiente'}}</mat-header-cell>
-        <mat-cell *matCellDef="let element" [ngClass]="{'disabled' :
-                  selection.indexOf(element) === -1 &&
-                  (+element.saldoPendiente) > (tabId === 1 ? colonesBalance : dollarsBalance)}"
-                  credixCell>
-          <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol: dollarsSymbol"
-                                [value]="element.saldoPendiente" fontWeight="bold"></credix-numeric-block>
-        </mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef
+                           credixHeaderCell> {{pendingBalanceTag || 'Saldo pendiente'}}</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol: dollarsSymbol"
+                                  [value]="element.saldoPendiente" fontWeight="bold"></credix-numeric-block>
+          </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="quotas">
-        <mat-header-cell *matHeaderCellDef credixHeaderCell> Cuotas pendientes</mat-header-cell>
-        <mat-cell *matCellDef="let element" [ngClass]="{'disabled' :
-                  selection.indexOf(element) === -1 &&
-                  (+element.saldoPendiente) > (tabId === 1 ? colonesBalance : dollarsBalance)}"
-                  credixCell>
-          {{element.cuotasPendientes}}</mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="quotas">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Cuotas pendientes</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.cuotasPendientes}}</mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="rate">
-        <mat-header-cell *matHeaderCellDef credixHeaderCell> Tasa</mat-header-cell>
-        <mat-cell *matCellDef="let element" [ngClass]="{'disabled' :
-                  selection.indexOf(element) === -1 &&
-                  (+element.saldoPendiente) > (tabId === 1 ? colonesBalance : dollarsBalance)}"
-                  credixCell>
-          {{element.tasa}}%
-        </mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="rate">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Tasa</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.tasa}}%
+          </mat-cell>
+        </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow>
-      </mat-row>
-    </mat-table>
+        <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"
+                 [ngClass]="{'disabled' :
+                  selection.indexOf(row) === -1 &&
+                                  (row.saldoPendiente  | castToNumber) >
+                                  (tabId === 1 ? (colonesBalance | castToNumber) : (dollarsBalance | castToNumber))}"
+                 credixRow>
+        </mat-row>
+      </mat-table>
+
+      <div *ngIf="empty" fxFlex fxLayout="row" fxLayoutAlign="center center">
+        <credix-result-notification fxFlex="300px" status="info"
+                                    title="{{warningTag || 'No tiene consumos para cancelar anticipadamente en este momento.'}}">
+        </credix-result-notification>
+      </div>
+
+    </div>
+
   </ngx-simplebar>
 
-  <div *ngIf="empty" fxFlex fxLayout="row" fxLayoutAlign="center center">
-    <credix-result-notification fxFlex="300px" status="info"
-                                title="{{warningTag || 'No tiene consumos para cancelar anticipadamente en este momento.'}}">
-    </credix-result-notification>
-  </div>
-
-  <div class="anticipated-cancellation__footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <credix-button (buttonClick)="saveCancellation()" [disabled]="empty || !this.selection.length" class="mr-16px">
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <credix-button (buttonClick)="saveCancellation()" [disabled]="empty || !this.selection.length">
       Aplicar
     </credix-button>
   </div>

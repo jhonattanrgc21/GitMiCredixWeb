@@ -13,6 +13,9 @@
       <credix-input-field [type]="hide ? 'password' : 'text'" focusLabel="Clave"
                           formControlName="password" label="Digite su clave">
         <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+        <span *ngIf="signInformGroup.controls.password.hasError('invalid')" error>
+          {{errorMessage}}
+        </span>
       </credix-input-field>
 
       <credix-button (click)="login()" [disabled]="signInformGroup.invalid" class="w-100">Ingresar</credix-button>
@@ -31,7 +34,7 @@
   <div class="h-100" fxLayout="column">
     <credix-result-notification class="mb-24px"
                                 message="Se detectó una sesión activa, presione continuar para cerrarla y seguir en esta."
-                                status="warning"
+                                status="warn"
                                 title="Sesión activa detectada"></credix-result-notification>
 
     <credix-button (buttonClick)="closeSessionActivate()" class="w-100">Continuar</credix-button>

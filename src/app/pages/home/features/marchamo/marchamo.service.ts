@@ -176,7 +176,8 @@ export class MarchamoService {
     plateNumber: string,
     promoStatus: number,
     quotasId: number,
-    phoneNumber: number) {
+    phoneNumber: number,
+    ownerEmail: string) {
     return this.httpService.post('marchamos', this.paySoapayUri,
       {
         aditionalProducts,
@@ -189,7 +190,7 @@ export class MarchamoService {
         domicilePhone,
         domicilePlace,
         email,
-        ownerEmail: this.ownerPayer.email,
+        ownerEmail,
         extraCardStatus: '0',
         firstPayment,
         payId: this.consultVehicle.payId,

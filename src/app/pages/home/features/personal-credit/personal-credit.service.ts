@@ -10,8 +10,8 @@ export class PersonalCreditService {
   private readonly personalCreditCommissionUri = 'customerservice/personalcreditcommission';
   private readonly savePersonalCreditUri = 'customerservice/savePersonalCredit';
   private readonly getIbanAccountInfoUri = 'account/getinformationibanaccount';
-  private personalCreditSummaryChangedSub: Subject<any> = new Subject<any>();
-  private amountChangedSub: Subject<any> = new Subject<any>();
+  private errorIbanAccountSub = new Subject();
+  errorIbanAccount$ = this.errorIbanAccountSub.asObservable();
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -37,6 +37,10 @@ export class PersonalCreditService {
 
   set amount(amount: number) {
     this._amount = amount;
+  }
+
+  emitErrorIbanAccount() {
+    this.errorIbanAccountSub.next();
   }
 
   getPersonalCreditsSummaries(amount: number, typeId: number = 2) {

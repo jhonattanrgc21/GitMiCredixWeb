@@ -29,18 +29,10 @@ export class SignInService {
       typeIncome
     }).pipe(
       tap(response => {
-          if (response.titleOne === 'error') {
-            this.toastService.show({text: response.json.message, type: 'error'});
-          }
-
-          if (response.titleOne === 'warn') {
-            this.newDeviceSub.next();
-          }
-        },
-        error => {
-        },
-        () => {
-        }),
+        if (response.titleOne === 'warn') {
+          this.newDeviceSub.next();
+        }
+      }),
       map(response => {
         if (response.titleOne === 'success') {
           return {
@@ -61,7 +53,7 @@ export class SignInService {
               }))
           };
         } else {
-          return null;
+          throw new Error(response.json.message);
         }
       })
     );

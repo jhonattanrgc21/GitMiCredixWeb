@@ -1,5 +1,6 @@
 .extend-term {
-  height: 662px;
+  max-height: 662px;
+  height: 100%;
   position: relative;
 
   &__menu-options {
@@ -63,7 +64,6 @@
     right: 0;
     padding: 16px;
 
-
     &.done-footer {
       border-top: 1px solid #E9E9E9;
       width: 100%;
@@ -116,9 +116,8 @@
 }
 
 @media screen and (max-width: 1199px) {
-
   .extend-term {
-    height: 886px;
+    max-height: 886px;
 
     &__menu-options {
       height: 733px;

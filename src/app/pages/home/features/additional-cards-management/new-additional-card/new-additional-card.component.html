@@ -1,10 +1,8 @@
-<mat-card *ngIf="!done else doneNewCardTemplate" [class.new-additional-card--first-step-height]="stepperIndex === 0"
-          class="new-additional-card" credixCard
-          fxLayout="column">
+<mat-card *ngIf="!done else doneNewCardTemplate" class="new-additional-card" credixCard fxLayout="column">
 
   <h1 class="mb-32px">{{titleTag || 'Tarjetas adicionales'}}</h1>
 
-  <credix-stepper #stepper>
+  <credix-stepper #stepper fxFlex>
 
     <cdk-step [label]="firstStepperTag || 'Datos personales'" [stepControl]="userInfoFormGroup">
       <app-new-additional-card-first-step [userInfoFormGroup]="userInfoFormGroup"></app-new-additional-card-first-step>
@@ -22,18 +20,13 @@
 
   </credix-stepper>
 
-  <div class="new-additional-card__footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" type="secondary">
-        Atrás
-      </credix-button>
-      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 2" [disabled]="disableButton">
-        Continuar
-      </credix-button>
-      <credix-button (buttonClick)="openModal()" *ngIf="stepperIndex === 2" [disabled]="disableButton">
-        Solicitar
-      </credix-button>
-    </div>
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end center">
+    <credix-button (buttonClick)="back()" class="mr-16px" type="secondary">
+      Atrás
+    </credix-button>
+    <credix-button (buttonClick)="stepperIndex < 2 ? continue() : openModal()" [disabled]="disableButton">
+      {{stepperIndex < 2 ? 'Continuar' : 'Solicitar'}}
+    </credix-button>
   </div>
 
 </mat-card>

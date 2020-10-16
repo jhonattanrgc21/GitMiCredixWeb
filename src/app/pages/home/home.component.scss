@@ -18,13 +18,10 @@
     background: #f4f4f4;
     overflow: hidden;
 
-    ::ng-deep.simplebar-content {
-      display: flex;
-      justify-content: center;
-    }
-
     &__main {
+      display: flex;
       padding: 16px;
+      min-height: calc(100vh - 106px);
       width: calc(877px + 16px + 16px);
     }
   }
@@ -33,6 +30,10 @@
     .home__sidenav-container {
       flex: 1 0 auto;
     }
+  }
+
+  router-outlet + ::ng-deep * {
+    width: 100%;
   }
 }
 

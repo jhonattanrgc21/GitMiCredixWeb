@@ -62,11 +62,11 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'recharge/category/:categoryId/enterprise/:enterpriseId/service/:serviceId',
+    path: 'recharge',
     component: NewRechargeComponent
   },
   {
-    path: 'category/:categoryId/enterprise/:enterpriseId/service/:serviceId',
+    path: 'public-service',
     component: NewServiceComponent
   }
 ];

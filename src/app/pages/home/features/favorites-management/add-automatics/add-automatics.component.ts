@@ -11,6 +11,7 @@ import {FavoritesManagementService} from '../favorites-management.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
+import {Keys} from '../../../../../shared/models/keys';
 
 @Component({
   selector: 'app-add-automatics',
@@ -23,13 +24,18 @@ export class AddAutomaticsComponent implements OnInit {
   publicCompany: PublicServiceEnterprise[];
   publicServices: PublicService[];
   today = new Date();
-  result: { status: string; message: string; title: string; };
+  result: { status: 'success' | 'error'; message: string; title: string; };
+  keys: Keys[] = [];
+  quantityOfKeys: number;
+  label: string;
+  mask: string;
   data: {
     publicServiceCategoryId: number;
     publicServiceEnterpriseId: number;
     publicServiceId: number;
+    keyType: number;
     favoriteName: string;
-    phoneNumber: number
+    contractControl: number;
   };
   done = false;
   resultAutomatics: boolean;
@@ -37,7 +43,8 @@ export class AddAutomaticsComponent implements OnInit {
     publicServicesCategory: new FormControl(null, [Validators.required]),
     publicServiceCompany: new FormControl(null, [Validators.required]),
     publicService: new FormControl(null, [Validators.required]),
-    phoneNumber: new FormControl(null, [Validators.required]),
+    keyType: new FormControl(null, [Validators.required]),
+    contractControl: new FormControl(null, [Validators.required]),
     nameOfAutomatics: new FormControl(null, [Validators.required]),
     maxAmount: new FormControl(null, [Validators.required]),
     startDate: new FormControl(new Date(), [Validators.required]),
@@ -67,6 +74,15 @@ export class AddAutomaticsComponent implements OnInit {
     });
     this.newAutomaticsForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
+    });
+
+    this.newAutomaticsForm.controls.publicService.valueChanges.subscribe(value => {
+      this.getKeysByPublicService(value);
+    });
+
+    this.newAutomaticsForm.controls.keyType.valueChanges.subscribe(value => {
+      this.label = this.keys.find(elem => elem.keyType === value).description;
+      this.getMaskByKeyType(value);
     });
 
     this.getFromFavorites();
@@ -99,13 +115,20 @@ export class AddAutomaticsComponent implements OnInit {
       });
   }
 
+  getKeysByPublicService(publicServiceId: number) {
+    this.keys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).keys;
+    this.quantityOfKeys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
+  }
+
+
   getFromFavorites() {
     if (this.favoritesManagementService.redirect) {
       this.data = {
         publicServiceCategoryId: this.favoritesManagementService.valuesFromFavorites.publicServiceCategoryId,
         publicServiceEnterpriseId: this.favoritesManagementService.valuesFromFavorites.publicServiceEnterpriseId,
         publicServiceId: this.favoritesManagementService.valuesFromFavorites.publicServiceId,
-        phoneNumber: this.favoritesManagementService.valuesFromFavorites.phoneNumber,
+        keyType: this.favoritesManagementService.valuesFromFavorites.keyType,
+        contractControl: this.favoritesManagementService.valuesFromFavorites.contractControl,
         favoriteName: this.favoritesManagementService.valuesFromFavorites.favoriteName
       };
 
@@ -118,9 +141,12 @@ export class AddAutomaticsComponent implements OnInit {
       this.newAutomaticsForm.controls.publicService
         .setValue(this.favoritesManagementService.valuesFromFavorites.publicServiceId);
 
+      this.newAutomaticsForm.controls.keyType
+        .setValue(this.favoritesManagementService.valuesFromFavorites.keyType);
+
       this.newAutomaticsForm.controls.nameOfAutomatics.setValue(this.favoritesManagementService.valuesFromFavorites.favoriteName);
 
-      this.newAutomaticsForm.controls.phoneNumber.setValue(this.favoritesManagementService.valuesFromFavorites.phoneNumber);
+      this.newAutomaticsForm.controls.contractControl.setValue(this.favoritesManagementService.valuesFromFavorites.contractControl);
     }
   }
 
@@ -136,10 +162,11 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.publicService.value,
           this.newAutomaticsControls.periodicity.value,
           this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
-          this.newAutomaticsControls.phoneNumber.value,
+          this.newAutomaticsControls.contractControl.value.toString(),
           this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
-          +this.codeCredix.value)
+          this.codeCredix.value.toString(),
+          this.newAutomaticsControls.keyType.value)
           .pipe(finalize(() => {
             if (!this.codeCredix.hasError('invalid')) {
               this.done = true;
@@ -150,12 +177,26 @@ export class AddAutomaticsComponent implements OnInit {
 
             this.result = {
               status: response.type,
-              message: response.message || response.descriptionOne,
+              message: response.descriptionOne || response.message,
               title: response.titleOne
             };
           });
       }
     });
+  }
+
+  getMaskByKeyType(keyType: number) {
+    switch (keyType) {
+      case 52:
+        this.mask = '0000-0000';
+        break;
+      case 99:
+        this.mask = '0-0000-0000';
+        break;
+      default:
+        this.mask = '';
+        break;
+    }
   }
 
   getCredixCodeError() {

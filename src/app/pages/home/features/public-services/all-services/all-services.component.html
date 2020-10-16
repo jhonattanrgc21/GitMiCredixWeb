@@ -5,6 +5,7 @@
     <div *ngFor="let category of categories"
          [class.is-open]="categorySelected?.publicServiceCategoryId === category.publicServiceCategoryId && openSubmenu"
          class="all-public-services__categories-container" fxLayout="column">
+
       <a (click)="getPublicServiceEnterpriseByCategory(category)" class="pointer"
          fxLayout="row" fxLayoutAlign="space-between">
         <span fxLayout="row" fxLayoutAlign="flex-start center">
@@ -30,7 +31,7 @@
     </div>
 
   </ngx-simplebar>
-
+  `
   <div class="all-public-services__services" fxLayout="column" right>
     <a (click)="newPublicService(publicService)" *ngFor="let publicService of publicServices" class="pointer"
        fxLayout="row"

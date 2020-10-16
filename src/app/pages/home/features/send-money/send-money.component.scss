@@ -1,30 +1,17 @@
 .send-money {
-  position: relative;
-  min-height: 662px;
+  max-height: 703px;
+  height: 100%;
 
   &__divider {
     margin-right: 184px;
     margin-left: 184px;
-  }
-
-  &__footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid #E9E9E9;
-    padding: 16px;
-  }
-
-  &.full-height {
-    height: 703px;
   }
 }
 
 @media screen and (max-width: 1199px) {
 
   .send-money {
-    height: 886px;
+    max-height: 886px;
 
     &__divider {
       margin-right: 114px;

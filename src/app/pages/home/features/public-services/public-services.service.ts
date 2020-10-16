@@ -7,6 +7,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 import {PublicServiceFavoriteByUser} from '../../../../shared/models/public-service-favorite-by-user';
 import {Cacheable} from 'ngx-cacheable';
 import {SchedulePayments} from '../../../../shared/models/schedule-payments';
+import {PublicService} from '../../../../shared/models/public-service';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -21,12 +22,21 @@ const iconPerCategory = [
 
 @Injectable()
 export class PublicServicesService {
-  private readonly getReferenceNameUri = 'publicservicebncr/namereferencebypublicservicecategory';
   private readonly getPendingReceiptsUri = 'publicservicebncr/pendingreceipts';
   private readonly payPublicServiceUri = 'publicservicebncr/servicepayment';
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
+// tslint:disable-next-line:variable-name
+  _publicService: PublicService;
+
+  get publicService(): PublicService {
+    return this._publicService;
+  }
+
+  set publicService(publicService: PublicService) {
+    this._publicService = publicService;
+  }
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -66,19 +76,6 @@ export class PublicServicesService {
           }
         })
       );
-  }
-
-  getReferenceName(publicServiceCategoryId: number): Observable<string> {
-    return this.httpService.post('incomex', this.getReferenceNameUri, {publicServiceCategoryId})
-      .pipe(
-        map((response) => {
-            if (response.type === 'success') {
-              return response.nombreReferencia;
-            } else {
-              return '';
-            }
-          }
-        ));
   }
 
   checkPendingReceipts(publicServiceId: number, accessKey: number, keyType?: number): Observable<PendingReceipts> {

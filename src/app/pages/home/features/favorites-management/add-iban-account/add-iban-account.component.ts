@@ -18,7 +18,7 @@ export class AddIbanAccountComponent implements OnInit {
   identificationMask = '0-0000-0000';
   resultIban: boolean;
   done = false;
-  result: { status: string; message: string; title: string; };
+  result: { status: 'success' | 'error'; message: string; title: string; };
   newFavoriteIbanForm: FormGroup = new FormGroup({
     ibanAccount: new FormControl('', [Validators.required]),
     nameOfFavorite: new FormControl('', [Validators.required]),

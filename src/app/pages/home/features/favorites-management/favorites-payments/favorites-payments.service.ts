@@ -14,7 +14,11 @@ export class FavoritesPaymentsService {
   @CacheBuster({
     cacheBusterNotifier: cleanFavoritesPublicService$
   })
-  setPublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, credixCode: number) {
+  setPublicServiceFavorite(publicServiceId: number,
+                           serviceReference: string,
+                           aliasName: string,
+                           publicServiceAccessKeyId: number,
+                           codeCredix: string) {
     return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
       accountId: this.storageService.getCurrentUser().actId,
       publicServiceId,
@@ -22,8 +26,8 @@ export class FavoritesPaymentsService {
       paymentDay: 21,
       userId: this.storageService.getCurrentUser().userId,
       aliasName,
-      publicServiceAccessKeyId: 1,
-      codeCredix: credixCode
+      publicServiceAccessKeyId,
+      codeCredix
     });
   }
 

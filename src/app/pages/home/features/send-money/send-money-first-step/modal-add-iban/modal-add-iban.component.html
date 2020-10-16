@@ -2,17 +2,21 @@
 
   <form [formGroup]="newAccountForm" class="add-account__form" fxLayout="column">
 
-    <credix-input-field class="add-account__form__input" formControlName="ibanAccount"
-                        label="Cuenta IBAN"></credix-input-field>
+    <credix-input-field class="add-account__form__input" formControlName="ibanAccount" label="Cuenta IBAN"
+                        mask="9999999999999999999999">
+      <span *ngIf="newAccountForm.controls.ibanAccount.hasError('invalid')"
+            error>{{errorDescription}}</span>
+    </credix-input-field>
 
-    <credix-select class="add-account__form__select" formControlName="identType" label="Tipo de identificación">
-      <mat-option *ngFor="let identType of identificationTypes" [value]="identType.id">
-        {{ identType.description }}
+    <credix-select class="add-account__form__select" formControlName="identificationType"
+                   label="Tipo de identificación">
+      <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+        {{ identificationType.description }}
       </mat-option>
     </credix-select>
 
     <credix-input-field [mask]="identificationMask" class="add-account__form__input"
-                        formControlName="identNumber" label="Número de Identificación"></credix-input-field>
+                        formControlName="identification" label="Número de Identificación"></credix-input-field>
 
     <div class="mt-16px mb-24px" fxLayout="row" fxLayoutAlign="space-between">
       <span>Nombre</span>

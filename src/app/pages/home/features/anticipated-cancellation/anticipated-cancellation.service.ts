@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {Cancellation} from '../../../../shared/models/cancellation';
-import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {Observable} from 'rxjs';
 
 @Injectable()
@@ -18,22 +17,21 @@ export class AnticipatedCancellationService {
     return this.httpService.post('canales', this.cutDateUri);
   }
 
-  getPendingQuotas() {
+  getPendingQuotas(): Observable<{
+    dollarCancellations: Cancellation[],
+    colonesCancellations: Cancellation[],
+    dollarsBalance: string,
+    colonesBalance: string
+  }> {
     return this.httpService.post('canales', this.pendingQuotasUri).pipe(
       map(response => {
           if (response.type === 'success') {
-            const cancellations = {
+            return {
               dollarCancellations: response.CuotasDolares,
               colonesCancellations: response.CuotasColones,
-              dollarsBalance: ConvertStringAmountToNumber(response.SaldoDisponibleDolares),
-              colonesBalance: ConvertStringAmountToNumber(response.SaldoDisponibleColones)
-            } as
-              { dollarCancellations: Cancellation[], colonesCancellations: Cancellation[], dollarsBalance: number, colonesBalance: number };
-            cancellations.dollarCancellations = cancellations.dollarCancellations
-              .map(can => ({...can, saldoPendiente: ConvertStringAmountToNumber(can.saldoPendiente.toString())}));
-            cancellations.colonesCancellations = cancellations.colonesCancellations
-              .map(can => ({...can, saldoPendiente: ConvertStringAmountToNumber(can.saldoPendiente.toString())}));
-            return cancellations;
+              dollarsBalance: response.SaldoDisponibleDolares,
+              colonesBalance: response.SaldoDisponibleColones
+            };
           }
           return null;
         }
@@ -41,7 +39,7 @@ export class AnticipatedCancellationService {
     );
   }
 
-  saveAnticipatedCancellation(initialBalance: number, finalBalance: number, paymentList: Cancellation[]):
+  saveAnticipatedCancellation(initialBalance: string, finalBalance: string, paymentList: Cancellation[]):
     Observable<{ title: string, message: string, type: 'success' | 'error' }> {
     return this.httpService.post('canales', this.saveAnticipatedCancellationUri, {
       saldoInicial: initialBalance,

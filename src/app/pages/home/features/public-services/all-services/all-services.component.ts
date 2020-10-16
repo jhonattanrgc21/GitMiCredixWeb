@@ -4,6 +4,7 @@ import {PublicServiceCategory} from '../../../../../shared/models/public-service
 import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
 import {PublicService} from '../../../../../shared/models/public-service';
 import {Router} from '@angular/router';
+import {PublicServicesService} from '../public-services.service';
 
 @Component({
   selector: 'app-all-services',
@@ -23,6 +24,7 @@ export class AllServicesComponent implements OnInit {
   openSubmenu = false;
 
   constructor(private publicServicesApiService: PublicServicesApiService,
+              private publicServicesService: PublicServicesService,
               private router: Router) {
   }
 
@@ -50,12 +52,8 @@ export class AllServicesComponent implements OnInit {
   }
 
   newPublicService(publicService: PublicService) {
+    this.publicServicesService.publicService = publicService;
     this.router.navigate([
-      publicService.publicServiceCategory === 'Recargas' ? '/home/public-services/recharge/category' : '/home/public-services/category',
-      this.categorySelected.publicServiceCategoryId,
-      'enterprise',
-      this.enterpriseSelected.publicServiceEnterpriseId,
-      'service',
-      publicService.publicServiceId]);
+      publicService.publicServiceCategory === 'Recargas' ? '/home/public-services/recharge' : '/home/public-services/public-service']);
   }
 }

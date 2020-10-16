@@ -33,7 +33,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   title: string;
   message: string;
   status: 'success' | 'warn' | 'error';
-  responseComponentType: 'success' | 'warning' | 'error';
+  responseComponentType: 'success' | 'warn' | 'error';
   @ViewChild('personalCreditStepper') stepper: CdkStepper;
 
   constructor(private personalCreditService: PersonalCreditService,
@@ -98,7 +98,8 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
               this.stepper.next();
               this.stepperIndex++;
             } else {
-              this.toastService.show({text: 'Cuenta incorrecta', type: 'error'});
+              this.personalCreditService.emitErrorIbanAccount();
+              console.log(response);
             }
           });
         } else {
@@ -150,18 +151,16 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
       .subscribe(response => {
         this.status = response.type;
         this.message = response.message;
+        this.responseComponentType = this.status;
         switch (this.status) {
           case 'success':
             this.title = '¡Éxito!';
-            this.responseComponentType = 'success';
             break;
           case 'warn':
             this.title = 'Solicitud en estudio';
-            this.responseComponentType = 'warning';
             break;
           case 'error':
             this.title = 'Oops…';
-            this.responseComponentType = 'error';
             break;
         }
       });

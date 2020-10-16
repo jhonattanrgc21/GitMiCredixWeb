@@ -35,7 +35,7 @@
         <span *ngIf="codeCredix.hasError('required')"
               error>Introduzca el código credix.</span>
         <span *ngIf="codeCredix.hasError('invalid')"
-              error>Código credix inválido.</span>
+              error>Código MiCredix inválido.</span>
       </credix-code-input>
     </div>
   </div>
@@ -53,20 +53,12 @@
 
 <ng-template #doneNewAccountTemplate>
 
-  <mat-card class="add-iban-account" credixCard fxLayout="column">
-
-    <h1>Añadir cuenta IBAN</h1>
-
-    <div fxFlex fxLayoutAlign="center center">
-      <credix-result-notification [message]="result.message" [status]="result.status" [title]="result.title">
-      </credix-result-notification>
-    </div>
-
-    <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
-      <div fxLayoutGap="16px">
-        <credix-button (buttonClick)="back()">Listo</credix-button>
-      </div>
-    </div>
-  </mat-card>
-
+  <app-credix-result-view
+    [resultMessage]="result.message"
+    [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
+    [status]="result.status"
+    [title]="result.title"
+    buttonText="Listo"
+    routeTo="/home/favorites-management/iban-accounts">
+  </app-credix-result-view>
 </ng-template>

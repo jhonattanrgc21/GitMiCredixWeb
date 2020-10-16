@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {PublicServicesApiService} from '../../../../../../core/services/public-services-api.service';
@@ -7,11 +7,11 @@ import {PublicServicesService} from '../../public-services.service';
 import {ConvertStringAmountToNumber, ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../../shared/utils';
 import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
 import {ModalService} from '../../../../../../core/services/modal.service';
-import {finalize} from 'rxjs/operators';
 import {Keys} from '../../../../../../shared/models/keys';
 import {PopupReceiptComponent} from '../../popup-receipt/popup-receipt.component';
 import {PopupReceipt} from '../../../../../../shared/models/popup-receipt';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-service',
@@ -38,12 +38,11 @@ export class NewServiceComponent implements OnInit {
   name: string;
   month: string;
   expirationDate: Date;
-  title: string;
   message: string;
   keys: Keys[];
   quantityOfKeys: number;
   publicServiceName: string;
-  dataToModal: PopupReceipt;
+  receiptData: PopupReceipt;
   paymentType = '';
   status: 'success' | 'error';
   today = new Date();
@@ -53,81 +52,67 @@ export class NewServiceComponent implements OnInit {
               private publicServicesApiService: PublicServicesApiService,
               private router: Router,
               private modalService: ModalService,
-              private credixCodeErrorService: CredixCodeErrorService,
-              private route: ActivatedRoute) {
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
     this.setErrorCredixCode();
-    this.getRouteParams();
+    this.getPublicService();
   }
 
-  getRouteParams() {
-    this.route.params.subscribe(params => {
-      this.publicServiceId = +params.serviceId;
-      this.getEnterprise(+params.categoryId, +params.enterpriseId);
-      this.getPublicService(+params.enterpriseId, this.publicServiceId);
-    });
-  }
-
-  getEnterprise(categoryId: number, enterpriseId: number) {
-    this.publicServicesApiService.getPublicServiceEnterpriseByCategory(categoryId).subscribe(publicServiceEnterprises =>
-      this.title = publicServiceEnterprises
-        .find(enterprise => enterprise.publicServiceEnterpriseId === enterpriseId).publicServiceEnterpriseDescription);
-  }
-
-  getPublicService(enterpriseId: number, publicServiceId: number) {
-    this.publicServicesApiService.getPublicServiceByEnterprise(enterpriseId).subscribe(publicService => {
-      this.keys = publicService.find(elem => elem.publicServiceId === publicServiceId).keys;
-      this.quantityOfKeys = publicService
-        .find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
-      this.paymentType = publicService.find(elem => elem.publicServiceId === publicServiceId).paymentType;
-      this.publicServiceName = publicService.find(elem => elem.publicServiceId === publicServiceId).publicServiceName;
-    });
+  getPublicService() {
+    this.keys = this.publicServicesService.publicService.keys;
+    this.quantityOfKeys = this.publicServicesService.publicService.quantityOfKeys;
+    this.paymentType = this.publicServicesService.publicService.paymentType;
+    this.publicServiceName = this.publicServicesService.publicService.publicServiceName;
   }
 
   openModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
       if (confirmation) {
-        this.publicServicesService.payPublicService(
-          this.publicServiceId,
-          +this.pendingReceipts.receipts.serviceValue,
-          ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString(),
-          +this.pendingReceipts.receipts.receiptPeriod,
-          +this.contractFormGroup.controls.keysControl.value,
-          this.pendingReceipts.receipts.expirationDate,
-          this.pendingReceipts.receipts.billNumber,
-          this.contractFormGroup.controls.keysControl.value)
-          .pipe(finalize(() => this.done = true))
-          .subscribe(response => {
-            this.status = response.type;
-            this.message = response.responseDescription || response.message;
-            if (response.type === 'success' && this.saveAsFavorite) {
-              this.saveFavorite();
-            }
-            this.dataToModal = {
-              institution: [{companyCode: response.companyCode, companyName: response.companyName}],
-              agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
-              agencyCode: response.agencyCode,
-              cashier: 'Credix',
-              currencyCode: this.pendingReceipts.currencyCode,
-              clientName: this.pendingReceipts.clientName,
-              billNumber: this.pendingReceipts.receipts.billNumber,
-              invoiceNumber: this.pendingReceipts.receipts.receipt,
-              paymentStatus: 'Aplicado',
-              movementDate: this.pendingReceipts.date,
-              expirationDate: this.pendingReceipts.receipts.expirationDate,
-              period: this.pendingReceipts.receipts.receiptPeriod,
-              reference: response.reference,
-              typeOfValor: 'EFECTIVO',
-              amount: response.amountPaid,
-              paymentConcepts: response.paymentConcepts,
-              informativeConcepts: response.informativeConcepts,
-              currencySymbol: this.currencySymbol
-            };
-          });
+        this.payService();
       }
     });
+  }
+
+  payService() {
+    this.publicServicesService.payPublicService(
+      this.publicServiceId,
+      +this.pendingReceipts.receipts.serviceValue,
+      ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString(),
+      +this.pendingReceipts.receipts.receiptPeriod,
+      +this.contractFormGroup.controls.keysControl.value,
+      this.pendingReceipts.receipts.expirationDate,
+      this.pendingReceipts.receipts.billNumber,
+      this.contractFormGroup.controls.keysControl.value)
+      .pipe(finalize(() => this.done = true))
+      .subscribe(response => {
+        this.status = response.type;
+        this.message = response.responseDescription || response.message;
+        if (response.type === 'success' && this.saveAsFavorite) {
+          this.saveFavorite();
+        }
+        this.receiptData = {
+          institution: [{companyCode: response.companyCode, companyName: response.companyName}],
+          agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
+          agencyCode: response.agencyCode,
+          cashier: 'Credix',
+          currencyCode: this.pendingReceipts.currencyCode,
+          clientName: this.pendingReceipts.clientName,
+          billNumber: this.pendingReceipts.receipts.billNumber,
+          invoiceNumber: this.pendingReceipts.receipts.receipt,
+          paymentStatus: 'Aplicado',
+          movementDate: this.pendingReceipts.date,
+          expirationDate: this.pendingReceipts.receipts.expirationDate,
+          period: this.pendingReceipts.receipts.receiptPeriod,
+          reference: response.reference,
+          typeOfValor: 'EFECTIVO',
+          amount: response.amountPaid,
+          paymentConcepts: response.paymentConcepts,
+          informativeConcepts: response.informativeConcepts,
+          currencySymbol: this.currencySymbol
+        };
+      });
   }
 
   saveFavorite() {
@@ -154,7 +139,7 @@ export class NewServiceComponent implements OnInit {
       this.contractFormGroup.controls.contractControl.value,
       this.contractFormGroup.controls.keysControl.value
     ).subscribe(pendingReceipts => {
-      if (pendingReceipts.receipts) {
+      if (pendingReceipts && pendingReceipts.receipts) {
         this.pendingReceipts = pendingReceipts;
         this.month = getMontByMonthNumber(ConvertStringDateToDate(pendingReceipts.receipts.receiptPeriod).getMonth());
         this.expirationDate = ConvertStringDateToDate(pendingReceipts.receipts.expirationDate);
@@ -174,7 +159,7 @@ export class NewServiceComponent implements OnInit {
   }
 
   openBillingModal() {
-    this.modalService.open({title: 'Comprobante', data: this.dataToModal, component: PopupReceiptComponent},
+    this.modalService.open({title: 'Comprobante', data: this.receiptData, component: PopupReceiptComponent},
       {height: 673, width: 380, disableClose: true, panelClass: 'new-service-receipt'});
   }
 }

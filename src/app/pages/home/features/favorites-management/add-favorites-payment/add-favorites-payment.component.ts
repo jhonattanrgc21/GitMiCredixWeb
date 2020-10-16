@@ -10,6 +10,7 @@ import {FavoritesManagementService} from '../favorites-management.service';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
+import {Keys} from '../../../../../shared/models/keys';
 
 @Component({
   selector: 'app-add-favorites-payment',
@@ -21,12 +22,16 @@ export class AddFavoritesPaymentComponent implements OnInit {
   publicCompany: PublicServiceEnterprise[];
   publicServices: PublicService[];
   done = false;
-  result: { status: string; message: string; title: string; };
+  result: { status: 'success' | 'error'; message: string; title: string; };
+  keys: Keys[] = [];
+  mask: string;
+  quantityOfKeys: number;
   newFavoritesPaymentForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
     publicServiceCompany: new FormControl(null, [Validators.required]),
     publicService: new FormControl(null, [Validators.required]),
-    phoneNumber: new FormControl(null, [Validators.required]),
+    keyType: new FormControl(null, [Validators.required]),
+    contractControl: new FormControl(null, [Validators.required]),
     favoriteName: new FormControl(null, [Validators.required])
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
@@ -53,6 +58,14 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
     });
+
+    this.newFavoritesPaymentForm.controls.publicService.valueChanges.subscribe(value => {
+      this.getKeysByPublicService(value);
+    });
+
+    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
+      this.getMaskByKeyType(value);
+    });
     this.getCredixCodeError();
   }
 
@@ -76,6 +89,25 @@ export class AddFavoritesPaymentComponent implements OnInit {
       });
   }
 
+  getKeysByPublicService(publicServiceId: number) {
+    this.keys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).keys;
+    this.quantityOfKeys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
+  }
+
+  getMaskByKeyType(keyType: number) {
+    switch (keyType) {
+      case 52:
+        this.mask = '0000-0000';
+        break;
+      case 99:
+        this.mask = '0-0000-0000';
+        break;
+      default:
+        this.mask = '';
+        break;
+    }
+  }
+
   back() {
     this.router.navigate(['/home/favorites-management/favorites-payments']);
   }
@@ -84,11 +116,12 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.modalService.confirmationPopup('¿Desea añadir este pago favorito?', '', 380, 197)
       .subscribe(confirm => {
         if (confirm) {
-          this.favoritesPaymentsService.setPublicServiceFavorite(
-            this.newFavoritesPaymentControls.publicService.value,
-            this.newFavoritesPaymentControls.phoneNumber.value,
-            this.newFavoritesPaymentControls.favoriteName.value,
-            +this.codeCredix.value)
+          this.favoritesPaymentsService
+            .setPublicServiceFavorite(this.newFavoritesPaymentControls.publicService.value,
+              this.newFavoritesPaymentControls.contractControl.value,
+              this.newFavoritesPaymentControls.favoriteName.value,
+              this.newFavoritesPaymentControls.keyType.value,
+              this.codeCredix.value.toString())
             .pipe(finalize(() => {
               if (!this.codeCredix.hasError('invalid')) {
                 this.done = true;
@@ -111,8 +144,9 @@ export class AddFavoritesPaymentComponent implements OnInit {
       publicServiceCategoryId: this.newFavoritesPaymentControls.publicServicesCategory.value,
       publicServiceEnterpriseId: this.newFavoritesPaymentControls.publicServiceCompany.value,
       publicServiceId: this.newFavoritesPaymentControls.publicService.value,
+      keyType: this.newFavoritesPaymentControls.keyType.value,
       favoriteName: this.newFavoritesPaymentControls.favoriteName.value,
-      phoneNumber: this.newFavoritesPaymentControls.phoneNumber.value
+      contractControl: this.newFavoritesPaymentControls.contractControl.value
     };
   }
 

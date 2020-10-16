@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -8,7 +8,8 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['./credix-search-box.component.scss']
 })
 export class CredixSearchBoxComponent implements OnInit {
-  @Input() initialObject: any;
+  @Input() data: { title: string; description: string; icon: string; result: any }[];
+  @Output() selectionEvent: EventEmitter<any> = new EventEmitter<any>();
   COMPONENT_CLASSES: any = {
     SEARCH_BOX: {
       PRINCIPAL: 'search_box',
@@ -27,7 +28,7 @@ export class CredixSearchBoxComponent implements OnInit {
   searchInputStyle = 'search_input_text';
   searchPanelStyle = 'search_panel_inactive';
   inputControl = new FormControl();
-  searchObject: any = [];
+  searchingResult: any = [];
 
   constructor() {
 
@@ -35,6 +36,20 @@ export class CredixSearchBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.onInputChanged();
+  }
+
+  @HostListener('focusout')
+  onFocusout() {
+    setTimeout(() => {
+      this.searchBoxStyle = this.COMPONENT_CLASSES.SEARCH_BOX.PRINCIPAL;
+      this.searchInputStyle = this.COMPONENT_CLASSES.SEARCH_INPUT_TEXT.PRINCIPAL;
+      this.searchPanelStyle = this.COMPONENT_CLASSES.SEARCH_PANEL.PRINCIPAL;
+      this.inputControl.reset();
+    }, 300);
+  }
+
+  onClickItem(item: any) {
+    this.selectionEvent.emit(item);
   }
 
   onInputChanged() {
@@ -45,10 +60,10 @@ export class CredixSearchBoxComponent implements OnInit {
           this.searchInputStyle = this.COMPONENT_CLASSES.SEARCH_INPUT_TEXT.ACTIVE;
           this.searchPanelStyle = this.COMPONENT_CLASSES.SEARCH_PANEL.PRINCIPAL;
           const input = value.toLowerCase();
-          this.searchObject = this.initialObject.filter(element => {
+          this.searchingResult = this.data.filter(element => {
             return (element.title.toLowerCase().includes(input) || element.description.toLowerCase().includes(input));
           });
-          if (this.searchObject.length > 0) {
+          if (this.searchingResult.length > 0) {
             this.searchPanelStyle = this.COMPONENT_CLASSES.SEARCH_PANEL.ACTIVE;
           }
         } else {

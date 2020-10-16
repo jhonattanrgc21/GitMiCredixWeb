@@ -3,7 +3,7 @@
           credixCard
           fxLayout="column"
           fxLayoutGap="4px">
-  <h1 class="mb-16px">{{title}}</h1>
+  <h1 class="mb-16px">{{publicServiceName}}</h1>
 
   <credix-stepper #newRechargeStepper>
     <cdk-step [label]="'Consultar'" [stepControl]="phoneNumber">
@@ -21,11 +21,10 @@
 
     <cdk-step [label]="'Pagar'" [stepControl]="rechargeFormGroup">
       <app-new-recharge-second-step
-        (saveFavoriteEvent)="saveAsFavorite"
+        (saveFavoriteEvent)="saveAsFavorite = $event"
         [amounts]="amounts"
         [phoneNumber]="phoneNumber.value"
-        [rechargeFormGroup]="rechargeFormGroup"
-        [title]="title">
+        [rechargeFormGroup]="rechargeFormGroup">
       </app-new-recharge-second-step>
     </cdk-step>
   </credix-stepper>
@@ -44,7 +43,7 @@
   <app-credix-result-view [resultMessage]="message"
                           [resultTile]="status === 'success' ? '¡Éxito!' : 'Opps'"
                           [status]="status"
-                          [title]="title"
+                          [title]="publicServiceName"
                           buttonText="Realizar otro pago"
                           routeTo="/home/public-services">
 

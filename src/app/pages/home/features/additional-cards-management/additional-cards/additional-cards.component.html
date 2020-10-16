@@ -48,12 +48,14 @@
         Aplicar cambio
       </credix-button>
     </mat-card>
+
   </div>
 
 </div>
 
 <ng-template #noAdditionalCards>
-  <mat-card class="additional-cards__no-cards-container" credixCard fxLayout="column" fxLayoutAlign="center center">
+  <mat-card class="additional-cards__no-cards-container" credixCard fxFlex fxLayout="column"
+            fxLayoutAlign="center center">
 
     <credix-result-notification status="info"
                                 title="No tiene tarjetas adicionales en este momento."></credix-result-notification>

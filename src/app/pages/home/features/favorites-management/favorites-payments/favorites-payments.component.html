@@ -9,7 +9,9 @@
     <span>{{data?.publicServiceEnterpriseDescription}}</span>
   </div>
 
-  <credix-input-field [class.enabled]="favoritesPaymentDetail.dirty"
-                      [formControl]="favoritesPaymentDetail"
-                      class="favorites-payments__input disabled" label="Nombre de favorito"></credix-input-field>
+  <credix-input-field [class.enabled]="favoritePaymentDetailControl.dirty"
+                      [formControl]="favoritePaymentDetailControl"
+                      class="favorites-payments__input disabled" label="Nombre de favorito">
+    <span *ngIf="favoritePaymentDetailControl.hasError('invalid')" error>{{errorMessage}}</span>
+  </credix-input-field>
 </div>

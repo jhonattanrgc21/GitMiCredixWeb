@@ -1,6 +1,5 @@
 .personal-info-editor {
-  position: relative;
-  height: 860px;
+  max-height: 860px;
 
   &__container {
     padding: 0 84px;
@@ -47,14 +46,6 @@
     padding-top: 0;
   }
 
-  &__footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid #E9E9E9;
-    padding: 16px;
-  }
 }
 
 .personal-info-editor-result {
@@ -65,7 +56,6 @@
 @media screen and (max-width: 1199px) {
 
   .personal-info-editor {
-    height: 886px;
 
     &__container {
       padding: 0 76px;

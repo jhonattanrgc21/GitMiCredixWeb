@@ -7,7 +7,7 @@
     <p>Solicite el monto que le permita vivir sus sueños hoy.</p>
   </div>
 
-  <credix-stepper #personalCreditStepper class="personal-credit__stepper">
+  <credix-stepper #personalCreditStepper class="personal-credit__stepper" fxFlex>
 
     <cdk-step [stepControl]="requestForm"
               fxLayout="column"
@@ -34,7 +34,7 @@
 
   </credix-stepper>
 
-  <div class="personal-credit__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" type="secondary">Atrás</credix-button>
     <credix-button (buttonClick)="next()" [disabled]="disableButton">
       {{buttonText}}

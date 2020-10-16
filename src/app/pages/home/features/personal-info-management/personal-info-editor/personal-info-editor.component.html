@@ -1,7 +1,8 @@
 <mat-card *ngIf="!done else donePersonalDataTemplate" class="personal-info-editor" credixCard fxLayout="column">
   <h1>Editar datos personales</h1>
 
-  <form [formGroup]="personalInfoFormGroup" class="personal-info-editor__container">
+  <form [formGroup]="personalInfoFormGroup" class="personal-info-editor__container" fxFlex
+        fxLayout="column">
 
     <div class="personal-info-editor__content" fxLayout="row" fxLayoutAlign="space-between">
       <span><strong>{{name}}</strong></span>
@@ -76,7 +77,7 @@
 
     <mat-divider credixDivider></mat-divider>
 
-    <div class="personal-info-editor__content mt-16px" fxLayout="row" fxLayoutAlign="space-between">
+    <div class="personal-info-editor__content mt-16px mb-16px" fxLayout="row" fxLayoutAlign="space-between">
       <credix-code-link></credix-code-link>
 
       <credix-code-input class="personal-info-editor__content__right-wrapper"
@@ -84,19 +85,19 @@
        <span *ngIf="personalInfoFormGroup.controls.code.hasError('required')"
              error>Introduzca el código credix.</span>
         <span *ngIf="personalInfoFormGroup.controls.code.hasError('invalid')"
-              error>Código credix inválido.</span>
+              error>Código MiCredix inválido.</span>
       </credix-code-input>
     </div>
-
-    <div class="personal-info-editor__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button [routerLink]="['/home/personal-info']" type="secondary">Atrás</credix-button>
-      <credix-button (buttonClick)="edit()"
-                     [disabled]="personalInfoFormGroup.invalid
-                     || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)">
-        Guardar
-      </credix-button>
-    </div>
   </form>
+
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="16px">
+    <credix-button [routerLink]="['/home/personal-info']" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="edit()"
+                   [disabled]="personalInfoFormGroup.invalid
+                     || (personalInfoFormGroup.valid && !personalInfoFormGroup.dirty)">
+      Guardar
+    </credix-button>
+  </div>
 
 </mat-card>
 

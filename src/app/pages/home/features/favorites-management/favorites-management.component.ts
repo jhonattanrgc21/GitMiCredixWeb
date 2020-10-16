@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {FavoritesManagementService} from './favorites-management.service';
 import {AccountsFavoriteManagement} from '../../../../shared/models/accounts-favorite-management';
 import {ModalService} from '../../../../core/services/modal.service';
-import {ToastData} from '../../../../shared/components/credix-toast/credix-toast-config';
 import {AccountApiService} from '../../../../core/services/account-api.service';
 import {PublicServicesApiService} from '../../../../core/services/public-services-api.service';
 import {ChannelsApiService} from '../../../../core/services/channels-api.service';
@@ -53,7 +52,12 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.getIsUpdating();
+    this.checkIsUpdating();
+    this.checkUpdateCompleted();
+    this.checkUrlParam();
+  }
+
+  checkUrlParam() {
     this.activeTabIndex = this.idParam ? 2 : 0;
     if (this.activeTabIndex === 2) {
       this.empty = false;
@@ -178,24 +182,11 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   delete(tabId: number) {
-    this.accounts = [];
     switch (tabId) {
       case 1:
         this.modalService.confirmationPopup('¿Desea eliminar esta cuenta IBAN?').subscribe((confirm) => {
           if (confirm) {
-            this.favoriteManagementService.setDeleteIbanAccount(this.optionSelected)
-              .subscribe((response) => {
-                const data: ToastData = {
-                  text: response.message,
-                  type: response.type,
-                };
-
-                this.toastService.show(data);
-                if (response.message === 'Operación exitosa') {
-                  this.getFavoritesIban();
-                  this.favoriteManagementService.emitDeletedSuccess(true, null, null);
-                }
-              });
+            this.deleteIbanAccount();
           }
         });
         break;
@@ -203,50 +194,57 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
         this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?')
           .subscribe((confirm) => {
             if (confirm) {
-              this.favoriteManagementService.setDeletePublicService(this.optionSelected)
-                .subscribe((response) => {
-                  const data: ToastData = {
-                    text: response.message,
-                    type: response.type,
-                  };
-
-                  this.toastService.show(data);
-                  if (response.message === 'Operación exitosa') {
-                    this.getPublicService();
-                    this.favoriteManagementService.emitDeletedSuccess(null, true, null);
-                  }
-                });
+              this.deleteFavoritePayment();
             }
           });
         break;
       case 3:
         this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((confirm) => {
           if (confirm) {
-            this.favoriteManagementService.setDeleteAutomatics(this.optionSelected)
-              .subscribe((response) => {
-                const data: ToastData = {
-                  text: response.message,
-                  type: response.type,
-                };
-
-                this.toastService.show(data);
-
-                if (response.message === 'Operación exitosa') {
-                  this.getSchedulePayment();
-                  this.favoriteManagementService.emitDeletedSuccess(null, null, true);
-                }
-              });
+            this.deleteAutomatic();
           }
         });
         break;
     }
   }
 
-  getIsUpdating() {
+  deleteIbanAccount() {
+    this.favoriteManagementService.setDeleteIbanAccount(this.optionSelected)
+      .subscribe((response) => {
+        if (response.type === 'success') {
+          this.getFavoritesIban();
+          this.favoriteManagementService.emitDeletedSuccess(true, null, null);
+        }
+      });
+  }
+
+  deleteFavoritePayment() {
+    this.favoriteManagementService.setDeletePublicService(this.optionSelected)
+      .subscribe((response) => {
+        if (response.type === 'success') {
+          this.getPublicService();
+          this.favoriteManagementService.emitDeletedSuccess(null, true, null);
+        }
+      });
+  }
+
+  deleteAutomatic() {
+    this.favoriteManagementService.setDeleteAutomatics(this.optionSelected)
+      .subscribe((response) => {
+        if (response.type === 'success') {
+          this.getSchedulePayment();
+          this.favoriteManagementService.emitDeletedSuccess(null, null, true);
+        }
+      });
+  }
+
+  checkIsUpdating() {
     this.favoriteManagementService.update.subscribe(() => {
       this.updating = true;
     });
+  }
 
+  checkUpdateCompleted() {
     this.favoriteManagementService.updateSuccess.subscribe(() => {
       this.accounts = [];
       switch (this.tabId) {
@@ -267,9 +265,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     this.accountApiService.getAllAccountIbanFavoriteByUser()
       .subscribe((response) => {
         this.empty = response.length === 0;
-
+        this.accounts = [];
         if (!this.empty) {
-          for (const values of response) {
+          response.forEach(values => {
             this.accounts.push({
               name: values.aliasName,
               account: values.ibanAccount,
@@ -278,7 +276,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               ibanBank: values.ibanBank,
               typeIdentificacionId: values.typeIdentificacionId
             });
-          }
+          });
         }
       });
   }
@@ -287,9 +285,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     this.publicServiceApi.getAllFavoritePublicServiceByUser()
       .subscribe((response) => {
         this.empty = response.length === 0;
-
         if (!this.empty) {
-          for (const values of response) {
+          this.accounts = [];
+          response.forEach(values => {
             this.accounts.push({
               name: values.publicServiceFavoriteName,
               account: values.accountNumber,
@@ -309,7 +307,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               publicServiceEnterpriseCode: values.publicServiceEnterpriseCode,
               accountId: values.accountId
             });
-          }
+          });
         }
       });
   }
@@ -324,8 +322,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
       }))
       .subscribe((response) => {
         this.empty = response.length === 0;
+        this.accounts = [];
         if (!this.empty) {
-          for (const values of response) {
+          response.forEach(values => {
             this.accounts.push({
               name: values.alias,
               account: values.publicServiceDescription,
@@ -337,28 +336,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               publicServiceCategoryName: values.publicServiceCategoryName,
               publicServiceCategoryId: values.publicServiceCategoryId
             });
-          }
+          });
         }
       });
   }
 
-  getIdOfPublicServices() {
-    const idSchedule = this.router.parseUrl(this.router.url).queryParams.id;
-    if (this.tabId === 3 && idSchedule !== null) {
-      this.tabs.find(elem => elem.id === 3);
-      this.optionSelected = idSchedule;
-      const schedulePayments: SchedulePayments = {
-        publicServiceDescription: this.accounts.find(elem => elem.id === idSchedule).account,
-        alias: this.accounts.find(elem => elem.id === idSchedule).name,
-        id: this.accounts.find(elem => elem.id === idSchedule).id,
-        maxAmount: this.accounts.find(elem => elem.id === idSchedule).maxAmount,
-        periodicityDescription: this.accounts.find(elem => elem.id === idSchedule).periodicityDescription,
-        startDate: this.accounts.find(elem => elem.id === idSchedule).startDate,
-        key: this.accounts.find(elem => elem.id === idSchedule).key,
-        publicServiceCategoryId: this.accounts.find(elem => elem.id === idSchedule).publicServiceCategoryId,
-        publicServiceCategoryName: this.accounts.find(elem => elem.id === idSchedule).publicServiceCategoryName
-      };
-      this.favoriteManagementService.emitSchedulePaymentData(schedulePayments);
-    }
-  }
 }

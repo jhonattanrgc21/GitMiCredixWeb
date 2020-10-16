@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {PublicServicesApiService} from 'src/app/core/services/public-services-api.service';
+import {PublicService} from '../../../../shared/models/public-service';
+import {PublicServicesService} from './public-services.service';
 
 @Component({
   selector: 'app-public-services',
@@ -14,9 +16,12 @@ export class PublicServicesComponent implements OnInit {
     {id: 3, name: 'Automáticos'}
   ];
   tabId: number;
-  publicServices: any = [];
+  publicServices: PublicService[] = [];
+  searchingData: SearchingData[] = [];
 
-  constructor(private publicServicesApiService: PublicServicesApiService, private router: Router) {
+  constructor(private publicServicesApiService: PublicServicesApiService,
+              private publicServicesService: PublicServicesService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -26,7 +31,20 @@ export class PublicServicesComponent implements OnInit {
   getAllPublicService() {
     this.publicServicesApiService.getAllPublicService().subscribe(publicServices => {
       this.publicServices = publicServices;
+      this.searchingData = publicServices.map(service => ({
+        title: service.publicServiceCategory,
+        description: service.publicServiceName,
+        icon: service.icon ? service.icon : '',
+        result: service.publicServiceId
+      }));
     });
+  }
+
+  onSearchBoxResponse(publicService: SearchingData) {
+    this.publicServicesService.publicService = this.publicServices.find(service => service.publicServiceId === publicService.result);
+    this.router.navigate([
+      this.publicServicesService.publicService.publicServiceCategory === 'Recargas' ?
+        '/home/public-services/recharge' : '/home/public-services/public-service']);
   }
 
   tabSelected(tab) {
@@ -44,4 +62,11 @@ export class PublicServicesComponent implements OnInit {
     }
 
   }
+}
+
+interface SearchingData {
+  title: string;
+  description: string;
+  icon: string;
+  result: any;
 }

@@ -1974,3 +1974,12 @@ img {
 .pointer {
   cursor: pointer !important;
 }
+
+.actions-footer {
+  width: calc(100% + 32px);
+  margin-left: -16px;
+  margin-right: -16px;
+  padding-right: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #E9E9E9;
+}

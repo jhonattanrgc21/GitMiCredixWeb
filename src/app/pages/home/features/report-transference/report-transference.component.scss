@@ -1,10 +1,9 @@
 .report-transference {
-  width: 877px;
-  height: 662px;
-  position: relative;
+  max-height: 662px;
+  height: 100%;
 
   &__content {
-    padding: 0 84px 0 84px;
+    padding: 0 84px 16px 84px;
 
     span:first-of-type {
       font-weight: bold;
@@ -33,15 +32,6 @@
     background-size: cover;
   }
 
-  &__footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid #E9E9E9;
-    padding: 16px;
-  }
-
   ::ng-deep.credix-result-notification__message {
     width: 250px !important;
   }
@@ -49,8 +39,7 @@
 
 @media screen and (max-width: 1199px) {
   .report-transference {
-    width: 736px;
-    height: 886px;
+    max-height: 886px;
 
     &__content {
       padding: 0 78px 0 78px;
