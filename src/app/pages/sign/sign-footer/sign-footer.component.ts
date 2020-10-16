@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'credix-sign-footer',
+  selector: 'app-sign-footer',
   templateUrl: './sign-footer.component.html',
   styleUrls: ['./sign-footer.component.scss']
 })

@@ -4,8 +4,7 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'credix-sign-header',
+  selector: 'app-sign-header',
   templateUrl: './sign-header.component.html',
   styleUrls: ['./sign-header.component.scss']
 })
@@ -14,7 +13,8 @@ export class SignHeaderComponent implements OnInit {
   isTablet = false;
   deviceInfo: DeviceInfo;
 
-  constructor(private deviceService: DeviceDetectorService, private breakpointObserver: BreakpointObserver) {
+  constructor(private deviceService: DeviceDetectorService,
+              private breakpointObserver: BreakpointObserver) {
   }
 
   ngOnInit(): void {

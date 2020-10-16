@@ -6,10 +6,24 @@ import {takeUntil} from 'rxjs/operators';
 
 @Injectable()
 export class HttpService {
+
+  constructor(private http: HttpClient) {
+  }
+
   cancelHttpCall: Subject<void> = new Subject<void>();
   channelId = environment.channelId;
 
-  constructor(private http: HttpClient) {
+  private static getUrl(service: 'canales' | 'marchamos' | 'incomex'): string {
+    switch (service) {
+      case 'canales':
+        return environment.urlCanales;
+      case 'marchamos':
+        return environment.urlMarchamos;
+      case 'incomex':
+        return environment.urlIncomex;
+      default:
+        return environment.urlCanales;
+    }
   }
 
   get(service: 'canales' | 'marchamos' | 'incomex', uri: string, params = []): Observable<any> {
@@ -23,7 +37,7 @@ export class HttpService {
       }
     });
 
-    return this.http.get<any>(this.getUrl(service) + uri, {headers, params: httpParams})
+    return this.http.get<any>(HttpService.getUrl(service) + uri, {headers, params: httpParams})
       .pipe(takeUntil(this.cancelHttpCall));
   }
 
@@ -39,7 +53,7 @@ export class HttpService {
 
     body.channelId = this.channelId;
 
-    return this.http.post<any>(this.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
+    return this.http.post<any>(HttpService.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
       .pipe(takeUntil(this.cancelHttpCall));
   }
 
@@ -55,7 +69,7 @@ export class HttpService {
 
     body.channelId = this.channelId;
 
-    return this.http.put<any>(this.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
+    return this.http.put<any>(HttpService.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
       .pipe(takeUntil(this.cancelHttpCall));
   }
 
@@ -65,24 +79,11 @@ export class HttpService {
       httpParams = httpParams.append(p.key, p.value);
     });
 
-    return this.http.delete<any>(this.getUrl(service) + uri, {params: httpParams})
+    return this.http.delete<any>(HttpService.getUrl(service) + uri, {params: httpParams})
       .pipe(takeUntil(this.cancelHttpCall));
   }
 
   unsubscribeHttpCall() {
     this.cancelHttpCall.next();
-  }
-
-  getUrl(service: 'canales' | 'marchamos' | 'incomex'): string {
-    switch (service) {
-      case 'canales':
-        return environment.urlCanales;
-      case 'marchamos':
-        return environment.urlMarchamos;
-      case 'incomex':
-        return environment.urlIncomex;
-      default:
-        return environment.urlCanales;
-    }
   }
 }

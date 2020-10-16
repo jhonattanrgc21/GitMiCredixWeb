@@ -4,6 +4,7 @@ import {Card} from '../../shared/models/card';
 
 @Injectable()
 export class StorageService {
+  deviceIdentifier: string;
 
   constructor() {
   }
@@ -45,5 +46,17 @@ export class StorageService {
 
   clearCurrentToken(): void {
     localStorage.removeItem('token');
+  }
+
+  getUuid(): string {
+    return localStorage.getItem('uuid');
+  }
+
+  setUuid(uuid: string): void {
+    localStorage.setItem('uuid', uuid);
+  }
+
+  clearUuid(): void {
+    localStorage.removeItem('uuid');
   }
 }

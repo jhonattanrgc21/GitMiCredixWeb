@@ -6,7 +6,8 @@ import {AfterViewInit, Directive, ElementRef, Renderer2} from '@angular/core';
 })
 export class CredixDividerDirective implements AfterViewInit {
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {
+  constructor(private el: ElementRef,
+              private renderer: Renderer2) {
   }
 
   ngAfterViewInit(): void {

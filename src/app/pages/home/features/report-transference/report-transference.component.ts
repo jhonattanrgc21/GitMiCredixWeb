@@ -52,19 +52,6 @@ export class ReportTransferenceComponent implements OnInit {
     );
   }
 
-  getTags(tags: Tag[]) {
-    this.titleTag = tags.find(tag => tag.description === 'reportar.title')?.value;
-    this.link = tags.find(tag => tag.description === 'reportar.link')?.value;
-  }
-
-  openCalendar() {
-    this.modalService.openCalendarPopup(null, new Date()).subscribe(modal => {
-      if (modal) {
-        this.reportTransferenceGroup.controls.date.setValue(modal.date);
-      }
-    });
-  }
-
   addVoucher(image) {
     if (image.size > 3000000) {
       this.toastService.show({text: 'La imagen debe ser menor a 3 MB', type: 'error'});
@@ -93,5 +80,10 @@ export class ReportTransferenceComponent implements OnInit {
         this.title = this.status === 'success' ? '¡Éxito!' : 'Error';
       });
     }
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'reportar.title')?.value;
+    this.link = tags.find(tag => tag.description === 'reportar.link')?.value;
   }
 }

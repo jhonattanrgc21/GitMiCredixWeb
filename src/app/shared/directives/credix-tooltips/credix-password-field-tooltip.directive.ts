@@ -1,4 +1,4 @@
-import {ComponentRef, Directive, ElementRef, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import {ComponentRef, Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {Overlay, OverlayPositionBuilder, OverlayRef} from '@angular/cdk/overlay';
 import {CredixPasswordFieldTooltipComponent} from './credix-password-field-tooltip/credix-password-field-tooltip.component';
@@ -12,13 +12,14 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
   @Input('credixPasswordFieldTooltip') passwordControl: FormControl;
   @Input() panelClass: string;
   @Input() tooltipWidth: number;
-  @Input() tooltipOffsetY: number;
   @Input() tooltipType: 'password' | 'pin' = 'password';
   private overlayRef: OverlayRef;
   private tooltipRef: ComponentRef<CredixPasswordFieldTooltipComponent>;
 
-  constructor(private overlay: Overlay, private overlayPositionBuilder: OverlayPositionBuilder,
-              private elementRef: ElementRef) {
+  constructor(private overlay: Overlay,
+              private overlayPositionBuilder: OverlayPositionBuilder,
+              private elementRef: ElementRef,
+              private renderer: Renderer2) {
   }
 
   ngOnInit(): void {
@@ -29,14 +30,22 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
         originY: 'top',
         overlayX: 'center',
         overlayY: 'bottom',
-        offsetY: this.tooltipOffsetY ? -1 * this.tooltipOffsetY : -12,
         panelClass: ['credix-tooltip-panel', this.panelClass]
-      }]);
+      },
+        {
+          originX: 'center',
+          originY: 'bottom',
+          overlayX: 'center',
+          overlayY: 'top',
+          offsetY: 8,
+          panelClass: ['credix-tooltip-panel', this.panelClass]
+        }]);
 
     this.overlayRef = this.overlay.create({
       positionStrategy,
       width: this.tooltipWidth ? `${this.tooltipWidth}px` : this.elementRef.nativeElement.offsetWidth
     });
+
     this.passwordControl.valueChanges.subscribe(value => {
       this.validate(value);
       if (this.overlayRef && this.overlayRef.hasAttached()) {
@@ -50,15 +59,19 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
   focusIn() {
     if (!this.overlayRef.hasAttached()) {
       this.show();
+      this.renderer.setStyle(this.elementRef.nativeElement.querySelector('.mat-form-field-flex'),
+        'box-shadow', '0px 3px 8px rgba(0, 0, 0, 0.149)', 1);
     }
   }
 
   @HostListener('focusout')
   focusOut() {
+    this.renderer.setStyle(this.elementRef.nativeElement.querySelector('.mat-form-field-flex'), 'box-shadow', 'none', 1);
     this.overlayRef.detach();
   }
 
   ngOnDestroy(): void {
+    this.renderer.setStyle(this.elementRef.nativeElement.querySelector('.mat-form-field-flex'), 'box-shadow', 'none', 1);
     this.overlayRef.detach();
   }
 

@@ -6,6 +6,8 @@ import {CredixToastService} from '../../../../core/services/credix-toast.service
 import {User} from '../../../../shared/models/user';
 import {map, tap} from 'rxjs/operators';
 import {Card} from '../../../../shared/models/card';
+import {DeviceDetectorService} from 'ngx-device-detector';
+import {StorageService} from '../../../../core/services/storage.service';
 
 @Injectable()
 export class SignInService {
@@ -13,19 +15,22 @@ export class SignInService {
   private readonly logoutUri = 'security/logoutbyusername';
   private readonly getDeviceInfoUri = 'channels/getdeviceinfo';
   private readonly validateOtpUri = 'security/validateonetimepassword';
+  private readonly saveDeviceUri = 'channels/savedevice';
   private newDeviceSub = new Subject();
   newDevice$ = this.newDeviceSub.asObservable();
 
   constructor(private httpService: HttpService,
+              private deviceService: DeviceDetectorService,
+              private storageService: StorageService,
               private toastService: CredixToastService) {
   }
 
-  login(username: string, password: string, deviceIdentifier: number = 1213123134, typeIncome: number = 2):
+  login(username: string, password: string, typeIncome: number = 2):
     Observable<{ user: User, cards: Card[] }> {
     return this.httpService.post('canales', this.loginUri, {
       username,
       password: CryptoJS.SHA256(password).toString(),
-      deviceIdentifier,
+      deviceIdentifier: this.storageService.getUuid(),
       typeIncome
     }).pipe(
       tap(response => {
@@ -49,6 +54,7 @@ export class SignInService {
               .map(card => ({
                 ...card,
                 cardNumber:
+                // tslint:disable-next-line:max-line-length
                   `${card.cardNumber.substr(card.cardNumber.length - 8, 4)} ${card.cardNumber.substr(card.cardNumber.length - 4, card.cardNumber.length)}`
               }))
           };
@@ -78,8 +84,8 @@ export class SignInService {
     );
   }
 
-  getDeviceInfo(uuid = 12345): Observable<{ status: string; id: number }> {
-    return this.httpService.post('canales', this.getDeviceInfoUri, {uuid})
+  getDeviceInfo(): Observable<{ status: string; id: number }> {
+    return this.httpService.post('canales', this.getDeviceInfoUri, {uuid: this.storageService.getUuid()})
       .pipe(
         map(response => ({status: response.type, id: response.id}))
       );
@@ -118,28 +124,23 @@ export class SignInService {
       passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
       confirmationCode
     }).pipe(
-      tap(response => this.toastService.show({text: response.descriptionOne, type: response.type}),
-        error => {
-        },
-        () => {
-        }),
       map(response => ({status: response.type, message: response.descriptionOne}))
     );
   }
 
   saveDevice(): Observable<'success' | 'error'> {
-    return this.httpService.post('canales', 'channels/savedevice', {
-      deviceIdentification: '12345',
-      platform: 1,
-      uuid: 12345,
-      carrierName: 'AT&T',
-      platformVersion: '8.2.3',
-      manufacturer: 'Xiaomi',
-      model: 'Redmi note 8 pro',
-      isoCountryCode: 'VE',
-      mobileNetworkCode: '123',
-      mobileCountryCode: '123',
-      numberPhone: '1234567890',
+    return this.httpService.post('canales', this.saveDeviceUri, {
+      deviceIdentification: this.storageService.getUuid(),
+      uuid: this.storageService.getUuid(),
+      platform: this.deviceService.os === 'Mac' ? 1 : this.deviceService.os === 'Android' ? 2 : 3,
+      manufacturer: this.deviceService.os,
+      model: this.deviceService.os,
+      platformVersion: this.deviceService.os_version,
+      carrierName: 'No encontrado',
+      isoCountryCode: 'XXXXXXXXXX',
+      mobileNetworkCode: 'XXXXXXXXXX',
+      mobileCountryCode: 'XXXXXXXXXX',
+      numberPhone: '0000000000',
       isActive: '1'
     }).pipe(
       tap(response => {
