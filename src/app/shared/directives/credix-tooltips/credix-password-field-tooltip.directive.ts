@@ -12,7 +12,6 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
   @Input('credixPasswordFieldTooltip') passwordControl: FormControl;
   @Input() panelClass: string;
   @Input() tooltipWidth: number;
-  @Input() tooltipOffsetY: number;
   @Input() tooltipType: 'password' | 'pin' = 'password';
   private overlayRef: OverlayRef;
   private tooltipRef: ComponentRef<CredixPasswordFieldTooltipComponent>;
@@ -31,9 +30,16 @@ export class CredixPasswordFieldTooltipDirective implements OnInit, OnDestroy {
         originY: 'top',
         overlayX: 'center',
         overlayY: 'bottom',
-        // offsetY: this.tooltipOffsetY ? -1 * this.tooltipOffsetY : -12,
         panelClass: ['credix-tooltip-panel', this.panelClass]
-      }]);
+      },
+        {
+          originX: 'center',
+          originY: 'bottom',
+          overlayX: 'center',
+          overlayY: 'top',
+          offsetY: 8,
+          panelClass: ['credix-tooltip-panel', this.panelClass]
+        }]);
 
     this.overlayRef = this.overlay.create({
       positionStrategy,
