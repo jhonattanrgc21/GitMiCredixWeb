@@ -11,6 +11,8 @@ import {FavoriteIbanAccount} from '../../../../shared/models/favorite-iban-accou
 import {PublicServiceFavoriteByUser} from '../../../../shared/models/public-service-favorite-by-user';
 import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 import {finalize} from 'rxjs/operators';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-favorites-management',
@@ -28,6 +30,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     {id: 2, name: 'Pagos favoritos'},
     {id: 3, name: 'Automáticos'}
   ];
+  titleTag: string;
   tabId = 1;
   buttonText = 'Añadir cuenta IBAN';
   updating = false;
@@ -41,10 +44,14 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
               private accountApiService: AccountApiService,
               private channelsApiService: ChannelsApiService,
               private modalService: ModalService,
-              private router: Router) {
+              private router: Router,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Gestionar favoritos').tags)
+    );
   }
 
   get idParam(): number {
@@ -340,6 +347,15 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
           });
         }
       });
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'favoritos.title')?.value;
+    this.tabs = [
+      {id: 1, name: tags.find(tag => tag.description === 'favoritos.tab1')?.value || 'Cuentas IBAN'},
+      {id: 2, name: tags.find(tag => tag.description === 'favoritos.tab2')?.value || 'Pagos favoritos'},
+      {id: 3, name: tags.find(tag => tag.description === 'favoritos.tab3')?.value || 'Automáticos'}
+    ];
   }
 
 }

@@ -9,6 +9,8 @@ import {PersonalCreditService} from '../personal-credit.service';
 })
 export class PersonalCreditSecondStepComponent implements OnInit {
   @Input() accountControl: FormControl = new FormControl(null);
+  @Input() parrafeOption1: string;
+  @Input() parrafeOption2: string;
   radioButtonSelected = 0;
 
   constructor(private personalCreditService: PersonalCreditService) {

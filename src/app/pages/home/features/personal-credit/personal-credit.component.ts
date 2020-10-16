@@ -9,6 +9,8 @@ import {CredixToastService} from '../../../../core/services/credix-toast.service
 import {StorageService} from '../../../../core/services/storage.service';
 import {finalize} from 'rxjs/operators';
 import {ChannelsApiService} from '../../../../core/services/channels-api.service';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-personal-credit',
@@ -29,6 +31,46 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   stepperIndex = 0;
   disableButton = true;
   buttonText = 'Continuar';
+  titleTag: string;
+  stepsTagsTitles: {
+    firstStepTagTitle: string;
+    secondStepTagTitle: string;
+    thirstyStepTagTitle: string
+  };
+  stepOneTags: { plazoTag: string; amountTag: string; subtitleAmountTag: string; monthTag: string; };
+  stepTwoTags: {
+    secondStepOption1Tag: string;
+    secondStepOption2Tag1: string;
+    secondStepOption2Tag2: string;
+    secondStepOption2Tag3: string;
+    subtitle: string;
+  };
+  stepThreeTags: {
+    ibanTag: string;
+    tagCheque: string;
+    subtitleTag1: string;
+    amountTag: string;
+    subtitleTag2: string;
+    quotesTag: string;
+    totalTag: string;
+    plazoTag: string;
+  };
+  subtitleTag: string;
+  quoteTags: string;
+  popUpTags: {
+    amountTag: string;
+    titleTag: string;
+    tagIva: string;
+    secureTag: string;
+    disclaimerTag: string;
+    interesTag: string;
+    commissionTag: string;
+    totalTag: string;
+  };
+  secondStepOption1Tag: string;
+  secondStepOption2Tag: string;
+  questionTag: string;
+  warningMssgTag: string;
   done = false;
   title: string;
   message: string;
@@ -41,11 +83,16 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
               private modalService: ModalService,
               private toastService: CredixToastService,
               private storageService: StorageService,
-              private router: Router) {
+              private router: Router,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
     this.getAccountSummary();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Crédito personal').tags)
+    );
+
   }
 
   ngAfterViewInit(): void {
@@ -164,5 +211,51 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
             break;
         }
       });
+  }
+
+  getTags(tags: Tag[]) {
+    this.titleTag = tags.find(tag => tag.description === 'credito.title')?.value;
+    this.stepsTagsTitles = {
+      firstStepTagTitle: tags.find(tag => tag.description === 'credito.stepper1')?.value,
+      secondStepTagTitle: tags.find(tag => tag.description === 'credito.stepper2')?.value,
+      thirstyStepTagTitle: tags.find(tag => tag.description === 'credito.stepper3')?.value
+    };
+    this.stepOneTags = {
+      plazoTag: tags.find(tag => tag.description === 'credito.stepper1.subtitle.plazo')?.value,
+      amountTag: tags.find(tag => tag.description === 'credito.stepper1.tag.monto')?.value,
+      subtitleAmountTag: tags.find(tag => tag.description === 'credito.stepper1.subtitle.monto')?.value,
+      monthTag: tags.find(tag => tag.description === 'credito.stepper1.tag.meses')?.value
+    };
+
+    this.stepTwoTags = {
+      secondStepOption1Tag: tags.find(tag => tag.description === 'credito.stepper2.option1.tag')?.value,
+      secondStepOption2Tag1: tags.find(tag => tag.description === 'credito.stepper2.option2.tag1')?.value,
+      secondStepOption2Tag2: tags.find(tag => tag.description === 'credito.stepper2.option2.tag2')?.value,
+      secondStepOption2Tag3: tags.find(tag => tag.description === 'credito.stepper2.option2.tag3')?.value,
+      subtitle: tags.find(tag => tag.description === 'credito.stepper2.subtitle')?.value
+    };
+
+    this.stepThreeTags = {
+      ibanTag: tags.find(tag => tag.description === 'credito.stepper3.iban')?.value,
+      tagCheque: tags.find(tag => tag.description === 'credito.stepper3.tagcheque')?.value,
+      amountTag: tags.find(tag => tag.description === 'credito.stepper3.monto')?.value,
+      plazoTag: tags.find(tag => tag.description === 'credito.stepper3.plazo')?.value,
+      quotesTag: tags.find(tag => tag.description === 'credito.stepper3.cuota')?.value,
+      totalTag: tags.find(tag => tag.description === 'credito.stepper3.total')?.value,
+      subtitleTag1: tags.find(tag => tag.description === 'credito.stepper3.subtitle1')?.value,
+      subtitleTag2: tags.find(tag => tag.description === 'credito.stepper3.subtitle2')?.value
+    };
+    this.popUpTags = {
+      amountTag: tags.find(tag => tag.description === 'credito.popup.tag.monto')?.value,
+      titleTag: tags.find(tag => tag.description === 'credito.popup.title')?.value,
+      tagIva: tags.find(tag => tag.description === 'credito.popup.tagIVA')?.value,
+      secureTag: tags.find(tag => tag.description === 'credito.popup.tag.seguro')?.value,
+      interesTag: tags.find(tag => tag.description === 'credito.popup.tag.interes')?.value,
+      commissionTag: tags.find(tag => tag.description === 'credito.popup.tag.comision')?.value,
+      disclaimerTag: tags.find(tag => tag.description === 'credito.popup.tag.disclaimer')?.value,
+      totalTag: tags.find(tag => tag.description === 'credito.popup.tag.total')?.value,
+    };
+    this.questionTag = tags.find(tag => tag.description === 'credito.question')?.value;
+    this.warningMssgTag = tags.find(tag => tag.description === 'credito.message.warning.title')?.value;
   }
 }
