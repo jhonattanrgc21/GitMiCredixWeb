@@ -61,6 +61,7 @@ export class NewServiceComponent implements OnInit {
   }
 
   getPublicService() {
+    this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
     this.keys = this.publicServicesService.publicService.keys;
     this.quantityOfKeys = this.publicServicesService.publicService.quantityOfKeys;
     this.paymentType = this.publicServicesService.publicService.paymentType;

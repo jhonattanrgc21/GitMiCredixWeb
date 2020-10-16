@@ -62,6 +62,7 @@ export class NewRechargeComponent implements OnInit {
   }
 
   getPublicService() {
+    this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
     this.keys = this.publicServicesService.publicService.keys;
     this.publicServiceName = this.publicServicesService.publicService.publicServiceName;
   }
