@@ -5,7 +5,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../../../../shared/shared.module';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {CredixFormsModule} from '../../../../shared/directives/credix-forms/credix-forms.module';
 import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltips/credix-tooltips.module';
 import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-button/credix-link-button.module';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
@@ -47,7 +46,6 @@ const routes: Routes = [
     SharedModule,
     CredixButtonModule,
     ReactiveFormsModule,
-    CredixFormsModule,
     CredixTooltipsModule,
     CredixLinkButtonModule,
     CredixCardsModule,

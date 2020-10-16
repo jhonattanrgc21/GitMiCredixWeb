@@ -23,7 +23,7 @@ export class SignInService {
               private toastService: CredixToastService) {
   }
 
-  login(username: string, password: string, deviceIdentifier: number = 1213123134, typeIncome: number = 2):
+  login(username: string, password: string, deviceIdentifier: number = 12345, typeIncome: number = 2):
     Observable<{ user: User, cards: Card[] }> {
     return this.httpService.post('canales', this.loginUri, {
       username,
@@ -122,11 +122,6 @@ export class SignInService {
       passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
       confirmationCode
     }).pipe(
-      tap(response => this.toastService.show({text: response.descriptionOne, type: response.type}),
-        error => {
-        },
-        () => {
-        }),
       map(response => ({status: response.type, message: response.descriptionOne}))
     );
   }
@@ -134,8 +129,8 @@ export class SignInService {
   saveDevice(): Observable<'success' | 'error'> {
     return this.httpService.post('canales', this.saveDeviceUri, {
       deviceIdentification: '12345',
-      platform: this.deviceService.os === 'Mac' ? 1 : this.deviceService.os === 'Android' ? 2 : 3,
       uuid: 12345,
+      platform: this.deviceService.os === 'Mac' ? 1 : this.deviceService.os === 'Android' ? 2 : 3,
       manufacturer: this.deviceService.os,
       model: this.deviceService.os,
       platformVersion: this.deviceService.os_version,

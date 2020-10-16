@@ -22,10 +22,9 @@ import {ValidationErrors} from '@angular/forms';
   ]
 })
 export class CredixPasswordFieldTooltipComponent implements OnInit {
-  isTablet: boolean;
-
   @Input() errors: ValidationErrors | null;
   @Input() tooltipType: 'password' | 'pin' = 'password';
+  isTablet: boolean;
 
   constructor(private breakpointObserver: BreakpointObserver) {
   }

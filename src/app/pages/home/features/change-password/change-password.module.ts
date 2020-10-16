@@ -10,7 +10,6 @@ import {CredixButtonModule} from '../../../../shared/components/credix-button/cr
 import {CredixConfirmationPopupModule} from '../../../../shared/components/credix-confirmation-popup/credix-confirmation-popup.module';
 import {ModalService} from '../../../../core/services/modal.service';
 import {SharedModule} from '../../../../shared/shared.module';
-import {CredixFormsModule} from '../../../../shared/directives/credix-forms/credix-forms.module';
 import {CredixCodeInputModule} from '../../../../shared/components/credix-code-input/credix-code-input.module';
 import {CredixShareButtonModule} from '../../../../shared/components/credix-share-button/credix-share-button.module';
 import {CredixCardsModule} from '../../../../shared/directives/credix-cards/credix-cards.module';
@@ -43,7 +42,6 @@ const routes: Routes = [
     CredixShareButtonModule,
     CredixCardsModule,
     CredixLinkButtonModule,
-    CredixFormsModule,
     CredixCodeInputModule,
     CredixInputFieldModule,
     ReactiveFormsModule,

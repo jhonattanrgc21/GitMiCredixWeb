@@ -121,21 +121,25 @@ export class SignInComponent implements OnInit {
       case 'sign-up':
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
           {width: 376, minHeight: 623, disableClose: true, panelClass: 'sign-up-panel'}).afterClosed().subscribe(user => {
-          this.signInformGroup.controls.identification.setValue(user.identification);
-          this.signInformGroup.controls.password.setValue(user.password);
-          this.openCompletedModal(376, 349, {
-            title: '¡Ha finalizado su registro!',
-            message: '¡Felicidades! Ya puede disfrutar nuestros beneficios ingresando a la aplicación.',
-            type: 'sign-up'
-          });
+          if (user) {
+            this.signInformGroup.controls.identification.setValue(user.identification);
+            this.signInformGroup.controls.password.setValue(user.password);
+            this.openCompletedModal(376, 349, {
+              title: '¡Ha finalizado su registro!',
+              message: '¡Felicidades! Ya puede disfrutar nuestros beneficios ingresando a la aplicación.',
+              type: 'sign-up'
+            });
+          }
         });
         break;
       case 'forgot-pass':
         this.modalService.open({component: ForgotPasswordComponent, title: '¿Olvidó su clave?'},
           {width: 376, height: 663, disableClose: true}).afterClosed().subscribe(user => {
-          this.signInformGroup.controls.identification.setValue(user.identification);
-          this.signInformGroup.controls.password.setValue(user.password);
-          this.openCompletedModal(376, 349, {title: '¡Éxito!', message: 'Su clave ha sido cambiada.', type: 'forgot-pass'});
+          if (user) {
+            this.signInformGroup.controls.identification.setValue(user.identification);
+            this.signInformGroup.controls.password.setValue(user.password);
+            this.openCompletedModal(376, 349, {title: '¡Éxito!', message: 'Su clave ha sido cambiada.', type: 'forgot-pass'});
+          }
         });
         break;
       case 'session-activate':
