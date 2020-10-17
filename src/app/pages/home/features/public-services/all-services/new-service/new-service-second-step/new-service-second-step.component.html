@@ -36,11 +36,6 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Recibos pendientes</span>
-        <span>{{receipts}}</span>
-      </div>
-
-      <div fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto a pagar</strong></span>
         <span><credix-numeric-block [prefix]="currencySymbol" [value]="amount" fontWeight="bold"></credix-numeric-block></span>
       </div>
@@ -69,8 +64,7 @@
                           class="new-service-second-step__content__input amount-to-pay"
                           formControlName="amount"
                           label="Monto"
-                          mask="separator"
-                          thousandSeparator=".">
+                          mask="separator">
         <div error>
           {{
           confirmFormGroup.controls.amount.hasError('min') ? 'El monto tiene que ser mayor o igual a ' + amount :
