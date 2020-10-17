@@ -11,6 +11,8 @@ import {CdkStepper} from '@angular/cdk/stepper';
 import {PopupReceiptComponent} from '../../popup-receipt/popup-receipt.component';
 import {PopupReceipt} from '../../../../../../shared/models/popup-receipt';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
+import {TagsService} from '../../../../../../core/services/tags.service';
+import {Tag} from '../../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-new-recharge',
@@ -52,6 +54,7 @@ export class NewRechargeComponent implements OnInit {
               private publicServicesApiService: PublicServicesApiService,
               private modalService: ModalService,
               private credixCodeErrorService: CredixCodeErrorService,
+              private tagsService: TagsService,
               private router: Router) {
   }
 
@@ -59,6 +62,9 @@ export class NewRechargeComponent implements OnInit {
     this.getMinAmounts();
     this.getPublicService();
     this.setErrorCredixCode();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Lugares de pago').tags)
+    );
   }
 
   getPublicService() {
@@ -98,12 +104,14 @@ export class NewRechargeComponent implements OnInit {
           this.saveFavorite();
         }
 
+
         this.dataToModal = {
           institution: [{companyCode: response.companyCode, companyName: response.companyName}],
           agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
           agencyCode: response.agencyCode,
           cashier: 'Credix',
           currencyCode: this.pendingReceipts.currencyCode,
+          channelType: this.pendingReceipts.channelType,
           clientName: this.pendingReceipts.clientName,
           billNumber: this.pendingReceipts.receipts.billNumber,
           invoiceNumber: this.pendingReceipts.receipts.receipt,
@@ -161,5 +169,9 @@ export class NewRechargeComponent implements OnInit {
   openBillingModal() {
     this.modalService.open({title: 'Comprobante', data: this.dataToModal, component: PopupReceiptComponent},
       {height: 673, width: 380, disableClose: false});
+  }
+
+  getTags(tags: Tag[]) {
+
   }
 }

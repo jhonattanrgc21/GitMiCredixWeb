@@ -3,26 +3,95 @@
   <div class="receipt" fxLayout="column" fxLayoutGap="16px">
 
     <div class="receipt__info-table" fxLayout="column" fxLayoutGap="16px">
-      <span><strong>Datos generales</strong></span>
+      <span><strong>{{ popupTagsReceipt.subtitle1 || 'Datos generales'}}</strong></span>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span class="receipt__tag">Recargos del seguro obligatorio</span>
-        <span><strong>123456789</strong></span>
+        <span class="receipt__tag">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
+        <div *ngFor="let institute of dataShowModal.institution" fxLayout="column">
+          <span><strong>{{institute.companyName}}</strong></span>
+          <span><strong>{{institute.companyCode}}</strong></span>
+        </div>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span class="receipt__tag">Aporte al consejo de seguridad vial</span>
-        <span><strong>3 Meses</strong></span>
+        <span class="receipt__tag">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
+        <div *ngFor="let agreement of dataShowModal.agreement" fxLayout="column">
+          <span><strong>{{agreement.contractName}}</strong></span>
+          <span><strong>{{agreement.contractCode}}</strong></span>
+        </div>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span class="receipt__tag">Impuesto a la propiedad de vehículos</span>
-        <span><strong>Cualquiera</strong></span>
+        <span class="receipt__tag">{{ popupTagsReceipt.tag3 || 'Agencia' }}</span>
+        <span><strong>{{dataShowModal.agencyCode}}</strong></span>
       </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag4 || 'Cajero' }}</span>
+        <span><strong>{{dataShowModal.cashier}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag5 || 'Moneda' }}</span>
+        <span><strong>{{dataShowModal.agencyCode}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag6 || 'Canal' }}</span>
+        <span><strong>{{dataShowModal.channelType}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag7 || 'Cliente' }}</span>
+        <span><strong>{{dataShowModal.clientName}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag8 || 'Comprobante' }}</span>
+        <span><strong>{{dataShowModal.billNumber}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag9 || 'No. factura' }}</span>
+        <span><strong>{{dataShowModal.invoiceNumber}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag10 || 'Estado pago' }}</span>
+        <span><strong>{{dataShowModal.paymentStatus}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag11 || 'Fecha movimiento' }}</span>
+        <span><strong>{{dataShowModal.movementDate | dateFormatter: 'alphanumeric' }}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag12 || 'Vencimiento' }}</span>
+        <span><strong>{{dataShowModal.expirationDate | dateFormatter: 'alphanumeric'}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag13 || 'No. servicio' }}</span>
+        <span><strong>{{dataShowModal.reference}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag14 || 'Agencia' }}</span>
+        <span><strong>{{dataShowModal.agencyCode}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag15 || 'Tipo de valor' }}</span>
+        <span><strong>{{dataShowModal.typeOfValor}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="receipt__tag">{{ popupTagsReceipt.tag16 || 'Monto' }}</span>
+        <span><strong>{{dataShowModal.amount}}</strong></span>
+      </div>
+
     </div>
 
-    <div class="receipt__info-table" fxLayout="column" fxLayoutGap="16px">
-      <span><strong>Conceptos de pago</strong></span>
+    <div *ngIf="dataShowModal.paymentConcepts" class="receipt__info-table" fxLayout="column" fxLayoutGap="16px">
+      <span><strong>{{ popupTagsReceipt.subtitle2 || 'Conceptos de pago'}}</strong></span>
 
       <div *ngFor="let conceptPay of dataShowModal.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between">
         <span class="receipt__tag">{{conceptPay.conceptDescription.toLowerCase()}}</span>
@@ -35,10 +104,15 @@
     <mat-divider credixDivider></mat-divider>
 
     <!--MONTO TOTAL-->
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <span><strong>{{popupTagsReceipt.subtitle3 || 'Total'}}</strong></span>
+      <credix-numeric-block [fontSize]="24" [prefix]="dataShowModal.currencySymbol"
+                            [value]="dataShowModal.amount" fontWeight="bold"></credix-numeric-block>
+    </div>
 
-    <div *ngIf="dataShowModal.informativeConcepts !== null" class="receipt__info-table" fxLayout="column"
+    <div *ngIf="dataShowModal.informativeConcepts" class="receipt__info-table" fxLayout="column"
          fxLayoutGap="16px">
-      <span><strong>Conceptos informativos</strong></span>
+      <span><strong>{{ popupTagsReceipt.subtitle4 || 'Conceptos informativos'}}</strong></span>
 
       <div *ngFor="let conceptInformative of dataShowModal.informativeConcepts" fxLayout="row"
            fxLayoutAlign="space-between">
@@ -47,7 +121,8 @@
       </div>
     </div>
 
-    <p class="receipt__footer">* Servicio brindado mediante convenio con el Banco Nacional de Costa Rica.</p>
+    <p class="receipt__footer">* {{ popupTagsReceipt.disclaimer ||
+    'Servicio brindado mediante convenio con el Banco Nacional de Costa Rica.'}}</p>
 
   </div>
 </ngx-simplebar>
