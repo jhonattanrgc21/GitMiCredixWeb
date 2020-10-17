@@ -86,7 +86,8 @@
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="receipt__tag">{{ popupTagsReceipt.tag16 || 'Monto' }}</span>
-        <span fxFlex><strong>{{dataShowModal.amount}}</strong></span>
+        <credix-numeric-block [prefix]="dataShowModal.currencySymbol"
+                              [value]="+dataShowModal.amount" fontWeight="bold"></credix-numeric-block>
       </div>
 
     </div>
