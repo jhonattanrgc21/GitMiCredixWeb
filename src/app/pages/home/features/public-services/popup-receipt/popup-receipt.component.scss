@@ -12,6 +12,16 @@
   }
 }
 
+.bill-number {
+  width: 100%;
+}
+
+.bill-number:hover {
+  overflow: initial;
+  text-overflow: initial;
+}
+
+
 .receipt-wrapper {
   height: 520px;
   margin-left: -30px;
