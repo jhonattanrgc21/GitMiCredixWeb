@@ -4,13 +4,23 @@
   padding-right: 30px;
 
   &__tag {
-    width: 149px;
+    width: 100px;
   }
 
   &__footer {
     width: 316px;
   }
 }
+
+.bill-number {
+  width: 100%;
+}
+
+.bill-number:hover {
+  overflow: initial;
+  text-overflow: initial;
+}
+
 
 .receipt-wrapper {
   height: 520px;

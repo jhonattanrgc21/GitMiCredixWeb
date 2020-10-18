@@ -4,7 +4,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {PublicServicesApiService} from '../../../../../../core/services/public-services-api.service';
 import {PublicServicesService} from '../../public-services.service';
-import {ConvertStringAmountToNumber, ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../../shared/utils';
+import {ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../../shared/utils';
 import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
 import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
@@ -80,7 +80,7 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesService.payPublicService(
       this.publicServiceId,
       +this.pendingReceipts.receipts.serviceValue,
-      ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString(),
+      this.confirmFormGroup.controls.amount.value,
       +this.pendingReceipts.receipts.receiptPeriod,
       +this.contractFormGroup.controls.keysControl.value,
       this.pendingReceipts.receipts.expirationDate,
@@ -102,6 +102,7 @@ export class NewServiceComponent implements OnInit {
           clientName: this.pendingReceipts.clientName,
           billNumber: this.pendingReceipts.receipts.billNumber,
           invoiceNumber: this.pendingReceipts.receipts.receipt,
+          channelType: this.pendingReceipts.channelType,
           paymentStatus: 'Aplicado',
           movementDate: this.pendingReceipts.date,
           expirationDate: this.pendingReceipts.receipts.expirationDate,

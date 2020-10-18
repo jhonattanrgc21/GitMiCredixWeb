@@ -7,6 +7,7 @@ export interface PopupReceipt {
     contractCode: number;
     contractName: string;
   }[];
+  channelType: string;
   agencyCode: string;
   cashier: string;
   currencyCode: string;

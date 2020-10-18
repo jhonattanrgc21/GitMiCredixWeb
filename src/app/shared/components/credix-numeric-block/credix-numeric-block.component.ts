@@ -24,9 +24,10 @@ export class CredixNumericBlockComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.value) {
       if (typeof this.value === 'string') {
-        this.integerValue = this.value.split(',')[0];
-        this.decimalValue = this.value.split(',')[1] ?
-          this.value.split(',')[1].substring(0, this.value.split(',')[1].length === 2 ? 2 : 1)
+        const separator = this.value.indexOf(',') > -1 ? ',' : '.';
+        this.integerValue = this.value.split(separator)[0];
+        this.decimalValue = this.value.split(separator)[1] ?
+          this.value.split(separator)[1].substring(0, this.value.split(separator)[1].length === 2 ? 2 : 1)
           : '00';
       } else {
         this.sign = this.value >= 0 ? '+' : '-';
