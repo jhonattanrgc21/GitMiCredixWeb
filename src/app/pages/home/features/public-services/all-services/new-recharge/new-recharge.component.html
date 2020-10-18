@@ -71,7 +71,11 @@
             <span fxFlex="60px">Fecha</span>
             <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
-          <credix-link-button (click)="openBillingModal()">Ver comprobante</credix-link-button>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex></span>
+            <credix-link-button (click)="openBillingModal()">Ver comprobante</credix-link-button>
+          </div>
         </div>
 
       </div>

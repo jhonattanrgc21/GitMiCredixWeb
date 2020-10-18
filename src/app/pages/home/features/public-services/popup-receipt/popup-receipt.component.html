@@ -6,110 +6,108 @@
       <span><strong>{{ popupTagsReceipt.subtitle1 || 'Datos generales'}}</strong></span>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
-        <div *ngFor="let institute of dataShowModal.institution" fxFlex fxLayout="column">
-          <span><strong>{{institute.companyName}}</strong></span>
-          <span><strong>{{institute.companyCode}}</strong></span>
-        </div>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
+        <span *ngFor="let institute of dataShowModal.institution" class="truncate tr"
+              fxFlex><strong>{{institute.companyName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
-        <div *ngFor="let agreement of dataShowModal.agreement" fxFlex fxLayout="column">
-          <span><strong>{{agreement.contractName}}</strong></span>
-          <span><strong>{{agreement.contractCode}}</strong></span>
-        </div>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
+        <span *ngFor="let agreement of dataShowModal.agreement" class="truncate tr"
+              fxFlex><strong>{{agreement.contractName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag3 || 'Agencia' }}</span>
-        <span fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag3 || 'Agencia' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag4 || 'Cajero' }}</span>
-        <span fxFlex><strong>{{dataShowModal.cashier}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag4 || 'Cajero' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.cashier}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag5 || 'Moneda' }}</span>
-        <span fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag5 || 'Moneda' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag6 || 'Canal' }}</span>
-        <span fxFlex><strong>{{dataShowModal.channelType}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag6 || 'Canal' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.channelType}}</strong></span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag7 || 'Cliente' }}</span>
-        <span class="truncate" fxFlex><strong>{{dataShowModal.clientName}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag7 || 'Cliente' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.clientName}}</strong></span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag8 || 'Comprobante' }}</span>
-        <span class="bill-number truncate" fxFlex><strong>{{dataShowModal.billNumber}}</strong></span>
-      </div>
-
-      <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag9 || 'No. factura' }}</span>
-        <span fxFlex><strong>{{dataShowModal.invoiceNumber}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag8 || 'Comprobante' }}</span>
+        <span class="bill-number truncate tr" fxFlex><strong>{{dataShowModal.billNumber}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag10 || 'Estado pago' }}</span>
-        <span fxFlex><strong>{{dataShowModal.paymentStatus}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag9 || 'No. factura' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.invoiceNumber}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag11 || 'Fecha movimiento' }}</span>
-        <span fxFlex><strong>{{dataShowModal.movementDate | dateFormatter: 'alphanumeric' }}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag10 || 'Estado pago' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.paymentStatus}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag12 || 'Vencimiento' }}</span>
-        <span fxFlex><strong>{{dataShowModal.expirationDate | dateFormatter: 'alphanumeric'}}</strong></span>
+        <span class="truncate" style="width: 150px">{{ popupTagsReceipt.tag11 || 'Fecha movimiento' }}</span>
+        <span class="truncate tr"
+              fxFlex><strong>{{dataShowModal.movementDate | dateFormatter: 'alphanumeric' }}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag13 || 'No. servicio' }}</span>
-        <span fxFlex><strong>{{dataShowModal.reference}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag12 || 'Vencimiento' }}</span>
+        <span class="truncate tr"
+              fxFlex><strong>{{dataShowModal.expirationDate | dateFormatter: 'alphanumeric'}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag14 || 'Agencia' }}</span>
-        <span fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag13 || 'No. servicio' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.reference}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag15 || 'Tipo de valor' }}</span>
-        <span fxFlex><strong>{{dataShowModal.typeOfValor}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag14 || 'Agencia' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag16 || 'Monto' }}</span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag15 || 'Tipo de valor' }}</span>
+        <span class="truncate tr" fxFlex><strong>{{dataShowModal.typeOfValor}}</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
+        <span fxFlex>{{ popupTagsReceipt.tag16 || 'Monto' }}</span>
         <credix-numeric-block [prefix]="dataShowModal.currencySymbol"
-                              [value]="+dataShowModal.amount" fontWeight="bold"></credix-numeric-block>
+                              [value]="dataShowModal.amount" fontWeight="bold"></credix-numeric-block>
       </div>
 
     </div>
 
-    <div *ngIf="dataShowModal.paymentConcepts" class="receipt__info-table" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="dataShowModal.paymentConcepts" fxLayout="column" fxLayoutGap="16px">
       <span><strong>{{ popupTagsReceipt.subtitle2 || 'Conceptos de pago'}}</strong></span>
 
-      <div *ngFor="let conceptPay of dataShowModal.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between">
-        <span class="receipt__tag">{{conceptPay.conceptDescription.toLowerCase()}}</span>
+      <div *ngFor="let conceptPay of dataShowModal.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between"
+           fxLayoutGap="16px">
+        <span fxFlex>{{conceptPay.conceptDescription.toLowerCase()}}</span>
 
-        <credix-numeric-block [prefix]="dataShowModal.currencySymbol" [value]="+conceptPay.conceptAmount"
-                              fontWeight="bold" fxFlex></credix-numeric-block>
+        <credix-numeric-block [prefix]="dataShowModal.currencySymbol" [value]="conceptPay.conceptAmount"
+                              fontWeight="bold"></credix-numeric-block>
       </div>
     </div>
 
     <mat-divider credixDivider></mat-divider>
 
-    <!--MONTO TOTAL-->
     <div *ngIf="dataShowModal.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between">
-      <span><strong style="font-size: 22px;">{{popupTagsReceipt.subtitle3 || 'Total'}}</strong></span>
+      <span fxFlex style="font-size: 22px;"><strong>{{popupTagsReceipt.subtitle3 || 'Total'}}</strong></span>
       <credix-numeric-block [fontSize]="22" [prefix]="dataShowModal.currencySymbol"
-                            [value]="+dataShowModal.amount" fontWeight="bold"></credix-numeric-block>
+                            [value]="dataShowModal.amount" fontWeight="bold"></credix-numeric-block>
     </div>
 
     <div *ngIf="dataShowModal.informativeConcepts" class="receipt__info-table" fxLayout="column"
@@ -118,8 +116,8 @@
 
       <div *ngFor="let conceptInformative of dataShowModal.informativeConcepts" fxLayout="row"
            fxLayoutAlign="space-between">
-        <span class="receipt__tag">{{conceptInformative.conceptDescription}}</span>
-        <span><strong>{{conceptInformative.conceptAmount}}</strong></span>
+        <span class="receipt__tag truncate">{{conceptInformative.conceptDescription}}</span>
+        <span class="tr truncate"><strong>{{conceptInformative.conceptAmount}}</strong></span>
       </div>
     </div>
 
