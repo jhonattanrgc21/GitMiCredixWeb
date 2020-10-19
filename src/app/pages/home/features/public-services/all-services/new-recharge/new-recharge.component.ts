@@ -133,6 +133,7 @@ export class NewRechargeComponent implements OnInit {
       this.publicServiceId,
       this.rechargeFormGroup.controls.phoneNumber.value,
       this.rechargeFormGroup.controls.favorite.value,
+      this.keys[0].keyType,
       this.rechargeFormGroup.controls.credixCode.value).subscribe();
   }
 

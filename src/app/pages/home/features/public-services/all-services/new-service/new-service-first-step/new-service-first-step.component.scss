@@ -1,17 +1,16 @@
 .new-service-first-step {
-  padding: 0 184px 0 84px;
-  margin-top: 32px;
+  padding: 0 84px;
 
   &__content {
     width: 100%;
 
     &__input {
-      width: 280px;
+      width: 380px;
       height: 43px;
     }
 
     &__select {
-      width: 280px;
+      width: 380px;
       height: 44px;
     }
   }
@@ -23,18 +22,12 @@
 }
 
 @media screen and (max-width: 1199px) {
-
   .new-service-first-step {
     padding: 0 78px;
 
-    &__content {
-      width: 100%;
-
-      &__input {
-        width: 264px;
-      }
+    &__content__input {
+      width: 266px;
     }
-
   }
 
 }

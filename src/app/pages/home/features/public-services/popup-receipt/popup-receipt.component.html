@@ -95,7 +95,8 @@
 
       <div *ngFor="let conceptPay of dataShowModal.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between"
            fxLayoutGap="16px">
-        <span fxFlex>{{conceptPay.conceptDescription.toLowerCase()}}</span>
+        <span fxFlex>
+          {{conceptPay.conceptDescription[0].toUpperCase() + conceptPay.conceptDescription.slice(1).toLowerCase()}}</span>
 
         <credix-numeric-block [prefix]="dataShowModal.currencySymbol" [value]="conceptPay.conceptAmount"
                               fontWeight="bold"></credix-numeric-block>

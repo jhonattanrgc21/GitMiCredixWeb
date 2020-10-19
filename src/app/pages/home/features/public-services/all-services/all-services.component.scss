@@ -49,15 +49,15 @@
     }
   }
 
-  &__services {
-    padding: 0 16px;
+  &__services a {
+    padding-bottom: 16px;
 
-    a {
-      padding: 16px 0;
+    &:not(:first-of-type) {
+      padding-top: 16px;
+    }
 
-      &:not(:last-of-type) {
-        border-bottom: 1px solid #E9E9E9;
-      }
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #E9E9E9;
     }
   }
 }

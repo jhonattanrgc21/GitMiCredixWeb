@@ -45,7 +45,8 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
           this.confirmFormGroup.controls.amount.setValidators([Validators.required, Validators.min(+this.amount)]);
           break;
         case 'N':
-          this.confirmFormGroup.controls.amount.setValidators([Validators.required, Validators.min(1), Validators.max(+this.amount)]);
+          this.confirmFormGroup.controls.amount
+            .setValidators([Validators.required, Validators.min(1), Validators.max(+this.amount)]);
           break;
       }
     }

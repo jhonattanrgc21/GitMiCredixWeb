@@ -1,9 +1,8 @@
-<mat-card *ngIf="!done else doneNewServiceTemplate" [class.second-step-height]="stepperIndex === 1" class="new-service"
-          credixCard fxLayout="column" fxLayoutGap="4px">
+<mat-card *ngIf="!done else doneNewServiceTemplate" class="new-service" credixCard fxLayout="column" fxLayoutGap="4px">
 
   <h1 class="mb-16px">{{publicServiceName}}</h1>
 
-  <credix-stepper #newServiceStepper>
+  <credix-stepper #newServiceStepper fxFlex>
 
     <cdk-step [label]="'Consultar'" [stepControl]="contractFormGroup">
       <app-new-service-first-step [contractFormGroup]="contractFormGroup"
@@ -25,10 +24,9 @@
                                    [paymentType]="paymentType"
                                    [reference]="contractFormGroup.controls.contractControl.value"></app-new-service-second-step>
     </cdk-step>
-
   </credix-stepper>
 
-  <div class="new-service__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
     <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
                    [disabled]="stepperIndex === 0 ? contractFormGroup.invalid : confirmFormGroup.invalid">
@@ -51,7 +49,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <p fxFlex="150px"><strong>Datos del pago</strong></p>
 
-        <div fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="column" fxLayoutGap="8px" style="width: 220px">
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>Monto</span>
             <credix-numeric-block [prefix]="currencySymbol" [value]="confirmFormGroup.controls.amount?.value"

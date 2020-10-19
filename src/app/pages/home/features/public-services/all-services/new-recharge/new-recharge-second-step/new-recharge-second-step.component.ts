@@ -42,7 +42,7 @@ export class NewRechargeSecondStepComponent implements OnInit {
     if (value !== 'Otro') {
       this.anotherAmount = false;
       this.rechargeFormGroup.controls.amount.setValidators([Validators.required]);
-      this.rechargeFormGroup.controls.amount.setValue(value);
+      this.rechargeFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(value).toString());
     } else {
       this.rechargeFormGroup.controls.amount.reset();
       this.rechargeFormGroup.controls.amount.setValidators([Validators.required,

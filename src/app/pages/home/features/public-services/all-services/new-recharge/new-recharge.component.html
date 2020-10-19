@@ -1,22 +1,23 @@
-<mat-card *ngIf="!done else doneNewRechargeTemplate" [class.second-step-height]="stepperIndex === 1"
-          class="new-recharge"
-          credixCard
-          fxLayout="column"
+<mat-card *ngIf="!done else doneNewRechargeTemplate" class="new-recharge" credixCard fxLayout="column"
           fxLayoutGap="4px">
   <h1 class="mb-16px">{{publicServiceName}}</h1>
 
-  <credix-stepper #newRechargeStepper>
+  <credix-stepper #newRechargeStepper fxFlex>
+
     <cdk-step [label]="'Consultar'" [stepControl]="phoneNumber">
+
       <div class="new-recharge__first-step" fxLayout="column" fxLayoutGap="80px">
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex="150px"><strong>Datos de referencia</strong></span>
-          <credix-input-field [formControl]="phoneNumber" class="new-recharge__content__input mb-16px"
+          <credix-input-field [formControl]="phoneNumber" class="new-recharge__first-step__content__input mb-16px"
                               focusLabel="Número de celular" label="Digite el número de celular"
                               mask="0000-0000"></credix-input-field>
         </div>
+
         <credix-result-notification *ngIf="!hasReceipts" status="info"
                                     title="No tiene ninguna factura pendiente"></credix-result-notification>
       </div>
+
     </cdk-step>
 
     <cdk-step [label]="'Pagar'" [stepControl]="rechargeFormGroup">
@@ -29,7 +30,7 @@
     </cdk-step>
   </credix-stepper>
 
-  <div class="new-recharge__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
     <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
                    [disabled]="stepperIndex === 0 ? phoneNumber.invalid : rechargeFormGroup.invalid">
@@ -53,7 +54,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <p fxFlex="150px"><strong>Datos de la recarga</strong></p>
 
-        <div fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="column" fxLayoutGap="8px" style="width: 220px">
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>Monto</span>
             <div>

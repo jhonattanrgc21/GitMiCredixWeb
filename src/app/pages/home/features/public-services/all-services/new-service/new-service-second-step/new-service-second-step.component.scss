@@ -1,6 +1,5 @@
 .new-service-second-step {
   padding: 0 84px;
-  margin-top: 32px;
 
   &__content {
     width: 100%;
@@ -15,7 +14,7 @@
 
     &__input {
       height: 43px;
-      width: 335px;
+      width: 360px;
 
       &.favorite {
         margin-left: 20px;
@@ -28,25 +27,20 @@
   }
 
   .left-content {
-    width: 351px;
+    width: 380px;
   }
 }
 
 @media screen and (max-width: 1199px) {
-
   .new-service-second-step {
     padding: 0 78px;
 
-    &__content {
-      width: 100%;
-
-      &__input {
-        width: 238px;
-      }
+    &__content__input {
+      width: 245px;
     }
 
     .left-content {
-      width: 238px;
+      width: 266px;
     }
 
   }

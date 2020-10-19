@@ -102,7 +102,7 @@ export class PublicServicesService {
     });
   }
 
-  savePublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, codeCredix: number):
+  savePublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, keyType: number, codeCredix: number):
     Observable<{ type: 'success' | 'error', status?: number, message: string, title: string }> {
     return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
       accountId: this.storageService.getCurrentUser().actId,
@@ -111,7 +111,7 @@ export class PublicServicesService {
       paymentDay: 21,
       userId: this.storageService.getCurrentUser().userId,
       aliasName,
-      publicServiceAccessKeyId: 1,
+      publicServiceAccessKeyId: keyType,
       codeCredix
     }).pipe(
       map(response => {

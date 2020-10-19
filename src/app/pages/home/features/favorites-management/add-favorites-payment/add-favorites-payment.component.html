@@ -72,7 +72,9 @@
 
   <div class="add-favorites-payment__footer" fxLayout="row" fxLayoutAlign="flex-end">
     <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
+      <credix-button [routerLink]="['/home/favorites-management/favorites-payments']"
+                     type="secondary">Atrás
+      </credix-button>
       <credix-button (buttonClick)="addFavoritePayment()"
                      [disabled]="!newFavoritesPaymentForm.valid || !codeCredix.valid">Añadir
       </credix-button>

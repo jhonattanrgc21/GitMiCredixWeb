@@ -15,9 +15,9 @@ export function ConvertStringDateToDate(value: string): Date {
   }
 
   if (value.length === 6) {
-    return new Date(Number(value.substring(0, 4)), Number(value.substring(4)) - 1, 1);
+    return new Date(Number(value.substr(0, 4)), Number(value.substr(4, 2)) - 1, 1);
   } else {
-    return new Date(Number(value.substring(0, 4)), Number(value.substring(4, 2)) - 1, Number(value.substring(6)));
+    return new Date(Number(value.substr(0, 4)), Number(value.substr(4, 2)) - 1, Number(value.substr(7, 2)));
   }
 
 }
