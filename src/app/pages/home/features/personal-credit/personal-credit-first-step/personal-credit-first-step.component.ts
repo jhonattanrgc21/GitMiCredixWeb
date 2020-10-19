@@ -24,6 +24,18 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   @Input() amountControl: FormControl = new FormControl(MIN_AMOUNT);
   @Input() termControl: FormControl = new FormControl(null);
   @Input() cardLimit = 0;
+  @Input() stepOneTags: { plazoTag: string; amountTag: string; subtitleAmountTag: string; monthTag: string; };
+  @Input() quoteTags: string;
+  @Input() popUpTags: {
+    amountTag: string;
+    titleTag: string;
+    tagIva: string;
+    secureTag: string;
+    disclaimerTag: string;
+    interesTag: string;
+    commissionTag: string;
+    totalTag: string;
+  };
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
   personalCreditSummary: PersonalCreditSummary;
   personalCreditsSummaries: PersonalCreditSummary[];
@@ -110,7 +122,10 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   }
 
   openSummary() {
-    this.modalService.open({template: this.summaryTemplate, title: 'Resumen general'},
+    this.modalService.open({
+        template: this.summaryTemplate, title: this.popUpTags.titleTag
+        || 'Resumen general'
+      },
       {width: 380, height: 467, disableClose: true, panelClass: 'summary-panel'});
   }
 }

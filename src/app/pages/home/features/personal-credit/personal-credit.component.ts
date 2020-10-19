@@ -39,6 +39,8 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   };
   stepOneTags: { plazoTag: string; amountTag: string; subtitleAmountTag: string; monthTag: string; };
   stepTwoTags: {
+    option1Tag: string;
+    option2Tag: string;
     secondStepOption1Tag: string;
     secondStepOption2Tag1: string;
     secondStepOption2Tag2: string;
@@ -67,10 +69,9 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
     commissionTag: string;
     totalTag: string;
   };
-  secondStepOption1Tag: string;
-  secondStepOption2Tag: string;
   questionTag: string;
   warningMssgTag: string;
+  warningMssgDescription: string;
   done = false;
   title: string;
   message: string;
@@ -228,6 +229,8 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
     };
 
     this.stepTwoTags = {
+      option1Tag: tags.find(tag => tag.description === 'credito.stepper2.option1')?.value,
+      option2Tag: tags.find(tag => tag.description === 'credito.stepper2.option2')?.value,
       secondStepOption1Tag: tags.find(tag => tag.description === 'credito.stepper2.option1.tag')?.value,
       secondStepOption2Tag1: tags.find(tag => tag.description === 'credito.stepper2.option2.tag1')?.value,
       secondStepOption2Tag2: tags.find(tag => tag.description === 'credito.stepper2.option2.tag2')?.value,
@@ -257,5 +260,8 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
     };
     this.questionTag = tags.find(tag => tag.description === 'credito.question')?.value;
     this.warningMssgTag = tags.find(tag => tag.description === 'credito.message.warning.title')?.value;
+    this.warningMssgDescription = tags.find(tag => tag.description === 'credito.message.warning.description')?.value;
+    this.quoteTags = tags.find(tag => tag.description === 'credito.tag.cuotas')?.value;
+    this.subtitleTag = tags.find(tag => tag.description === 'credito.tag.cuotas')?.value;
   }
 }
