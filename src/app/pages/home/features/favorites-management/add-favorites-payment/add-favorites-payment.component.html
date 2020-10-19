@@ -31,15 +31,13 @@
         </credix-select>
 
         <credix-select class="add-favorites-payment__form__input" formControlName="keyType" label="Tipo de referencia">
-          <mat-option *ngFor="let key of keys"
-                      [value]="key.keyType">
+          <mat-option *ngFor="let key of keys" [value]="key.keyType">
             {{key.description}}
           </mat-option>
         </credix-select>
 
-        <credix-input-field class="add-favorites-payment__form__input"
-                            label="Número de Contrato"
-                            [mask]="mask"
+        <credix-input-field [label]="'Número de ' + label" [mask]="mask"
+                            class="add-favorites-payment__form__input"
                             formControlName="contractControl"></credix-input-field>
 
         <credix-input-field class="add-favorites-payment__form__input mb-8px" formControlName="favoriteName"
@@ -49,7 +47,7 @@
 
     <mat-divider credixDivider></mat-divider>
 
-    <div fxLayout="row" fxLayoutAlign="space-between">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
       <div fxFlex="210px" fxLayout="column">
         <span><strong>Código MiCredix</strong></span>
         <p style="font-size: 14px;">Ingrese el código generado en la aplicación
@@ -67,18 +65,15 @@
               error>Código MiCredix inválido.</span>
       </credix-code-input>
     </div>
-
   </div>
 
-  <div class="add-favorites-payment__footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <div fxLayoutGap="16px">
-      <credix-button [routerLink]="['/home/favorites-management/favorites-payments']"
-                     type="secondary">Atrás
-      </credix-button>
-      <credix-button (buttonClick)="addFavoritePayment()"
-                     [disabled]="!newFavoritesPaymentForm.valid || !codeCredix.valid">Añadir
-      </credix-button>
-    </div>
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <credix-button [routerLink]="['/home/favorites-management/favorites-payments']" class="mr-16px"
+                   type="secondary">Atrás
+    </credix-button>
+    <credix-button (buttonClick)="addFavoritePayment()"
+                   [disabled]="!newFavoritesPaymentForm.valid || !codeCredix.valid">Añadir
+    </credix-button>
   </div>
 </mat-card>
 

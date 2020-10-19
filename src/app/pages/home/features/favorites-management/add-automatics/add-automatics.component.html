@@ -31,18 +31,13 @@
           </mat-option>
         </credix-select>
 
-        <credix-select class="add-automatics__form__input"
-                       formControlName="keyType"
-                       label="Tipo de referencia">
-          <mat-option *ngFor="let key of keys"
-                      [value]="key.keyType">
+        <credix-select class="add-automatics__form__input" formControlName="keyType" label="Tipo de referencia">
+          <mat-option *ngFor="let key of keys" [value]="key.keyType">
             {{key.description}}
           </mat-option>
         </credix-select>
 
-        <credix-input-field [label]="keys?.length > 1 ? label : keys[0]?.description"
-                            [mask]="mask"
-                            class="add-automatics__form__input"
+        <credix-input-field [label]="'Número de ' + label" [mask]="mask" class="add-automatics__form__input"
                             formControlName="contractControl"></credix-input-field>
 
         <credix-input-field class="add-automatics__form__input" formControlName="nameOfAutomatics"
