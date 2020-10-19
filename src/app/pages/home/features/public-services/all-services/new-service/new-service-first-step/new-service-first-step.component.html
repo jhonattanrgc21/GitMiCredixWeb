@@ -11,8 +11,7 @@
         </mat-option>
       </credix-select>
 
-      <credix-input-field [label]="keys?.length > 1 ? 'Número de contrato' : keys[0]?.description"
-                          formControlName="contractControl"
+      <credix-input-field [label]="'Número de ' + label" formControlName="contractControl"
                           class="new-service-first-step__content__input"></credix-input-field>
     </form>
   </div>

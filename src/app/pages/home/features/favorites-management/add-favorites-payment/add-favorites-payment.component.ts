@@ -108,20 +108,16 @@ export class AddFavoritesPaymentComponent implements OnInit {
     }
   }
 
-  back() {
-    this.router.navigate(['/home/favorites-management/favorites-payments']);
-  }
-
   addFavoritePayment() {
     this.modalService.confirmationPopup('¿Desea añadir este pago favorito?', '', 380, 197)
       .subscribe(confirm => {
         if (confirm) {
-          this.favoritesPaymentsService
-            .setPublicServiceFavorite(this.newFavoritesPaymentControls.publicService.value,
-              this.newFavoritesPaymentControls.contractControl.value,
-              this.newFavoritesPaymentControls.favoriteName.value,
-              this.newFavoritesPaymentControls.keyType.value,
-              this.codeCredix.value.toString())
+          this.favoritesPaymentsService.setPublicServiceFavorite(
+            this.newFavoritesPaymentControls.publicService.value,
+            this.newFavoritesPaymentControls.contractControl.value,
+            this.newFavoritesPaymentControls.favoriteName.value,
+            this.newFavoritesPaymentControls.keyType.value,
+            this.codeCredix.value.toString())
             .pipe(finalize(() => {
               if (!this.codeCredix.hasError('invalid')) {
                 this.done = true;
@@ -138,7 +134,6 @@ export class AddFavoritesPaymentComponent implements OnInit {
   }
 
   addToAutomatics() {
-    this.router.navigate(['/home/favorites-management/new-automatics']);
     this.favoritesManagementService.redirecting = true;
     this.favoritesManagementService.valuesToFavorites = {
       publicServiceCategoryId: this.newFavoritesPaymentControls.publicServicesCategory.value,
@@ -148,6 +143,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
       favoriteName: this.newFavoritesPaymentControls.favoriteName.value,
       contractControl: this.newFavoritesPaymentControls.contractControl.value
     };
+    this.router.navigate(['/home/favorites-management/new-automatics']);
   }
 
   getCredixCodeError() {

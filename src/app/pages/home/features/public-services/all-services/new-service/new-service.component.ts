@@ -61,11 +61,15 @@ export class NewServiceComponent implements OnInit {
   }
 
   getPublicService() {
-    this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
-    this.keys = this.publicServicesService.publicService.keys;
-    this.quantityOfKeys = this.publicServicesService.publicService.quantityOfKeys;
-    this.paymentType = this.publicServicesService.publicService.paymentType;
-    this.publicServiceName = this.publicServicesService.publicService.publicServiceName;
+    if (this.publicServicesService.publicService) {
+      this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
+      this.keys = this.publicServicesService.publicService.keys;
+      this.quantityOfKeys = this.publicServicesService.publicService.quantityOfKeys;
+      this.paymentType = this.publicServicesService.publicService.paymentType;
+      this.publicServiceName = this.publicServicesService.publicService.publicServiceName;
+    } else {
+      this.router.navigate(['/home/public-services']);
+    }
   }
 
   openModal() {
@@ -89,10 +93,12 @@ export class NewServiceComponent implements OnInit {
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;
-        this.message = response.responseDescription || response.message;
+        this.message = response.descriptionOne;
+
         if (response.type === 'success' && this.saveAsFavorite) {
           this.saveFavorite();
         }
+
         this.receiptData = {
           institution: [{companyCode: response.companyCode, companyName: response.companyName}],
           agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
@@ -122,6 +128,7 @@ export class NewServiceComponent implements OnInit {
       this.publicServiceId,
       this.contractFormGroup.controls.contractControl.value,
       this.confirmFormGroup.controls.favorite.value,
+      this.contractFormGroup.controls.keysControl.value,
       this.confirmFormGroup.controls.credixCode.value).subscribe();
   }
 
@@ -139,11 +146,11 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesService.checkPendingReceipts(
       this.publicServiceId,
       this.contractFormGroup.controls.contractControl.value,
-      this.contractFormGroup.controls.keysControl.value
-    ).subscribe(pendingReceipts => {
+      this.contractFormGroup.controls.keysControl.value).subscribe(pendingReceipts => {
       if (pendingReceipts && pendingReceipts.receipts) {
         this.pendingReceipts = pendingReceipts;
-        this.month = getMontByMonthNumber(ConvertStringDateToDate(pendingReceipts.receipts.receiptPeriod).getMonth());
+        const period = ConvertStringDateToDate(pendingReceipts.receipts.receiptPeriod);
+        this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
         this.expirationDate = ConvertStringDateToDate(pendingReceipts.receipts.expirationDate);
         this.currencySymbol = pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
         this.continue();

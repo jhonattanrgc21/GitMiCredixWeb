@@ -98,12 +98,11 @@ export class NewRechargeComponent implements OnInit {
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;
-        this.message = response.responseDescription || response.message;
+        this.message = response.descriptionOne;
 
         if (response.type === 'success' && this.saveAsFavorite) {
           this.saveFavorite();
         }
-
 
         this.dataToModal = {
           institution: [{companyCode: response.companyCode, companyName: response.companyName}],
@@ -134,6 +133,7 @@ export class NewRechargeComponent implements OnInit {
       this.publicServiceId,
       this.rechargeFormGroup.controls.phoneNumber.value,
       this.rechargeFormGroup.controls.favorite.value,
+      this.keys[0].keyType,
       this.rechargeFormGroup.controls.credixCode.value).subscribe();
   }
 

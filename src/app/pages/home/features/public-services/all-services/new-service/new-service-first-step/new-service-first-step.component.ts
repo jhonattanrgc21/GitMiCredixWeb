@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Keys} from '../../../../../../../shared/models/keys';
 
@@ -7,7 +7,7 @@ import {Keys} from '../../../../../../../shared/models/keys';
   templateUrl: './new-service-first-step.component.html',
   styleUrls: ['./new-service-first-step.component.scss']
 })
-export class NewServiceFirstStepComponent implements OnInit {
+export class NewServiceFirstStepComponent implements OnInit, OnChanges {
   @Input() contractFormGroup = new FormGroup({
     contractControl: new FormControl(null, [Validators.required]),
     keysControl: new FormControl(null, [Validators.required])
@@ -15,16 +15,27 @@ export class NewServiceFirstStepComponent implements OnInit {
   @Input() hasReceipts = true;
   @Input() keys: Keys[];
   @Input() quantityOfKeys: number;
+  label = 'contrato';
 
   constructor() {
   }
 
   ngOnInit(): void {
-    if (this.keys.length === 1) {
-      this.contractFormGroup.controls.keysControl.setValue(this.keys[0].keyType);
+    this.getLabel();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.keys) {
+      if (this.keys.length === 1) {
+        this.contractFormGroup.controls.keysControl.setValue(this.keys[0].keyType);
+        this.label = this.keys[0].description;
+      }
     }
-    if (this.contractFormGroup.controls.contractControl.valid) {
-      this.contractFormGroup.enable();
-    }
+  }
+
+
+  getLabel() {
+    this.contractFormGroup.controls.keysControl.valueChanges.subscribe(value =>
+      this.label = this.keys.find(key => key.keyType === value).description);
   }
 }

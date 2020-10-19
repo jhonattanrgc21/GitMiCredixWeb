@@ -1,23 +1,10 @@
 .new-service {
-  height: 662px;
-  position: relative;
-
-  &__footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid #E9E9E9;
-    padding: 16px;
-  }
-}
-
-.second-step-height {
-  height: 808px;
+  max-height: 886px;
+  height: 100%;
 }
 
 @media screen and (max-width: 1199px) {
   .new-service {
-    height: 886px;
+    max-height: 886px;
   }
 }

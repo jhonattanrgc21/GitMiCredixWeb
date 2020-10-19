@@ -191,10 +191,10 @@ export class AddAutomaticsComponent implements OnInit {
         this.mask = '0000-0000';
         break;
       case 99:
-        this.mask = '0-0000-0000';
+        this.mask = '000000000000';
         break;
       default:
-        this.mask = '';
+        this.mask = '000000000000';
         break;
     }
   }
