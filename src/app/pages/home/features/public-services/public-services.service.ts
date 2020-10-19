@@ -8,6 +8,7 @@ import {PublicServiceFavoriteByUser} from '../../../../shared/models/public-serv
 import {Cacheable} from 'ngx-cacheable';
 import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 import {PublicService} from '../../../../shared/models/public-service';
+import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -82,7 +83,14 @@ export class PublicServicesService {
     return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType})
       .pipe(
         map((response) => {
-          return response.type && response.type === 'error' ? null : response;
+          if (response.type && response.type === 'error') {
+            return null;
+          } else {
+            if (response.receipts) {
+              response.receipts.totalAmount = ConvertStringAmountToNumber(response.receipts?.totalAmount).toString();
+            }
+            return response;
+          }
         }));
   }
 
