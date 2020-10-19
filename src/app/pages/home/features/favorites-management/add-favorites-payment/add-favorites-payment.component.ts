@@ -18,14 +18,6 @@ import {Keys} from '../../../../../shared/models/keys';
   styleUrls: ['./add-favorites-payment.component.scss']
 })
 export class AddFavoritesPaymentComponent implements OnInit {
-  publicServicesCategory: PublicServiceCategory[];
-  publicCompany: PublicServiceEnterprise[];
-  publicServices: PublicService[];
-  done = false;
-  result: { status: 'success' | 'error'; message: string; title: string; };
-  keys: Keys[] = [];
-  mask: string;
-  quantityOfKeys: number;
   newFavoritesPaymentForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
     publicServiceCompany: new FormControl(null, [Validators.required]),
@@ -35,6 +27,15 @@ export class AddFavoritesPaymentComponent implements OnInit {
     favoriteName: new FormControl(null, [Validators.required])
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
+  publicServicesCategory: PublicServiceCategory[];
+  publicCompany: PublicServiceEnterprise[];
+  publicServices: PublicService[];
+  done = false;
+  result: { status: 'success' | 'error'; message: string; title: string; };
+  keys: Keys[] = [];
+  mask: string;
+  quantityOfKeys: number;
+  label = 'contrato';
 
   constructor(private favoritesPaymentsService: FavoritesPaymentsService,
               private publicServiceApi: PublicServicesApiService,
@@ -50,6 +51,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategory();
+    this.getLabel();
 
     this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
@@ -67,6 +69,11 @@ export class AddFavoritesPaymentComponent implements OnInit {
       this.getMaskByKeyType(value);
     });
     this.getCredixCodeError();
+  }
+
+  getLabel() {
+    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value =>
+      this.label = this.keys.find(key => key.keyType === value).description);
   }
 
   getCategory() {

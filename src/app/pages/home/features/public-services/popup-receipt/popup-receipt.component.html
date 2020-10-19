@@ -117,8 +117,8 @@
 
       <div *ngFor="let conceptInformative of dataShowModal.informativeConcepts" fxLayout="row"
            fxLayoutAlign="space-between">
-        <span class="receipt__tag truncate">{{conceptInformative.conceptDescription}}</span>
-        <span class="tr truncate"><strong>{{conceptInformative.conceptAmount}}</strong></span>
+        <span class="truncate" fxFlex>{{conceptInformative.conceptDescription}}</span>
+        <span class="tr truncate"><strong>{{conceptInformative.conceptValue}}</strong></span>
       </div>
     </div>
 

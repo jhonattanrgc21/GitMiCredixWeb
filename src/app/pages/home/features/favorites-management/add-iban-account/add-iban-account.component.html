@@ -2,7 +2,7 @@
 
   <h1 class="mb-32px">Añadir cuenta IBAN</h1>
 
-  <div class="add-iban-account__container mt-8px" fxLayout="column" fxLayoutGap="16px">
+  <div class="add-iban-account__container mt-8px" fxFlex fxLayout="column" fxLayoutGap="16px">
     <div fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex="210px"><strong>Cuenta IBAN</strong></span>
 
@@ -40,13 +40,11 @@
     </div>
   </div>
 
-  <div class="add-iban-account__footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
-      <credix-button (buttonClick)="addIbanFavoriteAccount()"
-                     [disabled]="!newFavoriteIbanForm.valid || !codeCredix.valid">Añadir
-      </credix-button>
-    </div>
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <credix-button (buttonClick)="back()" class="mr-16px" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="addIbanFavoriteAccount()"
+                   [disabled]="!newFavoriteIbanForm.valid || !codeCredix.valid">Añadir
+    </credix-button>
   </div>
 </mat-card>
 
