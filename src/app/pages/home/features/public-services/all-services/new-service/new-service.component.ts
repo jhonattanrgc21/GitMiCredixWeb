@@ -89,7 +89,8 @@ export class NewServiceComponent implements OnInit {
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;
-        this.message = response.responseDescription || response.message;
+        this.message = response.descriptionOne;
+
         if (response.type === 'success' && this.saveAsFavorite) {
           this.saveFavorite();
         }

@@ -3,7 +3,7 @@
   <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <span fxFlex="150px"><strong>Datos de referencia</strong></span>
 
-    <div class="left-content mb-8px" fxLayout="column">
+    <div class="left-content mb-8px" fxLayout="column" fxLayoutGap="16px">
       <span><strong>{{reference}}</strong></span>
       <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
                               label="Guardar como favorito"></credix-checkbox-button>
@@ -49,7 +49,7 @@
        fxLayout="row"
        fxLayoutAlign="space-between">
     <span><strong>Monto a pagar</strong></span>
-    <div class="left-content" fxLayout="column">
+    <div class="left-content" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
                            [checked]="radioCheck"
                            [value]="'totalAmountPending'"
@@ -67,8 +67,8 @@
                           mask="separator">
         <div error>
           {{
-          confirmFormGroup.controls.amount.hasError('min') ? 'El monto tiene que ser mayor o igual a ' + amount :
-            confirmFormGroup.controls.amount.hasError('max') ? 'El monto tiene que ser menor o igual a ' + amount :
+          confirmFormGroup.controls.amount.hasError('min') ? 'El monto debe ser mayor a ' + amount :
+            confirmFormGroup.controls.amount.hasError('max') ? 'El monto debe ser menor a ' + amount :
               confirmFormGroup.controls.amount.hasError('required') ? 'ingrese el monto' : null
           }}
         </div>

@@ -8,13 +8,13 @@
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="receipt__tag truncate">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
         <span *ngFor="let institute of dataShowModal.institution" class="truncate tr"
-              fxFlex><strong>{{institute.companyName}}</strong></span>
+              fxFlex><strong>{{institute.companyCode}} {{institute.companyName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="receipt__tag truncate">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
         <span *ngFor="let agreement of dataShowModal.agreement" class="truncate tr"
-              fxFlex><strong>{{agreement.contractName}}</strong></span>
+              fxFlex><strong>{{agreement.contractCode}} {{agreement.contractName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
@@ -121,7 +121,7 @@
       </div>
     </div>
 
-    <p class="receipt__footer">* {{ popupTagsReceipt.disclaimer ||
+    <p class="receipt__footer">{{ popupTagsReceipt.disclaimer ||
     'Servicio brindado mediante convenio con el Banco Nacional de Costa Rica.'}}</p>
 
   </div>

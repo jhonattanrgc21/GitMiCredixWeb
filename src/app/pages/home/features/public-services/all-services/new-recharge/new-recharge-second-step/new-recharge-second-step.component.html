@@ -3,7 +3,7 @@
     <div class="new-recharge-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex="150px"><strong>Número a recargar</strong></span>
 
-      <div class="left-content mb-8px" fxLayout="column">
+      <div class="left-content mb-8px" fxLayout="column" fxLayoutGap="16px">
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span>Número de celular</span>
           <span><strong>{{phoneNumber | mask: '0000-0000'}}</strong></span>
@@ -21,7 +21,7 @@
     <div class="new-recharge-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex="155px"><strong>Monto de la recarga</strong></span>
 
-      <div class="left-content" fxLayout="column">
+      <div class="left-content" fxLayout="column" fxLayoutGap="16px">
         <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
                              *ngFor="let amount of amounts, let last = last"
                              [label]="last ? 'Otro': null"
@@ -33,7 +33,7 @@
         <credix-input-field *ngIf="anotherAmount" class="new-recharge-second-step__content__input favorite mb-8px"
                             formControlName="amount" label="Otro monto"
                             mask="separator">
-          <div error>El monto mínimo permitido es ₡{{amounts[0].amount}}</div>
+          <div error>El monto debe ser mayor a ₡{{amounts[0].amount}}</div>
         </credix-input-field>
       </div>
     </div>
