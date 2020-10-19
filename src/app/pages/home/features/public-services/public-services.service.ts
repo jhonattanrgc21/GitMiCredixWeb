@@ -86,7 +86,7 @@ export class PublicServicesService {
           if (response.type && response.type === 'error') {
             return null;
           } else {
-            if (response.receipts) {
+            if (response.receipts && response.receipts.totalAmount) {
               response.receipts.totalAmount = ConvertStringAmountToNumber(response.receipts?.totalAmount).toString();
             }
             return response;

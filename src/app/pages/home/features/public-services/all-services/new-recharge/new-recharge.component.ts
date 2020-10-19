@@ -119,7 +119,7 @@ export class NewRechargeComponent implements OnInit {
           expirationDate: this.pendingReceipts.receipts.expirationDate,
           period: this.pendingReceipts.receipts.receiptPeriod,
           reference: response.reference,
-          typeOfValor: 'EFECTIVO',
+          valorType: 'EFECTIVO',
           amount: response.amountPaid,
           paymentConcepts: response.paymentConcepts,
           informativeConcepts: response.informativeConcepts,

@@ -6,80 +6,80 @@
       <span><strong>{{ popupTagsReceipt.subtitle1 || 'Datos generales'}}</strong></span>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
-        <span *ngFor="let institute of dataShowModal.institution" class="truncate tr"
-              fxFlex><strong>{{institute.companyCode}} {{institute.companyName}}</strong></span>
+        <span style="width: 50px">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
+        <span *ngFor="let institute of dataShowModal.institution" class="tr" fxFlex>
+          <strong>{{institute.companyCode}} {{institute.companyName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
-        <span *ngFor="let agreement of dataShowModal.agreement" class="truncate tr"
-              fxFlex><strong>{{agreement.contractCode}} {{agreement.contractName}}</strong></span>
+        <span style="width: 50px">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
+        <span *ngFor="let agreement of dataShowModal.agreement" class="tr" fxFlex>
+          <strong>{{agreement.contractCode}} {{agreement.contractName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag3 || 'Agencia' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
+        <span style="width: 50px">{{ popupTagsReceipt.tag3 || 'Agencia' }}</span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag4 || 'Cajero' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.cashier}}</strong></span>
+        <span style="width: 50px">{{ popupTagsReceipt.tag4 || 'Cajero' }}</span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.cashier}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="receipt__tag truncate">{{ popupTagsReceipt.tag5 || 'Moneda' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.currencyCode}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag6 || 'Canal' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.channelType}}</strong></span>
+        <span style="width: 50px">{{ popupTagsReceipt.tag6 || 'Canal' }}</span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.channelType}}</strong></span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag7 || 'Cliente' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.clientName}}</strong></span>
+        <span style="width: 50px">{{ popupTagsReceipt.tag7 || 'Cliente' }}</span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.clientName}}</strong></span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag8 || 'Comprobante' }}</span>
+        <span class="receipt__tag">{{ popupTagsReceipt.tag8 || 'Comprobante' }}</span>
         <span class="bill-number truncate tr" fxFlex><strong>{{dataShowModal.billNumber}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag9 || 'No. factura' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.invoiceNumber}}</strong></span>
+        <span class="receipt__tag">{{ popupTagsReceipt.tag9 || 'No. factura' }}</span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.invoiceNumber}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag10 || 'Estado pago' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.paymentStatus}}</strong></span>
+        <span class="receipt__tag">{{ popupTagsReceipt.tag10 || 'Estado pago' }}</span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.paymentStatus}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="truncate" style="width: 150px">{{ popupTagsReceipt.tag11 || 'Fecha movimiento' }}</span>
-        <span class="truncate tr"
+        <span class="tr"
               fxFlex><strong>{{dataShowModal.movementDate | dateFormatter: 'alphanumeric' }}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag12 || 'Vencimiento' }}</span>
-        <span class="truncate tr"
-              fxFlex><strong>{{dataShowModal.expirationDate | dateFormatter: 'alphanumeric'}}</strong></span>
+        <span class="receipt__tag">{{ popupTagsReceipt.tag12 || 'Vencimiento' }}</span>
+        <span class="tr" fxFlex>
+          <strong>{{dataShowModal.expirationDate | dateFormatter: 'alphanumeric'}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag13 || 'No. servicio' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.reference}}</strong></span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag13 || 'Período' }}</span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.period | dateFormatter: 'yearMonth'}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag14 || 'Agencia' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.agencyCode}}</strong></span>
+        <span class="receipt__tag">{{ popupTagsReceipt.tag14 || 'No. servicio' }}</span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.reference}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="receipt__tag truncate">{{ popupTagsReceipt.tag15 || 'Tipo de valor' }}</span>
-        <span class="truncate tr" fxFlex><strong>{{dataShowModal.typeOfValor}}</strong></span>
+        <span class="tr" fxFlex><strong>{{dataShowModal.valorType}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
