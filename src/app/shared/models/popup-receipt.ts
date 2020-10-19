@@ -19,7 +19,7 @@ export interface PopupReceipt {
   expirationDate: string;
   period: string;
   reference: number;
-  typeOfValor: string;
+  valorType: string;
   amount: string;
   paymentConcepts: {
     conceptAmount: string;
