@@ -90,11 +90,13 @@ export class NewRechargeComponent implements OnInit {
     this.publicServicesService.payPublicService(
       this.publicServiceId,
       +receipt.serviceValue,
+      this.pendingReceipts.currencyCode,
       this.rechargeFormGroup.controls.amount.value,
       +receipt.receiptPeriod,
       this.keys[0].keyType,
       receipt.expirationDate,
-      receipt.billNumber)
+      receipt.billNumber,
+      this.rechargeFormGroup.controls.credixCode.value)
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;

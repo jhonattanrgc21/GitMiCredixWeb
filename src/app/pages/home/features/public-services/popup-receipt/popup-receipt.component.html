@@ -6,13 +6,13 @@
       <span><strong>{{ popupTagsReceipt.subtitle1 || 'Datos generales'}}</strong></span>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span style="width: 50px">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
+        <span style="width: 80px">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
         <span *ngFor="let institute of dataShowModal.institution" class="tr" fxFlex>
           <strong>{{institute.companyCode}} {{institute.companyName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span style="width: 50px">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
+        <span style="width: 80px">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
         <span *ngFor="let agreement of dataShowModal.agreement" class="tr" fxFlex>
           <strong>{{agreement.contractCode}} {{agreement.contractName}}</strong></span>
       </div>

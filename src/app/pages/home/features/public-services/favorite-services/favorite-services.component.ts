@@ -14,7 +14,7 @@ import {finalize} from 'rxjs/operators';
 export class FavoriteServicesComponent implements OnInit {
   publicFavoriteService: PublicServiceFavoriteByUser[] = [];
   month: string;
-  dataDetail: PendingReceipts;
+  pendingReceipt: PendingReceipts;
   optionSelected = 0;
   company: string;
   hasReceipts = true;
@@ -51,18 +51,18 @@ export class FavoriteServicesComponent implements OnInit {
     this.keyType = keyType;
     this.publicService.checkPendingReceipts(publicServiceId, accessKey, keyType)
       .subscribe((response) => {
-        this.dataDetail = response;
-        if (this.dataDetail === null || this.dataDetail.receipts === null) {
+        this.pendingReceipt = response;
+        if (this.pendingReceipt === null || this.pendingReceipt.receipts === null) {
           this.hasReceipts = false;
           this.company = null;
           this.expirationDate = null;
-          this.dataDetail = null;
+          this.pendingReceipt = null;
           this.month = null;
         } else {
-          const months: Date = new Date(this.dataDetail.date);
+          const months: Date = new Date(this.pendingReceipt.date);
           this.month = getMontByMonthNumber(months.getMonth());
-          this.expirationDate = new Date(this.dataDetail?.receipts.expirationDate);
-          this.amountOfPay = this.dataDetail.receipts.totalAmount;
+          this.expirationDate = new Date(this.pendingReceipt?.receipts.expirationDate);
+          this.amountOfPay = this.pendingReceipt.receipts.totalAmount;
           this.hasReceipts = true;
         }
       });
@@ -76,20 +76,20 @@ export class FavoriteServicesComponent implements OnInit {
   }
 
   pay() {
-    this.modalService.confirmationPopup('¿Desea realizar esta pago?', '', 380, 203)
-      .subscribe((confirm) => {
-        if (confirm) {
-          if (this.dataDetail?.receipts !== null) {
-            const amount = ConvertStringAmountToNumber(this.dataDetail.receipts.totalAmount).toString();
-            this.publicService.payPublicService(this.optionSelected,
-              +this.dataDetail.receipts.serviceValue,
-              amount,
-              +this.dataDetail.receipts.receiptPeriod,
-              this.keyType,
-              this.dataDetail.receipts.expirationDate,
-              this.dataDetail.receipts.billNumber)
-              .pipe(finalize(() => this.paymentSend = true))
-              .subscribe((response) => {
+    this.modalService.confirmationPopup('¿Desea realizar esta pago?').subscribe((confirm) => {
+      if (confirm) {
+        if (this.pendingReceipt?.receipts !== null) {
+          const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts.totalAmount).toString();
+          this.publicService.payPublicService(this.optionSelected,
+            +this.pendingReceipt.receipts.serviceValue,
+            this.pendingReceipt.currencyCode,
+            amount,
+            +this.pendingReceipt.receipts.receiptPeriod,
+            this.keyType,
+            this.pendingReceipt.receipts.expirationDate,
+            this.pendingReceipt.receipts.billNumber)
+            .pipe(finalize(() => this.paymentSend = true))
+            .subscribe((response) => {
                 this.message = response.message;
                 this.status = response.type;
                 this.title = response.titleOne;
