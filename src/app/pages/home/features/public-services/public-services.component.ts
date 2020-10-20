@@ -3,6 +3,8 @@ import {Router} from '@angular/router';
 import {PublicServicesApiService} from 'src/app/core/services/public-services-api.service';
 import {PublicService} from '../../../../shared/models/public-service';
 import {PublicServicesService} from './public-services.service';
+import {TagsService} from '../../../../core/services/tags.service';
+import {Tag} from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-public-services',
@@ -21,11 +23,15 @@ export class PublicServicesComponent implements OnInit {
 
   constructor(private publicServicesApiService: PublicServicesApiService,
               private publicServicesService: PublicServicesService,
-              private router: Router) {
+              private router: Router,
+              private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
     this.getAllPublicService();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
+    );
   }
 
   getAllPublicService() {
@@ -61,6 +67,14 @@ export class PublicServicesComponent implements OnInit {
         break;
     }
 
+  }
+
+  getTags(tags: Tag[]) {
+    this.tabs = [
+      {id: 1, name: tags.find(tag => tag.description === 'servicios.tab1')?.value || 'Todos'},
+      {id: 2, name: tags.find(tag => tag.description === 'servicios.tab2')?.value || 'Favoritos'},
+      {id: 3, name: tags.find(tag => tag.description === 'servicios.tab3')?.value || 'Automáticos'}
+    ];
   }
 }
 

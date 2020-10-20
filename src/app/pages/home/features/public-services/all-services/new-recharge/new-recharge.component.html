@@ -6,7 +6,7 @@
   <h1 class="mb-16px">{{publicServiceName}}</h1>
 
   <credix-stepper #newRechargeStepper>
-    <cdk-step [label]="'Consultar'" [stepControl]="phoneNumber">
+    <cdk-step [label]="stepOneTitleTag || 'Consultar'" [stepControl]="phoneNumber">
       <div class="new-recharge__first-step" fxLayout="column" fxLayoutGap="80px">
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex="150px"><strong>Datos de referencia</strong></span>
