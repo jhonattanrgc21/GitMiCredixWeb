@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {PopupReceipt} from '../../../../../shared/models/popup-receipt';
-import {TagsService} from '../../../../../core/services/tags.service';
-import {Tag} from '../../../../../shared/models/tag';
+import {Voucher} from '../../../../../../shared/models/voucher';
+import {TagsService} from '../../../../../../core/services/tags.service';
+import {Tag} from '../../../../../../shared/models/tag';
 
 @Component({
   selector: 'app-popup-receipt',
@@ -10,7 +10,7 @@ import {Tag} from '../../../../../shared/models/tag';
   styleUrls: ['./popup-receipt.component.scss']
 })
 export class PopupReceiptComponent implements OnInit {
-  dataShowModal: PopupReceipt;
+  voucher: Voucher;
   currencySymbol: string;
   popupTagsReceipt: {
     subtitle1: string;
@@ -40,12 +40,12 @@ export class PopupReceiptComponent implements OnInit {
   };
 
   constructor(public dialogRef: MatDialogRef<PopupReceiptComponent>,
-              @Inject(MAT_DIALOG_DATA) public data,
+              @Inject(MAT_DIALOG_DATA) public dialogData,
               private tagsService: TagsService) {
   }
 
   ngOnInit(): void {
-    this.dataShowModal = this.data.data;
+    this.voucher = this.dialogData.data.voucher;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
     );

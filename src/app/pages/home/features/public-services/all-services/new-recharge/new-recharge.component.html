@@ -1,4 +1,4 @@
-<mat-card *ngIf="!done else doneNewRechargeTemplate" class="new-recharge" credixCard fxLayout="column"
+<mat-card class="new-recharge" credixCard fxLayout="column"
           fxLayoutGap="4px">
   <h1 class="mb-16px">{{publicServiceName}}</h1>
 
@@ -38,50 +38,3 @@
     </credix-button>
   </div>
 </mat-card>
-
-
-<ng-template #doneNewRechargeTemplate>
-  <app-credix-result-view [resultMessage]="message"
-                          [resultTile]="status === 'success' ? '¡Éxito!' : 'Opps'"
-                          [status]="status"
-                          [title]="publicServiceName"
-                          buttonText="Realizar otro pago"
-                          routeTo="/home/public-services">
-
-    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
-      <mat-divider class="mb-24px" credixDivider></mat-divider>
-
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <p fxFlex="150px"><strong>Datos de la recarga</strong></p>
-
-        <div fxLayout="column" fxLayoutGap="8px" style="width: 220px">
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>Monto</span>
-            <div>
-              <credix-numeric-block [prefix]="'₡'" [value]="rechargeFormGroup.controls.amount?.value"
-                                    fontWeight="bold"></credix-numeric-block>
-            </div>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Celular</span>
-            <span class="tr"><strong>{{phoneNumber.value}}</strong></span>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Fecha</span>
-            <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex></span>
-            <credix-link-button (click)="openBillingModal()">Ver comprobante</credix-link-button>
-          </div>
-        </div>
-
-      </div>
-
-      <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
-    </div>
-  </app-credix-result-view>
-</ng-template>
