@@ -67,8 +67,8 @@
                           mask="separator">
         <div error>
           {{
-          confirmFormGroup.controls.amount.hasError('min') ? 'El monto debe ser mayor a ' + amount + (amount.split(',').length === 1 ? ',00' : '')
-            : confirmFormGroup.controls.amount.hasError('max') ? 'El monto debe ser menor a ' + amount + (amount.split(',').length === 1 ? ',00' : '')
+          confirmFormGroup.controls.amount.hasError('min') ? 'El monto debe ser mayor a ' + currencySymbol + amount + (amount.split(',').length === 1 ? ',00' : '')
+            : confirmFormGroup.controls.amount.hasError('max') ? 'El monto debe ser menor a ' + currencySymbol + amount + (amount.split(',').length === 1 ? ',00' : '')
             : confirmFormGroup.controls.amount.hasError('required') ? 'ingrese el monto' : null
           }}
         </div>

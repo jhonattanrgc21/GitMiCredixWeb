@@ -119,7 +119,7 @@ export class NewServiceComponent implements OnInit {
           period: this.pendingReceipts.receipts.receiptPeriod,
           reference: response.reference,
           valorType: 'EFECTIVO',
-          amount: response.amountPaid,
+          amount: this.confirmFormGroup.controls.amount?.value,
           paymentConcepts: response.paymentConcepts,
           informativeConcepts: response.informativeConcepts,
           currencySymbol: this.currencySymbol
