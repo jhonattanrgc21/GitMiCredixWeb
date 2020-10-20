@@ -33,6 +33,7 @@
               [label]="stepsTagsTitles.firstStepTagTitle || 'Confirmación'">
       <app-personal-credit-third-step [account]="disbursementForm.controls.account.value"
                                       [isActive]="stepperIndex === 2"
+                                      [stepThreeTags]="stepThreeTags"
                                       [term]="requestForm.controls.term.value"></app-personal-credit-third-step>
     </cdk-step>
 

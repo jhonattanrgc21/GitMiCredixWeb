@@ -3,16 +3,18 @@
   <div class="personal-credit-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
 
     <span fxFlex="250px">
-      <strong>{{account === 0 ? 'Desembolso por cheque' : 'Desembolso por transferencia a:'}}</strong></span>
+      <strong>{{account === 0 ? 'Desembolso por cheque' : stepThreeTags.subtitleTag1 ||
+          'Desembolso por transferencia a:'}}</strong></span>
 
     <div *ngIf="account !== 0" class="left-content" fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex>IBAN</span>
+      <span fxFlex>{{stepThreeTags.ibanTag || 'IBAN'}}</span>
 
       <span>{{account}}</span>
     </div>
 
     <p *ngIf="account === 0" class="left-content">
-      Oficinas de Credix. Tibás, 300m oeste del cruce de llorente, oficinas en el segundo piso.</p>
+      {{stepThreeTags.tagCheque ||
+    'Oficinas de Credix. Tibás, 300m oeste del cruce de llorente, oficinas en el segundo piso.'}}</p>
 
   </div>
 
@@ -20,14 +22,14 @@
 
   <div class="personal-credit-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
 
-    <span fxFlex="250px"><strong>Resumen del crédito</strong></span>
+    <span fxFlex="250px"><strong>{{stepThreeTags.subtitleTag2 || 'Resumen del crédito'}}</strong></span>
 
     <div class="left-content" fxLayout="column" fxLayoutGap="16px">
 
       <div fxLayout="column" fxLayoutGap="8px">
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex>Cuota</span>
+          <span fxFlex>{{stepThreeTags.quotesTag || 'Cuota'}}</span>
           <credix-numeric-block
             [value]="personalCreditSummary?.quota"
             fontWeight="bold"
@@ -35,12 +37,12 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex>Plazo</span>
+          <span fxFlex>{{stepThreeTags.plazoTag || 'Plazo'}}</span>
           <span><strong>{{term}} {{term === 1 ? 'Mes' : 'Meses'}}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex>Monto del desembolso</span>
+          <span fxFlex>{{stepThreeTags.amountTag || 'Monto del desembolso'}}</span>
           <credix-numeric-block
             [value]="amount"
             fontWeight="bold"
@@ -51,7 +53,7 @@
       <mat-divider credixDivider></mat-divider>
 
       <div fxLayout="row">
-        <span fxFlex><strong>Total a pagar</strong></span>
+        <span fxFlex><strong>{{stepThreeTags.totalTag || 'Total a pagar'}}</strong></span>
         <credix-numeric-block
           [value]="personalCreditSummary?.totalPay"
           fontWeight="bold"
