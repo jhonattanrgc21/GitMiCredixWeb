@@ -26,7 +26,7 @@ export class NewServiceComponent implements OnInit {
   confirmFormGroup: FormGroup = new FormGroup({
     credixCode: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null),
-    amount: new FormControl(null)
+    amount: new FormControl(null, [Validators.required])
   });
   currencySymbol = '₡';
   saveAsFavorite = false;
@@ -84,12 +84,13 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesService.payPublicService(
       this.publicServiceId,
       +this.pendingReceipts.receipts.serviceValue,
+      this.pendingReceipts.currencyCode,
       this.confirmFormGroup.controls.amount.value,
       +this.pendingReceipts.receipts.receiptPeriod,
       +this.contractFormGroup.controls.keysControl.value,
       this.pendingReceipts.receipts.expirationDate,
       this.pendingReceipts.receipts.billNumber,
-      this.contractFormGroup.controls.keysControl.value)
+      this.confirmFormGroup.controls.credixCode.value)
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
         this.status = response.type;

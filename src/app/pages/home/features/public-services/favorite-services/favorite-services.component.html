@@ -33,7 +33,7 @@
     <credix-result-notification *ngIf="!hasReceipts" class="favorites-services__notification"
                                 status="info" title="No tiene ninguna factura pendiente"></credix-result-notification>
 
-    <div *ngIf="hasReceipts && dataDetail" class="favorites-services__table" fxLayout="column"
+    <div *ngIf="hasReceipts && pendingReceipt" class="favorites-services__table" fxLayout="column"
          fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
@@ -41,7 +41,7 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Nombre</span>
-        <span class="tr">{{dataDetail?.clientName}}</span>
+        <span class="tr">{{pendingReceipt?.clientName}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Mes al cobro</span>
@@ -54,7 +54,7 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Recibos pendientes</span>
-        <span class="tr">{{ dataDetail?.numberPendingReceipts}}</span>
+        <span class="tr">{{ pendingReceipt?.numberPendingReceipts}}</span>
       </div>
       <div class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto a pagar</strong></span>
@@ -63,7 +63,8 @@
     </div>
 
     <div class="favorites-services__footer">
-      <credix-button (buttonClick)="pay()" [disabled]="dataDetail?.receipts == null" fxLayoutAlign="flex-end center">
+      <credix-button (buttonClick)="pay()" [disabled]="pendingReceipt?.receipts == null"
+                     fxLayoutAlign="flex-end center">
         Pagar
       </credix-button>
     </div>

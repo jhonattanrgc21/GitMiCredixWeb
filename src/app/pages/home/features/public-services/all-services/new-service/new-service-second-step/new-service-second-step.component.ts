@@ -10,7 +10,7 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   @Input() confirmFormGroup: FormGroup = new FormGroup({
     credixCode: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null),
-    amount: new FormControl(null)
+    amount: new FormControl(null, [Validators.required])
   });
   @Input() reference: string;
   @Input() currencySymbol: string;
