@@ -32,6 +32,28 @@ export class NewRechargeComponent implements OnInit {
     {id: 1, amount: '10.000,00'},
     {id: 1, amount: 'Otro'}
   ];
+  stepOneTitleTag: string;
+  stepTwoTitleTag: string;
+  stepTwoTags: {
+    subtitle1Tag: string;
+    subtitle2Tag: string;
+    pendingTag: string;
+    contractTag: string;
+    tipeTag: string;
+    saveToFavoriteTag: string;
+    anotherTag: string;
+    tag1: string;
+    tag2: string;
+    tag3: string;
+    tag4: string;
+  };
+  resultTags: {
+    tag1: string;
+    tag2: string;
+    tag3: string;
+    link1: string;
+    link2: string;
+  };
   stepperIndex = 0;
   saveAsFavorite = false;
   done = false;
@@ -59,7 +81,7 @@ export class NewRechargeComponent implements OnInit {
     this.getPublicService();
     this.setErrorCredixCode();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Lugares de pago').tags)
+      this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
     );
   }
 
@@ -171,6 +193,7 @@ export class NewRechargeComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-
+    this.stepOneTitleTag = tags.find(tag => tag.description === 'servicios.stepper1')?.value;
+    this.stepTwoTitleTag = tags.find(tag => tag.description === 'servicios.stepper2')?.value;
   }
 }

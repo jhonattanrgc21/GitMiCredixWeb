@@ -30,7 +30,6 @@ export class AllServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPublicServiceCategories();
-    this.getPublicServiceCategories();
   }
 
   getPublicServiceCategories() {
