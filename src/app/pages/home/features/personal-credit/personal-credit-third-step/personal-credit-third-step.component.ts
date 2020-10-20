@@ -11,6 +11,16 @@ export class PersonalCreditThirdStepComponent implements OnInit, OnChanges {
   @Input() account;
   @Input() term = 0;
   @Input() isActive = false;
+  @Input() stepThreeTags: {
+    ibanTag: string;
+    tagCheque: string;
+    subtitleTag1: string;
+    amountTag: string;
+    subtitleTag2: string;
+    quotesTag: string;
+    totalTag: string;
+    plazoTag: string;
+  };
   personalCreditSummary: PersonalCreditSummary;
   amount: number;
 

@@ -38,9 +38,10 @@ import {DigitOnlyModule} from '../../../../shared/directives/digit-only/digit-on
 import {NgxMaskModule} from 'ngx-mask';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {MatOptionModule} from '@angular/material/core';
-import {PopupReceiptComponent} from './popup-receipt/popup-receipt.component';
+import {PopupReceiptComponent} from './success-screen/popup-receipt/popup-receipt.component';
 import {NewRechargeSecondStepComponent} from './all-services/new-recharge/new-recharge-second-step/new-recharge-second-step.component';
 import {CredixSearchBoxModule} from 'src/app/shared/components/credix-search-box/credix-search-box.module';
+import {SuccessScreenComponent} from './success-screen/success-screen.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,10 @@ const routes: Routes = [
         component: AutomaticsServicesComponent
       }
     ]
+  },
+  {
+    path: 'success',
+    component: SuccessScreenComponent
   },
   {
     path: 'recharge',
@@ -82,7 +87,8 @@ const routes: Routes = [
     NewServiceFirstStepComponent,
     NewServiceSecondStepComponent,
     PopupReceiptComponent,
-    NewRechargeSecondStepComponent
+    NewRechargeSecondStepComponent,
+    SuccessScreenComponent
   ],
   imports: [
     CommonModule,

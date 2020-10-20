@@ -1,28 +1,27 @@
-<credix-navigation-table *ngIf="!paymentSend else paymentSuccessfully" [headers]="tableHeaders"
-                         class="favorites-services">
+<credix-navigation-table [headers]="tableHeaders" class="favorites-services">
 
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
       <a
-        (click)="favoriteServiceDetail(favorites.publicServiceId, +favorites.serviceReference, favorites.publicServiceAccessKeyType)"
-        *ngFor="let favorites of publicFavoriteService" class="favorites-services__option pointer"
+        (click)="favoriteServiceDetail(favorite)"
+        *ngFor="let favorite of publicFavoriteService" class="favorites-services__option pointer"
         fxLayout="row">
-        <mat-icon [svgIcon]="favorites.icon" class="mr-16px" fxFlex="16px"
+        <mat-icon [svgIcon]="favorite.icon" class="mr-16px" fxFlex="16px"
                   style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
         <div fxFlex="180px" fxLayout="column">
-          <span [class.bold]="optionSelected === favorites.publicServiceId" fxLayout="row"
+          <span [class.bold]="selectedPublicService?.publicServiceId === favorite.publicServiceId" fxLayout="row"
                 fxLayoutAlign="flex-start center">
-            {{favorites.publicServiceFavoriteName}}
+            {{favorite.publicServiceFavoriteName}}
           </span>
           <span class="truncate">
             {{
-            favorites.publicServiceCategory === 'Recargas' || favorites.publicServiceCategory === 'Telefonía' ?
-              (favorites.serviceReference | mask: '0000-0000') :
-              favorites.publicServiceProviderPrefix + '-' + favorites.serviceReference
+            favorite.publicServiceCategory === 'Recargas' || favorite.publicServiceCategory === 'Telefonía' ?
+              (favorite.serviceReference | mask: '0000-0000') :
+              favorite.publicServiceProviderPrefix + '-' + favorite.serviceReference
             }}
           </span>
         </div>
-        <mat-icon *ngIf="optionSelected === favorites.publicServiceId" fxFlex
+        <mat-icon *ngIf="selectedPublicService?.publicServiceId === favorite.publicServiceId" fxFlex
                   style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
       </a>
     </div>
@@ -37,7 +36,7 @@
          fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
-        <span *ngIf="company !== null" class="tr">{{company}}</span>
+        <span class="tr">{{selectedPublicService?.publicServiceEnterpriseDescription}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Nombre</span>
@@ -45,12 +44,12 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Mes al cobro</span>
-        <span *ngIf="month !== null" class="tr">{{month}}</span>
+        <span class="tr">{{month}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Vencimiento</span>
         <span class="tr">
-          {{expirationDate !== undefined ? (expirationDate | dateFormatter : 'alphanumeric') : '' }}</span>
+          {{expirationDate ? (expirationDate | dateFormatter : 'alphanumeric') : '' }}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Recibos pendientes</span>
@@ -63,7 +62,7 @@
     </div>
 
     <div class="favorites-services__footer">
-      <credix-button (buttonClick)="pay()" [disabled]="pendingReceipt?.receipts == null"
+      <credix-button (buttonClick)="openConfirmationModal()" [disabled]="pendingReceipt?.receipts == null"
                      fxLayoutAlign="flex-end center">
         Pagar
       </credix-button>
@@ -71,53 +70,3 @@
   </div>
 
 </credix-navigation-table>
-
-
-<ng-template #paymentSuccessfully>
-
-  <app-credix-result-view [resultMessage]="message"
-                          [resultTile]="title"
-                          [status]="status"
-                          [title]="'Servicios'"
-                          buttonText="Realizar otro pago"
-                          routeTo="/home/public-services/favorites">
-
-    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
-      <mat-divider class="mb-24px" credixDivider></mat-divider>
-
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <p fxFlex="200px"><strong>Datos del pago</strong></p>
-
-        <div fxLayout="column" fxLayoutGap="8px">
-          <div *ngIf="dataResponse !== null" fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>Monto</span>
-            <div>
-              <credix-numeric-block [value]="dataResponse.amountPaid" class="tr"
-                                    fontWeight="bold" prefix="₡"></credix-numeric-block>
-            </div>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Cuotas</span>
-            <span class="tr"><strong>{{dataResponse.quotes}}</strong></span>
-          </div>
-
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Teléfono</span>
-            <span class="tr"><strong>{{dataResponse?.phoneNumber | mask: '0000-0000'}}</strong></span>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Fecha</span>
-            <span class="tr"><strong>{{dataResponse?.date | dateFormatter: 'alphanumeric'}}</strong></span>
-          </div>
-
-        </div>
-      </div>
-
-      <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
-    </div>
-  </app-credix-result-view>
-
-</ng-template>

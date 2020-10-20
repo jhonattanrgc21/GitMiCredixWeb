@@ -9,6 +9,7 @@ import {Cacheable} from 'ngx-cacheable';
 import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 import {PublicService} from '../../../../shared/models/public-service';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
+import {Voucher} from '../../../../shared/models/voucher';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -30,6 +31,16 @@ export class PublicServicesService {
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
 // tslint:disable-next-line:variable-name
   _publicService: PublicService;
+  // tslint:disable-next-line:variable-name
+  _voucher: Voucher;
+
+  get voucher(): Voucher {
+    return this._voucher;
+  }
+
+  set voucher(voucher: Voucher) {
+    this._voucher = voucher;
+  }
 
   get publicService(): PublicService {
     return this._publicService;
@@ -37,6 +48,28 @@ export class PublicServicesService {
 
   set publicService(publicService: PublicService) {
     this._publicService = publicService;
+  }
+
+  // tslint:disable-next-line:variable-name
+  _result: { status: 'success' | 'error'; message: string; title: string };
+
+  get result(): { status: 'success' | 'error'; message: string; title: string } {
+    return this._result;
+  }
+
+  set result(result: { status: 'success' | 'error'; message: string; title: string }) {
+    this._result = result;
+  }
+
+  // tslint:disable-next-line:variable-name
+  _payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' };
+
+  get payment(): { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' } {
+    return this._payment;
+  }
+
+  set payment(payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' }) {
+    this._payment = payment;
   }
 
   constructor(private httpService: HttpService,

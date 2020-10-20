@@ -8,8 +8,6 @@ import {ConvertStringDateToDate, getMontByMonthNumber} from '../../../../../../s
 import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
 import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
-import {PopupReceiptComponent} from '../../popup-receipt/popup-receipt.component';
-import {PopupReceipt} from '../../../../../../shared/models/popup-receipt';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
 
@@ -42,7 +40,6 @@ export class NewServiceComponent implements OnInit {
   keys: Keys[];
   quantityOfKeys: number;
   publicServiceName: string;
-  receiptData: PopupReceipt;
   paymentType = '';
   status: 'success' | 'error';
   today = new Date();
@@ -91,16 +88,22 @@ export class NewServiceComponent implements OnInit {
       this.pendingReceipts.receipts.expirationDate,
       this.pendingReceipts.receipts.billNumber,
       this.confirmFormGroup.controls.credixCode.value)
-      .pipe(finalize(() => this.done = true))
+      .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
       .subscribe(response => {
-        this.status = response.type;
-        this.message = response.descriptionOne;
-
         if (response.type === 'success' && this.saveAsFavorite) {
           this.saveFavorite();
         }
 
-        this.receiptData = {
+        this.publicServicesService.result = {status: response.type, message: response.descriptionOne, title: this.publicServiceName};
+
+        this.publicServicesService.payment = {
+          currencySymbol: this.currencySymbol,
+          amount: this.confirmFormGroup.controls.amount?.value,
+          contract: this.contractFormGroup.controls.contractControl.value,
+          type: 'Servicio'
+        };
+
+        this.publicServicesService.voucher = {
           institution: [{companyCode: response.companyCode, companyName: response.companyName}],
           agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
           agencyCode: response.agencyCode,
@@ -166,10 +169,5 @@ export class NewServiceComponent implements OnInit {
       this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
       this.confirmFormGroup.updateValueAndValidity();
     });
-  }
-
-  openBillingModal() {
-    this.modalService.open({title: 'Comprobante', data: this.receiptData, component: PopupReceiptComponent},
-      {height: 673, width: 380, disableClose: true, panelClass: 'new-service-receipt'});
   }
 }

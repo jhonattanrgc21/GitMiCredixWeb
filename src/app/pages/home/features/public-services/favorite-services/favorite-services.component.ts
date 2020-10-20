@@ -5,6 +5,7 @@ import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
 import {ConvertStringAmountToNumber, getMontByMonthNumber} from '../../../../../shared/utils';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-favorite-services',
@@ -13,30 +14,22 @@ import {finalize} from 'rxjs/operators';
 })
 export class FavoriteServicesComponent implements OnInit {
   publicFavoriteService: PublicServiceFavoriteByUser[] = [];
-  month: string;
   pendingReceipt: PendingReceipts;
-  optionSelected = 0;
-  company: string;
+  selectedPublicService: PublicServiceFavoriteByUser;
+  month: string;
   hasReceipts = true;
   amountOfPay: string;
-  paymentSend = false;
   message: string;
   status: 'success' | 'error';
   title: string;
   expirationDate: Date;
-  keyType: number;
-  dataResponse: {
-    amountPaid: string;
-    quotes: string;
-    phoneNumber: number;
-    date: string;
-  };
   tableHeaders = [
     {label: 'Servicios', width: '283px'},
     {label: 'Datos de la factura', width: 'auto'}
   ];
 
-  constructor(private publicService: PublicServicesService,
+  constructor(private publicServicesService: PublicServicesService,
+              private router: Router,
               private modalService: ModalService) {
   }
 
@@ -44,17 +37,14 @@ export class FavoriteServicesComponent implements OnInit {
     this.getFavoritePublicServiceDetail();
   }
 
-  favoriteServiceDetail(publicServiceId: number, accessKey: number, keyType: number) {
-    this.optionSelected = publicServiceId;
-    this.company = this.publicFavoriteService
-      .find(elem => elem.publicServiceId === publicServiceId).publicServiceEnterpriseDescription;
-    this.keyType = keyType;
-    this.publicService.checkPendingReceipts(publicServiceId, accessKey, keyType)
+  favoriteServiceDetail(favorite: PublicServiceFavoriteByUser) {
+    this.selectedPublicService = favorite;
+    this.publicServicesService
+      .checkPendingReceipts(favorite.publicServiceId, +favorite.serviceReference, favorite.publicServiceAccessKeyType)
       .subscribe((response) => {
         this.pendingReceipt = response;
         if (this.pendingReceipt === null || this.pendingReceipt.receipts === null) {
           this.hasReceipts = false;
-          this.company = null;
           this.expirationDate = null;
           this.pendingReceipt = null;
           this.month = null;
@@ -69,41 +59,69 @@ export class FavoriteServicesComponent implements OnInit {
   }
 
   getFavoritePublicServiceDetail() {
-    this.publicService.getPublicServicesFavoritesByUser()
-      .subscribe((response) => {
-        this.publicFavoriteService = response;
-      });
+    this.publicServicesService.getPublicServicesFavoritesByUser().subscribe(publicServices => {
+      this.publicFavoriteService = publicServices;
+    });
   }
 
-  pay() {
-    this.modalService.confirmationPopup('¿Desea realizar esta pago?').subscribe((confirm) => {
-      if (confirm) {
-        if (this.pendingReceipt?.receipts !== null) {
-          const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts.totalAmount).toString();
-          this.publicService.payPublicService(this.optionSelected,
-            +this.pendingReceipt.receipts.serviceValue,
-            this.pendingReceipt.currencyCode,
-            amount,
-            +this.pendingReceipt.receipts.receiptPeriod,
-            this.keyType,
-            this.pendingReceipt.receipts.expirationDate,
-            this.pendingReceipt.receipts.billNumber)
-            .pipe(finalize(() => this.paymentSend = true))
-            .subscribe((response) => {
-                this.message = response.message;
-                this.status = response.type;
-                this.title = response.titleOne;
 
-                this.dataResponse = {
-                  amountPaid: response.amountPaid,
-                  quotes: response.totalPaymentConcepts,
-                  phoneNumber: response.reference,
-                  date: response.date
-                };
-              });
-          }
-        }
-      });
+  openConfirmationModal() {
+    this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
+      if (confirmation) {
+        this.payService();
+      }
+    });
+  }
 
+  payService() {
+    if (this.pendingReceipt?.receipts !== null) {
+      const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts.totalAmount).toString();
+      this.publicServicesService.payPublicService(
+        this.selectedPublicService.publicServiceId,
+        +this.pendingReceipt.receipts.serviceValue,
+        this.pendingReceipt.currencyCode,
+        amount,
+        +this.pendingReceipt.receipts.receiptPeriod,
+        this.selectedPublicService.publicServiceAccessKeyType,
+        this.pendingReceipt.receipts.expirationDate,
+        this.pendingReceipt.receipts.billNumber)
+        .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
+        .subscribe((response) => {
+          this.publicServicesService.result = {
+            status: response.type,
+            message: response.descriptionOne,
+            title: 'Servicios'
+          };
+
+          this.publicServicesService.payment = {
+            currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$',
+            amount: this.amountOfPay,
+            contract: this.selectedPublicService.serviceReference,
+            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio'
+          };
+
+          this.publicServicesService.voucher = {
+            institution: [{companyCode: response.companyCode, companyName: response.companyName}],
+            agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
+            agencyCode: response.agencyCode,
+            cashier: 'Credix',
+            currencyCode: this.pendingReceipt.currencyCode,
+            clientName: this.pendingReceipt.clientName,
+            billNumber: this.pendingReceipt.receipts.billNumber,
+            invoiceNumber: this.pendingReceipt.receipts.receipt,
+            channelType: this.pendingReceipt.channelType,
+            paymentStatus: 'Aplicado',
+            movementDate: this.pendingReceipt.date,
+            expirationDate: this.pendingReceipt.receipts.expirationDate,
+            period: this.pendingReceipt.receipts.receiptPeriod,
+            reference: response.reference,
+            valorType: 'EFECTIVO',
+            amount: response.amountPaid,
+            paymentConcepts: response.paymentConcepts,
+            informativeConcepts: response.informativeConcepts,
+            currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$'
+          };
+        });
+    }
   }
 }

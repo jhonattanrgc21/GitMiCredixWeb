@@ -2,7 +2,7 @@
 
   <div class="personal-credit-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
 
-    <span fxFlex="150px"><strong>Monto</strong></span>
+    <span fxFlex="150px"><strong>{{stepOneTags.subtitleAmountTag || 'Monto'}}</strong></span>
 
     <credix-slider (inputChange)="getAmount($event)"
                    (valueChange)="getAmount($event)"
@@ -10,7 +10,7 @@
                    [min]="amountSliderMin"
                    [step]="amountSliderStep"
                    class="credix-slider--no-units"
-                   instructions="Deseo Solicitar">
+                   [instructions]="stepOneTags.amountTag ||'Deseo Solicitar'">
       <credix-numeric-block [value]="100000"
                             fontWeight="bold"
                             min prefix="₡"></credix-numeric-block>
@@ -29,7 +29,7 @@
   <mat-divider credixDivider></mat-divider>
 
   <div class="personal-credit-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="150px"><strong>Plazo</strong></span>
+    <span fxFlex="150px"><strong>{{ stepOneTags.plazoTag || 'Plazo'}}</strong></span>
 
     <credix-slider (inputChange)="getQuota($event)"
                    (valueChange)="getQuota($event)"
@@ -40,10 +40,10 @@
                    [min]="termSliderMin"
                    [step]="termSliderStep"
                    instructions="Por un período de"
-                   units="Meses"></credix-slider>
+                   [units]="stepOneTags.monthTag ||'Meses'"></credix-slider>
 
     <div fxFlex="25" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
-      <span>Cuotas de:</span>
+      <span>{{quoteTags || 'Cuotas de:'}}</span>
 
       <credix-numeric-block [value]="personalCreditSummary?.quota"
                             class="tr"
@@ -63,7 +63,7 @@
     <div fxLayout="column" fxLayoutGap="8px">
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>Monto solicitado</span>
+        <span fxFlex>{{ popUpTags.amountTag || 'Monto solicitado'}}</span>
         <credix-numeric-block
           [value]="amountControl.value"
           fontWeight="bold"
@@ -71,7 +71,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>Comisión (5%)*</span>
+        <span fxFlex>{{popUpTags.commissionTag || 'Comisión'}} (5%)*</span>
         <credix-numeric-block
           [value]="personalCreditSummary?.commission"
           fontWeight="bold"
@@ -79,7 +79,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>Interés (24,46% Anual)</span>
+        <span fxFlex>{{popUpTags.interesTag || 'Interés'}} (24,46% Anual)</span>
         <credix-numeric-block
           [value]="personalCreditSummary?.interest"
           fontWeight="bold"
@@ -87,7 +87,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>IVA*</span>
+        <span fxFlex>{{popUpTags.tagIva || 'IVA'}}*</span>
         <credix-numeric-block
           [value]="ivaAmount"
           fontWeight="bold"
@@ -98,17 +98,20 @@
     <mat-divider credixDivider></mat-divider>
 
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex>Total</span>
+      <span fxFlex>{{ popUpTags.totalTag || 'Total'}}</span>
 
       <credix-numeric-block [value]="personalCreditSummary?.totalPay"
                             fontWeight="bold"
                             prefix="₡"></credix-numeric-block>
     </div>
 
-    <p fxFlex style="color: #707070;">* IVA y comisión se cargarán en el próximo estado de cuenta.</p>
+    <p fxFlex style="color: #707070;">* {{
+      popUpTags.disclaimerTag ||
+      'IVA y comisión se cargarán en el próximo estado de cuenta.'}}
+    </p>
 
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex style="font-size: 20px;">{{termControl.value}} Cuotas de</span>
+      <span fxFlex style="font-size: 20px;">{{termControl.value + ' ' + quoteTags || 'Cuotas de'}}</span>
       <credix-numeric-block [value]="personalCreditSummary?.quota"
                             fontSize="24"
                             fontWeight="bold"

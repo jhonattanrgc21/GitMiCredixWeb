@@ -1,4 +1,4 @@
-export interface PopupReceipt {
+export interface Voucher {
   institution: {
     companyCode: string;
     companyName: string;

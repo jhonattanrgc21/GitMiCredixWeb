@@ -2,7 +2,7 @@
           fxLayout="column" fxLayoutGap="16px">
 
   <div fxLayout="column" fxLayoutGap="4px">
-    <h1>Crédito personal </h1>
+    <h1>{{ titleTag || 'Crédito personal'}} </h1>
 
     <p>Solicite el monto que le permita vivir sus sueños hoy.</p>
   </div>
@@ -11,24 +11,29 @@
 
     <cdk-step [stepControl]="requestForm"
               fxLayout="column"
-              label="Solicitud">
+              [label]="stepsTagsTitles.firstStepTagTitle || 'Solicitud'">
       <app-personal-credit-first-step [amountControl]="requestForm.controls.amount"
                                       [cardLimit]="cardLimit"
+                                      [popUpTags]="popUpTags"
+                                      [quoteTags]="quoteTags"
+                                      [stepOneTags]="stepOneTags"
                                       [termControl]="requestForm.controls.term"></app-personal-credit-first-step>
     </cdk-step>
 
     <cdk-step [stepControl]="disbursementForm"
               fxLayout="column"
-              label="Desembolso">
+              [label]=" stepsTagsTitles.secondStepTagTitle || 'Desembolso'">
       <app-personal-credit-second-step
-        [accountControl]="disbursementForm.controls.account"></app-personal-credit-second-step>
+        [accountControl]="disbursementForm.controls.account"
+        [stepTwoTags]="stepTwoTags"></app-personal-credit-second-step>
     </cdk-step>
 
     <cdk-step [stepControl]="confirmForm"
               fxLayout="column"
-              label="Confirmación">
+              [label]="stepsTagsTitles.firstStepTagTitle || 'Confirmación'">
       <app-personal-credit-third-step [account]="disbursementForm.controls.account.value"
                                       [isActive]="stepperIndex === 2"
+                                      [stepThreeTags]="stepThreeTags"
                                       [term]="requestForm.controls.term.value"></app-personal-credit-third-step>
     </cdk-step>
 
@@ -46,8 +51,9 @@
 <ng-template #donePersonalCreditTemplate>
   <app-credix-result-view
     [resultMessage]="accessToPersonalCredit ? message :
+     warningMssgDescription ||
      'En este momento no cuenta con suficiente disponible para solicitar un crédito personal. Puede hacer abonos extraordinarios para liberar el disponible mas rápido.'"
-    [resultTile]="accessToPersonalCredit ? title : 'Disponible insuficiente'"
+    [resultTile]="accessToPersonalCredit ? title : warningMssgTag || 'Disponible insuficiente'"
     [status]="accessToPersonalCredit ? status : 'info'"
     [title]="'Crédito personal'"
     buttonText="Listo"

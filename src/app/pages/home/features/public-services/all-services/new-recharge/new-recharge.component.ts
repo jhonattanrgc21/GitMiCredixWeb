@@ -8,8 +8,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
 import {CdkStepper} from '@angular/cdk/stepper';
-import {PopupReceiptComponent} from '../../popup-receipt/popup-receipt.component';
-import {PopupReceipt} from '../../../../../../shared/models/popup-receipt';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {TagsService} from '../../../../../../core/services/tags.service';
 import {Tag} from '../../../../../../shared/models/tag';
@@ -34,9 +32,29 @@ export class NewRechargeComponent implements OnInit {
     {id: 1, amount: '10.000,00'},
     {id: 1, amount: 'Otro'}
   ];
+  stepOneTitleTag: string;
+  stepTwoTitleTag: string;
+  stepTwoTags: {
+    subtitle1Tag: string;
+    subtitle2Tag: string;
+    pendingTag: string;
+    contractTag: string;
+    tipeTag: string;
+    saveToFavoriteTag: string;
+    anotherTag: string;
+    tag1: string;
+    tag2: string;
+    tag3: string;
+    tag4: string;
+  };
+  resultTags: {
+    tag1: string;
+    tag2: string;
+    tag3: string;
+    link1: string;
+    link2: string;
+  };
   stepperIndex = 0;
-  dataToModal: PopupReceipt;
-  currencySymbol = '₡';
   saveAsFavorite = false;
   done = false;
   hasReceipts = true;
@@ -63,7 +81,7 @@ export class NewRechargeComponent implements OnInit {
     this.getPublicService();
     this.setErrorCredixCode();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Lugares de pago').tags)
+      this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
     );
   }
 
@@ -97,16 +115,22 @@ export class NewRechargeComponent implements OnInit {
       receipt.expirationDate,
       receipt.billNumber,
       this.rechargeFormGroup.controls.credixCode.value)
-      .pipe(finalize(() => this.done = true))
+      .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
       .subscribe(response => {
-        this.status = response.type;
-        this.message = response.descriptionOne;
-
         if (response.type === 'success' && this.saveAsFavorite) {
           this.saveFavorite();
         }
 
-        this.dataToModal = {
+        this.publicServicesService.result = {status: response.type, message: response.descriptionOne, title: this.publicServiceName};
+
+        this.publicServicesService.payment = {
+          currencySymbol: '₡',
+          amount: this.rechargeFormGroup.controls.amount?.value,
+          contract: this.phoneNumber.value,
+          type: 'Recarga'
+        };
+
+        this.publicServicesService.voucher = {
           institution: [{companyCode: response.companyCode, companyName: response.companyName}],
           agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
           agencyCode: response.agencyCode,
@@ -125,7 +149,7 @@ export class NewRechargeComponent implements OnInit {
           amount: response.amountPaid,
           paymentConcepts: response.paymentConcepts,
           informativeConcepts: response.informativeConcepts,
-          currencySymbol: this.currencySymbol
+          currencySymbol: '₡'
         };
       });
   }
@@ -168,12 +192,8 @@ export class NewRechargeComponent implements OnInit {
     });
   }
 
-  openBillingModal() {
-    this.modalService.open({title: 'Comprobante', data: this.dataToModal, component: PopupReceiptComponent},
-      {height: 673, width: 380, disableClose: false});
-  }
-
   getTags(tags: Tag[]) {
-
+    this.stepOneTitleTag = tags.find(tag => tag.description === 'servicios.stepper1')?.value;
+    this.stepTwoTitleTag = tags.find(tag => tag.description === 'servicios.stepper2')?.value;
   }
 }
