@@ -46,6 +46,10 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   amountPerQuota = 0;
   commission = 0;
   iva = 0;
+  paymentList: {
+    promoStatus: number;
+    paymentDate: string;
+  }[] = [];
   itemProduct: Item[] = [
     {
       responseDescription: 'Responsabilidad civil',
@@ -68,56 +72,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   ];
   haveAdditionalProducts: boolean;
   arrayOfAmountProducts: { amounts: number; productCode: number; }[] = [];
-  firstPaymentDates = [
-    {
-      description: 'Enero ' + (new Date().getFullYear() + 1),
-      value: 'Enero ' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Febrero ' + (new Date().getFullYear() + 1),
-      value: 'Febrero ' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Marzo ' + (new Date().getFullYear() + 1),
-      value: 'Marzo ' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Abril ' + (new Date().getFullYear() + 1),
-      value: 'Abril ' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Mayo ' + (new Date().getFullYear() + 1),
-      value: 'Mayo ' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Junio ' + (new Date().getFullYear() + 1),
-      value: 'Junio ' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Julio ' + (new Date().getFullYear() + 1),
-      value: 'Julio ' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Agosto ' + (new Date().getFullYear() + 1),
-      value: 'Agosto ' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Septiembre' + (new Date().getFullYear() + 1),
-      value: 'Septiembre' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Octubre' + (new Date().getFullYear() + 1),
-      value: 'Octubre' + (new Date().getFullYear() + 1)
-    },
-    {
-      description: 'Noviembre 2020',
-      value: 'Noviembre 2020'
-    },
-    {
-      description: 'Diciembre 2020',
-      value: 'Diciembre 2020'
-    }
-  ];
   step2Subt3: string;
   step2Subt2: string;
   step2Com: string;
@@ -152,6 +106,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.billingHistories = this.marchamosService.billingHistories;
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
+      this.getPromo();
     }
   }
 
@@ -236,6 +191,15 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   allChecked(event?: boolean) {
     this.isChecked = event;
   }
+
+
+  getPromo() {
+    this.marchamosService.getPromoApply()
+      .subscribe(response => {
+        this.paymentList = response;
+      });
+  }
+
 
   getQuotasByProduct() {
     this.customerApiService.getQuotas(2).subscribe(quotas => {
