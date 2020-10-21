@@ -105,7 +105,6 @@ export class MarchamoComponent implements OnInit {
         });
         break;
       case 1:
-        this.getPromo();
         this.plateNumber = this.marchamosService.consultVehicle.plateNumber;
         this.marchamoTotal = this.marchamosService.consultVehicle.amount;
         this.disableButton = this.secureAndQuotesForm.invalid;
@@ -136,16 +135,6 @@ export class MarchamoComponent implements OnInit {
     this.marchamosService.consultNewVehicle();
   }
 
-  getPromo() {
-    this.marchamosService.getPromoApply()
-      .subscribe(response => {
-        this.promoStatus = {
-          promoStatusId: response[0].promoStatus,
-          paymentDate: response[0].paymentDate
-        };
-    });
-  }
-
   secureToPay() {
     const deliveryPlaceId: number = this.pickUpForm.controls.deliveryPlace.value === null ?
       1 : this.pickUpForm.controls.deliveryPlace.value;
@@ -161,7 +150,7 @@ export class MarchamoComponent implements OnInit {
       this.secureAndQuotesForm.controls.firstQuotaDate.value,
       +this.consultForm.controls.vehicleType.value,
       this.consultForm.controls.plateNumber.value.toUpperCase(),
-      this.promoStatus.promoStatusId,
+      this.secureAndQuotesForm.controls.firstQuotaDate.value,
       this.secureAndQuotesForm.controls.quotaId.value,
       this.pickUpForm.controls.phoneNumber.value,
       ownerEmail
