@@ -76,7 +76,8 @@ const routes: Routes = [
   ],
   providers: [
     ModalService,
-    AnticipatedCancellationService]
+    AnticipatedCancellationService
+  ]
 })
 export class AnticipatedCancellationModule {
 }

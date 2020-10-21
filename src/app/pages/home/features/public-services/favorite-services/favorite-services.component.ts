@@ -64,7 +64,6 @@ export class FavoriteServicesComponent implements OnInit {
     });
   }
 
-
   openConfirmationModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
       if (confirmation) {
