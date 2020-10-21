@@ -29,7 +29,7 @@ import {SimplebarAngularModule} from 'simplebar-angular';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {ExtendTermService} from './extend-term.service';
-
+import {ExtendTermSuccessScreenComponent} from './extend-term-success-screen/extend-term-success-screen.component';
 
 const routes: Routes = [
   {
@@ -39,11 +39,18 @@ const routes: Routes = [
   {
     path: ':movementId',
     component: ExtendTermComponent
+  },
+  {
+    path: 'establishment/:establishment/success',
+    component: ExtendTermSuccessScreenComponent
   }
 ];
 
 @NgModule({
-  declarations: [ExtendTermComponent],
+  declarations: [
+    ExtendTermComponent,
+    ExtendTermSuccessScreenComponent
+  ],
   imports: [
     CommonModule,
     FlexModule,
@@ -73,8 +80,10 @@ const routes: Routes = [
     CredixDividerModule,
     CredixResultViewModule
   ],
-  providers: [ModalService,
-    ExtendTermService]
+  providers: [
+    ExtendTermService,
+    ModalService
+  ]
 })
 export class ExtendTermModule {
 }

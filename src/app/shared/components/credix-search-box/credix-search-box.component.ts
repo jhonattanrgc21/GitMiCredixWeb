@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, HostListener, Output, EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -8,9 +8,9 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./credix-search-box.component.scss']
 })
 export class CredixSearchBoxComponent implements OnInit {
-  @Input() initialObject: any;
-  @Output() returnResponse: EventEmitter<any> = new EventEmitter<any>();
-  searchPanelStyle: boolean = false;
+  @Input() data: any;
+  @Output() selectionEvent: EventEmitter<any> = new EventEmitter<any>();
+  searchPanelStyle = false;
   inputControl = new FormControl();
   searchingResult: any = [];
 
@@ -31,7 +31,7 @@ export class CredixSearchBoxComponent implements OnInit {
   }
 
   onClickItem(item: any) {
-    this.returnResponse.emit(item);
+    this.selectionEvent.emit(item);
   }
 
   onInputChanged() {
@@ -40,7 +40,7 @@ export class CredixSearchBoxComponent implements OnInit {
         if (value) {
           this.searchPanelStyle = false;
           const input = value.toLowerCase();
-          this.searchingResult = this.initialObject.filter(element => {
+          this.searchingResult = this.data.filter(element => {
             return (element.title.toLowerCase().includes(input) || element.description.toLowerCase().includes(input));
           });
           if (this.searchingResult.length > 0) {

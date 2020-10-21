@@ -38,7 +38,6 @@ export class ExtendTermComponent implements OnInit {
   quotaSliderDisplayValue = 0;
   today: Date;
   comisionTag: string;
-  comercioResult: string;
   subtitle: string;
   question: string;
   titleTag: string;
@@ -51,12 +50,12 @@ export class ExtendTermComponent implements OnInit {
   newQuota: string;
   resultNew: string;
 
-  constructor(private storageService: StorageService,
-              private extendTermService: ExtendTermService,
+  constructor(private extendTermService: ExtendTermService,
+              private storageService: StorageService,
+              private tagsService: TagsService,
               private modalService: ModalService,
               private router: Router,
-              private route: ActivatedRoute,
-              private tagsService: TagsService) {
+              private route: ActivatedRoute) {
     this.today = new Date();
   }
 
@@ -130,17 +129,26 @@ export class ExtendTermComponent implements OnInit {
       this.allowedMovementSelected.cardId,
       ConvertStringAmountToNumber(this.quotaSelected.feeAmount),
       this.quotaSelected.quotaTo,
-      this.allowedMovementSelected.movementId
-    ).pipe(finalize(() => this.done = true))
+      this.allowedMovementSelected.movementId)
+      .pipe(finalize(() => this.router.navigate(
+        ['/home/extend-term/establishment/:establishment/success', this.allowedMovementSelected.establishmentName.trim()])))
       .subscribe(response => {
-        this.status = response.type;
-        this.message = response.message;
+        this.extendTermService.result = {
+          status: response.type,
+          message: response.message
+        };
+
+        this.extendTermService.newQuota = {
+          establishment: this.allowedMovementSelected.establishmentName.trim(),
+          currency: this.allowedMovementSelected.originCurrency.currency,
+          amount: this.quotaSelected.amountPerQuota,
+          quota: this.quotaSelected.quotaTo
+        };
       });
   }
 
   getTags(tags: Tag[]) {
     this.comisionTag = tags.find(tag => tag.description === 'ampliar.tag.comision')?.value;
-    this.comercioResult = tags.find(tag => tag.description === 'ampliar.result.comercio')?.value;
     this.subtitle = tags.find(tag => tag.description === 'ampliar.subtitle')?.value;
     this.question = tags.find(tag => tag.description === 'ampliar.question')?.value;
     this.titleTag = tags.find(tag => tag.description === 'ampliar.title')?.value;

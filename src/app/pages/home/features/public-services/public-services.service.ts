@@ -31,17 +31,6 @@ export class PublicServicesService {
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
 // tslint:disable-next-line:variable-name
   _publicService: PublicService;
-  // tslint:disable-next-line:variable-name
-  _voucher: Voucher;
-
-  get voucher(): Voucher {
-    return this._voucher;
-  }
-
-  set voucher(voucher: Voucher) {
-    this._voucher = voucher;
-  }
-
   get publicService(): PublicService {
     return this._publicService;
   }
@@ -51,8 +40,17 @@ export class PublicServicesService {
   }
 
   // tslint:disable-next-line:variable-name
-  _result: { status: 'success' | 'error'; message: string; title: string };
+  _voucher: Voucher;
+  get voucher(): Voucher {
+    return this._voucher;
+  }
 
+  set voucher(voucher: Voucher) {
+    this._voucher = voucher;
+  }
+
+  // tslint:disable-next-line:variable-name
+  _result: { status: 'success' | 'error'; message: string; title: string };
   get result(): { status: 'success' | 'error'; message: string; title: string } {
     return this._result;
   }
@@ -63,7 +61,6 @@ export class PublicServicesService {
 
   // tslint:disable-next-line:variable-name
   _payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' };
-
   get payment(): { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' } {
     return this._payment;
   }

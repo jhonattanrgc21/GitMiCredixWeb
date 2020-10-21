@@ -1,4 +1,4 @@
-<mat-card *ngIf="!done else doneTemplate" class="extend-term" credixCard fxLayout="column">
+<mat-card class="extend-term" credixCard fxLayout="column">
 
   <h1 class="mb-4px">{{titleTag || 'Ampliar plazo de compra'}}</h1>
 
@@ -124,51 +124,3 @@
     </credix-button>
   </div>
 </mat-card>
-
-<ng-template #doneTemplate>
-  <app-credix-result-view [resultMessage]="message"
-                          [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
-                          [status]="status"
-                          [title]="titleTag || 'Ampliar plazo de compra'"
-                          buttonText="Listo"
-                          routeTo="/home/extend-term">
-
-    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
-      <mat-divider class="mb-24px" credixDivider></mat-divider>
-
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex="175px"><strong>Datos de la ampliación</strong></span>
-
-        <div fxLayout="column" fxLayoutGap="8px">
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="90px">{{comercioResult || 'Comercio'}}</span>
-            <span class="truncate tr" fxFlex="200px">
-              <strong>{{allowedMovementSelected?.establishmentName.trim()}}</strong></span>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{newQuota || 'Cuota nueva'}}</span>
-            <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
-                                  [value]="quotaSelected?.amountPerQuota" fontWeight="bold">
-            </credix-numeric-block>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>Plazo nuevo</span>
-            <span><strong>{{ quotaSelected?.quotaTo }} Cuota</strong></span>
-          </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{dateTag || 'Fecha'}}</span>
-            <span><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
-          </div>
-
-        </div>
-      </div>
-
-      <credix-share-button fxFlexAlign="center" style="margin-top: 90px"></credix-share-button>
-    </div>
-
-  </app-credix-result-view>
-</ng-template>
