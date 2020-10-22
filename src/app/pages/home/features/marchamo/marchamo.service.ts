@@ -24,15 +24,19 @@ export class MarchamoService {
   consultVehicle: ConsultVehicle;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
+  paymentList: {
+    promoStatus: number;
+    paymentDate: string;
+  }[] = [];
 
   constructor(private httpService: HttpService,
               private toastService: CredixToastService,
               private storageService: StorageService) {
   }
 
-  iva: number;
-  commission: number;
-  total: number;
+  iva = 0;
+  commission = 0;
+  total = 0;
   private readonly getPromoApplyUri = 'pay/promoapply';
   private readonly paySoapayUri = 'pay/soapay';
   // tslint:disable-next-line:variable-name
@@ -74,21 +78,22 @@ export class MarchamoService {
         }));
   }
 
+  // TODO: descomentar los elementos del arreglo de aditionalProducts
   @Cacheable()
   getConsultVehicle(plateClassId: string, plateNumber: string): Observable<any> {
     return this.httpService.post('marchamos', this.getVehicleConsultUri, {
       plateClassId,
       plateNumber,
       aditionalProducts: [
-        {
-          productCode: 5
-        },
-        {
-          productCode: 6
-        },
-        {
-          productCode: 8
-        }
+        /* {
+           productCode: 5
+         },
+         {
+           productCode: 6
+         },
+         {
+           productCode: 8
+         }*/
       ]
     }).pipe(
       map((response) => {
@@ -141,7 +146,7 @@ export class MarchamoService {
     return this.httpService.post('marchamos', this.getDeliveryPlacesUri)
       .pipe(map((response) => {
           if (response.type === 'success') {
-            return response.deliveryPlacesList.filter(x => x.id !== 6);
+            return response.deliveryPlacesList.filter(x => x.id !== 6 && x.id !== 7);
           } else {
             return [];
           }

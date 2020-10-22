@@ -36,11 +36,6 @@ export class MarchamoComponent implements OnInit {
   confirmForm: FormGroup = new FormGroup({
     credixCode: new FormControl(null, [Validators.required])
   });
-  amountItemsProducts: { responsabilityCivilAmount: number, roadAsistanceAmount: number, moreProtectionAmount: number } = {
-    responsabilityCivilAmount: 8745.00,
-    roadAsistanceAmount: 3359.00,
-    moreProtectionAmount: 7140.00
-  };
   plateNumber: string;
   name: string;
   email: string;
@@ -50,7 +45,6 @@ export class MarchamoComponent implements OnInit {
   commission = 0;
   iva = 0;
   marchamoTotal = 0;
-  totalAmountItemsProducts = 0;
   total = 0;
   done = false;
   disableButton = true;
@@ -76,8 +70,6 @@ export class MarchamoComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkNextStep();
-    this.totalAmountItemsProducts = this.amountItemsProducts.responsabilityCivilAmount +
-      this.amountItemsProducts.roadAsistanceAmount + this.amountItemsProducts.moreProtectionAmount;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
@@ -94,6 +86,9 @@ export class MarchamoComponent implements OnInit {
     this.stepper.previous();
     this.stepperIndex = this.stepper.selectedIndex;
     this.checkNextStep();
+    if (this.stepperIndex === 2) {
+      this.confirmForm.controls.credixCode.reset(null, {emitEvent: false});
+    }
   }
 
   checkNextStep() {
@@ -140,6 +135,8 @@ export class MarchamoComponent implements OnInit {
       1 : this.pickUpForm.controls.deliveryPlace.value;
     const ownerEmail: string = this.marchamosService.ownerPayer.email === '' ?
       this.pickUpForm.controls.email.value : this.marchamosService.ownerPayer.email;
+    const firstPayment: string = this.marchamosService.paymentList
+      .find(elem => elem.promoStatus === this.secureAndQuotesForm.controls.firstQuotaDate.value).paymentDate;
     this.marchamosService.setSoaPay(
       this.secureAndQuotesForm.controls.additionalProducts.value,
       deliveryPlaceId,
@@ -147,7 +144,7 @@ export class MarchamoComponent implements OnInit {
       this.pickUpForm.controls.phoneNumber.value.toString(),
       this.pickUpForm.controls.address.value,
       this.pickUpForm.controls.email.value,
-      this.secureAndQuotesForm.controls.firstQuotaDate.value,
+      firstPayment,
       +this.consultForm.controls.vehicleType.value,
       this.consultForm.controls.plateNumber.value.toUpperCase(),
       this.secureAndQuotesForm.controls.firstQuotaDate.value,
@@ -157,9 +154,9 @@ export class MarchamoComponent implements OnInit {
     )
       .pipe(finalize(() => this.done = true))
       .subscribe(response => {
-        console.log(response);
         this.status = response.type;
         this.message = response.message;
+        this.total = this.marchamosService.total;
       });
   }
 
