@@ -34,38 +34,15 @@ export class NewRechargeComponent implements OnInit {
   ];
   stepOneTitleTag: string;
   stepTwoTitleTag: string;
-  stepTwoTags: {
-    subtitle1Tag: string;
-    subtitle2Tag: string;
-    pendingTag: string;
-    contractTag: string;
-    tipeTag: string;
-    saveToFavoriteTag: string;
-    anotherTag: string;
-    tag1: string;
-    tag2: string;
-    tag3: string;
-    tag4: string;
-  };
-  resultTags: {
-    tag1: string;
-    tag2: string;
-    tag3: string;
-    link1: string;
-    link2: string;
-  };
   stepperIndex = 0;
   saveAsFavorite = false;
-  done = false;
   hasReceipts = true;
   pendingReceipts: PendingReceipts;
   publicServiceName: string;
   publicServiceId: number;
   name: string;
   message: string;
-  status: 'success' | 'error';
   keys: Keys[];
-  today = new Date();
   @ViewChild('newRechargeStepper') stepper: CdkStepper;
 
   constructor(private publicServicesService: PublicServicesService,
@@ -101,6 +78,18 @@ export class NewRechargeComponent implements OnInit {
         this.recharge();
       }
     });
+  }
+
+  checkPendingReceipts() {
+    this.publicServicesService.checkPendingReceipts(this.publicServiceId, this.phoneNumber.value, this.keys[0].keyType)
+      .pipe(finalize(() => {
+        this.message = this.pendingReceipts.responseDescription;
+        if (this.pendingReceipts?.receipts) {
+          this.continue();
+        } else {
+          this.hasReceipts = false;
+        }
+      })).subscribe(pendingReceipts => this.pendingReceipts = pendingReceipts);
   }
 
   recharge() {
@@ -171,18 +160,6 @@ export class NewRechargeComponent implements OnInit {
   continue() {
     this.stepper.next();
     this.stepperIndex = this.stepper.selectedIndex;
-  }
-
-  checkPendingReceipts() {
-    this.publicServicesService.checkPendingReceipts(this.publicServiceId, this.phoneNumber.value, this.keys[0].keyType)
-      .subscribe(pendingReceipts => {
-        if (pendingReceipts?.receipts) {
-          this.pendingReceipts = pendingReceipts;
-          this.continue();
-        } else {
-          this.hasReceipts = false;
-        }
-      });
   }
 
   setErrorCredixCode() {

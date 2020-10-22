@@ -29,20 +29,17 @@ export class NewServiceComponent implements OnInit {
   currencySymbol = '₡';
   saveAsFavorite = false;
   stepperIndex = 0;
-  done = false;
   hasReceipts = true;
   pendingReceipts: PendingReceipts;
   publicServiceId: number;
   name: string;
   month: string;
   expirationDate: Date;
-  message: string;
   keys: Keys[];
+  message: string;
   quantityOfKeys: number;
   publicServiceName: string;
   paymentType = '';
-  status: 'success' | 'error';
-  today = new Date();
   @ViewChild('newServiceStepper') stepper: CdkStepper;
 
   constructor(private publicServicesService: PublicServicesService,
@@ -75,6 +72,25 @@ export class NewServiceComponent implements OnInit {
         this.payService();
       }
     });
+  }
+
+  checkPendingReceipts() {
+    this.publicServicesService.checkPendingReceipts(
+      this.publicServiceId,
+      this.contractFormGroup.controls.contractControl.value,
+      this.contractFormGroup.controls.keysControl.value)
+      .pipe(finalize(() => {
+        this.message = this.pendingReceipts.responseDescription;
+        if (this.pendingReceipts?.receipts) {
+          const period = ConvertStringDateToDate(this.pendingReceipts.receipts.receiptPeriod);
+          this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
+          this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts.expirationDate);
+          this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
+          this.continue();
+        } else {
+          this.hasReceipts = false;
+        }
+      })).subscribe(pendingReceipts => this.pendingReceipts = pendingReceipts);
   }
 
   payService() {
@@ -144,24 +160,6 @@ export class NewServiceComponent implements OnInit {
   continue() {
     this.stepper.next();
     this.stepperIndex = this.stepper.selectedIndex;
-  }
-
-  checkPendingReceipts() {
-    this.publicServicesService.checkPendingReceipts(
-      this.publicServiceId,
-      this.contractFormGroup.controls.contractControl.value,
-      this.contractFormGroup.controls.keysControl.value).subscribe(pendingReceipts => {
-      if (pendingReceipts && pendingReceipts.receipts) {
-        this.pendingReceipts = pendingReceipts;
-        const period = ConvertStringDateToDate(pendingReceipts.receipts.receiptPeriod);
-        this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
-        this.expirationDate = ConvertStringDateToDate(pendingReceipts.receipts.expirationDate);
-        this.currencySymbol = pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
-        this.continue();
-      } else {
-        this.hasReceipts = false;
-      }
-    });
   }
 
   setErrorCredixCode() {

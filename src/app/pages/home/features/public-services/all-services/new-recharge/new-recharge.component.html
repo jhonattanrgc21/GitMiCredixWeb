@@ -14,8 +14,7 @@
                               mask="0000-0000"></credix-input-field>
         </div>
 
-        <credix-result-notification *ngIf="!hasReceipts" status="info"
-                                    title="No tiene ninguna factura pendiente"></credix-result-notification>
+        <credix-result-notification *ngIf="!hasReceipts" [title]="message" status="info"></credix-result-notification>
       </div>
 
     </cdk-step>

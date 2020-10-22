@@ -12,13 +12,13 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
     favorite: new FormControl(null),
     amount: new FormControl(null, [Validators.required])
   });
-  @Input() reference: string;
-  @Input() currencySymbol: string;
-  @Input() amount: string;
-  @Input() name: string;
-  @Input() month: string;
+  @Input() reference = '';
+  @Input() currencySymbol = '';
+  @Input() amount = '0.00';
+  @Input() name = '';
+  @Input() month = '';
   @Input() expirationDate: Date;
-  @Input() receipts: number;
+  @Input() receipts = 0;
   @Input() paymentType: string;
   @Input() isActive = false;
   @Output() saveFavoriteEvent = new EventEmitter<boolean>();

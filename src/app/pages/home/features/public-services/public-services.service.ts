@@ -109,7 +109,7 @@ export class PublicServicesService {
       );
   }
 
-  checkPendingReceipts(publicServiceId: number, accessKey: number, keyType?: number): Observable<PendingReceipts> {
+  checkPendingReceipts(publicServiceId: number, accessKey: number, keyType: number): Observable<PendingReceipts> {
     return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType})
       .pipe(
         map((response) => {
