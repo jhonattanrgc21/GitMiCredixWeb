@@ -150,7 +150,10 @@ export class MarchamoService {
   }
 
   @Cacheable()
-  getPromoApply(): Observable<any> {
+  getPromoApply(): Observable<{
+    promoStatus: number;
+    paymentDate: string;
+  }[]> {
     return this.httpService.post('marchamos', this.getPromoApplyUri,
       {accountNumber: this.storageService.getCurrentUser().accountNumber.toString()})
       .pipe(

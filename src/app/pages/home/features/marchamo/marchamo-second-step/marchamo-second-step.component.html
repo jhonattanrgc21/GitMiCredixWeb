@@ -76,8 +76,8 @@
       <credix-select [formControl]="secureAndQuotesForm.controls.firstQuotaDate"
                      class="marchamo-second-step__content__middle"
                      label="Deseo pagar la primera cuota en">
-        <mat-option *ngFor="let firstPaymentDate of firstPaymentDates" [value]="firstPaymentDate.value">
-          {{ firstPaymentDate.description}}
+        <mat-option *ngFor="let payment of paymentList" [value]="payment.promoStatus">
+          {{ payment.paymentDate }}
         </mat-option>
       </credix-select>
     </div>

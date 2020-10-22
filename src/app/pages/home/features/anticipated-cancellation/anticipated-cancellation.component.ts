@@ -6,6 +6,7 @@ import {Cancellation} from '../../../../shared/models/cancellation';
 import {finalize} from 'rxjs/operators';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {ConvertNumberToStringAmount} from '../../../../shared/utils/convert-number-to-string-amount';
+import {ModalService} from '../../../../core/services/modal.service';
 
 @Component({
   selector: 'app-anticipated-cancellation',
@@ -48,6 +49,7 @@ export class AnticipatedCancellationComponent implements OnInit {
   template: TemplateRef<any>;
 
   constructor(private anticipatedCancellationService: AnticipatedCancellationService,
+              private modalService: ModalService,
               private tagsService: TagsService) {
   }
 
@@ -99,6 +101,14 @@ export class AnticipatedCancellationComponent implements OnInit {
           this.dataSource = this.colonesCancellations;
         }
       });
+  }
+
+  openConfirmationModal() {
+    this.modalService.confirmationPopup('¿Desea realizar esta cancelación?').subscribe(confirmation => {
+      if (confirmation) {
+        this.saveCancellation();
+      }
+    });
   }
 
   saveCancellation() {

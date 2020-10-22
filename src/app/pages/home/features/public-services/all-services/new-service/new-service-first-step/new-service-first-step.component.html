@@ -17,6 +17,6 @@
   </div>
 
   <credix-result-notification *ngIf="!hasReceipts" status="info"
-                              title="No tiene ninguna factura pendiente"></credix-result-notification>
+                              [title]="message"></credix-result-notification>
 
 </div>

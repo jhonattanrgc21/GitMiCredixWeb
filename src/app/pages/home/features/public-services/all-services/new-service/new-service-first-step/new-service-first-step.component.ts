@@ -13,6 +13,7 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
     keysControl: new FormControl(null, [Validators.required])
   });
   @Input() hasReceipts = true;
+  @Input() message: string;
   @Input() keys: Keys[];
   @Input() quantityOfKeys: number;
   label = 'contrato';

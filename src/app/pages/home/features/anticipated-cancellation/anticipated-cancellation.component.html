@@ -89,7 +89,7 @@
   </ngx-simplebar>
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <credix-button (buttonClick)="saveCancellation()" [disabled]="empty || !this.selection.length">
+    <credix-button (buttonClick)="openConfirmationModal()" [disabled]="empty || !this.selection.length">
       Aplicar
     </credix-button>
   </div>

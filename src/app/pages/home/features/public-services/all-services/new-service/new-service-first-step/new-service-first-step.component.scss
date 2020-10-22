@@ -4,14 +4,9 @@
   &__content {
     width: 100%;
 
-    &__input {
+    &__input, &__select {
       width: 380px;
       height: 43px;
-    }
-
-    &__select {
-      width: 380px;
-      height: 44px;
     }
   }
 
@@ -25,7 +20,7 @@
   .new-service-first-step {
     padding: 0 78px;
 
-    &__content__input {
+    &__content__input, &__content__select {
       width: 266px;
     }
   }
