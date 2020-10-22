@@ -7,7 +7,7 @@
          fxLayout="column">
 
       <div fxLayout="column">
-        <credix-radio-button (emitRadioButton)="(placeRadioButton = 1) && getDeliveryPlaces()"
+        <credix-radio-button (emitRadioButton)="placeRadioButtonChanged(1)"
                              [checked]="false"
                              [value]="1"
                              [label]="optionOneTag ||'Sucursales Credix'" name="places"></credix-radio-button>
@@ -21,7 +21,7 @@
       </div>
 
       <div fxLayout="column" fxLayoutGap="8px">
-        <credix-radio-button (emitRadioButton)="(placeRadioButton = 2)"
+        <credix-radio-button (emitRadioButton)="placeRadioButtonChanged(2)"
                              [checked]="false"
                              [value]="2"
                              [label]="optionTwoTag || 'Domicilio'" name="places">
@@ -31,7 +31,7 @@
              fxLayout="column"
              fxLayoutGap="16px">
 
-          <credix-radio-button (emitRadioButton)="(addressRadioButton = 1) && getUserAddress()"
+          <credix-radio-button (emitRadioButton)="addressRadioButtonChanged(1)"
                                [value]="1"
                                [label]="subOptionOneTag || 'Dirección registrada en Credix'" name="address">
           </credix-radio-button>
@@ -41,7 +41,7 @@
           </div>
 
           <div fxLayout="row" fxLayoutGap="16px">
-            <credix-radio-button (emitRadioButton)="(addressRadioButton = 2) && openNewAddressModal()"
+            <credix-radio-button (emitRadioButton)="addressRadioButtonChanged(2)"
                                  [value]="2"
                                  [label]="subOptionTwoTag  || 'User otra dirección'"
                                  name="address"></credix-radio-button>

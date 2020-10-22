@@ -91,6 +91,29 @@ export class NewAdditionalCardSecondStepComponent implements OnInit {
     });
   }
 
+  placeRadioButtonChanged(value: number) {
+    this.placeRadioButton = value;
+    this.addressControl.reset();
+    if (value === 1) {
+      this.getDeliveryPlaces();
+    }
+  }
+
+  addressRadioButtonChanged(value: number) {
+    this.addressRadioButton = value;
+    this.addressControl.reset();
+    switch (value) {
+      case 1 :
+        this.getUserAddress();
+        break;
+      case 2:
+        this.openNewAddressModal();
+        break;
+      default:
+        this.getUserAddress();
+    }
+  }
+
   getTags(tags: Tag[]) {
     this.optionOneTag = tags.find(tag => tag.description === 'adicionales.stepper2.option1').value;
     this.subOptionOneTag = tags.find(tag => tag.description === 'adicionales.stepper2.option1.option1').value;
