@@ -152,7 +152,10 @@ export class MarchamoComponent implements OnInit {
       this.pickUpForm.controls.phoneNumber.value,
       ownerEmail
     )
-      .pipe(finalize(() => this.done = true))
+      .pipe(finalize(() => {
+        this.done = true;
+        this.confirmForm.controls.credixCode.reset(null, {emitEvent: false});
+      }))
       .subscribe(response => {
         this.status = response.type;
         this.message = response.message;

@@ -78,14 +78,13 @@ export class MarchamoService {
         }));
   }
 
-  // TODO: descomentar los elementos del arreglo de aditionalProducts
   @Cacheable()
   getConsultVehicle(plateClassId: string, plateNumber: string): Observable<any> {
     return this.httpService.post('marchamos', this.getVehicleConsultUri, {
       plateClassId,
       plateNumber,
       aditionalProducts: [
-        /* {
+        {
            productCode: 5
          },
          {
@@ -93,7 +92,7 @@ export class MarchamoService {
          },
          {
            productCode: 8
-         }*/
+         }
       ]
     }).pipe(
       map((response) => {
