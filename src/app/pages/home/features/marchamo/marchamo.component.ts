@@ -86,9 +86,8 @@ export class MarchamoComponent implements OnInit {
     this.stepper.previous();
     this.stepperIndex = this.stepper.selectedIndex;
     this.checkNextStep();
-    if (this.stepperIndex === 2) {
-      this.confirmForm.controls.credixCode.reset(null, {emitEvent: false});
-    }
+    this.confirmForm.controls.credixCode.reset(null, {emitEvent: false});
+    this.pickUpForm.controls.deliveryPlace.reset(null, {emitEvent: false});
   }
 
   checkNextStep() {
