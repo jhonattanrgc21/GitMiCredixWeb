@@ -13,7 +13,7 @@ export interface Voucher {
   currencyCode: string;
   clientName: string;
   billNumber: string;
-  authorizationNumber: string;
+  transactionNumber: string;
   paymentStatus: string;
   movementDate: string;
   expirationDate: string;

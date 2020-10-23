@@ -108,7 +108,7 @@ export class FavoriteServicesComponent implements OnInit {
             currencyCode: this.pendingReceipt.currencyCode,
             clientName: this.pendingReceipt.clientName,
             billNumber: this.pendingReceipt.receipts.billNumber,
-            authorizationNumber: response.authorizationNumber,
+            transactionNumber: response.transactionNumber,
             channelType: this.pendingReceipt.channelType,
             paymentStatus: 'Aplicado',
             movementDate: this.pendingReceipt.date,

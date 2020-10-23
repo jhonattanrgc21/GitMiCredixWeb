@@ -132,7 +132,7 @@ export class NewServiceComponent implements OnInit {
           currencyCode: this.pendingReceipts.currencyCode,
           clientName: this.pendingReceipts.clientName,
           billNumber: this.pendingReceipts.receipts.billNumber,
-          authorizationNumber: response.authorizationNumber,
+          transactionNumber: response.transactionNumber,
           channelType: this.pendingReceipts.channelType,
           paymentStatus: 'Aplicado',
           movementDate: this.pendingReceipts.date,

@@ -133,7 +133,7 @@ export class NewRechargeComponent implements OnInit {
           channelType: this.pendingReceipts.channelType,
           clientName: this.pendingReceipts.clientName,
           billNumber: this.pendingReceipts.receipts.billNumber,
-          authorizationNumber: response.authorizationNumber,
+          transactionNumber: response.transactionNumber,
           paymentStatus: 'Aplicado',
           movementDate: this.pendingReceipts.date,
           expirationDate: this.pendingReceipts.receipts.expirationDate,

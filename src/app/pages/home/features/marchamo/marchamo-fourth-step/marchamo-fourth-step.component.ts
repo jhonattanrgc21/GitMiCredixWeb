@@ -61,7 +61,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   }
 
   computeCalculate() {
-    this.totalOfItemProduct = (this.amountOfItemProduct !== undefined) ?
+    this.totalOfItemProduct = (this.amountOfItemProduct) ?
       this.amountOfItemProduct.reduce((a, b) => a + b.amounts, 0) : 0;
   }
 
