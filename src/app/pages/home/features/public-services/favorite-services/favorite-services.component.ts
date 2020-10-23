@@ -89,7 +89,7 @@ export class FavoriteServicesComponent implements OnInit {
         .subscribe((response) => {
           this.publicServicesService.result = {
             status: response.type,
-            message: response.descriptionOne,
+            message: response.descriptionOne || response.message,
             title: 'Servicios'
           };
 
@@ -108,7 +108,7 @@ export class FavoriteServicesComponent implements OnInit {
             currencyCode: this.pendingReceipt.currencyCode,
             clientName: this.pendingReceipt.clientName,
             billNumber: this.pendingReceipt.receipts.billNumber,
-            invoiceNumber: this.pendingReceipt.receipts.receipt,
+            authorizationNumber: response.authorizationNumber,
             channelType: this.pendingReceipt.channelType,
             paymentStatus: 'Aplicado',
             movementDate: this.pendingReceipt.date,
