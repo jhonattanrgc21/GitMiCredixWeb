@@ -58,7 +58,9 @@ export class SignInService {
                   `${card.cardNumber.substr(card.cardNumber.length - 8, 4)} ${card.cardNumber.substr(card.cardNumber.length - 4, card.cardNumber.length)}`
               }))
           };
-        } else {
+        }
+
+        if (response.titleOne === 'error') {
           throw new Error(response.json.message);
         }
       })

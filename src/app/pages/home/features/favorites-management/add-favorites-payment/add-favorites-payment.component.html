@@ -59,8 +59,6 @@
       </div>
 
       <credix-code-input [formControl]="codeCredix" class="add-favorites-payment__form">
-          <span *ngIf="codeCredix.hasError('required')"
-                error>Introduzca el código credix.</span>
         <span *ngIf="codeCredix.hasError('invalid')"
               error>Código MiCredix inválido.</span>
       </credix-code-input>

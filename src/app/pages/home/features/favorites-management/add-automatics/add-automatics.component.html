@@ -65,8 +65,6 @@
       <credix-code-link></credix-code-link>
 
       <credix-code-input [formControl]="codeCredix" class="add-automatics__form">
-       <span *ngIf="codeCredix.hasError('required')"
-             error>Introduzca el código credix.</span>
         <span *ngIf="codeCredix.hasError('invalid')"
               error>Código MiCredix inválido.</span>
       </credix-code-input>
