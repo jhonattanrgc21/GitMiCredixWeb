@@ -76,6 +76,7 @@ export class FavoriteServicesComponent implements OnInit {
     if (this.pendingReceipt?.receipts !== null) {
       const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts.totalAmount).toString();
       this.publicServicesService.payPublicService(
+        this.pendingReceipt.clientName,
         this.selectedPublicService.publicServiceId,
         +this.pendingReceipt.receipts.serviceValue,
         this.pendingReceipt.currencyCode,

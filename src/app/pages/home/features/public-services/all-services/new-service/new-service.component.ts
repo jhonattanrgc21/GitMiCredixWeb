@@ -95,6 +95,7 @@ export class NewServiceComponent implements OnInit {
 
   payService() {
     this.publicServicesService.payPublicService(
+      this.pendingReceipts.clientName,
       this.publicServiceId,
       +this.pendingReceipts.receipts.serviceValue,
       this.pendingReceipts.currencyCode,
