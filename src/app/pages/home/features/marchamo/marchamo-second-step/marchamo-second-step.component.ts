@@ -197,6 +197,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.marchamosService.getPromoApply()
       .subscribe(response => {
         this.paymentList = response;
+        this.marchamosService.paymentList = response;
       });
   }
 
