@@ -95,6 +95,7 @@ export class NewRechargeComponent implements OnInit {
   recharge() {
     const receipt = this.pendingReceipts.receipts;
     this.publicServicesService.payPublicService(
+      this.pendingReceipts.clientName,
       this.publicServiceId,
       +receipt.serviceValue,
       this.pendingReceipts.currencyCode,
