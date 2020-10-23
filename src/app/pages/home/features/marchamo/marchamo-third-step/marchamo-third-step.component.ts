@@ -82,6 +82,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   domicileRadioButtonChanged(value: number) {
     this.addressRadioButton = value;
     if (this.addressRadioButton === 1) {
+      this.pickUpForm.controls.deliveryPlace.reset(null, {emitEvent: false});
       this.pickUpForm.controls.address.setValue(this.userAddress);
       this.pickUpForm.controls.email.setValue(this.userEmail);
       this.pickUpForm.controls.phoneNumber.setValue(this.phoneNumber);
@@ -115,7 +116,10 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
 
   onDeliveryPlaceChanged() {
     this.pickUpForm.controls.deliveryPlace.valueChanges.subscribe(value => {
-      this.pickUpForm.controls.address.setValue(this.deliveryPlaces.find(dlp => dlp.id === value).description);
+      if (value) {
+        this.pickUpForm.controls.address
+          .setValue(this.deliveryPlaces.find(dlp => dlp.id === value).description);
+      }
     });
   }
 
@@ -130,7 +134,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       if (value) {
         this.newAddress = value;
         this.phoneNumber = value.phoneNumber;
-        this.userAddress = `${this.newAddress.detail}, ${this.newAddress.district}, ${this.newAddress.canton},${this.newAddress.province}`;
+        this.userAddress = `${this.newAddress.detail}, ${this.newAddress.district.description}, ${this.newAddress.canton.description},${this.newAddress.province.description}`;
         this.pickUpForm.controls.person.setValue(value.name);
         this.pickUpForm.controls.address.setValue(this.userAddress);
         this.pickUpForm.controls.phoneNumber.setValue(this.phoneNumber);

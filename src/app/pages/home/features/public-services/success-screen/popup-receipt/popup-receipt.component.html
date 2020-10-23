@@ -42,12 +42,12 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="receipt__tag">{{ popupTagsReceipt.tag8 || 'Comprobante' }}</span>
-        <span class="bill-number truncate tr" fxFlex><strong>{{voucher.billNumber}}</strong></span>
+        <span class="tr" fxFlex><strong>{{voucher.authorizationNumber}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="receipt__tag">{{ popupTagsReceipt.tag9 || 'No. factura' }}</span>
-        <span class="tr" fxFlex><strong>{{voucher.invoiceNumber}}</strong></span>
+        <span class="tr" fxFlex><strong>{{voucher.billNumber}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
@@ -68,7 +68,8 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag13 || 'Período' }}</span>
+        <span class="receipt__tag truncate">{{ voucher.institution[0].companyName === 'ICETEL' ? 'Mes al cobro'
+            : popupTagsReceipt.tag13 || 'Período' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.period | dateFormatter: 'yearMonth'}}</strong></span>
       </div>
 

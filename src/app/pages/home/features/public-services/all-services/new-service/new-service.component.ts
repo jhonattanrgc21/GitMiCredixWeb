@@ -111,7 +111,11 @@ export class NewServiceComponent implements OnInit {
           this.saveFavorite();
         }
 
-        this.publicServicesService.result = {status: response.type, message: response.descriptionOne, title: this.publicServiceName};
+        this.publicServicesService.result = {
+          status: response.type,
+          message: response.descriptionOne || response.message,
+          title: this.publicServiceName
+        };
 
         this.publicServicesService.payment = {
           currencySymbol: this.currencySymbol,
@@ -128,7 +132,7 @@ export class NewServiceComponent implements OnInit {
           currencyCode: this.pendingReceipts.currencyCode,
           clientName: this.pendingReceipts.clientName,
           billNumber: this.pendingReceipts.receipts.billNumber,
-          invoiceNumber: this.pendingReceipts.receipts.receipt,
+          authorizationNumber: response.authorizationNumber,
           channelType: this.pendingReceipts.channelType,
           paymentStatus: 'Aplicado',
           movementDate: this.pendingReceipts.date,

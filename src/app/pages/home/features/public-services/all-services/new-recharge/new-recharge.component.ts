@@ -111,7 +111,11 @@ export class NewRechargeComponent implements OnInit {
           this.saveFavorite();
         }
 
-        this.publicServicesService.result = {status: response.type, message: response.descriptionOne, title: this.publicServiceName};
+        this.publicServicesService.result = {
+          status: response.type,
+          message: response.descriptionOne || response.message,
+          title: this.publicServiceName
+        };
 
         this.publicServicesService.payment = {
           currencySymbol: '₡',
@@ -129,7 +133,7 @@ export class NewRechargeComponent implements OnInit {
           channelType: this.pendingReceipts.channelType,
           clientName: this.pendingReceipts.clientName,
           billNumber: this.pendingReceipts.receipts.billNumber,
-          invoiceNumber: this.pendingReceipts.receipts.receipt,
+          authorizationNumber: response.authorizationNumber,
           paymentStatus: 'Aplicado',
           movementDate: this.pendingReceipts.date,
           expirationDate: this.pendingReceipts.receipts.expirationDate,

@@ -18,7 +18,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   @Input() deliveryPlace: string;
   @Input() totalMarchamo: number;
   @Input() iva: number;
-  amountOfItemProduct: { amounts: number; productCode: number; }[];
+  amountOfItemProduct: { amounts: number; productCode: number; }[] = [];
   totalOfItemProduct = 0;
   total = 0;
   commission: number;
@@ -33,7 +33,6 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
 
   constructor(private tagsService: TagsService,
               private marchamosService: MarchamoService) {
-    this.amountOfItemProduct = null;
   }
 
   ngOnInit(): void {
@@ -58,6 +57,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
     let sum: number;
     sum = this.totalMarchamo + this.totalOfItemProduct + this.iva + this.commission;
     this.total = sum;
+    this.marchamosService.total = this.total;
   }
 
   computeCalculate() {
