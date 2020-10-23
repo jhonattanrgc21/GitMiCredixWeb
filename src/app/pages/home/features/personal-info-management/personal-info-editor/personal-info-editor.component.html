@@ -82,8 +82,6 @@
 
       <credix-code-input class="personal-info-editor__content__right-wrapper"
                          formControlName="code">
-       <span *ngIf="personalInfoFormGroup.controls.code.hasError('required')"
-             error>Introduzca el código credix.</span>
         <span *ngIf="personalInfoFormGroup.controls.code.hasError('invalid')"
               error>Código MiCredix inválido.</span>
       </credix-code-input>

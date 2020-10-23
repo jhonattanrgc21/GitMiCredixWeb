@@ -27,7 +27,7 @@ export class AddAutomaticsComponent implements OnInit {
   result: { status: 'success' | 'error'; message: string; title: string; };
   keys: Keys[] = [];
   quantityOfKeys: number;
-  label = 'contrato';
+  label = 'referencia';
   mask: string;
   data: {
     publicServiceCategoryId: number;

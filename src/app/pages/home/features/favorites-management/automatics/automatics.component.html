@@ -44,8 +44,6 @@
     <div class="mt-24px" fxLayout="column">
       <span><strong>Código MiCredix</strong></span>
       <credix-code-input [formControl]="codeCredix" class="automatics__input disabled">
-        <span *ngIf="codeCredix.hasError('required')"
-              error>Introduzca el código credix.</span>
         <span *ngIf="codeCredix.hasError('invalid')"
               error>Código MiCredix inválido.</span>
       </credix-code-input>

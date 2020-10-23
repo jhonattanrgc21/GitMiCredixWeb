@@ -9,6 +9,7 @@ import {SignInService} from './sign-in.service';
 import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
 import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
 import {v4 as uuidv4} from 'uuid';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-in',
@@ -110,14 +111,16 @@ export class SignInComponent implements OnInit {
   }
 
   closeSessionActivate() {
-    this.signInService.logout(this.signInformGroup.controls.identification.value).subscribe(status => {
-        if (status === 'success') {
-          this.storageService.removeCurrentSession();
-          this.sessionActivateModal.close();
-          this.login();
+    this.signInService.logout(this.signInformGroup.controls.identification.value)
+      .pipe(finalize(() => this.sessionActivateModal.close()))
+      .subscribe(status => {
+          if (status === 'success') {
+            this.storageService.removeCurrentSession();
+            this.sessionActivateModal.close();
+            this.login();
+          }
         }
-      }
-    );
+      );
   }
 
   open(modal: 'sign-up' | 'forgot-pass' | 'session-activate' | 'new-device') {
