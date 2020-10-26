@@ -1,0 +1,90 @@
+<mat-card *ngIf="!done else doneNewAutomaticsTemplate" class="add-automatics" credixCard fxLayout="column">
+
+  <h1 class="mb-32px">Añadir pago automático</h1>
+
+  <div class="add-automatics__container mt-8px" fxFlex fxLayout="column" fxLayoutGap="16px">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex="210px"><strong>Nuevo pago automático</strong></span>
+
+      <form [formGroup]="newAutomaticsForm" class="add-automatics__form" fxLayout="column" fxLayoutGap="16px">
+
+        <credix-select class="add-automatics__form__input" formControlName="publicServicesCategory"
+                       label="Categoría">
+          <mat-option *ngFor="let category of publicServicesCategory"
+                      [value]="category.publicServiceCategoryId">
+            {{category.publicServiceCategory}}
+          </mat-option>
+        </credix-select>
+
+        <credix-select class="add-automatics__form__input" formControlName="publicServiceCompany"
+                       label="Compañía">
+          <mat-option *ngFor="let company of publicCompany"
+                      [value]="company.publicServiceEnterpriseId">
+            {{company.publicServiceEnterpriseDescription}}
+          </mat-option>
+        </credix-select>
+
+        <credix-select class="add-automatics__form__input" formControlName="publicService" label="Servicio">
+          <mat-option *ngFor="let service of publicServices"
+                      [value]="service.publicServiceId">
+            {{service.publicServiceName}}
+          </mat-option>
+        </credix-select>
+
+        <credix-select class="add-automatics__form__input" formControlName="keyType" label="Tipo de referencia">
+          <mat-option *ngFor="let key of keys" [value]="key.keyType">
+            {{key.description}}
+          </mat-option>
+        </credix-select>
+
+        <credix-input-field [label]="'Número de ' + label" [mask]="mask" class="add-automatics__form__input"
+                            formControlName="contractControl"></credix-input-field>
+
+        <credix-input-field class="add-automatics__form__input" formControlName="nameOfAutomatics"
+                            label="Nombre del pago automático"></credix-input-field>
+
+        <credix-input-field class="add-automatics__form__input" formControlName="maxAmount"
+                            label="Monto máximo a pagar" mask="separator"></credix-input-field>
+
+        <credix-date-picker [startDate]="today"
+                            class="add-automatics__form__input" formControlName="startDate"
+                            label="Fecha inicial de pago"></credix-date-picker>
+
+        <credix-select class="add-automatics__form__input mb-8px " formControlName="periodicity"
+                       label="Periocidad">
+          <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
+            {{periodicity.description}}
+          </mat-option>
+        </credix-select>
+      </form>
+    </div>
+
+    <mat-divider credixDivider></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <credix-code-link></credix-code-link>
+
+      <credix-code-input [formControl]="codeCredix" class="add-automatics__form">
+        <span *ngIf="codeCredix.hasError('invalid')"
+              error>Código MiCredix inválido.</span>
+      </credix-code-input>
+    </div>
+  </div>
+
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <credix-button (buttonClick)="back()" class="mr-16px" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="addAutomaticPayment()" [disabled]="newAutomaticsForm.invalid">Añadir</credix-button>
+  </div>
+</mat-card>
+
+
+<ng-template #doneNewAutomaticsTemplate>
+  <app-credix-result-view
+    [resultMessage]="result.message"
+    [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
+    [status]="result.status"
+    [title]="'Añadir pago automático'"
+    buttonText="Listo"
+    routeTo="/home/favorites-management/automatics">
+  </app-credix-result-view>
+</ng-template>

@@ -1,0 +1,10 @@
+<svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.a {
+      fill: #3e3e3e;
+    }</style>
+  </defs>
+  <path
+    d="M9,5A3.429,3.429,0,1,1,5.571,8.429,3.429,3.429,0,0,1,9,5Zm0,9.143c4.418,0,8,1.535,8,3.429V21H1V17.571C1,15.678,4.582,14.143,9,14.143Z"
+    transform="translate(-1 -5)"/>
+</svg>

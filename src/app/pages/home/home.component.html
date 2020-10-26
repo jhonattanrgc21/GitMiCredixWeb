@@ -1,0 +1,24 @@
+<div [class.is-tablet]="isTablet" class="home" fxLayout="column">
+  <credix-home-toolbar (signOutClick)="signOut()" (toggleClick)="sidenav.toggle()"></credix-home-toolbar>
+
+  <mat-sidenav-container class="home__sidenav-container">
+    <mat-sidenav #sidenav (closedStart)="homeService.isClosing(true)" (openedStart)="homeService.isClosing(false)"
+                 [fixedInViewport]="isTablet"
+                 [mode]="isTablet ? 'over' : 'side'" [opened]="!isTablet" class="home__sidebar"
+                 fixedTopGap="66">
+      <credix-home-navigation-menu></credix-home-navigation-menu>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="home__content" fxLayout="column" fxLayoutAlign="center center">
+      <ngx-simplebar #scrollBar [options]="options" class="w-100" fxFlex="calc(100vh - 106px)">
+        <div fxLayoutAlign="center center">
+          <main class="home__content__main">
+            <router-outlet></router-outlet>
+          </main>
+        </div>
+      </ngx-simplebar>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <credix-home-footer></credix-home-footer>
+</div>

@@ -1,0 +1,75 @@
+.personal-info-editor {
+  max-height: 860px;
+
+  &__container {
+    padding: 0 84px;
+  }
+
+  &__content {
+
+    &:first-of-type {
+      margin-top: 40px;
+      height: 294px;
+    }
+
+    &:nth-of-type(2) {
+      height: 238px;
+    }
+
+    &__right-wrapper {
+      width: 379px;
+    }
+  }
+
+  &__input {
+    height: 43px;
+    margin-bottom: 16px;
+  }
+
+  ::ng-deep {
+    .mat-form-field-wrapper {
+      height: 65px;
+      padding-bottom: 16px;
+    }
+
+    .mat-form-field-flex {
+      height: 43px;
+    }
+  }
+
+  &__select {
+    height: 43px;
+    margin-bottom: 16px;
+  }
+
+  ::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {
+    padding-top: 0;
+  }
+
+}
+
+.personal-info-editor-result {
+  position: relative;
+  height: 662px;
+}
+
+@media screen and (max-width: 1199px) {
+
+  .personal-info-editor {
+
+    &__container {
+      padding: 0 76px;
+    }
+
+    &__content {
+
+      &__right-wrapper {
+        width: 266px;
+      }
+    }
+  }
+
+  .personal-info-editor-result {
+    height: 886px;
+  }
+}

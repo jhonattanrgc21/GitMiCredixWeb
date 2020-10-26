@@ -1,0 +1,16 @@
+<div class="marchamos-detail" fxLayout="column">
+
+  <div *ngFor="let billing of billingHistorys" class="marchamos-detail__billing-wrapper" fxLayout="row"
+       fxLayoutAlign="space-between">
+    <span fxFlex="176px">{{billing.itemDescription}}</span>
+    <credix-numeric-block [value]="billing.itemAmount" fontWeight="bold" prefix="₡"></credix-numeric-block>
+  </div>
+
+  <mat-divider class="mt-8px mb-8px" credixDivider></mat-divider>
+
+  <div class="marchamos-detail__footer" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="176px">{{popUpTagT || 'Total'}}</span>
+    <credix-numeric-block [value]="totalAmount" class="total-number" fontSize="24" fontWeight="bold"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+</div>

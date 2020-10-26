@@ -1,0 +1,15 @@
+<span [style.font-size.px]="fontSize" class="credix-numeric-block">
+
+    <span [style.font-weight]="fontWeight"
+          class="credix-numeric-block__integer">{{prefix}}</span>
+
+    <span *ngIf="sign === '-'"
+          [style.font-weight]="fontWeight"
+          class="credix-numeric-block__integer">{{sign}}</span>
+
+    <span [style.font-weight]="fontWeight"
+          class="credix-numeric-block__integer">{{integerValue | mask: 'separator':'.'}}</span>
+
+  <span [style.font-weight]="fontWeight" class="credix-numeric-block__decimal">,{{decimalValue}}</span>
+
+</span>

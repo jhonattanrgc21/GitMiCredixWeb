@@ -1,0 +1,15 @@
+.personal-credit {
+  max-height: 662px;
+  height: 100%;
+
+  ::ng-deep.credix-result-notification__message {
+    width: 296px;
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+  .personal-credit {
+    max-height: 886px;
+  }
+}

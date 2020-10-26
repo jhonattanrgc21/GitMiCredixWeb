@@ -1,0 +1,22 @@
+<div class="new-service-first-step" fxLayout="column" fxLayoutGap="80px">
+
+  <div class="new-service-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="150px"><strong>Datos de referencia</strong></span>
+
+    <form [formGroup]="contractFormGroup" fxLayout="column" fxLayoutGap="16px">
+      <credix-select *ngIf="quantityOfKeys !== 1 && keys?.length > 1" [label]="'Tipo de referencia'"
+                     class="new-service-first-step__content__select" formControlName="keysControl">
+        <mat-option *ngFor="let key of keys" [value]="key.keyType">
+          {{key.description}}
+        </mat-option>
+      </credix-select>
+
+      <credix-input-field [label]="'Número de ' + label" formControlName="contractControl"
+                          class="new-service-first-step__content__input"></credix-input-field>
+    </form>
+  </div>
+
+  <credix-result-notification *ngIf="!hasReceipts" status="info"
+                              [title]="message"></credix-result-notification>
+
+</div>

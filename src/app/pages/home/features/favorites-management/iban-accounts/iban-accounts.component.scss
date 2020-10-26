@@ -1,0 +1,14 @@
+.iban-accounts {
+  padding: 0;
+  width: 296px;
+
+  &__input {
+    &.disabled {
+      color: #7b7b7b;
+    }
+  }
+}
+
+.enabled {
+  color: #3e3e3e !important;
+}

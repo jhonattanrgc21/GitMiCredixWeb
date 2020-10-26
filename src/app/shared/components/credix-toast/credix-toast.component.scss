@@ -1,0 +1,50 @@
+.credix-toast {
+  width: calc(100vw - 32px);
+  height: 40px;
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  &__message {
+    position: relative;
+    text-align: center;
+    color: #ffffff;
+
+    &:before {
+      position: absolute;
+      left: -24px
+    }
+  }
+
+  &--success {
+    background-color: #19D27E;
+
+    .credix-toast__message:before {
+      content: url(./succcess_icon.svg);
+    }
+  }
+
+  &--warning {
+    background-color: #FFDC49;
+
+    .credix-toast__message:before {
+      left: -28px;
+      top: 1px;
+      content: url(./warning_icon.svg);
+    }
+  }
+
+  &--error {
+    background-color: #FF4965;
+
+    .credix-toast__message:before {
+      content: url(./error_icon.svg);
+    }
+  }
+
+  &--info {
+    background-color: #369BB9;
+  }
+}

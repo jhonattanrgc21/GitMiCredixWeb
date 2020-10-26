@@ -1,0 +1,35 @@
+.toolbar {
+  height: 66px;
+  width: 100vw;
+  background-color: #ffffff;
+  padding-right: 16px;
+  padding-left: 16px;
+
+  &__logo-container {
+    height: 66px;
+  }
+
+  &__logo {
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+    img {
+      width: 120px;
+      height: 34px;
+    }
+  }
+
+  &__exit-btn {
+    padding: 0 !important;
+  }
+
+  &__span {
+    margin-right: 8px;
+    font-weight: 300;
+    font-size: 14px;
+  }
+
+  &__menu-icon {
+    color: #3e3e3e;
+  }
+}

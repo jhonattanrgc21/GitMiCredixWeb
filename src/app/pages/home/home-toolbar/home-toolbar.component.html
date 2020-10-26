@@ -1,0 +1,18 @@
+<mat-toolbar class="toolbar" fxLayout="row">
+
+  <button (click)="toggle()" mat-icon-button>
+    <mat-icon [svgIcon]="svgIcon"
+              class="toolbar__menu-icon"></mat-icon>
+  </button>
+
+  <span class="toolbar__logo-container" fxFlex fxLayoutAlign="center">
+    <a (click)="goHome()" [routerLink]="['/home']" class="toolbar__logo">
+      <img alt="credix-logo" src="../../../../assets/images/credixLogo_icon.svg">
+    </a>
+    </span>
+
+  <button (click)="signOutClick.emit()" class="toolbar__exit-btn" mat-button>
+    <span class="toolbar__span">Salir</span>
+    <mat-icon svgIcon="exit"></mat-icon>
+  </button>
+</mat-toolbar>

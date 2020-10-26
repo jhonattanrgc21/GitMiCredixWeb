@@ -1,0 +1,54 @@
+<div class="personal-credit-second-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
+
+    <span class="tl" fxFlex="290px"><strong>{{ stepTwoTags.subtitle ||
+    '¿Cómo desea recibir el desembolso?'}}</strong></span>
+
+    <div class="left-content" fxFlexAlign="flex-start flex-start" fxLayout="column" fxLayoutGap="16px">
+
+      <div fxLayout="column">
+        <credix-radio-button (emitRadioButton)="radioButtonChanged($event)" [label]="stepTwoTags.option1Tag
+        || 'Transferencia'"
+                             name="disbursement"
+                             value="1"></credix-radio-button>
+
+        <credix-input-field *ngIf="radioButtonSelected == 1" class="personal-credit-second-step__input ml-20px"
+                            [formControl]="accountControl" label="Digite la cuenta IBAN">
+             <span *ngIf="accountControl.hasError('invalid')"
+                   error>Cuenta IBAN inválida.</span>
+        </credix-input-field>
+
+        <span *ngIf="radioButtonSelected == 1" class="ml-20px left-content">
+          {{ stepTwoTags.secondStepOption1Tag
+        || 'El dinero será transferido en un plazo máximo de 48 horas hábiles.'}}</span>
+
+        <mat-divider *ngIf="radioButtonSelected == 1"
+                     class="personal-credit-second-step__divider ml-20px"></mat-divider>
+      </div>
+
+      <div fxLayout="column" fxLayoutGap="16px">
+        <credix-radio-button (emitRadioButton)="radioButtonChanged($event)" [label]="stepTwoTags.option2Tag
+        || 'Cheque'"
+                             name="disbursement"
+                             value="2"></credix-radio-button>
+
+        <p *ngIf="radioButtonSelected == 2" class="ml-20px left-content">
+          {{stepTwoTags.secondStepOption2Tag1 ||
+        'El cheque estará listo para ser retirado en nuestras oficinas en días hábiles, de 10am-12pm o de 2pm-4pm. (Lunes a viernes)'}}
+        </p>
+
+        <span *ngIf="radioButtonSelected == 2" class="ml-20px"><strong>{{ stepTwoTags.secondStepOption2Tag2 ||
+        'Dirección'}}</strong></span>
+
+        <p *ngIf="radioButtonSelected == 2" class="ml-20px left-content">
+          {{ stepTwoTags.secondStepOption2Tag3 ||
+        'Tibás, 300m oeste del cruce de Llorente, oficinas en el segundo piso.'}}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

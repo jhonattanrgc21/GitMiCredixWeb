@@ -1,0 +1,102 @@
+<div class="digital-payments" fxLayout="column" fxLayoutGap="16px">
+
+  <div class="digital-payments__option" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="244px"><strong>{{firstSubtitleTag || 'SINPE Móvil'}}</strong></span>
+
+    <p class="digital-payments__option__right-content">
+      {{firstTextTag || 'Realice un pase de dinero para pagar su tarjeta al número de SINPE Móvil de Credix:'}}
+      <credix-link-button>{{phoneNumberTag || ''}}</credix-link-button>
+      <span class="dot">.</span>
+    </p>
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="digital-payments__option" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="244px"><strong>{{secondSubtitleTag || 'Transferencia a sus cuentas IBAN'}}</strong></span>
+
+    <div class="digital-payments__option__right-content" fxLayout="column" fxLayoutGap="16px">
+      <p>{{secondTexTag || 'Pague mediante transferencia SINPE a las cuentas IBAN de su tarjeta'}}</p>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="58px">{{colonesTag || 'Colones'}}</span>
+
+        <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+          <span>{{ibanColonesTag || ''}}</span>
+          <a (click)="copyIbanAccount('Cuenta copiada', 1)"
+             cdkCopyToClipboard="CR91010200009093845399">
+            <mat-icon [class.is-green]="copyId == 1" svgIcon="content-copy"></mat-icon>
+          </a>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="58px">{{dollarTag || 'Dólares'}}</span>
+
+        <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+          <span>{{ibanDollarsTag || ''}}</span>
+          <a (click)="copyIbanAccount('Cuenta copiada', 2)"
+             cdkCopyToClipboard="CR31010200009093845703">
+            <mat-icon [class.is-green]="copyId == 2" svgIcon="content-copy"></mat-icon>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <mat-divider credixDivider></mat-divider>
+
+   <div class="digital-payments__option" fxLayout="row" fxLayoutAlign="space-between">
+     <span fxFlex="244px"><strong>{{thirdSubtitleTag || 'Transferencia a cuentas IBAN de Credix'}}</strong></span>
+
+     <div class="digital-payments__option__right-content" fxLayout="column" fxLayoutGap="16px">
+       <p>{{thirdTextTag ||
+       'También puede realizar el pago de su tarjeta mediante transferencia SINPE a las cuentas IBAN de Credix'}}</p>
+
+       <div fxLayout="row" fxLayoutAlign="space-between">
+         <p fxFlex="150px">{{accountNameTag || 'Cuenta a nombre de'}}</p>
+         <p>{{credixTag || 'Credix World S.A.'}}</p>
+       </div>
+
+       <div fxLayout="row" fxLayoutAlign="space-between">
+         <p fxFlex="150px">{{legalIdentificationTag || 'Cédula jurídica'}}</p>
+         <p>{{identificationTag || ''}}</p>
+       </div>
+
+       <div fxLayout="row" fxLayoutAlign="space-between">
+         <span fxFlex="58px">{{colonesTag || 'Colones'}}</span>
+
+         <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+           <span>{{ibanColonesTag || ''}}</span>
+           <a (click)="copyIbanAccount('Cuenta copiada', 3)"
+              cdkCopyToClipboard="CR91010200009093845399">
+             <mat-icon [class.is-green]="copyId == 3" svgIcon="content-copy"></mat-icon>
+           </a>
+         </div>
+       </div>
+
+       <div fxLayout="row" fxLayoutAlign="space-between">
+         <span fxFlex="58px">{{dollarTag || 'Dólares'}}</span>
+
+         <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+           <span>{{ibanDollarsTag || ''}}</span>
+
+           <a (click)="copyIbanAccount('Cuenta copiada', 4)"
+              cdkCopyToClipboard="CR31010200009093845703">
+             <mat-icon [class.is-green]="copyId == 4" svgIcon="content-copy"></mat-icon>
+           </a>
+         </div>
+       </div>
+
+       <p>{{fourthTextTag || 'Al realizar el pago de su tarjeta por esta via, debe:'}}</p>
+       <p>• {{fifthTextTag ||
+       'Indicar en el detalle de la transferencia, su número de cuenta ubicado en el reverso de la tarjeta'}}</p>
+       <p>• {{sixthTextTag || 'Hacer el reporte de pago'}}
+         <credix-link-button (click)="goToReportTransference()">aquí.</credix-link-button>
+       </p>
+
+     </div>
+   </div>-->
+
+</div>

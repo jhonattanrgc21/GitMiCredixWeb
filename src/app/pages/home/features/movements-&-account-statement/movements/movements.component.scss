@@ -1,0 +1,62 @@
+.movements {
+
+  &__table {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+    ::ng-deep.mat-header-row {
+      background: #F0F0F0 !important;
+      top: 0 !important;
+    }
+
+    mat-header-cell:first-of-type {
+      justify-content: flex-start !important;
+    }
+
+    mat-cell {
+
+      &:first-of-type {
+        text-align: left !important;
+      }
+
+      &.is-green {
+        color: #19D27E;
+
+        ::ng-deep .credix-numeric-block__integer, ::ng-deep .credix-numeric-block__decimal {
+          color: #19D27E !important;
+        }
+      }
+    }
+
+    mat-header-cell, mat-cell {
+      margin: 0 !important;
+
+      &:first-child {
+        flex: 12% !important;
+        justify-content: center !important;
+        text-align: left !important;
+        color: #6F7071;
+      }
+
+      &:nth-child(2) {
+        flex: 32% !important;
+      }
+
+      &:nth-child(3) {
+        flex: 24% !important;
+      }
+
+      &:nth-child(4) {
+        flex: 12% !important;
+        color: #6F7071;
+      }
+
+      &:last-child {
+        flex: 20% !important;
+        justify-content: flex-end !important;
+        text-align: right !important;
+      }
+    }
+  }
+
+}

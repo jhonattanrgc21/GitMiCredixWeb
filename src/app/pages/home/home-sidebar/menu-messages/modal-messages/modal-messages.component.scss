@@ -1,0 +1,49 @@
+.modal-messages {
+  background: #ffffff;
+  width: 336px;
+  min-height: 100%;
+  border-radius: 8px 8px 0 0;
+
+  &__header {
+    padding: 16px 16px 0 16px;
+
+    span {
+
+      &:last-of-type {
+        font-size: 12px;
+      }
+    }
+  }
+
+  &__img {
+    width: 336px;
+    height: 199px;
+    background-size: cover;
+  }
+
+  &__paginator {
+    margin-left: 65px;
+
+    &__title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    &__btn {
+      width: 15px;
+      height: 15px;
+      line-height: 1 !important;
+
+      mat-icon {
+        fill: #D2D2D2;
+        width: 8px;
+        height: 13px;
+        vertical-align: baseline;
+
+        &.is-enable {
+          fill: #E42313;
+        }
+      }
+    }
+  }
+}

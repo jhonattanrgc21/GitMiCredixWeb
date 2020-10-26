@@ -1,0 +1,68 @@
+<mat-card class="favorites-management" credixCard fxLayout="column" fxLayoutGap="16px">
+  <h1>{{titleTag || 'Gestionar favoritos'}}</h1>
+
+  <credix-tab (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex]" [tabs]="tabs"></credix-tab>
+
+  <credix-navigation-table [headers]="tableHeaders" [hide]="empty">
+
+    <div class="w-100 h-100" fxLayout="column" fxLayoutAlign="space-between" left>
+      <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="favorites-management__options">
+        <div class="favorites-management__options-wrapper" fxLayout="column">
+          <a (click)="getDetailFavorite(account)" *ngFor="let account of accounts"
+             class="favorites-management__option" fxLayout="column">
+          <span [class.is-selected]="
+                                      optionSelected == account.IdAccountFavorite ||
+                                      optionSelected == account.publicServiceFavoriteId ||
+                                      optionSelected == account.id"
+                class="favorites-management__option__label truncate">{{account.name}}</span>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+            <span class="truncate" fxFlex>{{
+              tabId === 1 ?
+                account.account : tabId === 2 ?
+                account.publicServiceEnterpriseDescription :
+                account.account + ' - ' + (account.key | mask: '0000-0000')}}</span>
+              <mat-icon *ngIf="
+                                optionSelected == account.IdAccountFavorite ||
+                                optionSelected == account.publicServiceFavoriteId ||
+                                optionSelected == account.id"
+                        style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+            </div>
+            <span *ngIf="tabId === 2">{{account.serviceReference}}</span>
+          </a>
+        </div>
+      </ngx-simplebar>
+
+      <div class="favorites-management__add-footer" fxLayoutAlign="center center">
+        <credix-button (buttonClick)="add(tabId)">
+          {{'Añadir ' + (tabId === 1 ? 'cuenta IBAN' : tabId === 2 ? 'pago favorito' : 'pago automático')}}
+        </credix-button>
+      </div>
+    </div>
+
+    <div class="relative h-100" fxLayout="column" fxLayoutAlign="flex-start center" right>
+      <router-outlet></router-outlet>
+
+      <div *ngIf="optionSelected !== 0" class="favorites-management__footer" fxLayout="row"
+           fxLayoutAlign="flex-end center"
+           fxLayoutGap="16px">
+        <credix-button (buttonClick)="delete(tabId)" type="secondary">Eliminar</credix-button>
+        <credix-button (buttonClick)="update(tabId)" [disabled]="!updating">Guardar</credix-button>
+      </div>
+    </div>
+
+  </credix-navigation-table>
+
+  <credix-result-notification *ngIf="empty" [title]="tabId === 1 ? 'No tiene cuentas IBAN favoritas en este momento.' :
+                               tabId === 2 ? 'No tiene pagos favoritos en este momento.' :
+                               'No tiene pagos automáticos en este momento.'" class="favorites-management__empty"
+                              status="info">
+  </credix-result-notification>
+
+
+  <div *ngIf="empty" class="favorites-management__footer pr-16px" fxLayout="row" fxLayoutAlign="flex-end center">
+    <credix-button (buttonClick)="add(tabId)">
+      {{'Añadir ' + (tabId === 1 ? 'cuenta IBAN' : tabId === 2 ? 'pago favorito' : 'pago automático')}}
+    </credix-button>
+  </div>
+
+</mat-card>

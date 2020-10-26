@@ -1,0 +1,91 @@
+.account-statement-toolbar {
+  width: 100%;
+  max-height: 200px;
+
+  &__card-icon {
+    width: 47px;
+    height: 32px;
+  }
+
+  &__user {
+    line-height: 1;
+  }
+
+  &__switch ::ng-deep {
+
+    .credix-switch {
+      width: 138px;
+      height: 42px;
+      border-radius: 4px;
+      padding: 4px 0;
+    }
+
+    .credix-switch__label {
+      padding: 6px;
+      height: 34px;
+      border-radius: 4px;
+
+      &:not(.is-checked):hover {
+        border-radius: 4px;
+      }
+    }
+
+    .credix-switch__selection {
+      height: 34px;
+      border-radius: 4px;
+    }
+
+  }
+
+  &__calendar {
+    position: absolute;
+    width: 119px;
+    bottom: -20px;
+    right: -120px;
+
+    mat-icon {
+      width: 18px;
+      height: 20px;
+    }
+  }
+
+  ::ng-deep {
+
+    .mat-form-field-label {
+      color: #3e3e3e;
+    }
+
+    .mat-form-field-infix {
+      padding-top: 4px !important;
+    }
+
+    .mat-select-arrow {
+      border-left: 15px solid transparent !important;
+      border-right: none !important;
+      border-top: 15px solid transparent !important;
+      border-image-source: url('src/assets/images/icons/calendar.svg') !important;
+      border-image-repeat: stretch !important;
+    }
+
+    .mat-select:not(.mat-select-empty) .mat-select-arrow-wrapper {
+      transform: translateY(0) !important;
+    }
+
+    .mat-form-field.mat-focused, .mat-form-field-invalid {
+
+      .mat-form-field-label, .mat-form-field-ripple {
+        color: inherit;
+        background-color: inherit;
+      }
+    }
+  }
+
+  &.is-hidden {
+    height: 0;
+
+    .account-statement-toolbar__user-card, .account-statement-toolbar__switch,
+    .account-statement-toolbar__calendar, .account-statement-toolbar__table {
+      display: none !important;
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<app-credix-result-view [resultMessage]="message"
+                        [resultTile]="status === 'success' ? '¡Éxito!' : 'Opps..'"
+                        [status]="status"
+                        [title]="title"
+                        buttonText="Realizar otro pago"
+                        routeTo="/home/public-services">
+
+  <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+    <mat-divider class="mb-24px" credixDivider></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <p fxFlex="150px"><strong>{{type === 'Recarga' ? 'Datos de la recarga' : 'Datos del pago'}}</strong></p>
+
+      <div fxLayout="column" fxLayoutGap="8px" style="width: 220px">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex>Monto</span>
+          <credix-numeric-block [prefix]="currencySymbol" [value]="amount"
+                                class="tr" fontWeight="bold"></credix-numeric-block>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <span fxFlex>{{type === 'Recarga' ? 'Celular' : 'Contrato'}}</span>
+          <span class="tr truncate"><strong>{{contract}}</strong></span>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <span fxFlex>Fecha</span>
+          <span class="tr truncate"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex></span>
+          <credix-link-button (click)="openBillingModal()">Ver comprobante</credix-link-button>
+        </div>
+      </div>
+
+    </div>
+
+    <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
+  </div>
+</app-credix-result-view>

@@ -1,0 +1,27 @@
+.marchamo-second-step {
+  padding: 0 84px;
+
+  &__content {
+    width: 100%;
+    padding: 16px 0;
+
+    &__middle {
+      width: 280px;
+    }
+  }
+
+  ::ng-deep .credix-numeric-block {
+    color: #3e3e3e !important;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .marchamo-second-step {
+    padding: 0;
+
+    &__content__middle {
+      width: 266px;
+    }
+  }
+}

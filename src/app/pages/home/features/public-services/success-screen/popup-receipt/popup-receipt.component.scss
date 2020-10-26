@@ -1,0 +1,26 @@
+.receipt {
+  height: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  &__tag {
+    width: 100px;
+  }
+
+  &__footer {
+    width: 316px;
+  }
+}
+
+.receipt-wrapper {
+  height: 520px;
+  margin-left: -30px;
+  margin-right: -30px;
+}
+
+::ng-deep .new-service-receipt {
+
+  mat-dialog-container {
+    padding: 32px !important;
+  }
+}

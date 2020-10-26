@@ -1,0 +1,19 @@
+.third-step {
+  margin-top: 32px;
+  padding: 0 84px;
+
+  .right-content {
+    width: 380px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .third-step {
+    padding: 0 78px;
+
+    .right-content {
+      width: 266px;
+    }
+  }
+}

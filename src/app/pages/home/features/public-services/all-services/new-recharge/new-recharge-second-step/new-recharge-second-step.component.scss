@@ -1,0 +1,41 @@
+.new-recharge-second-step {
+  padding: 0 84px;
+
+  &__content {
+    width: 100%;
+    padding-bottom: 16px;
+
+    &:not(:first-of-type) {
+      padding-top: 16px;
+    }
+
+    &__input {
+      height: 43px;
+      width: 360px;
+
+      &.favorite {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .left-content {
+    width: 380px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .new-recharge-second-step {
+    padding: 0 78px;
+
+    &__content__input {
+      width: 245px;
+    }
+
+    .left-content {
+      width: 266px;
+    }
+  }
+
+}
+

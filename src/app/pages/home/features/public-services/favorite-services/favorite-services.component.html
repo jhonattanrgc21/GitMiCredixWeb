@@ -1,0 +1,72 @@
+<credix-navigation-table [headers]="tableHeaders" class="favorites-services">
+
+  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
+    <div class="favorites-services__options-wrapper" fxLayout="column">
+      <a
+        (click)="favoriteServiceDetail(favorite)"
+        *ngFor="let favorite of publicFavoriteService" class="favorites-services__option pointer"
+        fxLayout="row">
+        <mat-icon [svgIcon]="favorite.icon" class="mr-16px" fxFlex="16px"
+                  style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
+        <div fxFlex="180px" fxLayout="column">
+          <span [class.bold]="selectedPublicService?.publicServiceId === favorite.publicServiceId" fxLayout="row"
+                fxLayoutAlign="flex-start center">
+            {{favorite.publicServiceFavoriteName}}
+          </span>
+          <span class="truncate">
+            {{
+            favorite.publicServiceCategory === 'Recargas' || favorite.publicServiceCategory === 'Telefonía' ?
+              (favorite.serviceReference | mask: '0000-0000') :
+              favorite.publicServiceProviderPrefix + '-' + favorite.serviceReference
+            }}
+          </span>
+        </div>
+        <mat-icon *ngIf="selectedPublicService?.publicServiceId === favorite.publicServiceId" fxFlex
+                  style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+      </a>
+    </div>
+  </ngx-simplebar>
+
+  <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
+
+    <credix-result-notification *ngIf="!hasReceipts" class="favorites-services__notification"
+                                status="info" title="No tiene ninguna factura pendiente"></credix-result-notification>
+
+    <div *ngIf="hasReceipts && pendingReceipt" class="favorites-services__table" fxLayout="column"
+         fxLayoutGap="16px">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Compañía</span>
+        <span class="tr">{{selectedPublicService?.publicServiceEnterpriseDescription}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Nombre</span>
+        <span class="tr">{{pendingReceipt?.clientName}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Mes al cobro</span>
+        <span class="tr">{{month}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Vencimiento</span>
+        <span class="tr">
+          {{expirationDate ? (expirationDate | dateFormatter : 'alphanumeric') : '' }}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Recibos pendientes</span>
+        <span class="tr">{{ pendingReceipt?.numberPendingReceipts}}</span>
+      </div>
+      <div class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
+        <span><strong>Monto a pagar</strong></span>
+        <credix-numeric-block [value]="amountOfPay" prefix="₡"></credix-numeric-block>
+      </div>
+    </div>
+
+    <div class="favorites-services__footer">
+      <credix-button (buttonClick)="openConfirmationModal()" [disabled]="pendingReceipt?.receipts == null"
+                     fxLayoutAlign="flex-end center">
+        Pagar
+      </credix-button>
+    </div>
+  </div>
+
+</credix-navigation-table>

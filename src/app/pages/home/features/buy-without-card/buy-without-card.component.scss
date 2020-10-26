@@ -1,0 +1,19 @@
+.buy-without-card {
+  max-height: 722px;
+  height: 100%;
+
+  &__card-select {
+    margin-top: 32.5px;
+
+    &.select {
+      margin-top: -24px;
+      width: 379px;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .buy-without-card {
+    max-height: 886px;
+  }
+}

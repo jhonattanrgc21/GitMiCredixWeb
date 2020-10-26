@@ -1,0 +1,38 @@
+.automatics {
+  width: 296px;
+  height: 350px;
+  padding: 0 8px;
+
+  &__input {
+    height: 42px;
+
+    .calendar-icon {
+      width: 13px;
+      height: 15px;
+    }
+
+    &.disabled {
+      color: #7b7b7b;
+
+      ::ng-deep .mat-select-value-text {
+        span {
+          color: #7b7b7b;
+        }
+      }
+    }
+  }
+}
+
+.mb-20px {
+  margin-bottom: 20px !important;
+}
+
+.enabled {
+  color: #3e3e3e !important;
+
+  ::ng-deep .mat-select-value-text {
+    span {
+      color: #3e3e3e !important;
+    }
+  }
+}

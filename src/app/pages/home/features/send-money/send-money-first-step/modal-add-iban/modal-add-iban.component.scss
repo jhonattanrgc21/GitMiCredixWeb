@@ -1,0 +1,33 @@
+.add-account {
+  height: 100%;
+
+  &__form {
+    height: 100%;
+    position: relative;
+
+    &__select {
+      height: 38px !important;
+      margin-bottom: 20px !important;
+    }
+
+    &__input {
+      height: 38px;
+      margin-bottom: 20px;
+    }
+
+    &__button {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}
+
+::ng-deep.add-account-panel {
+
+  .credix-popup__title {
+    font-size: 31px;
+    line-height: 30px;
+    margin-bottom: 16px;
+  }
+}

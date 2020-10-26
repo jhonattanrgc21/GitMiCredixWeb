@@ -1,0 +1,43 @@
+.add-favorites-payment {
+  max-height: 662px;
+  height: 100%;
+
+  &__container {
+    padding-right: 100px !important;
+    padding-left: 100px !important;
+
+    &:not(:last-of-type) {
+      padding-bottom: 16px;
+    }
+
+    &:not(:first-of-type) {
+      padding-top: 16px;
+    }
+  }
+
+  &__form {
+    width: 379px;
+
+    &__input {
+      height: 44px;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .add-favorites-payment {
+    max-height: 886px;
+    height: 100%;
+
+    &__container {
+      padding-right: 94px !important;
+      padding-left: 94px !important;
+    }
+
+    &__form {
+      width: 266px;
+    }
+  }
+}
+
+

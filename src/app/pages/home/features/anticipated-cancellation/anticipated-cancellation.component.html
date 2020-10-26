@@ -1,0 +1,140 @@
+<mat-card *ngIf="!done" class="anticipated-cancellation" credixCard fxLayout="column">
+  <h1 class="anticipated-cancellation__title">{{titleTag || 'Cancelación anticipada'}}</h1>
+
+  <p>Cancele antes sus compras y utilice nuevamente su disponible.</p>
+
+  <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs" class="mt-16px mb-24px"></credix-tab>
+
+  <div class="mb-16px" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+    <span><strong>{{balanceTag || 'Saldo a favor'}}</strong></span>
+
+    <credix-numeric-block *ngIf="tabId === 1 ? colonesBalance : dollarsBalance"
+                          [prefix]="tabId === 1 ? colonesSymbol : dollarsSymbol"
+                          [value]="tabId === 1 ? colonesBalance : dollarsBalance" fontSize="24" fontWeight="bold">
+    </credix-numeric-block>
+  </div>
+
+  <ngx-simplebar [options]="{autoHide: false}" class="anticipated-cancellation__scrollbar" fxFlex>
+
+    <div class="anticipated-cancellation__table-wrapper" fxLayout="column">
+      <mat-table [dataSource]="dataSource" class="anticipated-cancellation__table">
+
+        <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            <credix-checkbox-button (emitCheckBox)="change($event.checked, element)"
+                                    [disable]="
+                                  selection.indexOf(element) === -1 &&
+                                  (element.saldoPendiente  | castToNumber) >
+                                  (tabId === 1 ? (colonesBalance | castToNumber) : (dollarsBalance | castToNumber))"
+                                    [value]="element">
+            </credix-checkbox-button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Fecha</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.fechaOrigen | dateFormatter: 'alphanumeric'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="commerce">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Comercio</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.pdv}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef
+                           credixHeaderCell> {{pendingBalanceTag || 'Saldo pendiente'}}</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol: dollarsSymbol"
+                                  [value]="element.saldoPendiente" fontWeight="bold"></credix-numeric-block>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="quotas">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Cuotas pendientes</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.cuotasPendientes}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rate">
+          <mat-header-cell *matHeaderCellDef credixHeaderCell> Tasa</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.tasa}}%
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"
+                 [ngClass]="{'disabled' :
+                  selection.indexOf(row) === -1 &&
+                                  (row.saldoPendiente  | castToNumber) >
+                                  (tabId === 1 ? (colonesBalance | castToNumber) : (dollarsBalance | castToNumber))}"
+                 credixRow>
+        </mat-row>
+      </mat-table>
+
+      <div *ngIf="empty" fxFlex fxLayout="row" fxLayoutAlign="center center">
+        <credix-result-notification fxFlex="300px" status="info"
+                                    title="{{warningTag || 'No tiene consumos para cancelar anticipadamente en este momento.'}}">
+        </credix-result-notification>
+      </div>
+
+    </div>
+
+  </ngx-simplebar>
+
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <credix-button (buttonClick)="openConfirmationModal()" [disabled]="empty || !this.selection.length">
+      Aplicar
+    </credix-button>
+  </div>
+
+</mat-card>
+
+<ng-template #doneCancellationTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [title]="titleTag || 'Cancelación anticipada'"
+                          buttonText="Listo"
+                          routeTo="/home">
+    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+      <mat-divider class="mb-24px" credixDivider></mat-divider>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="280px"><strong>Datos de la cancelación anticipada</strong></p>
+
+        <div fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutGap="55px">
+            <span fxFlex>Monto cancelado</span>
+            <credix-numeric-block [prefix]="tabId === 1 ? colonesSymbol: dollarsSymbol"
+                                  [value]="totalCancelled" fontWeight="bold"></credix-numeric-block>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Consumos cancelados</span>
+            <span><strong>{{selection.length}}</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <credix-share-button fxFlexAlign="center" style="margin-top: 70px"></credix-share-button>
+    </div>
+  </app-credix-result-view>
+</ng-template>
+
+<ng-template #disabledTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [title]="titleTag || 'Cancelación anticipada'"
+                          buttonText="Listo"
+                          routeTo="/home"
+                          status="error"></app-credix-result-view>
+</ng-template>
+
+<ng-container [ngTemplateOutlet]="template"></ng-container>

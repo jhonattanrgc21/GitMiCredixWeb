@@ -1,0 +1,49 @@
+.new-additional-card-first-step {
+  padding: 0 84px;
+
+  &__content {
+    width: 100%;
+
+    &:last-of-type {
+      margin-bottom: 32px;
+    }
+
+    &__form, &__slider {
+      width: 380px;
+    }
+
+    &__slider {
+      height: 76px;
+    }
+
+    &__input {
+      height: 43px;
+      width: 100%;
+
+      .calendar-icon {
+        width: 13px;
+        height: 15px;
+      }
+
+      &:last-of-type {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+
+  .new-additional-card-first-step {
+    padding: 0 78px;
+
+    &__content {
+
+      &__form, &__slider {
+        width: 266px;
+      }
+    }
+  }
+}
+

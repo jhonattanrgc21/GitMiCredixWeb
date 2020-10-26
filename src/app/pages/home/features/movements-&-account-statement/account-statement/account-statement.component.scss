@@ -1,0 +1,59 @@
+.account-statement {
+
+  &__table {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+    ::ng-deep.mat-header-row {
+      background: #F0F0F0 !important;
+      top: 0 !important;
+    }
+
+    mat-header-cell:first-of-type {
+      justify-content: flex-start !important;
+    }
+
+    mat-cell:first-of-type {
+      text-align: left !important;
+    }
+
+    mat-header-cell, mat-cell {
+      margin: 0 !important;
+
+      &:first-child {
+        flex: 12% !important;
+        justify-content: center !important;
+        text-align: left !important;
+        color: #6F7071;
+      }
+
+      &:nth-child(2) {
+        flex: 25% !important;
+      }
+
+      &:nth-child(3) {
+        flex: 20% !important;
+      }
+
+      &:nth-child(4) {
+        flex: 17% !important;
+        color: #6F7071;
+      }
+
+
+      &:nth-child(5) {
+        flex: 16% !important;
+      }
+
+      &:last-child {
+        flex: 10% !important;
+        justify-content: flex-end !important;
+        text-align: right !important;
+      }
+    }
+
+    .is-green {
+      color: #19D27E;
+    }
+  }
+}

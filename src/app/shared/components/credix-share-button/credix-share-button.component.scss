@@ -1,0 +1,57 @@
+.credix-share-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 22px;
+  width: fit-content;
+
+  &__span {
+    width: fit-content;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #239DF7;
+  }
+
+  &__icon {
+    color: #239DF7;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    .credix-share-button__span, .credix-share-button__icon {
+      color: #166EAF;
+    }
+  }
+
+  &__menu {
+
+    &__content {
+
+      ::ng-deep .sb-circles-dark .sb-wrapper .sb-icon {
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  &.is-disabled {
+    cursor: inherit;
+
+    .credix-share-button__span {
+      color: #D2D2D2 !important;
+    }
+
+    .credix-share-button__icon {
+      color: #D2D2D2 !important;
+    }
+  }
+}
+
+::ng-deep .mat-menu-content {
+  padding: 16px !important;
+}
+
+::ng-deep .mat-menu-panel {
+  border-radius: 8px !important;
+}

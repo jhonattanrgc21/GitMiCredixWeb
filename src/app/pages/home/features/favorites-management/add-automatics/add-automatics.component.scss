@@ -1,0 +1,30 @@
+.add-automatics {
+  max-height: 800px;
+  height: 100%;
+
+  &__container {
+    padding: 0 84px;
+  }
+
+  &__form {
+    width: 379px;
+
+    &__input {
+      height: 44px;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .add-automatics {
+    max-height: 886px;
+
+    &__container {
+      padding: 0 78px;
+    }
+
+    &__form {
+      width: 266px;
+    }
+  }
+}

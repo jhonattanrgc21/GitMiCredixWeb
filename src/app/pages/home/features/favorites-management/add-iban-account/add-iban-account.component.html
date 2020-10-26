@@ -1,0 +1,60 @@
+<mat-card *ngIf="!done else doneNewAccountTemplate" class="add-iban-account" credixCard fxLayout="column">
+
+  <h1 class="mb-32px">Añadir cuenta IBAN</h1>
+
+  <div class="add-iban-account__container mt-8px" fxFlex fxLayout="column" fxLayoutGap="16px">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex="210px"><strong>Cuenta IBAN</strong></span>
+
+      <form [formGroup]="newFavoriteIbanForm" class="add-iban-account__form" fxLayout="column" fxLayoutGap="16px">
+        <credix-input-field class="add-iban-account__form__input" formControlName="ibanAccount"
+                            label="Cuenta IBAN"></credix-input-field>
+
+        <credix-input-field class="add-iban-account__form__input" formControlName="nameOfFavorite"
+                            label="Nombre de favorito"></credix-input-field>
+
+        <credix-select class="add-iban-account__form__input" formControlName="identificationType"
+                       label="Tipo de identificación">
+          <mat-option *ngFor="let idenType of identificationTypes" [value]="idenType.id">
+            {{idenType.description}}
+          </mat-option>
+        </credix-select>
+
+        <credix-input-field [mask]="identificationMask" class="add-iban-account__form__input mb-8px"
+                            formControlName="identification"
+                            label="Número de identificación"></credix-input-field>
+      </form>
+    </div>
+
+    <mat-divider credixDivider></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <credix-code-link></credix-code-link>
+
+      <credix-code-input [formControl]="codeCredix" class="add-iban-account__form">
+        <span *ngIf="codeCredix.hasError('invalid')"
+              error>Código MiCredix inválido.</span>
+      </credix-code-input>
+    </div>
+  </div>
+
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
+    <credix-button (buttonClick)="back()" class="mr-16px" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="addIbanFavoriteAccount()"
+                   [disabled]="!newFavoriteIbanForm.valid || !codeCredix.valid">Añadir
+    </credix-button>
+  </div>
+</mat-card>
+
+
+<ng-template #doneNewAccountTemplate>
+
+  <app-credix-result-view
+    [resultMessage]="result.message"
+    [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
+    [status]="result.status"
+    [title]="result.title"
+    buttonText="Listo"
+    routeTo="/home/favorites-management/iban-accounts">
+  </app-credix-result-view>
+</ng-template>

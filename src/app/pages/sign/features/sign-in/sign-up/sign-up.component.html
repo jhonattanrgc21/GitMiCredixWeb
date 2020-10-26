@@ -1,0 +1,90 @@
+<div class="h-100" fxLayout="column">
+  <p class="modal-new-user__parrafe">Ingrese los siguientes datos para crear una clave nueva.</p>
+
+  <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
+
+    <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
+      <form [formGroup]="newUserFirstStepForm" class="modal-new-user_first-form" fxLayout="column"
+            fxLayoutGap="space-between">
+
+        <div class="modal-new-user__first-form__input-wrapper" fxLayout="column">
+          <credix-select formControlName="typeIdentification" label="Tipo de identificación">
+            <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+              {{identificationType.description}}
+            </mat-option>
+          </credix-select>
+
+          <credix-input-field [mask]="identificationMask" formControlName="identification"
+                              focusLabel="Identificación"
+                              label="Digite su identificación"></credix-input-field>
+        </div>
+
+        <credix-button
+          (buttonClick)=verifyRegistryUser()
+          [disabled]="!newUserFirstStepForm.valid"
+          class="modal-new-user__button step-one"
+          fxFlexAlign="flex-start">Continuar
+        </credix-button>
+      </form>
+    </cdk-step>
+
+    <cdk-step [label]="'Validar teléfono'" [stepControl]="newUserSecondStepForm">
+      <p class="modal-new-user__stepper--parrafe">Ingrese el código que hemos enviado al teléfono
+        registrado: {{phoneNumber}}</p>
+
+      <form [formGroup]="newUserSecondStepForm" fxLayout="column">
+
+        <credix-code-input class="w-100 mb-16px" formControlName="credixCode">
+           <span *ngIf="newUserSecondStepForm.controls.credixCode.hasError('required')"
+                 class="mb-8px" error>Introduzca el código credix.</span>
+          <span *ngIf="newUserSecondStepForm.controls.credixCode.hasError('invalid')"
+                class="mb-8px" error>Código MiCredix inválido.</span>
+        </credix-code-input>
+
+        <div class="mb-24px" fxLayout="column" fxLayoutAlign="start center">
+          <span>¿No ha recibido el código?</span>
+          <credix-link-button (click)=sendOtp()>Enviar nuevamente</credix-link-button>
+        </div>
+
+        <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por
+          favor, comuníquese con nuestro call center 22 CREDIX (<strong style="color: #239DF7;">2227-3349</strong>)
+          o visite una de nuestras sucursales para solicitar el cambio.</p>
+
+        <credix-button
+          (buttonClick)=validateOtp()
+          [disabled]="!newUserSecondStepForm.valid"
+          class="modal-new-user__button step-two"
+          fxFlexAlign="flex-start">Continuar
+        </credix-button>
+
+      </form>
+    </cdk-step>
+
+    <cdk-step [label]="'Clave'" [stepControl]="newUserThirdStepForm">
+      <form [formGroup]="newUserThirdStepForm" class="modal-new-user__third-form" fxLayout="column">
+
+        <credix-input-field [credixPasswordFieldTooltip]="newUserThirdStepForm.controls.newPassword"
+                            [tooltipWidth]="296" [type]="hide ? 'password' : 'text'"
+                            class="modal-new-user__third-form__input-pass" focusLabel="Clave"
+                            formControlName="newPassword"
+                            label="Digite su clave"
+                            panelClass="sign-in-password-panel">
+          <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+        </credix-input-field>
+
+        <credix-input-field formControlName="confirmPassword"
+                            class="modal-new-user__third-form__input-pass"
+                            focusLabel="Clave" label="Confirme su nueva clave"
+                            type="password"></credix-input-field>
+
+        <credix-button
+          (buttonClick)=submit()
+          [disabled]="!newUserThirdStepForm.valid"
+          class="modal-new-user__button step-three"
+          fxFlexAlign="flex-end">Ingresar
+        </credix-button>
+      </form>
+    </cdk-step>
+
+  </credix-stepper-sign-up>
+</div>

@@ -1,0 +1,44 @@
+.home {
+  width: 100vw;
+  min-height: 100vh;
+
+  &__sidenav-container {
+    flex: 1;
+    height: calc(100vh - 40px - 66px);
+  }
+
+  &__sidebar {
+    width: 291px;
+    background: #fafafa;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+
+  &__content {
+    background: #f4f4f4;
+    overflow: hidden;
+
+    &__main {
+      display: flex;
+      padding: 16px;
+      min-height: calc(100vh - 106px);
+      width: calc(877px + 16px + 16px);
+    }
+  }
+
+  &.is-tablet {
+    .home__sidenav-container {
+      flex: 1 0 auto;
+    }
+  }
+
+  router-outlet + ::ng-deep * {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .home__content__main {
+    width: calc(736px + 16px + 16px);
+  }
+}

@@ -1,0 +1,82 @@
+.sign-in {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  &__card {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    width: 376px;
+    height: 520px;
+    padding: 40px 36px !important;
+    box-shadow: 0 3px 20px #00000029 !important;
+
+    &__logo {
+      margin-top: 40px;
+      width: 168px;
+      height: 47px;
+    }
+
+    &__form {
+      margin-top: 70px;
+      margin-bottom: 32px;
+      width: 100%;
+
+      &__input {
+        height: 43px;
+        margin-bottom: 22px;
+      }
+    }
+
+    &__sign-up-span {
+      margin-bottom: 39px;
+      line-height: 22px;
+    }
+  }
+
+}
+
+::ng-deep.sign-in-result-panel {
+  .credix-result-notification__icon {
+    width: 70px !important;
+    height: 70px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .credix-result-notification__title {
+    font-size: 32px !important;
+    line-height: 32px !important;
+    height: auto !important;
+    margin-bottom: 16px !important;
+  }
+
+  .credix-result-notification__message {
+    width: 268px !important;
+  }
+
+  .credix-button {
+    height: 40px;
+
+    &:first-of-type {
+      margin-bottom: 22px;
+    }
+  }
+}
+
+::ng-deep.new-device-panel {
+
+  .credix-popup__title {
+    line-height: 1 !important;
+    margin-bottom: 16px !important;
+    height: 77px !important;
+  }
+}
+
+.error-label {
+  text-align: left;
+  transform: translateY(12px);
+  font-size: 12px;
+}

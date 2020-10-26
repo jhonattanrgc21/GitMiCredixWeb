@@ -1,0 +1,9 @@
+<div class="buy-without-card-first-step" fxLayout="row" fxLayoutAlign="space-between">
+  <credix-code-link></credix-code-link>
+
+  <credix-code-input [formControl]="credixCode" class="buy-without-card-first-step__input">
+    <span *ngIf="credixCode.hasError('invalid')"
+          error>Código MiCredix inválido.</span>
+  </credix-code-input>
+
+</div>

@@ -1,0 +1,57 @@
+<div [class.is-hidden]="hideToolbar" class="account-statement-toolbar" fxLayout="row">
+
+  <div fxFlex="60" fxLayout="column" fxLayoutAlign="flex-start flex-start" fxLayoutGap="16px">
+
+    <div class="account-statement-toolbar__user-card" fxLayout="row" fxLayoutGap="16px">
+      <mat-icon class="account-statement-toolbar__card-icon" svgIcon="redCard"></mat-icon>
+
+      <div class="account-statement-toolbar__user" fxLayout="column">
+        <span><strong>{{principalCard.name}}</strong></span>
+        <span>{{principalCard.typeCard}} {{cardNumberMasked}}</span>
+      </div>
+    </div>
+
+    <div class="relative" fxLayout="row" fxLayoutGap="16px">
+      <credix-switch (selectionEvent)="currencyChanged($event)" [offLabel]="switchValues[0]"
+                     [onLabel]="switchValues[1]"
+                     class="account-statement-toolbar__switch"></credix-switch>
+
+      <credix-select [formControl]="dateControl" class="account-statement-toolbar__calendar" label="Fecha">
+        <mat-option *ngFor="let accountStatementDate of accountStatementDates" [value]="accountStatementDate.id">
+          {{ accountStatementDate.date | dateFormatter: 'yearMonth' }}
+        </mat-option>
+      </credix-select>
+    </div>
+
+  </div>
+
+  <div class="account-statement-toolbar__table" fxFlex="40" fxLayout="column" fxLayoutAlign="flex-start flex-end">
+    <table class="w-100">
+      <tbody>
+      <tr>
+        <td style="padding-left: 56px;">Pago mínimo</td>
+        <td class="tr">
+          <credix-numeric-block [prefix]="currencySymbol"
+                                [value]="currentAccountStatement?.minimumPayment"
+                                fontWeight="bold"></credix-numeric-block>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 56px;">Pago de contado</td>
+        <td class="tr">
+          <credix-numeric-block [prefix]="currencySymbol"
+                                [value]="currentAccountStatement?.cashPayment"
+                                fontWeight="bold"></credix-numeric-block>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 56px;">Fecha máxima de pago</td>
+        <td class="tr">{{currentAccountStatement?.maximumPaymentDate | dateFormatter: 'alphanumeric'}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <credix-link-button (click)="downloadAccountStatement()" class="tr">Descargar estado de cuenta</credix-link-button>
+  </div>
+
+</div>

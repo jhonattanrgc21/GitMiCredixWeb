@@ -1,0 +1,22 @@
+<div fxLayout="column" fxLayoutGap="16px">
+
+  <div fxLayout="row" fxLayoutGap="16px">
+    <app-balances *ngIf="accountSummary && paymentDetails && movements"
+                  [balancesTag]="balancesTags"
+                  (cardChanged)="onCardChanged($event)"
+                  [accountSummary]="accountSummary"></app-balances>
+
+    <div fxLayout="column" fxLayoutGap="16px">
+      <app-payment-details *ngIf="accountSummary && paymentDetails && movements"
+                           [paymentDetailsTags]="paymentDetailsTags"
+                           [paymentDetails]="paymentDetails"></app-payment-details>
+      <app-movements *ngIf="accountSummary && paymentDetails && movements"
+                     [movementsTags]="movementsTags"
+                     [movements]="movements"></app-movements>
+    </div>
+
+  </div>
+
+  <app-awards *ngIf="accountSummary && paymentDetails && movements && awards.length > 0" [awards]="awards"></app-awards>
+
+</div>

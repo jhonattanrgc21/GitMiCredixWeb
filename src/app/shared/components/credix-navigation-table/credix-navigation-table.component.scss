@@ -1,0 +1,38 @@
+.navigation-table {
+  height: 100%;
+
+  &__header {
+    height: 40px;
+    background-color: #f0f0f0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+    span {
+      font-size: 14px;
+      color: #696d6f;
+      text-align: left;
+      padding-left: 16px;
+    }
+  }
+
+  &__options {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  &__content {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #ffffff;
+
+    &__left {
+      border-right: 1px solid #e9e9e9;
+      padding: 16px;
+      width: 100%;
+    }
+
+    &__right {
+      padding: 16px;
+    }
+  }
+}
