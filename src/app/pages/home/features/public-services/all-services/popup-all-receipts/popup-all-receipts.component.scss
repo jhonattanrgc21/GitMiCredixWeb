@@ -1,4 +1,31 @@
 .all-receipt {
   width: 348px;
   height: 192px;
+  padding: 16px;
+  border: 1px solid #3E3E3E;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.all-receipt-wrapper {
+  height: 520px;
+  margin-left: -30px;
+  margin-right: -30px;
+}
+
+.disabled {
+  border: 1px solid #D2D2D2;
+}
+
+.disabled-numeric {
+  ::ng-deep .credix-numeric-block {
+    &__integer {
+      color: #D2D2D2;
+    }
+
+    &__decimal {
+      color: #D2D2D2;
+    }
+  }
 }

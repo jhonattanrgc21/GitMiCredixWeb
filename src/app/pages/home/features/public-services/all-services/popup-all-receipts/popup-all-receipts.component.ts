@@ -10,14 +10,24 @@ import {Receipt} from '../../../../../../shared/models/receipt';
 export class PopupAllReceiptsComponent implements OnInit {
 
   receipts: Receipt[] = [];
-
+  validateAntiquity: string;
   constructor(public dialogRef: MatDialogRef<PopupAllReceiptsComponent>,
               @Inject(MAT_DIALOG_DATA) public dialogData) {
   }
 
   ngOnInit(): void {
-    console.log(this.dialogData.data);
-    this.receipts = this.dialogData.data;
+    this.receipts = this.dialogData.data.receipts;
+    this.validateAntiquity = this.dialogData.data.validateAntiquity;
+  }
+
+  getReceiptToPay(receipt: Receipt) {
+    this.dialogRef.close(receipt);
+  }
+
+  getOldReceipt(receipt: Receipt) {
+    if (receipt) {
+      this.dialogRef.close(receipt);
+    }
   }
 
 }

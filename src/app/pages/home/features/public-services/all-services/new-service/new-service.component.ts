@@ -49,38 +49,6 @@ export class NewServiceComponent implements OnInit {
   quantityOfKeys: number;
   publicServiceName: string;
   paymentType = '';
-  receiptDemo: Receipt[] = [
-    {
-      billNumber: '2873850',
-      expirationDate: '2020-10-27T00:00:00-06:00',
-      pendingReceipts: '3',
-      receipt: '601600056',
-      receiptPeriod: '20201027',
-      selfCode: '0',
-      serviceValue: '601600056',
-      totalAmount: '2.000'
-    },
-    {
-      billNumber: '2873900',
-      expirationDate: '2020-11-11T00:00:00-06:00',
-      pendingReceipts: '3',
-      receipt: '601600056',
-      receiptPeriod: '20201111',
-      selfCode: '0',
-      serviceValue: '601600056',
-      totalAmount: '3.000'
-    },
-    {
-      billNumber: '2874100',
-      expirationDate: '2020-05-27T00:00:00-06:00',
-      pendingReceipts: '3',
-      receipt: '601600056',
-      receiptPeriod: '20200527',
-      selfCode: '0',
-      serviceValue: '601600056',
-      totalAmount: '6.000'
-    }
-  ];
   @ViewChild('newServiceStepper') stepper: CdkStepper;
 
   constructor(private publicServicesService: PublicServicesService,
@@ -115,15 +83,33 @@ export class NewServiceComponent implements OnInit {
     });
   }
 
-  popupAllPendingReceipt(receipts: Receipt[]) {
+  popupAllPendingReceipt(receipts: Receipt[], currencySymbol: string, validateAntiquity: string) {
     this.modalService.open({
       component: PopupAllReceiptsComponent,
       title: 'Elija un recibo',
       hideCloseButton: false,
-      data: receipts
+      data: {
+        receipts,
+        currencySymbol,
+        validateAntiquity
+      }
     }, {width: 380, height: 673, disableClose: false}).afterClosed()
       .subscribe(values => {
-
+        if (values) {
+          this.continue();
+          const period = ConvertStringDateToDate(values.receiptPeriod);
+          this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
+          this.expirationDate = ConvertStringDateToDate(values.expirationDate);
+          this.receiptValues = {
+            serviceValue: values.serviceValue,
+            billNumber: values.billNumber,
+            expirationDate: values.expirationDate,
+            receiptPeriod: values.receiptPeriod,
+            totalAmount: (typeof values.totalAmount === 'string') ?
+              values.totalAmount.replace('.', '') :
+              values.totalAmount
+          };
+        }
       });
   }
 
@@ -134,20 +120,22 @@ export class NewServiceComponent implements OnInit {
       this.contractFormGroup.controls.keysControl.value)
       .pipe(finalize(() => {
         this.message = this.pendingReceipts.responseDescription;
+        this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
         if (this.pendingReceipts?.receipts.length > 1) {
-          this.popupAllPendingReceipt(this.pendingReceipts.receipts);
+          this.popupAllPendingReceipt(this.pendingReceipts.receipts,
+            this.currencySymbol,
+            this.publicServicesService.publicService.validateAntiquity);
         } else if (this.pendingReceipts?.receipts.length === 1) {
           const period = ConvertStringDateToDate(this.pendingReceipts.receipts[0].receiptPeriod);
           this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
           this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts[0].expirationDate);
-          this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
           this.receiptValues = {
             serviceValue: +this.pendingReceipts.receipts[0].serviceValue,
             receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
             expirationDate: this.pendingReceipts.receipts[0].expirationDate,
             billNumber: this.pendingReceipts.receipts[0].billNumber,
             totalAmount: (typeof this.pendingReceipts.receipts[0]?.totalAmount === 'string') ?
-              +this.pendingReceipts.receipts[0]?.totalAmount.replace('.', '') :
+              this.pendingReceipts.receipts[0]?.totalAmount.replace('.', '') :
               this.pendingReceipts.receipts[0]?.totalAmount
           };
           this.continue();
@@ -155,9 +143,7 @@ export class NewServiceComponent implements OnInit {
           this.hasReceipts = false;
         }
       })).subscribe(pendingReceipts => {
-      console.log(pendingReceipts);
       this.pendingReceipts = pendingReceipts;
-      this.pendingReceipts.receipts = this.receiptDemo;
     });
   }
 
@@ -165,10 +151,10 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
-      this.receiptValues.serviceValue,
+      +this.receiptValues.serviceValue,
       this.pendingReceipts.currencyCode,
       this.confirmFormGroup.controls.amount.value,
-      this.receiptValues.receiptPeriod,
+      +this.receiptValues.receiptPeriod,
       +this.contractFormGroup.controls.keysControl.value,
       this.receiptValues.expirationDate,
       this.receiptValues.billNumber,
