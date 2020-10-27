@@ -49,6 +49,38 @@ export class NewServiceComponent implements OnInit {
   quantityOfKeys: number;
   publicServiceName: string;
   paymentType = '';
+  receiptDemo: Receipt[] = [
+    {
+      billNumber: '2873850',
+      expirationDate: '2020-10-27T00:00:00-06:00',
+      pendingReceipts: '3',
+      receipt: '601600056',
+      receiptPeriod: '20201027',
+      selfCode: '0',
+      serviceValue: '601600056',
+      totalAmount: '2.000'
+    },
+    {
+      billNumber: '2873900',
+      expirationDate: '2020-11-11T00:00:00-06:00',
+      pendingReceipts: '3',
+      receipt: '601600056',
+      receiptPeriod: '20201111',
+      selfCode: '0',
+      serviceValue: '601600056',
+      totalAmount: '3.000'
+    },
+    {
+      billNumber: '2874100',
+      expirationDate: '2020-05-27T00:00:00-06:00',
+      pendingReceipts: '3',
+      receipt: '601600056',
+      receiptPeriod: '20200527',
+      selfCode: '0',
+      serviceValue: '601600056',
+      totalAmount: '6.000'
+    }
+  ];
   @ViewChild('newServiceStepper') stepper: CdkStepper;
 
   constructor(private publicServicesService: PublicServicesService,
@@ -125,6 +157,7 @@ export class NewServiceComponent implements OnInit {
       })).subscribe(pendingReceipts => {
       console.log(pendingReceipts);
       this.pendingReceipts = pendingReceipts;
+      this.pendingReceipts.receipts = this.receiptDemo;
     });
   }
 
