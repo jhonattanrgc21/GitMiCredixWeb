@@ -10,6 +10,8 @@ import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
+import {PopupAllReceiptsComponent} from '../popup-all-receipts/popup-all-receipts.component';
+import {Receipt} from '../../../../../../shared/models/receipt';
 
 @Component({
   selector: 'app-new-service',
@@ -31,6 +33,13 @@ export class NewServiceComponent implements OnInit {
   stepperIndex = 0;
   hasReceipts = true;
   pendingReceipts: PendingReceipts;
+  receiptValues: {
+    serviceValue: number;
+    receiptPeriod: number;
+    expirationDate: string;
+    billNumber: string;
+    totalAmount?: string | number;
+  };
   publicServiceId: number;
   name: string;
   month: string;
@@ -74,6 +83,18 @@ export class NewServiceComponent implements OnInit {
     });
   }
 
+  popupAllPendingReceipt(receipts: Receipt[]) {
+    this.modalService.open({
+      component: PopupAllReceiptsComponent,
+      title: 'Elija un recibo',
+      hideCloseButton: false,
+      data: receipts
+    }, {width: 380, height: 673, disableClose: false}).afterClosed()
+      .subscribe(values => {
+
+      });
+  }
+
   checkPendingReceipts() {
     this.publicServicesService.checkPendingReceipts(
       this.publicServiceId,
@@ -81,29 +102,43 @@ export class NewServiceComponent implements OnInit {
       this.contractFormGroup.controls.keysControl.value)
       .pipe(finalize(() => {
         this.message = this.pendingReceipts.responseDescription;
-        if (this.pendingReceipts?.receipts) {
-          const period = ConvertStringDateToDate(this.pendingReceipts.receipts.receiptPeriod);
+        if (this.pendingReceipts?.receipts.length > 1) {
+          this.popupAllPendingReceipt(this.pendingReceipts.receipts);
+        } else if (this.pendingReceipts?.receipts.length === 1) {
+          const period = ConvertStringDateToDate(this.pendingReceipts.receipts[0].receiptPeriod);
           this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
-          this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts.expirationDate);
+          this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts[0].expirationDate);
           this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
+          this.receiptValues = {
+            serviceValue: +this.pendingReceipts.receipts[0].serviceValue,
+            receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
+            expirationDate: this.pendingReceipts.receipts[0].expirationDate,
+            billNumber: this.pendingReceipts.receipts[0].billNumber,
+            totalAmount: (typeof this.pendingReceipts.receipts[0]?.totalAmount === 'string') ?
+              +this.pendingReceipts.receipts[0]?.totalAmount.replace('.', '') :
+              this.pendingReceipts.receipts[0]?.totalAmount
+          };
           this.continue();
         } else {
           this.hasReceipts = false;
         }
-      })).subscribe(pendingReceipts => this.pendingReceipts = pendingReceipts);
+      })).subscribe(pendingReceipts => {
+      console.log(pendingReceipts);
+      this.pendingReceipts = pendingReceipts;
+    });
   }
 
   payService() {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
-      +this.pendingReceipts.receipts.serviceValue,
+      this.receiptValues.serviceValue,
       this.pendingReceipts.currencyCode,
       this.confirmFormGroup.controls.amount.value,
-      +this.pendingReceipts.receipts.receiptPeriod,
+      this.receiptValues.receiptPeriod,
       +this.contractFormGroup.controls.keysControl.value,
-      this.pendingReceipts.receipts.expirationDate,
-      this.pendingReceipts.receipts.billNumber,
+      this.receiptValues.expirationDate,
+      this.receiptValues.billNumber,
       this.confirmFormGroup.controls.credixCode.value)
       .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
       .subscribe(response => {
@@ -131,13 +166,13 @@ export class NewServiceComponent implements OnInit {
           cashier: 'Credix',
           currencyCode: this.pendingReceipts.currencyCode,
           clientName: this.pendingReceipts.clientName,
-          billNumber: this.pendingReceipts.receipts.billNumber,
+          billNumber: this.receiptValues.billNumber,
           transactionNumber: response.transactionNumber,
           channelType: this.pendingReceipts.channelType,
           paymentStatus: 'Aplicado',
           movementDate: this.pendingReceipts.date,
-          expirationDate: this.pendingReceipts.receipts.expirationDate,
-          period: this.pendingReceipts.receipts.receiptPeriod,
+          expirationDate: this.receiptValues.expirationDate,
+          period: this.receiptValues.receiptPeriod.toString(),
           reference: response.reference,
           valorType: 'EFECTIVO',
           amount: this.confirmFormGroup.controls.amount?.value,
