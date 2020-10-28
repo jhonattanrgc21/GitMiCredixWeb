@@ -8,7 +8,7 @@ import {ConvertStringAmountToNumber} from '../../utils';
   styleUrls: ['./credix-numeric-block.component.scss']
 })
 export class CredixNumericBlockComponent implements OnInit, OnChanges {
-  @Input() value: number | string;
+  @Input() value: number | string = 0;
   @Input() prefix = '';
   @Input() fontSize = 16;
   @Input() fontWeight: 'normal' | 'bold' = 'normal';
