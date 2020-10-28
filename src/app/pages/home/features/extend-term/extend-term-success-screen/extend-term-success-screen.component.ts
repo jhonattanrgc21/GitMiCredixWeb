@@ -23,7 +23,6 @@ export class ExtendTermSuccessScreenComponent implements OnInit {
 
   constructor(private extendTermService: ExtendTermService,
               private tagsService: TagsService) {
-    console.log(1);
   }
 
   ngOnInit(): void {
@@ -31,6 +30,8 @@ export class ExtendTermSuccessScreenComponent implements OnInit {
     this.currency = this.extendTermService.newQuota.currency;
     this.amount = this.extendTermService.newQuota.amount;
     this.quota = this.extendTermService.newQuota.quota;
+    this.status = this.extendTermService.result.status;
+    this.message = this.extendTermService.result.message;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
   }
