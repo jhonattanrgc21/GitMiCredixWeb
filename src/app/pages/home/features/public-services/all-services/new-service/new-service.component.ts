@@ -89,24 +89,17 @@ export class NewServiceComponent implements OnInit {
       this.contractFormGroup.controls.contractControl.value,
       this.contractFormGroup.controls.keysControl.value)
       .pipe(finalize(() => {
-        if (this.pendingReceipts?.receipts.length > 1) {
-          this.popupAllPendingReceipt(
-            this.pendingReceipts.receipts,
-            this.currencySymbol,
-            this.publicServicesService.publicService.validateAntiquity);
-        } else if (this.pendingReceipts?.receipts.length === 1) {
-          const period = ConvertStringDateToDate(this.pendingReceipts.receipts[0].receiptPeriod);
-          this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
-          this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts[0].expirationDate);
-          this.receiptValues = {
-            serviceValue: +this.pendingReceipts.receipts[0].serviceValue,
-            receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
-            expirationDate: this.pendingReceipts.receipts[0].expirationDate,
-            billNumber: this.pendingReceipts.receipts[0].billNumber,
-            totalAmount: this.pendingReceipts.receipts[0]?.totalAmount
-          };
-          this.continue();
-        }
+        const period = ConvertStringDateToDate(this.pendingReceipts.receipts[0].receiptPeriod);
+        this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
+        this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts[0].expirationDate);
+        this.receiptValues = {
+          serviceValue: +this.pendingReceipts.receipts[0].serviceValue,
+          receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
+          expirationDate: this.pendingReceipts.receipts[0].expirationDate,
+          billNumber: this.pendingReceipts.receipts[0].billNumber,
+          totalAmount: this.pendingReceipts.receipts[0]?.totalAmount
+        };
+        this.continue();
       })).subscribe(pendingReceipts => {
       this.pendingReceipts = pendingReceipts;
       this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
