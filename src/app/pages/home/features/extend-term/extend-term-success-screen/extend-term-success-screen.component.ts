@@ -26,10 +26,10 @@ export class ExtendTermSuccessScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.establishment = this.extendTermService.newQuota.establishment;
-    this.currency = this.extendTermService.newQuota.currency;
-    this.amount = this.extendTermService.newQuota.amount;
-    this.quota = this.extendTermService.newQuota.quota;
+    this.establishment = this.extendTermService.newQuota?.establishment;
+    this.currency = this.extendTermService.newQuota?.currency;
+    this.amount = this.extendTermService.newQuota?.amount;
+    this.quota = this.extendTermService.newQuota?.quota;
     this.status = this.extendTermService.result.status;
     this.message = this.extendTermService.result.message;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
