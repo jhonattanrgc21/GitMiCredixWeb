@@ -10,8 +10,8 @@
 
 .all-receipt-wrapper {
   height: 520px;
-  margin-left: -30px;
-  margin-right: -30px;
+  margin-left: -14px;
+  margin-right: -14px;
 }
 
 .disabled {
@@ -19,7 +19,9 @@
 }
 
 .disabled-numeric {
+
   ::ng-deep .credix-numeric-block {
+
     &__integer {
       color: #D2D2D2;
     }
@@ -27,5 +29,14 @@
     &__decimal {
       color: #D2D2D2;
     }
+  }
+}
+
+::ng-deep .all-receipts-popup {
+
+  mat-dialog-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-bottom: 16px !important;
   }
 }

@@ -83,46 +83,15 @@ export class NewServiceComponent implements OnInit {
     });
   }
 
-  popupAllPendingReceipt(receipts: Receipt[], currencySymbol: string, validateAntiquity: string) {
-    this.modalService.open({
-      component: PopupAllReceiptsComponent,
-      title: 'Elija un recibo',
-      hideCloseButton: false,
-      data: {
-        receipts,
-        currencySymbol,
-        validateAntiquity
-      }
-    }, {width: 380, height: 673, disableClose: false}).afterClosed()
-      .subscribe(values => {
-        if (values) {
-          this.continue();
-          const period = ConvertStringDateToDate(values.receiptPeriod);
-          this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
-          this.expirationDate = ConvertStringDateToDate(values.expirationDate);
-          this.receiptValues = {
-            serviceValue: values.serviceValue,
-            billNumber: values.billNumber,
-            expirationDate: values.expirationDate,
-            receiptPeriod: values.receiptPeriod,
-            totalAmount: (typeof values.totalAmount === 'string') ?
-              values.totalAmount.replace('.', '') :
-              values.totalAmount
-          };
-        }
-      });
-  }
-
   checkPendingReceipts() {
     this.publicServicesService.checkPendingReceipts(
       this.publicServiceId,
       this.contractFormGroup.controls.contractControl.value,
       this.contractFormGroup.controls.keysControl.value)
       .pipe(finalize(() => {
-        this.message = this.pendingReceipts.responseDescription;
-        this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
         if (this.pendingReceipts?.receipts.length > 1) {
-          this.popupAllPendingReceipt(this.pendingReceipts.receipts,
+          this.popupAllPendingReceipt(
+            this.pendingReceipts.receipts,
             this.currencySymbol,
             this.publicServicesService.publicService.validateAntiquity);
         } else if (this.pendingReceipts?.receipts.length === 1) {
@@ -139,12 +108,43 @@ export class NewServiceComponent implements OnInit {
               this.pendingReceipts.receipts[0]?.totalAmount
           };
           this.continue();
-        } else {
-          this.hasReceipts = false;
         }
       })).subscribe(pendingReceipts => {
       this.pendingReceipts = pendingReceipts;
+      this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
+      this.message = this.pendingReceipts.responseDescription;
+      this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
     });
+  }
+
+  popupAllPendingReceipt(receipts: Receipt[], currencySymbol: string, validateAntiquity: string) {
+    this.modalService.open({
+      component: PopupAllReceiptsComponent,
+      title: 'Elija un recibo',
+      hideCloseButton: false,
+      data: {
+        receipts,
+        currencySymbol,
+        validateAntiquity
+      }
+    }, {width: 380, height: 673, disableClose: false, panelClass: 'all-receipts-popup'}).afterClosed()
+      .subscribe(values => {
+        if (values) {
+          const period = ConvertStringDateToDate(values.receiptPeriod);
+          this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
+          this.expirationDate = ConvertStringDateToDate(values.expirationDate);
+          this.receiptValues = {
+            serviceValue: values.serviceValue,
+            billNumber: values.billNumber,
+            expirationDate: values.expirationDate,
+            receiptPeriod: values.receiptPeriod,
+            totalAmount: (typeof values.totalAmount === 'string') ?
+              values.totalAmount.replace('.', '') :
+              values.totalAmount
+          };
+          this.continue();
+        }
+      });
   }
 
   payService() {

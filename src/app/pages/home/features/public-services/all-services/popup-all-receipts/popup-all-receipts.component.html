@@ -2,38 +2,51 @@
                class="all-receipt-wrapper"
                fxLayout="column"
                fxLayoutGap="16px">
-  <div (click)="validateAntiquity === 'S' ?  getOldReceipt(i === 0 ? receipt : null)
-       : getReceiptToPay(receipt)"
-       *ngFor="let receipt of receipts; let i = index"
-       [class.disabled-color]="validateAntiquity === 'S' && i !== 0"
-       [class.disabled]="validateAntiquity === 'S' && i !== 0"
-       class="all-receipt"
-       fxLayout="column" fxLayoutGap="16px">
-    <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0"><strong>Recibo {{i + 1}}</strong></span>
-    <div fxLayout="column" fxLayoutGap="8px">
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Número de recibo</span>
-        <span
-          [class.disabled-color]="validateAntiquity === 'S' && i !== 0"><strong>{{receipt.billNumber}}</strong></span>
+
+  <div fxLayout="column" fxLayoutAlign="center center">
+
+    <div (click)="validateAntiquity === 'S' ?  getOldReceipt(i === 0 ? receipt : null) : getReceiptToPay(receipt)"
+         *ngFor="let receipt of receipts; let i = index"
+         [class.disabled-color]="validateAntiquity === 'S' && i !== 0"
+         [class.disabled]="validateAntiquity === 'S' && i !== 0"
+         class="all-receipt"
+         fxLayout="column" fxLayoutGap="16px">
+
+      <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0"><strong>Recibo {{i + 1}}</strong></span>
+
+      <div fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Número de recibo</span>
+          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">
+          <strong>{{receipt.billNumber}}</strong></span>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Periodo</span>
+          <span
+            [class.disabled-color]="validateAntiquity === 'S' && i !== 0">
+          <strong>{{ receipt.receiptPeriod | dateFormatter: 'yearMonth' }}</strong></span>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Vencimiento</span>
+          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">
+          <strong>{{receipt.expirationDate | dateFormatter: 'alphanumeric' }}</strong></span>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Monto</span>
+          <credix-numeric-block [class.disabled-numeric]="validateAntiquity === 'S' && i !== 0"
+                                [prefix]="this.dialogData.data.currencySymbol"
+                                [value]="receipt.totalAmount.replace('.', '')"
+                                fontSize="16"
+                                fontWeight="bold"></credix-numeric-block>
+        </div>
+
       </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Periodo</span>
-        <span
-          [class.disabled-color]="validateAntiquity === 'S' && i !== 0"><strong>{{ receipt.receiptPeriod | dateFormatter: 'yearMonth' }}</strong></span>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Vencimiento</span>
-        <span
-          [class.disabled-color]="validateAntiquity === 'S' && i !== 0"><strong>{{receipt.expirationDate | dateFormatter: 'alphanumeric' }}</strong></span>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Monto</span>
-        <credix-numeric-block [class.disabled-numeric]="validateAntiquity === 'S' && i !== 0"
-                              [prefix]="this.dialogData.data.currencySymbol"
-                              [value]="receipt.totalAmount.replace('.', '')"
-                              fontSize="16"
-                              fontWeight="bold"></credix-numeric-block>
-      </div>
+
     </div>
+
   </div>
+
 </ngx-simplebar>
