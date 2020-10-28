@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {Card} from '../../../../../shared/models/card';
-import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {AccountSummary} from '../../../../../shared/models/account-summary';
 import {IbanAccount} from '../../../../../shared/models/iban-account';
@@ -17,7 +16,7 @@ import {AccountApiService} from '../../../../../core/services/account-api.servic
   templateUrl: './balances.component.html',
   styleUrls: ['./balances.component.scss']
 })
-export class BalancesComponent implements OnInit, OnChanges {
+export class BalancesComponent implements OnInit {
   @Input() accountSummary: AccountSummary;
   @Input() balancesTag = {
     creditLimitTag: 'Límite de crédito',
@@ -33,9 +32,6 @@ export class BalancesComponent implements OnInit, OnChanges {
   @Output() cardChanged = new EventEmitter<number>();
   cardFormControl = new FormControl(null, []);
   cards: Card[];
-  consumed: number;
-  limit: number;
-  available: number;
   prefix = '₡';
   isCopyingColonesIban = false;
   isCopyingDollarsIban = false;
@@ -58,14 +54,6 @@ export class BalancesComponent implements OnInit, OnChanges {
     this.getIbanAccounts();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags));
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.accountSummary) {
-      this.limit = ConvertStringAmountToNumber(this.accountSummary.limit);
-      this.available = ConvertStringAmountToNumber(this.accountSummary.available);
-      this.consumed = ConvertStringAmountToNumber(this.accountSummary.consumed);
-    }
   }
 
   onCardChanged() {
