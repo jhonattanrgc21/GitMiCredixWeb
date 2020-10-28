@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
-  url: 'https://qapersonas.credix.com/',
-  urlCanales: 'https://qacanalesbe.credix.com/api/canalesbe/',
-  urlMarchamos: 'https://qamarchamoscore.credix.com/',
-  urlIncomex: 'https://qaincomexbe.credix.com/incomex/',
+  url: 'https://prepersonas.credix.com/',
+  urlCanales: 'https://precanalesbe.credix.com/api/canalesbe/',
+  urlMarchamos: 'https://premarchamoscore.credix.com/',
+  urlIncomex: 'https://preincomexbe.credix.com/incomex/',
   channelId: 102
 };
