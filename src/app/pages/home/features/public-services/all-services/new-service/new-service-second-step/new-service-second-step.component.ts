@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ConvertStringAmountToNumber} from '../../../../../../../shared/utils';
 
 @Component({
   selector: 'app-new-service-second-step',
@@ -23,8 +24,7 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   @Input() isActive = false;
   @Output() saveFavoriteEvent = new EventEmitter<boolean>();
   showInput = false;
-  radioCheck = false;
-  selectPayment = '';
+  newAmount = false;
 
   constructor() {
   }
@@ -36,17 +36,18 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
     if (changes.isActive && this.isActive) {
       switch (this.paymentType) {
         case 'E':
-          this.confirmFormGroup.controls.amount.setValue(this.amount);
+          this.confirmFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(this.amount).toString());
           break;
         case 'C':
           this.confirmFormGroup.controls.amount.setValidators([Validators.required]);
           break;
         case 'M':
-          this.confirmFormGroup.controls.amount.setValidators([Validators.required, Validators.min(+this.amount)]);
+          this.confirmFormGroup.controls.amount
+            .setValidators([Validators.required, Validators.min(ConvertStringAmountToNumber(this.amount))]);
           break;
         case 'N':
           this.confirmFormGroup.controls.amount
-            .setValidators([Validators.required, Validators.min(1), Validators.max(+this.amount)]);
+            .setValidators([Validators.required, Validators.min(1), Validators.max(ConvertStringAmountToNumber(this.amount))]);
           break;
       }
     }
@@ -67,9 +68,9 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   }
 
   onSelectRadioButtons(event) {
-    this.selectPayment = event.value;
-    if (event.value === 'totalAmountPending') {
-      this.confirmFormGroup.controls.amount.setValue(this.amount);
+    this.newAmount = event.value === 1;
+    if (!this.newAmount) {
+      this.confirmFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(this.amount).toString());
     }
   }
 

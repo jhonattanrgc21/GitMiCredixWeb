@@ -103,9 +103,7 @@ export class NewServiceComponent implements OnInit {
             receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
             expirationDate: this.pendingReceipts.receipts[0].expirationDate,
             billNumber: this.pendingReceipts.receipts[0].billNumber,
-            totalAmount: (typeof this.pendingReceipts.receipts[0]?.totalAmount === 'string') ?
-              this.pendingReceipts.receipts[0]?.totalAmount.replace('.', '') :
-              this.pendingReceipts.receipts[0]?.totalAmount
+            totalAmount: this.pendingReceipts.receipts[0]?.totalAmount
           };
           this.continue();
         }
@@ -138,9 +136,7 @@ export class NewServiceComponent implements OnInit {
             billNumber: values.billNumber,
             expirationDate: values.expirationDate,
             receiptPeriod: values.receiptPeriod,
-            totalAmount: (typeof values.totalAmount === 'string') ?
-              values.totalAmount.replace('.', '') :
-              values.totalAmount
+            totalAmount: values.totalAmount
           };
           this.continue();
         }

@@ -51,16 +51,14 @@
     <span><strong>Monto a pagar</strong></span>
     <div class="left-content" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
-                           [checked]="radioCheck"
-                           [value]="'totalAmountPending'"
+                           [value]="amount"
                            label="Monto pendiente total"
-                           name="selectPayment"></credix-radio-button>
+                           name="payment"></credix-radio-button>
       <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
-                           [checked]="radioCheck"
-                           [value]="'another'"
+                           [value]="1"
                            label="Otro"
-                           name="selectPayment"></credix-radio-button>
-      <credix-input-field *ngIf="selectPayment === 'another'"
+                           name="payment"></credix-radio-button>
+      <credix-input-field *ngIf="newAmount"
                           class="new-service-second-step__content__input amount-to-pay"
                           formControlName="amount"
                           label="Monto"

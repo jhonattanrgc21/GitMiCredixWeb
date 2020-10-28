@@ -27,10 +27,10 @@ export class NewRechargeComponent implements OnInit {
   });
   amounts: { amount: string, id: number }[] = [
     {id: 1, amount: '1.000,00'},
-    {id: 1, amount: '2.000,00'},
-    {id: 1, amount: '5.000,00'},
-    {id: 1, amount: '10.000,00'},
-    {id: 1, amount: 'Otro'}
+    {id: 2, amount: '2.000,00'},
+    {id: 3, amount: '5.000,00'},
+    {id: 4, amount: '10.000,00'},
+    {id: 5, amount: 'Otro'}
   ];
   stepOneTitleTag: string;
   stepTwoTitleTag: string;
