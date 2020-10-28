@@ -27,7 +27,7 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.keys) {
-      if (this.keys.length === 1) {
+      if (this.keys?.length === 1) {
         this.contractFormGroup.controls.keysControl.setValue(this.keys[0].keyType);
         this.label = this.keys[0].description;
       }

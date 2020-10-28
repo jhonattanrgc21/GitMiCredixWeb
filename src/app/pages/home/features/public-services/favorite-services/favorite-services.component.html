@@ -3,7 +3,7 @@
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
       <a
-        (click)="favoriteServiceDetail(favorite)"
+        (click)="publicServiceChange(favorite)"
         *ngFor="let favorite of publicFavoriteService" class="favorites-services__option pointer"
         fxLayout="row">
         <mat-icon [svgIcon]="favorite.icon" class="mr-16px" fxFlex="16px"
@@ -29,10 +29,11 @@
 
   <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
 
-    <credix-result-notification *ngIf="!hasReceipts" class="favorites-services__notification"
-                                status="info" title="No tiene ninguna factura pendiente"></credix-result-notification>
+    <credix-result-notification *ngIf="showMessage"
+                                [status]="status"
+                                [title]="message" class="favorites-services__notification"></credix-result-notification>
 
-    <div *ngIf="hasReceipts && pendingReceipt" class="favorites-services__table" fxLayout="column"
+    <div *ngIf="hasReceipts" class="favorites-services__table" fxLayout="column"
          fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Compañía</span>
@@ -49,7 +50,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Vencimiento</span>
         <span class="tr">
-          {{expirationDate ? (expirationDate | dateFormatter : 'alphanumeric') : '' }}</span>
+          {{expirationDate | dateFormatter : 'alphanumeric'}}</span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span>Recibos pendientes</span>
@@ -62,8 +63,7 @@
     </div>
 
     <div class="favorites-services__footer">
-      <credix-button (buttonClick)="openConfirmationModal()" [disabled]="pendingReceipt?.receipts == null"
-                     fxLayoutAlign="flex-end center">
+      <credix-button (buttonClick)="openConfirmationModal()" [disabled]="!hasReceipts" fxLayoutAlign="flex-end center">
         Pagar
       </credix-button>
     </div>
