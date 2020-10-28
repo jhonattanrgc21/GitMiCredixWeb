@@ -17,10 +17,11 @@ export class FavoriteServicesComponent implements OnInit {
   pendingReceipt: PendingReceipts;
   selectedPublicService: PublicServiceFavoriteByUser;
   month: string;
-  hasReceipts = true;
+  showMessage = false;
+  hasReceipts = false;
   amountOfPay: string;
   message: string;
-  status: 'success' | 'error';
+  status: 'info' | 'error';
   title: string;
   expirationDate: Date;
   tableHeaders = [
@@ -37,23 +38,30 @@ export class FavoriteServicesComponent implements OnInit {
     this.getFavoritePublicServiceDetail();
   }
 
-  favoriteServiceDetail(favorite: PublicServiceFavoriteByUser) {
+  publicServiceChange(favorite: PublicServiceFavoriteByUser) {
     this.selectedPublicService = favorite;
-    this.publicServicesService
-      .checkPendingReceipts(favorite.publicServiceId, +favorite.serviceReference, favorite.publicServiceAccessKeyType)
+    this.showMessage = false;
+    this.hasReceipts = false;
+    this.getFavoriteServiceDetail();
+  }
+
+  getFavoriteServiceDetail() {
+    this.publicServicesService.checkPendingReceipts(
+      this.selectedPublicService.publicServiceId,
+      +this.selectedPublicService.serviceReference,
+      this.selectedPublicService.publicServiceAccessKeyType)
       .subscribe((response) => {
         this.pendingReceipt = response;
-        if (this.pendingReceipt === null || this.pendingReceipt.receipts === null) {
-          this.hasReceipts = false;
-          this.expirationDate = null;
-          this.pendingReceipt = null;
-          this.month = null;
-        } else {
+        this.hasReceipts = this.pendingReceipt?.receipts !== null && this.pendingReceipt?.receipts.length > 0;
+        this.status = this.pendingReceipt ? 'info' : 'error';
+        this.message = this.status === 'error' ? 'Oops...' : this.pendingReceipt?.responseDescription;
+        this.showMessage = this.status === 'error' || (this.pendingReceipt !== null && !this.hasReceipts);
+
+        if (this.pendingReceipt && this.pendingReceipt.receipts !== null) {
           const months: Date = new Date(this.pendingReceipt.date);
           this.month = getMontByMonthNumber(months.getMonth());
-          this.expirationDate = new Date(this.pendingReceipt?.receipts[0].expirationDate);
+          this.expirationDate = new Date(this.pendingReceipt.receipts[0].expirationDate);
           this.amountOfPay = this.pendingReceipt.receipts[0].totalAmount;
-          this.hasReceipts = true;
         }
       });
   }
