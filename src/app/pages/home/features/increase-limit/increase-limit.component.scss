@@ -1,24 +1,15 @@
 .increase-limit {
-  height: 662px;
-  position: relative;
+  max-height: 662px;
+  height: 100%;
 
-  &__footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid #E9E9E9;
-    padding: 16px;
+  ::ng-deep .credix-result-notification__message {
+    width: 300px;
   }
 
 }
 
-:host ::ng-deep .credix-result-notification__message {
-  width: 300px;
-}
-
 @media screen and (max-width: 1199px) {
   .increase-limit {
-    height: 886px;
+    max-height: 886px;
   }
 }
