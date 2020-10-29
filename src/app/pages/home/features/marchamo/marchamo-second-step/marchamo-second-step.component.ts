@@ -50,28 +50,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     promoStatus: number;
     paymentDate: string;
   }[] = [];
-  itemProduct: Item[] = [
-    {
-      responseDescription: 'Responsabilidad civil',
-      responseCode: 15,
-      productCode: 5,
-      amount: 8745.00
-    },
-    {
-      responseDescription: 'Asistencia en carretera',
-      responseCode: 15,
-      productCode: 6,
-      amount: 3359.00
-    },
-    {
-      responseDescription: 'Mas protección',
-      responseCode: 15,
-      productCode: 8,
-      amount: 7140.00
-    }
-  ];
-  haveAdditionalProducts: boolean;
-  arrayOfAmountProducts: { amounts: number; productCode: number; }[] = [];
+  itemProduct: Item[];
+  arrayOfAmountProducts: { amounts: string | number; productCode: number; }[] = [];
   step2Subt3: string;
   step2Subt2: string;
   step2Com: string;
@@ -96,7 +76,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
-    this.haveAdditionalProducts = this.marchamosService.haveAdditionalProducts;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -104,6 +83,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.executed = true;
       this.totalAmount = this.marchamosService.consultVehicle.amount;
       this.billingHistories = this.marchamosService.billingHistories;
+      this.itemProduct = this.marchamosService.itemProduct;
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
       this.getPromo();
@@ -141,7 +121,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       }));
 
       this.arrayOfAmountProducts.push({
-        amounts: this.itemProduct.find(product => product.productCode === event.value).amount,
+        amounts: ConvertStringAmountToNumber(this.itemProduct.find(product => product.productCode === event.value).amount),
         productCode: event.value
       });
     } else {
@@ -161,7 +141,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     }
 
     this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
-    (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
+    (this.arrayOfAmountProducts.length < this.itemProduct.length) ? this.isCheckedAll = false : this.isCheckedAll = true;
   }
 
   getValueOfCheckBoxAll(event) {
