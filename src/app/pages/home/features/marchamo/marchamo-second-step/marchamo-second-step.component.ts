@@ -52,6 +52,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }[] = [];
   itemProduct: Item[];
   arrayOfAmountProducts: { amounts: string | number; productCode: number; }[] = [];
+  haveAditionalProducts: boolean;
   step2Subt3: string;
   step2Subt2: string;
   step2Com: string;
@@ -84,6 +85,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.totalAmount = this.marchamosService.consultVehicle.amount;
       this.billingHistories = this.marchamosService.billingHistories;
       this.itemProduct = this.marchamosService.itemProduct;
+      this.haveAditionalProducts = this.marchamosService.haveAditionalProducts;
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
       this.getPromo();

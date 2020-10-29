@@ -59,6 +59,7 @@ export class MarchamoFirstStepComponent implements OnInit {
         this.marchamosService.consultVehicle = this.consultVehicle;
         this.marchamosService.billingHistories = response.item;
         this.marchamosService.itemProduct = response.aditionalProducts;
+        this.marchamosService.haveAditionalProducts = (response.aditionalProducts && response.aditionalProducts.length);
         if (this.marchamosService.consultVehicle && this.marchamosService.billingHistories) {
           this.marchamosService.emitVehicleConsulted();
         }
