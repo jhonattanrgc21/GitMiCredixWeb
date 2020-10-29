@@ -27,6 +27,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   periodicityList: Periodicity[];
   idParam: number;
   today: Date;
+  deleted = false;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
@@ -57,6 +58,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.favoritesManagementService.schedulePayments.subscribe((response) => {
       this.codeCredix.reset(null, {emitEvent: false});
       this.data = response;
+      this.deleted = false;
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.startDate.setValue(this.data?.startDate, {onlySelf: false, emitEvent: false});
@@ -121,9 +123,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   getDeletedSuccess() {
     this.favoritesManagementService.deleted.subscribe((response) => {
-      if (response.automatics) {
-        this.data = null;
-      }
+      this.deleted = response.automatics;
     });
   }
 }
