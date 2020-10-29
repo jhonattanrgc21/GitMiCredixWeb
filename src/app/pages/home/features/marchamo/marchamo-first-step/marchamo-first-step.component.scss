@@ -10,9 +10,12 @@
   }
 
   .left-content {
-    width: 380px;
+    position: relative;
+    width: 380px; 
+    top: -12px;
   }
 }
+
 
 @media screen and (max-width: 1199px) {
 

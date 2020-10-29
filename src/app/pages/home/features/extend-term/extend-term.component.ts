@@ -131,7 +131,7 @@ export class ExtendTermComponent implements OnInit {
       this.quotaSelected.quotaTo,
       this.allowedMovementSelected.movementId)
       .pipe(finalize(() => this.router.navigate(
-        ['/home/extend-term/establishment/:establishment/success', this.allowedMovementSelected.establishmentName.trim()])))
+        [`/home/extend-term/establishment/${this.allowedMovementSelected.establishmentName.trim()}/success`])))
       .subscribe(response => {
         this.extendTermService.result = {
           status: response.type,

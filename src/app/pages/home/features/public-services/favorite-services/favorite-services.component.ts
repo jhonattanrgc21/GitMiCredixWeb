@@ -17,10 +17,11 @@ export class FavoriteServicesComponent implements OnInit {
   pendingReceipt: PendingReceipts;
   selectedPublicService: PublicServiceFavoriteByUser;
   month: string;
-  hasReceipts = true;
+  showMessage = false;
+  hasReceipts = false;
   amountOfPay: string;
   message: string;
-  status: 'success' | 'error';
+  status: 'info' | 'error';
   title: string;
   expirationDate: Date;
   tableHeaders = [
@@ -37,23 +38,30 @@ export class FavoriteServicesComponent implements OnInit {
     this.getFavoritePublicServiceDetail();
   }
 
-  favoriteServiceDetail(favorite: PublicServiceFavoriteByUser) {
+  publicServiceChange(favorite: PublicServiceFavoriteByUser) {
     this.selectedPublicService = favorite;
-    this.publicServicesService
-      .checkPendingReceipts(favorite.publicServiceId, +favorite.serviceReference, favorite.publicServiceAccessKeyType)
+    this.showMessage = false;
+    this.hasReceipts = false;
+    this.getFavoriteServiceDetail();
+  }
+
+  getFavoriteServiceDetail() {
+    this.publicServicesService.checkPendingReceipts(
+      this.selectedPublicService.publicServiceId,
+      +this.selectedPublicService.serviceReference,
+      this.selectedPublicService.publicServiceAccessKeyType)
       .subscribe((response) => {
         this.pendingReceipt = response;
-        if (this.pendingReceipt === null || this.pendingReceipt.receipts === null) {
-          this.hasReceipts = false;
-          this.expirationDate = null;
-          this.pendingReceipt = null;
-          this.month = null;
-        } else {
+        this.hasReceipts = this.pendingReceipt?.receipts !== null && this.pendingReceipt?.receipts.length > 0;
+        this.status = this.pendingReceipt ? 'info' : 'error';
+        this.message = this.status === 'error' ? 'Oops...' : this.pendingReceipt?.responseDescription;
+        this.showMessage = this.status === 'error' || (this.pendingReceipt !== null && !this.hasReceipts);
+
+        if (this.pendingReceipt && this.pendingReceipt.receipts !== null) {
           const months: Date = new Date(this.pendingReceipt.date);
           this.month = getMontByMonthNumber(months.getMonth());
-          this.expirationDate = new Date(this.pendingReceipt?.receipts.expirationDate);
-          this.amountOfPay = this.pendingReceipt.receipts.totalAmount;
-          this.hasReceipts = true;
+          this.expirationDate = new Date(this.pendingReceipt.receipts[0].expirationDate);
+          this.amountOfPay = this.pendingReceipt.receipts[0].totalAmount;
         }
       });
   }
@@ -74,17 +82,17 @@ export class FavoriteServicesComponent implements OnInit {
 
   payService() {
     if (this.pendingReceipt?.receipts !== null) {
-      const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts.totalAmount).toString();
+      const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
       this.publicServicesService.payPublicService(
         this.pendingReceipt.clientName,
         this.selectedPublicService.publicServiceId,
-        +this.pendingReceipt.receipts.serviceValue,
+        +this.pendingReceipt.receipts[0].serviceValue,
         this.pendingReceipt.currencyCode,
         amount,
-        +this.pendingReceipt.receipts.receiptPeriod,
+        +this.pendingReceipt.receipts[0].receiptPeriod,
         this.selectedPublicService.publicServiceAccessKeyType,
-        this.pendingReceipt.receipts.expirationDate,
-        this.pendingReceipt.receipts.billNumber)
+        this.pendingReceipt.receipts[0].expirationDate,
+        this.pendingReceipt.receipts[0].billNumber)
         .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
         .subscribe((response) => {
           this.publicServicesService.result = {
@@ -107,13 +115,13 @@ export class FavoriteServicesComponent implements OnInit {
             cashier: 'Credix',
             currencyCode: this.pendingReceipt.currencyCode,
             clientName: this.pendingReceipt.clientName,
-            billNumber: this.pendingReceipt.receipts.billNumber,
+            billNumber: this.pendingReceipt.receipts[0].billNumber,
             transactionNumber: response.transactionNumber,
             channelType: this.pendingReceipt.channelType,
             paymentStatus: 'Aplicado',
             movementDate: this.pendingReceipt.date,
-            expirationDate: this.pendingReceipt.receipts.expirationDate,
-            period: this.pendingReceipt.receipts.receiptPeriod,
+            expirationDate: this.pendingReceipt.receipts[0].expirationDate,
+            period: this.pendingReceipt.receipts[0].receiptPeriod,
             reference: response.reference,
             valorType: 'EFECTIVO',
             amount: response.amountPaid,

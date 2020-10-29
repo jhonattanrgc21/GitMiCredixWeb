@@ -1,5 +1,6 @@
 export function ConvertStringAmountToNumber(value: string): number {
-  const integer = (value.split(',')[0]).split('.').join('');
-  const decimal = value.split(',')[1];
-  return Number(`${integer}.${decimal ? decimal : '00'}`);
+  const separator = value.indexOf(',') > -1 ? ',' : '.';
+  const integerValue = value.split(separator)[0].replace(/\./g, '');
+  const decimalValue = value.split(separator)[1] ? value.split(separator)[1].substring(0, value.split(separator)[1].length) : '00';
+  return Number(`${integerValue}.${decimalValue ? decimalValue : '00'}`);
 }

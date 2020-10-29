@@ -27,10 +27,10 @@ export class NewRechargeComponent implements OnInit {
   });
   amounts: { amount: string, id: number }[] = [
     {id: 1, amount: '1.000,00'},
-    {id: 1, amount: '2.000,00'},
-    {id: 1, amount: '5.000,00'},
-    {id: 1, amount: '10.000,00'},
-    {id: 1, amount: 'Otro'}
+    {id: 2, amount: '2.000,00'},
+    {id: 3, amount: '5.000,00'},
+    {id: 4, amount: '10.000,00'},
+    {id: 5, amount: 'Otro'}
   ];
   stepOneTitleTag: string;
   stepTwoTitleTag: string;
@@ -97,13 +97,13 @@ export class NewRechargeComponent implements OnInit {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
-      +receipt.serviceValue,
+      +receipt[0].serviceValue,
       this.pendingReceipts.currencyCode,
       this.rechargeFormGroup.controls.amount.value,
-      +receipt.receiptPeriod,
+      +receipt[0].receiptPeriod,
       this.keys[0].keyType,
-      receipt.expirationDate,
-      receipt.billNumber,
+      receipt[0].expirationDate,
+      receipt[0].billNumber,
       this.rechargeFormGroup.controls.credixCode.value)
       .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
       .subscribe(response => {
@@ -132,12 +132,12 @@ export class NewRechargeComponent implements OnInit {
           currencyCode: this.pendingReceipts.currencyCode,
           channelType: this.pendingReceipts.channelType,
           clientName: this.pendingReceipts.clientName,
-          billNumber: this.pendingReceipts.receipts.billNumber,
+          billNumber: this.pendingReceipts.receipts[0].billNumber,
           transactionNumber: response.transactionNumber,
           paymentStatus: 'Aplicado',
           movementDate: this.pendingReceipts.date,
-          expirationDate: this.pendingReceipts.receipts.expirationDate,
-          period: this.pendingReceipts.receipts.receiptPeriod,
+          expirationDate: this.pendingReceipts.receipts[0].expirationDate,
+          period: this.pendingReceipts.receipts[0].receiptPeriod,
           reference: response.reference,
           valorType: 'EFECTIVO',
           amount: response.amountPaid,
