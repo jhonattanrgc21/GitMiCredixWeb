@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ConvertStringAmountToNumber} from '../../../../../../../shared/utils';
+import {CredixCodeErrorService} from '../../../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-new-service-second-step',
@@ -26,12 +27,15 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   showInput = false;
   newAmount = false;
 
-  constructor() {
+  constructor(private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
+      this.confirmFormGroup.updateValueAndValidity();
+    });
   }
-
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.isActive && this.isActive) {

@@ -8,7 +8,6 @@ import {Receipt} from '../../../../../../shared/models/receipt';
   styleUrls: ['./popup-all-receipts.component.scss']
 })
 export class PopupAllReceiptsComponent implements OnInit {
-
   receipts: Receipt[] = [];
   validateAntiquity: string;
 

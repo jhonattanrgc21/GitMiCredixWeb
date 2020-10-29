@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ConvertStringAmountToNumber} from '../../../../../../../shared/utils';
+import {CredixCodeErrorService} from '../../../../../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-new-recharge-second-step',
@@ -20,10 +21,14 @@ export class NewRechargeSecondStepComponent implements OnInit {
   showInput = false;
   anotherAmount = false;
 
-  constructor() {
+  constructor(private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.rechargeFormGroup.controls.credixCode.setErrors({invalid: true});
+      this.rechargeFormGroup.updateValueAndValidity();
+    });
   }
 
   onCheckboxChanged(checked: boolean) {
