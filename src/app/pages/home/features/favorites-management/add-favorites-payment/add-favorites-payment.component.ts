@@ -39,10 +39,10 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   constructor(private favoritesPaymentsService: FavoritesPaymentsService,
               private publicServiceApi: PublicServicesApiService,
-              private router: Router,
-              private modalService: ModalService,
               private favoritesManagementService: FavoritesManagementService,
-              private credixCodeErrorService: CredixCodeErrorService) {
+              private credixCodeErrorService: CredixCodeErrorService,
+              private modalService: ModalService,
+              private router: Router) {
   }
 
   get newFavoritesPaymentControls() {
@@ -50,8 +50,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCategory();8
-    this.getLabel();
+    this.getCategory();
 
     this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
@@ -69,15 +68,11 @@ export class AddFavoritesPaymentComponent implements OnInit {
     });
 
     this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
+      this.label = this.keys.find(key => key.keyType === value).description;
       this.getMaskByKeyType(value);
       this.clearSelectByHierarchy(4);
     });
     this.getCredixCodeError();
-  }
-
-  getLabel() {
-    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value =>
-      this.label = this.keys.find(key => key.keyType === value).description);
   }
 
   getCategory() {
@@ -165,9 +160,29 @@ export class AddFavoritesPaymentComponent implements OnInit {
   }
 
   clearSelectByHierarchy(hierarchy: number) {
-    if (hierarchy <= 4) this.newFavoritesPaymentForm.controls.contractControl.reset();
-    if (hierarchy <= 3) this.label = 'contrato';
-    if (hierarchy <= 2) this.keys = [];
-    if (hierarchy == 1) this.publicServices = [];
+    if (hierarchy <= 4) {
+      this.newFavoritesPaymentForm.controls.contractControl.reset(null, {onlySelf: true, emitEvent: false});
+    }
+
+    if (hierarchy <= 3) {
+      this.label = 'contrato';
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+    }
+
+    if (hierarchy <= 2) {
+      this.keys = [];
+      this.newFavoritesPaymentForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+    }
+
+    if (hierarchy === 1) {
+      this.publicServices = [];
+      this.newFavoritesPaymentForm.controls.publicServiceCompany.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+    }
+
+    this.newFavoritesPaymentForm.updateValueAndValidity({onlySelf: true, emitEvent: false});
+
   }
 }
