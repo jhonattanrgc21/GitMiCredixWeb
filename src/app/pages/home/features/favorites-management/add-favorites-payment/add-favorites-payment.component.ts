@@ -50,26 +50,10 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategory();
-
-    this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
-      this.getCompanies(value);
-      this.clearSelectByHierarchy(1);
-    });
-
-    this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
-      this.getServices(value);
-      this.clearSelectByHierarchy(2);
-    });
-
-    this.newFavoritesPaymentForm.controls.publicService.valueChanges.subscribe(value => {
-      this.getKeysByPublicService(value);
-      this.clearSelectByHierarchy(3);
-    });
-
-    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
-      this.label = this.keys.find(key => key.keyType === value).description;
-      this.clearSelectByHierarchy(4);
-    });
+    this.onCategoryChange();
+    this.onCompanyChange();
+    this.onPublicServiceChange();
+    this.onKeyTypeChange();
     this.getCredixCodeError();
   }
 
@@ -80,13 +64,13 @@ export class AddFavoritesPaymentComponent implements OnInit {
       });
   }
 
-  getCompanies(categoryId: number) {
+  getCompaniesByCategory(categoryId: number) {
     this.publicServiceApi.getPublicServiceEnterpriseByCategory(categoryId).subscribe((response) => {
       this.publicCompanies = response;
     });
   }
 
-  getServices(enterpriseId: number) {
+  getServicesByEnterprise(enterpriseId: number) {
     this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
         this.publicServices = response;
@@ -108,17 +92,14 @@ export class AddFavoritesPaymentComponent implements OnInit {
             this.newFavoritesPaymentControls.favoriteName.value,
             this.newFavoritesPaymentControls.keyType.value,
             this.codeCredix.value.toString())
-            .pipe(finalize(() => {
-              if (!this.codeCredix.hasError('invalid')) {
-                this.done = true;
-              }
-            })).subscribe((response) => {
-            this.result = {
-              status: response.type || response.titleOne,
-              message: response.descriptionOne,
-              title: response.type === 'error' ? 'Opss...' : '¡Éxito!'
-            };
-          });
+            .pipe(finalize(() => this.done = !this.codeCredix.hasError('invalid')))
+            .subscribe((response) => {
+              this.result = {
+                status: response.type || response.titleOne,
+                message: response.descriptionOne,
+                title: response.type === 'error' ? 'Opss...' : '¡Éxito!'
+              };
+            });
         }
       });
   }
@@ -136,6 +117,44 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.router.navigate(['/home/favorites-management/new-automatics']);
   }
 
+  onCategoryChange() {
+    this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
+      this.publicCompanies = [];
+      this.publicServices = [];
+      this.keys = [];
+      this.newFavoritesPaymentForm.controls.publicServiceCompany.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getCompaniesByCategory(value);
+    });
+  }
+
+  onCompanyChange() {
+    this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
+      this.publicServices = [];
+      this.keys = [];
+      this.newFavoritesPaymentForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getServicesByEnterprise(value);
+    });
+  }
+
+  onPublicServiceChange() {
+    this.newFavoritesPaymentForm.controls.publicService.valueChanges.subscribe(value => {
+      this.keys = [];
+      this.label = 'contrato';
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getKeysByPublicService(value);
+    });
+  }
+
+  onKeyTypeChange() {
+    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
+      this.newFavoritesPaymentForm.controls.contractControl.reset(null, {onlySelf: true, emitEvent: false});
+      this.label = this.keys.find(key => key.keyType === value).description;
+    });
+  }
+
   getCredixCodeError() {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
       this.codeCredix.setErrors({invalid: true});
@@ -143,30 +162,4 @@ export class AddFavoritesPaymentComponent implements OnInit {
     });
   }
 
-  clearSelectByHierarchy(hierarchy: number) {
-    if (hierarchy <= 4) {
-      this.newFavoritesPaymentForm.controls.contractControl.reset(null, {onlySelf: true, emitEvent: false});
-    }
-
-    if (hierarchy <= 3) {
-      this.label = 'contrato';
-      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
-    }
-
-    if (hierarchy <= 2) {
-      this.keys = [];
-      this.newFavoritesPaymentForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
-      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
-    }
-
-    if (hierarchy === 1) {
-      this.publicServices = [];
-      this.newFavoritesPaymentForm.controls.publicServiceCompany.reset(null, {onlySelf: true, emitEvent: false});
-      this.newFavoritesPaymentForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
-      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
-    }
-
-    this.newFavoritesPaymentForm.updateValueAndValidity({onlySelf: true, emitEvent: false});
-
-  }
 }
