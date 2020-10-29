@@ -65,6 +65,7 @@ export class NewServiceComponent implements OnInit {
 
   getPublicService() {
     if (this.publicServicesService.publicService) {
+      console.log(this.publicServicesService.company);
       this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
       this.keys = this.publicServicesService.publicService.keys;
       this.quantityOfKeys = this.publicServicesService.publicService.quantityOfKeys;
@@ -89,17 +90,24 @@ export class NewServiceComponent implements OnInit {
       this.contractFormGroup.controls.contractControl.value,
       this.contractFormGroup.controls.keysControl.value)
       .pipe(finalize(() => {
-        const period = ConvertStringDateToDate(this.pendingReceipts.receipts[0].receiptPeriod);
-        this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
-        this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts[0].expirationDate);
-        this.receiptValues = {
-          serviceValue: +this.pendingReceipts.receipts[0].serviceValue,
-          receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
-          expirationDate: this.pendingReceipts.receipts[0].expirationDate,
-          billNumber: this.pendingReceipts.receipts[0].billNumber,
-          totalAmount: this.pendingReceipts.receipts[0]?.totalAmount
-        };
-        this.continue();
+        if (this.pendingReceipts?.receipts.length > 1) {
+          this.popupAllPendingReceipt(
+            this.pendingReceipts.receipts,
+            this.currencySymbol,
+            this.publicServicesService.publicService.validateAntiquity);
+        } else if (this.pendingReceipts?.receipts.length === 1) {
+          const period = ConvertStringDateToDate(this.pendingReceipts.receipts[0].receiptPeriod);
+          this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
+          this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts[0].expirationDate);
+          this.receiptValues = {
+            serviceValue: +this.pendingReceipts.receipts[0].serviceValue,
+            receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
+            expirationDate: this.pendingReceipts.receipts[0].expirationDate,
+            billNumber: this.pendingReceipts.receipts[0].billNumber,
+            totalAmount: this.pendingReceipts.receipts[0]?.totalAmount
+          };
+          this.continue();
+        }
       })).subscribe(pendingReceipts => {
       this.pendingReceipts = pendingReceipts;
       this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
@@ -116,7 +124,8 @@ export class NewServiceComponent implements OnInit {
       data: {
         receipts,
         currencySymbol,
-        validateAntiquity
+        validateAntiquity,
+        companyName: this.publicServicesService.company
       }
     }, {width: 380, height: 673, disableClose: false, panelClass: 'all-receipts-popup'}).afterClosed()
       .subscribe(values => {

@@ -22,7 +22,8 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Periodo</span>
+          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">
+            {{!companyName.toLowerCase().includes('icetel') ? 'Período' : 'Mes al cobro'}}</span>
           <span
             [class.disabled-color]="validateAntiquity === 'S' && i !== 0">
           <strong>{{ receipt.receiptPeriod | dateFormatter: 'yearMonth' }}</strong></span>
