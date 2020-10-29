@@ -50,23 +50,27 @@ export class AddFavoritesPaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCategory();
+    this.getCategory();8
     this.getLabel();
 
     this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.getCompany(value);
+      this.clearSelectByHierarchy(1);
     });
 
     this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
       this.getService(value);
+      this.clearSelectByHierarchy(2);
     });
 
     this.newFavoritesPaymentForm.controls.publicService.valueChanges.subscribe(value => {
       this.getKeysByPublicService(value);
+      this.clearSelectByHierarchy(3);
     });
 
     this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
       this.getMaskByKeyType(value);
+      this.clearSelectByHierarchy(4);
     });
     this.getCredixCodeError();
   }
@@ -158,5 +162,12 @@ export class AddFavoritesPaymentComponent implements OnInit {
       this.codeCredix.setErrors({invalid: true});
       this.newFavoritesPaymentForm.updateValueAndValidity();
     });
+  }
+
+  clearSelectByHierarchy(hierarchy: number) {
+    if (hierarchy <= 4) this.newFavoritesPaymentForm.controls.contractControl.reset();
+    if (hierarchy <= 3) this.label = 'contrato';
+    if (hierarchy <= 2) this.keys = [];
+    if (hierarchy == 1) this.publicServices = [];
   }
 }
