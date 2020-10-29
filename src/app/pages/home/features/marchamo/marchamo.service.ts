@@ -10,6 +10,7 @@ import {map} from 'rxjs/operators';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {DeliveryPlace} from '../../../../shared/models/delivery-place';
+import {Item} from '../../../../shared/models/item';
 
 
 @Injectable()
@@ -19,7 +20,6 @@ export class MarchamoService {
   private readonly getOwnerPayerInfoUri = 'owners/payerinfo';
   private readonly getCalculateComissionUri = 'pay/calculatecommission';
   marchamoAmount: number;
-  haveAdditionalProducts: boolean;
   private readonly getDeliveryPlacesUri = 'pay/deliveryplaces';
   consultVehicle: ConsultVehicle;
   billingHistories: BillingHistory[];
@@ -28,6 +28,7 @@ export class MarchamoService {
     promoStatus: number;
     paymentDate: string;
   }[] = [];
+  itemProduct: Item[];
 
   constructor(private httpService: HttpService,
               private toastService: CredixToastService,
@@ -47,13 +48,13 @@ export class MarchamoService {
   consultVehicle$ = this._consultVehicle.asObservable();
 
   // tslint:disable-next-line:variable-name
-  private _amountProducts: { amounts: number; productCode: number; }[];
+  private _amountProducts: { amounts: string | number; productCode: number; }[];
 
-  get amountProducts(): { amounts: number; productCode: number; }[] {
+  get amountProducts(): { amounts: string | number; productCode: number; }[] {
     return this._amountProducts;
   }
 
-  set setAmountProducts(data: { amounts: number; productCode: number; }[]) {
+  set setAmountProducts(data: { amounts: string | number; productCode: number; }[]) {
     this._amountProducts = data;
   }
 
@@ -184,7 +185,8 @@ export class MarchamoService {
     promoStatus: number,
     quotasId: number,
     phoneNumber: number,
-    ownerEmail: string) {
+    ownerEmail: string,
+    codeCredix: string) {
     return this.httpService.post('marchamos', this.paySoapayUri,
       {
         aditionalProducts,
@@ -209,7 +211,8 @@ export class MarchamoService {
         promoStatus,
         quotasId,
         transactionTypeId: 1,
-        requiredBill: '1'
+        requiredBill: '1',
+        codeCredix
       });
   }
 }
