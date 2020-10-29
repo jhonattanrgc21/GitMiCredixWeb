@@ -20,8 +20,8 @@
     <div *ngIf="haveAdditionalProducts" class="marchamo-second-step__content__middle" fxLayout="column"
          fxLayoutGap="8px">
       <credix-checkbox-button
-        (emitCheckBox)="getValueCheckBoxes($event)"
         *ngFor="let item of itemProduct"
+        (emitCheckBox)="getValueCheckBoxes($event)"
         [checked]="isChecked"
         [label]="item.responseDescription"
         [value]="item.productCode"></credix-checkbox-button>

@@ -85,6 +85,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.totalAmount = this.marchamosService.consultVehicle.amount;
       this.billingHistories = this.marchamosService.billingHistories;
       this.itemProduct = this.marchamosService.itemProduct;
+      console.log(this.itemProduct);
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
       this.getPromo();
@@ -122,7 +123,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       }));
 
       this.arrayOfAmountProducts.push({
-        amounts: this.itemProduct.find(product => product.productCode === event.value).amount,
+        amounts: ConvertStringAmountToNumber(this.itemProduct.find(product => product.productCode === event.value).amount),
         productCode: event.value
       });
     } else {
