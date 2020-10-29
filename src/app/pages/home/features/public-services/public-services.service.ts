@@ -29,6 +29,7 @@ export class PublicServicesService {
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
+  company: string;
 // tslint:disable-next-line:variable-name
   _publicService: PublicService;
   get publicService(): PublicService {

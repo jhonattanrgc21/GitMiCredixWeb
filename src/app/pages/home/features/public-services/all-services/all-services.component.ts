@@ -52,6 +52,7 @@ export class AllServicesComponent implements OnInit {
 
   newPublicService(publicService: PublicService) {
     this.publicServicesService.publicService = publicService;
+    this.publicServicesService.company = this.enterpriseSelected.publicServiceEnterpriseDescription;
     this.router.navigate([
       publicService.publicServiceCategory === 'Recargas' ? '/home/public-services/recharge' : '/home/public-services/public-service']);
   }

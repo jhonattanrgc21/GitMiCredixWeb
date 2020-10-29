@@ -8,9 +8,9 @@ import {Receipt} from '../../../../../../shared/models/receipt';
   styleUrls: ['./popup-all-receipts.component.scss']
 })
 export class PopupAllReceiptsComponent implements OnInit {
-
   receipts: Receipt[] = [];
   validateAntiquity: string;
+  companyName: string;
 
   constructor(public dialogRef: MatDialogRef<PopupAllReceiptsComponent>,
               @Inject(MAT_DIALOG_DATA) public dialogData) {
@@ -19,6 +19,7 @@ export class PopupAllReceiptsComponent implements OnInit {
   ngOnInit(): void {
     this.receipts = this.dialogData.data.receipts;
     this.validateAntiquity = this.dialogData.data.validateAntiquity;
+    this.companyName = this.dialogData.data.companyName;
   }
 
   getReceiptToPay(receipt: Receipt) {

@@ -28,7 +28,6 @@ export class AddAutomaticsComponent implements OnInit {
   keys: Keys[] = [];
   quantityOfKeys: number;
   label = 'referencia';
-  mask: string;
   data: {
     publicServiceCategoryId: number;
     publicServiceEnterpriseId: number;
@@ -82,7 +81,6 @@ export class AddAutomaticsComponent implements OnInit {
 
     this.newAutomaticsForm.controls.keyType.valueChanges.subscribe(value => {
       this.label = this.keys.find(elem => elem.keyType === value).description;
-      this.getMaskByKeyType(value);
     });
 
     this.getFromFavorites();
@@ -183,20 +181,6 @@ export class AddAutomaticsComponent implements OnInit {
           });
       }
     });
-  }
-
-  getMaskByKeyType(keyType: number) {
-    switch (keyType) {
-      case 52:
-        this.mask = '0000-0000';
-        break;
-      case 99:
-        this.mask = '000000000000';
-        break;
-      default:
-        this.mask = '000000000000';
-        break;
-    }
   }
 
   getCredixCodeError() {

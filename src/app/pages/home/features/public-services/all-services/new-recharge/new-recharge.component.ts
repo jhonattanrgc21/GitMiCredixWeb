@@ -105,7 +105,11 @@ export class NewRechargeComponent implements OnInit {
       receipt[0].expirationDate,
       receipt[0].billNumber,
       this.rechargeFormGroup.controls.credixCode.value)
-      .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
+      .pipe(finalize(() => {
+        if (this.rechargeFormGroup.controls.credixCode.valid) {
+          this.router.navigate(['/home/public-services/success']);
+        }
+      }))
       .subscribe(response => {
         if (response.type === 'success' && this.saveAsFavorite) {
           this.saveFavorite();

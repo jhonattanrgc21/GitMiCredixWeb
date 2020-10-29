@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ConvertStringAmountToNumber} from '../../../../../../../shared/utils';
+import {CredixCodeErrorService} from '../../../../../../../core/services/credix-code-error.service';
+import {PublicServicesService} from '../../../public-services.service';
 
 @Component({
   selector: 'app-new-service-second-step',
@@ -25,13 +27,19 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   @Output() saveFavoriteEvent = new EventEmitter<boolean>();
   showInput = false;
   newAmount = false;
+  companyName;
 
-  constructor() {
+  constructor(private publicServicesService: PublicServicesService,
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
+    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+      this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
+      this.confirmFormGroup.updateValueAndValidity();
+    });
+    this.companyName = this.publicServicesService.company;
   }
-
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.isActive && this.isActive) {

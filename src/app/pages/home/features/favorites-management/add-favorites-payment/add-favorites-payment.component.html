@@ -17,7 +17,7 @@
 
         <credix-select class="add-favorites-payment__form__input" formControlName="publicServiceCompany"
                        label="Compañía">
-          <mat-option *ngFor="let company of publicCompany"
+          <mat-option *ngFor="let company of publicCompanies"
                       [value]="company.publicServiceEnterpriseId">
             {{company.publicServiceEnterpriseDescription}}
           </mat-option>
@@ -36,8 +36,7 @@
           </mat-option>
         </credix-select>
 
-        <credix-input-field [label]="'Número de ' + label" [mask]="mask"
-                            class="add-favorites-payment__form__input"
+        <credix-input-field [label]="'Número de ' + label" class="add-favorites-payment__form__input"
                             formControlName="contractControl"></credix-input-field>
 
         <credix-input-field class="add-favorites-payment__form__input mb-8px" formControlName="favoriteName"

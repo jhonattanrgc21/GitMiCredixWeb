@@ -65,6 +65,7 @@ export class NewServiceComponent implements OnInit {
 
   getPublicService() {
     if (this.publicServicesService.publicService) {
+      console.log(this.publicServicesService.company);
       this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
       this.keys = this.publicServicesService.publicService.keys;
       this.quantityOfKeys = this.publicServicesService.publicService.quantityOfKeys;
@@ -123,7 +124,8 @@ export class NewServiceComponent implements OnInit {
       data: {
         receipts,
         currencySymbol,
-        validateAntiquity
+        validateAntiquity,
+        companyName: this.publicServicesService.company
       }
     }, {width: 380, height: 673, disableClose: false, panelClass: 'all-receipts-popup'}).afterClosed()
       .subscribe(values => {
@@ -155,7 +157,11 @@ export class NewServiceComponent implements OnInit {
       this.receiptValues.expirationDate,
       this.receiptValues.billNumber,
       this.confirmFormGroup.controls.credixCode.value)
-      .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
+      .pipe(finalize(() => {
+        if (this.confirmFormGroup.controls.credixCode.valid) {
+          this.router.navigate(['/home/public-services/success']);
+        }
+      }))
       .subscribe(response => {
         if (response.type === 'success' && this.saveAsFavorite) {
           this.saveFavorite();
