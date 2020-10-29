@@ -51,7 +51,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     paymentDate: string;
   }[] = [];
   itemProduct: Item[];
-  haveAdditionalProducts: boolean;
   arrayOfAmountProducts: { amounts: string | number; productCode: number; }[] = [];
   step2Subt3: string;
   step2Subt2: string;
@@ -85,7 +84,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.totalAmount = this.marchamosService.consultVehicle.amount;
       this.billingHistories = this.marchamosService.billingHistories;
       this.itemProduct = this.marchamosService.itemProduct;
-      console.log(this.itemProduct);
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
       this.getPromo();
@@ -143,7 +141,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     }
 
     this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
-    (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
+    (this.arrayOfAmountProducts.length < this.itemProduct.length) ? this.isCheckedAll = false : this.isCheckedAll = true;
   }
 
   getValueOfCheckBoxAll(event) {
