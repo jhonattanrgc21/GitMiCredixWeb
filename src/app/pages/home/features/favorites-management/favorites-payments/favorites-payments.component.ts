@@ -13,6 +13,7 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
   favoritePaymentDetailControl: FormControl = new FormControl(null);
   data: PublicServiceFavoriteByUser;
   errorMessage: string;
+  deleted = false;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private favoritesPaymentsService: FavoritesPaymentsService) {
@@ -31,6 +32,7 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
   getAccountDetail() {
     this.favoritesManagementService.publicServices.subscribe((response) => {
       this.data = response;
+      this.deleted = false;
       this.favoritePaymentDetailControl.setValue(this.data?.publicServiceFavoriteName, {emitEvent: false});
       this.favoritePaymentDetailControl.markAsPristine();
     });
@@ -64,11 +66,8 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
   }
 
   getDeletedSuccess() {
-    this.favoritesManagementService.deleted
-      .subscribe((response) => {
-        if (response.automatics) {
-          this.data = null;
-        }
-      });
+    this.favoritesManagementService.deleted.subscribe((response) => {
+      this.deleted = response.publicServices;
+    });
   }
 }

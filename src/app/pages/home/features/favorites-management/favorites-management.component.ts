@@ -216,13 +216,12 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
   }
 
   deleteIbanAccount() {
-    this.favoriteManagementService.setDeleteIbanAccount(this.optionSelected)
-      .subscribe((response) => {
-        if (response.type === 'success') {
-          this.getFavoritesIban();
-          this.favoriteManagementService.emitDeletedSuccess(true, null, null);
-        }
-      });
+    this.favoriteManagementService.setDeleteIbanAccount(this.optionSelected).subscribe((response) => {
+      if (response.type === 'success') {
+        this.getFavoritesIban();
+        this.favoriteManagementService.emitDeletedSuccess(true, null, null);
+      }
+    });
   }
 
   deleteFavoritePayment() {
