@@ -1,27 +1,26 @@
 <div class="marchamo-second-step" fxLayout="column">
 
   <div class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="155px"><strong>{{step2Subt1 || 'Marchamo'}}</strong></span>
+    <span fxFlex="155px"><strong>{{secondStepFirstSubtitle || 'Marchamo'}}</strong></span>
 
     <span class="marchamo-second-step__content__middle">Monto al cobro</span>
 
     <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
       <credix-numeric-block [value]="totalAmount" fontWeight="bold"
                             prefix="₡"></credix-numeric-block>
-      <credix-link-button (click)="showMarchamoDetail()">{{step2Link || 'Ver detalles'}}</credix-link-button>
+      <credix-link-button (click)="showMarchamoDetail()">{{secondStepLink || 'Ver detalles'}}</credix-link-button>
     </div>
   </div>
 
   <mat-divider credixDivider></mat-divider>
 
-  <div class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <span fxFlex="155px"><strong>{{step2Subt2 || 'Seguros opcionales'}}</strong></span>
+  <div *ngIf="hasAdditionalProducts" class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="155px"><strong>{{secondStepThirdSubtitle || 'Seguros opcionales'}}</strong></span>
 
     <div class="marchamo-second-step__content__middle" fxLayout="column"
          fxLayoutGap="8px">
       <credix-checkbox-button
-        class="truncate"
-        style="width: 277px"
+        class="truncate" style="width: 277px"
         *ngFor="let item of itemProduct"
         (emitCheckBox)="getValueCheckBoxes($event)"
         [checked]="isChecked"
@@ -29,7 +28,7 @@
         [value]="item.productCode"></credix-checkbox-button>
       <credix-checkbox-button (emitCheckBox)="getValueOfCheckBoxAll($event)" [value]="10"
                               [checked]="isCheckedAll"
-                              label="{{step2TagT || 'Todos'}}"></credix-checkbox-button>
+                              label="{{secondStepTagT || 'Todos'}}"></credix-checkbox-button>
     </div>
 
     <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end"
@@ -39,19 +38,19 @@
     </div>
   </div>
 
-  <mat-divider credixDivider></mat-divider>
+  <mat-divider *ngIf="hasAdditionalProducts" credixDivider></mat-divider>
 
   <div class="marchamo-second-step__content" fxLayout="column">
 
     <div class="mb-32px" fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex="155px"><strong>{{step2Subt3 || 'Cuotas'}}</strong></span>
+      <span fxFlex="155px"><strong>{{secondStepThirdSubtitle || 'Cuotas'}}</strong></span>
 
       <credix-slider (inputChange)="getQuota($event)"
                      (valueChange)="getQuota($event)"
                      [displayMax]="quotaSliderDisplayMax"
                      [displayMin]="quotaSliderDisplayMin"
                      [displayValue]="quotaSliderDisplayValue"
-                     instructions="{{step2TagDiv || 'Deseo dividir este pago en'}}"
+                     instructions="{{secondStepTagDiv || 'Deseo dividir este pago en'}}"
                      [max]="quotaSliderMax"
                      [min]="quotaSliderMin"
                      [step]="quotaSliderStep"
@@ -64,9 +63,9 @@
       </div>
     </div>
 
-    <div *ngIf="showQuotaPaymentSelect" class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+    <div *ngIf="showPaymentDates" class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex="155px"></span>
-      <span class="marchamo-second-step__content__middle">{{step2Com || 'Comisión'}}</span>
+      <span class="marchamo-second-step__content__middle">{{secondStepCom || 'Comisión'}}</span>
 
       <div fxFlex="130px" fxLayout="row" fxLayoutAlign="flex-end">
         <credix-numeric-block [value]="commission" fontWeight="bold" prefix="₡"></credix-numeric-block>
@@ -74,11 +73,11 @@
 
     </div>
 
-    <div *ngIf="showQuotaPaymentSelect" fxLayout="row" fxLayoutAlign="center">
+    <div *ngIf="showPaymentDates" fxLayout="row" fxLayoutAlign="center">
       <credix-select [formControl]="secureAndQuotesForm.controls.firstQuotaDate"
                      class="marchamo-second-step__content__middle"
                      label="Deseo pagar la primera cuota en">
-        <mat-option *ngFor="let payment of paymentList" [value]="payment.promoStatus">
+        <mat-option *ngFor="let payment of payments" [value]="payment.promoStatus">
           {{ payment.paymentDate }}
         </mat-option>
       </credix-select>
