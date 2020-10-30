@@ -29,7 +29,7 @@ export class MarchamoService {
     paymentDate: string;
   }[] = [];
   itemProduct: Item[];
-  haveAditionalProducts: boolean;
+  hasAdditionalProducts: boolean;
 
   constructor(private httpService: HttpService,
               private toastService: CredixToastService,

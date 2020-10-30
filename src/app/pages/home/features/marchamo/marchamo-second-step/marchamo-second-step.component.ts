@@ -52,7 +52,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }[] = [];
   itemProduct: Item[];
   arrayOfAmountProducts: { amounts: string | number; productCode: number; }[] = [];
-  haveAditionalProducts: boolean;
+  hasAdditionalProducts: boolean;
   step2Subt3: string;
   step2Subt2: string;
   step2Com: string;
@@ -85,7 +85,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.totalAmount = this.marchamosService.consultVehicle.amount;
       this.billingHistories = this.marchamosService.billingHistories;
       this.itemProduct = this.marchamosService.itemProduct;
-      this.haveAditionalProducts = this.marchamosService.haveAditionalProducts;
+      this.hasAdditionalProducts = this.marchamosService.hasAdditionalProducts;
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
       this.getPromo();
@@ -174,15 +174,12 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.isChecked = event;
   }
 
-
   getPromo() {
-    this.marchamosService.getPromoApply()
-      .subscribe(response => {
-        this.paymentList = response;
-        this.marchamosService.paymentList = response;
-      });
+    this.marchamosService.getPromoApply().subscribe(response => {
+      this.paymentList = response;
+      this.marchamosService.paymentList = response;
+    });
   }
-
 
   getQuotasByProduct() {
     this.customerApiService.getQuotas(2).subscribe(quotas => {
@@ -216,7 +213,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   getCommission(quotas: number) {
-
     this.marchamosService.getCommission(quotas, this.totalAmount)
       .subscribe((response) => {
         if (typeof response.result === 'string') {

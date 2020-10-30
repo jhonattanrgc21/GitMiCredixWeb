@@ -14,10 +14,10 @@
 
   <mat-divider credixDivider></mat-divider>
 
-  <div class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+  <div *ngIf="hasAdditionalProducts" class="marchamo-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <span fxFlex="155px"><strong>{{step2Subt2 || 'Seguros opcionales'}}</strong></span>
 
-    <div *ngIf="haveAditionalProducts" class="marchamo-second-step__content__middle" fxLayout="column"
+    <div class="marchamo-second-step__content__middle" fxLayout="column"
          fxLayoutGap="8px">
       <credix-checkbox-button
         class="truncate"
@@ -32,14 +32,14 @@
                               label="{{step2TagT || 'Todos'}}"></credix-checkbox-button>
     </div>
 
-    <div *ngIf="haveAditionalProducts" fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end"
+    <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end"
          fxLayoutGap="8px">
       <credix-numeric-block *ngFor="let item of itemProduct" [value]="item.amount" fontSize="16"
                             fontWeight="bold" prefix="₡"></credix-numeric-block>
     </div>
   </div>
 
-  <mat-divider credixDivider></mat-divider>
+  <mat-divider *ngIf="hasAdditionalProducts" credixDivider></mat-divider>
 
   <div class="marchamo-second-step__content" fxLayout="column">
 
