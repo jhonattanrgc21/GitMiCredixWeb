@@ -104,14 +104,14 @@ export class MenuOptionComponent implements OnInit {
   }
 
   submenuChanged(menuId: number, submenuId: number, route: string, navigate = true) {
-    if (this.activeSubmenu != submenuId) {
+    if (this.activeSubmenu !== submenuId) {
       this.activeMenu = menuId;
       this.activeSubmenu = submenuId;
-  
+
       if (route !== '/home/increase-limit' && navigate) {
         this.router.navigate([route]);
       }
-  
+
       if (route === '/home/increase-limit') {
         this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?')
           .subscribe(confirmation => {
