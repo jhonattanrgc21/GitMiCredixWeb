@@ -45,7 +45,7 @@ export class CredixSelectComponent implements OnInit, AfterViewInit, OnChanges, 
 
   set value(value) {
     this._value = value;
-    if (this.value) {
+    if (this.value != null) {
       this.propagateChange(this._value);
     }
   }
