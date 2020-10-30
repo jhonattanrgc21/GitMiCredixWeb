@@ -31,20 +31,15 @@
 
   </credix-stepper>
 
-  <div class="marchamos__footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <div fxLayoutGap="16px">
-      <credix-button (buttonClick)="consult()" *ngIf="stepperIndex === 0" [disabled]="consultForm.invalid"
-                     type="secondary">
-        Consultar
-      </credix-button>
-      <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" type="secondary">Atrás</credix-button>
-      <credix-button (buttonClick)="continue()" *ngIf="stepperIndex < 3" [disabled]="disableButton">
-        Continuar
-      </credix-button>
-      <credix-button (buttonClick)="confirmModal()" *ngIf="stepperIndex === 3" [disabled]="disableButton">
-        Pagar
-      </credix-button>
-    </div>
+  <div class="marchamos__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (buttonClick)="stepperIndex === 0 ? consult() : back()"
+                   [disabled]="stepperIndex === 0 ? consultForm.invalid : false"
+                   type="secondary">
+      {{stepperIndex === 0 ? 'Consultar' : 'Atrás'}}
+    </credix-button>
+    <credix-button (buttonClick)="stepperIndex < 3 ? continue() : confirmModal()" [disabled]="disableButton">
+      {{stepperIndex < 3 ? 'Continuar' : 'Pagar'}}
+    </credix-button>
   </div>
 
 </mat-card>

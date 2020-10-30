@@ -3,7 +3,7 @@
        [ngClass]="{
         'is-active' : activeMenu == menu.id,
         'is-pre-active' : preActiveMenu == menu.id,
-        'is-open' : preActiveMenu == menu.id && openSubmenu }">
+        'is-open' : preActiveMenu == menu.id && openSubmenu  && !first}">
     <hr *ngIf="!first" class="menu-options__line">
     <button (click)="menuChanged(menu.id, menu.route, menu.submenus?.length, first)"
             class="menu-options__menu menu-options__button menu-items">
