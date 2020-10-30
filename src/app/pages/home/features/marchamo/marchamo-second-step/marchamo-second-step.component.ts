@@ -73,7 +73,6 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags));
-    this.secureAndQuotesForm.valueChanges.subscribe(value => console.log(value));
   }
 
   ngOnChanges(changes: SimpleChanges) {
