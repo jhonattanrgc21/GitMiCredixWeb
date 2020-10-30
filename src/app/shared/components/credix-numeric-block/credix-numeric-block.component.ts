@@ -23,7 +23,7 @@ export class CredixNumericBlockComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.value && this.value) {
+    if (changes.value && this.value != null) {
       let valueToConvert = this.value;
 
       if (typeof this.value === 'string') {
