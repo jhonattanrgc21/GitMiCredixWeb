@@ -104,7 +104,7 @@ export class MenuOptionComponent implements OnInit {
   }
 
   submenuChanged(menuId: number, submenuId: number, route: string, navigate = true) {
-    if (this.activeSubmenu != submenuId) {
+    if (this.activeSubmenu !== submenuId) {
       this.activeMenu = menuId;
       this.activeSubmenu = submenuId;
 
