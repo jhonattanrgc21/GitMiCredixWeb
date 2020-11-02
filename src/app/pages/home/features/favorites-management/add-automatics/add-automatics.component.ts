@@ -50,6 +50,7 @@ export class AddAutomaticsComponent implements OnInit {
   };
   done = false;
   resultAutomatics: boolean;
+  invalidCodeCredix = true;
 
   constructor(private automaticsService: AutomaticsService,
               private favoritesManagementService: FavoritesManagementService,
@@ -74,6 +75,9 @@ export class AddAutomaticsComponent implements OnInit {
     this.onKeyTypeChange();
     this.getFromFavorites();
     this.getCredixCodeError();
+    this.codeCredix.valueChanges.subscribe(value => {
+      this.invalidCodeCredix = this.codeCredix.invalid;
+    });
   }
 
   getPeriodicityList() {

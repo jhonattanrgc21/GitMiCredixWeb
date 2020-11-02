@@ -10,6 +10,7 @@ import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 import {PublicService} from '../../../../shared/models/public-service';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {Voucher} from '../../../../shared/models/voucher';
+import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -93,7 +94,9 @@ export class PublicServicesService {
     );
   }
 
-  @Cacheable()
+  @Cacheable({
+    cacheBusterObserver: cleanSchedulePayments$.asObservable()
+  })
   getAllSchedulersPayment(): Observable<SchedulePayments[]> {
     return this.httpService.post('canales', this.getSchedulerPaymentsUserUri)
       .pipe(
