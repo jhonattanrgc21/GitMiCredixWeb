@@ -16,26 +16,30 @@
 
       <div fxLayout="column" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Número de recibo</span>
+          <span
+            [class.disabled-color]="validateAntiquity === 'S' && i !== 0">{{ popupTagsReceipt.tag9 || 'No. factura' }}</span>
           <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">
           <strong>{{receipt.billNumber}}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Periodo</span>
+          <span
+            [class.disabled-color]="validateAntiquity === 'S' && i !== 0">{{popupTagsReceipt.tag13 || 'Periodo'}}</span>
           <span
             [class.disabled-color]="validateAntiquity === 'S' && i !== 0">
           <strong>{{ receipt.receiptPeriod | dateFormatter: 'yearMonth' }}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Vencimiento</span>
+          <span
+            [class.disabled-color]="validateAntiquity === 'S' && i !== 0">{{popupTagsReceipt.tag12 || 'Vencimiento'}}</span>
           <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">
           <strong>{{receipt.expirationDate | dateFormatter: 'alphanumeric' }}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Monto</span>
+          <span
+            [class.disabled-color]="validateAntiquity === 'S' && i !== 0">{{popupTagsReceipt.tag16 || 'Monto'}}</span>
           <credix-numeric-block [class.disabled-numeric]="validateAntiquity === 'S' && i !== 0"
                                 [prefix]="this.dialogData.data.currencySymbol"
                                 [value]="receipt.totalAmount.replace('.', '')"
