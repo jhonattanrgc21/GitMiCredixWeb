@@ -1,6 +1,7 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, forwardRef, HostListener, Input, OnInit} from '@angular/core';
 import {ModalService} from '../../../core/services/modal.service';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,6 +20,8 @@ export class CredixDatePickerComponent implements OnInit, ControlValueAccessor {
   @Input() label: string;
   @Input() startDate: Date = new Date(1900, 1, 1);
   @Input() endDate: Date = new Date(2999, 1, 1);
+  modal: MatDialogRef<any>;
+  isOpen = false;
   control = new FormControl(null);
 
   constructor(private modalService: ModalService) {
@@ -32,8 +35,16 @@ export class CredixDatePickerComponent implements OnInit, ControlValueAccessor {
     this.modalService.openCalendarPopup(this.startDate, this.endDate).subscribe(modal => {
       if (modal) {
         this.control.setValue(modal.date);
+        this.isOpen = false;
       }
     });
+  }
+
+  @HostListener('focusin') onFocusIn() {
+    if (!this.isOpen) {
+      this.isOpen = !this.isOpen;
+      this.openCalendar();
+    }
   }
 
   onTouch() {
