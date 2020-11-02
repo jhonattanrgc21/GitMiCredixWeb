@@ -38,7 +38,7 @@
           <span [class.disabled-color]="validateAntiquity === 'S' && i !== 0">Monto</span>
           <credix-numeric-block [class.disabled-numeric]="validateAntiquity === 'S' && i !== 0"
                                 [prefix]="this.dialogData.data.currencySymbol"
-                                [value]="receipt.totalAmount.replace('.', '')"
+                                [value]="receipt.totalAmount"
                                 fontSize="16"
                                 fontWeight="bold"></credix-numeric-block>
         </div>
