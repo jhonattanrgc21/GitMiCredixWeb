@@ -32,8 +32,9 @@
         <div *ngIf="userInfoFormGroup.controls.email.errors?.email" error>Correo electrónico inválido</div>
       </credix-input-field>
 
-      <credix-date-picker [endDate]="today" class="new-additional-card-first-step__content__input"
-                          formControlName="birthday" label="Fecha de nacimiento del adicional"></credix-date-picker>
+      <credix-calendar-input class="new-additional-card-first-step__content__input"
+                             formControlName="birthday"
+                             label="Fecha de nacimiento del adicional 2"></credix-calendar-input>
     </div>
   </div>
 
