@@ -6,6 +6,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {DateFormatterModule} from '../../pipes/date-formatter/date-formatter.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [CredixCalendarInputComponent],
@@ -18,7 +19,8 @@ import {MatInputModule} from '@angular/material/input';
     MatFormFieldModule,
     DateFormatterModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ]
 })
 export class CredixCalendarInputModule {

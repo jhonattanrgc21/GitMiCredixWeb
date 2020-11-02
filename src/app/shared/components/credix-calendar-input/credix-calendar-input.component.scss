@@ -40,6 +40,8 @@
     color: #3e3e3e;
     position: absolute;
     right: 0;
+    width: 13px;
+    height: 15px;
   }
 
   ::ng-deep &.mat-focused .mat-form-field-infix, &__field.has-value ::ng-deep.mat-form-field-infix {
@@ -101,4 +103,9 @@
     margin-left: 8px;
     color: #FF4965;
   }
+}
+
+
+::ng-deep .mat-datepicker-content .mat-calendar {
+  height: auto !important;
 }

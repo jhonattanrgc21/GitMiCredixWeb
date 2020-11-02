@@ -1,5 +1,6 @@
-import {Component, forwardRef, HostListener, Injector, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, forwardRef, HostListener, Injector, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
+import {MatDatepicker} from '@angular/material/datepicker';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -16,8 +17,8 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from '@
 })
 export class CredixCalendarInputComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() label: string;
-  @Input() focusLabel: string;
   @Input() readonly = false;
+  @ViewChild('picker') datePicker: MatDatepicker<any>;
   control = new FormControl(null);
   viewLabel: string;
   ngControl;
@@ -37,11 +38,7 @@ export class CredixCalendarInputComponent implements OnInit, OnChanges, ControlV
   }
 
   @HostListener('focusin') onFocusIn() {
-    this.viewLabel = this.focusLabel || this.label;
-  }
-
-  @HostListener('focusout') onFocusOut() {
-    this.viewLabel = this.control.value && this.focusLabel ? this.focusLabel : this.label;
+    this.datePicker.open();
   }
 
   onTouch() {
