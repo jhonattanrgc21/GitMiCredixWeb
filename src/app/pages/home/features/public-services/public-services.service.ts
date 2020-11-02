@@ -95,7 +95,7 @@ export class PublicServicesService {
 
   @Cacheable()
   getAllSchedulersPayment(): Observable<SchedulePayments[]> {
-    return this.httpService.post('canales', this.getSchedulerPaymentsUserUri, {channelId: 102})
+    return this.httpService.post('canales', this.getSchedulerPaymentsUserUri)
       .pipe(
         map((response) => {
           if (response.scheduledPayList?.length > 0 && response.message === 'Operación exitosa') {

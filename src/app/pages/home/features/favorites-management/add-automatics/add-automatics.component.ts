@@ -145,10 +145,10 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.publicService.value,
           this.newAutomaticsControls.periodicity.value,
           this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
-          this.newAutomaticsControls.contractControl.value.toString(),
-          this.newAutomaticsControls.maxAmount.value,
+          +this.newAutomaticsControls.contractControl.value,
+          +this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
-          this.codeCredix.value.toString(),
+          +this.codeCredix.value,
           this.newAutomaticsControls.keyType.value)
           .pipe(finalize(() => {
             if (!this.codeCredix.hasError('invalid')) {
