@@ -37,10 +37,10 @@ export class AutomaticsService {
                        publicServiceId: number,
                        periodicityId: number,
                        startDate: string,
-                       key: string,
+                       key: number,
                        maxAmount: number,
                        aliasName: string,
-                       credixCode: string,
+                       credixCode: number,
                        publicServiceAccessKeyId: number) {
     return this.httpServices.post('canales', 'schedulerpayment/createschedulerpayment', {
       cardId: this.storageServices.getCurrentCards()

@@ -75,7 +75,9 @@
     <credix-button [routerLink]="['/home/favorites-management/favorites-payments']" type="secondary">
       Atrás
     </credix-button>
-    <credix-button (buttonClick)="addAutomaticPayment()" [disabled]="newAutomaticsForm.invalid">Añadir</credix-button>
+    <credix-button (buttonClick)="addAutomaticPayment()" [disabled]="invalidCodeCredix || newAutomaticsForm.invalid">
+      Añadir
+    </credix-button>
   </div>
 </mat-card>
 
