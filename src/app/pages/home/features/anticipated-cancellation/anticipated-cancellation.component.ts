@@ -104,7 +104,7 @@ export class AnticipatedCancellationComponent implements OnInit {
   }
 
   openConfirmationModal() {
-    this.modalService.confirmationPopup('¿Desea realizar esta cancelación?').subscribe(confirmation => {
+    this.modalService.confirmationPopup('¿Desea hacer esta cancelación anticipada?').subscribe(confirmation => {
       if (confirmation) {
         this.saveCancellation();
       }
