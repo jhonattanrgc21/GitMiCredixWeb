@@ -22,10 +22,6 @@ export class SignUpService {
           if (response.type === 'error') {
             this.toastService.show({text: response.message, type: 'error'});
           }
-        },
-        error => {
-        },
-        () => {
         }),
       map(response => {
         if (response.type === 'success') {
