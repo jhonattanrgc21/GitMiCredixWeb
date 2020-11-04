@@ -75,7 +75,9 @@
     <credix-button [routerLink]="['/home/favorites-management/favorites-payments']" type="secondary">
       Atrás
     </credix-button>
-    <credix-button (buttonClick)="addAutomaticPayment()" [disabled]="newAutomaticsForm.invalid">Añadir</credix-button>
+    <credix-button (buttonClick)="addAutomaticPayment()" [disabled]="invalidCodeCredix || newAutomaticsForm.invalid">
+      Añadir
+    </credix-button>
   </div>
 </mat-card>
 
@@ -85,7 +87,7 @@
     [resultMessage]="result.message"
     [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
     [status]="result.status"
-    [title]="'Añadir pago automático'"
+    [moduleTitle]="'Añadir pago automático'"
     buttonText="Listo"
     routeTo="/home/favorites-management/automatics">
   </app-credix-result-view>

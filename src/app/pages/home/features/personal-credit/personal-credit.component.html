@@ -2,7 +2,7 @@
           fxLayout="column" fxLayoutGap="16px">
 
   <div fxLayout="column" fxLayoutGap="4px">
-    <h1>{{ titleTag || 'Crédito personal'}} </h1>
+    <h1>{{ titleTag || 'Crédito personal' }} </h1>
 
     <p>Solicite el monto que le permita vivir sus sueños hoy.</p>
   </div>
@@ -42,7 +42,7 @@
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" type="secondary">Atrás</credix-button>
     <credix-button (buttonClick)="next()" [disabled]="disableButton">
-      {{buttonText}}
+      {{stepperIndex != 2 ? 'Continuar' : 'Solicitar'}}
     </credix-button>
   </div>
 
@@ -50,12 +50,12 @@
 
 <ng-template #donePersonalCreditTemplate>
   <app-credix-result-view
+    [moduleTitle]="titleTag || 'Crédito personal'"
     [resultMessage]="accessToPersonalCredit ? message :
-     warningMssgDescription ||
+     warningMessageDescription ||
      'En este momento no cuenta con suficiente disponible para solicitar un crédito personal. Puede hacer abonos extraordinarios para liberar el disponible mas rápido.'"
-    [resultTile]="accessToPersonalCredit ? title : warningMssgTag || 'Disponible insuficiente'"
     [status]="accessToPersonalCredit ? status : 'info'"
-    [title]="'Crédito personal'"
+    [resultTile]="accessToPersonalCredit ? title : warningMessageTag || 'Disponible insuficiente'"
     buttonText="Listo"
     routeTo="/home"></app-credix-result-view>
 </ng-template>
