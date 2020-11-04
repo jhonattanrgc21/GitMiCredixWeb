@@ -7,7 +7,6 @@ import {finalize} from 'rxjs/operators';
 import {CredixToastService} from 'src/app/core/services/credix-toast.service';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {getIdentificationMaskByType} from '../../../../../shared/utils';
-import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 import {GlobalApiService} from '../../../../../core/services/global-api.service';
 import {SignUpService} from './sign-up.service';
 
@@ -61,14 +60,16 @@ export class SignUpComponent implements OnInit {
     this.signUpService.checkUser(this.newUserFirstStepForm.controls.identification.value)
       .subscribe(response => {
         if (response.status === 'success') {
-          if (!response.isRegistered) {
-            this.nextStep();
-            this.sendOtp();
-          } else {
-            this.dialogRef.close();
-            this.modalService.open({component: ForgotPasswordComponent, title: '¿Olvidó su clave?'},
-              {width: 376, height: 663, disableClose: true});
-          }
+          this.nextStep();
+          this.sendOtp();
+          /*    if (!response.isRegistered) {
+                this.nextStep();
+                this.sendOtp();
+              } else {
+                this.dialogRef.close();
+                this.modalService.open({component: ForgotPasswordComponent, title: '¿Olvidó su clave?'},
+                  {width: 376, height: 663, disableClose: true});
+              }*/
         }
       });
   }
