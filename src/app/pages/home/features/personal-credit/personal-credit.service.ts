@@ -12,31 +12,11 @@ export class PersonalCreditService {
   private readonly getIbanAccountInfoUri = 'account/getinformationibanaccount';
   private errorIbanAccountSub = new Subject();
   errorIbanAccount$ = this.errorIbanAccountSub.asObservable();
+  personalCreditSummary: PersonalCreditSummary;
+  amount: number;
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
-  }
-
-  // tslint:disable-next-line:variable-name
-  private _personalCreditSummary: PersonalCreditSummary;
-
-  get personalCreditSummary(): PersonalCreditSummary {
-    return this._personalCreditSummary;
-  }
-
-  set personalCreditSummary(personalCreditSummary: PersonalCreditSummary) {
-    this._personalCreditSummary = personalCreditSummary;
-  }
-
-  // tslint:disable-next-line:variable-name
-  private _amount: number;
-
-  get amount(): number {
-    return this._amount;
-  }
-
-  set amount(amount: number) {
-    this._amount = amount;
   }
 
   emitErrorIbanAccount() {
