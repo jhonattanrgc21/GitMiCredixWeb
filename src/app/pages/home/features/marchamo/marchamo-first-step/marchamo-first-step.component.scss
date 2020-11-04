@@ -10,12 +10,14 @@
   }
 
   .left-content {
+    position: relative;
     width: 380px;
+    top: -12px;
   }
 }
 
-@media screen and (max-width: 1199px) {
 
+@media screen and (max-width: 1199px) {
   .marchamo-first-step {
     padding: 0 78px;
 

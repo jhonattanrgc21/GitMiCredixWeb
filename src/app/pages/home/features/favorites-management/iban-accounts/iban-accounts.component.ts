@@ -13,6 +13,7 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   ibanAccountDetailControl: FormControl = new FormControl(null);
   data: FavoriteIbanAccount;
   errorMessage: string;
+  deleted = false;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private ibanAccountsService: IbanAccountsService) {
@@ -31,6 +32,7 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   getIbanAccountDetail() {
     this.favoritesManagementService.ibanAccount.subscribe((response) => {
       this.data = response;
+      this.deleted = false;
       this.ibanAccountDetailControl.setValue(this.data?.aliasName, {emitEvent: false});
       this.ibanAccountDetailControl.markAsPristine();
     });
@@ -65,9 +67,7 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
 
   getDeletedSuccess() {
     this.favoritesManagementService.deleted.subscribe((response) => {
-      if (response.iban) {
-        this.data = null;
-      }
+      this.deleted = response.iban;
     });
   }
 }

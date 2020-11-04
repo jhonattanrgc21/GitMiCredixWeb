@@ -25,7 +25,7 @@
     <div class="left-content" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
                            *ngFor="let amount of amounts, let last = last"
-                           [label]="last ? 'Otro': null"
+                           [label]="last ? 'Otro': ''"
                            [ngClass]="{'mb-16px' : !last}"
                            [value]="amount.amount">
         <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>

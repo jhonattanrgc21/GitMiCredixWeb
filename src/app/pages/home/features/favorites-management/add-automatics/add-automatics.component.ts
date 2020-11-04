@@ -19,26 +19,6 @@ import {Keys} from '../../../../../shared/models/keys';
   styleUrls: ['./add-automatics.component.scss']
 })
 export class AddAutomaticsComponent implements OnInit {
-  periodicityList: { description: string; id: number; }[] = [];
-  publicServicesCategory: PublicServiceCategory[];
-  publicCompany: PublicServiceEnterprise[];
-  publicServices: PublicService[];
-  today = new Date();
-  result: { status: 'success' | 'error'; message: string; title: string; };
-  keys: Keys[] = [];
-  quantityOfKeys: number;
-  label = 'referencia';
-  mask: string;
-  data: {
-    publicServiceCategoryId: number;
-    publicServiceEnterpriseId: number;
-    publicServiceId: number;
-    keyType: number;
-    favoriteName: string;
-    contractControl: number;
-  };
-  done = false;
-  resultAutomatics: boolean;
   newAutomaticsForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
     publicServiceCompany: new FormControl(null, [Validators.required]),
@@ -51,6 +31,26 @@ export class AddAutomaticsComponent implements OnInit {
     periodicity: new FormControl(null, [Validators.required]),
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
+  periodicityList: { description: string; id: number; }[] = [];
+  publicServicesCategory: PublicServiceCategory[];
+  publicCompanies: PublicServiceEnterprise[];
+  publicServices: PublicService[];
+  keys: Keys[] = [];
+  today = new Date();
+  label = 'referencia';
+  result: { status: 'success' | 'error'; message: string; title: string; };
+  quantityOfKeys: number;
+  data: {
+    publicServiceCategoryId: number;
+    publicServiceEnterpriseId: number;
+    publicServiceId: number;
+    keyType: number;
+    favoriteName: string;
+    contractControl: number;
+  };
+  done = false;
+  resultAutomatics: boolean;
+  invalidCodeCredix = true;
 
   constructor(private automaticsService: AutomaticsService,
               private favoritesManagementService: FavoritesManagementService,
@@ -69,24 +69,15 @@ export class AddAutomaticsComponent implements OnInit {
     this.resultAutomatics = false;
     this.getCategoryServices();
     this.getPeriodicityList();
-    this.newAutomaticsForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
-      this.getCompany(value);
-    });
-    this.newAutomaticsForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
-      this.getService(value);
-    });
-
-    this.newAutomaticsForm.controls.publicService.valueChanges.subscribe(value => {
-      this.getKeysByPublicService(value);
-    });
-
-    this.newAutomaticsForm.controls.keyType.valueChanges.subscribe(value => {
-      this.label = this.keys.find(elem => elem.keyType === value).description;
-      this.getMaskByKeyType(value);
-    });
-
+    this.onCategoryChange();
+    this.onCompanyChange();
+    this.onPublicServiceChange();
+    this.onKeyTypeChange();
     this.getFromFavorites();
     this.getCredixCodeError();
+    this.codeCredix.valueChanges.subscribe(value => {
+      this.invalidCodeCredix = this.codeCredix.invalid;
+    });
   }
 
   getPeriodicityList() {
@@ -102,13 +93,13 @@ export class AddAutomaticsComponent implements OnInit {
       });
   }
 
-  getCompany(publicCategoryId: number) {
+  getCompaniesByCategory(publicCategoryId: number) {
     this.publicServiceApi.getPublicServiceEnterpriseByCategory(publicCategoryId).subscribe((response) => {
-      this.publicCompany = response;
+      this.publicCompanies = response;
     });
   }
 
-  getService(enterpriseId: number) {
+  getServicesByEnterprise(enterpriseId: number) {
     this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
         this.publicServices = response;
@@ -150,10 +141,6 @@ export class AddAutomaticsComponent implements OnInit {
     }
   }
 
-  back() {
-    this.router.navigate(['/home/favorites-management/automatics']);
-  }
-
   addAutomaticPayment() {
     const date: Date = new Date(this.newAutomaticsForm.controls.startDate.value);
     this.modalService.confirmationPopup('¿Desea añadir este pago automático?').subscribe((confirm) => {
@@ -162,10 +149,10 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.publicService.value,
           this.newAutomaticsControls.periodicity.value,
           this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
-          this.newAutomaticsControls.contractControl.value.toString(),
-          this.newAutomaticsControls.maxAmount.value,
+          +this.newAutomaticsControls.contractControl.value,
+          +this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
-          this.codeCredix.value.toString(),
+          +this.codeCredix.value,
           this.newAutomaticsControls.keyType.value)
           .pipe(finalize(() => {
             if (!this.codeCredix.hasError('invalid')) {
@@ -185,18 +172,43 @@ export class AddAutomaticsComponent implements OnInit {
     });
   }
 
-  getMaskByKeyType(keyType: number) {
-    switch (keyType) {
-      case 52:
-        this.mask = '0000-0000';
-        break;
-      case 99:
-        this.mask = '000000000000';
-        break;
-      default:
-        this.mask = '000000000000';
-        break;
-    }
+
+  onCategoryChange() {
+    this.newAutomaticsForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
+      this.publicCompanies = [];
+      this.publicServices = [];
+      this.keys = [];
+      this.newAutomaticsForm.controls.publicServiceCompany.reset(null, {onlySelf: true, emitEvent: false});
+      this.newAutomaticsForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
+      this.newAutomaticsForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getCompaniesByCategory(value);
+    });
+  }
+
+  onCompanyChange() {
+    this.newAutomaticsForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
+      this.publicServices = [];
+      this.keys = [];
+      this.newAutomaticsForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
+      this.newAutomaticsForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getServicesByEnterprise(value);
+    });
+  }
+
+  onPublicServiceChange() {
+    this.newAutomaticsForm.controls.publicService.valueChanges.subscribe(value => {
+      this.keys = [];
+      this.label = 'contrato';
+      this.newAutomaticsForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getKeysByPublicService(value);
+    });
+  }
+
+  onKeyTypeChange() {
+    this.newAutomaticsForm.controls.keyType.valueChanges.subscribe(value => {
+      this.newAutomaticsForm.controls.contractControl.reset(null, {onlySelf: true, emitEvent: false});
+      this.label = this.keys.find(key => key.keyType === value).description;
+    });
   }
 
   getCredixCodeError() {

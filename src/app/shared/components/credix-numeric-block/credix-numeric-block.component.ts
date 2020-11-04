@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ConvertStringAmountToNumber} from '../../utils';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -7,7 +8,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
   styleUrls: ['./credix-numeric-block.component.scss']
 })
 export class CredixNumericBlockComponent implements OnInit, OnChanges {
-  @Input() value: number | string;
+  @Input() value: number | string = 0;
   @Input() prefix = '';
   @Input() fontSize = 16;
   @Input() fontWeight: 'normal' | 'bold' = 'normal';
@@ -22,22 +23,18 @@ export class CredixNumericBlockComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.value) {
+    if (changes.value && this.value != null) {
+      let valueToConvert = this.value;
+
       if (typeof this.value === 'string') {
-        const separator = this.value.indexOf(',') > -1 ? ',' : '.';
-        this.integerValue = this.value.split(separator)[0];
-        this.decimalValue = this.value.split(separator)[1] ?
-          this.value.split(separator)[1].substring(0, this.value.split(separator)[1].length === 2 ? 2 : 1)
-          : '00';
-      } else {
-        this.sign = this.value >= 0 ? '+' : '-';
-        this.integerValue = Math.trunc(this.value).toLocaleString('es');
-        this.decimalValue = (this.value + '').split('.')[1] ? (this.value + '').split('.')[1].substring(0, 2) : '00';
+        valueToConvert = ConvertStringAmountToNumber(this.value);
       }
 
-      if (this.decimalValue.length === 1) {
-        this.decimalValue = this.decimalValue + '0';
-      }
+      this.sign = valueToConvert >= 0 ? '+' : '-';
+      this.integerValue = Math.trunc(Number(valueToConvert)).toLocaleString('es');
+      const decimalPart = (valueToConvert.toString()).split('.')[1];
+      this.decimalValue = decimalPart ?
+        (decimalPart.substring(0, 2).length === 1 ? decimalPart.substring(0, 2) + '0' : decimalPart.substring(0, 2)) : '00';
     }
   }
 

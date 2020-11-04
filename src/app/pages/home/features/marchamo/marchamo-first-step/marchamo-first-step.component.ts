@@ -41,8 +41,7 @@ export class MarchamoFirstStepComponent implements OnInit {
   }
 
   getVehicleTypes() {
-    this.marchamosService.getVehiclePlate()
-      .subscribe((response) => this.vehicleTypes = response);
+    this.marchamosService.getVehiclePlate().subscribe((response) => this.vehicleTypes = response);
   }
 
   consult() {
@@ -58,7 +57,8 @@ export class MarchamoFirstStepComponent implements OnInit {
         this.marchamosService.marchamoAmount = this.consultVehicle.amount;
         this.marchamosService.consultVehicle = this.consultVehicle;
         this.marchamosService.billingHistories = response.item;
-        this.marchamosService.haveAdditionalProducts = response.aditionalProducts.length > 0;
+        this.marchamosService.itemProduct = response.aditionalProducts;
+        this.marchamosService.hasAdditionalProducts = response.aditionalProducts && response.aditionalProducts.length > 0;
         if (this.marchamosService.consultVehicle && this.marchamosService.billingHistories) {
           this.marchamosService.emitVehicleConsulted();
         }

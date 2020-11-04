@@ -16,7 +16,7 @@
       <app-new-service-second-step (saveFavoriteEvent)="saveAsFavorite = $event"
                                    [confirmFormGroup]="confirmFormGroup"
                                    [currencySymbol]="currencySymbol"
-                                   [amount]="pendingReceipts?.receipts?.totalAmount"
+                                   [amount]="receiptValues?.totalAmount"
                                    [expirationDate]="expirationDate"
                                    [month]="month"
                                    [name]="pendingReceipts?.clientName"

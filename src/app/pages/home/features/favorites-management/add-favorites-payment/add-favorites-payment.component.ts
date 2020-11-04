@@ -28,21 +28,20 @@ export class AddFavoritesPaymentComponent implements OnInit {
   });
   codeCredix: FormControl = new FormControl(null, [Validators.required]);
   publicServicesCategory: PublicServiceCategory[];
-  publicCompany: PublicServiceEnterprise[];
+  publicCompanies: PublicServiceEnterprise[];
   publicServices: PublicService[];
   done = false;
   result: { status: 'success' | 'error'; message: string; title: string; };
   keys: Keys[] = [];
-  mask: string;
   quantityOfKeys: number;
   label = 'contrato';
 
   constructor(private favoritesPaymentsService: FavoritesPaymentsService,
               private publicServiceApi: PublicServicesApiService,
-              private router: Router,
-              private modalService: ModalService,
               private favoritesManagementService: FavoritesManagementService,
-              private credixCodeErrorService: CredixCodeErrorService) {
+              private credixCodeErrorService: CredixCodeErrorService,
+              private modalService: ModalService,
+              private router: Router) {
   }
 
   get newFavoritesPaymentControls() {
@@ -51,29 +50,11 @@ export class AddFavoritesPaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategory();
-    this.getLabel();
-
-    this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
-      this.getCompany(value);
-    });
-
-    this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
-      this.getService(value);
-    });
-
-    this.newFavoritesPaymentForm.controls.publicService.valueChanges.subscribe(value => {
-      this.getKeysByPublicService(value);
-    });
-
-    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
-      this.getMaskByKeyType(value);
-    });
+    this.onCategoryChange();
+    this.onCompanyChange();
+    this.onPublicServiceChange();
+    this.onKeyTypeChange();
     this.getCredixCodeError();
-  }
-
-  getLabel() {
-    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value =>
-      this.label = this.keys.find(key => key.keyType === value).description);
   }
 
   getCategory() {
@@ -83,13 +64,13 @@ export class AddFavoritesPaymentComponent implements OnInit {
       });
   }
 
-  getCompany(categoryId: number) {
+  getCompaniesByCategory(categoryId: number) {
     this.publicServiceApi.getPublicServiceEnterpriseByCategory(categoryId).subscribe((response) => {
-      this.publicCompany = response;
+      this.publicCompanies = response;
     });
   }
 
-  getService(enterpriseId: number) {
+  getServicesByEnterprise(enterpriseId: number) {
     this.publicServiceApi.getPublicServiceByEnterprise(enterpriseId)
       .subscribe((response) => {
         this.publicServices = response;
@@ -99,20 +80,6 @@ export class AddFavoritesPaymentComponent implements OnInit {
   getKeysByPublicService(publicServiceId: number) {
     this.keys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).keys;
     this.quantityOfKeys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
-  }
-
-  getMaskByKeyType(keyType: number) {
-    switch (keyType) {
-      case 52:
-        this.mask = '0000-0000';
-        break;
-      case 99:
-        this.mask = '0-0000-0000';
-        break;
-      default:
-        this.mask = '';
-        break;
-    }
   }
 
   addFavoritePayment() {
@@ -125,17 +92,14 @@ export class AddFavoritesPaymentComponent implements OnInit {
             this.newFavoritesPaymentControls.favoriteName.value,
             this.newFavoritesPaymentControls.keyType.value,
             this.codeCredix.value.toString())
-            .pipe(finalize(() => {
-              if (!this.codeCredix.hasError('invalid')) {
-                this.done = true;
-              }
-            })).subscribe((response) => {
-            this.result = {
-              status: response.type || response.titleOne,
-              message: response.descriptionOne,
-              title: response.type === 'error' ? 'Opss...' : '¡Éxito!'
-            };
-          });
+            .pipe(finalize(() => this.done = !this.codeCredix.hasError('invalid')))
+            .subscribe((response) => {
+              this.result = {
+                status: response.type || response.titleOne,
+                message: response.descriptionOne,
+                title: response.type === 'error' ? 'Opss...' : '¡Éxito!'
+              };
+            });
         }
       });
   }
@@ -153,10 +117,49 @@ export class AddFavoritesPaymentComponent implements OnInit {
     this.router.navigate(['/home/favorites-management/new-automatics']);
   }
 
+  onCategoryChange() {
+    this.newFavoritesPaymentForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
+      this.publicCompanies = [];
+      this.publicServices = [];
+      this.keys = [];
+      this.newFavoritesPaymentForm.controls.publicServiceCompany.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getCompaniesByCategory(value);
+    });
+  }
+
+  onCompanyChange() {
+    this.newFavoritesPaymentForm.controls.publicServiceCompany.valueChanges.subscribe(value => {
+      this.publicServices = [];
+      this.keys = [];
+      this.newFavoritesPaymentForm.controls.publicService.reset(null, {onlySelf: true, emitEvent: false});
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getServicesByEnterprise(value);
+    });
+  }
+
+  onPublicServiceChange() {
+    this.newFavoritesPaymentForm.controls.publicService.valueChanges.subscribe(value => {
+      this.keys = [];
+      this.label = 'contrato';
+      this.newFavoritesPaymentForm.controls.keyType.reset(null, {onlySelf: true, emitEvent: false});
+      this.getKeysByPublicService(value);
+    });
+  }
+
+  onKeyTypeChange() {
+    this.newFavoritesPaymentForm.controls.keyType.valueChanges.subscribe(value => {
+      this.newFavoritesPaymentForm.controls.contractControl.reset(null, {onlySelf: true, emitEvent: false});
+      this.label = this.keys.find(key => key.keyType === value).description;
+    });
+  }
+
   getCredixCodeError() {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
       this.codeCredix.setErrors({invalid: true});
       this.newFavoritesPaymentForm.updateValueAndValidity();
     });
   }
+
 }

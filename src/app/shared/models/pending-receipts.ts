@@ -9,7 +9,7 @@ export interface PendingReceipts {
   channelType: string;
   agencyCode: string;
   responseCode: string;
-  receipts: Receipt;
+  receipts: Receipt[];
   feeAmount: string;
   numberPendingReceipts: number;
   identification: string;

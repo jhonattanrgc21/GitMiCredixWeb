@@ -35,6 +35,7 @@ import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-li
 import {ChannelsApiService} from '../../../../core/services/channels-api.service';
 import {GlobalApiService} from '../../../../core/services/global-api.service';
 import {CredixDatePickerModule} from '../../../../shared/components/credix-date-picker/credix-date-picker.module';
+import {CredixCalendarInputModule} from '../../../../shared/components/credix-calendar-input/credix-calendar-input.module';
 
 const routes: Routes = [
   {
@@ -81,7 +82,8 @@ const routes: Routes = [
     CredixCodeInputModule,
     CredixResultViewModule,
     CredixCodeLinkModule,
-    CredixDatePickerModule
+    CredixDatePickerModule,
+    CredixCalendarInputModule
   ],
   providers: [
     AdditionalCardsManagementService,

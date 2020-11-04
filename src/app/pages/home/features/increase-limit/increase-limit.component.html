@@ -1,7 +1,10 @@
-<app-credix-result-view *ngIf="show"
-                        [resultMessage]="message"
-                        [resultTile]="title"
-                        [status]="status"
-                        [title]="titleTag || 'Aumento de límite de crédito'"
-                        buttonText="Listo"
-                        routeTo="/home"></app-credix-result-view>
+<div class="increase-limit">
+  <app-credix-result-view *ngIf="show"
+                          [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [moduleTitle]="titleTag || 'Aumento de límite de crédito'"
+                          buttonText="Listo"
+                          routeTo="/home"></app-credix-result-view>
+</div>
+

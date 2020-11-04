@@ -83,6 +83,8 @@ export class MenuOptionComponent implements OnInit {
           menu.submenus = this.submenus.filter(sub => sub.parentId === menu.name);
         }
       });
+
+      this.orderingMenu();
     });
   }
 
@@ -102,20 +104,22 @@ export class MenuOptionComponent implements OnInit {
   }
 
   submenuChanged(menuId: number, submenuId: number, route: string, navigate = true) {
-    this.activeMenu = menuId;
-    this.activeSubmenu = submenuId;
+    if (this.activeSubmenu !== submenuId) {
+      this.activeMenu = menuId;
+      this.activeSubmenu = submenuId;
 
-    if (route !== '/home/increase-limit' && navigate) {
-      this.router.navigate([route]);
-    }
+      if (route !== '/home/increase-limit' && navigate) {
+        this.router.navigate([route]);
+      }
 
-    if (route === '/home/increase-limit') {
-      this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?')
-        .subscribe(confirmation => {
-          if (confirmation) {
-            this.router.navigate([route]);
-          }
-        });
+      if (route === '/home/increase-limit') {
+        this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?')
+          .subscribe(confirmation => {
+            if (confirmation) {
+              this.router.navigate([route]);
+            }
+          });
+      }
     }
   }
 
@@ -123,7 +127,45 @@ export class MenuOptionComponent implements OnInit {
     this.questionTag = tags.find(tag => tag.description === 'aumento.question').value;
   }
 
+  orderingMenu() {
+    this.menus.forEach(menu => {
+      switch (menu.name) {
+        case 'Pagar':
+          if (menu.submenus) {
+            const payTempSubmenu = [];
+            payOrdering.forEach(orderFlag => {
+              const found = menu.submenus.find(submenu => submenu.name === orderFlag);
+              if (found) {
+                payTempSubmenu.push(found);
+              }
+            });
+            if (payTempSubmenu.length > 0) {
+              menu.submenus = payTempSubmenu;
+            }
+          }
+          break;
+        case 'Productos':
+          if (menu.submenus) {
+            const productTempSubmenu = [];
+            productOrdering.forEach(orderFlag => {
+              const found = menu.submenus.find(submenu => submenu.name === orderFlag);
+              if (found) {
+                productTempSubmenu.push(found);
+              }
+            });
+            if (productTempSubmenu.length > 0) {
+              menu.submenus = productTempSubmenu;
+            }
+          }
+          break;
+      }
+    });
+  }
+
 }
+
+const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar plazo de compra', 'Cancelación anticipada'];
+const payOrdering = ['Servicios', 'Pagar tarjeta', 'Marchamo', 'Enviar dinero', 'Reportar transferencia', 'Lugares de pago'];
 
 export const menus: Menu[] = [
   {id: 1, name: 'Inicio', route: '/home'},

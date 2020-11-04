@@ -18,7 +18,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   @Input() deliveryPlace: string;
   @Input() totalMarchamo: number;
   @Input() iva: number;
-  amountOfItemProduct: { amounts: number; productCode: number; }[] = [];
+  amountOfItemProduct: { amounts: string | number; productCode: number; }[] = [];
   totalOfItemProduct = 0;
   total = 0;
   commission: number;
@@ -62,7 +62,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
 
   computeCalculate() {
     this.totalOfItemProduct = (this.amountOfItemProduct) ?
-      this.amountOfItemProduct.reduce((a, b) => a + b.amounts, 0) : 0;
+      this.amountOfItemProduct.reduce((a, b) => a + +b.amounts, 0) : 0;
   }
 
   getTags(tags: Tag[]) {

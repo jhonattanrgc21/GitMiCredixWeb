@@ -1,5 +1,9 @@
 export function ConvertStringAmountToNumber(value: string): number {
-  const integer = (value.split(',')[0]).split('.').join('');
-  const decimal = value.split(',')[1];
-  return Number(`${integer}.${decimal ? decimal : '00'}`);
+  if (value.indexOf(',') > -1) {
+    const numberValue = value.replace(/\./g, '').replace(',', '.');
+    return Number(numberValue);
+  } else {
+    const numberValue = value.replace(/\./g, '');
+    return (Number(numberValue) * 100) / 100;
+  }
 }

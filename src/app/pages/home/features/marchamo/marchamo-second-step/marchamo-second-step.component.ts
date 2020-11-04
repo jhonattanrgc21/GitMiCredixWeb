@@ -3,7 +3,7 @@ import {BillingHistory} from 'src/app/shared/models/billing-history';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
 import {Item} from '../../../../../shared/models/item';
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpService} from '../../../../../core/services/http.service';
 import {PopupMarchamosPaymentSummaryComponent} from './popup-marchamos-payment-summary/popup-marchamos-payment-summary.component';
 import {MarchamoService} from '../marchamo.service';
@@ -23,9 +23,9 @@ import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   @Input() secureAndQuotesForm = new FormGroup({
     additionalProducts: new FormArray([]),
-    quota: new FormControl(null),
-    quotaId: new FormControl(null),
-    firstQuotaDate: new FormControl(null)
+    quota: new FormControl(null, [Validators.required]),
+    quotaId: new FormControl(null, [Validators.required]),
+    firstQuotaDate: new FormControl(null, [Validators.required])
   });
   @Input() isActive = false;
   billingHistories: BillingHistory[];
@@ -35,7 +35,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   isChecked = false;
   isCheckedAll = false;
   step = 0;
-  showQuotaPaymentSelect = false;
+  showPaymentDates = false;
   quotas: Quota[] = [];
   quotaSliderStep = 1;
   quotaSliderMin = 3;
@@ -46,39 +46,17 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   amountPerQuota = 0;
   commission = 0;
   iva = 0;
-  paymentList: {
-    promoStatus: number;
-    paymentDate: string;
-  }[] = [];
-  itemProduct: Item[] = [
-    {
-      responseDescription: 'Responsabilidad civil',
-      responseCode: 15,
-      productCode: 5,
-      amount: 8745.00
-    },
-    {
-      responseDescription: 'Asistencia en carretera',
-      responseCode: 15,
-      productCode: 6,
-      amount: 3359.00
-    },
-    {
-      responseDescription: 'Mas protección',
-      responseCode: 15,
-      productCode: 8,
-      amount: 7140.00
-    }
-  ];
-  haveAdditionalProducts: boolean;
-  arrayOfAmountProducts: { amounts: number; productCode: number; }[] = [];
-  step2Subt3: string;
-  step2Subt2: string;
-  step2Com: string;
-  step2TagT: string;
-  step2Subt1: string;
-  step2Link: string;
-  step2TagDiv: string;
+  payments: { promoStatus: number; paymentDate: string; }[] = [];
+  itemProduct: Item[];
+  arrayOfAmountProducts: { amounts: string | number; productCode: number; }[] = [];
+  hasAdditionalProducts: boolean;
+  secondStepFirstSubtitle: string;
+  secondStepSecondSubtitle: string;
+  secondStepThirdSubtitle: string;
+  secondStepCom: string;
+  secondStepTagT: string;
+  secondStepLink: string;
+  secondStepTagDiv: string;
 
   constructor(private marchamosService: MarchamoService,
               private customerApiService: CustomerApiService,
@@ -94,9 +72,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
-    );
-    this.haveAdditionalProducts = this.marchamosService.haveAdditionalProducts;
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -104,6 +80,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.executed = true;
       this.totalAmount = this.marchamosService.consultVehicle.amount;
       this.billingHistories = this.marchamosService.billingHistories;
+      this.itemProduct = this.marchamosService.itemProduct;
+      this.hasAdditionalProducts = this.marchamosService.hasAdditionalProducts;
       this.getQuotasByProduct();
       this.getOwnersPayerInfo();
       this.getPromo();
@@ -136,12 +114,12 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   getValueCheckBoxes(event: any) {
     if (event.checked) {
-      (this.additionalProducts).push(new FormGroup({
+      this.additionalProducts.push(new FormGroup({
         productCode: new FormControl(event.value)
       }));
 
       this.arrayOfAmountProducts.push({
-        amounts: this.itemProduct.find(product => product.productCode === event.value).amount,
+        amounts: ConvertStringAmountToNumber(this.itemProduct.find(product => product.productCode === event.value).amount),
         productCode: event.value
       });
     } else {
@@ -153,6 +131,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         }
         index++;
       });
+
       this.arrayOfAmountProducts.forEach((value, i) => {
         if (value.productCode === event.value) {
           this.arrayOfAmountProducts.splice(i, 1);
@@ -161,11 +140,12 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     }
 
     this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
-    (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
+    this.isCheckedAll = !(this.arrayOfAmountProducts.length < this.itemProduct.length);
   }
 
   getValueOfCheckBoxAll(event) {
     this.allChecked(event.checked);
+
     if (event.checked) {
       this.itemProduct.forEach(value => {
         this.arrayOfAmountProducts.push({
@@ -173,6 +153,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
           productCode: value.productCode
         });
       });
+
       for (const product of this.itemProduct) {
         this.additionalProducts.push(
           new FormGroup({
@@ -180,27 +161,26 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
           }));
         this.additionalProducts.removeAt(3);
       }
+
     } else {
       this.additionalProducts.controls.splice(0, this.itemProduct.length);
       this.additionalProducts.setValue([]);
       this.arrayOfAmountProducts.splice(0, this.itemProduct.length);
     }
-    (this.arrayOfAmountProducts.length < 3) ? this.isCheckedAll = false : this.isCheckedAll = true;
+
+    this.isCheckedAll = !(this.arrayOfAmountProducts.length < 3);
   }
 
   allChecked(event?: boolean) {
     this.isChecked = event;
   }
 
-
   getPromo() {
-    this.marchamosService.getPromoApply()
-      .subscribe(response => {
-        this.paymentList = response;
-        this.marchamosService.paymentList = response;
-      });
+    this.marchamosService.getPromoApply().subscribe(response => {
+      this.payments = response;
+      this.marchamosService.payments = response;
+    });
   }
-
 
   getQuotasByProduct() {
     this.customerApiService.getQuotas(2).subscribe(quotas => {
@@ -210,7 +190,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.quotaSliderDisplayMax = this.quotas[this.quotas.length - 1].quota;
       this.quotaSliderMax = this.quotas.length;
       this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
-      this.showQuotaPaymentSelect = this.quotaSliderDisplayMin > 1;
+      this.showPaymentDates = this.quotaSliderDisplayMin > 1;
       this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayMin);
       this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[0].id);
       this.computeAmountPerQuota(this.quotaSliderDisplayMin);
@@ -234,32 +214,27 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   getCommission(quotas: number) {
-
-    this.marchamosService.getCommission(quotas, this.totalAmount)
-      .subscribe((response) => {
-        if (typeof response.result === 'string') {
-          this.commission = ConvertStringAmountToNumber(response.result);
-          this.iva = ConvertStringAmountToNumber(response.iva);
-          this.marchamosService.iva = this.iva;
-          this.marchamosService.commission = this.commission;
-        }
-      });
+    this.marchamosService.getCommission(quotas, this.totalAmount).subscribe((response) => {
+      if (typeof response.result === 'string') {
+        this.commission = ConvertStringAmountToNumber(response.result);
+        this.iva = ConvertStringAmountToNumber(response.iva);
+        this.marchamosService.iva = this.iva;
+        this.marchamosService.commission = this.commission;
+      }
+    });
   }
 
   getOwnersPayerInfo() {
-    this.marchamosService.getOwnersPayerInfo()
-      .subscribe((response) => {
-        this.ownerPayer = response;
-      });
+    this.marchamosService.getOwnersPayerInfo().subscribe(response => this.ownerPayer = response);
   }
 
   getTags(tags: Tag[]) {
-    this.step2Subt1 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle1')?.value;
-    this.step2Link = tags.find(tag => tag.description === 'marchamo.stepper2.link')?.value;
-    this.step2Subt3 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle3')?.value;
-    this.step2TagDiv = tags.find(tag => tag.description === 'marchamo.stepper2.tagdividr')?.value;
-    this.step2Subt2 = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle2')?.value;
-    this.step2Com = tags.find(tag => tag.description === 'marchamo.stepper2.comision')?.value;
-    this.step2TagT = tags.find(tag => tag.description === 'marchamo.stepper2.tagTodos')?.value;
+    this.secondStepFirstSubtitle = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle1')?.value;
+    this.secondStepSecondSubtitle = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle2')?.value;
+    this.secondStepThirdSubtitle = tags.find(tag => tag.description === 'marchamo.stepper2.subtitle3')?.value;
+    this.secondStepLink = tags.find(tag => tag.description === 'marchamo.stepper2.link')?.value;
+    this.secondStepTagDiv = tags.find(tag => tag.description === 'marchamo.stepper2.tagdividr')?.value;
+    this.secondStepCom = tags.find(tag => tag.description === 'marchamo.stepper2.comision')?.value;
+    this.secondStepTagT = tags.find(tag => tag.description === 'marchamo.stepper2.tagTodos')?.value;
   }
 }

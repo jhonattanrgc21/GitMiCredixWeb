@@ -26,7 +26,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Mes al cobro</span>
+        <span>{{!companyName.toLowerCase().includes('icetel') ? 'Período' : 'Mes al cobro'}}</span>
         <span>{{month}}</span>
       </div>
 
@@ -51,26 +51,26 @@
     <span><strong>Monto a pagar</strong></span>
     <div class="left-content" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
-                           [checked]="radioCheck"
-                           [value]="'totalAmountPending'"
+                           [value]="0"
                            label="Monto pendiente total"
                            name="selectPayment"></credix-radio-button>
       <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
-                           [checked]="radioCheck"
-                           [value]="'another'"
+                           [value]="1"
                            label="Otro"
                            name="selectPayment"></credix-radio-button>
-      <credix-input-field *ngIf="selectPayment === 'another'"
+      <credix-input-field *ngIf="newAmount"
                           class="new-service-second-step__content__input amount-to-pay"
                           formControlName="amount"
                           label="Monto"
                           mask="separator">
-        <div error>
-          {{
-          confirmFormGroup.controls.amount.hasError('min') ? 'El monto debe ser mayor a ' + currencySymbol + amount + (amount.split(',').length === 1 ? ',00' : '')
-            : confirmFormGroup.controls.amount.hasError('max') ? 'El monto debe ser menor a ' + currencySymbol + amount + (amount.split(',').length === 1 ? ',00' : '')
-            : confirmFormGroup.controls.amount.hasError('required') ? 'ingrese el monto' : null
-          }}
+        <div *ngIf="confirmFormGroup.controls.amount.hasError('min')" error>
+          {{'El monto debe ser mayor a ' + currencySymbol + amount + (amount.split(',').length === 1 ? ',00' : '')}}
+        </div>
+        <div *ngIf="confirmFormGroup.controls.amount.hasError('max')" error>
+          {{'El monto debe ser menor a ' + currencySymbol + amount + (amount.split(',').length === 1 ? ',00' : '')}}
+        </div>
+        <div *ngIf="confirmFormGroup.controls.amount.hasError('required')" error>
+          ingrese el monto
         </div>
       </credix-input-field>
 

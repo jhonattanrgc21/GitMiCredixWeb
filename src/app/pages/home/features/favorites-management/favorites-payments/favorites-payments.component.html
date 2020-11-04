@@ -1,4 +1,4 @@
-<div *ngIf="data" class="favorites-payments" fxLayout="column">
+<div *ngIf="data && !deleted" class="favorites-payments" fxLayout="column">
   <span class="favorites-payments__title"><strong>{{data?.publicServiceAccessKeyDescription}}</strong></span>
 
   <div class="mb-8px" fxLayout="row" fxLayoutGap="16px">

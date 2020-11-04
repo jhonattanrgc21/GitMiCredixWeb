@@ -6,10 +6,11 @@ import {OwnerPayer} from '../../../../shared/models/owner-payer';
 import {Cacheable} from 'ngx-cacheable';
 import {VehicleType} from '../../../../shared/models/vehicle-type';
 import {HttpService} from '../../../../core/services/http.service';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {DeliveryPlace} from '../../../../shared/models/delivery-place';
+import {Item} from '../../../../shared/models/item';
 
 
 @Injectable()
@@ -19,15 +20,16 @@ export class MarchamoService {
   private readonly getOwnerPayerInfoUri = 'owners/payerinfo';
   private readonly getCalculateComissionUri = 'pay/calculatecommission';
   marchamoAmount: number;
-  haveAdditionalProducts: boolean;
   private readonly getDeliveryPlacesUri = 'pay/deliveryplaces';
   consultVehicle: ConsultVehicle;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
-  paymentList: {
+  payments: {
     promoStatus: number;
     paymentDate: string;
   }[] = [];
+  itemProduct: Item[];
+  hasAdditionalProducts: boolean;
 
   constructor(private httpService: HttpService,
               private toastService: CredixToastService,
@@ -47,13 +49,13 @@ export class MarchamoService {
   consultVehicle$ = this._consultVehicle.asObservable();
 
   // tslint:disable-next-line:variable-name
-  private _amountProducts: { amounts: number; productCode: number; }[];
+  private _amountProducts: { amounts: string | number; productCode: number; }[];
 
-  get amountProducts(): { amounts: number; productCode: number; }[] {
+  get amountProducts(): { amounts: string | number; productCode: number; }[] {
     return this._amountProducts;
   }
 
-  set setAmountProducts(data: { amounts: number; productCode: number; }[]) {
+  set setAmountProducts(data: { amounts: string | number; productCode: number; }[]) {
     this._amountProducts = data;
   }
 
@@ -67,7 +69,7 @@ export class MarchamoService {
 
   @Cacheable()
   getVehiclePlate(): Observable<VehicleType[]> {
-    return this.httpService.post('marchamos', this.getPlateTypesUri, {})
+    return this.httpService.post('marchamos', this.getPlateTypesUri)
       .pipe(
         map((response) => {
           if (response.type === 'success') {
@@ -85,14 +87,14 @@ export class MarchamoService {
       plateNumber,
       aditionalProducts: [
         {
-           productCode: 5
-         },
-         {
-           productCode: 6
-         },
-         {
-           productCode: 8
-         }
+          productCode: 5
+        },
+        {
+          productCode: 6
+        },
+        {
+          productCode: 8
+        }
       ]
     }).pipe(
       map((response) => {
@@ -154,10 +156,7 @@ export class MarchamoService {
   }
 
   @Cacheable()
-  getPromoApply(): Observable<{
-    promoStatus: number;
-    paymentDate: string;
-  }[]> {
+  getPromoApply(): Observable<{ promoStatus: number; paymentDate: string; }[]> {
     return this.httpService.post('marchamos', this.getPromoApplyUri,
       {accountNumber: this.storageService.getCurrentUser().accountNumber.toString()})
       .pipe(
@@ -167,7 +166,10 @@ export class MarchamoService {
           } else {
             return [];
           }
-        })
+        }),
+        tap(payments => {
+          this.payments = payments;
+        }),
       );
   }
 
@@ -184,7 +186,8 @@ export class MarchamoService {
     promoStatus: number,
     quotasId: number,
     phoneNumber: number,
-    ownerEmail: string) {
+    ownerEmail: string,
+    codeCredix: string) {
     return this.httpService.post('marchamos', this.paySoapayUri,
       {
         aditionalProducts,
@@ -209,7 +212,8 @@ export class MarchamoService {
         promoStatus,
         quotasId,
         transactionTypeId: 1,
-        requiredBill: '1'
+        requiredBill: '1',
+        codeCredix
       });
   }
 }

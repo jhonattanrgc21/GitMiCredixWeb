@@ -69,10 +69,9 @@ export class MarchamoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkNextStep();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
-    );
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags));
+    this.checkNextStep();
     this.getCredixCodeError();
   }
 
@@ -94,23 +93,18 @@ export class MarchamoComponent implements OnInit {
     switch (this.stepperIndex) {
       case 0:
         this.disableButton = !this.marchamosService.consultVehicle && !this.marchamosService.billingHistories;
-        this.marchamosService.vehicleConsulted$.subscribe(() => {
-          this.disableButton = !this.marchamosService.consultVehicle && !this.marchamosService.billingHistories;
-        });
+        this.marchamosService.vehicleConsulted$
+          .subscribe(() => this.disableButton = !this.marchamosService.consultVehicle && !this.marchamosService.billingHistories);
         break;
       case 1:
         this.plateNumber = this.marchamosService.consultVehicle.plateNumber;
         this.marchamoTotal = this.marchamosService.consultVehicle.amount;
         this.disableButton = this.secureAndQuotesForm.invalid;
-        this.secureAndQuotesForm.valueChanges.subscribe(() => {
-          this.disableButton = this.secureAndQuotesForm.invalid;
-        });
+        this.secureAndQuotesForm.valueChanges.subscribe(() => this.disableButton = this.secureAndQuotesForm.invalid);
         break;
       case 2:
         this.disableButton = this.pickUpForm.invalid;
-        this.pickUpForm.valueChanges.subscribe(() => {
-          this.disableButton = this.pickUpForm.invalid;
-        });
+        this.pickUpForm.valueChanges.subscribe(() => this.disableButton = this.pickUpForm.invalid);
         break;
       case 3:
         this.name = this.pickUpForm.controls.person.value;
@@ -118,9 +112,7 @@ export class MarchamoComponent implements OnInit {
         this.email = this.pickUpForm.controls.email.value;
         this.address = this.pickUpForm.controls.address.value;
         this.disableButton = this.confirmForm.invalid;
-        this.confirmForm.valueChanges.subscribe(() => {
-          this.disableButton = this.confirmForm.invalid;
-        });
+        this.confirmForm.valueChanges.subscribe(() => this.disableButton = this.confirmForm.invalid);
         break;
     }
   }
@@ -134,7 +126,7 @@ export class MarchamoComponent implements OnInit {
       1 : this.pickUpForm.controls.deliveryPlace.value;
     const ownerEmail: string = this.marchamosService.ownerPayer.email === '' ?
       this.pickUpForm.controls.email.value : this.marchamosService.ownerPayer.email;
-    const firstPayment: string = this.marchamosService.paymentList
+    const firstPayment: string = this.marchamosService.payments
       .find(elem => elem.promoStatus === this.secureAndQuotesForm.controls.firstQuotaDate.value).paymentDate;
     this.marchamosService.setSoaPay(
       this.secureAndQuotesForm.controls.additionalProducts.value,
@@ -149,7 +141,8 @@ export class MarchamoComponent implements OnInit {
       this.secureAndQuotesForm.controls.firstQuotaDate.value,
       this.secureAndQuotesForm.controls.quotaId.value,
       this.pickUpForm.controls.phoneNumber.value,
-      ownerEmail
+      ownerEmail,
+      this.confirmForm.controls.credixCode.value
     )
       .pipe(finalize(() => {
         this.done = true;
@@ -189,9 +182,7 @@ export class MarchamoComponent implements OnInit {
   getCredixCodeError() {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
       this.confirmForm.controls.credixCode.setErrors({invalid: true});
-      this.pickUpForm.updateValueAndValidity();
-      this.secureAndQuotesForm.updateValueAndValidity();
-      this.consultForm.updateValueAndValidity();
+      this.confirmForm.updateValueAndValidity();
     });
   }
 

@@ -17,7 +17,7 @@
 
         <credix-select class="add-favorites-payment__form__input" formControlName="publicServiceCompany"
                        label="Compañía">
-          <mat-option *ngFor="let company of publicCompany"
+          <mat-option *ngFor="let company of publicCompanies"
                       [value]="company.publicServiceEnterpriseId">
             {{company.publicServiceEnterpriseDescription}}
           </mat-option>
@@ -36,8 +36,7 @@
           </mat-option>
         </credix-select>
 
-        <credix-input-field [label]="'Número de ' + label" [mask]="mask"
-                            class="add-favorites-payment__form__input"
+        <credix-input-field [label]="'Número de ' + label" class="add-favorites-payment__form__input"
                             formControlName="contractControl"></credix-input-field>
 
         <credix-input-field class="add-favorites-payment__form__input mb-8px" formControlName="favoriteName"
@@ -65,12 +64,13 @@
     </div>
   </div>
 
-  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
-    <credix-button [routerLink]="['/home/favorites-management/favorites-payments']" class="mr-16px"
-                   type="secondary">Atrás
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button [routerLink]="['/home/favorites-management/favorites-payments']" type="secondary">
+      Atrás
     </credix-button>
     <credix-button (buttonClick)="addFavoritePayment()"
-                   [disabled]="!newFavoritesPaymentForm.valid || !codeCredix.valid">Añadir
+                   [disabled]="!newFavoritesPaymentForm.valid || !codeCredix.valid">
+      Añadir
     </credix-button>
   </div>
 </mat-card>
@@ -80,7 +80,7 @@
     [resultMessage]="result.message"
     [resultTile]="result.status === 'success' ? '¡Éxito!' : 'Opps..'"
     [status]="result.status"
-    title="Añadir pago favorito"
+    moduleTitle="Añadir pago favorito"
     buttonText="Listo"
     routeTo="/home/favorites-management/favorites-payments">
 

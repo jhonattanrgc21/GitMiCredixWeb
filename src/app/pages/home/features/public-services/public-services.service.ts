@@ -10,6 +10,7 @@ import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 import {PublicService} from '../../../../shared/models/public-service';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {Voucher} from '../../../../shared/models/voucher';
+import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -29,6 +30,7 @@ export class PublicServicesService {
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
+  company: string;
 // tslint:disable-next-line:variable-name
   _publicService: PublicService;
   get publicService(): PublicService {
@@ -92,9 +94,11 @@ export class PublicServicesService {
     );
   }
 
-  @Cacheable()
+  @Cacheable({
+    cacheBusterObserver: cleanSchedulePayments$.asObservable()
+  })
   getAllSchedulersPayment(): Observable<SchedulePayments[]> {
-    return this.httpService.post('canales', this.getSchedulerPaymentsUserUri, {channelId: 102})
+    return this.httpService.post('canales', this.getSchedulerPaymentsUserUri)
       .pipe(
         map((response) => {
           if (response.scheduledPayList?.length > 0 && response.message === 'Operación exitosa') {

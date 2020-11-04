@@ -42,6 +42,7 @@ import {PopupReceiptComponent} from './success-screen/popup-receipt/popup-receip
 import {NewRechargeSecondStepComponent} from './all-services/new-recharge/new-recharge-second-step/new-recharge-second-step.component';
 import {CredixSearchBoxModule} from 'src/app/shared/components/credix-search-box/credix-search-box.module';
 import {SuccessScreenComponent} from './success-screen/success-screen.component';
+import {PopupAllReceiptsComponent} from './all-services/popup-all-receipts/popup-all-receipts.component';
 
 const routes: Routes = [
   {
@@ -88,7 +89,8 @@ const routes: Routes = [
     NewServiceSecondStepComponent,
     PopupReceiptComponent,
     NewRechargeSecondStepComponent,
-    SuccessScreenComponent
+    SuccessScreenComponent,
+    PopupAllReceiptsComponent
   ],
   imports: [
     CommonModule,

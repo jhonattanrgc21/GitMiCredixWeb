@@ -22,10 +22,6 @@ export class SignUpService {
           if (response.type === 'error') {
             this.toastService.show({text: response.message, type: 'error'});
           }
-        },
-        error => {
-        },
-        () => {
         }),
       map(response => {
         if (response.type === 'success') {
@@ -68,7 +64,7 @@ export class SignUpService {
   validateOtp(confirmationCode: number, userId: number): Observable<{ status: 'success' | 'error', message: string }> {
     return this.httpService.post('canales', this.validateOtpUri, {
       userId,
-      validateToken: 1,
+      validateToken: 0,
       usernameSecurity: 'sts_sac',
       passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
       confirmationCode
@@ -81,7 +77,7 @@ export class SignUpService {
     return this.httpService.post('canales', this.checkPasswordUri, {
       userId,
       typeIncome: 1,
-      validateToken: 1,
+      validateToken: 0,
       newPassword: CryptoJS.SHA256(password).toString(),
       confirmPassword: CryptoJS.SHA256(password).to,
       usernameSecurity: 'sts_sac',

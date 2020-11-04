@@ -77,10 +77,6 @@ export class SignInService {
           if (response.type === 'error') {
             this.toastService.show({text: response.descriptionOne, type: 'error'});
           }
-        },
-        error => {
-        },
-        () => {
         }),
       map(response => response.type)
     );
@@ -149,10 +145,6 @@ export class SignInService {
           if (response.type === 'error') {
             this.toastService.show({text: 'Ocurrió un error. Intente nuevamente', type: response.type});
           }
-        },
-        error => {
-        },
-        () => {
         }),
       map(response => response.type)
     );
