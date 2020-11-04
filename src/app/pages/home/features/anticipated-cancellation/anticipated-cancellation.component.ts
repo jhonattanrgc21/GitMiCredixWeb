@@ -68,7 +68,7 @@ export class AnticipatedCancellationComponent implements OnInit {
     } else {
       this.dataSource = this.dollarsCancellations;
       this.dollarsBalance = this.initialDollarsBalance;
-      this.empty = this.colonesCancellations.length === 0;
+      this.empty = this.dollarsCancellations.length === 0;
     }
     this.tabId = tab.id;
     this.selection = [];
