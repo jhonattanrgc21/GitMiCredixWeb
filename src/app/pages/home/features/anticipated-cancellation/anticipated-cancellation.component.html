@@ -100,7 +100,7 @@
   <app-credix-result-view [resultMessage]="message"
                           [resultTile]="title"
                           [status]="status"
-                          [title]="titleTag || 'Cancelación anticipada'"
+                          [moduleTitle]="titleTag || 'Cancelación anticipada'"
                           buttonText="Listo"
                           routeTo="/home">
     <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
@@ -131,7 +131,7 @@
 <ng-template #disabledTemplate>
   <app-credix-result-view [resultMessage]="message"
                           [resultTile]="title"
-                          [title]="titleTag || 'Cancelación anticipada'"
+                          [moduleTitle]="titleTag || 'Cancelación anticipada'"
                           buttonText="Listo"
                           routeTo="/home"
                           status="error"></app-credix-result-view>

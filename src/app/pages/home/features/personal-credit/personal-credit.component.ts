@@ -4,7 +4,6 @@ import {CdkStepper} from '@angular/cdk/stepper';
 import {PersonalCreditService} from './personal-credit.service';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {ModalService} from '../../../../core/services/modal.service';
-import {Router} from '@angular/router';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {finalize} from 'rxjs/operators';
@@ -30,7 +29,6 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
   cardLimit: number;
   stepperIndex = 0;
   disableButton = true;
-  buttonText = 'Continuar';
   titleTag: string;
   stepsTagsTitles: {
     firstStepTagTitle: string;
@@ -70,13 +68,13 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
     totalTag: string;
   };
   questionTag: string;
-  warningMssgTag: string;
-  warningMssgDescription: string;
+  warningMessageTag: string;
+  warningMessageDescription: string;
   done = false;
   title: string;
   message: string;
-  status: 'success' | 'warn' | 'error';
-  responseComponentType: 'success' | 'warn' | 'error';
+  status: 'success' | 'warn' | 'error' | 'info';
+  responseComponentType: 'success' | 'warn' | 'error' | 'info';
   @ViewChild('personalCreditStepper') stepper: CdkStepper;
 
   constructor(private personalCreditService: PersonalCreditService,
@@ -84,7 +82,6 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
               private modalService: ModalService,
               private toastService: CredixToastService,
               private storageService: StorageService,
-              private router: Router,
               private tagsService: TagsService) {
   }
 
@@ -137,22 +134,18 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
     switch (this.stepper.selectedIndex) {
       case 0 :
         this.stepper.next();
-        this.stepperIndex++;
         break;
       case 1:
         if (this.disbursementForm.controls.account.value !== 0) {
           this.personalCreditService.checkIbanColonesAccount(this.disbursementForm.controls.account.value).subscribe(response => {
             if (response.type === 'success' && response.message.MotivoRechazo === '0') {
               this.stepper.next();
-              this.stepperIndex++;
             } else {
               this.personalCreditService.emitErrorIbanAccount();
-              console.log(response);
             }
           });
         } else {
           this.stepper.next();
-          this.stepperIndex++;
         }
         break;
       case 2:
@@ -160,24 +153,14 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
           .subscribe(response => response && this.submit());
         break;
     }
-
-    this.setButtonLabel();
+    this.stepperIndex = this.stepper.selectedIndex;
     this.setEnableButton();
   }
 
   back() {
     this.stepper.previous();
-    this.stepperIndex--;
-    this.setButtonLabel();
+    this.stepperIndex = this.stepper.selectedIndex;
     this.setEnableButton();
-  }
-
-  setButtonLabel() {
-    if (this.stepper.selectedIndex === 2) {
-      this.buttonText = 'Solicitar';
-    } else {
-      this.buttonText = 'Continuar';
-    }
   }
 
   submit() {
@@ -195,7 +178,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
       customerType: '2',
       ticketTypeId: '5'
     })
-      .pipe(finalize(() => this.done = true))
+      .pipe(finalize(() => this.done = this.status?.length > 0))
       .subscribe(response => {
         this.status = response.type;
         this.message = response.message;
@@ -248,6 +231,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
       subtitleTag1: tags.find(tag => tag.description === 'credito.stepper3.subtitle1')?.value,
       subtitleTag2: tags.find(tag => tag.description === 'credito.stepper3.subtitle2')?.value
     };
+
     this.popUpTags = {
       amountTag: tags.find(tag => tag.description === 'credito.popup.tag.monto')?.value,
       titleTag: tags.find(tag => tag.description === 'credito.popup.title')?.value,
@@ -258,9 +242,10 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
       disclaimerTag: tags.find(tag => tag.description === 'credito.popup.tag.disclaimer')?.value,
       totalTag: tags.find(tag => tag.description === 'credito.popup.tag.total')?.value,
     };
+
     this.questionTag = tags.find(tag => tag.description === 'credito.question')?.value;
-    this.warningMssgTag = tags.find(tag => tag.description === 'credito.message.warning.title')?.value;
-    this.warningMssgDescription = tags.find(tag => tag.description === 'credito.message.warning.description')?.value;
+    this.warningMessageTag = tags.find(tag => tag.description === 'credito.message.warning.title')?.value;
+    this.warningMessageDescription = tags.find(tag => tag.description === 'credito.message.warning.description')?.value;
     this.quoteTags = tags.find(tag => tag.description === 'credito.tag.cuotas')?.value;
     this.subtitleTag = tags.find(tag => tag.description === 'credito.tag.cuotas')?.value;
   }

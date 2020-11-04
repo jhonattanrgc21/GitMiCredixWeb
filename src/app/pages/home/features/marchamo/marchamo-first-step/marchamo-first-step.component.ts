@@ -41,8 +41,7 @@ export class MarchamoFirstStepComponent implements OnInit {
   }
 
   getVehicleTypes() {
-    this.marchamosService.getVehiclePlate()
-      .subscribe((response) => this.vehicleTypes = response);
+    this.marchamosService.getVehiclePlate().subscribe((response) => this.vehicleTypes = response);
   }
 
   consult() {

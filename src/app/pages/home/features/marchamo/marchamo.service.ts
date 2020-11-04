@@ -69,7 +69,7 @@ export class MarchamoService {
 
   @Cacheable()
   getVehiclePlate(): Observable<VehicleType[]> {
-    return this.httpService.post('marchamos', this.getPlateTypesUri, {})
+    return this.httpService.post('marchamos', this.getPlateTypesUri)
       .pipe(
         map((response) => {
           if (response.type === 'success') {

@@ -45,8 +45,7 @@
     <div fxFlex="25" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
       <span>{{quoteTags || 'Cuotas de:'}}</span>
 
-      <credix-numeric-block [value]="personalCreditSummary?.quota"
-                            class="tr"
+      <credix-numeric-block [value]="personalCreditSummary?.quota || 0"
                             fontSize="24"
                             fontWeight="bold"
                             prefix="₡"></credix-numeric-block>

@@ -68,7 +68,7 @@ export class AnticipatedCancellationComponent implements OnInit {
     } else {
       this.dataSource = this.dollarsCancellations;
       this.dollarsBalance = this.initialDollarsBalance;
-      this.empty = this.colonesCancellations.length === 0;
+      this.empty = this.dollarsCancellations.length === 0;
     }
     this.tabId = tab.id;
     this.selection = [];
@@ -104,7 +104,7 @@ export class AnticipatedCancellationComponent implements OnInit {
   }
 
   openConfirmationModal() {
-    this.modalService.confirmationPopup('¿Desea realizar esta cancelación?').subscribe(confirmation => {
+    this.modalService.confirmationPopup('¿Desea hacer esta cancelación anticipada?').subscribe(confirmation => {
       if (confirmation) {
         this.saveCancellation();
       }
