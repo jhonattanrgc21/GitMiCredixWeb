@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PublicServicesService} from '../public-services.service';
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
 import {getMontByMonthNumber} from '../../../../../shared/utils/get-month-by-month-number';
@@ -9,7 +9,7 @@ import {NavigationService} from '../../../../../core/services/navigation.service
   templateUrl: './automatics-services.component.html',
   styleUrls: ['./automatics-services.component.scss', '../public-services.component.scss']
 })
-export class AutomaticsServicesComponent implements OnInit {
+export class AutomaticsServicesComponent implements OnInit, OnDestroy {
   tableHeaders = [
     {label: 'Servicios', width: '283px'},
     {label: 'Datos del pago', width: 'auto'}
@@ -59,5 +59,9 @@ export class AutomaticsServicesComponent implements OnInit {
 
   onSubmenuChanged() {
     this.navigationService.submenuChanged('favorites-management');
+  }
+
+  ngOnDestroy(): void {
+    this.publicServicesService.unsubscribe();
   }
 }

@@ -29,4 +29,7 @@ export class ChangePasswordService {
         }));
   }
 
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

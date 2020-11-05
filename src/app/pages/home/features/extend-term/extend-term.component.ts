@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
@@ -15,7 +15,7 @@ import {ExtendTermService} from './extend-term.service';
   templateUrl: './extend-term.component.html',
   styleUrls: ['./extend-term.component.scss'],
 })
-export class ExtendTermComponent implements OnInit {
+export class ExtendTermComponent implements OnInit, OnDestroy {
   tableHeaders = [
     {label: 'Consumos', width: '282px'},
     {label: 'Ampliación', width: 'auto'}
@@ -162,4 +162,7 @@ export class ExtendTermComponent implements OnInit {
     this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo')?.value;
   }
 
+  ngOnDestroy(): void {
+    this.extendTermService.unsubscribe();
+  }
 }

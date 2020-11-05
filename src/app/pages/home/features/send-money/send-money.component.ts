@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {SendMoneyService} from './send-money.service';
@@ -19,7 +19,7 @@ import {CredixCodeErrorService} from '../../../../core/services/credix-code-erro
   styleUrls: ['./send-money.component.scss'],
   providers: [DatePipe],
 })
-export class SendMoneyComponent implements OnInit, AfterViewInit {
+export class SendMoneyComponent implements OnInit, AfterViewInit, OnDestroy {
   informationForm: FormGroup = new FormGroup({
     account: new FormControl(null, [Validators.required]),
   });
@@ -185,5 +185,9 @@ export class SendMoneyComponent implements OnInit, AfterViewInit {
     this.step = tags.find(tag => tag.description === 'enviardinero.stepper1')?.value;
     this.step2 = tags.find(tag => tag.description === 'enviardinero.stepper2')?.value;
     this.step3 = tags.find(tag => tag.description === 'enviardinero.stepper3')?.value;
+  }
+
+  ngOnDestroy(): void {
+    this.sendMoneyService.unsubscribe();
   }
 }

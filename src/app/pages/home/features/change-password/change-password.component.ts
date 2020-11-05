@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {ModalService} from '../../../../core/services/modal.service';
 import {TagsService} from '../../../../core/services/tags.service';
@@ -12,7 +12,7 @@ import {CredixCodeErrorService} from '../../../../core/services/credix-code-erro
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss']
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit, OnDestroy {
   changePasswordForm: FormGroup = new FormGroup({
     password: new FormControl(null, [Validators.required]),
     confirmPassword: new FormControl(null, [Validators.required]),
@@ -83,5 +83,9 @@ export class ChangePasswordComponent implements OnInit {
     } else {
       repeatPassword.setErrors(null);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.changePasswordService.unsubscribe();
   }
 }

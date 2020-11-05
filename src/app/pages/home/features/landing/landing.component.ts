@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LandingService} from './landing.service';
 import {Movement} from '../../../../shared/models/movement';
 import {StorageService} from '../../../../core/services/storage.service';
@@ -11,7 +11,7 @@ import {ChannelsApiService} from '../../../../core/services/channels-api.service
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent implements OnInit, OnDestroy {
   paymentDetails: PaymentDetails;
   accountSummary: AccountSummary;
   awards: Awards[] = [];
@@ -129,6 +129,10 @@ export class LandingComponent implements OnInit {
       this.getHomeContent();
       this.getAccountsSummary();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.landingService.unsubscribe();
   }
 }
 

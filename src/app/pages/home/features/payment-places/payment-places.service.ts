@@ -36,4 +36,8 @@ export class PaymentPlacesService {
         }
       }));
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

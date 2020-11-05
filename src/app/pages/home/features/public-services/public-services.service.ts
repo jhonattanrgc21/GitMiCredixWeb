@@ -173,4 +173,7 @@ export class PublicServicesService {
     }));
   }
 
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

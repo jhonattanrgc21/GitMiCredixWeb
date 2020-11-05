@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FavoritesPaymentsService} from '../favorites-payments/favorites-payments.service';
 import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
@@ -17,7 +17,7 @@ import {Keys} from '../../../../../shared/models/keys';
   templateUrl: './add-favorites-payment.component.html',
   styleUrls: ['./add-favorites-payment.component.scss']
 })
-export class AddFavoritesPaymentComponent implements OnInit {
+export class AddFavoritesPaymentComponent implements OnInit, OnDestroy {
   newFavoritesPaymentForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
     publicServiceCompany: new FormControl(null, [Validators.required]),
@@ -162,4 +162,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.favoritesManagementService.unsubscribe();
+  }
 }

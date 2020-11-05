@@ -85,4 +85,8 @@ export class ExtendTermService {
       userIdCreate: this.storageService.getCurrentUser().userId,
     });
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }
