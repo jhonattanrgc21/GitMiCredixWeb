@@ -11,6 +11,7 @@ import {PublicService} from '../../../../shared/models/public-service';
 import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {Voucher} from '../../../../shared/models/voucher';
 import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
+import {Keys} from '../../../../shared/models/keys';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -31,6 +32,9 @@ export class PublicServicesService {
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
   company: string;
+  publicServiceIdByFavorite: number;
+  phoneNumberByFavorite: string;
+  keyTypeByFavorite: Keys[] = [];
 // tslint:disable-next-line:variable-name
   _publicService: PublicService;
   get publicService(): PublicService {
@@ -69,6 +73,16 @@ export class PublicServicesService {
 
   set payment(payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' }) {
     this._payment = payment;
+  }
+
+  // tslint:disable-next-line:variable-name
+  _pendingReceipt: PendingReceipts;
+  get pendingReceipt(): PendingReceipts {
+    return this._pendingReceipt;
+  }
+
+  set pendingReceipt(pendingReceipt: PendingReceipts) {
+    this._pendingReceipt = pendingReceipt;
   }
 
   constructor(private httpService: HttpService,
