@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
 import {finalize} from 'rxjs/operators';
@@ -17,7 +17,7 @@ import {Tag} from '../../../../../../shared/models/tag';
   templateUrl: './new-recharge.component.html',
   styleUrls: ['./new-recharge.component.scss']
 })
-export class NewRechargeComponent implements OnInit {
+export class NewRechargeComponent implements OnInit, AfterViewInit {
   phoneNumber: FormControl = new FormControl(null,
     [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
   rechargeFormGroup: FormGroup = new FormGroup({
@@ -55,11 +55,18 @@ export class NewRechargeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMinAmounts();
-    this.getPublicService();
     this.setErrorCredixCode();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
     );
+  }
+
+  ngAfterViewInit(): void {
+    if (this.publicServicesService.pendingReceipt) {
+      this.getPublicServiceByFavorite();
+    } else {
+      this.getPublicService();
+    }
   }
 
   getPublicService() {
@@ -70,6 +77,24 @@ export class NewRechargeComponent implements OnInit {
 
   getMinAmounts() {
     this.publicServicesService.getMinAmounts().subscribe(amounts => this.amounts = [...amounts, {id: 10, amount: 'Otro'}]);
+  }
+
+  getPublicServiceByFavorite() {
+    this.pendingReceipts = this.publicServicesService.pendingReceipt;
+    this.phoneNumber.setValue(this.publicServicesService.phoneNumberByFavorite);
+    this.publicServiceId = this.publicServicesService.publicServiceIdByFavorite;
+    this.keys = this.publicServicesService.keyTypeByFavorite;
+    if (this.publicServicesService.pendingReceipt?.amounts) {
+      this.amounts = [];
+      this.publicServicesService.pendingReceipt.amounts.map((value, index) => {
+        this.amounts.push({
+          amount: value,
+          id: index + 1
+        });
+      });
+      this.amounts.push({id: 10, amount: 'Otro'});
+    }
+    this.continue();
   }
 
   openModal() {
