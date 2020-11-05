@@ -40,7 +40,6 @@ export class ChangePasswordComponent implements OnInit {
       this.getTags(functionality.find(fun => fun.description === 'Cambiar clave').tags));
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
       this.changePasswordForm.controls.credixCode.setErrors({invalid: true});
-      this.changePasswordForm.updateValueAndValidity();
     });
   }
 
@@ -56,11 +55,15 @@ export class ChangePasswordComponent implements OnInit {
   changePassword() {
     this.changePasswordService
       .changePassword(this.changePasswordForm.controls.credixCode.value, this.changePasswordForm.controls.password.value)
-      .pipe(finalize(() => this.done = this.changePasswordForm.controls.credixCode.valid))
+      .pipe(finalize(() => this.done = this.changePasswordForm.controls.credixCode.valid && this.status === 'success'))
       .subscribe(result => {
         this.title = result.title;
         this.status = result.type;
         this.message = result.message;
+
+        if (this.status === 'error' && result.status !== 406) {
+          this.changePasswordForm.controls.password.setErrors({invalid: true});
+        }
       });
   }
 
