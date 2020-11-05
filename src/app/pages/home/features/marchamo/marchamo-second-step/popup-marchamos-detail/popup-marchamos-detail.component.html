@@ -2,7 +2,8 @@
 
   <div *ngFor="let billing of billingHistorys" class="marchamos-detail__billing-wrapper" fxLayout="row"
        fxLayoutAlign="space-between">
-    <span fxFlex="176px">{{billing.itemDescription}}</span>
+    <span
+      fxFlex="176px">{{billing.itemDescription[0].toUpperCase() + billing.itemDescription.slice(1).toLowerCase()}}</span>
     <credix-numeric-block [value]="billing.itemAmount" fontWeight="bold" prefix="₡"></credix-numeric-block>
   </div>
 
