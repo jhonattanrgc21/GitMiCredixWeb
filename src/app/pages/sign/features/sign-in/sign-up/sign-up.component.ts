@@ -19,7 +19,8 @@ export class SignUpComponent implements OnInit {
   identificationTypes: IdentificationType[];
   phoneNumber: string;
   identificationMask = '0-0000-0000';
-  hide = true;
+  hidePassword = true;
+  hideConfirmPassword = true;
   userId: number;
   otpSent = false;
   newUserFirstStepForm: FormGroup = new FormGroup({
