@@ -4,6 +4,7 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
 import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
+import {StorageService} from '../../../../../core/services/storage.service';
 
 @Injectable()
 export class SignUpService {
@@ -13,6 +14,7 @@ export class SignUpService {
   private readonly checkPasswordUri = 'security/validatePasswordAndConfirmPassword';
 
   constructor(private httpService: HttpService,
+              private storageService: StorageService,
               private toastService: CredixToastService) {
   }
 
@@ -82,7 +84,7 @@ export class SignUpService {
       confirmPassword: CryptoJS.SHA256(password).to,
       usernameSecurity: 'sts_sac',
       passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
-      uuid: '12311515615614515616',
+      uuid: this.storageService.getUuid(),
       platform: 3
     });
   }
