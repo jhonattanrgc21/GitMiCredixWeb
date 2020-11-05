@@ -28,6 +28,7 @@ export class FavoriteServicesComponent implements OnInit {
     {label: 'Servicios', width: '283px'},
     {label: 'Datos de la factura', width: 'auto'}
   ];
+  isRecharge: boolean;
 
   constructor(private publicServicesService: PublicServicesService,
               private router: Router,
@@ -40,6 +41,13 @@ export class FavoriteServicesComponent implements OnInit {
 
   publicServiceChange(favorite: PublicServiceFavoriteByUser) {
     this.selectedPublicService = favorite;
+    this.isRecharge = this.selectedPublicService.publicServiceCategory === 'Recargas';
+    this.publicServicesService.publicServiceIdByFavorite = favorite.publicServiceId;
+    this.publicServicesService.phoneNumberByFavorite = favorite.serviceReference;
+    this.publicServicesService.keyTypeByFavorite = [{
+      description: favorite.publicServiceAccessKeyDescription,
+      keyType: favorite.publicServiceAccessKeyType
+    }];
     this.showMessage = false;
     this.hasReceipts = false;
     this.getFavoriteServiceDetail();
@@ -75,7 +83,12 @@ export class FavoriteServicesComponent implements OnInit {
   openConfirmationModal() {
     this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
       if (confirmation) {
-        this.payService();
+        if (this.isRecharge) {
+          this.publicServicesService.pendingReceipt = this.pendingReceipt;
+          this.router.navigate(['/home/public-services/recharge']);
+        } else {
+          this.payService();
+        }
       }
     });
   }
