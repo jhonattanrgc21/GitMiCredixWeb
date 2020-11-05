@@ -57,7 +57,7 @@
         <span>Recibos pendientes</span>
         <span class="tr">{{ pendingReceipt?.numberPendingReceipts}}</span>
       </div>
-      <div class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
+      <div *ngIf="!isRecharge" class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto a pagar</strong></span>
         <credix-numeric-block [value]="amountOfPay" prefix="₡"></credix-numeric-block>
       </div>

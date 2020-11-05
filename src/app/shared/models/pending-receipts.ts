@@ -16,4 +16,5 @@ export interface PendingReceipts {
   responseDescription: string;
   currencyCode: string;
   contractCode: string;
+  amounts?: string[];
 }
