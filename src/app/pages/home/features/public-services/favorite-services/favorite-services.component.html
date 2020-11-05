@@ -9,7 +9,8 @@
         <mat-icon [svgIcon]="favorite.icon" class="mr-16px" fxFlex="16px"
                   style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
         <div fxFlex="180px" fxLayout="column">
-          <span [class.bold]="selectedPublicService?.publicServiceId === favorite.publicServiceId" fxLayout="row"
+          <span [class.bold]="selectedPublicService?.publicServiceFavoriteId === favorite.publicServiceFavoriteId"
+                fxLayout="row"
                 fxLayoutAlign="flex-start center">
             {{favorite.publicServiceFavoriteName}}
           </span>
@@ -21,7 +22,7 @@
             }}
           </span>
         </div>
-        <mat-icon *ngIf="selectedPublicService?.publicServiceId === favorite.publicServiceId" fxFlex
+        <mat-icon *ngIf="selectedPublicService?.publicServiceFavoriteId === favorite.publicServiceFavoriteId" fxFlex
                   style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
       </a>
     </div>
