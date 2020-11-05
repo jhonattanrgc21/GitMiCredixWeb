@@ -12,7 +12,6 @@ import {StorageService} from '../../../../core/services/storage.service';
 import {DeliveryPlace} from '../../../../shared/models/delivery-place';
 import {Item} from '../../../../shared/models/item';
 
-
 @Injectable()
 export class MarchamoService {
   private readonly getPlateTypesUri = 'pay/platetypes';
@@ -215,5 +214,9 @@ export class MarchamoService {
         requiredBill: '1',
         codeCredix
       });
+  }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
   }
 }
