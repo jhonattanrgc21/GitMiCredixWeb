@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AdditionalCardsManagementService} from '../additional-cards-management.service';
 import {Router} from '@angular/router';
 import {AdditionalCard} from '../../../../../shared/models/additional-card';
@@ -14,7 +14,7 @@ import {ChannelsApiService} from '../../../../../core/services/channels-api.serv
   templateUrl: './additional-cards.component.html',
   styleUrls: ['./additional-cards.component.scss']
 })
-export class AdditionalCardsComponent implements OnInit {
+export class AdditionalCardsComponent implements OnInit, OnDestroy {
   additionalCards: AdditionalCard[] = [];
   cardId = -999;
   creditLimit = 0;
@@ -71,5 +71,9 @@ export class AdditionalCardsComponent implements OnInit {
   getTags(tags: Tag[]) {
     this.titleTag = tags.find(tag => tag.description === 'adicionales.title').value;
     this.limitTag = tags.find(tag => tag.description === 'adicionales.tagLimite').value;
+  }
+
+  ngOnDestroy(): void {
+    this.additionalCardsManagementService.unsubscribe();
   }
 }

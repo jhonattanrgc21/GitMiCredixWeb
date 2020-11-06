@@ -89,4 +89,7 @@ export class SignUpService {
     });
   }
 
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

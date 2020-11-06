@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalService} from '../../../../core/services/modal.service';
 import {SignUpComponent} from './sign-up/sign-up.component';
@@ -16,7 +16,7 @@ import {finalize} from 'rxjs/operators';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, OnDestroy {
   signInformGroup: FormGroup = new FormGroup({
     identification: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required])
@@ -174,4 +174,7 @@ export class SignInComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.signInService.unsubscribe();
+  }
 }
