@@ -49,4 +49,8 @@ export class AnticipatedCancellationService {
       map(response => ({title: response.titleOne, message: response.descriptionOne, type: response.type}))
     );
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

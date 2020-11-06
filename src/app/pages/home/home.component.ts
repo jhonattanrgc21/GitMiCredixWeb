@@ -50,10 +50,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
       deviceIdentifier: 1213123134,
       typeIncome: 2
     }).subscribe(response => {
-      if (response.type === 'success') {
-        globalCacheBusterNotifier.next();
-        this.router.navigate(['/']);
-      }
+      globalCacheBusterNotifier.next();
+      this.router.navigate(['/']);
+    }, error => {
+      globalCacheBusterNotifier.next();
+      this.router.navigate(['/']);
     });
   }
 

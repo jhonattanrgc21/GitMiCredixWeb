@@ -11,4 +11,8 @@ export class IncreaseLimitService {
   increaseLimit() {
     return this.httpService.post('canales', this.increaseLimitUri);
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

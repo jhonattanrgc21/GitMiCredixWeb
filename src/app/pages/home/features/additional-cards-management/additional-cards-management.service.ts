@@ -57,6 +57,10 @@ export class AdditionalCardsManagementService {
         cardId,
       });
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }
 
 interface PersonalInfo {

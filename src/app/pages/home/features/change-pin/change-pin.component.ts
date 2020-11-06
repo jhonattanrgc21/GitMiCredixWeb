@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {HttpService} from '../../../../core/services/http.service';
 import {ModalService} from '../../../../core/services/modal.service';
@@ -13,7 +13,7 @@ import {CredixCodeErrorService} from '../../../../core/services/credix-code-erro
   templateUrl: './change-pin.component.html',
   styleUrls: ['./change-pin.component.scss'],
 })
-export class ChangePinComponent implements OnInit {
+export class ChangePinComponent implements OnInit, OnDestroy {
   changePinForm: FormGroup = new FormGroup({
     pin: new FormControl(null, [Validators.required]),
     confirmPin: new FormControl(null, [Validators.required]),
@@ -80,5 +80,9 @@ export class ChangePinComponent implements OnInit {
     } else {
       confirmPin.setErrors(null);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.changePinService.unsubscribe();
   }
 }
