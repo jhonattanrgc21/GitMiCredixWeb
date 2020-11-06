@@ -62,18 +62,22 @@
       <form [formGroup]="newUserThirdStepForm" class="modal-new-user__third-form" fxLayout="column">
 
         <credix-input-field [credixPasswordFieldTooltip]="newUserThirdStepForm.controls.newPassword"
-                            [tooltipWidth]="296" [type]="hide ? 'password' : 'text'"
+                            [tooltipWidth]="296" [type]="hidePassword ? 'password' : 'text'"
                             class="modal-new-user__third-form__input-pass" focusLabel="Clave"
                             formControlName="newPassword"
                             label="Digite su clave"
                             panelClass="sign-in-password-panel">
-          <mat-icon (click)="hide = !hide" [svgIcon]="hide ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+          <mat-icon (click)="hidePassword = !hidePassword" [svgIcon]="hidePassword ? 'eye-outline' : 'eye-off-outline'"
+                    suffix></mat-icon>
         </credix-input-field>
 
         <credix-input-field formControlName="confirmPassword"
                             class="modal-new-user__third-form__input-pass"
                             focusLabel="Clave" label="Confirme su nueva clave"
-                            type="password"></credix-input-field>
+                            [type]="hideConfirmPassword ? 'password' : 'text'">
+          <mat-icon (click)="hideConfirmPassword = !hideConfirmPassword"
+                    [svgIcon]="hideConfirmPassword ? 'eye-outline' : 'eye-off-outline'" suffix></mat-icon>
+        </credix-input-field>
 
         <credix-button
           (buttonClick)=submit()

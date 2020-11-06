@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
 import {PaymentPlacesService} from './payment-places.service';
@@ -10,7 +10,7 @@ import {Tag} from '../../../../shared/models/tag';
   templateUrl: './payment-places.component.html',
   styleUrls: ['./payment-places.component.scss']
 })
-export class PaymentPlacesComponent implements OnInit {
+export class PaymentPlacesComponent implements OnInit, OnDestroy {
   tabs = [
     {id: 1, name: 'Pagos digitales'},
     {id: 2, name: 'Comercios'},
@@ -39,5 +39,9 @@ export class PaymentPlacesComponent implements OnInit {
       {id: 1, name: tags.find(tag => tag.description === 'lugares.tab2')?.value || 'Pagos digitales'},
       {id: 2, name: tags.find(tag => tag.description === 'lugares.tab1')?.value || 'Comercios'}
     ];
+  }
+
+  ngOnDestroy(): void {
+    this.paymentPlacesService.unsubscribe();
   }
 }

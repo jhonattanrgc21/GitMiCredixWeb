@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PublicServiceFavoriteByUser} from '../../../../../shared/models/public-service-favorite-by-user';
 import {PublicServicesService} from '../public-services.service';
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
   templateUrl: './favorite-services.component.html',
   styleUrls: ['./favorite-services.component.scss', '../public-services.component.scss']
 })
-export class FavoriteServicesComponent implements OnInit {
+export class FavoriteServicesComponent implements OnInit, OnDestroy {
   publicFavoriteService: PublicServiceFavoriteByUser[] = [];
   pendingReceipt: PendingReceipts;
   selectedPublicService: PublicServiceFavoriteByUser;
@@ -144,5 +144,9 @@ export class FavoriteServicesComponent implements OnInit {
           };
         });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.publicServicesService.unsubscribe();
   }
 }

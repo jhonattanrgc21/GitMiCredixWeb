@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AutomaticsService} from './automatics.service';
@@ -15,7 +15,7 @@ import {Periodicity} from '../../../../../shared/models/periodicity';
   templateUrl: './automatics.component.html',
   styleUrls: ['./automatics.component.scss']
 })
-export class AutomaticsComponent implements OnInit, AfterViewInit {
+export class AutomaticsComponent implements OnInit, AfterViewInit, OnDestroy {
   automaticsDetailForm: FormGroup = new FormGroup({
     favoriteName: new FormControl(null),
     maxAmount: new FormControl(null),
@@ -125,6 +125,10 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.favoritesManagementService.deleted.subscribe((response) => {
       this.deleted = response.automatics;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.favoritesManagementService.unsubscribe();
   }
 }
 

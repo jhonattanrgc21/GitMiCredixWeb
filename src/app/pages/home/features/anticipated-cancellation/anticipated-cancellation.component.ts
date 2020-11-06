@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {AnticipatedCancellationService} from './anticipated-cancellation.service';
@@ -13,7 +13,7 @@ import {ModalService} from '../../../../core/services/modal.service';
   templateUrl: './anticipated-cancellation.component.html',
   styleUrls: ['./anticipated-cancellation.component.scss'],
 })
-export class AnticipatedCancellationComponent implements OnInit {
+export class AnticipatedCancellationComponent implements OnInit, OnDestroy {
   selection: Cancellation[] = [];
   displayedColumns: string[] = ['select', 'date', 'commerce', 'amount', 'quotas', 'rate'];
   dataSource: Cancellation[];
@@ -162,5 +162,9 @@ export class AnticipatedCancellationComponent implements OnInit {
     this.consumedTag = tags.find(tag => tag.description === 'cancelacion.tag.consumos').value;
     this.pendingBalanceTag = tags.find(tag => tag.description === 'cancelacion.tag.saldopendiente').value;
 
+  }
+
+  ngOnDestroy(): void {
+    this.anticipatedCancellationService.unsubscribe();
   }
 }

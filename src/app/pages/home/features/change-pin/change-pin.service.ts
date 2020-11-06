@@ -21,4 +21,8 @@ export class ChangePinService {
         return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
       }));
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }
