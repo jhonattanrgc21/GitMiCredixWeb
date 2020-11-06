@@ -40,6 +40,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       this.getTags(functionality.find(fun => fun.description === 'Cambiar clave').tags));
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
       this.changePasswordForm.controls.credixCode.setErrors({invalid: true});
+      this.changePasswordForm.updateValueAndValidity();
     });
   }
 
@@ -63,6 +64,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
 
         if (this.status === 'error' && result.status !== 406) {
           this.changePasswordForm.controls.password.setErrors({invalid: true});
+          this.changePasswordForm.updateValueAndValidity();
         }
       });
   }
