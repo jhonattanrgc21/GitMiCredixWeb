@@ -7,6 +7,8 @@ import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {finalize} from 'rxjs/operators';
 import {Quota} from '../../../../../shared/models/quota';
 import {CustomerApiService} from '../../../../../core/services/customer-api.service';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 
 const MIN_AMOUNT = 100000;
 const CENTER_AMOUNT = 300000;
@@ -24,18 +26,19 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   @Input() amountControl: FormControl = new FormControl(MIN_AMOUNT);
   @Input() termControl: FormControl = new FormControl(null);
   @Input() cardLimit = 0;
-  @Input() stepOneTags: { plazoTag: string; amountTag: string; subtitleAmountTag: string; monthTag: string; };
-  @Input() quoteTags: string;
-  @Input() popUpTags: {
-    amountTag: string;
-    titleTag: string;
-    tagIva: string;
-    secureTag: string;
-    disclaimerTag: string;
-    interesTag: string;
-    commissionTag: string;
-    totalTag: string;
-  };
+  quoteTag: string;
+  termTag: string;
+  amountTag: string;
+  subtitleAmountTag: string;
+  monthTag: string;
+  popupAmountTag: string;
+  popupTitleTag: string;
+  popupIvaTag: string;
+  popupSecureTag: string;
+  popupInterestTag: string;
+  popupCommissionTag: string;
+  popupDisclaimerTag: string;
+  popupTotalTag: string;
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
   personalCreditSummary: PersonalCreditSummary;
   personalCreditsSummaries: PersonalCreditSummary[];
@@ -53,22 +56,26 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
 
   constructor(private modalService: ModalService,
               private personalCreditService: PersonalCreditService,
+              private tagsService: TagsService,
               private customerApiServices: CustomerApiService) {
   }
 
   ngOnInit(): void {
     this.getQuotas();
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Crédito personal').tags)
+    );
     this.personalCreditService.amount = MIN_AMOUNT;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cardLimit) {
       if (this.cardLimit >= MIN_AMOUNT && this.cardLimit < CENTER_AMOUNT) {
-        this.amountSliderMax = Math.trunc(this.cardLimit / FIRST_STEP);
+        this.amountSliderMax = Math.trunc(this.cardLimit / FIRST_STEP) + 1;
       } else if (this.cardLimit >= CENTER_AMOUNT && this.cardLimit < MAX_AMOUNT) {
-        this.amountSliderMax = 20 + Math.trunc((this.cardLimit - CENTER_AMOUNT) / SECOND_STEP);
+        this.amountSliderMax = 20 + Math.trunc((this.cardLimit - CENTER_AMOUNT) / SECOND_STEP) + 1;
       } else {
-        this.amountSliderMax = 20 + 14 + Math.trunc((this.cardLimit - MAX_AMOUNT) / THIRD_STEP);
+        this.amountSliderMax = 20 + 14 + Math.trunc((this.cardLimit - MAX_AMOUNT) / THIRD_STEP) + 1;
       }
     }
   }
@@ -106,8 +113,10 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
       amount = MIN_AMOUNT + (sliderValue * FIRST_STEP);
     } else if (sliderValue > 20 && sliderValue <= 34) {
       amount = CENTER_AMOUNT + (SECOND_STEP * (sliderValue - 20));
-    } else {
+    } else if (sliderValue > 34 && sliderValue !== this.amountSliderMax) {
       amount = MAX_AMOUNT + (THIRD_STEP * (sliderValue - 34));
+    } else {
+      amount = this.cardLimit;
     }
 
     this.amountControl.setValue(amount);
@@ -123,9 +132,29 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
 
   openSummary() {
     this.modalService.open({
-        template: this.summaryTemplate, title: this.popUpTags.titleTag
+        template: this.summaryTemplate, title: this.popupTitleTag
         || 'Resumen general'
       },
       {width: 380, height: 467, disableClose: true, panelClass: 'summary-panel'});
+  }
+
+  getTags(tags: Tag[]) {
+    this.amountTag = tags.find(tag => tag.description === 'credito.stepper1.tag.monto')?.value;
+    this.subtitleAmountTag = tags.find(tag => tag.description === 'credito.stepper1.subtitle.monto')?.value;
+    this.monthTag = tags.find(tag => tag.description === 'credito.stepper1.tag.meses')?.value;
+    this.quoteTag = tags.find(tag => tag.description === 'credito.tag.cuotas')?.value;
+    this.termTag = tags.find(tag => tag.description === 'credito.stepper1.subtitle.plazo')?.value;
+    this.amountTag = tags.find(tag => tag.description === 'credito.stepper1.tag.monto')?.value;
+    this.subtitleAmountTag = tags.find(tag => tag.description === 'credito.stepper1.subtitle.monto')?.value;
+    this.monthTag = tags.find(tag => tag.description === 'credito.stepper1.tag.meses')?.value;
+    this.quoteTag = tags.find(tag => tag.description === 'credito.tag.cuotas')?.value;
+    this.popupAmountTag = tags.find(tag => tag.description === 'credito.popup.tag.monto')?.value;
+    this.popupTitleTag = tags.find(tag => tag.description === 'credito.popup.title')?.value;
+    this.popupIvaTag = tags.find(tag => tag.description === 'credito.popup.tagIVA')?.value;
+    this.popupSecureTag = tags.find(tag => tag.description === 'credito.popup.tag.seguro')?.value;
+    this.popupInterestTag = tags.find(tag => tag.description === 'credito.popup.tag.interes')?.value;
+    this.popupCommissionTag = tags.find(tag => tag.description === 'credito.popup.tag.comision')?.value;
+    this.popupDisclaimerTag = tags.find(tag => tag.description === 'credito.popup.tag.disclaimer')?.value;
+    this.popupTotalTag = tags.find(tag => tag.description === 'credito.popup.tag.total')?.value;
   }
 }
