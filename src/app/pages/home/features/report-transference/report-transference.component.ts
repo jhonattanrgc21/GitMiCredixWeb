@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Currency} from '../../../../shared/models/currency';
 import {ReportTransferenceService} from './report-transference.service';
@@ -15,7 +15,7 @@ import {GlobalApiService} from '../../../../core/services/global-api.service';
   templateUrl: './report-transference.component.html',
   styleUrls: ['./report-transference.component.scss']
 })
-export class ReportTransferenceComponent implements OnInit {
+export class ReportTransferenceComponent implements OnInit, OnDestroy {
   reportTransferenceGroup: FormGroup = new FormGroup({
     bank: new FormControl(null, [Validators.required]),
     currency: new FormControl(null, [Validators.required]),
@@ -85,5 +85,9 @@ export class ReportTransferenceComponent implements OnInit {
   getTags(tags: Tag[]) {
     this.titleTag = tags.find(tag => tag.description === 'reportar.title')?.value;
     this.link = tags.find(tag => tag.description === 'reportar.link')?.value;
+  }
+
+  ngOnDestroy(): void {
+    this.reportTransferenceService.unsubscribe();
   }
 }

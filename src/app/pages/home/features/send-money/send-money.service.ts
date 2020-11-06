@@ -71,4 +71,7 @@ export class SendMoneyService {
     });
   }
 
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

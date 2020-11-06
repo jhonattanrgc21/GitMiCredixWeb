@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AccountStatementService} from './account-statement.service';
 import {Tag} from '../../../../../shared/models/tag';
 import {TagsService} from '../../../../../core/services/tags.service';
@@ -8,7 +8,7 @@ import {TagsService} from '../../../../../core/services/tags.service';
   templateUrl: './account-statement.component.html',
   styleUrls: ['./account-statement.component.scss']
 })
-export class AccountStatementComponent implements OnInit {
+export class AccountStatementComponent implements OnInit, OnDestroy {
   accountStatementDataSource = [];
   displayColumns = ['date', 'commerce', 'amount', 'quotas', 'balance', 'rate'];
   p = 0;
@@ -36,5 +36,9 @@ export class AccountStatementComponent implements OnInit {
     this.columnTwoTag = tags.find(tag => tag.description === 'movimientos.table.column2')?.value;
     this.columnThreeTag = tags.find(tag => tag.description === 'movimientos.table.column3')?.value;
     this.columnFourTag = tags.find(tag => tag.description === 'movimientos.table.column4')?.value;
+  }
+
+  ngOnDestroy(): void {
+    this.accountStatementService.unsubscribe();
   }
 }

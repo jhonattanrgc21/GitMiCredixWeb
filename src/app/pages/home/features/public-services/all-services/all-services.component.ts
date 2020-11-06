@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PublicServicesApiService} from '../../../../../core/services/public-services-api.service';
 import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
 import {PublicServiceEnterprise} from '../../../../../shared/models/public-service-enterprise';
@@ -11,7 +11,7 @@ import {PublicServicesService} from '../public-services.service';
   templateUrl: './all-services.component.html',
   styleUrls: ['./all-services.component.scss', '../public-services.component.scss']
 })
-export class AllServicesComponent implements OnInit {
+export class AllServicesComponent implements OnInit, OnDestroy {
   tableHeaders = [
     {label: 'Categorías', width: '283px'},
     {label: 'Servicios', width: 'auto'}
@@ -55,5 +55,9 @@ export class AllServicesComponent implements OnInit {
     this.publicServicesService.company = this.enterpriseSelected.publicServiceEnterpriseDescription;
     this.router.navigate([
       publicService.publicServiceCategory === 'Recargas' ? '/home/public-services/recharge' : '/home/public-services/public-service']);
+  }
+
+  ngOnDestroy(): void {
+    this.publicServicesService.unsubscribe();
   }
 }

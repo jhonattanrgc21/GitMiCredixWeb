@@ -25,4 +25,7 @@ export class ForgotPasswordService {
       }));
   }
 
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }
