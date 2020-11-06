@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpService} from 'src/app/core/services/http.service';
 import {ModalService} from 'src/app/core/services/modal.service';
@@ -15,7 +15,7 @@ import {CredixCodeErrorService} from '../../../../core/services/credix-code-erro
   templateUrl: './marchamo.component.html',
   styleUrls: ['./marchamo.component.scss']
 })
-export class MarchamoComponent implements OnInit {
+export class MarchamoComponent implements OnInit, OnDestroy {
   consultForm: FormGroup = new FormGroup({
     vehicleType: new FormControl(null, [Validators.required]),
     plateNumber: new FormControl(null, [Validators.required])
@@ -186,4 +186,7 @@ export class MarchamoComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.marchamosService.unsubscribe();
+  }
 }

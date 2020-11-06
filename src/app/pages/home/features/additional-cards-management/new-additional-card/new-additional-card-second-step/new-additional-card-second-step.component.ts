@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DeliveryPlace} from '../../../../../../shared/models/delivery-place';
 import {FormControl, Validators} from '@angular/forms';
 import {Address} from '../../../../../../shared/models/address';
@@ -16,7 +16,7 @@ import {ChannelsApiService} from '../../../../../../core/services/channels-api.s
   templateUrl: './new-additional-card-second-step.component.html',
   styleUrls: ['./new-additional-card-second-step.component.scss']
 })
-export class NewAdditionalCardSecondStepComponent implements OnInit {
+export class NewAdditionalCardSecondStepComponent implements OnInit, OnDestroy {
   @Input() addressControl = new FormControl(null, [Validators.required]);
   placeRadioButton = 0;
   addressRadioButton = 0;
@@ -121,5 +121,9 @@ export class NewAdditionalCardSecondStepComponent implements OnInit {
     this.optionTwoTag = tags.find(tag => tag.description === 'adicionales.stepper2.option2').value;
     this.linkTag = tags.find(tag => tag.description === 'adicionales.stepper2.option2.option2.link').value;
     this.subtitleTag = tags.find(tag => tag.description === 'adicionales.stepper2.subtitle').value;
+  }
+
+  ngOnDestroy(): void {
+    this.additionalCardsManagementService.unsubscribe();
   }
 }

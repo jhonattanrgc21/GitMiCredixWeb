@@ -47,4 +47,8 @@ export class PersonalCreditService {
   savePersonalCredit(personalCredit) {
     return this.httpService.post('canales', this.savePersonalCreditUri, personalCredit);
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AdditionalCardsManagementService} from '../../additional-cards-management.service';
 import {TagsService} from '../../../../../../core/services/tags.service';
@@ -9,7 +9,7 @@ import {Tag} from '../../../../../../shared/models/tag';
   templateUrl: './new-additional-card-third-step.component.html',
   styleUrls: ['./new-additional-card-third-step.component.scss']
 })
-export class NewAdditionalCardThirdStepComponent implements OnInit {
+export class NewAdditionalCardThirdStepComponent implements OnInit, OnDestroy {
   @Input() confirmFormControl = new FormControl(null, [Validators.required]);
   name = '';
   email = '';
@@ -52,5 +52,9 @@ export class NewAdditionalCardThirdStepComponent implements OnInit {
     this.subtitleThreeTag = tags.find(tag => tag.description === 'adicionales.stepper3.subtitle3').value;
     this.secondTag = tags.find(tag => tag.description === 'adicionales.stepper3.tag2').value;
     this.thirdTag = tags.find(tag => tag.description === 'adicionales.stepper3.tag3').value;
+  }
+
+  ngOnDestroy(): void {
+    this.additionalCardsManagementService.unsubscribe();
   }
 }

@@ -40,4 +40,7 @@ export class AccountStatementService {
     });
   }
 
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

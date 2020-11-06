@@ -31,4 +31,8 @@ export class BuyWithoutCardService {
         userIdCreate: this.storageService.getCurrentUser().userId
       });
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

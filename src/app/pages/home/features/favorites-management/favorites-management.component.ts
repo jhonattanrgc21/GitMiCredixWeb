@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
 import {FavoritesManagementService} from './favorites-management.service';
@@ -19,7 +19,7 @@ import {Tag} from '../../../../shared/models/tag';
   templateUrl: './favorites-management.component.html',
   styleUrls: ['./favorites-management.component.scss']
 })
-export class FavoritesManagementComponent implements OnInit, AfterViewInit {
+export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDestroy {
   accounts: AccountsFavoriteManagement[] = [];
   tableHeaders = [
     {label: 'Cuentas guardadas', width: '276px'},
@@ -356,4 +356,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit {
     ];
   }
 
+  ngOnDestroy(): void {
+    this.favoriteManagementService.unsubscribe();
+  }
 }

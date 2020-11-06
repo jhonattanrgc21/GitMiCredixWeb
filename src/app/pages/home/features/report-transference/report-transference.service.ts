@@ -20,4 +20,8 @@ export class ReportTransferenceService {
       return {type: response.type, message: response.descriptionOne};
     }));
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IncreaseLimitService} from './increase-limit.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
@@ -8,7 +8,7 @@ import {Tag} from '../../../../shared/models/tag';
   templateUrl: './increase-limit.component.html',
   styleUrls: ['./increase-limit.component.scss']
 })
-export class IncreaseLimitComponent implements OnInit {
+export class IncreaseLimitComponent implements OnInit, OnDestroy {
   show = false;
   status: 'success' | 'error' | 'warn';
   message: string;
@@ -39,4 +39,7 @@ export class IncreaseLimitComponent implements OnInit {
     this.titleTag = tags.find(tag => tag.description === 'aumento.title')?.value;
   }
 
+  ngOnDestroy(): void {
+    this.increaseLimitService.unsubscribe();
+  }
 }

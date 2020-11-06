@@ -177,4 +177,8 @@ export class FavoritesManagementService {
       schedulerPayId
     });
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

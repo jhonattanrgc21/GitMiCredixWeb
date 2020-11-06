@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IdentificationType} from '../../../../../../shared/models/identification-type';
 import {getIdentificationMaskByType} from '../../../../../../shared/utils';
@@ -14,7 +14,7 @@ import {GlobalApiService} from '../../../../../../core/services/global-api.servi
   templateUrl: './new-additional-card-first-step.component.html',
   styleUrls: ['./new-additional-card-first-step.component.scss']
 })
-export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
+export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userInfoFormGroup: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
     lastName: new FormControl(null, [Validators.required]),
@@ -87,5 +87,9 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges {
   getTags(tags: Tag[]) {
     this.limitTag = tags.find(tag => tag.description === 'adicionales.stepper1.tag1').value;
     this.subTitleTag = tags.find(tag => tag.description === 'adicionales.stepper1.subtitle').value;
+  }
+
+  ngOnDestroy(): void {
+    this.additionalCardsManagementService.unsubscribe();
   }
 }

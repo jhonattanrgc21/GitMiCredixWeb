@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {PersonalCreditService} from './personal-credit.service';
@@ -16,7 +16,7 @@ import {Tag} from '../../../../shared/models/tag';
   templateUrl: './personal-credit.component.html',
   styleUrls: ['./personal-credit.component.scss']
 })
-export class PersonalCreditComponent implements OnInit, AfterViewInit {
+export class PersonalCreditComponent implements OnInit, AfterViewInit, OnDestroy {
   requestForm: FormGroup = new FormGroup({
     amount: new FormControl(100000, [Validators.required]),
     term: new FormControl(null, [Validators.required])
@@ -248,5 +248,9 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit {
     this.warningMessageDescription = tags.find(tag => tag.description === 'credito.message.warning.description')?.value;
     this.quoteTags = tags.find(tag => tag.description === 'credito.tag.cuotas')?.value;
     this.subtitleTag = tags.find(tag => tag.description === 'credito.tag.cuotas')?.value;
+  }
+
+  ngOnDestroy(): void {
+    this.personalCreditService.unsubscribe();
   }
 }

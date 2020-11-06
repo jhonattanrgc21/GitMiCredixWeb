@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {PersonalInfoManagementService} from '../personal-info-management.service';
@@ -11,7 +11,7 @@ import {ApplicantApiService} from '../../../../../core/services/applicant-api.se
   templateUrl: './personal-info.component.html',
   styleUrls: ['./personal-info.component.scss']
 })
-export class PersonalInfoComponent implements OnInit {
+export class PersonalInfoComponent implements OnInit, OnDestroy {
   name = '';
   email = '';
   phoneNumber = '';
@@ -86,5 +86,9 @@ export class PersonalInfoComponent implements OnInit {
           };
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.personalInfoManagementService.unsubscribe();
   }
 }
