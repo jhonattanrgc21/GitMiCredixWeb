@@ -44,4 +44,7 @@ export class LandingService {
       );
   }
 
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

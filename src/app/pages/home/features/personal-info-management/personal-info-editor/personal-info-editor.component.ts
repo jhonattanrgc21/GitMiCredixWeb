@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Occupation} from '../../../../../shared/models/occupation';
@@ -21,7 +21,7 @@ import {CredixCodeErrorService} from '../../../../../core/services/credix-code-e
   templateUrl: './personal-info-editor.component.html',
   styleUrls: ['./personal-info-editor.component.scss']
 })
-export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
+export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDestroy {
   personalInfoFormGroup: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
     phoneNumber: new FormControl(null, [Validators.required,
@@ -163,4 +163,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.personalInfoManagementService.unsubscribe();
+  }
 }

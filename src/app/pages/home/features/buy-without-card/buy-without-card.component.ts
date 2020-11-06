@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {BuyWithoutCardService} from './buy-without-card.service';
@@ -15,7 +15,7 @@ import {CredixCodeErrorService} from '../../../../core/services/credix-code-erro
   templateUrl: './buy-without-card.component.html',
   styleUrls: ['./buy-without-card.component.scss']
 })
-export class BuyWithoutCardComponent implements OnInit {
+export class BuyWithoutCardComponent implements OnInit, OnDestroy {
   codeCredix: FormControl = new FormControl(null, [Validators.required, Validators.minLength(6)]);
   cardControl: FormControl = new FormControl(null, [Validators.required]);
   cards: Card[];
@@ -94,5 +94,9 @@ export class BuyWithoutCardComponent implements OnInit {
     this.title = tags.find(tag => tag.description === 'compra.title')?.value;
     this.step2 = tags.find(tag => tag.description === 'compra.stepper2')?.value;
     this.step1 = tags.find(tag => tag.description === 'compra.stepper1')?.value;
+  }
+
+  ngOnDestroy(): void {
+    this.buyWithOutCardService.unsubscribe();
   }
 }

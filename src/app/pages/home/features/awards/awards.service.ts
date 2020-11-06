@@ -28,4 +28,8 @@ export class AwardsService {
       })
     );
   }
+
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

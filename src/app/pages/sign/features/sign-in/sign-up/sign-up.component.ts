@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
@@ -15,11 +15,12 @@ import {SignUpService} from './sign-up.service';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
   identificationTypes: IdentificationType[];
   phoneNumber: string;
   identificationMask = '0-0000-0000';
-  hide = true;
+  hidePassword = true;
+  hideConfirmPassword = true;
   userId: number;
   otpSent = false;
   newUserFirstStepForm: FormGroup = new FormGroup({
@@ -133,5 +134,9 @@ export class SignUpComponent implements OnInit {
       return null;
     }
     return password === repeatedPassword ? null : {mismatch: true};
+  }
+
+  ngOnDestroy(): void {
+    this.signUpService.unsubscribe();
   }
 }

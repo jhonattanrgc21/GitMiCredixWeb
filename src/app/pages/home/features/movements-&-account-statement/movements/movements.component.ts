@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MovementsService} from './movements.service';
 import {Movement} from '../../../../../shared/models/movement';
 import {TagsService} from '../../../../../core/services/tags.service';
@@ -10,7 +10,7 @@ import {NavigationService} from '../../../../../core/services/navigation.service
   templateUrl: './movements.component.html',
   styleUrls: ['./movements.component.scss']
 })
-export class MovementsComponent implements OnInit {
+export class MovementsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['date', 'commerce', 'amount', 'quotas', 'extend'];
   movementDataSource: Movement[] = [];
   p = 0;
@@ -41,5 +41,9 @@ export class MovementsComponent implements OnInit {
     this.columnTwoTag = tags.find(tag => tag.description === 'movimientos.table.column2')?.value;
     this.columnThreeTag = tags.find(tag => tag.description === 'movimientos.table.column3')?.value;
     this.columnFourTag = tags.find(tag => tag.description === 'movimientos.table.column4')?.value;
+  }
+
+  ngOnDestroy(): void {
+    this.movementsService.unsubscribe();
   }
 }

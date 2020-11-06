@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalService} from '../../../../core/services/modal.service';
 import {StorageService} from '../../../../core/services/storage.service';
 import {TagsService} from '../../../../core/services/tags.service';
@@ -12,7 +12,7 @@ import {ModalAwardsComponent} from './modal-awards/modal-awards.component';
   templateUrl: './awards.component.html',
   styleUrls: ['./awards.component.scss'],
 })
-export class AwardsComponent implements OnInit {
+export class AwardsComponent implements OnInit, OnDestroy {
   tabs = [
     {id: 1, name: 'En progreso'},
     {id: 2, name: 'Finalizados'}
@@ -75,5 +75,9 @@ export class AwardsComponent implements OnInit {
       {id: 1, name: tags.find(tag => tag.description === 'premios.tab1').value || 'En progreso'},
       {id: 2, name: tags.find(tag => tag.description === 'premios.tab2').value || 'Finalizados'},
     ];
+  }
+
+  ngOnDestroy(): void {
+    this.awardsService.unsubscribe();
   }
 }

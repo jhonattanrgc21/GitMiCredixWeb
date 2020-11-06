@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {finalize} from 'rxjs/operators';
 import {ForgotPasswordService} from './forgot-password.service';
@@ -13,7 +13,7 @@ import {MatDialogRef} from '@angular/material/dialog';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, OnDestroy {
   forgotPasswordForm: FormGroup = new FormGroup(
     {
       identificationType: new FormControl(null, [Validators.required]),
@@ -93,4 +93,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.forgotPasswordService.unsubscribe();
+  }
 }

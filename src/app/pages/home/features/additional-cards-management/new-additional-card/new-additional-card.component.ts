@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AdditionalCardsManagementService} from '../additional-cards-management.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkStepper} from '@angular/cdk/stepper';
@@ -14,7 +14,7 @@ import {CredixCodeErrorService} from '../../../../../core/services/credix-code-e
   templateUrl: './new-additional-card.component.html',
   styleUrls: ['./new-additional-card.component.scss']
 })
-export class NewAdditionalCardComponent implements OnInit {
+export class NewAdditionalCardComponent implements OnInit, OnDestroy {
   userInfoFormGroup: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
     lastName: new FormControl(null, [Validators.required]),
@@ -132,5 +132,9 @@ export class NewAdditionalCardComponent implements OnInit {
     this.firstStepperTag = tags.find(tag => tag.description === 'adicionales.stepper1')?.value;
     this.secondStepperTag = tags.find(tag => tag.description === 'adicionales.stepper2')?.value;
     this.thirdStepperTag = tags.find(tag => tag.description === 'adicionales.stepper3')?.value;
+  }
+
+  ngOnDestroy(): void {
+    this.additionalCardsManagementService.unsubscribe();
   }
 }
