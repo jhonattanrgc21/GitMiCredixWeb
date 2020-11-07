@@ -46,7 +46,7 @@
            fxLayoutAlign="flex-end center"
            fxLayoutGap="16px">
         <credix-button (buttonClick)="delete(tabId)" type="secondary">Eliminar</credix-button>
-        <credix-button (buttonClick)="update(tabId)" [disabled]="!updating">Guardar</credix-button>
+        <credix-button (buttonClick)="update(tabId)" [disabled]="!updating || tabIsChanged">Guardar</credix-button>
       </div>
     </div>
 

@@ -34,6 +34,8 @@ export class FavoritesManagementService {
   private _redirectToAutomatics: boolean;
 
   // tslint:disable-next-line:variable-name
+  private _isTabChanged = new Subject();
+  // tslint:disable-next-line:variable-name
   private _deleted: Subject<{
     iban?: boolean;
     publicServices?: boolean;
@@ -119,6 +121,14 @@ export class FavoritesManagementService {
     automatics?: boolean;
   }> {
     return this._deleted.asObservable();
+  }
+
+  get tabChanged(): Observable<any> {
+    return this._isTabChanged.asObservable();
+  }
+
+  emitIsTabChange() {
+    this._isTabChanged.next();
   }
 
   // Emit Methods of favorites

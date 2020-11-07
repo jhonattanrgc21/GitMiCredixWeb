@@ -64,7 +64,8 @@
     </div>
 
     <div class="favorites-services__footer">
-      <credix-button (buttonClick)="openConfirmationModal()" [disabled]="!hasReceipts" fxLayoutAlign="flex-end center">
+      <credix-button (buttonClick)="openConfirmationModal()" [disabled]="!hasReceipts || tabChanged"
+                     fxLayoutAlign="flex-end center">
         Pagar
       </credix-button>
     </div>
