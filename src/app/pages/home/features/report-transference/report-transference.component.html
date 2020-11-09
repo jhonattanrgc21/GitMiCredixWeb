@@ -36,6 +36,11 @@
            class="report-transference__image"/>
 
       <credix-link-button (click)="this.image = null" *ngIf="this.image">Eliminar</credix-link-button>
+
+      <div *ngIf="!this.image" style="width: 380px;">
+        <p>* Ahórrese este trámite transfiriéndole siempre a sus cuenta IBAN Credix o
+           haciendo un SINPE Móvil al número de Credix (<span style="color: #239DF7;">8927-3349</span>).</p>
+      </div>
     </form>
 
   </div>
