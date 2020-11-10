@@ -11,6 +11,7 @@
 
         <credix-input-field [displayValue]="hideEmailMask ? personalInfoFormGroup.controls.email.value
                              : personalInfoFormGroup.controls.email.value | emailMask"
+                            (keydown)="changesMask($event)"
                             class="personal-info-editor__input" formControlName="email"
                             label="Correo">
           <div *ngIf="personalInfoFormGroup.controls.email.errors?.email" error>Correo electrónico inválido</div>
