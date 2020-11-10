@@ -49,7 +49,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
   title: string;
   status: 'success' | 'error';
   done = false;
-  isTiping = false;
+  isTyping = false;
 
   constructor(private personalInfoManagementService: PersonalInfoManagementService,
               private credixCodeErrorService: CredixCodeErrorService,
@@ -74,7 +74,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setSubscriptions() {
-    this.personalInfoFormGroup.controls.email.valueChanges.subscribe(value => this.hideEmailMask = value.length === 0 || this.isTiping);
+    this.personalInfoFormGroup.controls.email.valueChanges.subscribe(value => this.hideEmailMask = value.length === 0);
     this.personalInfoFormGroup.controls.phoneNumber.valueChanges.subscribe(value => this.hidePhoneNumberMask = value.length === 0);
     this.personalInfoFormGroup.controls.province.valueChanges.subscribe(value => this.getCanton(value));
     this.personalInfoFormGroup.controls.canton.valueChanges.subscribe(value => this.getDistrict(value));
@@ -170,8 +170,9 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  changesMask(event: KeyboardEvent) {
-    this.isTiping = event.isTrusted;
+  changeMask(event: KeyboardEvent) {
+    this.isTyping = event.isTrusted && event.code !== 'AltRight' && event.code !== 'AltLeft' && event.code !== 'ControlLeft'
+      && event.code !== 'ShiftLeft' && event.code !== 'ShiftRight' && event.code !== 'CapsLock' && event.code !== 'Tab' && !event.ctrlKey;
   }
 
   ngOnDestroy(): void {
