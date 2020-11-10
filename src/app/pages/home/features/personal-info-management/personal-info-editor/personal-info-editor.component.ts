@@ -171,7 +171,6 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
   }
 
   changeMask(event: KeyboardEvent) {
-    console.log(event);
     this.isTyping = event.isTrusted && event.code !== 'AltRight' && event.code !== 'AltLeft' && event.code !== 'ControlLeft'
       && event.code !== 'ShiftLeft' && event.code !== 'ShiftRight' && event.code !== 'CapsLock' && event.code !== 'Tab' && !event.ctrlKey;
   }
