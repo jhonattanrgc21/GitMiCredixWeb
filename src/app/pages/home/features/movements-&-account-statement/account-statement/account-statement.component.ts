@@ -12,7 +12,7 @@ export class AccountStatementComponent implements OnInit, OnDestroy {
   accountStatementDataSource = [];
   displayColumns = ['date', 'commerce', 'amount', 'quotas', 'balance', 'rate'];
   p = 0;
-  currencySymbol = '';
+  currencySymbol = '¢';
   linkTag: string;
   columnOneTag: string;
   columnTwoTag: string;

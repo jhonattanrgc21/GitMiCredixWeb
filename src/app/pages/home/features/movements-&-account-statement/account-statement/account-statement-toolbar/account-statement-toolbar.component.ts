@@ -19,7 +19,7 @@ export class AccountStatementToolbarComponent implements OnInit {
   principalCard: Card;
   cardNumberMasked = '';
   dateControl = new FormControl(null);
-  currencySymbol = '';
+  currencySymbol = '¢';
   currentAccountStatement: AccountStatement;
   colonesAccountStatement: AccountStatement;
   dollarAccountStatement: AccountStatement;
