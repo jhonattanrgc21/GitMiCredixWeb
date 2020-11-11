@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {IbanAccountsService} from './iban-accounts.service';
@@ -9,7 +9,7 @@ import {FavoriteIbanAccount} from '../../../../../shared/models/favorite-iban-ac
   templateUrl: './iban-accounts.component.html',
   styleUrls: ['./iban-accounts.component.scss']
 })
-export class IbanAccountsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class IbanAccountsComponent implements OnInit, AfterViewInit {
   ibanAccountDetailControl: FormControl = new FormControl(null);
   data: FavoriteIbanAccount;
   errorMessage: string;
@@ -71,7 +71,5 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.favoritesManagementService.unsubscribe();
-  }
+
 }

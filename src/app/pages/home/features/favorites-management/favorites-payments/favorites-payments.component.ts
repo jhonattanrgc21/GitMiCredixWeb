@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {FormControl} from '@angular/forms';
 import {FavoritesPaymentsService} from './favorites-payments.service';
@@ -9,7 +9,7 @@ import {PublicServiceFavoriteByUser} from '../../../../../shared/models/public-s
   templateUrl: './favorites-payments.component.html',
   styleUrls: ['./favorites-payments.component.scss']
 })
-export class FavoritesPaymentsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FavoritesPaymentsComponent implements OnInit, AfterViewInit {
   favoritePaymentDetailControl: FormControl = new FormControl(null);
   data: PublicServiceFavoriteByUser;
   errorMessage: string;
@@ -69,9 +69,5 @@ export class FavoritesPaymentsComponent implements OnInit, AfterViewInit, OnDest
     this.favoritesManagementService.deleted.subscribe((response) => {
       this.deleted = response.publicServices;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.favoritesManagementService.unsubscribe();
   }
 }
