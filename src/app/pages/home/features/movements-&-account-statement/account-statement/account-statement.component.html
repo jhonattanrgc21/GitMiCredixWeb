@@ -26,7 +26,7 @@
     <ng-container matColumnDef="quotas">
       <mat-header-cell *matHeaderCellDef credixHeaderCell>{{columnFourTag || 'Cuotas'}}</mat-header-cell>
       <mat-cell *matCellDef="let element" credixCell>
-          <span *ngIf="element.quota !== 0">
+          <span *ngIf="element.quota !== 0 && element.typeMovement !== 14">
             Cuota {{element.quotaNumberLiquidated}} de {{element.quantityQuota}}
           </span>
       </mat-cell>
