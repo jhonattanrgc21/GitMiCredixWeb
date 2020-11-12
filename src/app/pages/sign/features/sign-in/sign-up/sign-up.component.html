@@ -21,7 +21,7 @@
 
         <credix-button
           (buttonClick)=verifyRegistryUser()
-          [disabled]="!newUserFirstStepForm.valid"
+          [disabled]="!newUserFirstStepForm.valid || !(newUserFirstStepForm.controls.identification.value)"
           class="modal-new-user__button step-one"
           fxFlexAlign="flex-start">Continuar
         </credix-button>
