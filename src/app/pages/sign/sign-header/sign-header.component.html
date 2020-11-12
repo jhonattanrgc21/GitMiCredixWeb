@@ -37,6 +37,9 @@
           <button [fxHide]="(deviceInfo.os !== 'Mac')" fxShow mat-button>
             <img alt="App Store" src="assets/images/appStore.png">
           </button>
+          <button [fxHide]="(deviceInfo.os !== 'Huawei' && deviceInfo.os !== 'HarmonyOS' && deviceInfo.os !== 'Harmony')" fxShow mat-button>
+            <img alt="Huawei Gallery" src="assets/images/Huawei.png">
+          </button>
         </div>
       </div>
     </div>
