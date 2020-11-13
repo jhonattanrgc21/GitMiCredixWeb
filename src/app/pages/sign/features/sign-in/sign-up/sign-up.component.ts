@@ -114,10 +114,15 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   identificationChanged() {
+    let maxLength: number;
     this.newUserFirstStepForm.controls.typeIdentification.valueChanges.subscribe(value => {
       if (value !== null) {
         this.identificationMask = getIdentificationMaskByType(
           this.identificationTypes.find(identificationType => identificationType.id === value).value).mask;
+        maxLength = getIdentificationMaskByType(
+          this.identificationTypes.find(identificationType => identificationType.id === value).value).maxLength;
+        this.newUserFirstStepForm.controls.identification.setValidators([Validators.minLength(maxLength)]);
+        this.newUserFirstStepForm.controls.identification.updateValueAndValidity();
         this.newUserFirstStepForm.controls.identification.reset(null, {emitEvent: false});
         this.newUserFirstStepForm.controls.identification.enable();
       } else {

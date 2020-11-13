@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import {StorageService} from '../../../../../core/services/storage.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Injectable()
 export class SignUpService {
@@ -15,7 +16,8 @@ export class SignUpService {
 
   constructor(private httpService: HttpService,
               private storageService: StorageService,
-              private toastService: CredixToastService) {
+              private deviceService: DeviceDetectorService,
+              private toastService: CredixToastService,) {
   }
 
   checkUser(identification: string): Observable<{ isRegistered: boolean, status: string }> {
@@ -81,11 +83,11 @@ export class SignUpService {
       typeIncome: 1,
       validateToken: 0,
       newPassword: CryptoJS.SHA256(password).toString(),
-      confirmPassword: CryptoJS.SHA256(password).to,
+      confirmPassword: CryptoJS.SHA256(password).toString(),
       usernameSecurity: 'sts_sac',
       passwordSecurity: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f47',
       uuid: this.storageService.getUuid(),
-      platform: 3
+      platform: this.deviceService.os === 'Mac' ? 1 : this.deviceService.os === 'Android' ? 2 : 3
     });
   }
 
