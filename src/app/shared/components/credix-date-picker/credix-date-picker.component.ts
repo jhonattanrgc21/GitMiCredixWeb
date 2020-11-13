@@ -1,4 +1,4 @@
-import {Component, forwardRef, HostListener, Input, OnInit} from '@angular/core';
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ModalService} from '../../../core/services/modal.service';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
@@ -40,12 +40,6 @@ export class CredixDatePickerComponent implements OnInit, ControlValueAccessor {
     });
   }
 
-  @HostListener('focusin') onFocusIn() {
-    if (!this.isOpen) {
-      this.isOpen = !this.isOpen;
-      this.openCalendar();
-    }
-  }
 
   onTouch() {
     this.propagateTouch();

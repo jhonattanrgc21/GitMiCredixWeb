@@ -18,7 +18,7 @@
         </span>
       </credix-input-field>
 
-      <credix-button (click)="login()" [disabled]="signInformGroup.invalid" class="w-100">Ingresar</credix-button>
+      <credix-button (click)="login()" [disabled]="signInformGroup.invalid" class="w-100 mt-16px">Ingresar</credix-button>
     </form>
 
     <span class="sign-in__card__sign-up-span">¿Nuevo en MiCredix?
@@ -57,7 +57,7 @@
       </credix-code-input>
     </form>
 
-    <div class="w-100" fxLayout="column" fxLayoutAlign="center center">
+    <div class="w-100 mt-16px" fxLayout="column" fxLayoutAlign="center center">
       <span>¿No ha recibido el código?</span>
       <credix-link-button (click)="sendOtp()">Enviar nuevamente</credix-link-button>
     </div>
