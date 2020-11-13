@@ -61,9 +61,11 @@ export class PublicServicesComponent implements OnInit {
         break;
       case 2:
         this.router.navigate(['home/public-services/favorites']);
+        this.publicServicesService.emitIsTabChange();
         break;
       case 3:
         this.router.navigate(['home/public-services/automatics']);
+        this.publicServicesService.emitIsTabChange();
         break;
     }
 

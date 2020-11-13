@@ -71,7 +71,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
           this.nationality = applicantInfo.applicant.country?.description;
           this.typeIncome = applicantInfo.applicant.typeIncomeApplicant?.description;
           this.occupation = applicantInfo.applicant.personApplicant?.occupation.description;
-          this.address = applicantInfo.applicant.addressApplicant?.find(add => add.addressType.id === 1).detail;
+          this.address = applicantInfo.applicant?.addressApplicant?.find(add => add.addressType.id === 1)?.detail;
 
           this.personalInfoManagementService.applicantInfo = {
             email: this.email,
@@ -80,9 +80,9 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
             country: applicantInfo.applicant.country?.id,
             occupation: applicantInfo.applicant.personApplicant.occupation?.id,
             incomeType: applicantInfo.applicant.typeIncomeApplicant?.id,
-            province: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).province.id,
-            canton: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).canton.id,
-            district: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).district.id
+            province: applicantInfo.applicant.addressApplicant?.find(add => add.addressType.id === 1)?.province.id,
+            canton: applicantInfo.applicant.addressApplicant?.find(add => add.addressType.id === 1)?.canton.id,
+            district: applicantInfo.applicant.addressApplicant?.find(add => add.addressType.id === 1)?.district.id
           };
         }
       });

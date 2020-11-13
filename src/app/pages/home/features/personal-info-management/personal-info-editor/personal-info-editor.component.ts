@@ -49,6 +49,7 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
   title: string;
   status: 'success' | 'error';
   done = false;
+  isTyping = false;
 
   constructor(private personalInfoManagementService: PersonalInfoManagementService,
               private credixCodeErrorService: CredixCodeErrorService,
@@ -90,17 +91,23 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
               phoneNumber: applicantInfo.applicant.phoneApplicant.find(phone => phone.phoneType.id === 1).phone,
               country: applicantInfo.applicant.country?.id,
               occupation: applicantInfo.applicant.personApplicant.occupation?.id,
-              addressDetail: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).detail,
+              addressDetail: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1) ?
+                applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).detail : null,
               incomeType: applicantInfo.applicant.typeIncomeApplicant?.id,
-              province: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).province.id,
-              canton: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).canton.id,
-              district: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).district.id
+              province: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1) ?
+                applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).province.id : null,
+              canton: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1) ?
+                applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).canton.id : null,
+              district: applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1) ?
+                applicantInfo.applicant.addressApplicant.find(add => add.addressType.id === 1).district.id : null
             };
           }
         });
     } else {
-      this.personalInfoFormGroup.controls.email.setValue(this.personalInfoManagementService.applicantInfo.email);
-      this.personalInfoFormGroup.controls.phoneNumber.setValue(this.personalInfoManagementService.applicantInfo.phoneNumber);
+      this.personalInfoFormGroup.controls.email.setValue(this.personalInfoManagementService.applicantInfo.email,
+        {emitEvent: false});
+      this.personalInfoFormGroup.controls.phoneNumber.setValue(this.personalInfoManagementService.applicantInfo.phoneNumber,
+        {emitEvent: false});
       this.personalInfoFormGroup.controls.country.setValue(this.personalInfoManagementService.applicantInfo.country);
       this.personalInfoFormGroup.controls.incomeType.setValue(this.personalInfoManagementService.applicantInfo.incomeType);
       this.personalInfoFormGroup.controls.occupation.setValue(this.personalInfoManagementService.applicantInfo.occupation);
@@ -161,6 +168,11 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
           });
       }
     });
+  }
+
+  changeMask(event: KeyboardEvent) {
+    this.isTyping = event.isTrusted && event.code !== 'AltRight' && event.code !== 'AltLeft' && event.code !== 'ControlLeft'
+      && event.code !== 'ShiftLeft' && event.code !== 'ShiftRight' && event.code !== 'CapsLock' && event.code !== 'Tab' && !event.ctrlKey;
   }
 
   ngOnDestroy(): void {
