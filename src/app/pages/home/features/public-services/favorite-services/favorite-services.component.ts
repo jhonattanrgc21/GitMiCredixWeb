@@ -29,6 +29,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     {label: 'Datos de la factura', width: 'auto'}
   ];
   isRecharge: boolean;
+  tabChanged: boolean;
 
   constructor(private publicServicesService: PublicServicesService,
               private router: Router,
@@ -37,6 +38,11 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getFavoritePublicServiceDetail();
+    this.getIsTabChanged();
+  }
+
+  getIsTabChanged() {
+    this.publicServicesService.tabChanged.subscribe(() => this.tabChanged = true);
   }
 
   publicServiceChange(favorite: PublicServiceFavoriteByUser) {
