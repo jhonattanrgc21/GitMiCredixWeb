@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IdentificationType} from '../../../../../shared/models/identification-type';
 import {IbanAccountsService} from '../iban-accounts/iban-accounts.service';
@@ -7,14 +7,13 @@ import {getIdentificationMaskByType} from '../../../../../shared/utils';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {Router} from '@angular/router';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
-import {FavoritesManagementService} from '../favorites-management.service';
 
 @Component({
   selector: 'app-add-iban-account',
   templateUrl: './add-iban-account.component.html',
   styleUrls: ['./add-iban-account.component.scss']
 })
-export class AddIbanAccountComponent implements OnInit, OnDestroy {
+export class AddIbanAccountComponent implements OnInit {
   identificationTypes: IdentificationType[];
   identificationMask = '0-0000-0000';
   resultIban: boolean;
@@ -31,8 +30,7 @@ export class AddIbanAccountComponent implements OnInit, OnDestroy {
   constructor(private ibanAccountService: IbanAccountsService,
               private modalService: ModalService,
               private router: Router,
-              private credixCodeErrorService: CredixCodeErrorService,
-              private favoritesManagementService: FavoritesManagementService) {
+              private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
@@ -96,9 +94,5 @@ export class AddIbanAccountComponent implements OnInit, OnDestroy {
       this.codeCredix.setErrors({invalid: true});
       this.newFavoriteIbanForm.updateValueAndValidity();
     });
-  }
-
-  ngOnDestroy(): void {
-    this.favoritesManagementService.unsubscribe();
   }
 }
