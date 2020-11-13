@@ -21,7 +21,7 @@
 
         <credix-button
           (buttonClick)=verifyRegistryUser()
-          [disabled]="!newUserFirstStepForm.valid"
+          [disabled]="!newUserFirstStepForm.valid || !(newUserFirstStepForm.controls.identification.value)"
           class="modal-new-user__button step-one"
           fxFlexAlign="flex-start">Continuar
         </credix-button>
@@ -36,7 +36,7 @@
 
         <credix-code-input class="w-100 mb-16px" formControlName="credixCode">
           <span *ngIf="newUserSecondStepForm.controls.credixCode.hasError('invalid')" error>
-            Código MiCredix inválido.</span>
+            El código de seguridad es inválido</span>
         </credix-code-input>
 
         <div class="mb-24px" fxLayout="column" fxLayoutAlign="start center">

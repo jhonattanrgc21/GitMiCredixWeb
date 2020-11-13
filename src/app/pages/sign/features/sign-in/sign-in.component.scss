@@ -80,3 +80,17 @@
   transform: translateY(12px);
   font-size: 12px;
 }
+
+::ng-deep.credix-input-field__error{
+  span{
+    position: relative;
+    top: 16px;
+  }
+ }
+
+ ::ng-deep.credix-code-input__error{
+  span{
+    position: relative;
+    top: 16px;
+  }
+ }
