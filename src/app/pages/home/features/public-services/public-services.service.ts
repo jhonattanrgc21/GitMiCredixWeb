@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {HttpService} from '../../../../core/services/http.service';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {PendingReceipts} from '../../../../shared/models/pending-receipts';
 import {StorageService} from '../../../../core/services/storage.service';
 import {PublicServiceFavoriteByUser} from '../../../../shared/models/public-service-favorite-by-user';
@@ -12,6 +12,7 @@ import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {Voucher} from '../../../../shared/models/voucher';
 import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
 import {Keys} from '../../../../shared/models/keys';
+import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'cellphone'},
@@ -35,6 +36,9 @@ export class PublicServicesService {
   publicServiceIdByFavorite: number;
   phoneNumberByFavorite: string;
   keyTypeByFavorite: Keys[] = [];
+
+  // tslint:disable-next-line:variable-name
+  private _isTabChanged = new Subject();
 // tslint:disable-next-line:variable-name
   _publicService: PublicService;
   get publicService(): PublicService {
@@ -85,11 +89,21 @@ export class PublicServicesService {
     this._pendingReceipt = pendingReceipt;
   }
 
+  get tabChanged(): Observable<any> {
+    return this._isTabChanged.asObservable();
+  }
+
+  emitIsTabChange() {
+    this._isTabChanged.next();
+  }
+
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
   }
 
-  @Cacheable()
+  @Cacheable({
+    cacheBusterObserver: cleanFavoritesPublicService$.asObservable()
+  })
   getPublicServicesFavoritesByUser(): Observable<PublicServiceFavoriteByUser[]> {
     return this.httpService.post('canales', this.getPublicServiceFavoriteByUserUri,
       {
