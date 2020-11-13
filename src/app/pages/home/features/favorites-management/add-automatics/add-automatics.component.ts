@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AutomaticsService} from '../automatics/automatics.service';
 import {PublicServiceCategory} from '../../../../../shared/models/public-service-category';
@@ -18,7 +18,7 @@ import {Keys} from '../../../../../shared/models/keys';
   templateUrl: './add-automatics.component.html',
   styleUrls: ['./add-automatics.component.scss']
 })
-export class AddAutomaticsComponent implements OnInit, OnDestroy {
+export class AddAutomaticsComponent implements OnInit {
   newAutomaticsForm: FormGroup = new FormGroup({
     publicServicesCategory: new FormControl(null, [Validators.required]),
     publicServiceCompany: new FormControl(null, [Validators.required]),
@@ -216,9 +216,5 @@ export class AddAutomaticsComponent implements OnInit, OnDestroy {
       this.codeCredix.setErrors({invalid: true});
       this.newAutomaticsForm.updateValueAndValidity();
     });
-  }
-
-  ngOnDestroy(): void {
-    this.favoritesManagementService.unsubscribe();
   }
 }

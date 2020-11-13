@@ -73,7 +73,7 @@ export class ReportTransferenceComponent implements OnInit, OnDestroy {
         imagebase64: this.image ? this.image.file.split(',')[1] : null,
         imageType: this.image ? this.image.type : null
       }).subscribe(response => {
-        this.toastService.show({text: response.message, type: response.type});
+        // this.toastService.show({text: response.message, type: response.type});
         this.done = true;
         this.message = response.message;
         this.status = response.type;
