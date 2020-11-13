@@ -37,6 +37,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
   empty = false;
   optionSelected = 0;
   activeTabIndex = 0;
+  tabIsChanged: boolean;
 
   constructor(private toastService: CredixToastService,
               private favoriteManagementService: FavoritesManagementService,
@@ -62,6 +63,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
     this.checkIsUpdating();
     this.checkUpdateCompleted();
     this.checkUrlParam();
+    this.favoriteManagementService.tabChanged.subscribe(() => {
+      this.tabIsChanged = true;
+    });
   }
 
   checkUrlParam() {
@@ -79,7 +83,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
 
   getDetailFavorite(option) {
     this.optionSelected = this.tabId === 1 ? option.IdAccountFavorite : this.tabId === 2 ? option.publicServiceFavoriteId : option.id;
-
+    this.tabIsChanged = false;
     if (option.publicServiceFavoriteId) {
       const favoritePublicService: PublicServiceFavoriteByUser = {
         accountNumber: option.account,
@@ -144,18 +148,21 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
         this.tableHeaders[0].label = 'Cuentas guardadas';
         this.tableHeaders[1].label = 'Detalle de la cuenta';
         this.getFavoritesIban();
+        this.favoriteManagementService.emitIsTabChange();
         break;
       case 2:
         this.router.navigate(['home/favorites-management/favorites-payments']);
         this.tableHeaders[0].label = 'Pagos guardados';
         this.tableHeaders[1].label = 'Detalle del pago';
         this.getPublicService();
+        this.favoriteManagementService.emitIsTabChange();
         break;
       case 3:
         this.router.navigate(['home/favorites-management/automatics']);
         this.tableHeaders[0].label = 'Cuentas guardadas';
         this.tableHeaders[1].label = 'Detalle de la cuenta';
         this.getSchedulePayment();
+        this.favoriteManagementService.emitIsTabChange();
         break;
     }
   }
