@@ -9,16 +9,16 @@
 
       <div class="personal-info-editor__content__right-wrapper" fxLayout="column">
 
-        <credix-input-field (keydown)="changeMask($event)"
-                            [displayValue]="hideEmailMask || isTyping ? personalInfoFormGroup.controls.email.value
+        <credix-input-field (keydown)="changeMaskEmail($event)"
+                            [displayValue]="hideEmailMask || isDeletingEmail ? personalInfoFormGroup.controls.email.value
                              : personalInfoFormGroup.controls.email.value | emailMask"
                             class="personal-info-editor__input" formControlName="email"
                             label="Correo">
           <div *ngIf="personalInfoFormGroup.controls.email.errors?.email" error>Correo electrónico inválido</div>
         </credix-input-field>
 
-        <credix-input-field (keydown)="changeMask($event)"
-                            [displayValue]="hidePhoneNumberMask || isTyping ? personalInfoFormGroup.controls.phoneNumber.value
+        <credix-input-field (keydown)="changeMaskPhone($event)"
+                            [displayValue]="hidePhoneNumberMask || isDeletingPhone ? personalInfoFormGroup.controls.phoneNumber.value
                              : personalInfoFormGroup.controls.phoneNumber.value | phoneMask"
                             class="personal-info-editor__input" formControlName="phoneNumber"
                             label="Teléfono"

@@ -70,7 +70,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupCommissionTag || 'Comisión'}} (5%)*</span>
+        <span fxFlex>{{ popupCommissionTag || 'Comisión'}} (5%)</span>
         <credix-numeric-block
           [value]="personalCreditSummary?.commission"
           fontWeight="bold"
@@ -78,20 +78,21 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupInterestTag || 'Interés'}} (24,46% Anual)</span>
+        <span fxFlex>{{ popupInterestTag || 'Interés' }} {{ termControl.value === 3 ?
+            '(0% Mensual)' : '(24,46% Mensual)'}}</span>
         <credix-numeric-block
           [value]="personalCreditSummary?.interest"
           fontWeight="bold"
           prefix="₡"></credix-numeric-block>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupIvaTag || 'IVA'}}</span>
-        <credix-numeric-block
-          [value]="ivaAmount"
-          fontWeight="bold"
-          prefix="₡"></credix-numeric-block>
-      </div>
+<!--      <div fxLayout="row" fxLayoutAlign="space-between">-->
+<!--        <span fxFlex>{{ popupIvaTag || 'IVA'}}</span>-->
+<!--        <credix-numeric-block-->
+<!--          [value]="ivaAmount"-->
+<!--          fontWeight="bold"-->
+<!--          prefix="₡"></credix-numeric-block>-->
+<!--      </div>-->
     </div>
 
     <mat-divider credixDivider></mat-divider>
@@ -104,9 +105,9 @@
                             prefix="₡"></credix-numeric-block>
     </div>
 
-    <p fxFlex style="color: #707070;">
-      * {{ popupDisclaimerTag || 'IVA y comisión se cargarán en el próximo estado de cuenta.'}}
-    </p>
+<!--    <p fxFlex style="color: #707070;">-->
+<!--      * {{ popupDisclaimerTag || 'IVA y comisión se cargarán en el próximo estado de cuenta.'}}-->
+<!--    </p>-->
 
     <div fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex style="font-size: 20px;">{{termControl.value + ' ' + quoteTag || 'Cuotas de'}}</span>
