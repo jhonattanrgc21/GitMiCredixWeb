@@ -58,3 +58,10 @@
     line-height: 30px !important;
   }
 }
+
+::ng-deep.credix-code-input__error{
+  span{
+    position: relative;
+    top: 0px;
+  }
+ }
