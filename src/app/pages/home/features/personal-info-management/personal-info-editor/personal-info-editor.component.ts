@@ -49,7 +49,8 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
   title: string;
   status: 'success' | 'error';
   done = false;
-  isTyping = false;
+  isDeletingEmail = false;
+  isDeletingPhone = false;
 
   constructor(private personalInfoManagementService: PersonalInfoManagementService,
               private credixCodeErrorService: CredixCodeErrorService,
@@ -170,9 +171,12 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  changeMask(event: KeyboardEvent) {
-    this.isTyping = event.isTrusted && event.code !== 'AltRight' && event.code !== 'AltLeft' && event.code !== 'ControlLeft'
-      && event.code !== 'ShiftLeft' && event.code !== 'ShiftRight' && event.code !== 'CapsLock' && event.code !== 'Tab' && !event.ctrlKey;
+  changeMaskEmail(event: KeyboardEvent) {
+    this.isDeletingEmail = event.key === 'Backspace';
+  }
+
+  changeMaskPhone(event: KeyboardEvent) {
+    this.isDeletingPhone = event.key === 'Backspace';
   }
 
   ngOnDestroy(): void {
