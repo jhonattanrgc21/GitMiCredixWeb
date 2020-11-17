@@ -104,16 +104,16 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit, OnDestroy
         break;
       case 1:
         if (this.disbursementForm.controls.account.value !== 0) {
-          this.personalCreditService.checkIbanColonesAccount(this.disbursementForm.controls.account.value).subscribe(response => {
+          this.personalCreditService.checkIbanColonesAccount(this.disbursementForm.controls.account.value)
+            .subscribe(response => {
             if (response.type === 'success' && response.message.MotivoRechazo === '0') {
               this.stepper.next();
             } else {
               this.personalCreditService.emitErrorIbanAccount();
             }
           });
-        } else {
-          this.stepper.next();
         }
+        this.stepper.next();
         break;
       case 2:
         this.modalService.confirmationPopup('¿Desea solicitar este crédito personal?', null, 380, 203)
@@ -122,6 +122,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit, OnDestroy
     }
     this.stepperIndex = this.stepper.selectedIndex;
     this.setEnableButton();
+    console.log(this.stepperIndex);
   }
 
   back() {
