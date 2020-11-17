@@ -28,6 +28,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   hidePassword = true;
   hideConfirm = true;
   identificationMask = '0-0000-0000';
+  title: string;
+  status: 'success' | 'error' = 'success';
+  message: string;
 
   constructor(private forgotPasswordService: ForgotPasswordService,
               private credixCodeErrorService: CredixCodeErrorService,
@@ -57,14 +60,22 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       this.forgotPasswordForm.controls.identification.value,
       this.forgotPasswordForm.controls.password.value)
       .pipe(finalize(() => {
-        if (!this.forgotPasswordForm.controls.credixCode.hasError('invalid')) {
+        if (!this.forgotPasswordForm.controls.credixCode.hasError('invalid') && this.status === 'success') {
           this.dialogRef.close({
             identification: this.forgotPasswordForm.controls.identification.value,
             password: this.forgotPasswordForm.controls.password.value
           });
         }
       }))
-      .subscribe();
+      .subscribe(result => {
+        this.title = result.title;
+        this.status = result.type;
+        this.message = result.message;
+
+      }, error => {
+        this.status = 'error';
+        this.message = error.message;
+      });
   }
 
   identificationTypeChanged() {
