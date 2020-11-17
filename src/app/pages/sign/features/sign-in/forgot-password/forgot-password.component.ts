@@ -25,8 +25,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     {validators: this.passwordValidator}
   );
   identificationTypes: IdentificationType[];
-  hide = true;
-  type = 'password';
+  hidePassword = true;
+  hideConfirm = true;
   identificationMask = '0-0000-0000';
 
   constructor(private forgotPasswordService: ForgotPasswordService,
