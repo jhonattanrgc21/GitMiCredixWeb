@@ -19,7 +19,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   typeIncome = '';
   occupation = '';
   address = '';
-  profilePhoto = 'assets/images/avatar.png';
+  profilePhoto = 'assets/images/avatar-icon.svg';
   os: string;
 
   constructor(private personalInfoManagementService: PersonalInfoManagementService,
