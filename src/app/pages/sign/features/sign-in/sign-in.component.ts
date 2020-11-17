@@ -141,7 +141,7 @@ export class SignInComponent implements OnInit, OnDestroy {
         break;
       case 'forgot-pass':
         this.modalService.open({component: ForgotPasswordComponent, title: '¿Olvidó su clave?'},
-          {width: 376, height: 663, disableClose: true}).afterClosed().subscribe(user => {
+          {width: 376, height: 680, disableClose: true}).afterClosed().subscribe(user => {
           if (user) {
             this.signInformGroup.controls.identification.setValue(user.identification);
             this.signInformGroup.controls.password.setValue(user.password);
