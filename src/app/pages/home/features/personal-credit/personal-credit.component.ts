@@ -122,7 +122,6 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit, OnDestroy
     }
     this.stepperIndex = this.stepper.selectedIndex;
     this.setEnableButton();
-    console.log(this.stepperIndex);
   }
 
   back() {
