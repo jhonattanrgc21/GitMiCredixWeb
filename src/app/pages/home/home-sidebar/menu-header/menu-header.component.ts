@@ -9,7 +9,7 @@ import {startWith} from 'rxjs/operators';
   styleUrls: ['./menu-header.component.scss']
 })
 export class MenuHeaderComponent implements OnInit {
-  profilePhoto = 'assets/images/avatar.png';
+  profilePhoto = 'assets/images/avatar-icon.svg';
   applicantName = '';
   greetingMessage: string;
 
@@ -29,7 +29,7 @@ export class MenuHeaderComponent implements OnInit {
       .pipe(startWith(1))
       .subscribe(() =>
         this.applicantApiService.getApplicantProfilePhoto().subscribe(profilePhoto => {
-          this.profilePhoto = profilePhoto ? `data:image/png;base64,${profilePhoto}` : 'assets/images/avatar.png';
+          this.profilePhoto = profilePhoto ? `data:image/png;base64,${profilePhoto}` : 'assets/images/avatar-icon.svg';
         }));
   }
 
