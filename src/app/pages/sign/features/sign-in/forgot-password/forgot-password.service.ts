@@ -21,7 +21,7 @@ export class ForgotPasswordService {
       passwordConfirmation: CryptoJS.SHA256(password).toString(),
     }).pipe(
       map(response => {
-        return {type: response.type, title: response.titleOne, message: response.json, status: response.status};
+        return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status || 200};
       }));
   }
 
