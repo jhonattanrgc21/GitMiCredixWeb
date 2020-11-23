@@ -73,11 +73,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
           this.title = result.title;
           this.status = result.type;
           this.message = result.message;
+          if (this.status === 'error') this.forgotPasswordForm.controls.confirmPassword.setErrors({ passwordError: true });
         }
 
       }, error => {
         this.status = 'error';
         this.message = error.message;
+        this.forgotPasswordForm.controls.confirmPassword.setErrors({ passwordError: true });
       });
   }
 
