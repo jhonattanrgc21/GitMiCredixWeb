@@ -64,14 +64,6 @@ export class NewAdditionalCardFirstStepComponent implements OnInit, OnChanges, O
     });
   }
 
-  openCalendar() {
-    this.modalService.openCalendarPopup(null, new Date()).subscribe(modal => {
-      if (modal) {
-        this.userInfoFormGroup.controls.birthday.setValue(modal.date);
-      }
-    });
-  }
-
   sliderChanged(value) {
     this.userInfoFormGroup.controls.creditLimit.setValue(value);
   }
