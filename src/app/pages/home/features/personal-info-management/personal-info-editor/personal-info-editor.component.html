@@ -9,7 +9,8 @@
 
       <div class="personal-info-editor__content__right-wrapper" fxLayout="column">
 
-        <credix-input-field [displayValue]="hideEmailMask || isDeletingEmail ? personalInfoFormGroup.controls.email.value
+        <credix-input-field (keydown)="changeMaskEmail($event)"
+                            [displayValue]="hideEmailMask || isDeletingEmail ? personalInfoFormGroup.controls.email.value
                              : personalInfoFormGroup.controls.email.value | emailMask"
                             class="personal-info-editor__input" formControlName="email"
                             label="Correo">
