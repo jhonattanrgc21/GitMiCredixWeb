@@ -175,9 +175,11 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  // changeMaskEmail(event: KeyboardEvent) {
-  //   this.isDeletingEmail = event.key === 'Backspace';
-  // }
+  changeMaskEmail(event: KeyboardEvent) {
+    if (!this.hideEmailMask) {
+      this.personalInfoFormGroup.controls.email.setValue('');
+    }
+  }
 
   changeMaskPhone(event: KeyboardEvent) {
     this.isDeletingPhone = event.key === 'Backspace';
