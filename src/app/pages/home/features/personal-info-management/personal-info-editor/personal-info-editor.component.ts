@@ -24,7 +24,7 @@ import {CredixCodeErrorService} from '../../../../../core/services/credix-code-e
 export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDestroy {
   personalInfoFormGroup: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
-    phoneNumber: new FormControl(null, [Validators.required,
+    phoneNumber: new FormControl({value: '', disabled: true}, [Validators.required,
       Validators.maxLength(8), Validators.minLength(8)]),
     country: new FormControl(null, [Validators.required]),
     incomeType: new FormControl(null, [Validators.required]),
@@ -75,7 +75,11 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setSubscriptions() {
-    this.personalInfoFormGroup.controls.email.valueChanges.subscribe(value => this.hideEmailMask = value.length === 0);
+    this.personalInfoFormGroup.controls.email.valueChanges.subscribe(value => {
+      if (value.length === 0) {
+        this.hideEmailMask = true;
+      }
+    });
     this.personalInfoFormGroup.controls.phoneNumber.valueChanges.subscribe(value => this.hidePhoneNumberMask = value.length === 0);
     this.personalInfoFormGroup.controls.province.valueChanges.subscribe(value => this.getCanton(value));
     this.personalInfoFormGroup.controls.canton.valueChanges.subscribe(value => this.getDistrict(value));
@@ -172,7 +176,9 @@ export class PersonalInfoEditorComponent implements OnInit, AfterViewInit, OnDes
   }
 
   changeMaskEmail(event: KeyboardEvent) {
-    this.isDeletingEmail = event.key === 'Backspace';
+    if (!this.hideEmailMask) {
+      this.personalInfoFormGroup.controls.email.setValue('');
+    }
   }
 
   changeMaskPhone(event: KeyboardEvent) {
