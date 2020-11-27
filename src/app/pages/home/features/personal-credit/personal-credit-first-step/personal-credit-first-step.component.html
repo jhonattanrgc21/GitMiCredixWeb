@@ -70,7 +70,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupCommissionTag || 'Comisión'}} (5%)</span>
+        <span fxFlex>{{ popupCommissionTag || 'Comisión'}} {{ personalCreditSummary.percentageCommission + '%'}}</span>
         <credix-numeric-block
           [value]="personalCreditSummary?.commission"
           fontWeight="bold"
@@ -78,8 +78,9 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupInterestTag || 'Interés' }} {{ termControl.value === 3 ?
-            '(0% Mensual)' : '(24,46% Mensual)'}}</span>
+        <span fxFlex>{{ popupInterestTag || 'Interés' }}
+          {{'(' + personalCreditSummary.percentageInterest + '% Mensual)'}}
+        </span>
         <credix-numeric-block
           [value]="personalCreditSummary?.interest"
           fontWeight="bold"
