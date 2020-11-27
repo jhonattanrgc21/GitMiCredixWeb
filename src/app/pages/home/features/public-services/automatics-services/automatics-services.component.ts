@@ -26,6 +26,7 @@ export class AutomaticsServicesComponent implements OnInit, OnDestroy {
     maxAmount: number;
     publicServiceDescription: string
   };
+  empty = false;
 
   constructor(private publicServicesService: PublicServicesService,
               private navigationService: NavigationService) {
@@ -53,6 +54,7 @@ export class AutomaticsServicesComponent implements OnInit, OnDestroy {
   getAllSchedule() {
     this.publicServicesService.getAllSchedulersPayment()
       .subscribe((response) => {
+        this.empty = response.length === 0;
         this.schedulePayments = response;
       });
   }
