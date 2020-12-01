@@ -56,7 +56,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   changePassword() {
     this.changePasswordService
       .changePassword(this.changePasswordForm.controls.credixCode.value, this.changePasswordForm.controls.password.value)
-      .pipe(finalize(() => this.done = this.changePasswordForm.controls.credixCode.valid && this.status === 'success'))
+      .pipe(finalize(() => this.done = this.changePasswordForm.controls.credixCode.valid && this.changePasswordForm.controls.password.valid))
       .subscribe(result => {
         this.title = result.title;
         this.status = result.type;
@@ -66,6 +66,12 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
           this.changePasswordForm.controls.password.setErrors({invalid: true});
           this.changePasswordForm.updateValueAndValidity();
         }
+      }, error => {
+        console.log(error);
+        this.title = 'Oops...';
+        this.status = 'error'
+        this.message = 'Hubo un error al cambiar su clave.';
+        this.done = true;
       });
   }
 

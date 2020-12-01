@@ -7,7 +7,6 @@ import {Tag} from '../../../../shared/models/tag';
 import {Router} from '@angular/router';
 import {Card} from '../../../../shared/models/card';
 import {StorageService} from '../../../../core/services/storage.service';
-import {finalize} from 'rxjs/operators';
 import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
 
 @Component({
@@ -16,7 +15,7 @@ import {CredixCodeErrorService} from '../../../../core/services/credix-code-erro
   styleUrls: ['./buy-without-card.component.scss']
 })
 export class BuyWithoutCardComponent implements OnInit, OnDestroy {
-  codeCredix: FormControl = new FormControl(null, [Validators.required, Validators.minLength(6)]);
+  credixCode: FormControl = new FormControl(null, [Validators.required, Validators.minLength(6)]);
   cardControl: FormControl = new FormControl(null, [Validators.required]);
   cards: Card[];
   applicantIdentification: string;
@@ -28,6 +27,7 @@ export class BuyWithoutCardComponent implements OnInit, OnDestroy {
   title: string;
   step2: string;
   step1: string;
+  errorResponse = false;
   @ViewChild('buyWithOutCard') stepper: CdkStepper;
 
   constructor(private buyWithOutCardService: BuyWithoutCardService,
@@ -43,7 +43,7 @@ export class BuyWithoutCardComponent implements OnInit, OnDestroy {
     this.cards = this.storageService.getCurrentCards();
     this.cardControl.setValue(this.cards.find(element => element.category === 'Principal').cardId);
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.codeCredix.setErrors({invalid: true});
+      this.credixCode.setErrors({invalid: true});
     });
   }
 
@@ -58,17 +58,14 @@ export class BuyWithoutCardComponent implements OnInit, OnDestroy {
 
   generatePin() {
     this.buyWithOutCardService.generatePin(this.cardControl.value)
-      .pipe(finalize(() => {
-        if (this.stepperIndex === 0) {
-          this.continue();
-        }
-      }))
       .subscribe(response => {
         if (response.type === 'success') {
           this.applicantIdentification = response.applicantIdentification;
           this.lifeTimePin = response.lifeTimePin;
           this.pin = response.pin;
           this.name = response.printName;
+        } else {
+          this.errorResponse = response.type === 'error';
         }
       });
   }
@@ -80,10 +77,11 @@ export class BuyWithoutCardComponent implements OnInit, OnDestroy {
   }
 
   checkCredixCode() {
-    this.buyWithOutCardService.checkCredixCode(this.codeCredix.value).subscribe(result => {
+    this.buyWithOutCardService.checkCredixCode(this.credixCode.value).subscribe(result => {
         if (result.type === 'success') {
           this.generatePin();
           this.onCardChanged();
+          this.continue();
         }
       }
     );
