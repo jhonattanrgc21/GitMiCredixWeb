@@ -20,8 +20,8 @@ export class ChangePasswordService {
       identification: this.storageService.getCurrentUser().identification,
       username: this.storageService.getCurrentUser().identification,
       codeCredix,
-      password: CryptoJS.SHA256(password),
-      passwordConfirmation: CryptoJS.SHA256(password)
+      password: CryptoJS.SHA256(password).toString(),
+      passwordConfirmation: CryptoJS.SHA256(password).toString()
     })
       .pipe(
         map(response => {
