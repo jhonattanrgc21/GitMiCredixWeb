@@ -1,4 +1,4 @@
-<credix-navigation-table [headers]="tableHeaders" class="automatics-services">
+<credix-navigation-table [headers]="tableHeaders" [hide]="empty" class="automatics-services">
 
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="automatics-services__options-wrapper" fxLayout="column">
@@ -65,3 +65,8 @@
   </div>
 
 </credix-navigation-table>
+
+<credix-result-notification *ngIf="empty" [title]="'No tiene pagos automáticos en este momento.'"
+                            class="automatics-services__empty mt-16px"
+                            status="info">
+</credix-result-notification>

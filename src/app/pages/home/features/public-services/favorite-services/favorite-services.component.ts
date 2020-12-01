@@ -30,6 +30,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   ];
   isRecharge: boolean;
   tabChanged: boolean;
+  empty = false;
 
   constructor(private publicServicesService: PublicServicesService,
               private router: Router,
@@ -82,6 +83,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
   getFavoritePublicServiceDetail() {
     this.publicServicesService.getPublicServicesFavoritesByUser().subscribe(publicServices => {
+      this.empty = publicServices.length === 0;
       this.publicFavoriteService = publicServices;
     });
   }
