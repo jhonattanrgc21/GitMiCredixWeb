@@ -72,3 +72,8 @@
   </div>
 
 </credix-navigation-table>
+
+<credix-result-notification *ngIf="empty" [title]="'No tiene pagos favoritos en este momento.'"
+                            class="favorites-services__empty mt-16px"
+                            status="info">
+</credix-result-notification>

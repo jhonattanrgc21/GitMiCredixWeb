@@ -34,7 +34,8 @@
       </div>
 
       <div class="awards__card__footer" fxLayout="row" fxLayoutAlign="space-between">
-        <credix-progress-bar *ngIf="challenge.goal_type !== 4" [goal]="challenge.goal_qty"
+        <credix-progress-bar *ngIf="challenge.goal_type !== 4"
+                             [goal]="challenge.goal_qty"
                              [value]="challenge.progress"
                              class="awards__cards-container__footer__probar"
                              label="Meta de transacciones"></credix-progress-bar>
