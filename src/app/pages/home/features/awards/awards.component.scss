@@ -80,6 +80,14 @@
           line-height: 14px;
         }
       }
+
+      &__probar {
+        ::ng-deep .credix-progress-bar__line {
+          .is-over {
+            width: 100% !important;
+          }
+        }
+      }
     }
   }
 

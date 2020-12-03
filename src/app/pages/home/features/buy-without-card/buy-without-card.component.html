@@ -5,25 +5,31 @@
 
   <credix-stepper #buyWithOutCard fxFlex>
 
-    <cdk-step [stepControl]="codeCredix" fxLayout="column" label="{{step1 || 'Código MiCredix'}}">
-      <app-buy-without-card-first-step [credixCode]="codeCredix"></app-buy-without-card-first-step>
+    <cdk-step [stepControl]="credixCode" fxLayout="column" label="{{step1 || 'Código MiCredix'}}">
+      <app-buy-without-card-first-step [credixCode]="credixCode"></app-buy-without-card-first-step>
     </cdk-step>
 
     <cdk-step [stepControl]="cardControl" fxLayout="column" label="{{step2 || 'Realizar compra'}}">
-      <app-buy-without-card-second-step [cardControl]="cardControl"
+      <app-buy-without-card-second-step *ngIf="!errorResponse"
+                                        [cardControl]="cardControl"
                                         [cards]="cards"
                                         [identification]="applicantIdentification"
                                         [isActive]="stepperIndex === 1"
                                         [lifeTimePin]="lifeTimePin"
                                         [name]="name"
                                         [pin]="pin"></app-buy-without-card-second-step>
+
+      <credix-result-notification *ngIf="errorResponse" [message]="'Ocurrió un error.'" [title]="'Oops...'"
+                                  class="buy-without-card__error"
+                                  status="error">
+      </credix-result-notification>
     </cdk-step>
 
   </credix-stepper>
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="stepperIndex === 0 ? checkCredixCode() : goHome()"
-                   [disabled]="codeCredix.invalid">
+                   [disabled]="credixCode.invalid">
       {{stepperIndex === 0 ? 'Continuar' : 'Listo'}}
     </credix-button>
   </div>

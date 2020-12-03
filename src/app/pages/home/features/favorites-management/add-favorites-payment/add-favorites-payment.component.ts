@@ -97,7 +97,7 @@ export class AddFavoritesPaymentComponent implements OnInit {
               this.result = {
                 status: response.type || response.titleOne,
                 message: response.descriptionOne,
-                title: response.type === 'error' ? 'Opss...' : '¡Éxito!'
+                title: response.type === 'error' ? 'Oops...' : '¡Éxito!'
               };
             });
         }

@@ -32,6 +32,10 @@
     background-size: cover;
   }
 
+  &__legend {
+    width: 380px;
+  }
+
   ::ng-deep.credix-result-notification__message {
     width: 250px !important;
   }
@@ -46,6 +50,10 @@
     }
 
     &__input, &__image {
+      width: 264px;
+    }
+
+    &__legend {
       width: 264px;
     }
   }
