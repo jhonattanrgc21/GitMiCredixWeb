@@ -28,8 +28,11 @@
       <mat-header-cell *matHeaderCellDef credixHeaderCell>{{columnFourTag || 'Cuotas'}} </mat-header-cell>
       <mat-cell *matCellDef="let element" [class.is-green]="element.movementType == 'Pago'"
                 credixCell>
-        <span *ngIf="element.quota !== 0 && element.movementType !== 'Pago'">
-          {{element.quota === 1 ? 'A ' + element.quota + ' cuota' : 'A ' + element.quota + ' cuotas'}}</span>
+        <span *ngIf="element.movementType !== 'Pago'">
+          {{
+          element.quota === 0 ? 'A 1 cuota' :
+            element.quota === 1 ?
+              'A ' + element.quota + ' cuota' : 'A ' + element.quota + ' cuotas'}}</span>
       </mat-cell>
     </ng-container>
 
