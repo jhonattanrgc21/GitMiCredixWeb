@@ -25,7 +25,7 @@ export class AnticipatedCancellationService {
   }> {
     return this.httpService.post('canales', this.pendingQuotasUri).pipe(
       map(response => {
-          if (response.type === 'success') {
+          if (response.type === 'success' || response.type === 'info') {
             return {
               dollarCancellations: response.CuotasDolares,
               colonesCancellations: response.CuotasColones,
