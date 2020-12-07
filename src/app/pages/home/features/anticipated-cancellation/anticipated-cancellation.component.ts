@@ -91,7 +91,7 @@ export class AnticipatedCancellationComponent implements OnInit, OnDestroy {
     this.anticipatedCancellationService.getPendingQuotas()
       .pipe(finalize(() => this.empty = this.colonesCancellations.length === 0))
       .subscribe((cancellations) => {
-        if (cancellations) {
+        if (cancellations.dollarCancellations || cancellations.colonesCancellations) {
           this.dollarsCancellations = cancellations.dollarCancellations;
           this.colonesCancellations = cancellations.colonesCancellations;
           this.dollarsBalance = cancellations.dollarsBalance;
@@ -99,6 +99,11 @@ export class AnticipatedCancellationComponent implements OnInit, OnDestroy {
           this.colonesBalance = cancellations.colonesBalance;
           this.initialColonesBalance = this.colonesBalance;
           this.dataSource = this.colonesCancellations;
+        }else if (cancellations.dollarsBalance || cancellations.colonesBalance) {
+          this.dollarsBalance = cancellations.dollarsBalance;
+          this.initialDollarsBalance = this.dollarsBalance;
+          this.colonesBalance = cancellations.colonesBalance;
+          this.initialColonesBalance = this.colonesBalance;
         }
       });
   }
