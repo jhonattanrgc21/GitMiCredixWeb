@@ -25,22 +25,17 @@ export class SignInService {
               private toastService: CredixToastService) {
   }
 
-  login(username: string, password: string, typeIncome: number = 2):
-    Observable<{ user: User, cards: Card[] }> {
+  login(username: string, password: string, typeIncome: number = 2){
     return this.httpService.post('canales', this.loginUri, {
       username,
       password: CryptoJS.SHA256(password).toString(),
       deviceIdentifier: this.storageService.getUuid(),
       typeIncome
     }).pipe(
-      tap(response => {
-        if (response.titleOne === 'warn') {
-          this.newDeviceSub.next();
-        }
-      }),
       map(response => {
         if (response.titleOne === 'success') {
           return {
+            type: 'success',
             user: {
               userId: response.json.userId,
               actId: response.json.actId,
@@ -58,6 +53,13 @@ export class SignInService {
                   `${card.cardNumber.substr(card.cardNumber.length - 8, 4)} ${card.cardNumber.substr(card.cardNumber.length - 4, card.cardNumber.length)}`
               }))
           };
+        }
+
+        if (response.titleOne === 'warn') {
+          return {
+            type: 'warn',
+            response
+          }
         }
 
         if (response.titleOne === 'error') {
