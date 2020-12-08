@@ -41,7 +41,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.signInService.newDevice$.subscribe(() => this.open('session-activate'));
     if (!this.storageService.getUuid()) {
       this.storageService.setUuid(uuidv4());
     }
@@ -50,10 +49,14 @@ export class SignInComponent implements OnInit, OnDestroy {
   login() {
     this.signInService.login(this.signInformGroup.controls.identification.value, this.signInformGroup.controls.password.value)
       .subscribe(response => {
-          if (response) {
+          if (response.type === 'success') {
             this.storageService.setCurrentSession(response.user, response.cards);
             this.otpSent = false;
             this.deviceInfo();
+          }
+
+          if (response.type === 'warn') {
+            this.open('session-activate');
           }
         },
         (error: Error) => {
