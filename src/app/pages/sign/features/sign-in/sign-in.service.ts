@@ -3,7 +3,6 @@ import {HttpService} from '../../../../core/services/http.service';
 import * as CryptoJS from 'crypto-js';
 import {Observable, Subject} from 'rxjs';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
-import {User} from '../../../../shared/models/user';
 import {map, tap} from 'rxjs/operators';
 import {Card} from '../../../../shared/models/card';
 import {DeviceDetectorService} from 'ngx-device-detector';
@@ -25,22 +24,17 @@ export class SignInService {
               private toastService: CredixToastService) {
   }
 
-  login(username: string, password: string, typeIncome: number = 2):
-    Observable<{ user: User, cards: Card[] }> {
+  login(username: string, password: string, typeIncome: number = 2) {
     return this.httpService.post('canales', this.loginUri, {
       username,
       password: CryptoJS.SHA256(password).toString(),
       deviceIdentifier: this.storageService.getUuid(),
       typeIncome
     }).pipe(
-      tap(response => {
-        if (response.titleOne === 'warn') {
-          this.newDeviceSub.next();
-        }
-      }),
       map(response => {
         if (response.titleOne === 'success') {
           return {
+            type: 'success',
             user: {
               userId: response.json.userId,
               actId: response.json.actId,
@@ -57,6 +51,13 @@ export class SignInService {
                 // tslint:disable-next-line:max-line-length
                   `${card.cardNumber.substr(card.cardNumber.length - 8, 4)} ${card.cardNumber.substr(card.cardNumber.length - 4, card.cardNumber.length)}`
               }))
+          };
+        }
+
+        if (response.titleOne === 'warn') {
+          return {
+            type: 'warn',
+            response
           };
         }
 
