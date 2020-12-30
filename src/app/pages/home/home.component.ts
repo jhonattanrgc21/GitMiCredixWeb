@@ -15,7 +15,6 @@ import {globalCacheBusterNotifier} from 'ngx-cacheable';
 export class HomeComponent implements OnInit, AfterViewInit {
   isTablet = false;
   options = {autoHide: false, scrollbarMinSize: 100};
-
   @ViewChild('scrollBar', {read: SimplebarAngularComponent, static: true})
   scrollBar: SimplebarAngularComponent;
 

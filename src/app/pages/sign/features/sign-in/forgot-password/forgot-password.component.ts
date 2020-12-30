@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
-import { ForgotPasswordService } from './forgot-password.service';
-import { CredixCodeErrorService } from '../../../../../core/services/credix-code-error.service';
-import { getIdentificationMaskByType } from '../../../../../shared/utils';
-import { IdentificationType } from '../../../../../shared/models/identification-type';
-import { GlobalApiService } from '../../../../../core/services/global-api.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {finalize} from 'rxjs/operators';
+import {ForgotPasswordService} from './forgot-password.service';
+import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
+import {getIdentificationMaskByType} from '../../../../../shared/utils';
+import {IdentificationType} from '../../../../../shared/models/identification-type';
+import {GlobalApiService} from '../../../../../core/services/global-api.service';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-forgot-password',
@@ -17,12 +17,12 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   forgotPasswordForm: FormGroup = new FormGroup(
     {
       identificationType: new FormControl(null, [Validators.required]),
-      identification: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      identification: new FormControl({value: null, disabled: true}, [Validators.required]),
       password: new FormControl(null, [Validators.required]),
       confirmPassword: new FormControl(null, [Validators.required]),
       credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     },
-    { validators: this.passwordValidator }
+    {validators: this.passwordValidator}
   );
   identificationTypes: IdentificationType[];
   hidePassword = true;
@@ -33,15 +33,15 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   message: string;
 
   constructor(private forgotPasswordService: ForgotPasswordService,
-    private credixCodeErrorService: CredixCodeErrorService,
-    private globalApiService: GlobalApiService,
-    private dialogRef: MatDialogRef<ForgotPasswordComponent>) {
+              private credixCodeErrorService: CredixCodeErrorService,
+              private globalApiService: GlobalApiService,
+              private dialogRef: MatDialogRef<ForgotPasswordComponent>) {
   }
 
   ngOnInit(): void {
     this.getIdentificationTypes();
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.forgotPasswordForm.controls.credixCode.setErrors({ invalid: true });
+      this.forgotPasswordForm.controls.credixCode.setErrors({invalid: true});
       this.forgotPasswordForm.updateValueAndValidity();
     });
   }
@@ -73,13 +73,15 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
           this.title = result.title;
           this.status = result.type;
           this.message = result.message;
-          if (this.status === 'error') this.forgotPasswordForm.controls.confirmPassword.setErrors({ passwordError: true });
+          if (this.status === 'error') {
+            this.forgotPasswordForm.controls.confirmPassword.setErrors({passwordError: true});
+          }
         }
 
       }, error => {
         this.status = 'error';
         this.message = error.message;
-        this.forgotPasswordForm.controls.confirmPassword.setErrors({ passwordError: true });
+        this.forgotPasswordForm.controls.confirmPassword.setErrors({passwordError: true});
       });
   }
 
@@ -88,7 +90,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       if (value !== null) {
         this.identificationMask = getIdentificationMaskByType(
           this.identificationTypes.find(identificationType => identificationType.id === value).value).mask;
-        this.forgotPasswordForm.controls.identification.reset(null, { emitEvent: false });
+        this.forgotPasswordForm.controls.identification.reset(null, {emitEvent: false});
         this.forgotPasswordForm.controls.identification.enable();
       } else {
         this.forgotPasswordForm.controls.identification.disable();
@@ -103,7 +105,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       return;
     }
     if (password.value !== confirmPassword.value) {
-      confirmPassword.setErrors({ passwordError: true });
+      confirmPassword.setErrors({passwordError: true});
     } else {
       confirmPassword.setErrors(null);
     }
