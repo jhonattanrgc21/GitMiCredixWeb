@@ -3,8 +3,7 @@ import {HomeService} from '../home.service';
 import {NavigationService} from '../../../core/services/navigation.service';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'credix-home-toolbar',
+  selector: 'app-home-toolbar',
   templateUrl: './home-toolbar.component.html',
   styleUrls: ['./home-toolbar.component.scss']
 })
