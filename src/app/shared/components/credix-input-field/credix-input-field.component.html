@@ -1,0 +1,35 @@
+<mat-form-field [class.has-value]="control.value != null && control.value != ''"
+                [color]="ngControl.invalid && ngControl.touched && controlType !== 'password' ? 'warn' : 'primary'"
+                appearance="standard"
+                class="credix-input-field">
+  <mat-label>{{this.viewLabel}}</mat-label>
+  <input (blur)="onTouch()"
+         *ngIf="!mask"
+         [formControl]="control"
+         (click)="inputClickEvent.emit($event)"
+         [maxLength]="maxLength"
+         [minLength]="minLength"
+         [type]="type"
+         [readonly]="readonly"
+         [value]="displayValue"
+         autocomplete="off" class="credix-input-field__input"
+         matInput/>
+  <input (blur)="onTouch()"
+         *ngIf="mask"
+         [value]="displayValue"
+         [mask]="mask"
+         [formControl]="control"
+         [maxLength]="maxLength"
+         [minLength]="minLength"
+         [readonly]="readonly"
+         [type]="type"
+         autocomplete="off" class="credix-input-field__input"
+         matInput/>
+  <div matSuffix>
+    <ng-content select="[suffix]">
+    </ng-content>
+  </div>
+  <div *ngIf="ngControl.invalid && ngControl.touched" class="credix-input-field__error">
+    <ng-content select="[error]"></ng-content>
+  </div>
+</mat-form-field>

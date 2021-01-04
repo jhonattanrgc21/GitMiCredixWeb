@@ -1,0 +1,82 @@
+<div class="third-step" fxLayout="column" fxLayoutAlign="flex-start center" fxLayoutGap="16px">
+
+  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="260px"><strong>{{step3Subt1 || 'Beneficiario(a) de la transferencia'}}</strong></span>
+
+    <div class="right-content" fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="60px">{{step3Tag1 || 'Nombre'}}</span>
+        <span><strong>{{account?.aliasName}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="100px">{{step3Tag2 || 'Identificación'}}</span>
+        <span><strong>{{account?.identification}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="60px">{{step3Tag3 || 'Entidad'}}</span>
+        <span><strong>{{account?.ibanBank}}</strong></span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="60px">{{step3Tag4 || 'Cuenta'}}</span>
+        <span><strong>{{account?.ibanAccount}}</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="right-content" credixDivider></mat-divider>
+
+  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="260px"><strong>{{step3Subt2 || 'Detalles de la transferencia'}}</strong></span>
+
+    <div class="right-content" fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{step3Tag5 || 'Cuota'}}</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="quotaAmountView"
+                              fontWeight="bold"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="50px">{{step3Tag6 || 'Plazo'}}</span>
+        <span><strong>{{timeLimit}} Meses</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{step3Tag7 || 'Monto a transferir'}}</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="+amount" fontWeight="bold"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{step3Tag8 || 'Comisión'}} ({{commissionRate}}%)*</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="commission" fontWeight="bold"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>IVA*</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="iva" fontWeight="bold"></credix-numeric-block>
+      </div>
+
+      <mat-divider class="mt-8px mb-8px" credixDivider></mat-divider>
+
+      <div fxLayout="row">
+        <span fxFlex>{{step3Tag9 || 'Total'}}</span>
+        <credix-numeric-block [prefix]="currencyPrefix" [value]="total"
+                              fontWeight="bold"></credix-numeric-block>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="right-content" credixDivider></mat-divider>
+
+  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
+    <credix-code-link></credix-code-link>
+
+    <credix-code-input [formControl]="codeControl" class="right-content">
+       <span *ngIf="codeControl.hasError('required')"
+             error>Introduzca el código credix.</span>
+      <span *ngIf="codeControl.hasError('invalid')"
+            error>Código MiCredix inválido.</span>
+    </credix-code-input>
+  </div>
+
+</div>
+

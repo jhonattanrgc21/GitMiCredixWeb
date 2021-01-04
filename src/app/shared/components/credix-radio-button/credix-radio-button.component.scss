@@ -1,0 +1,39 @@
+.credix-radio-button {
+
+  &.mat-radio-button.mat-accent.mat-radio-checked {
+    ::ng-deep.mat-radio-outer-circle {
+      border-color: #3E3E3E;
+    }
+
+    ::ng-deep.mat-radio-inner-circle {
+      background-color: #3E3E3E;
+      height: 40px;
+      left: -10px;
+      top: -10px;
+      width: 40px;
+
+      &:before {
+        content: url(check_icon.svg);
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+    }
+  }
+
+  &.mat-radio-button.mat-accent {
+    ::ng-deep.mat-radio-inner-circle {
+      background-color: #3E3E3E;
+    }
+
+    &.mat-radio-button.mat-radio-disabled {
+      ::ng-deep.mat-radio-inner-circle {
+        background-color: #D2D2D2;
+      }
+
+      ::ng-deep.mat-radio-outer-circle {
+        border-color: #D2D2D2;
+      }
+    }
+  }
+}

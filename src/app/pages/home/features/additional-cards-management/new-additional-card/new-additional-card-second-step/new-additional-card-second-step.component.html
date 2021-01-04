@@ -1,0 +1,76 @@
+<div class="new-additional-card-second-step" fxLayout="column">
+
+  <div class="new-additional-card-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="184px"><strong>{{subtitleTag || '¿Dónde desea retirarla ?'}}</strong></span>
+
+    <div [fxLayoutGap]="placeRadioButton === 1 ? '0' : '16px'" class="left-content"
+         fxLayout="column">
+
+      <div fxLayout="column">
+        <credix-radio-button (emitRadioButton)="placeRadioButtonChanged(1)"
+                             [checked]="false"
+                             [value]="1"
+                             [label]="optionOneTag ||'Sucursales Credix'" name="places"></credix-radio-button>
+
+        <credix-select *ngIf="placeRadioButton === 1" [formControl]="addressControl"
+                       class="new-additional-card-second-step__sub-content" label="Seleccione la más cercana">
+          <mat-option *ngFor="let delivery of deliveryPlaces" [value]="delivery.description">
+            {{delivery.displayName}}
+          </mat-option>
+        </credix-select>
+      </div>
+
+      <div fxLayout="column" fxLayoutGap="8px">
+        <credix-radio-button (emitRadioButton)="placeRadioButtonChanged(2)"
+                             [checked]="false"
+                             [value]="2"
+                             [label]="optionTwoTag || 'Domicilio'" name="places">
+        </credix-radio-button>
+
+        <div *ngIf="placeRadioButton === 2" class="new-additional-card-second-step__sub-content"
+             fxLayout="column"
+             fxLayoutGap="16px">
+
+          <credix-radio-button (emitRadioButton)="addressRadioButtonChanged(1)"
+                               [value]="1"
+                               [label]="subOptionOneTag || 'Dirección registrada en Credix'" name="address">
+          </credix-radio-button>
+
+          <div *ngIf="addressRadioButton == 1 && (userPhoneNumber && userAddress)">
+            <ng-container *ngTemplateOutlet="addressDetail"></ng-container>
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="16px">
+            <credix-radio-button (emitRadioButton)="addressRadioButtonChanged(2)"
+                                 [value]="2"
+                                 [label]="subOptionTwoTag  || 'User otra dirección'"
+                                 name="address"></credix-radio-button>
+
+            <credix-link-button (click)="editNewAddress()" *ngIf="newAddress">
+              {{linkTag || 'Editar'}}
+            </credix-link-button>
+          </div>
+
+          <div *ngIf="addressRadioButton == 2 && newAddress">
+            <ng-container *ngTemplateOutlet="addressDetail"></ng-container>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #addressDetail>
+  <div fxLayout="column">
+    <span><strong>{{addressRadioButton == 1 ? name : newAddress?.name}}</strong></span>
+    <span>
+      <strong>{{(addressRadioButton == 1 ? userPhoneNumber : newAddress?.phoneNumber) | mask: '0000-0000'}}</strong>
+    </span>
+    <span>{{addressRadioButton == 1 ? userAddress :
+      newAddress?.detail + ', ' + newAddress?.province.description + ', ' + newAddress?.canton.description + ', ' + newAddress?.district.description}}</span>
+    <mat-divider *ngIf="addressRadioButton == 1" class="mt-16px" credixDivider></mat-divider>
+  </div>
+</ng-template>

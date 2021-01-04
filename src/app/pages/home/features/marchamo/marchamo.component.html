@@ -1,0 +1,92 @@
+<mat-card *ngIf="!done else doneMarchamoTemplate" [class.marchamos--four-step-height]="stepperIndex === 3"
+          [class.marchamos--second-step-height]="stepperIndex === 1"
+          class="marchamos"
+          credixCard fxLayout="column">
+
+  <h1 class="mb-16px">{{title || 'Marchamo'}}</h1>
+
+  <credix-stepper #stepper>
+
+    <cdk-step [stepControl]="consultForm" fxLayout="column" label="{{step1 || 'Consultar'}}">
+      <app-marchamo-first-step [consultForm]="consultForm"></app-marchamo-first-step>
+    </cdk-step>
+
+    <cdk-step label="{{step2 || 'Seguros y cuotas'}}" [stepControl]="secureAndQuotesForm" fxLayout="column">
+      <app-marchamo-second-step [isActive]="stepperIndex === 1"
+                                [secureAndQuotesForm]="secureAndQuotesForm"></app-marchamo-second-step>
+    </cdk-step>
+
+    <cdk-step label="{{step3 || 'Lugar de retiro'}}" [stepControl]="pickUpForm">
+      <app-marchamo-third-step [isActive]="stepperIndex === 2"
+                               [pickUpForm]="pickUpForm"></app-marchamo-third-step>
+    </cdk-step>
+
+    <cdk-step label="{{step4 || 'Confirmar'}}" [stepControl]="confirmForm">
+      <app-marchamo-fourth-step [confirmForm]="confirmForm"
+                                [contactInfo]="{name: name, phone: phoneNumber, email: email}"
+                                [deliveryPlace]="address"
+                                [isActive]="stepperIndex === 3"
+                                [totalMarchamo]="marchamoTotal"></app-marchamo-fourth-step>
+    </cdk-step>
+
+  </credix-stepper>
+
+  <div class="marchamos__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (buttonClick)="stepperIndex === 0 ? consult() : back()"
+                   [disabled]="stepperIndex === 0 ? consultForm.invalid : false"
+                   type="secondary">
+      {{stepperIndex === 0 ? 'Consultar' : 'Atrás'}}
+    </credix-button>
+    <credix-button (buttonClick)="stepperIndex < 3 ? continue() : confirmModal()" [disabled]="disableButton">
+      {{stepperIndex < 3 ? 'Continuar' : 'Pagar'}}
+    </credix-button>
+  </div>
+
+</mat-card>
+
+<ng-template #doneMarchamoTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [moduleTitle]="title || 'Marchamo'"
+                          buttonText="Realizar otro pago"
+                          (buttonPressed)="redirectTemplate()"
+                          routeTo="/home/marchamos">
+
+    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+      <mat-divider class="mb-24px" credixDivider></mat-divider>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="150px"><strong>Datos del pago</strong></p>
+
+        <div fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Monto</span>
+            <div>
+              <credix-numeric-block [value]="total" class="tr"
+                                    fontWeight="bold" prefix="₡"></credix-numeric-block>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Cuotas</span>
+            <span class="tr"><strong>{{secureAndQuotesForm.controls.quota.value}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Placa</span>
+            <span class="tr"><strong>{{plateNumber}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Fecha</span>
+            <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <credix-link-button class="mt-16px" fxFlexAlign="center">Ampliar plazo</credix-link-button>
+      <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
+    </div>
+  </app-credix-result-view>
+</ng-template>

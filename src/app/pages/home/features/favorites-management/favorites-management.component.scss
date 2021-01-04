@@ -1,0 +1,115 @@
+.favorites-management {
+  height: 662px;
+  position: relative;
+
+  &__options {
+    height: calc(495px - 66px);
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  &__options-wrapper {
+    padding: 0 16px;
+  }
+
+  &__option {
+    padding: 20px 0 16px 0;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &__label {
+      font-size: 16px;
+      color: #3e3e3e;
+
+      &.is-selected {
+        font-weight: bold;
+      }
+    }
+
+    &__arrow {
+      height: fit-content;
+      position: relative;
+      bottom: 21.5px;
+
+      &:after {
+        content: url(./chevron_right_icon.svg);
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+
+  &__add-footer {
+    height: 66px;
+    border-top: 1px solid #E9E9E9;
+  }
+
+  &__footer {
+    width: 100%;
+    height: 66px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  &__empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+:host ::ng-deep {
+
+  .navigation-table__header {
+    margin-left: -16px;
+    margin-right: -16px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  .navigation-table__content {
+    margin-right: -16px;
+    margin-left: -16px;
+    height: 495px;
+  }
+
+  .navigation-table__content__left {
+    padding: 0 !important;
+  }
+
+  .navigation-table__content__right {
+    padding-bottom: 0 !important;
+  }
+
+  .credix-result-notification {
+
+    .credix-result-notification__title, .credix-result-notification__message {
+      width: 290px;
+    }
+  }
+}
+
+.public-service {
+  width: 218px;
+}
+
+@media screen and (max-width: 1199px) {
+
+  .favorites-management {
+    height: 886px;
+  }
+
+  :host ::ng-deep .navigation-table__content {
+    height: 715px;
+  }
+
+}

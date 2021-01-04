@@ -1,0 +1,35 @@
+.buy-without-card {
+  max-height: 722px;
+  height: 100%;
+
+  &__card-select {
+    margin-top: 32.5px;
+
+    &.select {
+      margin-top: -24px;
+      width: 379px;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+:host ::ng-deep {
+  .credix-result-notification {
+
+    .credix-result-notification__title, .credix-result-notification__message {
+      width: 290px;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .buy-without-card {
+    max-height: 886px;
+  }
+}

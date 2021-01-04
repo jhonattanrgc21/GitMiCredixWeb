@@ -1,0 +1,21 @@
+.send-money {
+  max-height: 703px;
+  height: 100%;
+
+  &__divider {
+    margin-right: 184px;
+    margin-left: 184px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .send-money {
+    max-height: 886px;
+
+    &__divider {
+      margin-right: 114px;
+      margin-left: 114px;
+    }
+  }
+}

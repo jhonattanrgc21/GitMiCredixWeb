@@ -1,0 +1,54 @@
+<form [formGroup]="userInfoFormGroup" class="new-additional-card-first-step" fxLayout="column">
+
+  <div class="new-additional-card-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="130px"><strong>Datos</strong></span>
+
+    <div class="new-additional-card-first-step__content__form" fxLayout="column" fxLayoutAlign="flex-start flex-end"
+         fxLayoutGap="10px">
+      <credix-input-field class="new-additional-card-first-step__content__input" formControlName="name"
+                          label="Nombre del adicional"></credix-input-field>
+
+      <credix-input-field class="new-additional-card-first-step__content__input" formControlName="lastName"
+                          label="Apellidos del adicional"></credix-input-field>
+
+      <credix-select class="new-additional-card-first-step__content__input" formControlName="identificationType"
+                     label="Tipo de identificación">
+        <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+          {{ identificationType.description }}
+        </mat-option>
+      </credix-select>
+
+      <credix-input-field [mask]="identificationMask" class="new-additional-card-first-step__content__input"
+                          focusLabel="Identificación"
+                          formControlName="identification" label="Número de identificación  del adicional">
+      </credix-input-field>
+
+      <credix-input-field class="new-additional-card-first-step__content__input" formControlName="phoneNumber"
+                          label="Teléfono del adicional" mask="0000-0000">
+      </credix-input-field>
+
+      <credix-input-field class="new-additional-card-first-step__content__input" formControlName="email"
+                          label="Correo electrónico del adicional">
+        <div *ngIf="userInfoFormGroup.controls.email.errors?.email" error>Correo electrónico inválido</div>
+      </credix-input-field>
+
+      <credix-calendar-input class="new-additional-card-first-step__content__input"
+                             formControlName="birthday"
+                             label="Fecha de nacimiento del adicional"></credix-calendar-input>
+    </div>
+  </div>
+
+  <mat-divider class="mb-16px mt-16px" credixDivider></mat-divider>
+
+  <div class="new-additional-card-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="130px"><strong>{{subTitleTag || 'Límite de crédito'}}</strong></span>
+
+    <credix-slider (inputChange)="sliderChanged($event)"
+                   (valueChange)="sliderChanged($event)"
+                   [instructions]="limitTag || 'Deseo asignar a esta tarjeta el'"
+                   class="new-additional-card-first-step__content__slider"
+                   displayMax="100%"
+                   displayMin="25%"
+                   max="100" min="25" step="25" units="%" value="25"></credix-slider>
+  </div>
+</form>

@@ -1,0 +1,78 @@
+.credix-paginator {
+
+  ::ng-deep.ngx-pagination {
+    text-align: center;
+
+    li {
+      height: 40px;
+      width: 40px;
+      border-radius: 8px;
+      background: #ffffff;
+      font-size: 16px;
+      margin-right: 16px;
+
+      a {
+        outline: none;
+        height: 40px;
+        width: 40px;
+        padding: 8px 8px;
+
+        &:hover {
+          border-radius: 8px;
+        }
+      }
+
+      span {
+        color: #e42313 !important;
+      }
+
+
+      &.current {
+        background: #d2d2d2;
+        cursor: default;
+        padding: 8px 8px;
+
+        span {
+          color: #3e3e3e !important;
+          font-weight: bold;
+        }
+      }
+
+      &.pagination-previous.disabled {
+        padding: 8px 16px;
+
+        &:before {
+          content: url(./chevron_left_min_icon.svg);
+          margin-right: 0;
+        }
+      }
+
+      &.pagination-previous {
+        a {
+          &:before {
+            content: url(./chevron_left_icon.svg);
+            margin-right: 0;
+          }
+        }
+      }
+
+      &.pagination-next {
+        a {
+          &:after {
+            content: url(./chevron_right_icon.svg);
+            margin-left: 0;
+          }
+        }
+      }
+
+      &.pagination-next.disabled {
+        padding: 8px 16px;
+
+        &:after {
+          content: url(./chevron_right_max_icon.svg);
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}

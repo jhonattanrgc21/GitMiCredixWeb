@@ -1,0 +1,27 @@
+.marchamos {
+  position: relative;
+  max-height: 741px;
+  height: 100%;
+
+  &__pay {
+    width: 877px;
+    height: 662px;
+    position: relative;
+  }
+
+  &__footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #E9E9E9;
+    padding: 16px;
+  }
+}
+
+
+@media screen and (max-width: 1199px) {
+  .marchamos {
+    max-height: 886px;
+  }
+}

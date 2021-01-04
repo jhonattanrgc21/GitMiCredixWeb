@@ -1,0 +1,46 @@
+.automatics-services {
+
+  &__options-wrapper {
+    width: 252px;
+  }
+
+  &__option {
+    padding: 20px 0 16px 0;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #E9E9E9;
+    }
+    }
+
+  &__footer {
+    width: 100%;
+    position: absolute;
+    bottom: 16px;
+  }
+
+  &__table {
+    width: 381px;
+    height: 267px;
+    margin-left: 48px;
+  }
+
+  .mt-2px {
+    margin-top: 2px !important;
+  }
+
+  &__empty {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+}
+
+:host ::ng-deep {
+  .credix-result-notification {
+    .credix-result-notification__title, .credix-result-notification__message {
+      width: 321px;
+    }
+  }
+}

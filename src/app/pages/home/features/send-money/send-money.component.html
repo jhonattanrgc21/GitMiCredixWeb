@@ -1,0 +1,91 @@
+<mat-card *ngIf="!done else doneSendMoneyTemplate" class="send-money"
+          credixCard fxLayout="column" fxLayoutGap="16px">
+  <h1>Enviar dinero</h1>
+
+  <credix-stepper #sendMoneyStepper class="send-money__stepper" fxFlex>
+    <cdk-step [stepControl]="informationForm" fxLayout="column" label="{{step || 'Información'}}">
+      <app-send-money-first-step (currencyPrefixEvent)="currencyPrefix = $event"
+                                 (typeDestinationEvent)="typeDestination = $event"
+                                 [favoriteAccountControl]="informationForm.controls.account"></app-send-money-first-step>
+    </cdk-step>
+
+    <cdk-step [stepControl]="amountAndQuotaForm" fxLayout="column" label="{{step2 || 'Monto y plazo'}}">
+      <app-send-money-second-step (commissionEmitEvent)="commission = $event"
+                                  (commissionRateEmitEvent)="commissionRate = $event"
+                                  (totalEmitEvent)="total = $event"
+                                  [currencyCode]="currencyPrefix"
+                                  [amountToSendControl]="amountAndQuotaForm.controls.amount"
+                                  [detailsControl]="amountAndQuotaForm.controls.detail"
+                                  [quotasControl]="amountAndQuotaForm.controls.quotas">
+      </app-send-money-second-step>
+    </cdk-step>
+
+    <cdk-step [stepControl]="confirmForm" fxLayout="column" label="{{step3 || 'Confirmación'}}">
+      <app-send-money-third-step [account]="informationForm.controls.account.value"
+                                 [amount]="amountAndQuotaForm.controls.amount.value"
+                                 [codeControl]="confirmForm.controls.code"
+                                 [commissionRate]="commissionRate" [commission]="commission"
+                                 [currencyPrefix]="currencyPrefix"
+                                 [timeLimit]="amountAndQuotaForm.controls.quotas.value"
+                                 [total]="total"></app-send-money-third-step>
+    </cdk-step>
+  </credix-stepper>
+
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="next()" [disabled]="disableButton">
+      {{selectedIndex >= 2 ? 'Transferir' : 'Continuar'}}
+    </credix-button>
+  </div>
+</mat-card>
+
+<ng-template #doneSendMoneyTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [moduleTitle]="'Enviar dinero'"
+                          buttonText="Listo"
+                          routeTo="/home">
+
+    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+      <mat-divider class="mb-24px" credixDivider></mat-divider>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="200px"><strong>Datos de la transferencia</strong></p>
+
+        <div fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Monto</span>
+            <div>
+              <credix-numeric-block [prefix]="currencyPrefix" [value]="amountAndQuotaForm.controls.amount.value"
+                                    class="tr" fontWeight="bold"></credix-numeric-block>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Cuotas</span>
+            <span class="tr"><strong>{{amountAndQuotaForm.controls.quotas.value}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Nombre</span>
+            <span class="tr"><strong>{{informationForm.controls.account.value.aliasName}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Cuenta</span>
+            <span class="tr"><strong>{{informationForm.controls.account.value.ibanAccount}}</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="60px">Entidad</span>
+            <span class="tr"><strong>{{informationForm.controls.account.value.ibanBank}}</strong></span>
+          </div>
+
+        </div>
+      </div>
+
+      <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
+    </div>
+  </app-credix-result-view>
+</ng-template>

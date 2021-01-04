@@ -1,0 +1,57 @@
+<form [formGroup]="rechargeFormGroup" class="new-recharge-second-step" fxLayout="column">
+
+  <div class="new-recharge-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="150px"><strong>Número a recargar</strong></span>
+
+    <div class="left-content mb-8px" fxLayout="column">
+      <div class="mb-16px" fxLayout="row" fxLayoutAlign="space-between">
+        <span>Número de celular</span>
+        <span><strong>{{phoneNumber | mask: '0000-0000'}}</strong></span>
+      </div>
+
+      <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
+                              label="Guardar como favorito"></credix-checkbox-button>
+      <credix-input-field *ngIf="showInput" class="new-recharge-second-step__content__input favorite"
+                          formControlName="favorite"
+                          label="Nombre del favorito"></credix-input-field>
+    </div>
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="new-recharge-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="155px"><strong>Monto de la recarga</strong></span>
+
+    <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+      <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
+                           *ngFor="let amount of amounts, let last = last"
+                           [label]="last ? 'Otro': ''"
+                           [ngClass]="{'mb-16px' : !last}"
+                           [value]="amount.amount">
+        <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>
+      </credix-radio-button>
+
+      <credix-input-field *ngIf="anotherAmount" class="new-recharge-second-step__content__input favorite mb-8px"
+                          formControlName="amount" label="Otro monto"
+                          mask="separator">
+        <div error>
+          El monto debe ser mayor a
+          ₡{{amounts[0].amount}}{{amounts[0].amount.split(',').length === 1 ? ',00' : ''}}</div>
+      </credix-input-field>
+    </div>
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="new-recharge-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <credix-code-link></credix-code-link>
+
+    <credix-code-input class="new-recharge-second-step__content__input left-content" formControlName="credixCode">
+       <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('required')"
+             error>Introduzca el código credix.</span>
+      <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('invalid')"
+            error>Código MiCredix inválido.</span>
+    </credix-code-input>
+  </div>
+
+</form>

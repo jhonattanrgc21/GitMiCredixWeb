@@ -1,0 +1,15 @@
+.payment-places {
+  max-height: 646px;
+  height: 100%;
+  padding-bottom: 0 !important;
+
+  router-outlet + ::ng-deep * {
+    flex: 1 1 0;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .payment-places {
+    max-height: 886px;
+  }
+}

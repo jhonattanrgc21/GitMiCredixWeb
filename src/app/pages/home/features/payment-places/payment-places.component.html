@@ -1,0 +1,8 @@
+<mat-card class="payment-places" credixCard fxLayout="column">
+  <h1 class="mb-16px">{{titleTag || 'Lugares de pago'}}</h1>
+
+  <credix-tab (selectionEvent)="tabSelected($event)"
+              [tabs]="tabs" class="mb-16px"></credix-tab>
+
+  <router-outlet></router-outlet>
+</mat-card>

@@ -1,0 +1,39 @@
+.credix-button {
+  width: inherit;
+  border-radius: 4px;
+  font-family: Hebbo, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+
+  &.mat-flat-button {
+    ::ng-deep.mat-button-wrapper {
+      color: #ffffff;
+    }
+  }
+
+  &.mat-stroked-button {
+    border: 1px solid #E42313;
+
+    ::ng-deep.mat-button-wrapper {
+      color: #DD2218;
+    }
+
+    &[disabled] {
+      border: 1px solid #D2D2D2;
+
+      ::ng-deep.mat-button-wrapper {
+        color: #D2D2D2;
+      }
+    }
+  }
+
+  &:hover:enabled {
+    background-color: #AF1306;
+
+    &.mat-stroked-button {
+      ::ng-deep.mat-button-wrapper {
+        color: #ffffff;
+      }
+    }
+  }
+}

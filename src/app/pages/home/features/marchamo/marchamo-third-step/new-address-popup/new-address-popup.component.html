@@ -1,0 +1,40 @@
+<form [formGroup]="newAddressFormGroup" class="additional-card-new-address" fxLayout="column"
+      fxLayoutGap="16px">
+
+  <credix-select class="additional-card-new-address__input" formControlName="province"
+                 label="Provincia">
+    <mat-option *ngFor="let province of provinces" [value]="province">
+      {{province.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-select class="additional-card-new-address__input" formControlName="canton"
+                 label="Cantón">
+    <mat-option *ngFor="let canton of cantons" [value]="canton">
+      {{canton.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-select class="additional-card-new-address__input" formControlName="district"
+                 label="Distrito">
+    <mat-option *ngFor="let district of districts" [value]="district">
+      {{district.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-textarea-field class="additional-card-new-address__input" formControlName="detail"
+                         label="Dirección exacta">
+  </credix-textarea-field>
+
+  <credix-input-field class="additional-card-new-address__input" formControlName="name"
+                      label="Persona que recibe"></credix-input-field>
+
+  <credix-input-field class="additional-card-new-address__input" formControlName="phoneNumber"
+                      label="Teléfono de quién recibe"
+                      mask="0000-0000"></credix-input-field>
+
+  <credix-button (click)="submit()"
+                 [disabled]="newAddressFormGroup.invalid || (newAddressFormGroup.valid && !newAddressFormGroup.dirty)"
+                 class="additional-card-new-address__button">Agregar
+  </credix-button>
+</form>

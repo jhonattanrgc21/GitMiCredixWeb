@@ -1,0 +1,12 @@
+<svg height="26.091" viewBox="0 0 19 26.091" width="19" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.water-icon {
+      fill: none;
+      stroke: #B5B5B5;
+      stroke-width: 3px;
+    }</style>
+  </defs>
+  <path class="water-icon"
+        d="M14,25.583a8.006,8.006,0,0,1-8-8C6,12.25,14,3.25,14,3.25s8,9,8,14.333A8.006,8.006,0,0,1,14,25.583Z"
+        transform="translate(-4.5 -0.992)"/>
+</svg>

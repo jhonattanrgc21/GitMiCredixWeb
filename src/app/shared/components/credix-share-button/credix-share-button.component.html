@@ -1,0 +1,18 @@
+<a [class.is-disabled]="disabled" [matMenuTriggerFor]="!disabled ? menu : null" class="credix-share-button">
+  <mat-icon class="credix-share-button__icon" svgIcon="share"></mat-icon>
+  <span class="credix-share-button__span">Compartir</span>
+</a>
+<mat-menu #menu="matMenu" class="credix-share-button__menu">
+  <div class="credix-share-button__menu__content">
+    <share-buttons [autoSetMeta]="true"
+                   [description]="description"
+                   [image]="image"
+                   [include]="['facebook', 'twitter', 'whatsapp', 'telegram']"
+                   [show]="4"
+                   [size]="1"
+                   [tags]="'Credix'"
+                   [theme]="'circles-dark'"
+                   [title]="title"
+                   [url]="baseUrl + url"></share-buttons>
+  </div>
+</mat-menu>

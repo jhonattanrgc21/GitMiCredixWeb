@@ -1,0 +1,81 @@
+.additional-cards {
+  height: 100%;
+
+  &__toolbar {
+    height: 129px;
+
+    &__button {
+      width: 232px;
+      height: 34px;
+    }
+  }
+
+  &__no-cards-container {
+
+    ::ng-deep .credix-result-notification__title {
+      width: 286px;
+    }
+  }
+
+  &__card {
+    width: 430px;
+    height: 235px;
+    margin-bottom: 16px;
+
+    &:nth-of-type(odd) {
+      margin-right: 16px;
+    }
+
+    &__icon {
+      width: 45px;
+      height: 32px;
+    }
+
+    &__delete {
+      width: 14px;
+      height: 18px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      mat-icon {
+        width: 14px;
+        height: 18px;
+        color: #E42313;
+      }
+    }
+
+    &__button {
+      width: 150px;
+      height: 40px;
+    }
+  }
+
+  &__slider {
+    height: 76px;
+    margin-bottom: 24px;
+  }
+
+}
+
+
+@media screen and (max-width: 1199px) {
+
+  .additional-cards {
+
+    &__toolbar {
+      height: 135px;
+
+      &__button {
+        height: 40px;
+      }
+    }
+
+    &__card {
+      width: 360px;
+      height: 241px;
+    }
+  }
+
+}

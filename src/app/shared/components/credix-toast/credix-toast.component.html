@@ -1,0 +1,8 @@
+<div (@slideInOut.done)="onAnimationDone($event)" *ngIf="show"
+     [@slideInOut] [ngClass]="{'credix-toast--success': data.type === 'success',
+       'credix-toast--warning': data.type === 'warning',
+        'credix-toast--error': data.type === 'error',
+         'credix-toast--info' : data.type === 'info'}"
+     class="credix-toast">
+  <span class="credix-toast__message">{{ data.text }}</span>
+</div>

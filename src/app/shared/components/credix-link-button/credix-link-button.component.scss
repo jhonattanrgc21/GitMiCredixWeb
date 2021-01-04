@@ -1,0 +1,18 @@
+.credix-link-button {
+  font-family: Hebbo, sans-serif;
+  font-weight: bold;
+  color: #239DF7;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1em;
+
+  &:hover {
+    color: #166EAF;
+  }
+
+  &.is-disabled {
+    color: #D2D2D2;
+    pointer-events: none;
+    cursor: default;
+  }
+}

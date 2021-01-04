@@ -1,0 +1,16 @@
+<section class="credix-stepper">
+  <header class="credix-stepper__nav-bar">
+    <div
+      *ngFor="let step of steps; let i = index"
+      [class.is-active]="selectedIndex === i"
+      [class.is-complete]="i < selectedIndex"
+      class="credix-stepper__nav-bar__step">
+      <span class="credix-stepper__nav-bar__circle"></span>
+      <span class="credix-stepper__nav-bar__label">{{step.label}}</span>
+    </div>
+  </header>
+
+  <div [style.display]="selected ? 'block' : 'none'">
+    <ng-container [ngTemplateOutlet]="selected.content"></ng-container>
+  </div>
+</section>

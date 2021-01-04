@@ -1,0 +1,54 @@
+<div class="second-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
+    <span class="tl" fxFlex="30"><strong>Monto a enviar</strong></span>
+
+    <credix-input-field [formControl]="amountToSendControl" class="second-step__input" label="Monto" mask="separator">
+    </credix-input-field>
+  </div>
+
+  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
+
+  <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
+
+    <span class="tl" fxFlex="30"><strong>{{step2Subt1 || 'Cuotas'}}</strong></span>
+
+    <div fxFlex fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <credix-slider (inputChange)="getQuota($event)"
+                       (valueChange)="getQuota($event)"
+                       [displayMax]="quotaSliderDisplayMax"
+                       [displayMin]="quotaSliderDisplayMin"
+                       [displayValue]="quotaSliderDisplayValue"
+                       [max]="quotaSliderMax"
+                       [min]="quotaSliderMin"
+                       [step]="quotaSliderStep" class="second-step__slider"
+                       instructions="{{step2Tag1 || 'Deseo dividir este pago en'}}" units="cuotas"></credix-slider>
+
+
+        <div fxLayout="column">
+          <credix-numeric-block [prefix]="currencyCode" [value]="quotaAmountView" class="tr" fontSize="24"
+                                fontWeight="bold"></credix-numeric-block>
+          <credix-link-button (click)="openDetails()" class="tr">Ver detalle</credix-link-button>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Comisión</span>
+        <credix-numeric-block [prefix]="currencyCode" [value]="commission" fontWeight="bold"></credix-numeric-block>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
+
+  <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
+
+    <span class="tl" fxFlex="30"><strong>Detalle</strong></span>
+
+    <credix-input-field [formControl]="detailsControl" class="second-step__input" label="Detalle"></credix-input-field>
+  </div>
+
+</div>

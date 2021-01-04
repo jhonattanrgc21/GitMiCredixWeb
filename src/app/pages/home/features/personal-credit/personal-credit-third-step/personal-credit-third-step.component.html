@@ -1,0 +1,67 @@
+<div class="personal-credit-third-step" fxLayout="column" fxLayoutAlign="flex-start center">
+
+  <div class="personal-credit-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+
+    <span fxFlex="250px">
+      <strong>{{account === 0 ? 'Desembolso por cheque' : subtitleTag1 ||
+        'Desembolso por transferencia a:'}}</strong></span>
+
+    <div *ngIf="account !== 0" class="left-content" fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex>{{ibanTag || 'IBAN'}}</span>
+
+      <span>{{account}}</span>
+    </div>
+
+    <p *ngIf="account === 0" class="left-content">
+      {{tagCheque ||
+    'Oficinas de Credix. Tibás, 300m oeste del cruce de Llorente, oficinas en el segundo piso.'}}</p>
+
+  </div>
+
+  <mat-divider class="personal-credit-third-step__divider"></mat-divider>
+
+  <div class="personal-credit-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+
+    <span fxFlex="250px"><strong>{{subtitleTag2 || 'Resumen del crédito'}}</strong></span>
+
+    <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+
+      <div fxLayout="column" fxLayoutGap="8px">
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex>{{quotesTag || 'Cuota'}}</span>
+          <credix-numeric-block
+            [value]="personalCreditSummary?.quota"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex>{{plazoTag || 'Plazo'}}</span>
+          <span><strong>{{term}} {{term === 1 ? 'Mes' : 'Meses'}}</strong></span>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex>{{amountTag || 'Monto del desembolso'}}</span>
+          <credix-numeric-block
+            [value]="amount"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </div>
+      </div>
+
+      <mat-divider credixDivider></mat-divider>
+
+      <div fxLayout="row">
+        <span fxFlex><strong>{{totalTag || 'Total a pagar'}}</strong></span>
+        <credix-numeric-block
+          [value]="personalCreditSummary?.totalPay"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

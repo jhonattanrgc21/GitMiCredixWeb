@@ -1,0 +1,52 @@
+<div *ngIf="data && !deleted" class="automatics" fxLayout="column">
+
+  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
+    <span>Número de contrato</span>
+    <span class="truncate tr" fxFlex><strong>{{data?.key}}</strong></span>
+  </div>
+
+  <div class="mb-20px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
+    <span>Compañía</span>
+    <span class="truncate tr" fxFlex><strong>{{data?.publicServiceDescription}}</strong></span>
+  </div>
+
+  <form [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="16px">
+
+    <credix-input-field *ngIf="data.alias"
+                        [class.enabled]="automaticsDetailControls.favoriteName.dirty"
+                        class="automatics__input disabled"
+                        formControlName="favoriteName"
+                        label="Nombre del favorito"></credix-input-field>
+
+    <credix-input-field *ngIf="data.startDate"
+                        [class.enabled]="automaticsDetailControls.maxAmount.dirty"
+                        class="automatics__input disabled"
+                        formControlName="maxAmount"
+                        label="Monto máximo a pagar"
+                        mask="separator"></credix-input-field>
+
+    <credix-date-picker *ngIf="data.startDate"
+                        [class.enabled]="automaticsDetailControls.startDate.dirty"
+                        [startDate]="today"
+                        class="automatics__input disabled"
+                        formControlName="startDate" label="Fecha inicial de pago"></credix-date-picker>
+
+    <credix-select *ngIf="data.periodicityDescription"
+                   class="automatics__input disabled"
+                   [class.enabled]="automaticsDetailControls.periodicity.touched"
+                   formControlName="periodicity"
+                   label="Periocidad">
+      <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
+        {{periodicity.description}}
+      </mat-option>
+    </credix-select>
+
+    <div class="mt-24px" fxLayout="column">
+      <span><strong>Código MiCredix</strong></span>
+      <credix-code-input [formControl]="codeCredix" class="automatics__input disabled">
+        <span *ngIf="codeCredix.hasError('invalid')"
+              error>Código MiCredix inválido.</span>
+      </credix-code-input>
+    </div>
+  </form>
+</div>

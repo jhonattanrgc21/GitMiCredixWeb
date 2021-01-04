@@ -1,0 +1,51 @@
+<div class="shops" fxLayout="column">
+
+  <credix-navigation-table [headers]="tableHeaders" fxFlex>
+
+    <div class="w-100" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="9px" left>
+      <a (click)="getPaymentPlaceDetail(paymentPlace)" *ngFor="let paymentPlace of paymentPlaces"
+         class="shops__img-wrapper"
+         fxLayoutAlign="center center">
+        <img [src]="paymentPlace.linkImage" alt="Credix comercios" class="shops__img"/>
+      </a>
+    </div>
+
+    <div *ngIf="paymentPlaceDetail" class="shops__right-content" fxLayout="column" right>
+      <span class="shops__right-content__title">{{paymentPlaceDetail?.name | titlecase}}</span>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span class="bold" fxFlex><strong>{{firstSubtitleTag || 'Detalles'}}</strong></span>
+
+        <div fxFlex="228px" fxLayout="column">
+          <ul *ngFor="let restriction of paymentPlaceDetail?.paymentPlaceRestriction" class="pa0" fxFlex>
+            <li class="mb-8px">{{ restriction.description }}</li>
+          </ul>
+        </div>
+      </div>
+
+
+      <mat-divider class="mt-16px mb-16px" credixDivider></mat-divider>
+
+      <div fxLayout="row" fxLayoutGap="76px">
+        <span class="bold" fxFlex="250px"><strong>{{secondSubtitleTag || 'Información de contacto'}}</strong></span>
+
+        <ul class="list pa0" fxFlex>
+          <li class="mb-8px">
+            <mat-icon class="v-mid" svgIcon="internet"></mat-icon>
+            <credix-link-button route="{{paymentPlaceDetail?.webPage}}">
+              Sitio Web
+            </credix-link-button>
+          </li>
+          <li>
+            <mat-icon class="v-mid" svgIcon="facebook"></mat-icon>
+            <credix-link-button route="{{paymentPlaceDetail?.linkFacebook}}">
+              Facebook
+            </credix-link-button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </credix-navigation-table>
+
+</div>

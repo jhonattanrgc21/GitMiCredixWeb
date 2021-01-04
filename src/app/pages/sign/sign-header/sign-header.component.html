@@ -1,0 +1,52 @@
+<header [class.is-close]="close" class="sign__header" fxLayout="row" fxLayoutAlign="center center">
+
+  <div fxLayout="row">
+    <mat-icon class="sign__header__icon" svgIcon="mobile_icon"></mat-icon>
+
+    <div *ngIf="!isTablet" class="h-100" fxLayout="row">
+      <div class="sign__header__content" fxLayout="column">
+        <span>App MiCredix</span>
+        <span>Descargue la aplicación móvil para tener acceso a sus finanzas desde cualquier lugar.</span>
+      </div>
+
+      <div class="sign__header__buttons" fxLayout="row" fxLayoutGap="16px">
+        <button mat-button>
+          <img alt="Google Play Store" src="assets/images/google-play-badge.png">
+        </button>
+        <button mat-button>
+          <img alt="App Store" src="assets/images/appStore.png">
+        </button>
+        <button mat-button>
+          <img alt="Huawei Gallery" src="assets/images/Huawei.png">
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="isTablet" class="h-100" fxLayout="row" fxLayoutAlign="center center">
+      <div class="sign__header__content" fxFlex fxLayout="column" fxLayoutAlign="center flex-start">
+        <div class="sign__header__msg" fxLayout="column">
+          <span>App MiCredix</span>
+          <span
+            style="width: 488px">Descargue la aplicación móvil para tener acceso a sus finanzas desde cualquier lugar.</span>
+        </div>
+
+        <div class="sign__header__buttons">
+          <button [fxHide]="deviceInfo.os !== 'Android'" fxShow mat-button>
+            <img alt="Google Play Store" src="assets/images/google-play-badge.png">
+          </button>
+          <button [fxHide]="(deviceInfo.os !== 'Mac')" fxShow mat-button>
+            <img alt="App Store" src="assets/images/appStore.png">
+          </button>
+          <button [fxHide]="(deviceInfo.os !== 'Huawei' && deviceInfo.os !== 'HarmonyOS' && deviceInfo.os !== 'Harmony')" fxShow mat-button>
+            <img alt="Huawei Gallery" src="assets/images/Huawei.png">
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button (click)="close = true" class="sign__header__close-btn" mat-icon-button>
+    <mat-icon svgIcon="cancel"></mat-icon>
+  </button>
+</header>

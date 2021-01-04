@@ -1,0 +1,60 @@
+.modal-new-user {
+
+  &__parrafe {
+    margin-bottom: 40px;
+  }
+
+  &__stepper {
+    margin-top: 16px;
+
+    &--parrafe {
+      text-align: left;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: 0;
+      color: #3E3E3E;
+      margin-bottom: 16px;
+
+      &.info {
+        display: block;
+        margin-bottom: 52px;
+      }
+    }
+  }
+
+  &__first-form {
+
+    &__input-wrapper {
+      :nth-child(1) {
+        height: 38px;
+        margin-bottom: 18px;
+      }
+    }
+  }
+
+  &__third-form {
+
+    &__input-pass {
+      height: 38px;
+
+      &:nth-child(1) {
+        margin-bottom: 18px;
+      }
+    }
+  }
+
+  &__button {
+    width: 296px;
+    bottom: 40px;
+    position: absolute;
+  }
+}
+
+::ng-deep.sign-up-panel {
+
+  .credix-popup__title {
+    margin-bottom: 16px !important;
+    line-height: 30px !important;
+  }
+}

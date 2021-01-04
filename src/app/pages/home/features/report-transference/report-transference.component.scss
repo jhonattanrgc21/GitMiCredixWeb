@@ -1,0 +1,60 @@
+.report-transference {
+  max-height: 662px;
+  height: 100%;
+
+  &__content {
+    padding: 0 84px 16px 84px;
+
+    span:first-of-type {
+      font-weight: bold;
+    }
+  }
+
+  &__input {
+    height: 43px;
+    width: 380px;
+
+    .calendar-icon {
+      width: 13px;
+      height: 15px;
+    }
+  }
+
+  &__image-uploader {
+    margin-top: 6px;
+  }
+
+  &__image {
+    width: 380px;
+    height: 195px;
+    margin-top: 16px;
+    border-radius: 8px;
+    background-size: cover;
+  }
+
+  &__legend {
+    width: 380px;
+  }
+
+  ::ng-deep.credix-result-notification__message {
+    width: 250px !important;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .report-transference {
+    max-height: 886px;
+
+    &__content {
+      padding: 0 78px 0 78px;
+    }
+
+    &__input, &__image {
+      width: 264px;
+    }
+
+    &__legend {
+      width: 264px;
+    }
+  }
+}

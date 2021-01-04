@@ -1,0 +1,35 @@
+.payment-details-card {
+  width: 479px;
+  height: 300px;
+
+  &__bar {
+    width: 100%;
+    margin-top: 35px;
+    margin-bottom: 24px;
+  }
+
+  &__table-header-row {
+    font-size: 14px;
+    color: #696D6F;
+  }
+
+  &__table-row {
+    color: #3E3E3E;
+
+    &:nth-child(2) {
+      height: 44px;
+      padding-bottom: 20px;
+    }
+
+    td:first-of-type {
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .payment-details-card {
+    width: 360px;
+  }
+}

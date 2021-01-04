@@ -1,0 +1,121 @@
+<div class="personal-credit-first-step" fxLayout="column" fxLayoutAlign="flex-start center" fxLayoutGap="16px">
+
+  <div class="personal-credit-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
+
+    <span fxFlex="150px"><strong>{{subtitleAmountTag || 'Monto'}}</strong></span>
+
+    <credix-slider (inputChange)="getAmount($event)"
+                   (valueChange)="getAmount($event)"
+                   [max]="amountSliderMax"
+                   [min]="amountSliderMin"
+                   [step]="amountSliderStep"
+                   class="credix-slider--no-units"
+                   [instructions]="amountTag ||'Deseo Solicitar'">
+      <credix-numeric-block [value]="100000"
+                            fontWeight="bold"
+                            min prefix="₡"></credix-numeric-block>
+      <credix-numeric-block [value]="cardLimit"
+                            fontWeight="bold"
+                            max prefix="₡"></credix-numeric-block>
+    </credix-slider>
+
+    <credix-numeric-block [value]="amountControl.value" class="tr"
+                          fontSize="24"
+                          fontWeight="bold"
+                          fxFlex="25"
+                          prefix="₡"></credix-numeric-block>
+  </div>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div class="personal-credit-first-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <span fxFlex="150px"><strong>{{ termTag || 'Plazo'}}</strong></span>
+
+    <credix-slider (inputChange)="getQuota($event)"
+                   (valueChange)="getQuota($event)"
+                   [displayMax]="termSliderDisplayMax"
+                   [displayMin]="termSliderDisplayMin"
+                   [displayValue]="termSliderDisplayValue"
+                   [max]="termSliderMax"
+                   [min]="termSliderMin"
+                   [step]="termSliderStep"
+                   instructions="Por un período de"
+                   [units]="monthTag ||'Meses'"></credix-slider>
+
+    <div fxFlex="25" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
+      <span>{{quoteTag || 'Cuotas de:'}}</span>
+
+      <credix-numeric-block [value]="personalCreditSummary?.quota || 0"
+                            fontSize="24"
+                            fontWeight="bold"
+                            prefix="₡"></credix-numeric-block>
+
+      <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #summaryTemplate>
+  <div class="h-100" fxLayout="column" fxLayoutGap="16px">
+
+    <div fxLayout="column" fxLayoutGap="8px">
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{ popupAmountTag || 'Monto solicitado'}}</span>
+        <credix-numeric-block
+          [value]="amountControl.value"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{ popupCommissionTag || 'Comisión'}} {{ personalCreditSummary.percentageCommission + '%'}}</span>
+        <credix-numeric-block
+          [value]="personalCreditSummary?.commission"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{ popupInterestTag || 'Interés' }}
+          {{'(' + personalCreditSummary.percentageInterest + '% Mensual)'}}
+        </span>
+        <credix-numeric-block
+          [value]="personalCreditSummary?.interest"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </div>
+
+      <!--      <div fxLayout="row" fxLayoutAlign="space-between">-->
+      <!--        <span fxFlex>{{ popupIvaTag || 'IVA'}}</span>-->
+      <!--        <credix-numeric-block-->
+      <!--          [value]="ivaAmount"-->
+      <!--          fontWeight="bold"-->
+      <!--          prefix="₡"></credix-numeric-block>-->
+      <!--      </div>-->
+    </div>
+
+    <mat-divider credixDivider></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex>{{ popupTotalTag || 'Total'}}</span>
+
+      <credix-numeric-block [value]="personalCreditSummary?.totalPay"
+                            fontWeight="bold"
+                            prefix="₡"></credix-numeric-block>
+    </div>
+
+    <!--    <p fxFlex style="color: #707070;">-->
+    <!--      * {{ popupDisclaimerTag || 'IVA y comisión se cargarán en el próximo estado de cuenta.'}}-->
+    <!--    </p>-->
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex style="font-size: 20px;">{{termControl.value + ' ' + quoteTag || 'Cuotas de'}}</span>
+      <credix-numeric-block [value]="personalCreditSummary?.quota"
+                            fontSize="24"
+                            fontWeight="bold"
+                            prefix="₡"></credix-numeric-block>
+    </div>
+  </div>
+</ng-template>

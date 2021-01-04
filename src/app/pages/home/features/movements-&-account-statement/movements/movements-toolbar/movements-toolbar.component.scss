@@ -1,0 +1,81 @@
+.movements-toolbar {
+  width: 100%;
+  height: 66px;
+
+  &__options {
+    border-bottom: 1px solid #E9E9E9;
+  }
+
+  &__field {
+    width: 272px;
+    height: 66px;
+    margin-bottom: 6px;
+
+    &__card-icon {
+      width: 23px;
+      height: 16px;
+      margin-right: 8px;
+      vertical-align: baseline;
+    }
+
+    &__arrow-icon {
+      width: 10px;
+      height: 5px;
+      position: absolute;
+      right: 0;
+    }
+
+  }
+
+  &.is-hidden {
+    height: 0;
+
+    .movements-toolbar__field {
+      display: none;
+    }
+  }
+
+}
+
+:host ::ng-deep {
+
+  .mat-form-field-label {
+    color: #3e3e3e;
+  }
+
+  .mat-form-field.mat-focused {
+
+    .mat-form-field-label, .mat-form-field-ripple, .mat-select-arrow {
+      color: inherit;
+      background-color: inherit;
+    }
+  }
+
+  .mat-select-value-text {
+    display: inline-block;
+    height: 32px !important;
+    width: 272px !important;
+  }
+
+  .mat-select-arrow {
+    opacity: 1;
+  }
+}
+
+::ng-deep.select-cards-movements-panel {
+  width: 272px;
+  min-width: 100% !important;
+  margin-left: 16px !important;
+
+  .mat-option-text {
+    width: 100%;
+  }
+
+  mat-option {
+    background: #ffffff !important;
+
+    &:hover {
+      background: #FAFAFA !important;
+    }
+  }
+}

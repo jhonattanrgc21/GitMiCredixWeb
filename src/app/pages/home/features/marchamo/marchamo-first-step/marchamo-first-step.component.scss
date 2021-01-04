@@ -1,0 +1,28 @@
+.marchamo-first-step {
+  padding: 0 84px;
+
+  &__input {
+    height: 43px;
+
+    &:last-of-type {
+      margin-bottom: 7px;
+    }
+  }
+
+  .left-content {
+    position: relative;
+    width: 380px;
+    top: -12px;
+  }
+}
+
+
+@media screen and (max-width: 1199px) {
+  .marchamo-first-step {
+    padding: 0 78px;
+
+    .left-content {
+      width: 266px;
+    }
+  }
+}

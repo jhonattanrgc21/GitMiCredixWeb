@@ -1,0 +1,30 @@
+.personal-credit-first-step {
+  padding: 0 84px;
+  margin-top: 32px;
+
+  &__content {
+    width: 100%;
+  }
+
+  ::ng-deep.credix-slider {
+    width: 281px;
+  }
+
+  .credix-slider--no-units ::ng-deep.credix-slider__units {
+    display: none;
+  }
+}
+
+::ng-deep .summary-panel .mat-dialog-container {
+  padding: 36px !important;
+
+  .credix-popup__title {
+    margin: 8px 0 16px 0 !important;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .personal-credit-first-step {
+    padding: 0;
+  }
+}

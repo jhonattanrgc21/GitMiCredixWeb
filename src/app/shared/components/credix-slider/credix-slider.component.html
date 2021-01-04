@@ -1,0 +1,29 @@
+<div class="credix-slider" fxLayout="column">
+  <div class="credix-slider__header" fxLayout="row">
+    <span class="credix-slider__header__instructions">{{instructions}}</span>
+    <span fxFlex></span>
+    <span class="credix-slider__units"><strong>{{displayValue ? displayValue : value}}</strong> {{units}}</span>
+  </div>
+
+  <mat-slider (change)="valueChangeEvent($event)"
+              (input)="inputChangeEvent($event)"
+              [(value)]="value"
+              [disabled]="disabled"
+              [max]="max"
+              [min]="min"
+              [step]="step"
+              [class.is-full]="value == max"
+              class="credix-slider__slider">
+  </mat-slider>
+
+  <div class="credix-slider__footer" fxLayout="row" fxLayoutAlign="space-between">
+    <span #minWrapper [class.is-hidden]="!showMinWrapper">
+    <ng-content select="credix-numeric-block[min]"></ng-content>
+    </span>
+    <span *ngIf="minWrapper.children.length == 0">{{displayMin ? displayMin : min}}</span>
+    <span #maxWrapper [class.is-hidden]="!showMaxWrapper">
+    <ng-content select="credix-numeric-block[max]"></ng-content>
+    </span>
+    <span *ngIf="maxWrapper.children.length == 0">{{displayMax ? displayMax : max}}</span>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<mat-card class="payment-details-card" credixCard fxLayout="column" fxLayoutAlign="flex-start center">
+  <h2 class="w-100">{{paymentDetailsTags.titleTag}}</h2>
+
+  <credix-payment-bar [endDate]="endDate"
+                      [firstLabel]="firstLabel"
+                      [meterLabel]="paymentDetailsTags.todayTag"
+                      [secondLabel]="secondLabel"
+                      [startDate]="startDate"
+                      [today]="today"
+                      [toggleGradient]="toggleBarColor"
+                      class="payment-details-card__bar"></credix-payment-bar>
+
+  <mat-divider class="mb-24px" credixDivider></mat-divider>
+
+  <table class="w-100">
+    <tbody>
+    <tr class="payment-details-card__table-header-row">
+      <td></td>
+      <td class="tr">{{paymentDetailsTags.minTag}}</td>
+      <td class="tr">{{paymentDetailsTags.countedTag}}</td>
+    </tr>
+    <tr class="payment-details-card__table-row">
+      <td>{{paymentDetailsTags.colonesTag}}</td>
+      <td class="tr">
+        <credix-numeric-block [prefix]="prefixColones" [value]="minColonesAmount" fontSize="20"
+                              fontWeight></credix-numeric-block>
+      </td>
+      <td class="tr">
+        <credix-numeric-block [prefix]="prefixColones" [value]="cashColonesAmount" fontSize="20"
+                              fontWeight></credix-numeric-block>
+      </td>
+    </tr>
+    <tr class="payment-details-card__table-row">
+      <td>{{paymentDetailsTags.dollarsTag}}</td>
+      <td class="tr">
+        <credix-numeric-block [prefix]="prefixDollars" [value]="minDollarsAmount" fontSize="20"
+                              fontWeight></credix-numeric-block>
+      </td>
+      <td class="tr">
+        <credix-numeric-block [prefix]="prefixDollars" [value]="cashDollarsAmount" fontSize="20"
+                              fontWeight></credix-numeric-block>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</mat-card>

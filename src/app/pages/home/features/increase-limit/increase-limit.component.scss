@@ -1,0 +1,15 @@
+.increase-limit {
+  max-height: 662px;
+  height: 100%;
+
+  ::ng-deep .credix-result-notification__message {
+    width: 300px;
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+  .increase-limit {
+    max-height: 886px;
+  }
+}

@@ -1,0 +1,56 @@
+<mat-card *ngIf="!done else donePersonalCreditTemplate" class="personal-credit" credixCard
+          fxLayout="column" fxLayoutGap="16px">
+
+  <div fxLayout="column" fxLayoutGap="4px">
+    <h1>{{ titleTag || 'Crédito personal' }} </h1>
+
+    <p>Solicite el monto que le permita vivir sus sueños hoy.</p>
+  </div>
+
+  <credix-stepper #personalCreditStepper class="personal-credit__stepper" fxFlex>
+
+    <cdk-step [stepControl]="requestForm"
+              fxLayout="column"
+              [label]="firstStepTagTitle || 'Solicitud'">
+      <app-personal-credit-first-step [amountControl]="requestForm.controls.amount"
+                                      [cardLimit]="cardLimit"
+                                      [termControl]="requestForm.controls.term"></app-personal-credit-first-step>
+    </cdk-step>
+
+    <cdk-step [stepControl]="disbursementForm"
+              fxLayout="column"
+              [label]=" secondStepTagTitle || 'Desembolso'">
+      <app-personal-credit-second-step
+        [accountControl]="disbursementForm.controls.account"></app-personal-credit-second-step>
+    </cdk-step>
+
+    <cdk-step [stepControl]="confirmForm"
+              fxLayout="column"
+              [label]="firstStepTagTitle || 'Confirmación'">
+      <app-personal-credit-third-step [account]="disbursementForm.controls.account.value"
+                                      [isActive]="stepperIndex === 2"
+                                      [term]="requestForm.controls.term.value"></app-personal-credit-third-step>
+    </cdk-step>
+
+  </credix-stepper>
+
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (buttonClick)="back()" *ngIf="stepperIndex > 0" type="secondary">Atrás</credix-button>
+    <credix-button (buttonClick)="next()" [disabled]="disableButton">
+      {{stepperIndex != 2 ? 'Continuar' : 'Solicitar'}}
+    </credix-button>
+  </div>
+
+</mat-card>
+
+<ng-template #donePersonalCreditTemplate>
+  <app-credix-result-view
+    [moduleTitle]="titleTag || 'Crédito personal'"
+    [resultMessage]="accessToPersonalCredit ? message :
+     warningMessageDescription ||
+     'En este momento no cuenta con suficiente disponible para solicitar un crédito personal. Puede hacer abonos extraordinarios para liberar el disponible mas rápido.'"
+    [status]="accessToPersonalCredit ? status : 'info'"
+    [resultTile]="accessToPersonalCredit ? title : warningMessageTag || 'Disponible insuficiente'"
+    buttonText="Listo"
+    routeTo="/home"></app-credix-result-view>
+</ng-template>

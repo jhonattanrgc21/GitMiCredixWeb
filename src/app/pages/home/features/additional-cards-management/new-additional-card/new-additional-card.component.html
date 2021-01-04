@@ -1,0 +1,41 @@
+<mat-card *ngIf="!done else doneNewCardTemplate" class="new-additional-card" credixCard fxLayout="column">
+
+  <h1 class="mb-32px">{{titleTag || 'Tarjetas adicionales'}}</h1>
+
+  <credix-stepper #stepper fxFlex>
+
+    <cdk-step [label]="firstStepperTag || 'Datos personales'" [stepControl]="userInfoFormGroup">
+      <app-new-additional-card-first-step [userInfoFormGroup]="userInfoFormGroup"></app-new-additional-card-first-step>
+    </cdk-step>
+
+    <cdk-step [label]="secondStepperTag || 'Lugar de retiro'" [stepControl]="pickUpPlaceFormGroup">
+      <app-new-additional-card-second-step
+        [addressControl]="pickUpPlaceFormGroup.controls.address"></app-new-additional-card-second-step>
+    </cdk-step>
+
+    <cdk-step [label]="thirdStepperTag || 'Confirmación'" [stepControl]="confirmFormGroup">
+      <app-new-additional-card-third-step
+        [confirmFormControl]="confirmFormGroup.controls.credixCode"></app-new-additional-card-third-step>
+    </cdk-step>
+
+  </credix-stepper>
+
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end center">
+    <credix-button (buttonClick)="back()" class="mr-16px" type="secondary">
+      Atrás
+    </credix-button>
+    <credix-button (buttonClick)="stepperIndex < 2 ? continue() : openModal()" [disabled]="disableButton">
+      {{stepperIndex < 2 ? 'Continuar' : 'Solicitar'}}
+    </credix-button>
+  </div>
+
+</mat-card>
+
+<ng-template #doneNewCardTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [moduleTitle]="titleTag || 'Tarjetas adicionales'"
+                          buttonText="Listo"
+                          routeTo="/home"></app-credix-result-view>
+</ng-template>

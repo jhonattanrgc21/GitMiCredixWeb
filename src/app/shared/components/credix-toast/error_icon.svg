@@ -1,0 +1,10 @@
+<svg height="11.462" viewBox="0 0 11.462 11.462" width="11.462" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.toast-cancel-icon {
+      fill: #ffffff;
+    }</style>
+  </defs>
+  <path class="toast-cancel-icon"
+        d="M16.462,6.154,15.308,5,10.731,9.577,6.154,5,5,6.154l4.577,4.577L5,15.308l1.154,1.154,4.577-4.577,4.577,4.577,1.154-1.154-4.577-4.577Z"
+        transform="translate(-5 -5)"/>
+</svg>

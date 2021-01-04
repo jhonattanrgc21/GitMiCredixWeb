@@ -1,0 +1,72 @@
+<credix-navigation-table [headers]="tableHeaders" [hide]="empty" class="automatics-services">
+
+  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
+    <div class="automatics-services__options-wrapper" fxLayout="column">
+      <a (click)="schedulePaymentsDetail(schedule)"
+         *ngFor="let schedule of schedulePayments" class="automatics-services__option pointer"
+         fxLayout="row">
+        <mat-icon [svgIcon]="schedule.icon" class="mr-16px" fxFlex="16px"
+                  style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
+        <div fxFlex="180px" fxLayout="column">
+          <span [class.bold]="optionSelected === schedule.id" fxLayout="row"
+                fxLayoutAlign="flex-start center">
+            {{schedule.alias}}
+          </span>
+          <span class="truncate">
+            {{ schedule.publicServiceCategoryName === 'Recargas' || schedule.publicServiceCategoryName === 'Telefonía' ?
+            (schedule.key | mask: '0000-0000')
+            : schedule.publicServiceDescription + '-' + schedule.key  }}
+          </span>
+        </div>
+        <mat-icon *ngIf="optionSelected === schedule.id" fxFlex
+                  style="fill: #E42313; width: 8px; height: 13px;" svgIcon="chevron_right"></mat-icon>
+      </a>
+    </div>
+
+  </ngx-simplebar>
+
+  <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
+    <div *ngIf="dataToDetail" class="automatics-services__table" fxLayout="column" fxLayoutGap="16px">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Compañía</span>
+        <span class="tr">{{dataToDetail?.publicServiceDescription}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Nombre</span>
+        <span class="tr">{{dataToDetail?.alias}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Mes al cobro</span>
+        <span class="tr">{{dataToDetail?.monthToCharge}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Vencimiento</span>
+        <span class="tr">{{dataToDetail?.startDate | dateFormatter: 'alphanumeric'}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Pago automático</span>
+        <span class="tr">{{dataToDetail?.startDate | dateFormatter: 'alphanumeric'}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Periocidad</span>
+        <span class="tr">{{dataToDetail?.periodicity}}</span>
+      </div>
+      <div class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
+        <span><strong>Monto máximo a pagar</strong></span>
+        <credix-numeric-block [value]="dataToDetail?.maxAmount" prefix="₡"></credix-numeric-block>
+      </div>
+    </div>
+
+    <div class="automatics-services__footer">
+      <credix-button (click)="onSubmenuChanged()" *ngIf="dataToDetail" fxLayoutAlign="flex-end center"
+                     [routerLink]="['/home/favorites-management/automatics', dataToDetail?.id]">Editar
+      </credix-button>
+    </div>
+  </div>
+
+</credix-navigation-table>
+
+<credix-result-notification *ngIf="empty" [title]="'No tiene pagos automáticos en este momento.'"
+                            class="automatics-services__empty mt-16px"
+                            status="info">
+</credix-result-notification>

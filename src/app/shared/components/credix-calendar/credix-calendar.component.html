@@ -1,0 +1,100 @@
+<div class="credix-calendar" fxLayout="column">
+
+  <div class="credix-calendar__header" fxLayout="column">
+    <span>Fecha inicial</span>
+
+    <span>{{date.getFullYear()}}</span>
+
+    <span>{{dayOfWeek + ', ' + date.getDate() + ' ' + month}}</span>
+  </div>
+
+  <div class="credix-calendar__toolbar" fxLayout="row" fxLayoutAlign='space-between center'>
+    <button (click)="previousMonth()" mat-icon-button>
+      <svg height="12.948" viewBox="0 0 8 12.948" width="8" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.585,17.421l-4.948-4.948,4.948-4.948L15.06,6,8.585,12.472l6.474,6.474Z"
+              transform="translate(-8.585 -5.998)"/>
+      </svg>
+
+    </button>
+
+    <span>{{longMonth + ' ' + date.getFullYear()}}</span>
+
+    <button (click)="nextMonth()" mat-icon-button>
+      <svg height="12.948" viewBox="0 0 8 12.948" width="8" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.585,17.421l4.948-4.948L8.585,7.524,10.111,6l6.474,6.474-6.474,6.474Z"
+              transform="translate(-8.585 -5.998)"/>
+      </svg>
+
+    </button>
+
+  </div>
+
+  <div class="credix-calendar__days-row" fxLayout="row" fxLayoutAlign="space-between center">
+    <span>D</span>
+    <span>L</span>
+    <span>M</span>
+    <span>M</span>
+    <span>J</span>
+    <span>V</span>
+    <span>S</span>
+  </div>
+
+
+  <div *ngFor="let week of weeks" class="credix-calendar__days" fxLayout="row" fxLayoutAlign="space-between center">
+    <a (click)="onDateClick(week[0])"
+       [ngClass]="{
+       'is-hidden' : week[0] === null,
+       'is-active' : this.selectedDate === week[0],
+       'is-disabled': (week[0]?.getTime() < this.startDate.getTime()) || (week[0]?.getTime() > this.endDate.getTime())}">
+      {{week[0]?.getDate()}}
+    </a>
+    <a (click)="onDateClick(week[1])"
+       [ngClass]="{
+       'is-hidden' : week[1] === null,
+       'is-active' : this.selectedDate === week[1],
+       'is-disabled': (week[1]?.getTime() < this.startDate.getTime()) || (week[1]?.getTime() > this.endDate.getTime())}">
+      {{week[1]?.getDate()}}
+    </a>
+    <a (click)="onDateClick(week[2])"
+       [ngClass]="{
+       'is-hidden' : week[2] === null,
+       'is-active' : this.selectedDate === week[2],
+       'is-disabled': (week[2]?.getTime() < this.startDate.getTime()) || (week[2]?.getTime() > this.endDate.getTime())}">
+      {{week[2]?.getDate()}}
+    </a>
+    <a (click)="onDateClick(week[3])"
+       [ngClass]="{
+       'is-hidden' : week[3] === null,
+       'is-active' : this.selectedDate === week[3],
+       'is-disabled': (week[3]?.getTime() < this.startDate.getTime()) || (week[3]?.getTime() > this.endDate.getTime())}">
+      {{week[3]?.getDate()}}
+    </a>
+    <a (click)="onDateClick(week[4])"
+       [ngClass]="{
+       'is-hidden' : week[4] === null,
+       'is-active' : this.selectedDate === week[4],
+       'is-disabled': (week[4]?.getTime() < this.startDate.getTime()) || (week[4]?.getTime() > this.endDate.getTime())}">
+      {{week[4]?.getDate()}}
+    </a>
+    <a (click)="onDateClick(week[5])"
+       [ngClass]="{
+       'is-hidden' : week[5] === null,
+       'is-active' : this.selectedDate === week[5],
+       'is-disabled': (week[5]?.getTime() < this.startDate.getTime()) || (week[5]?.getTime() > this.endDate.getTime())}">
+      {{week[5]?.getDate()}}
+    </a>
+    <a (click)="onDateClick(week[6])"
+       [ngClass]="{
+       'is-hidden' : week[6] === null,
+       'is-active' : this.selectedDate === week[6],
+       'is-disabled': (week[6]?.getTime() < this.startDate.getTime()) || (week[6]?.getTime() > this.endDate.getTime())}">
+      {{week[6]?.getDate()}}
+    </a>
+  </div>
+
+  <div class="credix-calendar__footer" fxLayout="row" fxLayoutGap="24px">
+    <a mat-dialog-close>Cancelar</a>
+    <a (click)="selectedDate ? submit() : false" [class.is-disabled]="!selectedDate">Listo</a>
+  </div>
+
+</div>

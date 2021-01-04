@@ -1,0 +1,29 @@
+.new-recharge {
+  max-height: 886px;
+  height: 100%;
+
+  &__first-step {
+    padding: 0 84px;
+
+    &__content {
+      width: 100%;
+
+      &__input {
+        height: 43px;
+        width: 380px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .new-recharge {
+    max-height: 886px;
+
+    &__first-step__content__input {
+      width: 266px;
+    }
+
+  }
+
+}

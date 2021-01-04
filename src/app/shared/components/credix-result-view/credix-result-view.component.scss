@@ -1,0 +1,29 @@
+.credix-result-view {
+  max-height: 662px;
+  height: 100%;
+
+  .bottom-btn-wrapper {
+    border-top: 1px solid #e9e9e9;
+    padding-top: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
+  &__content-container {
+    padding: 0 184px;
+  }
+}
+
+:host ::ng-deep .credix-result-notification__message {
+  width: 300px;
+}
+
+@media screen and (max-width: 1199px) {
+  .credix-result-view {
+    max-height: 886px;
+
+    &__content-container {
+      padding: 0 116px;
+    }
+  }
+}

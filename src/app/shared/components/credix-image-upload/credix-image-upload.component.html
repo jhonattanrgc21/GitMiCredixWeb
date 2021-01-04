@@ -1,0 +1,8 @@
+<a (click)="uploadFile()" class="credix-image-upload">{{label}}</a>
+<label>
+  <input #imageInput
+         (change)="processFile(imageInput)"
+         accept="image/*"
+         class="credix-image-upload__input"
+         type="file">
+</label>

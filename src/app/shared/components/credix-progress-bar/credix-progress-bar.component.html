@@ -1,0 +1,12 @@
+<div class="credix-progress-bar">
+  <div class="credix-progress-bar__content">
+    <span class="mr-8px">{{label}}</span>
+    <span>{{value}} de {{goal}}</span>
+  </div>
+
+  <div class="credix-progress-bar__line">
+    <div [style.width]="width + '%'" class="credix-progress-bar__line is-over"></div>
+    <div [class.is-complete]="isCompleted" class="credix-progress-bar__line__circle"></div>
+  </div>
+</div>
+
