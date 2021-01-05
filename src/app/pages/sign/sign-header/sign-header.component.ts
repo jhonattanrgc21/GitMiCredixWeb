@@ -33,4 +33,16 @@ export class SignHeaderComponent implements OnInit {
         this.isTablet = state.matches;
       });
   }
+
+  googlePlayStore() {
+    window.location.href = 'https://play.google.com/store/apps/details?id=com.Mobtion.Credix.Credixcel';
+  }
+
+  iOStore() {
+    window.location.href = 'https://apps.apple.com/cr/app/micredix/id505208283';
+  }
+
+  huaweiStore() {
+    window.location.href = 'https://appgallery.huawei.com/#/app/C102830839?locale=en_US&source=appshare&subsource=C102830839';
+  }
 }
