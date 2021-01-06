@@ -44,13 +44,13 @@ export class SignInService {
               aplicantName: response.json.aplicantName,
               accountNumber: response.json.accountNumber,
             },
-            cards: (response.json.cardNumberList as Card[])
+            cards: response.json.cardNumberList ? (response.json.cardNumberList as Card[])
               .map(card => ({
                 ...card,
                 cardNumber:
                 // tslint:disable-next-line:max-line-length
                   `${card.cardNumber.substr(card.cardNumber.length - 8, 4)} ${card.cardNumber.substr(card.cardNumber.length - 4, card.cardNumber.length)}`
-              }))
+              })) : []
           };
         }
 
