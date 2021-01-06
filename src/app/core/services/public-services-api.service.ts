@@ -10,14 +10,26 @@ import {StorageService} from './storage.service';
 import {PublicServiceFavoriteByUser} from '../../shared/models/public-service-favorite-by-user';
 
 const iconPerCategory = [
-  {category: 'Recargas', icon: 'cellphone'},
-  {category: 'Telefonía', icon: 'phone'},
-  {category: 'Electricidad', icon: 'public_services'},
-  {category: 'Agua', icon: 'water'},
-  {category: 'Internet y Cable', icon: 'internet_cable'},
-  {category: 'Municipalidades', icon: 'municipalidad'},
-  {category: 'Mantenimiento', icon: 'municipalidad'},
-  {category: 'Educación', icon: 'municipalidad'},
+  {category: 'Recargas', icon: 'recargas'},
+  {category: 'Telefonía', icon: 'telefonia'},
+  {category: 'Electricidad', icon: 'electricidad'},
+  {category: 'Agua', icon: 'agua'},
+  {category: 'Internet y Cable', icon: 'tv_cable_satelite'},
+  {category: 'Cable', icon: 'tv_cable_satelite'},
+  {category: 'Internet', icon: 'internet'},
+  {category: 'TV por cable y satélite', icon: 'tv_cable_satelite'},
+  {category: 'Otros servicios', icon: 'otros_servicios'},
+  {category: 'Venta por catalogo', icon: 'venta_catalogo'},
+  {category: 'Seguridad vial y CTP', icon: 'seguridad_vial_ctp'},
+  {category: 'Seguros', icon: 'seguros'},
+  {category: 'CCSS', icon: 'ccss'},
+  {category: 'Colegio profesionales', icon: 'educacion'},
+  {category: 'Cuotas', icon: 'cuotas'},
+  {category: 'Ministerio de salud', icon: 'ministerio_de_salud'},
+  {category: 'Municipalidades', icon: 'municipalidades'},
+  {category: 'Mantenimiento', icon: 'municipalidades'},
+  {category: 'Educación', icon: 'educacion'},
+  {category: 'Empresas de seguridad', icon: 'empresas_seguridad'}
 ];
 
 export const cleanFavoritesPublicService$ = new Subject();
