@@ -58,5 +58,22 @@ export const icons: string[] = [
   'sun',
   'transfer',
   'transfer_report',
-  'water'
+  'water',
+  'recargas',
+  'telefonia',
+  'electricidad',
+  'agua',
+  'internet',
+  'tv_cable_satelite',
+  'otros_servicios',
+  'venta_catalogo',
+  'seguridad_vial_ctp',
+  'seguros',
+  'ccss',
+  'educacion',
+  'cuotas',
+  'ministerio_de_salud',
+  'municipalidades',
+  'educacion',
+  'empresas_seguridad'
 ];
