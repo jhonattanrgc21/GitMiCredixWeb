@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
 import {finalize} from 'rxjs/operators';
@@ -26,11 +26,11 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
     favorite: new FormControl(null),
   });
   amounts: { amount: string, id: number }[] = [
-    {id: 1, amount: '1.000,00'},
-    {id: 2, amount: '2.000,00'},
-    {id: 3, amount: '5.000,00'},
-    {id: 4, amount: '10.000,00'},
-    {id: 5, amount: 'Otro'}
+    // {id: 1, amount: '1.000,00'},
+    // {id: 2, amount: '2.000,00'},
+    // {id: 3, amount: '5.000,00'},
+    // {id: 4, amount: '10.000,00'},
+    // {id: 5, amount: 'Otro'}
   ];
   stepOneTitleTag: string;
   stepTwoTitleTag: string;
@@ -50,11 +50,12 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
               private modalService: ModalService,
               private credixCodeErrorService: CredixCodeErrorService,
               private tagsService: TagsService,
-              private router: Router) {
+              private router: Router,
+              private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
-    this.getMinAmounts();
+    // this.getMinAmounts();
     this.setErrorCredixCode();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
@@ -67,6 +68,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
     } else {
       this.getPublicService();
     }
+    this.cdr.detectChanges();
   }
 
   getPublicService() {
@@ -76,7 +78,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   getMinAmounts() {
-    this.publicServicesService.getMinAmounts().subscribe(amounts => this.amounts = [...amounts, {id: 10, amount: 'Otro'}]);
+    // this.publicServicesService.getMinAmounts().subscribe(amounts => this.amounts = [...amounts, {id: 10, amount: 'Otro'}]);
   }
 
   getPublicServiceByFavorite() {
@@ -106,7 +108,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   checkPendingReceipts() {
-    this.publicServicesService.checkPendingReceipts(this.publicServiceId, this.phoneNumber.value, this.keys[0].keyType)
+    this.publicServicesService.checkPendingReceipts(this.publicServiceId, +this.phoneNumber.value, this.keys[0].keyType)
       .pipe(finalize(() => {
         this.message = this.pendingReceipts.responseDescription;
         if (this.pendingReceipts?.receipts) {
@@ -114,7 +116,18 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
         } else {
           this.hasReceipts = false;
         }
-      })).subscribe(pendingReceipts => this.pendingReceipts = pendingReceipts);
+      })).subscribe(pendingReceipts => {
+      this.pendingReceipts = pendingReceipts;
+      if (this.pendingReceipts?.amounts) {
+        this.pendingReceipts.amounts.map((value, index) => {
+          this.amounts.push({
+            amount: value,
+            id: index + 1
+          });
+        });
+        this.amounts.push({id: 10, amount: 'Otro'});
+      }
+    });
   }
 
   recharge() {

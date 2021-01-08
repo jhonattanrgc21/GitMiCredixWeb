@@ -203,15 +203,15 @@ export class PublicServicesService {
       }));
   }
 
-  getMinAmounts() {
-    return this.httpService.post('incomex', this.getMinAmountsUri).pipe(map(response => {
-      if (response.type === 'success') {
-        return response.rechargeAmountList;
-      } else {
-        return [];
-      }
-    }));
-  }
+  // getMinAmounts() {
+  //   return this.httpService.post('incomex', this.getMinAmountsUri).pipe(map(response => {
+  //     if (response.type === 'success') {
+  //       return response.rechargeAmountList;
+  //     } else {
+  //       return [];
+  //     }
+  //   }));
+  // }
 
   unsubscribe() {
     this.httpService.unsubscribeHttpCall();
