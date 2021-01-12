@@ -3,7 +3,7 @@ import {BillingHistory} from 'src/app/shared/models/billing-history';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {PopupMarchamosDetailComponent} from './popup-marchamos-detail/popup-marchamos-detail.component';
 import {Item} from '../../../../../shared/models/item';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {HttpService} from '../../../../../core/services/http.service';
 import {PopupMarchamosPaymentSummaryComponent} from './popup-marchamos-payment-summary/popup-marchamos-payment-summary.component';
 import {MarchamoService} from '../marchamo.service';
@@ -23,9 +23,9 @@ import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   @Input() secureAndQuotesForm = new FormGroup({
     additionalProducts: new FormArray([]),
-    quota: new FormControl(null, [Validators.required]),
-    quotaId: new FormControl(null, [Validators.required]),
-    firstQuotaDate: new FormControl(null, [Validators.required])
+    quota: new FormControl(null),
+    quotaId: new FormControl(null),
+    firstQuotaDate: new FormControl(null)
   });
   @Input() isActive = false;
   billingHistories: BillingHistory[];
@@ -107,7 +107,10 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         itemsProductsAmount: this.arrayOfAmountProducts,
         commission: this.commission,
         iva: this.iva,
-        quotesToPay: {quotes: this.secureAndQuotesForm.controls.quota.value, quotesAmount: this.amountPerQuota}
+        quotesToPay: {
+          quotes: !this.secureAndQuotesForm.controls.quota.value ?
+            '' : this.secureAndQuotesForm.controls.quota.value, quotesAmount: this.amountPerQuota
+        }
       }]
     }, {width: 380, height: 417, disableClose: false, panelClass: 'marchamo-summary-panel'});
   }

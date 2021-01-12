@@ -22,9 +22,9 @@ export class MarchamoComponent implements OnInit, OnDestroy {
   });
   secureAndQuotesForm: FormGroup = new FormGroup({
     additionalProducts: new FormArray([]),
-    quota: new FormControl(null, [Validators.required]),
-    quotaId: new FormControl(null, [Validators.required]),
-    firstQuotaDate: new FormControl(null, [Validators.required])
+    quota: new FormControl(null),
+    quotaId: new FormControl(null),
+    firstQuotaDate: new FormControl(null)
   });
   pickUpForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.email, Validators.required]),
@@ -126,8 +126,9 @@ export class MarchamoComponent implements OnInit, OnDestroy {
       1 : this.pickUpForm.controls.deliveryPlace.value;
     const ownerEmail: string = this.marchamosService.ownerPayer.email === '' ?
       this.pickUpForm.controls.email.value : this.marchamosService.ownerPayer.email;
-    const firstPayment: string = this.marchamosService.payments
-      .find(elem => elem.promoStatus === this.secureAndQuotesForm.controls.firstQuotaDate.value).paymentDate;
+    const firstPayment: string = !this.secureAndQuotesForm.controls.firstQuotaDate.value ?
+      '' : this.marchamosService.payments
+        .find(elem => elem.promoStatus === this.secureAndQuotesForm.controls.firstQuotaDate.value).paymentDate;
     this.marchamosService.setSoaPay(
       this.secureAndQuotesForm.controls.additionalProducts.value,
       deliveryPlaceId,
@@ -138,8 +139,10 @@ export class MarchamoComponent implements OnInit, OnDestroy {
       firstPayment,
       +this.consultForm.controls.vehicleType.value,
       this.consultForm.controls.plateNumber.value.toUpperCase(),
-      this.secureAndQuotesForm.controls.firstQuotaDate.value,
-      this.secureAndQuotesForm.controls.quotaId.value,
+      !this.secureAndQuotesForm.controls.firstQuotaDate.value ?
+        0 : this.secureAndQuotesForm.controls.firstQuotaDate.value,
+      !this.secureAndQuotesForm.controls.quotaId.value ?
+        0 : this.secureAndQuotesForm.controls.quotaId.value,
       this.pickUpForm.controls.phoneNumber.value,
       ownerEmail,
       this.confirmForm.controls.credixCode.value
