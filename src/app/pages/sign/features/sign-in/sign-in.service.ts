@@ -17,6 +17,7 @@ export class SignInService {
   private readonly saveDeviceUri = 'channels/savedevice';
   private newDeviceSub = new Subject();
   newDevice$ = this.newDeviceSub.asObservable();
+  signInOnBot: boolean;
 
   constructor(private httpService: HttpService,
               private deviceService: DeviceDetectorService,

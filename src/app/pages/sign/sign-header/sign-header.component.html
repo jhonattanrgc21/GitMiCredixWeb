@@ -31,13 +31,15 @@
         </div>
 
         <div class="sign__header__buttons">
-          <button [fxHide]="deviceInfo.os !== 'Android'" fxShow mat-button>
+          <button (click)="googlePlayStore()" [fxHide]="deviceInfo.os !== 'Android'" fxShow mat-button>
             <img alt="Google Play Store" src="assets/images/google-play-badge.png">
           </button>
-          <button [fxHide]="(deviceInfo.os !== 'Mac')" fxShow mat-button>
+          <button (click)="iOStore()" [fxHide]="(deviceInfo.os !== 'Mac')" fxShow mat-button>
             <img alt="App Store" src="assets/images/appStore.png">
           </button>
-          <button [fxHide]="(deviceInfo.os !== 'Huawei' && deviceInfo.os !== 'HarmonyOS' && deviceInfo.os !== 'Harmony')" fxShow mat-button>
+          <button (click)="huaweiStore()"
+                  [fxHide]="(deviceInfo.os !== 'Huawei' && deviceInfo.os !== 'HarmonyOS' && deviceInfo.os !== 'Harmony')"
+                  fxShow mat-button>
             <img alt="Huawei Gallery" src="assets/images/Huawei.png">
           </button>
         </div>
