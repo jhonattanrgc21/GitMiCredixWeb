@@ -8,6 +8,7 @@ import {SignHeaderComponent} from './sign-header/sign-header.component';
 import {SignFooterComponent} from './sign-footer/sign-footer.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {SignInService} from './features/sign-in/sign-in.service';
 
 @NgModule({
   declarations: [SignComponent, SignHeaderComponent, SignFooterComponent],
@@ -19,7 +20,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatIconModule,
     FlexModule,
     MatButtonModule
-  ]
+  ],
+  providers: [SignInService]
 })
 export class SignModule {
 }

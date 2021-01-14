@@ -10,6 +10,10 @@ import {ForgotPasswordComponent} from './forgot-password/forgot-password.compone
 import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
 import {v4 as uuidv4} from 'uuid';
 import {finalize} from 'rxjs/operators';
+import {environment} from '../../../../../environments/environment';
+import {environment as enviromentQA} from '../../../../../environments/environment.qa';
+import {environment as enviromentPRE} from '../../../../../environments/environment.pre';
+import {environment as enviromentPRO} from '../../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-sign-in',
@@ -43,6 +47,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (!this.storageService.getUuid()) {
       this.storageService.setUuid(uuidv4());
+    }
+    if (this.signInService.signInOnBot) {
+      environment.channelId = 110;
+      enviromentQA.channelId = 110;
+      enviromentPRE.channelId = 110;
+      enviromentPRO.channelId = 110;
     }
   }
 
