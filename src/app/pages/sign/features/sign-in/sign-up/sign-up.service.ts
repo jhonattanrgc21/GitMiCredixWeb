@@ -17,7 +17,7 @@ export class SignUpService {
   constructor(private httpService: HttpService,
               private storageService: StorageService,
               private deviceService: DeviceDetectorService,
-              private toastService: CredixToastService,) {
+              private toastService: CredixToastService) {
   }
 
   checkUser(identification: string): Observable<{ isRegistered: boolean, status: string }> {

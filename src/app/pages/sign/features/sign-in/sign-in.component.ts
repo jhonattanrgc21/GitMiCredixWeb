@@ -9,11 +9,12 @@ import {SignInService} from './sign-in.service';
 import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
 import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
 import {v4 as uuidv4} from 'uuid';
-import {finalize} from 'rxjs/operators';
+import {finalize, takeUntil} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {environment as enviromentQA} from '../../../../../environments/environment.qa';
 import {environment as enviromentPRE} from '../../../../../environments/environment.pre';
 import {environment as enviromentPRO} from '../../../../../environments/environment.prod';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -35,6 +36,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   userId: number;
   hide = true;
   errorMessage: string;
+  unsubscribe = new Subject();
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
   @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
 
@@ -45,8 +47,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.checkChanges();
-
     if (!this.storageService.getUuid()) {
       this.storageService.setUuid(uuidv4());
     }
@@ -60,23 +60,27 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.signInService.login(this.signInformGroup.controls.identification.value, this.signInformGroup.controls.password.value)
-      .subscribe(response => {
-          if (response.type === 'success') {
-            this.storageService.setCurrentSession(response.user, response.cards);
-            this.otpSent = false;
-            this.deviceInfo();
-          }
+    if (this.signInformGroup.valid) {
+      this.signInService.login(this.signInformGroup.controls.identification.value, this.signInformGroup.controls.password.value)
+        .subscribe(response => {
+            if (response.type === 'success') {
+              this.storageService.setCurrentSession(response.user, response.cards);
+              this.otpSent = false;
+              this.deviceInfo();
+            }
 
-          if (response.type === 'warn') {
-            this.open('session-activate');
-          }
-        },
-        (error: Error) => {
-          this.errorMessage = error.message;
-          this.signInformGroup.controls.password.setErrors({invalid: true});
-          this.signInformGroup.updateValueAndValidity();
-        });
+            if (response.type === 'warn') {
+              this.open('session-activate');
+            }
+          },
+          (error: Error) => {
+            this.errorMessage = error.message;
+            this.signInformGroup.controls.password.setErrors({invalid: true});
+            this.signInformGroup.updateValueAndValidity();
+            this.checkChanges();
+          });
+    }
+
   }
 
   deviceInfo() {
@@ -191,10 +195,16 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   checkChanges() {
-    this.signInformGroup.valueChanges.subscribe(value => {
-      this.signInformGroup.controls.password.setErrors({invalid: false});
-      this.signInformGroup.updateValueAndValidity();
-    });
+    this.signInformGroup.controls.identification.valueChanges
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(value => {
+        if (this.signInformGroup.controls.password.errors?.invalid) {
+          this.signInformGroup.controls.password.setErrors(null);
+          this.signInformGroup.updateValueAndValidity();
+          this.unsubscribe.next();
+          this.unsubscribe.complete();
+        }
+      });
   }
 
   ngOnDestroy(): void {
