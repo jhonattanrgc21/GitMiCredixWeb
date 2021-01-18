@@ -45,4 +45,5 @@ export class SignHeaderComponent implements OnInit {
   huaweiStore() {
     window.location.href = 'https://appgallery.huawei.com/#/app/C102830839?locale=en_US&source=appshare&subsource=C102830839';
   }
+
 }
