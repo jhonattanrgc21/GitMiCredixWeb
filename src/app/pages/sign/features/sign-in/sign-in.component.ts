@@ -45,9 +45,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.checkChanges();
+
     if (!this.storageService.getUuid()) {
       this.storageService.setUuid(uuidv4());
     }
+
     if (this.signInService.signInOnBot) {
       environment.channelId = 110;
       enviromentQA.channelId = 110;
@@ -184,6 +187,13 @@ export class SignInComponent implements OnInit, OnDestroy {
   openCompletedModal(width: number, height: number, data: any) {
     this.modalService.openModalContainer(PopupCompletedComponent, width, height, data).subscribe(() => {
       this.login();
+    });
+  }
+
+  checkChanges() {
+    this.signInformGroup.valueChanges.subscribe(value => {
+      this.signInformGroup.controls.password.setErrors({invalid: false});
+      this.signInformGroup.updateValueAndValidity();
     });
   }
 
