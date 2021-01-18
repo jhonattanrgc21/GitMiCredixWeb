@@ -31,14 +31,23 @@
         </div>
 
         <div class="sign__header__buttons">
-          <button (click)="googlePlayStore()" [fxHide]="deviceInfo.os !== 'Android'" fxShow mat-button>
+          <button (click)="googlePlayStore()" [fxHide]="(deviceInfo.os !== 'Android')
+                                                         && (deviceInfo.os !== 'Windows')
+                                                         && (deviceInfo.os !== 'Linux')
+                                                         && (deviceInfo.os !== 'Unix')" fxShow mat-button>
             <img alt="Google Play Store" src="assets/images/google-play-badge.png">
           </button>
-          <button (click)="iOStore()" [fxHide]="(deviceInfo.os !== 'Mac')" fxShow mat-button>
+          <button (click)="iOStore()" [fxHide]="(deviceInfo.os !== 'Mac')
+                                                  && (deviceInfo.os !== 'Windows')
+                                                  && (deviceInfo.os !== 'Linux')
+                                                  && (deviceInfo.os !== 'Unix')" fxShow mat-button>
             <img alt="App Store" src="assets/images/appStore.png">
           </button>
           <button (click)="huaweiStore()"
-                  [fxHide]="(deviceInfo.os !== 'Huawei' && deviceInfo.os !== 'HarmonyOS' && deviceInfo.os !== 'Harmony')"
+                  [fxHide]="(deviceInfo.os !== 'Huawei' && deviceInfo.os !== 'HarmonyOS' && deviceInfo.os !== 'Harmony')
+                              && (deviceInfo.os !== 'Windows')
+                              && (deviceInfo.os !== 'Linux')
+                              && (deviceInfo.os !== 'Unix')"
                   fxShow mat-button>
             <img alt="Huawei Gallery" src="assets/images/Huawei.png">
           </button>
