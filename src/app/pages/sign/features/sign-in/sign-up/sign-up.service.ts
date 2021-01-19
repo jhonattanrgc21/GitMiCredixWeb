@@ -26,7 +26,9 @@ export class SignUpService {
         if (response.type === 'success') {
           return {isRegistered: response.registereduser, status: 'success'};
         } else {
-          throw new Error(response.message);
+          if (!response.registereduser) {
+            throw new Error(response.message);
+          }
         }
       })
     );
