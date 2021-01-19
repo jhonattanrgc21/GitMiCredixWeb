@@ -16,7 +16,12 @@
 
           <credix-input-field [mask]="identificationMask" formControlName="identification"
                               focusLabel="Identificación"
-                              label="Digite su identificación"></credix-input-field>
+                              label="Digite su identificación">
+                <span *ngIf="newUserFirstStepForm.controls.identification.hasError('invalid')"
+                      class="error-span" error>
+          {{errorMessage}}
+        </span>
+          </credix-input-field>
         </div>
 
         <credix-button
