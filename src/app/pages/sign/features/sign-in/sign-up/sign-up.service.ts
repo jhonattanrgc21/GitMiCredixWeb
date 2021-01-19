@@ -22,16 +22,11 @@ export class SignUpService {
 
   checkUser(identification: string): Observable<{ isRegistered: boolean, status: string }> {
     return this.httpService.post('canales', this.checkUserUri, {identification}).pipe(
-      tap(response => {
-          if (response.type === 'error') {
-            this.toastService.show({text: response.message, type: 'error'});
-          }
-        }),
       map(response => {
         if (response.type === 'success') {
           return {isRegistered: response.registereduser, status: 'success'};
         } else {
-          return {isRegistered: false, status: 'error'};
+          throw new Error(response.message);
         }
       })
     );

@@ -3,12 +3,13 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {IdentificationType} from 'src/app/shared/models/identification-type';
-import {finalize} from 'rxjs/operators';
+import {finalize, takeUntil} from 'rxjs/operators';
 import {CredixToastService} from 'src/app/core/services/credix-toast.service';
 import {CdkStepper} from '@angular/cdk/stepper';
 import {getIdentificationMaskByType} from '../../../../../shared/utils';
 import {GlobalApiService} from '../../../../../core/services/global-api.service';
 import {SignUpService} from './sign-up.service';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -34,6 +35,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     newPassword: new FormControl(null, [Validators.required]),
     confirmPassword: new FormControl(null, [Validators.required])
   }, {validators: this.checkPasswords});
+  errorMessage = '';
+  unsubscribe = new Subject();
   @ViewChild('stepper') stepper: CdkStepper;
 
   constructor(private signUpService: SignUpService,
@@ -72,6 +75,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
                   {width: 376, height: 663, disableClose: true});
               }*/
         }
+      }, error => {
+        this.errorMessage = error.message;
+        this.newUserFirstStepForm.controls.identification.setErrors({invalid: true});
+        this.newUserFirstStepForm.updateValueAndValidity();
+        this.checkChanges();
       });
   }
 
@@ -139,6 +147,19 @@ export class SignUpComponent implements OnInit, OnDestroy {
       return null;
     }
     return password === repeatedPassword ? null : {mismatch: true};
+  }
+
+  checkChanges() {
+    this.newUserFirstStepForm.controls.identification.valueChanges
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(value => {
+        if (this.newUserFirstStepForm.controls.identification.errors?.invalid) {
+          this.newUserFirstStepForm.controls.identification.setErrors(null);
+          this.newUserFirstStepForm.updateValueAndValidity();
+          this.unsubscribe.next();
+          this.unsubscribe.complete();
+        }
+      });
   }
 
   ngOnDestroy(): void {
