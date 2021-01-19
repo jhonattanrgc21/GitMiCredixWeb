@@ -17,10 +17,10 @@
 
       <ng-container *ngIf="categorySelected?.publicServiceCategoryId === category.publicServiceCategoryId">
         <div *ngFor="let enterprise of enterprises" class="all-public-services__enterprises-wrapper" fxLayout="row"
-             fxLayoutAlign="space-between">
+             fxLayoutAlign="space-between center">
           <a (click)="getPublicService(enterprise)"
              [ngClass]="{'bold' : enterprise.publicServiceEnterpriseId === enterpriseSelected?.publicServiceEnterpriseId}"
-             class="truncate pointer">
+             class="pointer">
             {{enterprise.publicServiceEnterpriseDescription}}</a>
           <mat-icon *ngIf="enterprise.publicServiceEnterpriseId === enterpriseSelected?.publicServiceEnterpriseId
                           && openSubmenu"
