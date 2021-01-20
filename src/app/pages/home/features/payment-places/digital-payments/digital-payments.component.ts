@@ -3,6 +3,7 @@ import {CredixToastService} from '../../../../../core/services/credix-toast.serv
 import {Router} from '@angular/router';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
+import {AccountApiService} from '../../../../../core/services/account-api.service';
 
 @Component({
   selector: 'app-digital-payments',
@@ -25,13 +26,14 @@ export class DigitalPaymentsComponent implements OnInit {
   dollarTag: string;
   colonesTag: string;
   accountNameTag: string;
-  ibanDollarsTag: string;
-  ibanColonesTag: string;
+  ibanDollars: string;
+  ibanColones: string;
   identificationTag: string;
   legalIdentificationTag: string;
 
-  constructor(private toastService: CredixToastService,
-              private tagsService: TagsService,
+  constructor(private readonly accountApiService: AccountApiService,
+              private readonly toastService: CredixToastService,
+              private readonly tagsService: TagsService,
               private router: Router) {
   }
 
@@ -39,6 +41,7 @@ export class DigitalPaymentsComponent implements OnInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Lugares de pago').tags)
     );
+    this.getIbanAccounts();
   }
 
   copyIbanAccount(text: string, id: 1 | 2 | 3 | 4) {
@@ -47,8 +50,13 @@ export class DigitalPaymentsComponent implements OnInit {
     setTimeout(() => this.copyId = 0, 3000);
   }
 
-  goToReportTransference() {
-    this.router.navigate(['/home/report-transference']);
+  getIbanAccounts() {
+    this.accountApiService.getIbanAccounts().subscribe(ibanAccounts => {
+      if (ibanAccounts.length > 0) {
+        this.ibanColones = ibanAccounts[0].ibanAccountNumber;
+        this.ibanDollars = ibanAccounts[1].ibanAccountNumber;
+      }
+    });
   }
 
   getTags(tags: Tag[]) {
@@ -60,8 +68,6 @@ export class DigitalPaymentsComponent implements OnInit {
     this.dollarTag = tags.find(tag => tag.description === 'lugares.tab2.tag.dolares')?.value;
     this.colonesTag = tags.find(tag => tag.description === 'lugares.tab2.tag.colones')?.value;
     this.accountNameTag = tags.find(tag => tag.description === 'lugares.tab2.tag.nombre')?.value;
-    this.ibanDollarsTag = tags.find(tag => tag.description === 'lugares.tab2.tag.ibandolares')?.value;
-    this.ibanColonesTag = tags.find(tag => tag.description === 'lugares.tab2.tag.ibancolones')?.value;
     this.identificationTag = tags.find(tag => tag.description === 'lugares.tab2.tag.cedula2')?.value;
     this.legalIdentificationTag = tags.find(tag => tag.description === 'lugares.tab2.tag.cedula')?.value;
     this.firstTextTag = tags.find(tag => tag.description === 'lugares.tab2.tag.sinpem')?.value;
