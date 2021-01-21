@@ -22,7 +22,7 @@
         <span fxFlex="58px">{{colonesTag || 'Colones'}}</span>
 
         <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-          <span>{{ibanColonesTag || ''}}</span>
+          <span>{{ibanColones || ''}}</span>
           <a (click)="copyIbanAccount('Cuenta IBAN en colones copiada', 1)"
              cdkCopyToClipboard="CR91010200009093845399">
             <mat-icon [class.is-green]="copyId == 1" svgIcon="content-copy"></mat-icon>
@@ -34,7 +34,7 @@
         <span fxFlex="58px">{{dollarTag || 'Dólares'}}</span>
 
         <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-          <span>{{ibanDollarsTag || ''}}</span>
+          <span>{{ibanDollars || ''}}</span>
           <a (click)="copyIbanAccount('Cuenta IBAN en dólares copiada', 2)"
              cdkCopyToClipboard="CR31010200009093845703">
             <mat-icon [class.is-green]="copyId == 2" svgIcon="content-copy"></mat-icon>
