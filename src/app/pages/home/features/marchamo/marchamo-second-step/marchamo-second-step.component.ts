@@ -108,74 +108,56 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         commission: this.commission,
         iva: this.iva,
         quotesToPay: {
-          quotes: !this.secureAndQuotesForm.controls.quota.value ?
-            '' : this.secureAndQuotesForm.controls.quota.value, quotesAmount: this.amountPerQuota
+          quotes: !this.secureAndQuotesForm.controls.quota.value ? '' : this.secureAndQuotesForm.controls.quota.value,
+          quotesAmount: this.amountPerQuota
         }
       }]
     }, {width: 380, height: 417, disableClose: false, panelClass: 'marchamo-summary-panel'});
   }
 
-  getValueCheckBoxes(event: any) {
-    if (event.checked) {
+  getValueCheckBoxes(isChecked: boolean, item: Item) {
+    item.isSelected = isChecked;
+
+    if (isChecked) {
       this.additionalProducts.push(new FormGroup({
-        productCode: new FormControl(event.value)
+        productCode: new FormControl(item.productCode)
       }));
 
       this.arrayOfAmountProducts.push({
-        amounts: ConvertStringAmountToNumber(this.itemProduct.find(product => product.productCode === event.value).amount),
-        productCode: event.value
-      });
-    } else {
-      let index = 0;
-      this.additionalProducts.controls.forEach((item: FormGroup) => {
-        if (item.value.productCode === event.value) {
-          this.additionalProducts.removeAt(index);
-          return;
-        }
-        index++;
+        amounts: ConvertStringAmountToNumber(item.amount),
+        productCode: item.productCode
       });
 
-      this.arrayOfAmountProducts.forEach((value, i) => {
-        if (value.productCode === event.value) {
-          this.arrayOfAmountProducts.splice(i, 1);
-        }
-      });
+    } else {
+      const indexToRemove = this.additionalProducts.controls.findIndex(a => a.value.productCode.vaule === item.productCode);
+      this.additionalProducts.removeAt(indexToRemove);
+      const indexToRemoveFromArray = this.arrayOfAmountProducts.findIndex(a => a.productCode === item.productCode);
+      this.arrayOfAmountProducts.splice(indexToRemoveFromArray, 1);
     }
 
     this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
-    this.isCheckedAll = !(this.arrayOfAmountProducts.length < this.itemProduct.length);
+    this.isCheckedAll = this.arrayOfAmountProducts.length === this.itemProduct.length;
+    this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }
 
   getValueOfCheckBoxAll(event) {
-    this.allChecked(event.checked);
+    this.isChecked = event.checked;
+    this.isCheckedAll = event.checked;
+    this.additionalProducts.controls = [];
+    this.arrayOfAmountProducts = [];
 
     if (event.checked) {
       this.itemProduct.forEach(value => {
-        this.arrayOfAmountProducts.push({
-          amounts: value.amount,
-          productCode: value.productCode
-        });
+        this.getValueCheckBoxes(event.checked, value);
       });
-
-      for (const product of this.itemProduct) {
-        this.additionalProducts.push(
-          new FormGroup({
-            productCode: new FormControl(product.productCode)
-          }));
-        this.additionalProducts.removeAt(3);
-      }
-
     } else {
-      this.additionalProducts.controls.splice(0, this.itemProduct.length);
-      this.additionalProducts.setValue([]);
-      this.arrayOfAmountProducts.splice(0, this.itemProduct.length);
+      this.itemProduct.forEach(value => {
+        value.isSelected = false;
+      });
+      this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
     }
 
-    this.isCheckedAll = !(this.arrayOfAmountProducts.length < 3);
-  }
-
-  allChecked(event?: boolean) {
-    this.isChecked = event;
+    this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }
 
   getPromo() {
@@ -210,10 +192,19 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   computeAmountPerQuota(quota: number) {
     if (quota > 0) {
-      this.amountPerQuota = this.totalAmount / quota;
+      this.amountPerQuota = (this.totalAmount + this.iva + this.commission + this.getTotalAmountItemsProducts()) / quota;
     } else {
       this.amountPerQuota = this.totalAmount;
     }
+  }
+
+  getTotalAmountItemsProducts(): number {
+    let totalAmountItemsProducts = 0;
+    this.arrayOfAmountProducts.forEach(itemProduct => {
+      totalAmountItemsProducts = totalAmountItemsProducts +
+        (typeof itemProduct.amounts === 'string' ? ConvertStringAmountToNumber(itemProduct.amounts) : itemProduct.amounts);
+    });
+    return totalAmountItemsProducts;
   }
 
   getCommission(quotas: number) {

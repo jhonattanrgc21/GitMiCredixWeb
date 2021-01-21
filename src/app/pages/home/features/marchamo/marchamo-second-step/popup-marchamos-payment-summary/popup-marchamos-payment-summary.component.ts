@@ -31,8 +31,8 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
     this.data.data.forEach(values => {
       this.iva = (typeof values.iva === 'string') ? +values.iva : values.iva;
       this.commission = values.commission;
-      this.marchamo = (typeof values.marchamos === 'string') ? +values.marchamos.replace('.', '') : values.marchamos,
-        this.quotesToPay = values.quotesToPay;
+      this.marchamo = (typeof values.marchamos === 'string') ? +values.marchamos.replace('.', '') : values.marchamos;
+      this.quotesToPay = values.quotesToPay;
       values.itemsProductsAmount.forEach(itemProduct => {
         this.totalAmountItemsProducts = this.totalAmountItemsProducts + itemProduct.amounts;
       });
