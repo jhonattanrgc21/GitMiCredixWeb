@@ -3,4 +3,5 @@ export interface Item {
   responseCode: number;
   productCode: number;
   amount: string;
+  isSelected?: boolean;
 }

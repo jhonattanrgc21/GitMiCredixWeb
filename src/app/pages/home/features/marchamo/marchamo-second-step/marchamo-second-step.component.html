@@ -22,10 +22,10 @@
       <credix-checkbox-button
         class="truncate" style="width: 277px"
         *ngFor="let item of itemProduct"
-        (emitCheckBox)="getValueCheckBoxes($event)"
-        [checked]="isChecked"
+        (emitCheckBox)="getValueCheckBoxes($event.checked, item)"
+        [checked]="item.isSelected != undefined && item.isSelected"
         [label]="item.responseDescription"
-        [value]="item.productCode"></credix-checkbox-button>
+        [value]="item"></credix-checkbox-button>
       <credix-checkbox-button (emitCheckBox)="getValueOfCheckBoxAll($event)" [value]="10"
                               [checked]="isCheckedAll"
                               label="{{secondStepTagT || 'Todos'}}"></credix-checkbox-button>
