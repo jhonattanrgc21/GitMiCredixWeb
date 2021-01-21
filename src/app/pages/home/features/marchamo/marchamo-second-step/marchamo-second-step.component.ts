@@ -115,26 +115,26 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     }, {width: 380, height: 417, disableClose: false, panelClass: 'marchamo-summary-panel'});
   }
 
-  getValueCheckBoxes(event: any) {
-    if (event.checked) {
+  getValueCheckBoxes(isChecked: boolean, item: Item) {
+    item.isSelected = isChecked;
+
+    if (isChecked) {
       this.additionalProducts.push(new FormGroup({
-        productCode: new FormControl(event.value)
+        productCode: new FormControl(item.productCode)
       }));
 
       this.arrayOfAmountProducts.push({
-        amounts: ConvertStringAmountToNumber(this.itemProduct.find(product => product.productCode === event.value).amount),
-        productCode: event.value
+        amounts: ConvertStringAmountToNumber(item.amount),
+        productCode: item.productCode
       });
 
     } else {
-      const indexToRemove = this.additionalProducts.controls.findIndex(a => a.value.productCode.vaule === event.value);
+      const indexToRemove = this.additionalProducts.controls.findIndex(a => a.value.productCode.vaule === item.productCode);
       this.additionalProducts.removeAt(indexToRemove);
-      const indexToRemoveFromArray = this.arrayOfAmountProducts.findIndex(a => a.productCode === event.value);
+      const indexToRemoveFromArray = this.arrayOfAmountProducts.findIndex(a => a.productCode === item.productCode);
       this.arrayOfAmountProducts.splice(indexToRemoveFromArray, 1);
     }
 
-    console.log(this.additionalProducts);
-    console.log(this.arrayOfAmountProducts);
     this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
     this.isCheckedAll = this.arrayOfAmountProducts.length === this.itemProduct.length;
     this.computeAmountPerQuota(this.quotaSliderDisplayValue);
@@ -148,12 +148,14 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
     if (event.checked) {
       this.itemProduct.forEach(value => {
-        this.getValueCheckBoxes({checked: event.checked, value: value.productCode});
+        this.getValueCheckBoxes(event.checked, value);
       });
+    } else {
+      this.itemProduct.forEach(value => {
+        value.isSelected = false;
+      });
+      this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
     }
-
-    console.log(this.additionalProducts);
-    console.log(this.arrayOfAmountProducts);
 
     this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }
