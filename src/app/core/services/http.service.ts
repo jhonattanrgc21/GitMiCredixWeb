@@ -3,15 +3,17 @@ import {environment} from '../../../environments/environment';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {CredixBotService} from './credix-bot.service';
 
 @Injectable()
 export class HttpService {
-
-  constructor(private http: HttpClient) {
-  }
-
   cancelHttpCall: Subject<void> = new Subject<void>();
   channelId = environment.channelId;
+  channelIdFromBot = environment.channelIdFromBot;
+
+  constructor(private http: HttpClient,
+              private readonly credixBotService: CredixBotService) {
+  }
 
   private static getUrl(service: 'canales' | 'marchamos' | 'incomex'): string {
     switch (service) {
@@ -51,7 +53,7 @@ export class HttpService {
       httpParams = httpParams.append(p.key, p.value);
     });
 
-    body.channelId = this.channelId;
+    body.channelId = !this.credixBotService.isFromBot ? this.channelId : this.channelIdFromBot;
 
     return this.http.post<any>(HttpService.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
       .pipe(takeUntil(this.cancelHttpCall));
@@ -67,7 +69,7 @@ export class HttpService {
       httpParams = httpParams.append(p.key, p.value);
     });
 
-    body.channelId = this.channelId;
+    body.channelId = !this.credixBotService.isFromBot ? this.channelId : this.channelIdFromBot;
 
     return this.http.put<any>(HttpService.getUrl(service) + uri, JSON.stringify(body), {headers, params: httpParams})
       .pipe(takeUntil(this.cancelHttpCall));

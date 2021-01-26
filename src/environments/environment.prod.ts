@@ -4,5 +4,6 @@ export const environment = {
   urlCanales: 'https://canalesbe.credix.com/api/canalesbe/',
   urlMarchamos: 'https://marchamoscore.credix.com/',
   urlIncomex: 'https://incomexbe.credix.com/incomex/',
-  channelId: 102
+  channelId: 102,
+  channelIdFromBot: 110
 };
