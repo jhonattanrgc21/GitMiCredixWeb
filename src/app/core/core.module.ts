@@ -18,6 +18,7 @@ import {AccountApiService} from './services/account-api.service';
 import {CustomerApiService} from './services/customer-api.service';
 import {PublicServicesApiService} from './services/public-services-api.service';
 import {CredixCodeErrorService} from './services/credix-code-error.service';
+import {CredixBotService} from './services/credix-bot.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -37,6 +38,7 @@ const maskConfig: Partial<IConfig> = {
     CustomIconLoaderService,
     CredixToastService,
     HttpService,
+    CredixBotService,
     CredixCodeErrorService,
     GlobalApiService,
     ChannelsApiService,
