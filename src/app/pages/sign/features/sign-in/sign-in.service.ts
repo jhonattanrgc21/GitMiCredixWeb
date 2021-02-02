@@ -24,7 +24,7 @@ export class SignInService {
               private toastService: CredixToastService) {
   }
 
-  login(username: string, password: string, typeIncome: number = 2) {
+  login(username: string, password: string, typeIncome: number = 3) {
     return this.httpService.post('canales', this.loginUri, {
       username,
       password: CryptoJS.SHA256(password).toString(),

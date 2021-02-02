@@ -13,11 +13,11 @@ export class SignComponent implements OnInit {
 
   constructor(private readonly credixBotService: CredixBotService,
               private storageService: StorageService,
-              private activedRoute: ActivatedRoute,
+              private activatedRoute: ActivatedRoute,
               private router: Router) {
-    if (this.activedRoute.snapshot.queryParamMap.get('redirect_uri')) {
+    if (this.activatedRoute.snapshot.fragment?.split('redirect_uri=')[1]) {
       this.credixBotService.isFromBot = true;
-      this.credixBotService.redirectUri = this.activedRoute.snapshot.queryParamMap.get('redirect_uri');
+      this.credixBotService.redirectUri = this.activatedRoute.snapshot.fragment.split('redirect_uri=')[1];
       this.router.navigate(['sign/sign-in']);
     }
   }
