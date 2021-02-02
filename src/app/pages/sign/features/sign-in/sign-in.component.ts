@@ -63,7 +63,7 @@ export class SignInComponent implements OnInit, OnDestroy {
                 this.deviceInfo();
               } else {
                 window.location.href =
-                  `${this.credixBotService.redirectUri}?account_linking_token=${this.storageService.getCurrentToken()}`;
+                  `${this.credixBotService.redirectUri}&authorization_code=${this.storageService.getCurrentToken()}`;
               }
               break;
             case 'warn':
