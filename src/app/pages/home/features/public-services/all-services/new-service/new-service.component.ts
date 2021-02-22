@@ -174,7 +174,7 @@ export class NewServiceComponent implements OnInit {
 
         this.publicServicesService.payment = {
           currencySymbol: this.currencySymbol,
-          amount: this.confirmFormGroup.controls.amount?.value,
+          amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount?.value),
           contract: this.contractFormGroup.controls.contractControl.value,
           type: 'Servicio'
         };
@@ -195,12 +195,20 @@ export class NewServiceComponent implements OnInit {
           period: this.receiptValues.receiptPeriod.toString(),
           reference: response.reference,
           valorType: 'EFECTIVO',
-          amount: this.confirmFormGroup.controls.amount?.value,
+          amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount?.value),
           paymentConcepts: response.paymentConcepts,
           informativeConcepts: response.informativeConcepts,
           currencySymbol: this.currencySymbol
         };
+
       });
+  }
+
+  formatAmountWithDecimalString(value: string) {
+    if ((value.indexOf(',') === -1) && (value.indexOf('.') > -1)) {
+      return value.replace('.', ',');
+    }
+    return value;
   }
 
   saveFavorite() {
