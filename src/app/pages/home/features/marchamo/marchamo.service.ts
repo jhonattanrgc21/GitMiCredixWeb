@@ -19,7 +19,7 @@ export class MarchamoService {
   private readonly getOwnerPayerInfoUri = 'owners/payerinfo';
   private readonly getCalculateComissionUri = 'pay/calculatecommission';
   marchamoAmount: number;
-  private readonly getDeliveryPlacesUri = 'pay/deliveryplaces';
+  private readonly getDeliveryPlacesUri = 'global/deliveryplace';
   consultVehicle: ConsultVehicle;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
@@ -143,10 +143,10 @@ export class MarchamoService {
 
   @Cacheable()
   getDeliveryPlaces(): Observable<DeliveryPlace[]> {
-    return this.httpService.post('marchamos', this.getDeliveryPlacesUri)
+    return this.httpService.post('canales', this.getDeliveryPlacesUri)
       .pipe(map((response) => {
           if (response.type === 'success') {
-            return response.deliveryPlacesList.filter(x => x.id !== 6 && x.id !== 7);
+            return response.deliveryPlace.filter(x => x.id !== 6 && x.id !== 7);
           } else {
             return [];
           }
