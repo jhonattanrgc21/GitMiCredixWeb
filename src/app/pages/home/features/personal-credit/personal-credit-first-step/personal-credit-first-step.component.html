@@ -79,7 +79,7 @@
 
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex>{{ popupInterestTag || 'Interés' }}
-          {{'(' + personalCreditSummary.percentageInterest + '% Mensual)'}}
+          {{'(' + personalCreditSummary.AnnualPercentageInterest + '% Mensual)'}}
         </span>
         <credix-numeric-block
           [value]="personalCreditSummary?.interest"
