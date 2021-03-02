@@ -66,11 +66,11 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit, OnDestroy
 
   getAccountSummary() {
     this.channelsApiService
-      .getAccountSummary(this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId)
+      .getAmountAvailableCredit(this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId)
       .pipe(finalize(() => this.done = !this.accessToPersonalCredit))
       .subscribe(accountSummary => {
         this.accessToPersonalCredit = ConvertStringAmountToNumber(accountSummary.available) >= 100000;
-        this.cardLimit = ConvertStringAmountToNumber(accountSummary.limit);
+        this.cardLimit = ConvertStringAmountToNumber(accountSummary.available);
       });
   }
 
