@@ -2,6 +2,11 @@
   width: 479px;
   height: 300px;
 
+  &__legend {
+    font-size: 12px;
+    line-height: 21px;
+  }
+
   &__bar {
     width: 100%;
     margin-top: 35px;
