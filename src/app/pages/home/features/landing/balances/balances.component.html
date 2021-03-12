@@ -41,9 +41,11 @@
       <span class="balances-card__tag">{{balancesTag.creditLimitTag}}</span>
       <credix-numeric-block [prefix]="prefix" [value]="accountSummary?.limit" fontSize="24"></credix-numeric-block>
       <credix-link-button (click)="openIncreaseLimitModal()">{{balancesTag.increaseCreditLimitTag}}</credix-link-button>
-      <span class="balances-card__tag">{{accountSummary.legend}}</span>
     </div>
   </div>
+
+  <span class="balances-card__tag mt-8px" fxFlexAlign="flex-start">{{accountSummary.legend}}</span>
+
 
   <mat-divider class="balances-card__divider"></mat-divider>
 
