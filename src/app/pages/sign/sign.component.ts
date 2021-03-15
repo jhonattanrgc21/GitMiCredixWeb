@@ -15,9 +15,12 @@ export class SignComponent implements OnInit {
               private storageService: StorageService,
               private activatedRoute: ActivatedRoute,
               private router: Router) {
-    if (this.activatedRoute.snapshot.fragment?.split('redirect_uri=')[1]) {
+
+    // tslint:disable-next-line:max-line-length
+    if (this.activatedRoute.snapshot.queryParamMap.get('redirect_uri') && this.activatedRoute.snapshot.queryParamMap.get('account_linking_token')) {
       this.credixBotService.isFromBot = true;
-      this.credixBotService.redirectUri = this.activatedRoute.snapshot.fragment.split('redirect_uri=')[1];
+      this.credixBotService.redirectUri = this.activatedRoute.snapshot.queryParamMap.get('redirect_uri');
+      this.credixBotService.accountLinkingToken = this.activatedRoute.snapshot.queryParamMap.get('account_linking_token');
       this.router.navigate(['sign/sign-in']);
     }
   }

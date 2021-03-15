@@ -26,4 +26,15 @@ export class CredixBotService {
   set redirectUri(redirectUri: string) {
     this._redirectUri = redirectUri;
   }
+
+  // tslint:disable-next-line:variable-name
+  private _accountLinkingToken: string;
+
+  get accountLinkingToken(): string {
+    return this._accountLinkingToken;
+  }
+
+  set accountLinkingToken(value: string) {
+    this._accountLinkingToken = value;
+  }
 }
