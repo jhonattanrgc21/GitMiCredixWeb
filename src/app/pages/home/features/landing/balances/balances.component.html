@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <span class="balances-card__legend mt-8px" fxFlexAlign="flex-start">{{accountSummary.legend}}</span>
+  <span class="balances-card__legend mt-8px" fxFlexAlign="flex-start" [class.legend-offline]="accountSummary.onLine === 0">{{accountSummary.legend}}</span>
 
 
   <mat-divider class="balances-card__divider"></mat-divider>

@@ -44,5 +44,5 @@
     </tbody>
   </table>
 
-  <span class="payment-details-card__legend mt-8px" fxFlexAlign="flex-start">{{paymentDetails.legend}}</span>
+  <span class="payment-details-card__legend mt-8px" [class.legend-offline]="paymentDetails.onLine === 0" fxFlexAlign="flex-start">{{paymentDetails.legend}}</span>
 </mat-card>

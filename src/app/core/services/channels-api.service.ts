@@ -39,6 +39,7 @@ export class ChannelsApiService {
             limit: response.json.compra,
             consumed: response.json.consumed,
             legend: response.json.legend,
+            onLine: response.json.onLine
           };
         } else {
           return {
@@ -46,6 +47,7 @@ export class ChannelsApiService {
             limit: '0',
             consumed: '0',
             legend:' ',
+            onLine: 0,
           };
         }
       })

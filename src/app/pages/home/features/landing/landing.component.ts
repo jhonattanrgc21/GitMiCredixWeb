@@ -69,7 +69,8 @@ export class LandingComponent implements OnInit, OnDestroy {
           minPaymentDollars: response.pagoMinimoActDolares,
           cashPaymentColones: response.pagoContadoColones,
           cashPaymentDollars: response.pagoContadoDolares,
-          legend: response.legend
+          legend: response.legend,
+          onLine: response.onLine
         };
         console.log(this.paymentDetails);
         this.movements = response.movements;
@@ -148,6 +149,7 @@ export interface PaymentDetails {
   cashPaymentColones: string;
   cashPaymentDollars: string;
   legend: string;
+  onLine: number;
 }
 
 export interface Awards {
