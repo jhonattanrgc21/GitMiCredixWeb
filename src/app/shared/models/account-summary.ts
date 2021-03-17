@@ -3,4 +3,5 @@ export interface AccountSummary {
   limit: string;
   consumed: string;
   legend: string;
+  onLine: number;
 }
