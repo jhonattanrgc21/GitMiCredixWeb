@@ -22,8 +22,8 @@ export class AppComponent {
     });
     const url = window.location.href;
     if (url.includes('?redirect_uri')) {
-      const redirectUri = 'redirect_uri' + url.split('redirect_uri')[1] + '?account_linking_token' + url.split('account_linking_token')[1];
-      this.credixBotService.redirectUri = redirectUri;
+      // tslint:disable-next-line:max-line-length
+      this.credixBotService.redirectUri = 'redirect_uri' + url.split('redirect_uri')[1] + '?account_linking_token' + url.split('account_linking_token')[1];
     }
   }
 
