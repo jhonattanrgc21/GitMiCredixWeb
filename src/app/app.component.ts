@@ -11,8 +11,6 @@ import {CredixBotService} from './core/services/credix-bot.service';
 })
 export class AppComponent {
   title = 'Mi Credix';
-  private readonly botRedirectUri: string;
-  private readonly botToken: string;
 
   constructor(customIconLoaderService: CustomIconLoaderService,
               private loadingSpinnerService: LoadingSpinnerService,
@@ -24,10 +22,8 @@ export class AppComponent {
     });
     const url = window.location.href;
     if (url.includes('?redirect_uri')) {
-      this.botRedirectUri = 'redirect_uri' + url.split('redirect_uri')[1];
-      this.botToken = 'account_linking_token' + url.split('account_linking_token')[1];
-      this.credixBotService.redirectUri = this.botRedirectUri;
-      this.credixBotService.accountLinkingToken = this.botToken;
+      const redirectUri = 'redirect_uri' + url.split('redirect_uri')[1] + '?account_linking_token' + url.split('account_linking_token')[1];
+      this.credixBotService.redirectUri = redirectUri;
     }
   }
 
