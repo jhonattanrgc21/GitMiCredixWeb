@@ -28,7 +28,7 @@ export class AppComponent {
 
       this.credixBotService.redirectUri = 'redirect_uri' + (url.split('redirect_uri')[1]).split('account_linking_token')[0] + 'account_linking_token' + url.split('account_linking_token')[1];
 
-      this.route.navigate( ['/sign'], {queryParams: { redirect_uri: url.split('redirect_uri')[1]}});
+      this.route.navigate( ['/sign'], {queryParams: { redirect_uri: (url.split('redirect_uri=')[1])}} );
 
     }
   }
