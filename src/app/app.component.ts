@@ -22,10 +22,10 @@ export class AppComponent {
     this.loadingSpinnerService.loadingStatusObs.subscribe(value => {
       value ? this.spinner.show() : this.spinner.hide();
     });
-    const botUrl = window.location.href;
-    if (botUrl.includes('?redirect_uri')) {
-      this.botRedirectUri = 'redirect_uri' + botUrl.split('redirect_uri')[1];
-      this.botToken = 'account_linking_token' + botUrl.split('account_linking_token')[1];
+    const url = window.location.href;
+    if (url.includes('?redirect_uri')) {
+      this.botRedirectUri = 'redirect_uri' + url.split('redirect_uri')[1];
+      this.botToken = 'account_linking_token' + url.split('account_linking_token')[1];
       this.credixBotService.redirectUri = this.botRedirectUri;
       this.credixBotService.accountLinkingToken = this.botToken;
     }
