@@ -62,8 +62,9 @@ export class SignInComponent implements OnInit, OnDestroy {
                 this.otpSent = false;
                 this.deviceInfo();
               } else {
+                const fragmentUri = this.credixBotService.redirectUri.split('redirect_uri=')[1];
                 window.location.href =
-                  `${this.credixBotService.redirectUri}&authorization_code=${this.storageService.getCurrentToken()}`;
+                  `${fragmentUri}&authorization_code=${this.storageService.getCurrentToken()}`;
               }
               break;
             case 'warn':
