@@ -38,12 +38,16 @@ export class ChannelsApiService {
             available: response.json.compracuotasdisp,
             limit: response.json.compra,
             consumed: response.json.consumed,
+            legend: response.json.legend,
+            onLine: response.json.onLine
           };
         } else {
           return {
             available: '0',
             limit: '0',
             consumed: '0',
+            legend:' ',
+            onLine: 0,
           };
         }
       })
