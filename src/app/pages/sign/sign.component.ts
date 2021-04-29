@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../core/services/storage.service';
 import {globalCacheBusterNotifier} from 'ngx-cacheable';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SignInService} from './features/sign-in/sign-in.service';
+import {ActivatedRoute} from '@angular/router';
+import {CredixBotService} from '../../core/services/credix-bot.service';
 
 @Component({
   selector: 'app-sign',
@@ -11,13 +11,12 @@ import {SignInService} from './features/sign-in/sign-in.service';
 })
 export class SignComponent implements OnInit {
 
-  constructor(private storageService: StorageService,
-              private activedRoute: ActivatedRoute,
-              private router: Router,
-              private signInService: SignInService) {
-    if (this.activedRoute.snapshot.queryParamMap.get('redirect_uri')) {
-      this.router.navigate(['sign/sign-in']);
-      this.signInService.signInOnBot = true;
+  constructor(private readonly credixBotService: CredixBotService,
+              private storageService: StorageService,
+              private activatedRoute: ActivatedRoute) {
+
+    if (this.activatedRoute.snapshot.queryParamMap.get('redirect_uri')) {
+      this.credixBotService.isFromBot = true;
     }
   }
 

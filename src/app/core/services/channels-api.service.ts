@@ -17,6 +17,7 @@ export class ChannelsApiService {
   private readonly getAdditionalCardsUri = 'channels/getlistsadditionalcardsth';
   private readonly thAddressesUri = 'channels/getaddressth';
   private readonly getSchedulePaymentsUri = 'schedulerpayment/getscheduledpays';
+  private readonly getamountavailablecreditUri = 'channels/getamountavailablecredit';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -28,6 +29,33 @@ export class ChannelsApiService {
 
   getAccountSummary(cardId: number) {
     return this.httpService.post('canales', this.accountSummaryUri, {
+      cardId,
+      userId: this.storageService.getCurrentUser().userId,
+    }).pipe(
+      map((response) => {
+        if (response.type === 'success' || response.titleOne === 'Éxito') {
+          return {
+            available: response.json.compracuotasdisp,
+            limit: response.json.compra,
+            consumed: response.json.consumed,
+            legend: response.json.legend,
+            onLine: response.json.onLine
+          };
+        } else {
+          return {
+            available: '0',
+            limit: '0',
+            consumed: '0',
+            legend:' ',
+            onLine: 0,
+          };
+        }
+      })
+    );
+  }
+
+  getAmountAvailableCredit(cardId: number) {
+    return this.httpService.post('canales', this.getamountavailablecreditUri, {
       cardId,
       userId: this.storageService.getCurrentUser().userId,
     }).pipe(

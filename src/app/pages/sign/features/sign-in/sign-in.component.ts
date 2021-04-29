@@ -10,11 +10,8 @@ import {ForgotPasswordComponent} from './forgot-password/forgot-password.compone
 import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
 import {v4 as uuidv4} from 'uuid';
 import {finalize, takeUntil} from 'rxjs/operators';
-import {environment} from '../../../../../environments/environment';
-import {environment as enviromentQA} from '../../../../../environments/environment.qa';
-import {environment as enviromentPRE} from '../../../../../environments/environment.pre';
-import {environment as enviromentPRO} from '../../../../../environments/environment.prod';
 import {Subject} from 'rxjs';
+import {CredixBotService} from '../../../../core/services/credix-bot.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -40,22 +37,16 @@ export class SignInComponent implements OnInit, OnDestroy {
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
   @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
 
-  constructor(private signInService: SignInService,
-              private modalService: ModalService,
-              private storageService: StorageService,
-              private router: Router) {
+  constructor(private readonly signInService: SignInService,
+              private readonly credixBotService: CredixBotService,
+              private readonly modalService: ModalService,
+              private readonly storageService: StorageService,
+              private readonly router: Router) {
   }
 
   ngOnInit(): void {
     if (!this.storageService.getUuid()) {
       this.storageService.setUuid(uuidv4());
-    }
-
-    if (this.signInService.signInOnBot) {
-      environment.channelId = 110;
-      enviromentQA.channelId = 110;
-      enviromentPRE.channelId = 110;
-      enviromentPRO.channelId = 110;
     }
   }
 
@@ -63,22 +54,32 @@ export class SignInComponent implements OnInit, OnDestroy {
     if (this.signInformGroup.valid) {
       this.signInService.login(this.signInformGroup.controls.identification.value, this.signInformGroup.controls.password.value)
         .subscribe(response => {
-            if (response.type === 'success') {
-              this.storageService.setCurrentSession(response.user, response.cards);
-              this.otpSent = false;
-              this.deviceInfo();
-            }
 
-            if (response.type === 'warn') {
+          switch (response.type) {
+            case 'success':
+              if (!this.credixBotService.isFromBot) {
+                this.storageService.setCurrentSession(response.user, response.cards);
+                this.otpSent = false;
+                this.deviceInfo();
+              } else {
+                const fragmentUri = this.credixBotService.redirectUri.split('redirect_uri=')[1];
+                window.location.href =
+                  `${fragmentUri}&authorization_code=${this.storageService.getCurrentToken()}`;
+              }
+              break;
+            case 'warn':
               this.open('session-activate');
-            }
-          },
-          (error: Error) => {
-            this.errorMessage = error.message;
-            this.signInformGroup.controls.password.setErrors({invalid: true});
-            this.signInformGroup.updateValueAndValidity();
-            this.checkChanges();
-          });
+              break;
+            default:
+              break;
+          }
+
+        }, (error: Error) => {
+          this.errorMessage = error.message;
+          this.signInformGroup.controls.password.setErrors({invalid: true});
+          this.signInformGroup.updateValueAndValidity();
+          this.checkChanges();
+        });
     }
 
   }

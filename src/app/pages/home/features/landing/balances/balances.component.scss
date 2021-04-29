@@ -1,6 +1,6 @@
 .balances-card {
   width: 382px;
-  height: 555px;
+  height: 595px;
 
   &__cards-select {
     width: 174px;
@@ -40,6 +40,11 @@
   &__tag {
     font-size: 14px;
     color: #696D6F;
+    line-height: 21px;
+  }
+
+  &__legend {
+    font-size: 12px;
     line-height: 21px;
   }
 
@@ -120,4 +125,8 @@
   .balances-card {
     width: 360px;
   }
+}
+
+.legend-offline{
+  color:#E42313;
 }
