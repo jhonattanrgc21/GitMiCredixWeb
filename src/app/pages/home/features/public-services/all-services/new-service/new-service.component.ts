@@ -10,8 +10,6 @@ import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
-import {PopupAllReceiptsComponent} from '../popup-all-receipts/popup-all-receipts.component';
-import {Receipt} from '../../../../../../shared/models/receipt';
 
 @Component({
   selector: 'app-new-service',
@@ -89,12 +87,6 @@ export class NewServiceComponent implements OnInit {
       this.contractFormGroup.controls.contractControl.value,
       this.contractFormGroup.controls.keysControl.value)
       .pipe(finalize(() => {
-        if (this.pendingReceipts?.receipts.length > 1) {
-          this.popupAllPendingReceipt(
-            this.pendingReceipts.receipts,
-            this.currencySymbol,
-            this.publicServicesService.publicService.validateAntiquity);
-        } else if (this.pendingReceipts?.receipts.length === 1) {
           const period = ConvertStringDateToDate(this.pendingReceipts.receipts[0].receiptPeriod);
           this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
           this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts[0].expirationDate);
@@ -105,8 +97,7 @@ export class NewServiceComponent implements OnInit {
             billNumber: this.pendingReceipts.receipts[0].billNumber,
             totalAmount: this.pendingReceipts.receipts[0]?.totalAmount
           };
-          this.continue();
-        }
+        this.continue();
       })).subscribe(pendingReceipts => {
       this.pendingReceipts = pendingReceipts;
       this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
@@ -115,34 +106,34 @@ export class NewServiceComponent implements OnInit {
     });
   }
 
-  popupAllPendingReceipt(receipts: Receipt[], currencySymbol: string, validateAntiquity: string) {
-    this.modalService.open({
-      component: PopupAllReceiptsComponent,
-      title: 'Elija un recibo',
-      hideCloseButton: false,
-      data: {
-        receipts,
-        currencySymbol,
-        validateAntiquity,
-        companyName: this.publicServicesService.company
-      }
-    }, {width: 380, height: 673, disableClose: false, panelClass: 'all-receipts-popup'}).afterClosed()
-      .subscribe(values => {
-        if (values) {
-          const period = ConvertStringDateToDate(values.receiptPeriod);
-          this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
-          this.expirationDate = ConvertStringDateToDate(values.expirationDate);
-          this.receiptValues = {
-            serviceValue: values.serviceValue,
-            billNumber: values.billNumber,
-            expirationDate: values.expirationDate,
-            receiptPeriod: values.receiptPeriod,
-            totalAmount: values.totalAmount
-          };
-          this.continue();
-        }
-      });
-  }
+  // popupAllPendingReceipt(receipts: Receipt[], currencySymbol: string, validateAntiquity: string) {
+  //   this.modalService.open({
+  //     component: PopupAllReceiptsComponent,
+  //     title: 'Elija un recibo',
+  //     hideCloseButton: false,
+  //     data: {
+  //       receipts,
+  //       currencySymbol,
+  //       validateAntiquity,
+  //       companyName: this.publicServicesService.company
+  //     }
+  //   }, {width: 380, height: 673, disableClose: false, panelClass: 'all-receipts-popup'}).afterClosed()
+  //     .subscribe(values => {
+  //       if (values) {
+  //         const period = ConvertStringDateToDate(values.receiptPeriod);
+  //         this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
+  //         this.expirationDate = ConvertStringDateToDate(values.expirationDate);
+  //         this.receiptValues = {
+  //           serviceValue: values.serviceValue,
+  //           billNumber: values.billNumber,
+  //           expirationDate: values.expirationDate,
+  //           receiptPeriod: values.receiptPeriod,
+  //           totalAmount: values.totalAmount
+  //         };
+  //         this.continue();
+  //       }
+  //     });
+  // }
 
   payService() {
     this.publicServicesService.payPublicService(
