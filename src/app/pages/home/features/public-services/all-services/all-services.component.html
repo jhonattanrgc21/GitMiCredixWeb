@@ -32,14 +32,17 @@
 
   </ngx-simplebar>
   `
-  <div class="all-public-services__services" fxLayout="column" right>
-    <a (click)="newPublicService(publicService)" *ngFor="let publicService of publicServices" class="pointer"
-       fxLayout="row"
-       fxLayoutAlign="flex-start center">
-      <mat-icon [svgIcon]="categorySelected?.icon" class="mr-16px"
-                style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
-      {{publicService.publicServiceName}}
-    </a>
-  </div>
+
+  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" style="height: 100% !important;" class="left-container" fxLayout="column" right>
+    <div class="all-public-services__services" fxLayout="column">
+      <a (click)="newPublicService(publicService)" *ngFor="let publicService of publicServices" class="pointer"
+        fxLayout="row"
+        fxLayoutAlign="flex-start center">
+        <mat-icon [svgIcon]="categorySelected?.icon" class="mr-16px"
+                  style="fill: #B5B5B5; width: 16px; height: 25px;"></mat-icon>
+        {{publicService.publicServiceName}}
+      </a>
+    </div>
+  </ngx-simplebar>
 
 </credix-navigation-table>
