@@ -4,15 +4,18 @@
     <app-balances *ngIf="accountSummary && paymentDetails && movements"
                   [balancesTag]="balancesTags"
                   (cardChanged)="onCardChanged($event)"
-                  [accountSummary]="accountSummary"></app-balances>
+                  [accountSummary]="accountSummary">
+    </app-balances>
 
     <div fxLayout="column" fxLayoutGap="16px">
       <app-payment-details *ngIf="accountSummary && paymentDetails && movements"
                            [paymentDetailsTags]="paymentDetailsTags"
-                           [paymentDetails]="paymentDetails"></app-payment-details>
+                           [paymentDetails]="paymentDetails">
+      </app-payment-details>
       <app-movements *ngIf="accountSummary && paymentDetails && movements"
                      [movementsTags]="movementsTags"
-                     [movements]="movements"></app-movements>
+                     [movements]="movements">
+      </app-movements>
     </div>
 
   </div>
