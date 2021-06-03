@@ -6,6 +6,7 @@ import { FlexModule } from '@angular/flex-layout';
 import { CredixCardsModule } from 'src/app/shared/directives/credix-cards/credix-cards.module';
 import { ShareModule } from 'ngx-sharebuttons';
 import {MatIconModule} from '@angular/material/icon';
+import { CardDetailsComponent } from './card-details/card-details.component';
 
 const routes: Routes = [{
   path: '',
@@ -13,7 +14,7 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  declarations: [PinCodeComponent],
+  declarations: [PinCodeComponent, CardDetailsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
