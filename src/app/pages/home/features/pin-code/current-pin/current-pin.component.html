@@ -7,7 +7,7 @@
             <app-card-details
                 class="card-details"
                 fxFlex="0 1 calc(50% - 8px)"
-                [icon]="i >= 1? 'additionalCards': 'redCard'"
+                [icon]="card.category !== 'Principal'? 'additionalCards': 'redCard'"
                 [card]="card"
             >
             </app-card-details>

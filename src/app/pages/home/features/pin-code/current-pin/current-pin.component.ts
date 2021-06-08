@@ -26,7 +26,7 @@ export class CurrentPinComponent implements OnInit {
   ngOnInit(): void {
     this.cardsPin = [];
     this.cards = this.storageService.getCurrentCards();
- 
+
     this.cards.forEach((card) => {
       this.changePinService.currentPin( card.cardId ).subscribe((crdId) => {
         this.cardsPin.push({

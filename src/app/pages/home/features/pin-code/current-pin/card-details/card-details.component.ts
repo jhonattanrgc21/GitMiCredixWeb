@@ -15,7 +15,6 @@ export class CardDetailsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("card: ", this.card);
   }
 
 }
