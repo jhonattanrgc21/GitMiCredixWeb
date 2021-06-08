@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {HttpService} from '../../../../core/services/http.service';
-import {ModalService} from '../../../../core/services/modal.service';
-import {TagsService} from '../../../../core/services/tags.service';
-import {Tag} from '../../../../shared/models/tag';
+import {HttpService} from '../../../../../core/services/http.service';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
-import {ChangePinService} from './change-pin.service';
-import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
+import {ChangePinService} from '../pin-code.service';
+import {CredixCodeErrorService} from '../.././../../../core/services/credix-code-error.service';
 
 @Component({
   selector: 'app-change-pin',

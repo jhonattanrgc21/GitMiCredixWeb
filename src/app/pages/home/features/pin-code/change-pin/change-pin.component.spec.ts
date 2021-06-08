@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PinCodeComponent } from './pin-code.component';
+import { ChangePinComponent } from './change-pin.component';
 
-describe('PinCodeComponent', () => {
-  let component: PinCodeComponent;
-  let fixture: ComponentFixture<PinCodeComponent>;
+describe('ChangePinComponent', () => {
+  let component: ChangePinComponent;
+  let fixture: ComponentFixture<ChangePinComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinCodeComponent ]
+      declarations: [ ChangePinComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PinCodeComponent);
+    fixture = TestBed.createComponent(ChangePinComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,17 @@
+<mat-card   fxLayout="column" fxLayoutGap="16px" class="card-details" credixCard>
+    <div fxLayout="row" fxLayoutGap="22px">
+        <mat-icon class="logo-icon" [svgIcon]="icon"></mat-icon>
+        <div fxLayout="column" fxLayoutGap="4px">
+            <span class="truncate"><strong>{{ card.name }}</strong></span>
+            <span>{{ card.typeCard | uppercase }}  {{ card.cardNumber }}</span>
+        </div>
+    </div>
+    <div fxLayout="column" fxLayoutGap="16px" class="current-pin">
+        <div class="current-pin__info">
+            <span>PIN actual:</span>
+        </div>
+        <div>
+            <h2 class="current-pin__code">{{ card.pin }}</h2>
+        </div>
+    </div>
+</mat-card>

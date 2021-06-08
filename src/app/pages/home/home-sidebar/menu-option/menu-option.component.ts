@@ -69,6 +69,9 @@ export class MenuOptionComponent implements OnInit {
         this.submenus = [];
         functionalities.forEach(func => {
           if (func.level === 2) {
+            if ( func.description == 'PIN de tarjetas') {
+              func.link = "/home/current-pin";
+            }
             this.submenus.push({
               id: func.id,
               name: func.description,
@@ -190,7 +193,7 @@ export const submenus = [
   {id: 11, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data', parentId: 'Mi Cuenta'},
   {id: 12, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites', parentId: 'Mi Cuenta'},
   {id: 13, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password', parentId: 'Mi Cuenta'},
-  {id: 14, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta'},
+  {id: 14, name: 'Cambiar PIN', route: '/home/current-pin', icon: 'asterisk', parentId: 'Mi Cuenta'},
   {id: 15, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta'},
   {id: 16, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'}
 ];

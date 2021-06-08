@@ -1,0 +1,36 @@
+.change-pin {
+    max-height: 662px;
+    height: 100%;
+  
+    &__content {
+      width: 100%;
+      padding: 0 84px;
+      margin-top: 40px;
+    }
+  
+    .left-content {
+      width: 380px;
+  
+      credix-input-field {
+        height: 43px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 1199px) {
+    .change-pin {
+      max-height: 886px;
+  
+      &__content {
+        width: 100%;
+        padding: 0 78px;
+      }
+  
+      .left-content {
+        width: 266px;
+      }
+    }
+  }
+  
+  

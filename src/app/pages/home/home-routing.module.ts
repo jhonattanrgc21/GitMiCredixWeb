@@ -86,7 +86,7 @@ const routes: Routes = [
         loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
       },
       {
-        path: 'change-pin',
+        path: 'current-pin',
         loadChildren: () => import('./features/pin-code/pin-code.module.js').then(m => m.PinCodeModule)
       },
     ]
