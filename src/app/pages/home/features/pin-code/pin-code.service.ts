@@ -2,10 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {Cacheable} from 'ngx-cacheable';
 
 @Injectable()
 export class ChangePinService {
   private readonly changePinUri = 'security/modifysecuritykey';
+  private readonly getCardPin = 'account/findpincardbycrdid';
 
   constructor(private httpService: HttpService) {
   }
@@ -19,6 +21,21 @@ export class ChangePinService {
       map(response => {
         return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
       }));
+  }
+  
+  @Cacheable()
+  currentPin(crdId: number): Observable<any> {
+    return this.httpService.post('canales', this.getCardPin, {
+      crdId 
+    }).pipe(
+        map((response) => {
+          if ( response.crdId ) {
+            return response.crdId;
+          } else {
+            return [];
+          }
+        })
+    );
   }
 
   unsubscribe() {

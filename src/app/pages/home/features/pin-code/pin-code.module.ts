@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FlexModule} from '@angular/flex-layout';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
-import {RouterModule, Routes} from '@angular/router';
+import { FlexModule } from '@angular/flex-layout';
 import {CredixPopupModule} from '../../../../shared/components/credix-popup/credix-popup.module';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import {CredixConfirmationPopupModule} from '../../../../shared/components/credix-confirmation-popup/credix-confirmation-popup.module';
@@ -15,25 +15,30 @@ import {CredixLinkButtonModule} from '../../../../shared/components/credix-link-
 import {CredixInputFieldModule} from '../../../../shared/components/credix-input-field/credix-input-field.module';
 import {CredixTooltipsModule} from '../../../../shared/directives/credix-tooltips/credix-tooltips.module';
 import {CredixResultNotificationModule} from '../../../../shared/components/credix-result-notification/credix-result-notification.module';
-import {ChangePinComponent} from './change-pin.component';
 import {CredixDividerModule} from '../../../../shared/directives/credix-divider/credix-divider.module';
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-link/credix-code-link.module';
-import {ChangePinService} from './change-pin.service';
+import {ChangePinService} from './pin-code.service';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: ChangePinComponent
-  }
-];
+import { ChangePinComponent } from './change-pin/change-pin.component';
+import { CurrentPinComponent } from './current-pin/current-pin.component';
+import { CardDetailsComponent } from './current-pin/card-details/card-details.component';
+
+const routes: Routes = [{
+  path: '',
+  component: CurrentPinComponent,
+},
+{
+  path: 'change-pin',
+  component: ChangePinComponent,
+}];
 
 @NgModule({
-  declarations: [ChangePinComponent],
+  declarations: [ ChangePinComponent, CurrentPinComponent, CardDetailsComponent],
   imports: [
     CommonModule,
-    FlexModule,
     RouterModule.forChild(routes),
+    FlexModule,
     CredixPopupModule,
     CredixConfirmationPopupModule,
     CredixButtonModule,
@@ -49,12 +54,9 @@ const routes: Routes = [
     CredixDividerModule,
     CredixResultViewModule,
     CredixCodeLinkModule
-
   ],
   providers: [
     ChangePinService,
-    ModalService
   ]
 })
-export class ChangePinModule {
-}
+export class PinCodeModule { }

@@ -1,7 +1,7 @@
 <mat-card class="public-services" credixCard fxLayout="column" fxLayoutGap="16px">
   <h1>Servicios</h1>
 
-  <div fxLayout="row" fxLayoutAlign="space-between">
+  <div fxLayout="row" fxLayoutAlign="space-between" class="cards-contend">
     <credix-tab (selectionEvent)="tabSelected($event)" [tabs]="tabs"></credix-tab>
     <credix-search-box (selectionEvent)="onSearchBoxResponse($event)" [data]="searchingData"
                        style="margin-top: -10px;"></credix-search-box>
