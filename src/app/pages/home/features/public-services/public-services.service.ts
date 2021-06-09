@@ -168,14 +168,14 @@ export class PublicServicesService {
         }));
   }
 
-  payPublicService(clientName: string, publicServiceId: number, serviceValue: number, currencyCode: string, amount: string,
-                   term: number, keyType: number, expirationDate: string, billNumber: string | number, credixCode?: string):
+  payPublicService(clientName: string, publicServiceId: number, serviceValue: string, currencyCode: string, amount: string,
+                   term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string):
     Observable<any> {
     return this.httpService.post('incomex', this.payPublicServiceUri, {
       cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId.toString(),
       currencyId: currencyCode === 'COL' ? '188' : '840',
       amount: amount.split('.').length === 1 ? `${amount}.00` : amount,
-      billNumber: +billNumber,
+      billNumber: billNumber,
       clientName,
       publicServiceId,
       serviceValue,

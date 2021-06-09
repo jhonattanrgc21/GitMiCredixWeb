@@ -107,7 +107,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
       this.publicServicesService.payPublicService(
         this.pendingReceipt.clientName,
         this.selectedPublicService.publicServiceId,
-        +this.pendingReceipt.receipts[0].serviceValue,
+        this.pendingReceipt.receipts[0].serviceValue,
         this.pendingReceipt.currencyCode,
         amount,
         +this.pendingReceipt.receipts[0].receiptPeriod,

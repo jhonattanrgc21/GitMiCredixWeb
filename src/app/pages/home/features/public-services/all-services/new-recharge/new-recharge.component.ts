@@ -135,7 +135,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
-      +receipt[0].serviceValue,
+      receipt[0].serviceValue,
       this.pendingReceipts.currencyCode,
       this.rechargeFormGroup.controls.amount.value,
       +receipt[0].receiptPeriod,

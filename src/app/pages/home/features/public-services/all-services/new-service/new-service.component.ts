@@ -32,7 +32,7 @@ export class NewServiceComponent implements OnInit {
   hasReceipts = true;
   pendingReceipts: PendingReceipts;
   receiptValues: {
-    serviceValue: number;
+    serviceValue: string;
     receiptPeriod: number;
     expirationDate: string;
     billNumber: string;
@@ -91,7 +91,7 @@ export class NewServiceComponent implements OnInit {
           this.month = `${getMontByMonthNumber(period.getMonth())} ${period.getFullYear()}`;
           this.expirationDate = ConvertStringDateToDate(this.pendingReceipts.receipts[0].expirationDate);
           this.receiptValues = {
-            serviceValue: +this.pendingReceipts.receipts[0].serviceValue,
+            serviceValue: this.pendingReceipts.receipts[0].serviceValue,
             receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
             expirationDate: this.pendingReceipts.receipts[0].expirationDate,
             billNumber: this.pendingReceipts.receipts[0].billNumber,
@@ -139,7 +139,7 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
-      +this.receiptValues.serviceValue,
+      this.receiptValues.serviceValue,
       this.pendingReceipts.currencyCode,
       this.confirmFormGroup.controls.amount.value,
       +this.receiptValues.receiptPeriod,
