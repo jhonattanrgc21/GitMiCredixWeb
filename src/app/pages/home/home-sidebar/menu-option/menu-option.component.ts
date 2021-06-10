@@ -65,7 +65,6 @@ export class MenuOptionComponent implements OnInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionalities => {
       if (functionalities.length > 0) {
 
-        console.log("tags: ", functionalities);
         this.submenus = [];
         functionalities.forEach(func => {
           if (func.level === 2) {
