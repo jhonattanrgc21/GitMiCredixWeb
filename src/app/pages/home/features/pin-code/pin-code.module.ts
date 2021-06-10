@@ -29,7 +29,7 @@ const routes: Routes = [{
   component: CurrentPinComponent,
 },
 {
-  path: 'change-pin',
+  path: 'current-pin',
   component: ChangePinComponent,
 }];
 
