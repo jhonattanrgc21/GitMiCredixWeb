@@ -52,9 +52,9 @@
   &__services a {
     padding-bottom: 16px;
 
-    &:not(:first-of-type) {
+    //&:not(:first-of-type) {
       padding-top: 16px;
-    }
+    //}
 
     &:not(:last-of-type) {
       border-bottom: 1px solid #E9E9E9;
