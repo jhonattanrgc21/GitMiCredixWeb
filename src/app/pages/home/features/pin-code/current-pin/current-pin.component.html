@@ -1,0 +1,16 @@
+<div fxLayout="column" fxLayoutGap="16px" class="card-additionals" >
+    <mat-card class="w-100" credixCard fxLayout="column">
+        <h1>PIN de tarjetas</h1>
+    </mat-card>
+    <div fxLayout="row wrap" class="w-100">
+        <ng-container *ngFor="let card of cardsPin; let i = index;">
+            <app-card-details
+                class="card-details"
+                fxFlex="0 1 calc(50% - 8px)"
+                [icon]="card.category !== 'Principal'? 'additionalCards': 'redCard'"
+                [card]="card"
+            >
+            </app-card-details>
+        </ng-container>
+    </div>
+</div>

@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ChangePinComponent} from './change-pin.component';
+import { ChangePinComponent } from './change-pin.component';
 
 describe('ChangePinComponent', () => {
   let component: ChangePinComponent;
@@ -8,9 +8,9 @@ describe('ChangePinComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ChangePinComponent]
+      declarations: [ ChangePinComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

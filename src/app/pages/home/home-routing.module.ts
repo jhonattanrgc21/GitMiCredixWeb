@@ -43,10 +43,6 @@ const routes: Routes = [
         loadChildren: () => import('./features/personal-credit/personal-credit.module.js').then(m => m.PersonalCreditModule)
       },
       {
-        path: 'change-pin',
-        loadChildren: () => import('./features/change-pin/change-pin.module.js').then(m => m.ChangePinModule)
-      },
-      {
         path: 'personal-info',
         loadChildren: () => import('./features/personal-info-management/personal-info-management.module.js')
           .then(m => m.PersonalInfoManagementModule)
@@ -84,6 +80,10 @@ const routes: Routes = [
       {
         path: 'public-services',
         loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
+      },
+      {
+        path: 'change-pin',
+        loadChildren: () => import('./features/pin-code/pin-code.module.js').then(m => m.PinCodeModule)
       },
     ]
   }
