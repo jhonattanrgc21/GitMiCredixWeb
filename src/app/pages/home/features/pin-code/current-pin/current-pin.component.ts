@@ -29,9 +29,13 @@ export class CurrentPinComponent implements OnInit {
 
     this.cards.forEach((card) => {
       this.changePinService.currentPin( card.cardId ).subscribe((crdId) => {
+        
+        let pin = crdId instanceof Array ? 'En proceso': crdId.slice(0, 10);
+
         this.cardsPin.push({
           ...card,
-          pin: crdId.slice(0, 5),
+          status: 1,
+          pin,
         });
       })
     });

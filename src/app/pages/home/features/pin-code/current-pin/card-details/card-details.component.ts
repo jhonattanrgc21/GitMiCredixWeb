@@ -17,4 +17,8 @@ export class CardDetailsComponent implements OnInit {
 
   }
 
+  changePin() {
+    
+  }
+
 }

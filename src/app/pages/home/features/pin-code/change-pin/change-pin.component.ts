@@ -22,12 +22,14 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   hidePin = true;
   hideConfirmPin = true;
   type: 'text' | 'password' = 'password';
-  done = false;
+  done = true;
   title: string;
   status: 'success' | 'error';
   message: string;
   titleTag: string;
   questionTag: string;
+  newPin: Boolean = false;
+  showAlert: Boolean = false;
 
   constructor(private changePinService: ChangePinService,
               private credixCodeErrorService: CredixCodeErrorService,
@@ -43,6 +45,10 @@ export class ChangePinComponent implements OnInit, OnDestroy {
       this.changePinForm.controls.credixCode.setErrors({invalid: true});
       this.changePinForm.updateValueAndValidity();
     });
+
+    this.title = "Opps...";
+    this.status = "error";
+    this.message = "Su PIN no se puede cambiar porque se encuentra bloqueado. En este caso debemos generarle un PIN totalmente nuevo.";
   }
 
   confirm() {
@@ -58,6 +64,7 @@ export class ChangePinComponent implements OnInit, OnDestroy {
     this.changePinService.changePin(this.changePinForm.controls.pin.value, this.changePinForm.controls.credixCode.value)
       .pipe(finalize(() => this.done = this.changePinForm.controls.credixCode.valid))
       .subscribe(result => {
+        this.showAlert = true;
         this.title = result.title;
         this.status = result.type;
         this.message = result.message;
@@ -65,6 +72,7 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   }
 
   getTags(tags: Tag[]) {
+    console.log("tags: ", tags);
     this.titleTag = tags.find(tag => tag.description === 'cambiarpin.title')?.value;
     this.questionTag = tags.find(tag => tag.description === 'cambiarpin.question')?.value;
   }
@@ -80,6 +88,16 @@ export class ChangePinComponent implements OnInit, OnDestroy {
     } else {
       confirmPin.setErrors(null);
     }
+  }
+
+  generateNewPin() {
+    this.showAlert = false;
+
+    setTimeout(() => {
+      this.newPin = true;
+
+    }, 3000)
+    console.log("newPin");
   }
 
   ngOnDestroy(): void {
