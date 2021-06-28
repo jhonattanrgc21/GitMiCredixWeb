@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ModalService} from '../../../../core/services/modal.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StorageService} from '../../../../core/services/storage.service';
@@ -49,6 +49,9 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   deseoTag: string;
   newQuota: string;
   resultNew: string;
+  title: string;
+  @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
+  template: TemplateRef<any>;
 
   constructor(private extendTermService: ExtendTermService,
               private storageService: StorageService,
@@ -60,10 +63,22 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.checkCutDate();
     this.movementIdParam = this.route.snapshot.params?.movementId;
     this.getAllowedMovements();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
+  }
+
+  checkCutDate() {
+    this.extendTermService.checkCutDate().subscribe(response => {
+      if (!response.status) {
+        this.message = response.descriptionOne;
+        this.title = response.titleOne;
+        this.done = true;
+        this.template = this.disabledTemplate;
+      }
+    });
   }
 
   getAllowedMovementDetail(movement: AllowedMovement) {
