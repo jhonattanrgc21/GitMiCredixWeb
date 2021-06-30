@@ -17,24 +17,33 @@ export class CurrentPinComponent implements OnInit {
   cardsPin: CardPin[];
 
   constructor(
-    private route: Router,
     private changePinService: ChangePinService,
     private storageService: StorageService,
-    private activateRoute: ActivatedRoute,
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.cardsPin = [];
     this.cards = this.storageService.getCurrentCards();
 
+    this.loadCardsPin();
+  }
+
+  loadCardsPin()  {
     this.cards.forEach((card) => {
       this.changePinService.currentPin( card.cardId ).subscribe((crdId) => {
-        
-        let pin = crdId instanceof Array ? 'En proceso': crdId.slice(0, 10);
+        let status = 0;
+        let pin;
+
+        if ( crdId instanceof Array ) {
+          pin = 'En proceso';
+        } else {
+          pin = crdId.slice(0, 10);
+          status = 1;
+        }
 
         this.cardsPin.push({
           ...card,
-          status: 1,
+          status,
           pin,
         });
       })

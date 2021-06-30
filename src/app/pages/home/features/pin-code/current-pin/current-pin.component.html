@@ -6,7 +6,7 @@
     </mat-card>
     <div fxLayout="row wrap" class="w-100">
         <app-card-details
-            *ngFor="let card of cardsPin;; let i = index;"
+            *ngFor="let card of cardsPin; let i = index;"
             class="card-details"
             fxFlex="0 1 calc(50% - 8px)"
             [icon]="card.category !== 'Principal'? 'additionalCards': 'redCard'"
@@ -14,5 +14,4 @@
         >
         </app-card-details>
     </div>
-    
 </div>

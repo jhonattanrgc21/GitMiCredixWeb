@@ -62,6 +62,8 @@ export class NewServiceComponent implements OnInit {
   }
 
   getPublicService() {
+
+    console.log("Public Service: ", this.publicServicesService.publicService);
     if (this.publicServicesService.publicService) {
       this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
       this.keys = this.publicServicesService.publicService.keys;

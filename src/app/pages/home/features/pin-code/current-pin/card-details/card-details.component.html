@@ -15,7 +15,7 @@
         </div>
     </div>
     <div fxLayout="row" class="mt-16px" fxLayoutAlign="flex-end">
-        <credix-button (buttonClick)="changePin()" [disabled]="card.status === 1 ? true : false">
+        <credix-button (buttonClick)="changePin(card)" [disabled]="card.status === 0 ? true : false">
             Cambiar Pin
         </credix-button>
     </div>

@@ -7,6 +7,9 @@ import {Tag} from '../../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
 import {ChangePinService} from '../pin-code.service';
 import {CredixCodeErrorService} from '../.././../../../core/services/credix-code-error.service';
+import { CardPin } from 'src/app/shared/models/card-pin';
+import { Router } from '@angular/router';
+import { PublicServicesApiService } from 'src/app/core/services/public-services-api.service';
 
 @Component({
   selector: 'app-change-pin',
@@ -29,23 +32,32 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   titleTag: string;
   questionTag: string;
   newPin: Boolean = false;
-  showAlert: Boolean = false;
+  cardPin: CardPin;
 
   constructor(private changePinService: ChangePinService,
               private credixCodeErrorService: CredixCodeErrorService,
               private modalService: ModalService,
               private httpService: HttpService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private router: Router,
+              private publicServicesApiService: PublicServicesApiService,
+              ) {
   }
 
   ngOnInit(): void {
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Cambiar PIN').tags));
-    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.changePinForm.controls.credixCode.setErrors({invalid: true});
-      this.changePinForm.updateValueAndValidity();
-    });
+    if ( this.changePinService.cardPin ) {
+      this.cardPin = this.changePinService.cardPin;
+    } else {
+      this.router.navigate(['/home/change-pin']);
+    }
 
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+        this.getTags(functionality.find(fun => fun.description === 'Cambiar PIN').tags));
+      this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+        this.changePinForm.controls.credixCode.setErrors({invalid: true});
+        this.changePinForm.updateValueAndValidity();
+      });
+      
     this.title = "Opps...";
     this.status = "error";
     this.message = "Su PIN no se puede cambiar porque se encuentra bloqueado. En este caso debemos generarle un PIN totalmente nuevo.";
@@ -61,10 +73,9 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   }
 
   changePin() {
-    this.changePinService.changePin(this.changePinForm.controls.pin.value, this.changePinForm.controls.credixCode.value)
+    this.changePinService.changePin(this.changePinForm.controls.pin.value, this.changePinForm.controls.credixCode.value, this.cardPin.cardId)
       .pipe(finalize(() => this.done = this.changePinForm.controls.credixCode.valid))
       .subscribe(result => {
-        this.showAlert = true;
         this.title = result.title;
         this.status = result.type;
         this.message = result.message;
@@ -91,13 +102,18 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   }
 
   generateNewPin() {
-    this.showAlert = false;
-
-    setTimeout(() => {
-      this.newPin = true;
-
-    }, 3000)
-    console.log("newPin");
+    if ( this.status === 'success' ) {
+      this.router.navigate(['/home']);
+    } else {
+      //Generar ticket para la solicitud de nuevo pin
+      this.publicServicesApiService.getAllPublicService().subscribe(publicServices => {
+        this.newPin = true;
+        this.title = '!Éxito¡';
+        this.status = 'success';
+        this.message = 'Podrá visualizar su nuevo PIN en 24 horas';
+      });
+    }
+    
   }
 
   ngOnDestroy(): void {
