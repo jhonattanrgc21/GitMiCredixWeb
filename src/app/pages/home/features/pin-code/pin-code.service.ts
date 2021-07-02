@@ -34,10 +34,10 @@ export class ChangePinService {
       crdId,
     }).pipe(
         map((response) => {
-          if ( response && ( response.type === 'success' ) ) {
+          if ( response && ( response?.type === 'success' ) ) {
             return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status, pin: response.pin, pinStatus: response.pinStatus};
           } else {
-            return [];
+            return null;
           }
         })
     );
