@@ -48,12 +48,23 @@
   </mat-card>
   
   <ng-template #donePinTemplate>
-    <app-credix-result-view [resultMessage]="message"
+    <app-credix-result-view *ngIf="!newPin" [resultMessage]="message"
                             [resultTile]="title"
                             [status]="status"
                             [moduleTitle]="titleTag || 'Cambiar PIN'"
-                            buttonText="Listo"
-                            routeTo="/home"></app-credix-result-view>
+                            [buttonText]="status === 'success' || ( codeStatus === 403 ) ? 'Listo' : 'Solicitar nuevo PIN'"
+                            routeTo="/home/current-pin/change-pin"
+                            (buttonPressed)="generateNewPin()"
+                          ></app-credix-result-view>
+
+    <app-credix-result-view *ngIf="newPin" [resultMessage]="message"
+                            [resultTile]="title"
+                            [status]="'success'"
+                            [moduleTitle]="titleTag || 'Cambiar PIN'"
+                            [buttonText]="status === 'success' || ( codeStatus === 403 ) ? 'Listo' : 'Solicitar nuevo PIN'"
+                            routeTo="/home/current-pin/change-pin"
+                            (buttonPressed)="generateNewPin()"
+                          ></app-credix-result-view>
   </ng-template>
   
   
