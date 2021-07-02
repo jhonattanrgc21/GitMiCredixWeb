@@ -30,22 +30,24 @@ export class CurrentPinComponent implements OnInit {
 
   loadCardsPin()  {
     this.cards.forEach((card) => {
-      this.changePinService.currentPin( card.cardId ).subscribe((crdId) => {
-        let status = 0;
+      this.changePinService.currentPin( card.cardId ).subscribe((crdPin) => {
+        let status = 3;
         let pin;
 
-        if ( crdId instanceof Array ) {
-          pin = 'En proceso';
-        } else {
-          pin = crdId.slice(0, 10);
-          status = 1;
-        }
+        if ( crdPin && ( crdPin.type === 'success' ) ) {
+          if ( crdPin.pinStatus == 1 ) {
+            pin = crdPin.pin.slice(0, 10);
+            status = 1;
+          } else {
+            pin = 'En proceso';
+          }
 
-        this.cardsPin.push({
-          ...card,
-          status,
-          pin,
-        });
+          this.cardsPin.push({
+            ...card,
+            status,
+            pin,
+          });
+        }
       })
     });
   }

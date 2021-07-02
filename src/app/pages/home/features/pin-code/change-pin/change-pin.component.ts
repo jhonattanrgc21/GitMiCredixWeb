@@ -10,6 +10,7 @@ import {CredixCodeErrorService} from '../.././../../../core/services/credix-code
 import { CardPin } from 'src/app/shared/models/card-pin';
 import { Router } from '@angular/router';
 import { PublicServicesApiService } from 'src/app/core/services/public-services-api.service';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-change-pin',
@@ -25,7 +26,7 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   hidePin = true;
   hideConfirmPin = true;
   type: 'text' | 'password' = 'password';
-  done = true;
+  done = false;
   title: string;
   status: 'success' | 'error';
   message: string;
@@ -33,6 +34,7 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   questionTag: string;
   newPin: Boolean = false;
   cardPin: CardPin;
+  codeStatus: Number;
 
   constructor(private changePinService: ChangePinService,
               private credixCodeErrorService: CredixCodeErrorService,
@@ -48,7 +50,7 @@ export class ChangePinComponent implements OnInit, OnDestroy {
     if ( this.changePinService.cardPin ) {
       this.cardPin = this.changePinService.cardPin;
     } else {
-      this.router.navigate(['/home/change-pin']);
+      this.router.navigate(['/home/current-pin']);
     }
 
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
@@ -57,10 +59,6 @@ export class ChangePinComponent implements OnInit, OnDestroy {
         this.changePinForm.controls.credixCode.setErrors({invalid: true});
         this.changePinForm.updateValueAndValidity();
       });
-      
-    this.title = "Opps...";
-    this.status = "error";
-    this.message = "Su PIN no se puede cambiar porque se encuentra bloqueado. En este caso debemos generarle un PIN totalmente nuevo.";
   }
 
   confirm() {
@@ -79,11 +77,11 @@ export class ChangePinComponent implements OnInit, OnDestroy {
         this.title = result.title;
         this.status = result.type;
         this.message = result.message;
+        this.codeStatus = result.status;
       });
   }
 
   getTags(tags: Tag[]) {
-    console.log("tags: ", tags);
     this.titleTag = tags.find(tag => tag.description === 'cambiarpin.title')?.value;
     this.questionTag = tags.find(tag => tag.description === 'cambiarpin.question')?.value;
   }
@@ -102,15 +100,16 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   }
 
   generateNewPin() {
-    if ( this.status === 'success' ) {
+    if ( this.status === 'success' || ( this.codeStatus === 403 ) ) {
       this.router.navigate(['/home']);
     } else {
-      //Generar ticket para la solicitud de nuevo pin
-      this.publicServicesApiService.getAllPublicService().subscribe(publicServices => {
+      //Generar ticket para solicitud de nuevo pin
+      this.changePinService.newTicketPin(this.cardPin.cardId).subscribe(result => {
         this.newPin = true;
-        this.title = '!Éxito¡';
-        this.status = 'success';
-        this.message = 'Podrá visualizar su nuevo PIN en 24 horas';
+        this.title = result.title
+        this.status = result.type;
+        this.message = result.message;
+        this.codeStatus = result.status;
       });
     }
     

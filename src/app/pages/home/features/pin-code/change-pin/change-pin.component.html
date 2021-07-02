@@ -52,8 +52,8 @@
                             [resultTile]="title"
                             [status]="status"
                             [moduleTitle]="titleTag || 'Cambiar PIN'"
-                            [buttonText]="status === 'success' ? 'Listo' : 'Solicitar nuevo PIN'"
-                            routeTo="/home/change-pin/current-pin"
+                            [buttonText]="status === 'success' || ( codeStatus === 403 ) ? 'Listo' : 'Solicitar nuevo PIN'"
+                            routeTo="/home/current-pin/change-pin"
                             (buttonPressed)="generateNewPin()"
                           ></app-credix-result-view>
 
@@ -61,8 +61,8 @@
                             [resultTile]="title"
                             [status]="'success'"
                             [moduleTitle]="titleTag || 'Cambiar PIN'"
-                            [buttonText]="status === 'success' ? 'Listo' : 'Solicitar nuevo PIN'"
-                            routeTo="/home/change-pin/current-pin"
+                            [buttonText]="status === 'success' || ( codeStatus === 403 ) ? 'Listo' : 'Solicitar nuevo PIN'"
+                            routeTo="/home/current-pin/change-pin"
                             (buttonPressed)="generateNewPin()"
                           ></app-credix-result-view>
   </ng-template>

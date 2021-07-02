@@ -25,7 +25,7 @@ export class CardDetailsComponent implements OnInit {
 
   changePin(cardPin) {
     this.changePinService.cardPin = cardPin;
-    this.router.navigate(['current-pin'], {relativeTo: this.route});
+    this.router.navigate(['change-pin'], {relativeTo: this.route});
   }
 
 }

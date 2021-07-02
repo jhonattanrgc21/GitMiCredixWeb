@@ -9,6 +9,8 @@ import { CardPin } from 'src/app/shared/models/card-pin';
 export class ChangePinService {
   private readonly changePinUri = 'security/modifysecuritykey';
   private readonly getCardPin = 'account/findpincardbycrdid';
+  private readonly newTicketPinUri = '/account/ticketunlockpin';
+
   public cardPin: CardPin;
 
   constructor(private httpService: HttpService) {
@@ -25,18 +27,29 @@ export class ChangePinService {
         return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
       }));
   }
-  
+
   @Cacheable()
   currentPin(crdId: number): Observable<any> {
     return this.httpService.post('canales', this.getCardPin, {
-      crdId 
+      crdId,
     }).pipe(
         map((response) => {
-          if ( response.crdId ) {
-            return response.crdId;
+          if ( response && ( response.type === 'success' ) ) {
+            return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status, pin: response.pin, pinStatus: response.pinStatus};
           } else {
             return [];
           }
+        })
+    );
+  }
+  
+  @Cacheable()
+  newTicketPin(crdId: number): Observable<any> {
+    return this.httpService.post('canales', this.newTicketPinUri, {
+      cardId: crdId,
+    }).pipe(
+        map((response) =>{
+          return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
         })
     );
   }
