@@ -36,7 +36,7 @@ export class CurrentPinComponent implements OnInit {
 
         
         if ( crdPin && ( crdPin?.type === 'success' ) ) {
-          if ( crdPin.pinStatus == 1 ) {
+          if ( crdPin.pinStatus == '1' ) {
             pin = crdPin.pin.slice(0, 10);
             status = 1;
           } else {
