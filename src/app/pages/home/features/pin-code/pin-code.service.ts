@@ -42,7 +42,6 @@ export class ChangePinService {
     );
   }
   
-  @Cacheable()
   newTicketPin(crdId: number): Observable<any> {
     return this.httpService.post('canales', this.newTicketPinUri, {
       cardId: crdId,
