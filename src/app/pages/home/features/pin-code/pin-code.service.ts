@@ -28,7 +28,7 @@ export class ChangePinService {
       }));
   }
 
-  currentPin(crdId: number): Observable<{ type: 'success' | 'error', title: string, message: string, status: number, pin: string, pinStatus: '1' | '3' }> {
+  currentPin(crdId: number): Observable<any> {
     return this.httpService.post('canales', this.getCardPin, {
       crdId,
     }).pipe(
@@ -42,7 +42,7 @@ export class ChangePinService {
     );
   }
   
-  newTicketPin(crdId: number): Observable<{type: 'success' | 'error', title: string, message: string, status: number }> {
+  newTicketPin(crdId: number): Observable<any> {
     return this.httpService.post('canales', this.newTicketPinUri, {
       cardId: crdId,
     }).pipe(
