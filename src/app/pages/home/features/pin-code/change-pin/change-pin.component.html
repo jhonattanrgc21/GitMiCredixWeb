@@ -59,7 +59,7 @@
 
     <app-credix-result-view *ngIf="newPin" [resultMessage]="message"
                             [resultTile]="title"
-                            [status]="'success'"
+                            [status]="status"
                             [moduleTitle]="titleTag || 'Cambiar PIN'"
                             [buttonText]="status === 'success' || ( codeStatus === 403 ) ? 'Listo' : 'Solicitar nuevo PIN'"
                             routeTo="/home/current-pin/change-pin"

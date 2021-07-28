@@ -28,8 +28,7 @@ export class ChangePinService {
       }));
   }
 
-  @Cacheable()
-  currentPin(crdId: number): Observable<any> {
+  currentPin(crdId: number): Observable<{ type: 'success' | 'error', title: string, message: string, status: number, pin: string, pinStatus: '1' | '3' }> {
     return this.httpService.post('canales', this.getCardPin, {
       crdId,
     }).pipe(
@@ -43,8 +42,7 @@ export class ChangePinService {
     );
   }
   
-  @Cacheable()
-  newTicketPin(crdId: number): Observable<any> {
+  newTicketPin(crdId: number): Observable<{type: 'success' | 'error', title: string, message: string, status: number }> {
     return this.httpService.post('canales', this.newTicketPinUri, {
       cardId: crdId,
     }).pipe(

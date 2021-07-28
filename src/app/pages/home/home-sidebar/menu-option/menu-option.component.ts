@@ -70,7 +70,7 @@ export class MenuOptionComponent implements OnInit {
         functionalities.forEach(func => {
           if (func.level === 2) {
 
-            if ( func.description === 'PIN de tarjetas') {
+            if ( func.description === 'Cambiar PIN') {
               func.link = '/home/current-pin';
             }
 
