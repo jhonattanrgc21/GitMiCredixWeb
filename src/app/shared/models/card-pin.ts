@@ -5,4 +5,5 @@ export interface CardPin {
     category: string;
     cardNumber: string;
     pin: string;
+    status: number;
 }

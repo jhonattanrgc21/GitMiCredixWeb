@@ -1,16 +1,17 @@
 <div fxLayout="column" fxLayoutGap="16px" class="card-additionals" >
     <mat-card class="w-100" credixCard fxLayout="column">
         <h1>PIN de tarjetas</h1>
+        <span class="text-info"><strong>¿Para qué funciona el PIN?</strong></span>
+        <span class="text-info-req">- Transacciones en Datáfonos que lo requieran.</span>
     </mat-card>
     <div fxLayout="row wrap" class="w-100">
-        <ng-container *ngFor="let card of cardsPin; let i = index;">
-            <app-card-details
-                class="card-details"
-                fxFlex="0 1 calc(50% - 8px)"
-                [icon]="card.category !== 'Principal'? 'additionalCards': 'redCard'"
-                [card]="card"
-            >
-            </app-card-details>
-        </ng-container>
+        <app-card-details
+            *ngFor="let card of cardsPin; let i = index;"
+            class="card-details"
+            fxFlex="0 1 calc(50% - 8px)"
+            [icon]="card.category !== 'Principal'? 'additionalCards': 'redCard'"
+            [card]="card"
+        >
+        </app-card-details>
     </div>
 </div>
