@@ -11,6 +11,7 @@ export class ExtendTermService {
   private readonly getAllowedMovementsUri = 'channels/allowedmovements';
   private readonly calculateQuotaUri = 'channels/quotacalculator';
   private readonly saveNewQuotaUri = 'channels/savequotification';
+  private readonly cutDateUri = 'channels/cutdateextermterm';
 // tslint:disable-next-line:variable-name
   _result: { status: 'success' | 'error'; message: string };
 
@@ -35,6 +36,10 @@ export class ExtendTermService {
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
+  }
+
+  checkCutDate() {
+    return this.httpService.post('canales', this.cutDateUri);
   }
 
   getAllowedMovements(): Observable<AllowedMovement[]> {
