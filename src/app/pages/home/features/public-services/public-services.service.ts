@@ -169,7 +169,7 @@ export class PublicServicesService {
   }
 
   payPublicService(clientName: string, publicServiceId: number, serviceValue: string, currencyCode: string, amount: string,
-                   term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string):
+                   term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string, selfCode?: string):
     Observable<any> {
     return this.httpService.post('incomex', this.payPublicServiceUri, {
       cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId.toString(),
@@ -182,7 +182,8 @@ export class PublicServicesService {
       term,
       keyType,
       expirationDate,
-      credixCode
+      credixCode,
+      selfCode
     });
   }
 
