@@ -142,7 +142,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.keys[0].keyType,
       receipt[0].expirationDate,
       receipt[0].billNumber,
-      this.rechargeFormGroup.controls.credixCode.value)
+      this.rechargeFormGroup.controls.credixCode.value,
+      receipt[0].selfCode)
       .pipe(finalize(() => {
         if (this.rechargeFormGroup.controls.credixCode.valid) {
           this.router.navigate(['/home/public-services/success']);
