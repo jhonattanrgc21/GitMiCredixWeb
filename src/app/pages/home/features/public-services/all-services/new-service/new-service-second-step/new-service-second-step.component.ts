@@ -11,7 +11,7 @@ import {PublicServicesService} from '../../../public-services.service';
 })
 export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   @Input() confirmFormGroup: FormGroup = new FormGroup({
-    credixCode: new FormControl(null, [Validators.required]),
+    //credixCode: new FormControl(null, [Validators.required]), Estaba
     favorite: new FormControl(null),
     amount: new FormControl(null, [Validators.required])
   });
@@ -34,10 +34,10 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+    /*this.credixCodeErrorService.credixCodeError$.subscribe(() => {              // Estaba
       this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
       this.confirmFormGroup.updateValueAndValidity();
-    });
+    });*/
     this.companyName = this.publicServicesService.company;
   }
 

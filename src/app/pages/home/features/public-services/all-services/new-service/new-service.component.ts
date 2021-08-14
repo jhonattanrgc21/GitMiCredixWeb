@@ -22,10 +22,18 @@ export class NewServiceComponent implements OnInit {
     keysControl: new FormControl(null, [Validators.required])
   });
   confirmFormGroup: FormGroup = new FormGroup({
-    credixCode: new FormControl(null, [Validators.required]),
+    //credixCode: new FormControl(null, [Validators.required]), // Estaba
     favorite: new FormControl(null),
     amount: new FormControl(null, [Validators.required])
   });
+  requestForm: FormGroup = new FormGroup({
+    term: new FormControl(null, [Validators.required])
+  });
+  confirmCodeFormGroup: FormGroup = new FormGroup({
+    credixCode: new FormControl(null, [Validators.required]),
+  });
+  buttonFormGroup: FormGroup = null;
+
   currencySymbol = '₡';
   saveAsFavorite = false;
   stepperIndex = 0;
@@ -57,6 +65,7 @@ export class NewServiceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.buttonFormGroup = this.contractFormGroup;
     this.setErrorCredixCode();
     this.getPublicService();
   }
@@ -81,6 +90,16 @@ export class NewServiceComponent implements OnInit {
         this.payService();
       }
     });
+  }
+
+  next() {
+    if ( this.stepperIndex === 1 ) {
+      this.buttonFormGroup = this.confirmCodeFormGroup;
+      this.continue();
+    } else {
+      this.buttonFormGroup = this.confirmFormGroup;
+      this.checkPendingReceipts();
+    }
   }
 
   checkPendingReceipts() {
@@ -214,6 +233,13 @@ export class NewServiceComponent implements OnInit {
   }
 
   back() {
+    
+    if ( this.stepperIndex === 1 ) {
+      this.buttonFormGroup = this.contractFormGroup;
+    } else if ( this.stepperIndex === 2 ) {
+      this.buttonFormGroup = this.confirmFormGroup;
+    }
+    
     this.stepperIndex === 0 ? this.router.navigate(['/home/public-services']) : this.stepper.previous();
     this.stepperIndex = this.stepper.selectedIndex;
   }

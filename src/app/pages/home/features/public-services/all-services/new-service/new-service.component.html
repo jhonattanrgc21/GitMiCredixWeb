@@ -25,13 +25,20 @@
                                    [paymentType]="paymentType"
                                    [reference]="contractFormGroup.controls.contractControl.value"></app-new-service-second-step>
     </cdk-step>
+    <cdk-step [label]="'Plazos'" [stepControl]="requestForm">
+      <app-new-service-third-step [termControl]="requestForm.controls.term"
+                                  [confirmCodeFormGroup]="confirmCodeFormGroup"
+                                  [isActive]="stepperIndex === 2"
+                                  [amount]="confirmFormGroup.controls.amount.value"></app-new-service-third-step>
+    </cdk-step>
   </credix-stepper>
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
-    <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
-                   [disabled]="stepperIndex === 0 ? contractFormGroup.invalid : confirmFormGroup.invalid">
-      {{stepperIndex === 0 ? 'Continuar' : 'Pagar'}}
+    <credix-button (buttonClick)="stepperIndex !== 2 ? next() : openModal()"
+    [disabled]="buttonFormGroup.invalid">
+      {{stepperIndex !== 2 ? 'Continuar' : 'Pagar'}}
     </credix-button>
+
   </div>
 </mat-card>

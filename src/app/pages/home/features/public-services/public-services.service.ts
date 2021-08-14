@@ -13,6 +13,7 @@ import {Voucher} from '../../../../shared/models/voucher';
 import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
 import {Keys} from '../../../../shared/models/keys';
 import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
+import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 
 const iconPerCategory = [
   {category: 'Recargas', icon: 'recargas'},
@@ -44,11 +45,13 @@ export class PublicServicesService {
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
+  private readonly getQuotaCalculatorUri = 'general/quotacalculator';
+
   company: string;
   publicServiceIdByFavorite: number;
   phoneNumberByFavorite: string;
   keyTypeByFavorite: Keys[] = [];
-
+  paymentQuotaSummary: PaymentQuota = null;
   // tslint:disable-next-line:variable-name
   private _isTabChanged = new Subject();
 // tslint:disable-next-line:variable-name
@@ -201,6 +204,14 @@ export class PublicServicesService {
       map(response => {
         return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
       }));
+  }
+
+  @Cacheable()
+  getCuotaCalculator(amount: string, productId: number): Observable<{purchaseAmount: string, listQuota: any}>{
+    return this.httpService.post('canales', this.getQuotaCalculatorUri, {
+      amount,
+      productId,
+    });
   }
 
   // getMinAmounts() {
