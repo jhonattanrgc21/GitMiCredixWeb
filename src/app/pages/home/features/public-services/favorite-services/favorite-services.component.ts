@@ -126,7 +126,8 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
             currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$',
             amount: this.amountOfPay,
             contract: this.selectedPublicService.serviceReference,
-            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio'
+            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio',
+            quota: 1,
           };
 
           this.publicServicesService.voucher = {

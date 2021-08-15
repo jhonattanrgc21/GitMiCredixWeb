@@ -67,13 +67,13 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
   getQuotas() {
 
     console.log("amount: ", this.amount);
-    console.log("paymentQuotaSummary: ", this.publicSevice.paymentQuotaSummary.quotaTo);
-    /*this.publicSevice.getCuotaCalculator(this.amount, this.publicService.paymentQuotaSummary.quotaTo)
-      .pipe(finalize(() => this.selectPaymentQuotaSummary()))  
+    console.log("paymentQuotaSummary: ", this.publicSevice.paymentQuotaSummary?.quotaTo);
+    this.publicSevice.getCuotaCalculator(this.amount, this.publicSevice.publicService.publicServiceId)
+      .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
             if ( response ) {
-              this.quotas = response.listQuota.sort((a, b) => a.quota - b.quota);
+              this.quotas = response.listQuota.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
@@ -81,7 +81,7 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
               this.termSliderDisplayValue = this.termSliderDisplayMin;
             }
           }
-        );*/
+        );
     this.data = {
       "purchaseAmount": "200012",
       "listQuota": [
@@ -166,9 +166,9 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
   }
 
   selectPaymentQuotaSummary() {
-    this.publicSevice.paymentQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
+    this.paymentQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
     //this.ivaAmount = Number((ConvertStringAmountToNumber(this.personalCreditSummary.commission) * 0.13).toFixed(2));
-    //this.personalCreditService.personalCreditSummary = this.personalCreditSummary;
+    this.publicSevice.paymentQuotaSummary = Object.assign({}, this.paymentQuotaSummary);
   }
 
   openSummary() {

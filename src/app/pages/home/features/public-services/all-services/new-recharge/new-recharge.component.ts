@@ -163,7 +163,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
           currencySymbol: '₡',
           amount: this.rechargeFormGroup.controls.amount?.value,
           contract: this.phoneNumber.value,
-          type: 'Recarga'
+          type: 'Recarga',
+          quota: 1,
         };
 
         this.publicServicesService.voucher = {
