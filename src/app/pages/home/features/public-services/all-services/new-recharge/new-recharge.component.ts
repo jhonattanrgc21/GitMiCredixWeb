@@ -129,6 +129,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.buttonFormGroup = this.confirmCodeFormGroup;
       this.continue();
     } else {
+      console.log(this.rechargeFormGroup);
       this.buttonFormGroup = this.rechargeFormGroup;
       this.checkPendingReceipts();
     }
@@ -146,6 +147,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       })).subscribe(pendingReceipts => {
       this.pendingReceipts = pendingReceipts;
       if (this.pendingReceipts?.amounts) {
+        this.amounts = [];
         this.pendingReceipts.amounts.map((value, index) => {
           this.amounts.push({
             amount: value,
@@ -229,6 +231,11 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   back() {
+    if ( this.stepperIndex === 1 ) {
+      this.buttonFormGroup = this.phoneNumberFormGroup;
+    } else if ( this.stepperIndex === 2 ) {
+      this.buttonFormGroup = this.confirmCodeFormGroup;
+    }
     this.stepperIndex === 0 ? this.router.navigate(['/home/public-services']) : this.stepper.previous();
     this.stepperIndex = this.stepper.selectedIndex;
   }

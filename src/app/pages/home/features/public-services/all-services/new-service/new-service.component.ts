@@ -286,8 +286,7 @@ export class NewServiceComponent implements OnInit {
       this.confirmFormGroup.controls.credixCode.value).subscribe();
   }
 
-  back() {
-    
+  back() { 
     if ( this.stepperIndex === 1 ) {
       this.buttonFormGroup = this.contractFormGroup;
     } else if ( this.stepperIndex === 2 ) {

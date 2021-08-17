@@ -92,6 +92,7 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
+            console.log("response: ", response);
             if ( response ) {
               this.quotas = response.listQuota.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;

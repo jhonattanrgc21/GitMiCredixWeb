@@ -10,7 +10,6 @@ import {CredixCodeErrorService} from '../../../../../../../core/services/credix-
 })
 export class NewRechargeSecondStepComponent implements OnInit {
   @Input() rechargeFormGroup: FormGroup = new FormGroup({
-    phoneNumber: new FormControl(null, [Validators.required]),
     amount: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null),
   });
@@ -24,13 +23,16 @@ export class NewRechargeSecondStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
+    /*this.credixCodeErrorService.credixCodeError$.subscribe(() => {
       this.rechargeFormGroup.controls.credixCode.setErrors({invalid: true});
       this.rechargeFormGroup.updateValueAndValidity();
-    });
+    });*/
   }
 
   onCheckboxChanged(checked: boolean) {
+
+    console.log("onChecxboxChanged");
+
     this.showInput = checked;
     this.saveFavoriteEvent.emit(checked);
     this.rechargeFormGroup.controls.favorite.reset();
@@ -43,6 +45,9 @@ export class NewRechargeSecondStepComponent implements OnInit {
   }
 
   onAmountChanged(value) {
+
+    console.log("onAmountChanged");
+
     if (value !== 'Otro') {
       this.anotherAmount = false;
       this.rechargeFormGroup.controls.amount.setValidators([Validators.required]);

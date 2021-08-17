@@ -40,9 +40,9 @@
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
-    <credix-button (buttonClick)="stepperIndex !== 2 ? checkPendingReceipts() : openModal()"
+    <credix-button (buttonClick)="stepperIndex !== 2 ? next() : openModal()"
                    [disabled]="buttonFormGroup.invalid">
-      {{stepperIndex === 0 ? 'Continuar' : 'Recargar'}}
+      {{stepperIndex !== 2 ? 'Continuar' : 'Recargar'}}
     </credix-button>
   </div>
 </mat-card>
