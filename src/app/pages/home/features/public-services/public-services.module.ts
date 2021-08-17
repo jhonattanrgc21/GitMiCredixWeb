@@ -45,6 +45,7 @@ import {SuccessScreenComponent} from './success-screen/success-screen.component'
 import {PopupAllReceiptsComponent} from './all-services/popup-all-receipts/popup-all-receipts.component';
 import { NewServiceThirdStepComponent } from './all-services/new-service/new-service-third-step/new-service-third-step.component';
 import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
+import { NewRechargeThirdStepComponent } from './all-services/new-recharge/new-recharge-third-step/new-recharge-third-step.component';
 
 const routes: Routes = [
   {
@@ -94,6 +95,7 @@ const routes: Routes = [
     SuccessScreenComponent,
     PopupAllReceiptsComponent,
     NewServiceThirdStepComponent,
+    NewRechargeThirdStepComponent,
   ],
   imports: [
     CommonModule,

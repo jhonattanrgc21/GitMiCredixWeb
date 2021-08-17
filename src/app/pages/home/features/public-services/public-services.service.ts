@@ -14,7 +14,7 @@ import {cleanSchedulePayments$} from '../../../../core/services/channels-api.ser
 import {Keys} from '../../../../shared/models/keys';
 import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
-
+import { environment } from 'src/environments/environment';
 const iconPerCategory = [
   {category: 'Recargas', icon: 'recargas'},
   {category: 'Telefonía', icon: 'telefonia'},
@@ -45,7 +45,7 @@ export class PublicServicesService {
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
-  private readonly getQuotaCalculatorUri = 'general/quotacalculator';
+  private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
 
   company: string;
   publicServiceIdByFavorite: number;
@@ -206,13 +206,14 @@ export class PublicServicesService {
       }));
   }
 
-  @Cacheable()
   getCuotaCalculator(amount: string, productId: number): Observable<{purchaseAmount: string, listQuota: PaymentQuota[]}>{
     return this.httpService.post('incomex', this.getQuotaCalculatorUri, {
-      amount,
-      productId,
-    });
+      "transaction" : "1",
+      "amount" : "2.000,12",
+      "productId" : 5});
   }
+
+  
 
   // getMinAmounts() {
   //   return this.httpService.post('incomex', this.getMinAmountsUri).pipe(map(response => {

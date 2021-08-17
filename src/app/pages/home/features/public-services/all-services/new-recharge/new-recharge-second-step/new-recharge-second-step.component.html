@@ -41,17 +41,4 @@
     </div>
   </div>
 
-  <mat-divider credixDivider></mat-divider>
-
-  <div class="new-recharge-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <credix-code-link></credix-code-link>
-
-    <credix-code-input class="new-recharge-second-step__content__input left-content" formControlName="credixCode">
-       <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('required')"
-             error>Introduzca el código credix.</span>
-      <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('invalid')"
-            error>Código MiCredix inválido.</span>
-    </credix-code-input>
-  </div>
-
 </form>

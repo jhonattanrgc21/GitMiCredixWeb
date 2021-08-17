@@ -181,6 +181,28 @@ export class NewServiceComponent implements OnInit {
           type: 'Servicio',
           quota: this.requestForm.controls.term.value,
         };
+
+        this.publicServicesService.voucher = {
+          institution: [{companyCode: '1234', companyName: 'Nombre de compañía'}],
+          agreement: [{contractCode: 1111, contractName: "Nombre de contrato"}],
+          agencyCode: 'Código 1234',
+          cashier: 'Credix',
+          currencyCode: this.pendingReceipts.currencyCode,
+          clientName: this.pendingReceipts.clientName,
+          billNumber: this.receiptValues.billNumber,
+          transactionNumber: '00000111',
+          channelType: this.pendingReceipts.channelType,
+          paymentStatus: 'Aplicado',
+          movementDate: this.pendingReceipts.date,
+          expirationDate: this.receiptValues.expirationDate,
+          period: this.receiptValues.receiptPeriod.toString(),
+          reference: 1112344,
+          valorType: 'EFECTIVO',
+          amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount?.value),
+          paymentConcepts: [{conceptAmount: '1111', conceptCode: '2222', conceptDescription: '3333'}],
+          informativeConcepts: ['algo'],
+          currencySymbol: this.currencySymbol
+        };
       }
     );
   }

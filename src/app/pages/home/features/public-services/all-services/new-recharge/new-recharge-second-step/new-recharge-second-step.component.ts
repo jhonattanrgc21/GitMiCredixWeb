@@ -12,7 +12,6 @@ export class NewRechargeSecondStepComponent implements OnInit {
   @Input() rechargeFormGroup: FormGroup = new FormGroup({
     phoneNumber: new FormControl(null, [Validators.required]),
     amount: new FormControl(null, [Validators.required]),
-    credixCode: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null),
   });
   @Input() amounts: { amount: string, id: number }[];

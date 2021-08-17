@@ -19,11 +19,11 @@ const SECOND_STEP = 50000;
 const THIRD_STEP = 100000;
 
 @Component({
-  selector: 'app-new-service-third-step',
-  templateUrl: './new-service-third-step.component.html',
-  styleUrls: ['./new-service-third-step.component.scss']
+  selector: 'app-new-recharge-third-step',
+  templateUrl: './new-recharge-third-step.component.html',
+  styleUrls: ['./new-recharge-third-step.component.scss']
 })
-export class NewServiceThirdStepComponent implements OnInit, OnChanges {
+export class NewRechargeThirdStepComponent implements OnInit {
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
   @Input() termControl: FormControl = new FormControl(null);
@@ -226,5 +226,4 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
     this.popupDisclaimerTag = tags.find(tag => tag.description === 'credito.popup.tag.disclaimer')?.value;
     this.popupTotalTag = tags.find(tag => tag.description === 'credito.popup.tag.total')?.value;
   }
-  
 }

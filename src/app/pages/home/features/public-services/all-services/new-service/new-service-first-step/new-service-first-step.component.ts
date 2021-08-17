@@ -34,7 +34,6 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
     }
   }
 
-
   getLabel() {
     this.contractFormGroup.controls.keysControl.valueChanges.subscribe(value =>
       this.label = this.keys.find(key => key.keyType === value).description);
