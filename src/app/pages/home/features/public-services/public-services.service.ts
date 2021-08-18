@@ -172,7 +172,7 @@ export class PublicServicesService {
   }
 
   payPublicService(clientName: string, publicServiceId: number, serviceValue: string, currencyCode: string, amount: string,
-                   term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string):
+                   term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string, quota: number = 1):
     Observable<any> {
     return this.httpService.post('incomex', this.payPublicServiceUri, {
       cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId.toString(),
@@ -185,11 +185,12 @@ export class PublicServicesService {
       term,
       keyType,
       expirationDate,
-      credixCode
+      credixCode,
+      quota,
     });
   }
 
-  savePublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, keyType: number, codeCredix: number):
+  savePublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, keyType: number, codeCredix: number, quota: number):
     Observable<{ type: 'success' | 'error', status?: number, message: string, title: string }> {
     return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
       accountId: this.storageService.getCurrentUser().actId,
@@ -199,18 +200,26 @@ export class PublicServicesService {
       userId: this.storageService.getCurrentUser().userId,
       aliasName,
       publicServiceAccessKeyId: keyType,
-      codeCredix
+      quota,
+      codeCredix,
     }).pipe(
       map(response => {
         return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
       }));
   }
 
-  getCuotaCalculator(amount: string, productId: number): Observable<{purchaseAmount: string, listQuota: PaymentQuota[]}>{
+  getCuotaCalculator(amount: string): Observable<PaymentQuota[]>{
     return this.httpService.post('incomex', this.getQuotaCalculatorUri, {
-      "transaction" : "1",
-      "amount" : "2.000,12",
-      "productId" : 5});
+      transaction : '1',
+      amount,
+      productId : 5
+    }).pipe(
+        map(response => {
+          if ( response ) {
+            return response.listQuota;
+          }
+        })
+      );
   }
 
   

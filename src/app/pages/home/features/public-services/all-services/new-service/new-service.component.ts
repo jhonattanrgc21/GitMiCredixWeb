@@ -23,7 +23,6 @@ export class NewServiceComponent implements OnInit {
     keysControl: new FormControl(null, [Validators.required])
   });
   confirmFormGroup: FormGroup = new FormGroup({
-    //credixCode: new FormControl(null, [Validators.required]), // Estaba
     favorite: new FormControl(null),
     amount: new FormControl(null, [Validators.required])
   });
@@ -72,8 +71,6 @@ export class NewServiceComponent implements OnInit {
   }
 
   getPublicService() {
-
-    console.log("Public Service: ", this.publicServicesService.publicService);
     if (this.publicServicesService.publicService) {
       this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
       this.keys = this.publicServicesService.publicService.keys;
@@ -121,8 +118,6 @@ export class NewServiceComponent implements OnInit {
           };
         this.continue();
       })).subscribe(pendingReceipts => {
-
-        console.log("pendingReceipts: ", pendingReceipts);
       this.pendingReceipts = pendingReceipts;
       this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
       this.message = this.pendingReceipts.responseDescription;
@@ -160,54 +155,6 @@ export class NewServiceComponent implements OnInit {
   // }
 
   payService() {
-    let aux = interval(1000).pipe(take(1));
-
-    aux.pipe(
-      finalize(() => {
-        this.router.navigate(['/home/public-services/success']);
-      })
-    ).subscribe(
-      (response) => {
-        this.publicServicesService.result = {
-          status: 'success',
-          message: 'Su recarga ha sido procesada correctamente',
-          title: this.publicServiceName
-        };
-
-        this.publicServicesService.payment = {
-          currencySymbol: this.currencySymbol,
-          amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount?.value),
-          contract: this.contractFormGroup.controls.contractControl.value,
-          type: 'Servicio',
-          quota: this.requestForm.controls.term.value,
-        };
-
-        this.publicServicesService.voucher = {
-          institution: [{companyCode: '1234', companyName: 'Nombre de compañía'}],
-          agreement: [{contractCode: 1111, contractName: "Nombre de contrato"}],
-          agencyCode: 'Código 1234',
-          cashier: 'Credix',
-          currencyCode: this.pendingReceipts.currencyCode,
-          clientName: this.pendingReceipts.clientName,
-          billNumber: this.receiptValues.billNumber,
-          transactionNumber: '00000111',
-          channelType: this.pendingReceipts.channelType,
-          paymentStatus: 'Aplicado',
-          movementDate: this.pendingReceipts.date,
-          expirationDate: this.receiptValues.expirationDate,
-          period: this.receiptValues.receiptPeriod.toString(),
-          reference: 1112344,
-          valorType: 'EFECTIVO',
-          amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount?.value),
-          paymentConcepts: [{conceptAmount: '1111', conceptCode: '2222', conceptDescription: '3333'}],
-          informativeConcepts: ['algo'],
-          currencySymbol: this.currencySymbol
-        };
-      }
-    );
-  }
-
-  /*payService() {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
@@ -219,7 +166,7 @@ export class NewServiceComponent implements OnInit {
       this.receiptValues.expirationDate,
       this.receiptValues.billNumber,
       this.confirmCodeFormGroup.controls.credixCode.value,
-      //this.requestForm.controls.term.value,
+      this.publicServicesService.paymentQuotaSummary.quotaTo,
       )
       .pipe(finalize(() => {
         if (this.confirmFormGroup.controls.credixCode.valid) {
@@ -268,7 +215,7 @@ export class NewServiceComponent implements OnInit {
         };
 
       });
-  }*/
+  }
 
   formatAmountWithDecimalString(value: string) {
     if ((value.indexOf(',') === -1) && (value.indexOf('.') > -1)) {
@@ -283,7 +230,8 @@ export class NewServiceComponent implements OnInit {
       this.contractFormGroup.controls.contractControl.value,
       this.confirmFormGroup.controls.favorite.value,
       this.contractFormGroup.controls.keysControl.value,
-      this.confirmFormGroup.controls.credixCode.value).subscribe();
+      this.confirmCodeFormGroup.controls.credixCode.value,
+      this.publicServicesService.paymentQuotaSummary.quotaTo).subscribe();
   }
 
   back() { 
@@ -304,8 +252,8 @@ export class NewServiceComponent implements OnInit {
 
   setErrorCredixCode() {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
-      this.confirmFormGroup.updateValueAndValidity();
+      this.confirmCodeFormGroup.controls.credixCode.setErrors({invalid: true});
+      this.confirmCodeFormGroup.updateValueAndValidity();
     });
   }
 }

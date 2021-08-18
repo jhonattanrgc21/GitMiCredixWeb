@@ -74,6 +74,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    console.log("pendingReceipt: ", this.publicServicesService?.pendingReceipt);
     if (this.publicServicesService.pendingReceipt) {
       this.getPublicServiceByFavorite();
     } else {
@@ -104,7 +106,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
     this.publicServiceId = this.publicServicesService.publicServiceIdByFavorite;
     this.keys = this.publicServicesService.keyTypeByFavorite;
     if (this.publicServicesService.pendingReceipt?.amounts) {
-      this.amounts = [];
+     // this.amounts = [];
       this.publicServicesService.pendingReceipt.amounts.map((value, index) => {
         this.amounts.push({
           amount: value,
@@ -129,7 +131,6 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.buttonFormGroup = this.confirmCodeFormGroup;
       this.continue();
     } else {
-      console.log(this.rechargeFormGroup);
       this.buttonFormGroup = this.rechargeFormGroup;
       this.checkPendingReceipts();
     }
@@ -172,7 +173,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       receipt[0].expirationDate,
       receipt[0].billNumber,
       this.rechargeFormGroup.controls.credixCode.value,
-      //this.requestForm.controls.term.value,)
+      this.publicServicesService.paymentQuotaSummary.quotaTo)
       .pipe(finalize(() => {
         if (this.rechargeFormGroup.controls.credixCode.valid) {
           this.router.navigate(['/home/public-services/success']);
@@ -227,14 +228,15 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.rechargeFormGroup.controls.phoneNumber.value,
       this.rechargeFormGroup.controls.favorite.value,
       this.keys[0].keyType,
-      this.confirmCodeFormGroup.controls.credixCode.value).subscribe();
+      this.confirmCodeFormGroup.controls.credixCode.value,
+      this.publicServicesService.paymentQuotaSummary.quotaTo).subscribe();
   }
 
   back() {
     if ( this.stepperIndex === 1 ) {
       this.buttonFormGroup = this.phoneNumberFormGroup;
     } else if ( this.stepperIndex === 2 ) {
-      this.buttonFormGroup = this.confirmCodeFormGroup;
+      this.buttonFormGroup = this.rechargeFormGroup;
     }
     this.stepperIndex === 0 ? this.router.navigate(['/home/public-services']) : this.stepper.previous();
     this.stepperIndex = this.stepper.selectedIndex;

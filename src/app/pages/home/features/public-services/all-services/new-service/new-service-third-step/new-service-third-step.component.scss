@@ -1,13 +1,9 @@
 .new-service-third-step {
     padding: 0 84px;
-  
+    margin-top: 32px;
+
     &__content {
       width: 100%;
-  
-      &__input, &__select {
-        width: 380px;
-        height: 43px;
-      }
     }
   
     ::ng-deep.credix-slider {
@@ -17,26 +13,23 @@
     .credix-slider--no-units ::ng-deep.credix-slider__units {
       display: none;
     }
-  
-    ::ng-deep .credix-result-notification__title {
-      width: 320px;
-    }
-  
-    .left-content {
-      width: 380px;
+
+    &__form {
+      width: 379px;
     }
     
   }
-  
+
   @media screen and (max-width: 1199px) {
-    .new-service-first-step {
-      padding: 0 78px;
+    .new-service-third-step {
+      max-height: 886px;
+      height: 100%;
   
-      &__content__input, &__content__select {
+      &__form {
         width: 266px;
       }
     }
-  
   }
+  
   
   

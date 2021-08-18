@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, AfterViewInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { CredixCodeErrorService } from 'src/app/core/services/credix-code-error.service';
@@ -58,7 +58,6 @@ export class NewRechargeThirdStepComponent implements OnInit {
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
   termSliderDisplayValue = 0;
-  data: any;
 
   constructor(
     private modalService: ModalService,
@@ -75,7 +74,6 @@ export class NewRechargeThirdStepComponent implements OnInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Crédito personal').tags)
     );
-    this.getQuotas(); 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -85,104 +83,20 @@ export class NewRechargeThirdStepComponent implements OnInit {
   }
 
   getQuotas() {
-
-    console.log("amount: ", this.amount);
-    console.log("paymentQuotaSummary: ", this.publicSevice.paymentQuotaSummary?.quotaTo);
-    this.publicSevice.getCuotaCalculator(this.amount, this.publicSevice.publicService.publicServiceId)
+    this.publicSevice.getCuotaCalculator(this.amount)
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
             if ( response ) {
-              this.quotas = response.listQuota.sort((a, b) => a.quotaTo - b.quotaTo);
-              this.termSliderDisplayMin = this.quotas[0].quotaTo;
-              this.termSliderMin = 1;
-              this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
-              this.termSliderMax = this.quotas.length;
-              this.termSliderDisplayValue = this.termSliderDisplayMin;
+              this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
+              this.termSliderDisplayMin = this.quotas[0].quotaTo;                         
+              this.termSliderMin = 1;                                                     
+              this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;    
+              this.termSliderMax = this.quotas.length;                                    
+              this.termSliderDisplayValue = this.termSliderDisplayMin; 
             }
           }
         );
-    this.data = {
-      "purchaseAmount": "200012",
-      "listQuota": [
-        {
-          "feeAmount": "80,00",
-          "commissionPercentage": 10,
-          "feePercentage": 4,
-          "iva": "10,40",
-          "quotaTo": 3,
-          "amountPerQuota": "666,71",
-          "quotaFrom": 1,
-          "financedPlan": 0,
-          "commissionAmount": "200,01"
-        },
-        {
-          "feeAmount": "160,01",
-          "commissionPercentage": 0,
-          "feePercentage": 8,
-          "iva": "20,80",
-          "quotaTo": 6,
-          "amountPerQuota": "333,35",
-          "quotaFrom": 1,
-          "financedPlan": 0,
-          "commissionAmount": "2.500,00"
-        },
-        {
-          "feeAmount": "280,02",
-          "commissionPercentage": 0,
-          "feePercentage": 14,
-          "iva": "36,40",
-          "quotaTo": 12,
-          "amountPerQuota": "166,68",
-          "quotaFrom": 1,
-          "financedPlan": 0,
-          "commissionAmount": "0,00"
-        },
-        {
-          "feeAmount": "400,02",
-          "commissionPercentage": 12,
-          "feePercentage": 20,
-          "iva": "52,00",
-          "quotaTo": 18,
-          "amountPerQuota": "111,12",
-          "quotaFrom": 1,
-          "financedPlan": 0,
-          "commissionAmount": "240,01"
-        },
-        {
-          "feeAmount": "500,03",
-          "commissionPercentage": 10,
-          "feePercentage": 25,
-          "iva": "65,00",
-          "quotaTo": 24,
-          "amountPerQuota": "83,34",
-          "quotaFrom": 1,
-          "financedPlan": 0,
-          "commissionAmount": "5.000,00"
-        },
-        {
-          "feeAmount": "0,00",
-          "commissionPercentage": 0,
-          "feePercentage": 0,
-          "iva": "0,00",
-          "quotaTo": 36,
-          "amountPerQuota": "55,56",
-          "quotaFrom": 1,
-          "financedPlan": 0,
-          "commissionAmount": "0,00"
-        }
-      ]
-    };
-
-    this.quotas = this.data.listQuota.sort((a, b) => a.quota - b.quota);
-    this.termSliderDisplayMin = this.quotas[0].quotaTo;
-    this.termSliderMin = 1;
-    this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
-    this.termSliderMax = this.quotas.length;
-    this.termSliderDisplayValue = this.termSliderDisplayMin;
-    
-    this.selectPaymentQuotaSummary();
-    
   }
 
   selectPaymentQuotaSummary() {
@@ -206,8 +120,6 @@ export class NewRechargeThirdStepComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-
-    console.log("tags: ", tags);
     this.amountTag = tags.find(tag => tag.description === 'credito.stepper1.tag.monto')?.value;
     this.subtitleAmountTag = tags.find(tag => tag.description === 'credito.stepper1.subtitle.monto')?.value;
     this.monthTag = tags.find(tag => tag.description === 'credito.stepper1.tag.meses')?.value;

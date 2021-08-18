@@ -2,7 +2,7 @@ export interface PaymentQuota {
     feeAmount: string,
     commissionPercentage: string,
     feePercentage: number,
-    iva: string,
+    IVA: string,
     quotaTo: number,
     amountPerQuota: string,
     quotaFrom: number,

@@ -1,8 +1,8 @@
-<div class="new-service-third-step" fxLayout="column" fxLayoutGap="40px">
+<div class="new-recharge-third-step" fxLayout="column" fxLayoutGap="40px">
 
-    <div class="new-service-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <div class="new-recharge-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex="150px"><strong>Eliga su plazo</strong></span>
-      <credix-slider (inputChange)="getQuota($event)"
+      <credix-slider *ngIf="isActive" (inputChange)="getQuota($event)"
                      (valueChange)="getQuota($event)"
                      [displayMax]="termSliderDisplayMax"
                      [displayMin]="termSliderDisplayMin"
@@ -10,6 +10,7 @@
                      [max]="termSliderMax"
                      [min]="termSliderMin"
                      [step]="termSliderStep"
+                     [value]="termSliderStep"
                      [instructions]="'Por un período de'"
                      [units]="'Meses'">
       </credix-slider>
@@ -29,10 +30,10 @@
     </div>
     <mat-divider credixDivider></mat-divider>
   
-    <div [formGroup]="confirmCodeFormGroup" class="new-service-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+    <div [formGroup]="confirmCodeFormGroup" class="new-recharge-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
       <credix-code-link></credix-code-link>
   
-      <credix-code-input class="new-service-third-step__content__input left-content" formControlName="credixCode">
+      <credix-code-input class="new-recharge-third-step__form" formControlName="credixCode">
         <span *ngIf="confirmCodeFormGroup.controls.credixCode.hasError('required')"
           error>Introduzca el código credix.</span>
         <span *ngIf="confirmCodeFormGroup.controls.credixCode.hasError('invalid')"
@@ -74,7 +75,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupInterestTag || 'Interés' }} (2,9 % mensual)
+        <span fxFlex>{{ popupInterestTag || 'Interés' }} {{ '(' + paymentQuotaSummary?.feePercentage + '% mensual)' }} 
         </span>
         <credix-numeric-block
           [value]="paymentQuotaSummary?.feeAmount"
@@ -85,7 +86,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex>{{ popupIvaTag || 'IVA'}}*</span>
         <credix-numeric-block
-        [value]="paymentQuotaSummary?.iva"
+        [value]="paymentQuotaSummary?.IVA"
         fontWeight="bold"
         prefix="₡"></credix-numeric-block>
       </div>
@@ -100,6 +101,7 @@
       <span fxFlex>{{ paymentQuotaSummary.quotaTo }} Cuotas de</span>
         <credix-numeric-block
         [value]="paymentQuotaSummary?.amountPerQuota"
+        fontSize="24"
         fontWeight="bold"
         prefix="₡"></credix-numeric-block>
     </div>
