@@ -24,7 +24,7 @@
 
     <div class="left-content" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
-                           *ngFor="let amount of amounts, let last = last"
+                           *ngFor="let amount of amountsAux, let last = last"
                            [label]="last ? 'Otro': ''"
                            [ngClass]="{'mb-16px' : !last}"
                            [value]="amount.amount">
@@ -39,19 +39,6 @@
           ₡{{amounts[0].amount}}{{amounts[0].amount.split(',').length === 1 ? ',00' : ''}}</div>
       </credix-input-field>
     </div>
-  </div>
-
-  <mat-divider credixDivider></mat-divider>
-
-  <div class="new-recharge-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
-    <credix-code-link></credix-code-link>
-
-    <credix-code-input class="new-recharge-second-step__content__input left-content" formControlName="credixCode">
-       <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('required')"
-             error>Introduzca el código credix.</span>
-      <span *ngIf="rechargeFormGroup.controls.credixCode.hasError('invalid')"
-            error>Código MiCredix inválido.</span>
-    </credix-code-input>
   </div>
 
 </form>

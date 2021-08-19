@@ -19,6 +19,11 @@
         </div>
 
         <div fxLayout="row" fxLayoutGap="16px">
+          <span fxFlex>Plazo</span>
+          <span class="tr truncate"><strong>{{quota}}</strong></span>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="16px">
           <span fxFlex>{{type === 'Recarga' ? 'Celular' : 'Contrato'}}</span>
           <span class="tr truncate"><strong>{{contract}}</strong></span>
         </div>

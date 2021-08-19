@@ -17,6 +17,7 @@ export class SuccessScreenComponent implements OnInit {
   amount: string;
   contract: string;
   today = new Date();
+  quota: number;
 
   constructor(private publicServicesService: PublicServicesService,
               private modalService: ModalService) {
@@ -30,6 +31,7 @@ export class SuccessScreenComponent implements OnInit {
     this.currencySymbol = this.publicServicesService.payment.currencySymbol;
     this.contract = this.publicServicesService.payment.contract;
     this.type = this.publicServicesService.payment.type;
+    this.quota = this.publicServicesService.paymentQuotaSummary.quotaTo;
   }
 
 

@@ -1,0 +1,110 @@
+<div class="new-recharge-third-step" fxLayout="column" fxLayoutGap="40px">
+
+    <div class="new-recharge-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex="150px"><strong>Eliga su plazo</strong></span>
+      <credix-slider *ngIf="isActive" (inputChange)="getQuota($event)"
+                     (valueChange)="getQuota($event)"
+                     [displayMax]="termSliderDisplayMax"
+                     [displayMin]="termSliderDisplayMin"
+                     [displayValue]="termSliderDisplayValue"
+                     [max]="termSliderMax"
+                     [min]="termSliderMin"
+                     [step]="termSliderStep"
+                     [value]="termSliderStep"
+                     [instructions]="'Por un período de'"
+                     [units]="'Meses'">
+      </credix-slider>
+      
+  
+      <div fxFlex="25" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
+        <span>Cuotas de</span>
+  
+        <credix-numeric-block [value]="paymentQuotaSummary?.amountPerQuota"
+                              fontSize="24"
+                              fontWeight="bold"
+                              prefix="₡"></credix-numeric-block>
+  
+        <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
+      </div>
+  
+    </div>
+    <mat-divider credixDivider></mat-divider>
+  
+    <div [formGroup]="confirmCodeFormGroup" class="new-recharge-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+      <credix-code-link></credix-code-link>
+  
+      <credix-code-input class="new-recharge-third-step__form" formControlName="credixCode">
+        <span *ngIf="confirmCodeFormGroup.controls.credixCode.hasError('required')"
+          error>Introduzca el código credix.</span>
+        <span *ngIf="confirmCodeFormGroup.controls.credixCode.hasError('invalid')"
+          error>Código MiCredix inválido.</span>
+      </credix-code-input>
+    </div>
+  
+  
+    <!--<credix-result-notification *ngIf="!hasReceipts" status="info"
+                                [title]="message"></credix-result-notification>-->
+  
+</div>
+
+<ng-template #summaryTemplate>
+  <div class="h-100" fxLayout="column" fxLayoutGap="16px">
+
+    <div fxLayout="column" fxLayoutGap="8px">
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{ termTag || 'Plazo' }}</span>
+        <span><strong>{{ paymentQuotaSummary.quotaTo }} meses</strong></span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{ quoteTag || 'Cuota' }}</span>
+        <credix-numeric-block
+          [value]="paymentQuotaSummary?.amountPerQuota"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{ popupCommissionTag || 'Comisión' }}*
+        </span>
+        <credix-numeric-block
+          [value]="paymentQuotaSummary?.commissionAmount"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{ popupInterestTag || 'Interés' }} {{ '(' + paymentQuotaSummary?.feePercentage + '% mensual)' }} 
+        </span>
+        <credix-numeric-block
+          [value]="paymentQuotaSummary?.feeAmount"
+          fontWeight="bold"
+          prefix="₡"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex>{{ popupIvaTag || 'IVA'}}*</span>
+        <credix-numeric-block
+        [value]="paymentQuotaSummary?.IVA"
+        fontWeight="bold"
+        prefix="₡"></credix-numeric-block>
+      </div>
+    </div>
+
+
+    <p fxFlex style="color: #707070;">
+      * IVA y comisión se cargarán en el próximo estado de cuenta.
+    </p>
+
+    <div fxFlex fxFlexLayout="row" fxLayoutAlign="space-between">
+      <span fxFlex>{{ paymentQuotaSummary?.quotaTo }} Cuotas de</span>
+        <credix-numeric-block
+        [value]="paymentQuotaSummary?.amountPerQuota"
+        fontSize="24"
+        fontWeight="bold"
+        prefix="₡"></credix-numeric-block>
+    </div>
+  </div>
+</ng-template>
+  

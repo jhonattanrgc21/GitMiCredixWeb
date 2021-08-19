@@ -1,4 +1,4 @@
-<mat-card class="new-service" credixCard fxLayout="column" fxLayoutGap="4px">
+<mat-card class="new-service" credixCard  fxLayout="column" fxLayoutGap="4px">
 
   <h1 class="mb-16px">{{publicServiceName}}</h1>
 
@@ -25,13 +25,72 @@
                                    [paymentType]="paymentType"
                                    [reference]="contractFormGroup.controls.contractControl.value"></app-new-service-second-step>
     </cdk-step>
+    <cdk-step [label]="'Plazos'" [stepControl]="requestForm">
+      <app-new-service-third-step [termControl]="requestForm.controls.term"
+                                  [confirmCodeFormGroup]="confirmCodeFormGroup"
+                                  [isActive]="stepperIndex === 2"
+                                  [amount]="confirmFormGroup.controls.amount.value"></app-new-service-third-step>
+    </cdk-step>
   </credix-stepper>
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
-    <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
-                   [disabled]="stepperIndex === 0 ? contractFormGroup.invalid : confirmFormGroup.invalid">
-      {{stepperIndex === 0 ? 'Continuar' : 'Pagar'}}
+    <credix-button (buttonClick)="stepperIndex !== 2 ? next() : openModal()"
+    [disabled]="buttonFormGroup.invalid">
+      {{stepperIndex !== 2 ? 'Continuar' : 'Pagar'}}
     </credix-button>
+
   </div>
 </mat-card>
+
+<!--<ng-template #donePersonalCreditTemplate>
+  <app-credix-result-view
+    [moduleTitle]="'Crédito personal'"
+    [resultMessage]="
+     'Su recarga ha sido procesada correctamente'"
+    [status]="'success'"
+    [resultTile]="'Disponible insuficiente'"
+    buttonText="Listo"
+    routeTo="/home">
+
+    
+    <div class="w-100" fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="space-between">
+      
+      <mat-divider class="mb-24px"credixDivider></mat-divider>
+      
+      <div fxLayout="row" fxLayoutAlign="space-between" style="padding: 0 36px">
+        <p fxFlex><strong>Datos de la recarga</strong></p>
+
+        <div fxLayout="column" fxLayoutGap="8px" fxFlex style="padding-left: 20px;">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Monto</span>
+            <credix-numeric-block
+            [value]="'200'"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Plazo</span>
+            <span><strong>6 meses</strong></span>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Celular</span>
+            <span><strong>8888-8888</strong></span>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Fecha</span>
+            <span><strong>27 Set 2019</strong></span>
+
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="end" style="padding: 0 36px">
+        <credix-link-button (click)="openBillingModal()">Ver comprobante</credix-link-button>
+      </div>
+      <credix-share-button fxFlexAlign="center" style="margin-top: 90px;"></credix-share-button>
+
+    </div>
+
+  </app-credix-result-view>
+    
+</ng-template>-->

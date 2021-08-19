@@ -1,0 +1,34 @@
+.new-recharge-third-step {
+  padding: 0 84px;
+  margin-top: 32px;
+
+  &__content {
+    width: 100%;
+  }
+
+  ::ng-deep.credix-slider {
+    width: 281px;
+  }
+
+  .credix-slider--no-units ::ng-deep.credix-slider__units {
+    display: none;
+  }
+
+  &__form {
+    width: 379px;
+  }
+  
+}
+
+@media screen and (max-width: 1199px) {
+  .new-recharge-third-step {
+    max-height: 886px;
+    height: 100%;
+
+    &__form {
+      width: 266px;
+    }
+  }
+}
+
+
