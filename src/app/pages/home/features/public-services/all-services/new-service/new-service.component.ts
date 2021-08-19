@@ -44,6 +44,7 @@ export class NewServiceComponent implements OnInit {
     expirationDate: string;
     billNumber: string;
     totalAmount?: string | number;
+    selfCode?: string
   };
   publicServiceId: number;
   name: string;
@@ -113,7 +114,8 @@ export class NewServiceComponent implements OnInit {
             receiptPeriod: +this.pendingReceipts.receipts[0].receiptPeriod,
             expirationDate: this.pendingReceipts.receipts[0].expirationDate,
             billNumber: this.pendingReceipts.receipts[0].billNumber,
-            totalAmount: this.pendingReceipts.receipts[0]?.totalAmount
+            totalAmount: this.pendingReceipts.receipts[0]?.totalAmount,
+            selfCode: this.pendingReceipts.receipts[0].selfCode
           };
         this.continue();
       })).subscribe(pendingReceipts => {
@@ -165,6 +167,7 @@ export class NewServiceComponent implements OnInit {
       this.receiptValues.expirationDate,
       this.receiptValues.billNumber,
       this.confirmCodeFormGroup.controls.credixCode.value,
+      this.receiptValues.selfCode,
       this.publicServicesService.paymentQuotaSummary.quotaTo,
       )
       .pipe(finalize(() => {
