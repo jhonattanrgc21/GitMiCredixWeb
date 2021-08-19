@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
-import {finalize} from 'rxjs/operators';
+import {finalize, take} from 'rxjs/operators';
 import {PublicServicesService} from '../../public-services.service';
 import {PublicServicesApiService} from '../../../../../../core/services/public-services-api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -11,6 +11,7 @@ import {CdkStepper} from '@angular/cdk/stepper';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {TagsService} from '../../../../../../core/services/tags.service';
 import {Tag} from '../../../../../../shared/models/tag';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-new-recharge',
@@ -159,7 +160,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   recharge() {
-    /*const receipt = this.pendingReceipts.receipts;
+    const receipt = this.pendingReceipts.receipts;
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
@@ -193,7 +194,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
           amount: this.rechargeFormGroup.controls.amount?.value,
           contract: this.phoneNumberFormGroup.controls.phoneNumber.value,
           type: 'Recarga',
-          quota: 1,
+          quota: this.publicServicesService.paymentQuotaSummary.quotaTo,
         };
 
         this.publicServicesService.voucher = {
@@ -217,7 +218,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
           informativeConcepts: response.informativeConcepts,
           currencySymbol: '₡'
         };
-      });*/
+      });
   }
 
   saveFavorite() {

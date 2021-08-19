@@ -98,7 +98,7 @@
     </p>
 
     <div fxFlex fxFlexLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex>{{ paymentQuotaSummary.quotaTo }} Cuotas de</span>
+      <span fxFlex>{{ paymentQuotaSummary?.quotaTo }} Cuotas de</span>
         <credix-numeric-block
         [value]="paymentQuotaSummary?.amountPerQuota"
         fontSize="24"
