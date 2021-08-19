@@ -67,10 +67,6 @@ export class NewRechargeThirdStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.confirmCodeFormGroup.controls.credixCode.setErrors({invalid: true});
-      this.confirmCodeFormGroup.updateValueAndValidity();
-    });
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Crédito personal').tags)
     );

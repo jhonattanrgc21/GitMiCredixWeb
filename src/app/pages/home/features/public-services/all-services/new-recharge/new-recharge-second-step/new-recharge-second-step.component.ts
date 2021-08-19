@@ -24,12 +24,7 @@ export class NewRechargeSecondStepComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-
     this.amountsAux = this.amounts.concat();
-    /*this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.rechargeFormGroup.controls.credixCode.setErrors({invalid: true});
-      this.rechargeFormGroup.updateValueAndValidity();
-    });*/
   }
 
   ngOnChanges(change: SimpleChanges) {

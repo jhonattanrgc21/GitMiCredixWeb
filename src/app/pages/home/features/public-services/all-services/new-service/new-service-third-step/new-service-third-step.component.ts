@@ -67,17 +67,12 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.confirmCodeFormGroup.controls.credixCode.setErrors({invalid: true});
-      this.confirmCodeFormGroup.updateValueAndValidity();
-    });
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality => {
       if ( functionality.length > 0 ) {
-        this.getTags(functionality.find(fun => fun.description === 'Crédito personal')?.tags)
+        this.getTags(functionality.find(fun => fun.description === 'Servicios')?.tags)
       }
-    }
-    );
-    this.getQuotas(); 
+    });
+    this.getQuotas();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -111,7 +106,6 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
   }
 
   openSummary() {
-    console.log("paymentQuotaSummary: ", this.paymentQuotaSummary);
     this.modalService.open({
         template: this.summaryTemplate, title: 'Resumen general'
       },

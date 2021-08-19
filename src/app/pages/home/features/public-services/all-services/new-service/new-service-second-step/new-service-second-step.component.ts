@@ -34,7 +34,7 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    /*this.credixCodeErrorService.credixCodeError$.subscribe(() => {              // Estaba
+    /*this.credixCodeErrorService.credixCodeError$.subscribe(() => {
       this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
       this.confirmFormGroup.updateValueAndValidity();
     });*/

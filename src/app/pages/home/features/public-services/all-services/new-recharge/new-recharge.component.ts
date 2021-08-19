@@ -74,8 +74,6 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
-    console.log("pendingReceipt: ", this.publicServicesService?.pendingReceipt);
     if (this.publicServicesService.pendingReceipt) {
       this.getPublicServiceByFavorite();
     } else {
@@ -172,10 +170,10 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.keys[0].keyType,
       receipt[0].expirationDate,
       receipt[0].billNumber,
-      this.rechargeFormGroup.controls.credixCode.value,
+      this.confirmCodeFormGroup.controls.credixCode.value,
       this.publicServicesService.paymentQuotaSummary.quotaTo)
       .pipe(finalize(() => {
-        if (this.rechargeFormGroup.controls.credixCode.valid) {
+        if (this.confirmCodeFormGroup.controls.credixCode.valid) {
           this.router.navigate(['/home/public-services/success']);
         }
       }))
@@ -249,8 +247,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   setErrorCredixCode() {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.rechargeFormGroup.controls.credixCode.setErrors({invalid: true});
-      this.rechargeFormGroup.updateValueAndValidity();
+      this.confirmCodeFormGroup.controls.credixCode.setErrors({invalid: true});
+      this.confirmCodeFormGroup.updateValueAndValidity();
     });
   }
 

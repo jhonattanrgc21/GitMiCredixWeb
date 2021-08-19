@@ -9,8 +9,7 @@ import {PendingReceipts} from '../../../../../../shared/models/pending-receipts'
 import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
-import {finalize, take} from 'rxjs/operators';
-import { interval } from 'rxjs';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-service',
