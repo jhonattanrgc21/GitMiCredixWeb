@@ -168,7 +168,7 @@ export class NewServiceComponent implements OnInit {
       this.publicServicesService.paymentQuotaSummary.quotaTo,
       )
       .pipe(finalize(() => {
-        if (this.confirmFormGroup.controls.credixCode.valid) {
+        if (this.confirmCodeFormGroup.controls.credixCode.valid) {
           this.router.navigate(['/home/public-services/success']);
         }
       }))
