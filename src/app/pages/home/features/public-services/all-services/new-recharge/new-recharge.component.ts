@@ -172,6 +172,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       receipt[0].expirationDate,
       receipt[0].billNumber,
       this.confirmCodeFormGroup.controls.credixCode.value,
+      receipt[0].selfCode,
       this.publicServicesService.paymentQuotaSummary.quotaTo)
       .pipe(finalize(() => {
         if (this.confirmCodeFormGroup.controls.credixCode.valid) {

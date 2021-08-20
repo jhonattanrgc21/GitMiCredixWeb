@@ -113,7 +113,8 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         +this.pendingReceipt.receipts[0].receiptPeriod,
         this.selectedPublicService.publicServiceAccessKeyType,
         this.pendingReceipt.receipts[0].expirationDate,
-        this.pendingReceipt.receipts[0].billNumber)
+        this.pendingReceipt.receipts[0].billNumber,
+        this.pendingReceipt.receipts[0].selfCode)
         .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
         .subscribe((response) => {
           this.publicServicesService.result = {
