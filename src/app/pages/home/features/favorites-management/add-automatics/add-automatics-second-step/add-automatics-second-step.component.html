@@ -1,0 +1,64 @@
+<div class="add-automatics-second-step" fxLayout="column" fxLayoutGap="16px">
+    <div class="add-automatics-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="150px"><strong>Elija su plazo</strong></span>
+            
+        <div fxLayout="column" fxFlex="304px" fxLayoutAlign="space-between" fxLayoutGap="32px">
+            <credix-slider (inputChange)="getQuota($event)"
+                           (valueChange)="getQuota($event)"
+                           [displayMax]="termSliderDisplayMax"
+                           [displayMin]="termSliderDisplayMin"
+                           [displayValue]="termSliderDisplayValue"
+                           [max]="termSliderMax"
+                           [min]="termSliderMin"
+                           [step]="termSliderStep"
+                           [instructions]="'Deseo dividir este pago en'"
+                           [units]="'Meses'">
+            </credix-slider>
+
+            <div fxLayout="column" fxLayoutGap="16px">
+
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                  <span class="font-summary" fxFlex>{{ 'Plazo' }}</span>
+                  <span><strong>{{ paymentQuotaSummary?.quotaTo }} meses</strong></span>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                  <span fxFlex>{{ quoteTag || 'Cuota' }}
+                  </span>
+                  <credix-numeric-block
+                    [value]="paymentQuotaSummary?.amountPerQuota"
+                    fontWeight="bold"
+                    prefix="₡"></credix-numeric-block>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <span fxFlex>{{ popupCommissionTag || 'Comisión*' }}
+                    </span>
+                    <span><strong>{{ paymentQuotaSummary?.commissionPercentage + ' ' + '%'}}</strong></span>
+                  </div>
+            
+                  <div fxLayout="row" fxLayoutAlign="space-between">
+                    <span fxFlex>{{ popupInterestTag || 'Interés' }} 
+                    </span>
+                    <span><strong>{{ paymentQuotaSummary?.feePercentage + '% mensual' }}</strong></span>
+                  </div>
+                  <p fxFlex style="color: #707070; font-size: 12px;">
+                    * IVA y comisión se cargarán junto con el pago automático cuando se ejecute. IVA es 13% de la comisión.
+                  </p>
+            </div>
+
+            
+        </div>   
+    </div>
+    <mat-divider credixDivider></mat-divider>
+    <div [formGroup]="confirmCodeFormGroup" class="add-automatics-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+        <credix-code-link></credix-code-link>
+    
+        <credix-code-input class="add-automatics-second-step__form" formControlName="codeCredix">
+          <span *ngIf="confirmCodeFormGroup.controls.codeCredix.hasError('required')"
+          error>Introduzca el código credix.</span>
+          <span *ngIf="confirmCodeFormGroup.controls.codeCredix.hasError('invalid')"
+            error>Código MiCredix inválido.</span>
+        </credix-code-input>
+      </div>
+</div>

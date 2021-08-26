@@ -55,6 +55,8 @@ export class NewServiceComponent implements OnInit {
   quantityOfKeys: number;
   publicServiceName: string;
   paymentType = '';
+  keyType: string = '';
+
   @ViewChild('newServiceStepper') stepper: CdkStepper;
 
   constructor(private publicServicesService: PublicServicesService,
@@ -96,6 +98,7 @@ export class NewServiceComponent implements OnInit {
       this.continue();
     } else {
       this.buttonFormGroup = this.confirmFormGroup;
+      this.keyType = this.keys.find(key => key.keyType).description;
       this.checkPendingReceipts();
     }
   }
@@ -156,7 +159,22 @@ export class NewServiceComponent implements OnInit {
   // }
 
   payService() {
-    this.publicServicesService.payPublicService(
+    this.router.navigate(['/home/public-services/success']);
+
+    this.publicServicesService.result = {
+      status: 'success',
+      message: 'La recarga se ha procesado exitosamente',
+      title: 'Recarga 1'
+    };
+
+    this.publicServicesService.payment = {
+      currencySymbol: this.currencySymbol,
+      amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount?.value),
+      contract: this.contractFormGroup.controls.contractControl.value,
+      type: 'Servicio',
+      quota: this.requestForm.controls.term.value,
+    };
+    /*this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
       this.receiptValues.serviceValue,
@@ -216,7 +234,7 @@ export class NewServiceComponent implements OnInit {
           currencySymbol: this.currencySymbol
         };
 
-      });
+      });*/
   }
 
   formatAmountWithDecimalString(value: string) {

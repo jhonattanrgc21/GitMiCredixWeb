@@ -31,6 +31,8 @@ export class NewRechargeSecondStepComponent implements OnInit, OnChanges {
     if ( change.amounts?.currentValue.length > 0 ) {
       if ( !this.compare(change.amounts?.currentValue, change.amounts?.previousValue ) ) {
         this.amountsAux = change.amounts.currentValue.concat();
+        console.log(this.amountsAux);
+
       }
     }
   }

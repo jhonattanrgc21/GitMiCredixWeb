@@ -1,6 +1,6 @@
 <mat-card class="favorites-management" credixCard fxLayout="column" fxLayoutGap="16px">
   <h1>{{titleTag || 'Gestionar favoritos'}}</h1>
-
+  <add-automatics-first-step></add-automatics-first-step>
   <credix-tab (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex]" [tabs]="tabs"></credix-tab>
 
   <credix-navigation-table [headers]="tableHeaders" [hide]="empty">

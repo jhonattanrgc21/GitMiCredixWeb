@@ -86,6 +86,7 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
+            console.log("quotas: ", response);
             if ( response ) {
               console.log( response );
               this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
@@ -109,7 +110,7 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
     this.modalService.open({
         template: this.summaryTemplate, title: 'Resumen general'
       },
-      {width: 380, height: 467, disableClose: true, panelClass: 'summary-panel'});
+      {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'});
   }
 
 

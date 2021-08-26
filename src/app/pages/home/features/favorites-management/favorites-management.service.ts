@@ -9,12 +9,15 @@ import {CacheBuster} from 'ngx-cacheable';
 import {cleanIbanFavoriteAccount$} from '../../../../core/services/account-api.service';
 import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
 import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
+import { map } from 'rxjs/operators';
+import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 
 @Injectable()
 export class FavoritesManagementService {
   private readonly deleteIbanAccountUri = 'iban/deletePublicServiceFavorite';
   private readonly deleteFavoritePublicServiceUri = 'publicservice/deletepublicservicefavorite';
   private readonly deleteSchedulePaymentUri = 'schedulerpayment/deleteschedulerpayment';
+  private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
 
   // tslint:disable-next-line:variable-name max-line-length
   private _favoritesPublicService: Subject<PublicServiceFavoriteByUser> = new Subject<PublicServiceFavoriteByUser>();
@@ -186,6 +189,20 @@ export class FavoritesManagementService {
     return this.httpService.post('canales', this.deleteSchedulePaymentUri, {
       schedulerPayId
     });
+  }
+
+  getCuotaCalculator(amount: string): Observable<PaymentQuota[]>{
+    return this.httpService.post('incomex', this.getQuotaCalculatorUri, {
+      transaction : '1',
+      amount,
+      productId : 5
+    }).pipe(
+        map(response => {
+          if ( response ) {
+            return response.listQuota;
+          }
+        })
+      );
   }
 
   unsubscribe() {

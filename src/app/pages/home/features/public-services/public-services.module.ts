@@ -46,6 +46,7 @@ import {PopupAllReceiptsComponent} from './all-services/popup-all-receipts/popup
 import { NewServiceThirdStepComponent } from './all-services/new-service/new-service-third-step/new-service-third-step.component';
 import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
 import { NewRechargeThirdStepComponent } from './all-services/new-recharge/new-recharge-third-step/new-recharge-third-step.component';
+import { AutomaticsService } from '../favorites-management/automatics/automatics.service';
 
 const routes: Routes = [
   {
@@ -132,7 +133,8 @@ const routes: Routes = [
     CredixSliderModule,
   ],
   providers: [
-    PublicServicesService
+    PublicServicesService,
+    AutomaticsService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

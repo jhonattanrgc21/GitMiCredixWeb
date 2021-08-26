@@ -160,7 +160,9 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   recharge() {
-    const receipt = this.pendingReceipts.receipts;
+    this.router.navigate(['/home/public-services/success']);
+
+    /*const receipt = this.pendingReceipts.receipts;
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
@@ -219,7 +221,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
           informativeConcepts: response.informativeConcepts,
           currencySymbol: '₡'
         };
-      });
+      });*/
   }
 
   saveFavorite() {

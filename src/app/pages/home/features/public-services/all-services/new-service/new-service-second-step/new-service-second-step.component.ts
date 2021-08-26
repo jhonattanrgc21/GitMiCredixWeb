@@ -24,6 +24,7 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   @Input() receipts = 0;
   @Input() paymentType: string;
   @Input() isActive = false;
+  @Input() keyType = '';
   @Output() saveFavoriteEvent = new EventEmitter<boolean>();
   showInput = false;
   newAmount = false;

@@ -41,7 +41,8 @@ export class AutomaticsService {
                        maxAmount: number,
                        aliasName: string,
                        credixCode: number,
-                       publicServiceAccessKeyId: number) {
+                       publicServiceAccessKeyId: number,
+                       quota: number = 1) {
     return this.httpServices.post('canales', 'schedulerpayment/createschedulerpayment', {
       cardId: this.storageServices.getCurrentCards()
         .find((element) => element.category = 'Principal').cardId,
@@ -54,7 +55,8 @@ export class AutomaticsService {
       maxAmount,
       aliasName,
       publicServiceAccessKeyId,
-      credixCode
+      credixCode,
+      quota,
     });
   }
 

@@ -12,7 +12,7 @@
                                   [quantityOfKeys]="quantityOfKeys"></app-new-service-first-step>
     </cdk-step>
 
-    <cdk-step [label]="'Confirmación'" [stepControl]="confirmFormGroup">
+    <cdk-step [label]="'Monto a pagar'" [stepControl]="confirmFormGroup">
       <app-new-service-second-step (saveFavoriteEvent)="saveAsFavorite = $event"
                                    [confirmFormGroup]="confirmFormGroup"
                                    [currencySymbol]="currencySymbol"
@@ -23,6 +23,7 @@
                                    [receipts]="pendingReceipts?.numberPendingReceipts"
                                    [isActive]="stepperIndex === 1"
                                    [paymentType]="paymentType"
+                                   [keyType]="keyType"
                                    [reference]="contractFormGroup.controls.contractControl.value"></app-new-service-second-step>
     </cdk-step>
     <cdk-step [label]="'Plazos'" [stepControl]="requestForm">
@@ -35,7 +36,7 @@
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
-    <credix-button (buttonClick)="stepperIndex !== 2 ? next() : openModal()"
+    <credix-button (buttonClick)="stepperIndex !== 2 ? next(): openModal()"
     [disabled]="buttonFormGroup.invalid">
       {{stepperIndex !== 2 ? 'Continuar' : 'Pagar'}}
     </credix-button>
