@@ -58,9 +58,12 @@
       </div>
       <div *ngIf="!isRecharge" class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto a pagar</strong></span>
-        <credix-numeric-block [value]="amountOfPay" prefix="₡"></credix-numeric-block>
+        <credix-numeric-block
+          [value]="amountOfPay"
+          prefix="₡"
+          fontWeight="bold"></credix-numeric-block>
       </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
+      <div fxLayout="row" fxLayoutAlign="space-between" style="padding-top: 16.5px !important;">
         <span fxFlex="150px"><strong>Elija su plazo</strong></span>
       </div>
 
@@ -103,7 +106,7 @@
 </credix-navigation-table>
 
 <ng-template #summaryTemplate>
-  <!--<div class="h-100 summary-custom" fxLayout="column" fxLayoutGap="16px">
+  <div class="h-100 summary-custom" fxLayout="column" fxLayoutGap="16px">
 
     <div fxLayout="column" fxLayoutGap="8px">
 
@@ -121,7 +124,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupCommissionTag || 'Comisión' }}*
+        <span fxFlex>{{ popupCommissionTag || 'Comisión' }} {{ '(' + paymentQuotaSummary?.commissionPercentage + '%)*'}}
         </span>
         <credix-numeric-block
           [value]="paymentQuotaSummary?.commissionAmount"
@@ -152,15 +155,15 @@
       * IVA y comisión se cargarán en el próximo estado de cuenta.
     </p>
 
-    <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">
-      <span fxFlex style="font-size: 20px !important;">{{ paymentQuotaSummary.quotaTo }} Cuotas de</span>
+    <div fxFlex fxFlexLayout="row" style="padding-top: 8px;" fxLayoutAlign="space-between">
+      <span fxFlex style="font-size: 20px !important; padding-top: 4px;">{{ paymentQuotaSummary.quotaTo }} Cuotas de</span>
         <credix-numeric-block
         [value]="paymentQuotaSummary?.amountPerQuota"
         fontSize="24"
         fontWeight="bold"
         prefix="₡"></credix-numeric-block>
     </div>
-  </div>-->
+  </div>
 </ng-template>
   
 <credix-result-notification *ngIf="empty" [title]="'No tiene pagos favoritos en este momento.'"

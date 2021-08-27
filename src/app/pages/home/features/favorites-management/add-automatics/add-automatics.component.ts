@@ -66,7 +66,7 @@ export class AddAutomaticsComponent implements OnInit {
   stepperIndex: number = 0;
   anotherAmount: boolean = false;
   category: any = null
-  amountsAux: {amount: string, id: number}[] = [{amount: '500,00', id: 1}, {amount: '2000,00', id: 2}, {amount: '5000,00', id: 3}, {amount: '7000,00', id: 4}, {amount: 'Otro', id: 10}];
+  amounts: {amount: string, id: number}[] = [];
 
   @ViewChild('addAutomaticsStepper') stepper: CdkStepper;
 
@@ -80,6 +80,7 @@ export class AddAutomaticsComponent implements OnInit {
   }
 
   get newAutomaticsControls() {
+    
     return this.newAutomaticsForm.controls;
   }
 
@@ -95,17 +96,29 @@ export class AddAutomaticsComponent implements OnInit {
     this.getFromFavorites();
     this.getCredixCodeError();
     this.onMaxAmount();
-    /*this.confirmCodeFormGroup.controls.codeCredix.valueChanges.subscribe(value => {
-      this.invalidCodeCredix = this.confirmCodeFormGroup.controls.codeCredix.invalid;
+    this.getAmountsRecharge();
+  }
 
-      console.log(this.confirmCodeFormGroup);
-      console.log("codeCredix: ", value);
-      
-    });*/
+  getAmountsRecharge() {
+    this.favoritesManagementService.getAmountRecharge()
+      .subscribe(response => {
+        response.forEach((value, index) => {
+          this.amounts.push({
+            amount: value,
+            id: index + 1
+          });
+        });
+        this.amounts.push({
+          amount: 'Otro',
+          id: this.amounts.length + 1
+        });
+      });
   }
 
   getPeriodicityList() {
     this.automaticsService.getPeriodicity().subscribe((response) => {
+      console.log("periodicity: ", response);
+      
       this.periodicityList = response;
     });
   }
@@ -135,7 +148,6 @@ export class AddAutomaticsComponent implements OnInit {
     this.quantityOfKeys = this.publicServices.find(elem => elem.publicServiceId === publicServiceId).quantityOfKeys;
   }
 
-  
   getFromFavorites() {
     if (this.favoritesManagementService.redirect) {
       this.data = {
@@ -168,18 +180,30 @@ export class AddAutomaticsComponent implements OnInit {
   addAutomaticPayment() {
     const date: Date = new Date(this.newAutomaticsForm.controls.startDate.value);
     
+    /*transactionTypeId: number,
+                       publicServiceId: number,
+                       periodicityId: number,
+                       startDate: string,
+                       key: number,
+                       maxAmount: number,
+                       aliasName: string,
+                       credixCode: number,
+                       publicServiceAccessKeyId: number,
+                       quota: number = 1*/
+
+                       
     this.modalService.confirmationPopup('¿Desea añadir este pago automático?').subscribe((confirm) => {
       if (confirm) {
-        this.automaticsService.setAutomaticsPayment(1,
-          this.newAutomaticsControls.publicService.value,
-          this.newAutomaticsControls.periodicity.value,
-          this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
-          +this.newAutomaticsControls.contractControl.value,
-          +this.rechargeFormGroup.controls.amount.value,
-          this.newAutomaticsControls.nameOfAutomatics.value,
-          +this.confirmCodeFormGroup.controls.codeCredix.value,
-          this.newAutomaticsControls.keyType.value,
-          this.requestForm.controls.term.value)
+        this.automaticsService.setAutomaticsPayment(1, // transactionTypeId number,
+          this.newAutomaticsControls.publicService.value, // publicServiceId
+          this.newAutomaticsControls.periodicity.value, // periodicityId
+          this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'), // startDate
+          +this.newAutomaticsControls.contractControl.value, // key
+          +this.rechargeFormGroup.controls.amount.value, // maxAmount
+          this.newAutomaticsControls.nameOfAutomatics.value, // aliasName
+          +this.confirmCodeFormGroup.controls.codeCredix.value, // credixCode
+          this.newAutomaticsControls.keyType.value, // publicServiceAccessKeyId
+          this.requestForm.controls.term.value) // quota
           .pipe(finalize(() => {
             if (!this.confirmCodeFormGroup.controls.codeCredix.hasError('invalid')) {
               this.done = true;
@@ -197,8 +221,7 @@ export class AddAutomaticsComponent implements OnInit {
         }
       });
   }
-  
-  
+
   onCategoryChange() {
     this.newAutomaticsForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.category = this.publicServicesCategory.find(category => category.publicServiceCategoryId === value);
@@ -268,7 +291,7 @@ export class AddAutomaticsComponent implements OnInit {
     } else {
       this.rechargeFormGroup.controls.amount.reset();
       this.rechargeFormGroup.controls.amount.setValidators([Validators.required,
-        Validators.min(ConvertStringAmountToNumber(this.amountsAux[0].amount))]);
+        Validators.min(ConvertStringAmountToNumber(this.amounts[0].amount))]);
       this.anotherAmount = true;
     }
     this.rechargeFormGroup.controls.amount.updateValueAndValidity();
@@ -284,6 +307,7 @@ export class AddAutomaticsComponent implements OnInit {
     if ( this.stepperIndex === 1 ) {
       this.buttonFormGroup = this.newAutomaticsForm;
       this.stepper.previous();
+      this.stepperIndex = this.stepper.selectedIndex;
     } else {
       this.router.navigate(['/home/favorites-management/favorites-payments'])
     }

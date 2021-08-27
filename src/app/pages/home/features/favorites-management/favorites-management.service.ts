@@ -18,6 +18,7 @@ export class FavoritesManagementService {
   private readonly deleteFavoritePublicServiceUri = 'publicservice/deletepublicservicefavorite';
   private readonly deleteSchedulePaymentUri = 'schedulerpayment/deleteschedulerpayment';
   private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
+  private readonly getAmountRechargeUri = 'publicservicebncr/amountsrecharge';
 
   // tslint:disable-next-line:variable-name max-line-length
   private _favoritesPublicService: Subject<PublicServiceFavoriteByUser> = new Subject<PublicServiceFavoriteByUser>();
@@ -203,6 +204,19 @@ export class FavoritesManagementService {
           }
         })
       );
+  }
+
+  getAmountRecharge(): Observable<any> {
+    return this.httpService.post('incomex', this.getAmountRechargeUri, {
+    }).pipe(
+      map(response => {
+        if ( response.type === 'success' ) {
+          return response.amounts;
+        } else {
+          return [];
+        }
+      })
+    );
   }
 
   unsubscribe() {

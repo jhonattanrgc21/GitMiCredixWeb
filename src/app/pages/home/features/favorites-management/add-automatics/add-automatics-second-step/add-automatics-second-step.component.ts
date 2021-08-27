@@ -92,7 +92,6 @@ export class AddAutomaticsSecondStepComponent implements OnInit, OnChanges {
   selectPaymentQuotaSummary() {
     this.paymentQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
     //this.ivaAmount = Number((ConvertStringAmountToNumber(this.personalCreditSummary.commission) * 0.13).toFixed(2));
-    //this.publicSevice.paymentQuotaSummary = Object.assign({}, this.paymentQuotaSummary);
   }
 
   getQuota(sliderValue) {

@@ -10,6 +10,7 @@ import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-service',
@@ -62,12 +63,14 @@ export class NewServiceComponent implements OnInit {
   constructor(private publicServicesService: PublicServicesService,
               private publicServicesApiService: PublicServicesApiService,
               private router: Router,
+              private datePipe: DatePipe,
               private modalService: ModalService,
               private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
     this.buttonFormGroup = this.contractFormGroup;
+    this.publicServicesService.paymentType = 'Servicio';
     this.setErrorCredixCode();
     this.getPublicService();
   }
@@ -159,22 +162,7 @@ export class NewServiceComponent implements OnInit {
   // }
 
   payService() {
-    this.router.navigate(['/home/public-services/success']);
-
-    this.publicServicesService.result = {
-      status: 'success',
-      message: 'La recarga se ha procesado exitosamente',
-      title: 'Recarga 1'
-    };
-
-    this.publicServicesService.payment = {
-      currencySymbol: this.currencySymbol,
-      amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount?.value),
-      contract: this.contractFormGroup.controls.contractControl.value,
-      type: 'Servicio',
-      quota: this.requestForm.controls.term.value,
-    };
-    /*this.publicServicesService.payPublicService(
+    this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
       this.receiptValues.serviceValue,
@@ -190,6 +178,21 @@ export class NewServiceComponent implements OnInit {
       )
       .pipe(finalize(() => {
         if (this.confirmCodeFormGroup.controls.credixCode.valid) {
+          const date: Date = new Date();
+
+          this.publicServicesService.automaticPayment = {
+            transactionTypeId: 1,
+            publicServiceId: this.publicServiceId,
+            periodicityId: 2,
+            currencyId: 188,      
+            startDate: this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
+            key: this.contractFormGroup.controls.contractControl.value,
+            maxAmount: this.confirmFormGroup.controls.amount.value,
+            aliasName: this.publicServicesService.publicService.publicServiceName,
+            credixCode: this.confirmCodeFormGroup.controls.credixCode.value,
+            publicServiceAccessKeyId: +this.contractFormGroup.controls.keysControl.value,
+            quota: this.publicServicesService.paymentQuotaSummary.quotaTo,
+          };
           this.router.navigate(['/home/public-services/success']);
         }
       }))
@@ -234,7 +237,7 @@ export class NewServiceComponent implements OnInit {
           currencySymbol: this.currencySymbol
         };
 
-      });*/
+      });
   }
 
   formatAmountWithDecimalString(value: string) {

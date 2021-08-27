@@ -66,8 +66,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // this.getMinAmounts();
+    this.publicServicesService.paymentType = 'Servicio';
     this.buttonFormGroup = this.phoneNumberFormGroup;
-
     this.setErrorCredixCode();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
@@ -136,6 +136,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   checkPendingReceipts() {
+    console.log("phone: ", +this.phoneNumberFormGroup.controls.phoneNumber.value);
+    console.log("keys: ", +this.keys[0].keyType);
     this.publicServicesService.checkPendingReceipts(this.publicServiceId, +this.phoneNumberFormGroup.controls.phoneNumber.value, this.keys[0].keyType)
       .pipe(finalize(() => {
         this.message = this.pendingReceipts.responseDescription;
@@ -160,9 +162,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   recharge() {
-    this.router.navigate(['/home/public-services/success']);
-
-    /*const receipt = this.pendingReceipts.receipts;
+    const receipt = this.pendingReceipts.receipts;
+    
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
@@ -221,7 +222,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
           informativeConcepts: response.informativeConcepts,
           currencySymbol: '₡'
         };
-      });*/
+      });
   }
 
   saveFavorite() {

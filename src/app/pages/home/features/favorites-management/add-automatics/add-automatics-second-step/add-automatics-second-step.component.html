@@ -3,7 +3,7 @@
         <span fxFlex="150px"><strong>Elija su plazo</strong></span>
             
         <div fxLayout="column" fxFlex="304px" fxLayoutAlign="space-between" fxLayoutGap="32px">
-            <credix-slider (inputChange)="getQuota($event)"
+            <credix-slider *ngIf="isActive" (inputChange)="getQuota($event)"
                            (valueChange)="getQuota($event)"
                            [displayMax]="termSliderDisplayMax"
                            [displayMin]="termSliderDisplayMin"
@@ -15,7 +15,7 @@
                            [units]="'Meses'">
             </credix-slider>
 
-            <div fxLayout="column" fxLayoutGap="16px">
+            <div *ngIf="paymentQuotaSummary" fxLayout="column" fxLayoutGap="16px">
 
                 <div fxLayout="row" fxLayoutAlign="space-between">
                   <span class="font-summary" fxFlex>{{ 'Plazo' }}</span>

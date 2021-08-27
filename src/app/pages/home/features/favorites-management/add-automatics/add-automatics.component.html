@@ -68,7 +68,7 @@
                 <div class="add-automatics__form" fxLayout="column" fxLayoutGap="16px">
                   <div class="left-content" fxLayout="column" fxLayoutGap="16px">
                     <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
-                                        *ngFor="let amount of amountsAux, let last = last"
+                                        *ngFor="let amount of amounts, let last = last"
                                         [label]="last ? 'Otro': ''"
                                         [ngClass]="{'mb-16px' : !last}"
                                         [value]="amount.amount">
@@ -80,7 +80,7 @@
                                         mask="separator">
                       <div error>
                         El monto debe ser mayor a
-                        ₡{{amountsAux[0].amount}}{{amountsAux[0].amount.split(',').length === 1 ? ',00' : ''}}</div>
+                        ₡{{amounts[0].amount}}{{amounts[0].amount.split(',').length === 1 ? ',00' : ''}}</div>
                     </credix-input-field>
                   </div>
                 </div>
@@ -110,7 +110,7 @@
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
     <credix-button (buttonClick)="stepperIndex !== 1 ? next() : addAutomaticPayment()" [disabled]="buttonFormGroup.invalid || rechargeFormGroup.invalid">
-      Añadir
+      {{ stepperIndex !== 1 ? 'Continuar' : 'Añadir' }}
     </credix-button>
     <!--<credix-button (buttonClick)="addAutomaticPayment()" [disabled]="invalidCodeCredix || newAutomaticsForm.invalid">
       Añadir

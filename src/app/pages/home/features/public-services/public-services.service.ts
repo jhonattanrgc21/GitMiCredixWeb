@@ -15,6 +15,7 @@ import {Keys} from '../../../../shared/models/keys';
 import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { environment } from 'src/environments/environment';
+import { AutomaticPayment } from 'src/app/shared/models/automatic-payment';
 const iconPerCategory = [
   {category: 'Recargas', icon: 'recargas'},
   {category: 'Telefonía', icon: 'telefonia'},
@@ -52,6 +53,9 @@ export class PublicServicesService {
   phoneNumberByFavorite: string;
   keyTypeByFavorite: Keys[] = [];
   paymentQuotaSummary: PaymentQuota = null;
+  paymentType: string;
+  automaticPayment: AutomaticPayment;
+  
   // tslint:disable-next-line:variable-name
   private _isTabChanged = new Subject();
 // tslint:disable-next-line:variable-name

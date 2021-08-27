@@ -43,6 +43,21 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
   termSliderDisplayValue = 0;
+
+  quoteTag: string;
+  termTag: string;
+  amountTag: string;
+  subtitleAmountTag: string;
+  monthTag: string;
+  popupAmountTag: string;
+  popupTitleTag: string;
+  popupIvaTag: string;
+  popupSecureTag: string;
+  popupInterestTag: string;
+  popupCommissionTag: string;
+  popupDisclaimerTag: string;
+  popupTotalTag: string;
+
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
   constructor(private publicServicesService: PublicServicesService,
@@ -51,6 +66,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.publicServicesService.paymentType = 'Favorite';
     this.getFavoritePublicServiceDetail();
     this.getIsTabChanged();
   }
@@ -115,7 +131,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  payService() {
+  /*payService() {
     if (this.pendingReceipt?.receipts !== null) {
       const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
       this.publicServicesService.payPublicService(
@@ -142,7 +158,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
             amount: this.amountOfPay,
             contract: this.selectedPublicService.serviceReference,
             type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio',
-            quota: 1,
+            quota: this.paymentQuotaSummary.quotaTo,
           };
 
           this.publicServicesService.voucher = {
@@ -168,13 +184,70 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
           };
         });
     }
+  }*/
+
+  payService() {
+    if (this.pendingReceipt?.receipts !== null) {
+      const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
+      /*this.publicServicesService.payPublicService(
+        this.pendingReceipt.clientName,
+        this.selectedPublicService.publicServiceId,
+        this.pendingReceipt.receipts[0].serviceValue,
+        this.pendingReceipt.currencyCode,
+        amount,
+        +this.pendingReceipt.receipts[0].receiptPeriod,
+        this.selectedPublicService.publicServiceAccessKeyType,
+        this.pendingReceipt.receipts[0].expirationDate,
+        this.pendingReceipt.receipts[0].billNumber,
+        this.pendingReceipt.receipts[0].selfCode)
+        .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
+        .subscribe((response) => {*/
+          this.publicServicesService.result = {
+            status: 'success',
+            message: 'Su pago ha sido procesado exitosamente',
+            title: 'Servicios'
+          };
+
+          this.publicServicesService.payment = {
+            currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$',
+            amount: this.amountOfPay,
+            contract: this.selectedPublicService.serviceReference,
+            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio',
+            quota: this.paymentQuotaSummary.quotaTo,
+          };
+
+          this.router.navigate(['/home/public-services/success']);
+
+          //this.publicServicesService.voucher = {
+            /*institution: [{companyCode: response.companyCode, companyName: response.companyName}],
+            agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
+            agencyCode: response.agencyCode,
+            cashier: 'Credix',
+            currencyCode: this.pendingReceipt.currencyCode,
+            clientName: this.pendingReceipt.clientName,
+            billNumber: this.pendingReceipt.receipts[0].billNumber,
+            transactionNumber: response.transactionNumber,
+            channelType: this.pendingReceipt.channelType,
+            paymentStatus: 'Aplicado',
+            movementDate: this.pendingReceipt.date,
+            expirationDate: this.pendingReceipt.receipts[0].expirationDate,
+            period: this.pendingReceipt.receipts[0].receiptPeriod,
+            reference: response.reference,
+            valorType: 'EFECTIVO',
+            amount: response.amountPaid,
+            paymentConcepts: response.paymentConcepts,
+            informativeConcepts: response.informativeConcepts,
+            currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$'*/
+          //};
+        //});
+    }
   }
 
   getQuotas(amount) {
     ///const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
 
     console.log("Monto a pagar: ", amount);
-    
+
     this.publicServicesService.getCuotaCalculator(amount)
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
@@ -196,7 +269,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   selectPaymentQuotaSummary() {
     this.paymentQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
     //this.ivaAmount = Number((ConvertStringAmountToNumber(this.personalCreditSummary.commission) * 0.13).toFixed(2));
-    //this.publicSevice.paymentQuotaSummary = Object.assign({}, this.paymentQuotaSummary);
+    this.publicServicesService.paymentQuotaSummary = Object.assign({}, this.paymentQuotaSummary);
   }
 
 

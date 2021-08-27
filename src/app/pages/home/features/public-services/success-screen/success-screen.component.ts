@@ -4,6 +4,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {PublicServicesService} from '../public-services.service';
 import { Router } from '@angular/router';
 import { AutomaticsService } from '../../favorites-management/automatics/automatics.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-success-screen',
@@ -20,6 +21,10 @@ export class SuccessScreenComponent implements OnInit {
   contract: string;
   today = new Date();
   quota: number;
+  paymentType: string;
+  resultAutomatics = false;
+  done = false;
+  result = null;
 
   constructor(private publicServicesService: PublicServicesService,
               private modalService: ModalService,
@@ -28,8 +33,8 @@ export class SuccessScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*if ( this.publicServicesService?.result ) {
-      /*this.title = this.publicServicesService.result.title;
+    if ( this.publicServicesService?.result ) {
+      this.title = this.publicServicesService.result.title;
       this.status = this.publicServicesService.result.status;
       this.message = this.publicServicesService.result.message;
       this.amount = this.publicServicesService.payment.amount;
@@ -37,9 +42,10 @@ export class SuccessScreenComponent implements OnInit {
       this.contract = this.publicServicesService.payment.contract;
       this.type = this.publicServicesService.payment.type;
       this.quota = this.publicServicesService.paymentQuotaSummary.quotaTo;
+      this.paymentType = this.publicServicesService.paymentType;
     } else {
       this.router.navigate(['/home/public-services/public-service']);
-    }*/
+    }
     
   }
 
@@ -52,22 +58,23 @@ export class SuccessScreenComponent implements OnInit {
   }*/
 
   addAutomaticPayment() {
-    /*const date: Date = new Date(this.newAutomaticsForm.controls.startDate.value);
+
+    console.log("addAutomaticPayment: ", this.publicServicesService.automaticPayment);
+
     this.modalService.confirmationPopup('¿Desea añadir este pago automático?').subscribe((confirm) => {
       if (confirm) {
         this.automaticsService.setAutomaticsPayment(1,
-          this.newAutomaticsControls.publicService.value,
-          this.newAutomaticsControls.periodicity.value,
-          this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
-          +this.newAutomaticsControls.contractControl.value,
-          +this.newAutomaticsControls.maxAmount.value,
-          this.newAutomaticsControls.nameOfAutomatics.value,
-          +this.codeCredix.value,
-          this.newAutomaticsControls.keyType.value)
+          this.publicServicesService.automaticPayment.publicServiceId,
+          this.publicServicesService.automaticPayment.periodicityId,
+          this.publicServicesService.automaticPayment.startDate,
+          +this.publicServicesService.automaticPayment.key,
+          this.publicServicesService.automaticPayment.maxAmount,
+          this.publicServicesService.automaticPayment.aliasName,
+          this.publicServicesService.automaticPayment.credixCode,
+          this.publicServicesService.automaticPayment.publicServiceAccessKeyId,
+          this.publicServicesService.automaticPayment.quota,)
           .pipe(finalize(() => {
-            if (!this.codeCredix.hasError('invalid')) {
               this.done = true;
-            }
           }))
           .subscribe((response) => {
             this.resultAutomatics = !this.resultAutomatics;
@@ -79,7 +86,7 @@ export class SuccessScreenComponent implements OnInit {
             };
           });
         }
-      });*/
+      });
   }
 
 
