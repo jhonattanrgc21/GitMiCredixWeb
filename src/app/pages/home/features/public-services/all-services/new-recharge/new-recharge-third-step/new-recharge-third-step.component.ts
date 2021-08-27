@@ -74,15 +74,20 @@ export class NewRechargeThirdStepComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ( changes.isActive && this.isActive ) {
+      console.log("isActive: ", this.isActive);
+      
       this.getQuotas();
     }
   }
 
   getQuotas() {
+    console.log("amounttt: ", this.amount);
     this.publicSevice.getCuotaCalculator(this.amount)
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
+            console.log( response );
+
             if ( response ) {
               this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;                         
@@ -105,7 +110,7 @@ export class NewRechargeThirdStepComponent implements OnInit {
     this.modalService.open({
         template: this.summaryTemplate, title: 'Resumen general'
       },
-      {width: 380, height: 467, disableClose: true, panelClass: 'summary-panel'});
+      {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'});
   }
 
 

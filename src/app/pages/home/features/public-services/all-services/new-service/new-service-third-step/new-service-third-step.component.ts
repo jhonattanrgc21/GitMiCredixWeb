@@ -87,7 +87,6 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
         .subscribe(
           response => {
             if ( response ) {
-              console.log( response );
               this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
@@ -109,7 +108,7 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
     this.modalService.open({
         template: this.summaryTemplate, title: 'Resumen general'
       },
-      {width: 380, height: 467, disableClose: true, panelClass: 'summary-panel'});
+      {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'});
   }
 
 

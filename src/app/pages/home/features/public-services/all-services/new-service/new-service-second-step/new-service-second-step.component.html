@@ -4,7 +4,14 @@
     <span fxFlex="150px"><strong>Datos de referencia</strong></span>
 
     <div class="left-content mb-8px" fxLayout="column">
-      <span class="mb-16px"><strong>{{reference}}</strong></span>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Tipo de referencia</span>
+        <span class="mb-16px">{{keyType}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Número de contrato</span>
+        <span class="mb-16px">{{reference}}</span>
+      </div>
       <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
                               label="Guardar como favorito"></credix-checkbox-button>
       <credix-input-field *ngIf="showInput" formControlName="favorite"
@@ -36,7 +43,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span><strong>Monto a pagar</strong></span>
+        <span><strong>Monto pendiente</strong></span>
         <span><credix-numeric-block [prefix]="currencySymbol" [value]="amount" fontWeight="bold"></credix-numeric-block></span>
       </div>
     </div>

@@ -66,8 +66,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // this.getMinAmounts();
+    this.publicServicesService.paymentType = 'Servicio';
     this.buttonFormGroup = this.phoneNumberFormGroup;
-
     this.setErrorCredixCode();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
@@ -161,6 +161,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   recharge() {
     const receipt = this.pendingReceipts.receipts;
+    
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,

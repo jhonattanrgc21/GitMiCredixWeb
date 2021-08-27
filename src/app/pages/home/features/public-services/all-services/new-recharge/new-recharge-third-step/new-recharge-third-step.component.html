@@ -1,7 +1,7 @@
 <div class="new-recharge-third-step" fxLayout="column" fxLayoutGap="40px">
 
     <div class="new-recharge-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex="150px"><strong>Eliga su plazo</strong></span>
+      <span fxFlex="150px"><strong>Elija su plazo</strong></span>
       <credix-slider *ngIf="isActive" (inputChange)="getQuota($event)"
                      (valueChange)="getQuota($event)"
                      [displayMax]="termSliderDisplayMax"
@@ -48,7 +48,7 @@
 </div>
 
 <ng-template #summaryTemplate>
-  <div class="h-100" fxLayout="column" fxLayoutGap="16px">
+  <div class="h-100 summary-custom" fxLayout="column" fxLayoutGap="16px">
 
     <div fxLayout="column" fxLayoutGap="8px">
 
@@ -84,7 +84,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupIvaTag || 'IVA'}}*</span>
+        <span fxFlex>{{ popupIvaTag || 'IVA*'}}</span>
         <credix-numeric-block
         [value]="paymentQuotaSummary?.IVA"
         fontWeight="bold"
@@ -93,12 +93,12 @@
     </div>
 
 
-    <p fxFlex style="color: #707070;">
+    <p fxFlex style="color: #707070; font-size: 14px !important; margin-bottom: 26px !important">
       * IVA y comisión se cargarán en el próximo estado de cuenta.
     </p>
 
-    <div fxFlex fxFlexLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex>{{ paymentQuotaSummary?.quotaTo }} Cuotas de</span>
+    <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">
+      <span fxFlex style="font-size: 20px !important;">{{ paymentQuotaSummary?.quotaTo }} Cuotas de</span>
         <credix-numeric-block
         [value]="paymentQuotaSummary?.amountPerQuota"
         fontSize="24"

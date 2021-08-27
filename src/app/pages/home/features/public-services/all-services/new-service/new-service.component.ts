@@ -10,6 +10,7 @@ import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-service',
@@ -55,17 +56,21 @@ export class NewServiceComponent implements OnInit {
   quantityOfKeys: number;
   publicServiceName: string;
   paymentType = '';
+  keyType: string = '';
+
   @ViewChild('newServiceStepper') stepper: CdkStepper;
 
   constructor(private publicServicesService: PublicServicesService,
               private publicServicesApiService: PublicServicesApiService,
               private router: Router,
+              private datePipe: DatePipe,
               private modalService: ModalService,
               private credixCodeErrorService: CredixCodeErrorService) {
   }
 
   ngOnInit(): void {
     this.buttonFormGroup = this.contractFormGroup;
+    this.publicServicesService.paymentType = 'Servicio';
     this.setErrorCredixCode();
     this.getPublicService();
   }
@@ -96,6 +101,7 @@ export class NewServiceComponent implements OnInit {
       this.continue();
     } else {
       this.buttonFormGroup = this.confirmFormGroup;
+      this.keyType = this.keys.find(key => key.keyType).description;
       this.checkPendingReceipts();
     }
   }
@@ -215,7 +221,6 @@ export class NewServiceComponent implements OnInit {
           informativeConcepts: response.informativeConcepts,
           currencySymbol: this.currencySymbol
         };
-
       });
   }
 
