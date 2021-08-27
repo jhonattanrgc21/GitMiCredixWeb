@@ -136,8 +136,6 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   checkPendingReceipts() {
-    console.log("phone: ", +this.phoneNumberFormGroup.controls.phoneNumber.value);
-    console.log("keys: ", +this.keys[0].keyType);
     this.publicServicesService.checkPendingReceipts(this.publicServiceId, +this.phoneNumberFormGroup.controls.phoneNumber.value, this.keys[0].keyType)
       .pipe(finalize(() => {
         this.message = this.pendingReceipts.responseDescription;

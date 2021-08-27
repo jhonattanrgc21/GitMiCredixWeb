@@ -1,7 +1,7 @@
 .new-service-first-step {
   padding: 0 84px;
   //margin-top: 32px;
-  padding-top: 17px;
+  padding-top: 16px;
   
   &__content {
     width: 100%;
@@ -16,11 +16,11 @@
     width: 320px;
   }
 
+  ::ng-deep.mat-form-field-flex {
+    padding-top: 6px !important;
+  }
 }
 
-::ng-deep .mat-form-field-flex {
-  padding-top: 0;
-}
 
 @media screen and (max-width: 1199px) {
   .new-service-first-step {

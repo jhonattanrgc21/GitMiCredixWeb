@@ -46,13 +46,12 @@ export class SuccessScreenComponent implements OnInit {
     } else {
       this.router.navigate(['/home/public-services/public-service']);
     }
-    
   }
 
   addAutomaticPayment() {
-    this.router.navigate(['/home/favorites-management']);
+    this.router.navigate(['/home/favorites-management/automatics']);
   }
-  
+
   openBillingModal() {
     this.modalService.open({
         title: 'Comprobante',

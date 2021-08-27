@@ -162,9 +162,6 @@ export class NewServiceComponent implements OnInit {
   // }
 
   payService() {
-    const date: Date = new Date();    
-
-    this.router.navigate(['/home/public-services/success']);
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,

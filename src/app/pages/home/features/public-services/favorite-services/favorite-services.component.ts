@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PublicServiceFavoriteByUser} from '../../../../../shared/models/public-service-favorite-by-user';
 import {PublicServicesService} from '../public-services.service';
 import {PendingReceipts} from '../../../../../shared/models/pending-receipts';
@@ -6,7 +6,6 @@ import {ConvertStringAmountToNumber, getMontByMonthNumber} from '../../../../../
 import {ModalService} from '../../../../../core/services/modal.service';
 import {finalize} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 
 @Component({
   selector: 'app-favorite-services',
@@ -32,33 +31,6 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   isRecharge: boolean;
   tabChanged: boolean;
   empty = false;
-  quotas: PaymentQuota[] = [];
-  paymentQuotaSummary: PaymentQuota = null;
-  amountSliderStep = 1;
-  amountSliderMin = 0;
-  amountSliderMax = 1;
-  termSliderStep = 1;
-  termSliderMin = 1;
-  termSliderMax = 12;
-  termSliderDisplayMin = 1;
-  termSliderDisplayMax = 12;
-  termSliderDisplayValue = 0;
-
-  quoteTag: string;
-  termTag: string;
-  amountTag: string;
-  subtitleAmountTag: string;
-  monthTag: string;
-  popupAmountTag: string;
-  popupTitleTag: string;
-  popupIvaTag: string;
-  popupSecureTag: string;
-  popupInterestTag: string;
-  popupCommissionTag: string;
-  popupDisclaimerTag: string;
-  popupTotalTag: string;
-
-  @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
   constructor(private publicServicesService: PublicServicesService,
               private router: Router,
@@ -66,7 +38,6 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.publicServicesService.paymentType = 'Favorite';
     this.getFavoritePublicServiceDetail();
     this.getIsTabChanged();
   }
@@ -106,7 +77,6 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
           this.month = getMontByMonthNumber(months.getMonth());
           this.expirationDate = new Date(this.pendingReceipt.receipts[0].expirationDate);
           this.amountOfPay = this.pendingReceipt.receipts[0].totalAmount;
-          this.getQuotas(this.amountOfPay);
         }
       });
   }
@@ -131,7 +101,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  /*payService() {
+  payService() {
     if (this.pendingReceipt?.receipts !== null) {
       const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
       this.publicServicesService.payPublicService(
@@ -143,8 +113,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         +this.pendingReceipt.receipts[0].receiptPeriod,
         this.selectedPublicService.publicServiceAccessKeyType,
         this.pendingReceipt.receipts[0].expirationDate,
-        this.pendingReceipt.receipts[0].billNumber,
-        this.pendingReceipt.receipts[0].selfCode)
+        this.pendingReceipt.receipts[0].billNumber)
         .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
         .subscribe((response) => {
           this.publicServicesService.result = {
@@ -158,7 +127,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
             amount: this.amountOfPay,
             contract: this.selectedPublicService.serviceReference,
             type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio',
-            quota: this.paymentQuotaSummary.quotaTo,
+            quota: 1,
           };
 
           this.publicServicesService.voucher = {
@@ -184,106 +153,6 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
           };
         });
     }
-  }*/
-
-  payService() {
-    if (this.pendingReceipt?.receipts !== null) {
-      const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
-      /*this.publicServicesService.payPublicService(
-        this.pendingReceipt.clientName,
-        this.selectedPublicService.publicServiceId,
-        this.pendingReceipt.receipts[0].serviceValue,
-        this.pendingReceipt.currencyCode,
-        amount,
-        +this.pendingReceipt.receipts[0].receiptPeriod,
-        this.selectedPublicService.publicServiceAccessKeyType,
-        this.pendingReceipt.receipts[0].expirationDate,
-        this.pendingReceipt.receipts[0].billNumber,
-        this.pendingReceipt.receipts[0].selfCode)
-        .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
-        .subscribe((response) => {*/
-          this.publicServicesService.result = {
-            status: 'success',
-            message: 'Su pago ha sido procesado exitosamente',
-            title: 'Servicios'
-          };
-
-          this.publicServicesService.payment = {
-            currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$',
-            amount: this.amountOfPay,
-            contract: this.selectedPublicService.serviceReference,
-            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio',
-            quota: this.paymentQuotaSummary.quotaTo,
-          };
-
-          this.router.navigate(['/home/public-services/success']);
-
-          //this.publicServicesService.voucher = {
-            /*institution: [{companyCode: response.companyCode, companyName: response.companyName}],
-            agreement: [{contractCode: response.contractCode, contractName: response.contractName}],
-            agencyCode: response.agencyCode,
-            cashier: 'Credix',
-            currencyCode: this.pendingReceipt.currencyCode,
-            clientName: this.pendingReceipt.clientName,
-            billNumber: this.pendingReceipt.receipts[0].billNumber,
-            transactionNumber: response.transactionNumber,
-            channelType: this.pendingReceipt.channelType,
-            paymentStatus: 'Aplicado',
-            movementDate: this.pendingReceipt.date,
-            expirationDate: this.pendingReceipt.receipts[0].expirationDate,
-            period: this.pendingReceipt.receipts[0].receiptPeriod,
-            reference: response.reference,
-            valorType: 'EFECTIVO',
-            amount: response.amountPaid,
-            paymentConcepts: response.paymentConcepts,
-            informativeConcepts: response.informativeConcepts,
-            currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$'*/
-          //};
-        //});
-    }
-  }
-
-  getQuotas(amount) {
-    ///const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
-
-    console.log("Monto a pagar: ", amount);
-
-    this.publicServicesService.getCuotaCalculator(amount)
-      .pipe(finalize(() => this.selectPaymentQuotaSummary()))
-        .subscribe(
-          response => {
-            console.log("quotas: ", response);
-            if ( response ) {
-              console.log( response );
-              this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
-              this.termSliderDisplayMin = this.quotas[0].quotaTo;
-              this.termSliderMin = 1;
-              this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
-              this.termSliderMax = this.quotas.length;
-              this.termSliderDisplayValue = this.termSliderDisplayMin;
-            }
-          }
-        );
-  }
-
-  selectPaymentQuotaSummary() {
-    this.paymentQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
-    //this.ivaAmount = Number((ConvertStringAmountToNumber(this.personalCreditSummary.commission) * 0.13).toFixed(2));
-    this.publicServicesService.paymentQuotaSummary = Object.assign({}, this.paymentQuotaSummary);
-  }
-
-
-  getQuota(sliderValue) {
-    this.termSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
-    //this.termControl.setValue( this.termSliderDisplayValue );
-    this.selectPaymentQuotaSummary();
-  }
-
-  openSummary() {
-    this.modalService.open({
-        template: this.summaryTemplate, title: 'Resumen general'
-      },
-      {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'});
   }
 
   ngOnDestroy(): void {

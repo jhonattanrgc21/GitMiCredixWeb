@@ -17,8 +17,6 @@ export class FavoritesManagementService {
   private readonly deleteIbanAccountUri = 'iban/deletePublicServiceFavorite';
   private readonly deleteFavoritePublicServiceUri = 'publicservice/deletepublicservicefavorite';
   private readonly deleteSchedulePaymentUri = 'schedulerpayment/deleteschedulerpayment';
-  private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
-  private readonly getAmountRechargeUri = 'publicservicebncr/amountsrecharge';
 
   // tslint:disable-next-line:variable-name max-line-length
   private _favoritesPublicService: Subject<PublicServiceFavoriteByUser> = new Subject<PublicServiceFavoriteByUser>();
@@ -190,33 +188,6 @@ export class FavoritesManagementService {
     return this.httpService.post('canales', this.deleteSchedulePaymentUri, {
       schedulerPayId
     });
-  }
-
-  getCuotaCalculator(amount: string): Observable<PaymentQuota[]>{
-    return this.httpService.post('incomex', this.getQuotaCalculatorUri, {
-      transaction : '1',
-      amount,
-      productId : 5
-    }).pipe(
-        map(response => {
-          if ( response ) {
-            return response.listQuota;
-          }
-        })
-      );
-  }
-
-  getAmountRecharge(): Observable<any> {
-    return this.httpService.post('incomex', this.getAmountRechargeUri, {
-    }).pipe(
-      map(response => {
-        if ( response.type === 'success' ) {
-          return response.amounts;
-        } else {
-          return [];
-        }
-      })
-    );
   }
 
   unsubscribe() {

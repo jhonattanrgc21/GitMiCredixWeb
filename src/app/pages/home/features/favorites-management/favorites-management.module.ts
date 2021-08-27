@@ -32,8 +32,6 @@ import {CredixDatePickerModule} from '../../../../shared/components/credix-date-
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import { CredixStepperModule } from 'src/app/shared/components/credix-stepper/credix-stepper.module';
 import { CdkStepperModule } from '@angular/cdk/stepper';
-import { AddAutomaticsFirstStepComponent } from './add-automatics/add-automatics-first-step/add-automatics-first-step.component';
-import { AddAutomaticsSecondStepComponent } from './add-automatics/add-automatics-second-step/add-automatics-second-step.component';
 import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
 import { CredixRadioButtonModule } from 'src/app/shared/components/credix-radio-button/credix-radio-button.module';
 import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
@@ -86,8 +84,6 @@ const routes: Routes = [
     AddIbanAccountComponent,
     AddAutomaticsComponent,
     AddFavoritesPaymentComponent,
-    AddAutomaticsFirstStepComponent,
-    AddAutomaticsSecondStepComponent,
   ],
   imports: [
     CommonModule,
