@@ -162,6 +162,9 @@ export class NewServiceComponent implements OnInit {
   // }
 
   payService() {
+    const date: Date = new Date();    
+
+    this.router.navigate(['/home/public-services/success']);
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
@@ -178,21 +181,6 @@ export class NewServiceComponent implements OnInit {
       )
       .pipe(finalize(() => {
         if (this.confirmCodeFormGroup.controls.credixCode.valid) {
-          const date: Date = new Date();
-
-          this.publicServicesService.automaticPayment = {
-            transactionTypeId: 1,
-            publicServiceId: this.publicServiceId,
-            periodicityId: 2,
-            currencyId: 188,      
-            startDate: this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
-            key: this.contractFormGroup.controls.contractControl.value,
-            maxAmount: this.confirmFormGroup.controls.amount.value,
-            aliasName: this.publicServicesService.publicService.publicServiceName,
-            credixCode: this.confirmCodeFormGroup.controls.credixCode.value,
-            publicServiceAccessKeyId: +this.contractFormGroup.controls.keysControl.value,
-            quota: this.publicServicesService.paymentQuotaSummary.quotaTo,
-          };
           this.router.navigate(['/home/public-services/success']);
         }
       }))
@@ -236,7 +224,6 @@ export class NewServiceComponent implements OnInit {
           informativeConcepts: response.informativeConcepts,
           currencySymbol: this.currencySymbol
         };
-
       });
   }
 

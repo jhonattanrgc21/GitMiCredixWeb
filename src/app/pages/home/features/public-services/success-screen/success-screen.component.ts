@@ -49,47 +49,10 @@ export class SuccessScreenComponent implements OnInit {
     
   }
 
-  /*openModal() {
-    console.log("openModal");
-    this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
-      if (confirmation) {
-      }
-    });
-  }*/
-
   addAutomaticPayment() {
-
-    console.log("addAutomaticPayment: ", this.publicServicesService.automaticPayment);
-
-    this.modalService.confirmationPopup('¿Desea añadir este pago automático?').subscribe((confirm) => {
-      if (confirm) {
-        this.automaticsService.setAutomaticsPayment(1,
-          this.publicServicesService.automaticPayment.publicServiceId,
-          this.publicServicesService.automaticPayment.periodicityId,
-          this.publicServicesService.automaticPayment.startDate,
-          +this.publicServicesService.automaticPayment.key,
-          this.publicServicesService.automaticPayment.maxAmount,
-          this.publicServicesService.automaticPayment.aliasName,
-          this.publicServicesService.automaticPayment.credixCode,
-          this.publicServicesService.automaticPayment.publicServiceAccessKeyId,
-          this.publicServicesService.automaticPayment.quota,)
-          .pipe(finalize(() => {
-              this.done = true;
-          }))
-          .subscribe((response) => {
-            this.resultAutomatics = !this.resultAutomatics;
-            
-            this.result = {
-              status: response.type,
-              message: response.descriptionOne || response.message,
-              title: response.titleOne
-            };
-          });
-        }
-      });
+    this.router.navigate(['/home/favorites-management']);
   }
-
-
+  
   openBillingModal() {
     this.modalService.open({
         title: 'Comprobante',

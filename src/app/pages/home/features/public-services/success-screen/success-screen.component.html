@@ -3,7 +3,7 @@
                         [status]="status"
                         [moduleTitle]="title"
                         [buttonText]="paymentType === 'Servicio' ? 'Agregar a pagos automáticos' : 'Realizar otro pago'"
-                        [routeTo]="paymentType === 'Servicio' ? '/home/public-services/public-service' : '/home/public-services/success'"
+                        [routeTo]="paymentType === 'Servicio' ? '/home/public-services/success' : '/home/public-services/public-service'"
                         [paymentService]="paymentType === 'Servicio' ? 'true' : 'false'"
                         (buttonPressed)="addAutomaticPayment()">
 
