@@ -30,7 +30,7 @@
     <mat-divider credixDivider></mat-divider>
   
     <div [formGroup]="confirmCodeFormGroup" class="new-service-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-      <credix-code-link></credix-code-link>
+      <credix-code-link route="https://www.credix.com/"></credix-code-link>
   
       <credix-code-input class="new-service-third-step__form" formControlName="credixCode">
         <span *ngIf="confirmCodeFormGroup.controls.credixCode.hasError('required')"

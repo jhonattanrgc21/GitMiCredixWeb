@@ -100,8 +100,8 @@ export class NewServiceComponent implements OnInit {
       this.buttonFormGroup = this.confirmCodeFormGroup;
       this.continue();
     } else {
-      this.buttonFormGroup = this.confirmFormGroup;
-      this.keyType = this.keys.find(key => key.keyType).description;
+      this.buttonFormGroup = this.confirmFormGroup;      
+      this.keyType = this.keys.find(key => key.keyType === this.contractFormGroup.controls.keysControl.value).description;      
       this.checkPendingReceipts();
     }
   }
