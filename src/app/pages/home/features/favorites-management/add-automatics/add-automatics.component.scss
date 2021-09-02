@@ -4,6 +4,7 @@
 
   &__container {
     padding: 0 84px;
+    height: 565px !important;
   }
 
   &__form {
@@ -11,8 +12,36 @@
 
     &__input {
       height: 44px;
+      margin-bottom: 10.5px !important;
     }
   }
+
+  &__content {
+    width: 100%;
+    padding-bottom: 16px;
+
+    &:not(:first-of-type) {
+      padding-top: 16px;
+    }
+
+    &__input {
+      height: 43px;
+      width: 360px;
+
+      &.favorite {
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+
+.options {
+  //height: calc(495px - 66px);
+  height: 565px !important;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 @media screen and (max-width: 1199px) {

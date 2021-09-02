@@ -22,8 +22,8 @@ import {Tag} from '../../../../shared/models/tag';
 export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDestroy {
   accounts: AccountsFavoriteManagement[] = [];
   tableHeaders = [
-    {label: 'Cuentas guardadas', width: '276px'},
-    {label: 'Detalle de la cuenta', width: 'auto'}
+    {label: 'Pago guardado', width: '276px'},
+    {label: 'Detalle del pago', width: 'auto'}
   ];
   tabs = [
     {id: 1, name: 'Cuentas IBAN'},
@@ -146,7 +146,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
       case 1:
         this.router.navigate(['home/favorites-management/iban-accounts']);
         this.tableHeaders[0].label = 'Cuentas guardadas';
-        this.tableHeaders[1].label = 'Detalle de la cuenta';
+        this.tableHeaders[1].label = 'Detalle del pago';
         this.getFavoritesIban();
         this.favoriteManagementService.emitIsTabChange();
         break;
@@ -160,7 +160,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
       case 3:
         this.router.navigate(['home/favorites-management/automatics']);
         this.tableHeaders[0].label = 'Cuentas guardadas';
-        this.tableHeaders[1].label = 'Detalle de la cuenta';
+        this.tableHeaders[1].label = 'Detalle del pago';
         this.getSchedulePayment();
         this.favoriteManagementService.emitIsTabChange();
         break;
@@ -252,8 +252,10 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   checkIsUpdating() {
-    this.favoriteManagementService.update.subscribe(() => {
-      this.updating = true;
+    this.favoriteManagementService.update.subscribe((value) => {
+
+      console.log("checkIsUpdating: ", value);
+      this.updating = value;
     });
   }
 

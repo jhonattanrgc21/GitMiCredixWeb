@@ -30,7 +30,7 @@ export class NewServiceComponent implements OnInit {
     term: new FormControl(null, [Validators.required])
   });
   confirmCodeFormGroup: FormGroup = new FormGroup({
-    credixCode: new FormControl(null, [Validators.required]),
+    credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   buttonFormGroup: FormGroup = null;
 
@@ -160,7 +160,7 @@ export class NewServiceComponent implements OnInit {
   //       }
   //     });
   // }
-
+ 
   payService() {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,

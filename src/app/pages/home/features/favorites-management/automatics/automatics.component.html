@@ -1,52 +1,135 @@
-<div *ngIf="data && !deleted" class="automatics" fxLayout="column">
+<div *ngIf="data && !deleted" class="automatics" style="width: 100% !important;" fxLayout="column">
+  <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="options" fxLayout="column" right>
+    <div *ngIf="data && !deleted" class="automatics" style="margin: auto;" fxLayout="column">
+      <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
+        <span>Número de contrato</span>
+        <span class="truncate tr" fxFlex><strong>{{data?.key}}</strong></span>
+      </div>
 
-  <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-    <span>Número de contrato</span>
-    <span class="truncate tr" fxFlex><strong>{{data?.key}}</strong></span>
-  </div>
+      <div class="mb-20px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
+        <span>Compañía</span>
+        <span class="truncate tr" fxFlex><strong>{{data?.publicServiceDescription}}</strong></span>
+      </div>
 
-  <div class="mb-20px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-    <span>Compañía</span>
-    <span class="truncate tr" fxFlex><strong>{{data?.publicServiceDescription}}</strong></span>
-  </div>
+      <form [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="16px">
 
-  <form [formGroup]="automaticsDetailForm" fxLayout="column" fxLayoutGap="16px">
+        <credix-input-field *ngIf="data.alias"
+                            [class.enabled]="automaticsDetailControls.favoriteName.dirty"
+                            class="automatics__input disabled"
+                            formControlName="favoriteName"
+                            label="Nombre del favorito"></credix-input-field>
 
-    <credix-input-field *ngIf="data.alias"
-                        [class.enabled]="automaticsDetailControls.favoriteName.dirty"
-                        class="automatics__input disabled"
-                        formControlName="favoriteName"
-                        label="Nombre del favorito"></credix-input-field>
+        <credix-input-field *ngIf="data.startDate && publicServiceCategory !== 'Recargas' "
+                            [class.enabled]="automaticsDetailControls.maxAmount.dirty"
+                            class="automatics__input disabled"
+                            formControlName="maxAmount"
+                            label="Monto máximo a pagar"
+                            mask="separator"></credix-input-field>
 
-    <credix-input-field *ngIf="data.startDate"
-                        [class.enabled]="automaticsDetailControls.maxAmount.dirty"
-                        class="automatics__input disabled"
-                        formControlName="maxAmount"
-                        label="Monto máximo a pagar"
-                        mask="separator"></credix-input-field>
+        <credix-date-picker *ngIf="data.startDate"
+                            [class.enabled]="automaticsDetailControls.startDate.dirty"
+                            [startDate]="today"
+                            class="automatics__input disabled"
+                            formControlName="startDate" label="Fecha inicial de pago"></credix-date-picker>
 
-    <credix-date-picker *ngIf="data.startDate"
-                        [class.enabled]="automaticsDetailControls.startDate.dirty"
-                        [startDate]="today"
-                        class="automatics__input disabled"
-                        formControlName="startDate" label="Fecha inicial de pago"></credix-date-picker>
+        <credix-select *ngIf="data.periodicityDescription"
+                      class="automatics__input disabled"
+                      [class.enabled]="automaticsDetailControls.periodicity.touched"
+                      formControlName="periodicity"
+                      label="Periocidad">
+          <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
+            {{periodicity.description}}
+          </mat-option>
+        </credix-select>
 
-    <credix-select *ngIf="data.periodicityDescription"
-                   class="automatics__input disabled"
-                   [class.enabled]="automaticsDetailControls.periodicity.touched"
-                   formControlName="periodicity"
-                   label="Periocidad">
-      <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity.id">
-        {{periodicity.description}}
-      </mat-option>
-    </credix-select>
+        <ng-container *ngIf="publicServiceCategory === 'Recargas'">
+          <div [formGroup]="rechargeFormGroup" fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="170px"><strong>Monto de la recarga</strong></span>
+            <div class="add-automatics__form" fxLayout="column" fxLayoutGap="16px">
+              <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+                <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
+                                    *ngFor="let amount of amounts, let last = last"
+                                    [label]="last ? 'Otro': ''"
+                                    [ngClass]="{'mb-16px' : !last}"
+                                    [value]="amount.amount"
+                                    [checked]="convertAmount(amount.amount) === automaticsDetailControls.maxAmount.value">
+                  <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>
+                </credix-radio-button>
+          
+                <credix-input-field *ngIf="anotherAmount" class="add-automatics__content__input favorite mb-8px"
+                                    formControlName="amount" label="Otro monto"
+                                    mask="separator">
+                  <div error>
+                    El monto debe ser mayor a
+                    ₡{{amounts[0].amount}}{{amounts[0].amount.split(',').length === 1 ? ',00' : ''}}</div>
+                </credix-input-field>
+              </div>
+            </div>
+          </div>
+        </ng-container>
 
-    <div class="mt-24px" fxLayout="column">
-      <span><strong>Código MiCredix</strong></span>
-      <credix-code-input [formControl]="codeCredix" class="automatics__input disabled">
-        <span *ngIf="codeCredix.hasError('invalid')"
-              error>Código MiCredix inválido.</span>
-      </credix-code-input>
+        <div fxLayout="row" fxLayoutAlign="space-between" style="padding-top: 16.5px !important;">
+          <span fxFlex="150px"><strong>Elija su plazo</strong></span>
+        </div>
+        <div fxLayout="column" fxFlex="304px" fxLayoutAlign="space-between" fxLayoutGap="32px">
+          <credix-slider (inputChange)="getQuota($event)"
+                        (valueChange)="getQuota($event)"
+                        [displayMax]="termSliderDisplayMax"
+                        [displayMin]="termSliderDisplayMin"
+                        [displayValue]="termSliderDisplayValue"
+                        [max]="termSliderMax"
+                        [min]="termSliderMin"
+                        [step]="termSliderStep"
+                        [instructions]="'Deseo dividir este pago en'"
+                        [units]="'Meses'">
+          </credix-slider>
+
+          <div *ngIf="paymentQuotaSummary" fxLayout="column" fxLayoutGap="16px">
+
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <span class="font-summary" fxFlex>{{ 'Plazo' }}</span>
+              <span><strong>{{ paymentQuotaSummary?.quotaTo }} meses</strong></span>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <span fxFlex>{{ quoteTag || 'Cuota' }}
+              </span>
+              <credix-numeric-block
+                [value]="paymentQuotaSummary?.amountPerQuota"
+                fontWeight="bold"
+                prefix="₡"></credix-numeric-block>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <span fxFlex>{{ popupCommissionTag || 'Comisión*' }}
+                </span>
+                <span><strong>{{ paymentQuotaSummary?.commissionPercentage + ' ' + '%'}}</strong></span>
+              </div>
+        
+              <div fxLayout="row" fxLayoutAlign="space-between">
+                <span fxFlex>{{ popupInterestTag || 'Interés' }} 
+                </span>
+                <span><strong>{{ paymentQuotaSummary?.feePercentage + '% mensual' }}</strong></span>
+              </div>
+              <div style="color: #707070; font-size: 9px; display: block;
+              line-height: 1.5;">
+                  * IVA y comisión se cargarán junto con el pago automático cuando se ejecute. IVA es 13% de la comisión.
+              </div>
+              <mat-divider credixDivider></mat-divider>
+
+              <div style="color: #707070; font-size: 12px; display: block;
+              line-height: 1.46;">
+                Ingrese el código generado en la aplicación Código Credix. Para obtenerlo presione aquí.
+              </div>
+          </div>
+        </div>   
+        <div class="mt-24px" fxLayout="column">
+          <credix-code-input [formControl]="codeCredix" class="automatics__input disabled">
+            <span *ngIf="codeCredix.hasError('invalid')"
+                  error>Código MiCredix inválido.</span>
+          </credix-code-input>
+        </div>
+      </form>
     </div>
-  </form>
+</ngx-simplebar>
 </div>

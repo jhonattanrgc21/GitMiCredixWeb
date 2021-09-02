@@ -1,8 +1,13 @@
+:host {
+  width: 100%;
+}
+
 .automatics {
   width: 296px;
-  height: 350px;
-  padding: 0 8px;
-
+  height: 400px;
+  //padding: 0 8px;
+  margin-top: 16px;
+  
   &__input {
     height: 42px;
 
@@ -21,7 +26,32 @@
       }
     }
   }
+
+  .automatics-wrapper {
+    width: 100% !important;
+    height: 300px;
+  }
+
+  .options {
+    //height: calc(495px - 66px);
+    height: 400px !important;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  ::ng-deep.credix-slider {
+    //width: 296px !important;
+    //padding-left: 13px !important;
+    margin-top: -8px;
+    .mat-slider {
+      width: 286px !important;
+      margin-left: 11px !important;
+    }
+  }
 }
+
+
 
 .mb-20px {
   margin-bottom: 20px !important;

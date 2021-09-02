@@ -49,7 +49,7 @@ export class SuccessScreenComponent implements OnInit {
   }
 
   addAutomaticPayment() {
-    this.router.navigate(['/home/favorites-management/automatics']);
+    this.router.navigate(['/home/favorites-management/new-automatics']);
   }
 
   openBillingModal() {

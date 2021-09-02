@@ -18,6 +18,8 @@ export class CredixRadioButtonComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log("value: ", this.value, this.checked);
   }
 
   isCheckedValue(event) {
