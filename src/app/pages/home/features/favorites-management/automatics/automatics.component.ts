@@ -13,6 +13,7 @@ import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { finalize } from 'rxjs/operators';
 import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 import { PublicServicesApiService } from 'src/app/core/services/public-services-api.service';
+import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/credix-slider.component';
 
 @Component({
   selector: 'app-automatics',
@@ -58,7 +59,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   amountSliderStep = 1;
   amountSliderMin = 0;
   amountSliderMax = 1;
-  termSliderStep = 1;
+  termSliderStep = 2;
   termSliderMin = 1;
   termSliderMax = 12;
   termSliderDisplayMin = 1;
@@ -66,8 +67,8 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   termSliderDisplayValue = 7;
   anotherAmount: boolean = false;
   publicServiceCategory;
+  isChanged = true;
 
-  @ViewChild('slider', {static: })
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
               private modalService: ModalService,
@@ -191,6 +192,8 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
+              this.termSliderStep = 2;
+              this.termSliderStep = 1;
             }
           },
         );

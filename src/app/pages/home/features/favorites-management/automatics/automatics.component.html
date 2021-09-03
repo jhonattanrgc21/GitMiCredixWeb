@@ -57,7 +57,7 @@
                   <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>
                 </credix-radio-button>
           
-                <credix-input-field *ngIf="anotherAmount" class="add-automatics__content__input favorite mb-8px"
+                <credix-input-field *ngIf="anotherAmount" class="automatics__content__input favorite mb-8px"
                                     formControlName="amount" label="Otro monto"
                                     mask="separator">
                   <div error>
@@ -73,7 +73,7 @@
           <span fxFlex="150px"><strong>Elija su plazo</strong></span>
         </div>
         <div fxLayout="column" fxFlex="363px" fxLayoutGap="16px" style="margin-bottom: 0 !important;">
-          <credix-slider #slider (inputChange)="getQuota($event)"
+          <credix-slider *ngIf="isChanged" (inputChange)="getQuota($event)"
                         (valueChange)="getQuota($event)"
                         [displayMax]="termSliderDisplayMax"
                         [displayMin]="termSliderDisplayMin"
