@@ -8,6 +8,28 @@
   //padding: 0 8px;
   margin-top: 16px;
   
+  &__link {
+    color: #239df7;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  &__code {
+    color: #3E3E3E;
+    font-size: 12px;
+    display: block;
+    line-height: 1.46;
+    padding-top: 8px !important;
+  }
+
+  &__iva {
+    color: #707070;
+    font-size: 9px;
+    display: block;
+    line-height: 1.5;
+    padding-bottom: 8px !important;
+  }
+
   &__input {
     height: 42px;
 

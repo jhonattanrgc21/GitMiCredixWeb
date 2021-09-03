@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {FavoritesManagementService} from '../favorites-management.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AutomaticsService} from './automatics.service';
@@ -67,6 +67,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   anotherAmount: boolean = false;
   publicServiceCategory;
 
+  @ViewChild('slider', {static: })
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
               private modalService: ModalService,
@@ -258,7 +259,10 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
             this.automaticsDetailForm.controls.maxAmount.setValue(value, {onlySelf: false, emitEvent: false});
 
           });
-        }        
+        } else {
+          this.publicServiceCategory = 'Servicio';
+        }
+        console.log("public: ", this.publicServiceCategory);     
       });
   }
 }

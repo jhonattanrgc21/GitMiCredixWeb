@@ -34,6 +34,7 @@
 
         <credix-select *ngIf="data.periodicityDescription"
                       class="automatics__input disabled"
+                      style="padding-bottom: 12px;"
                       [class.enabled]="automaticsDetailControls.periodicity.touched"
                       formControlName="periodicity"
                       label="Periocidad">
@@ -68,11 +69,11 @@
           </div>
         </ng-container>
 
-        <div fxLayout="row" fxLayoutAlign="space-between" style="padding-top: 16.5px !important;">
+        <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex="150px"><strong>Elija su plazo</strong></span>
         </div>
-        <div fxLayout="column" fxFlex="304px" fxLayoutAlign="space-between" fxLayoutGap="32px">
-          <credix-slider (inputChange)="getQuota($event)"
+        <div fxLayout="column" fxFlex="363px" fxLayoutGap="16px" style="margin-bottom: 0 !important;">
+          <credix-slider #slider (inputChange)="getQuota($event)"
                         (valueChange)="getQuota($event)"
                         [displayMax]="termSliderDisplayMax"
                         [displayMin]="termSliderDisplayMin"
@@ -80,6 +81,7 @@
                         [max]="termSliderMax"
                         [min]="termSliderMin"
                         [step]="termSliderStep"
+                        [value]="termSliderStep"
                         [instructions]="'Deseo dividir este pago en'"
                         [units]="'Meses'">
           </credix-slider>
@@ -111,19 +113,17 @@
                 </span>
                 <span><strong>{{ paymentQuotaSummary?.feePercentage + '% mensual' }}</strong></span>
               </div>
-              <div style="color: #707070; font-size: 9px; display: block;
-              line-height: 1.5;">
+              <div class="automatics__iva">
                   * IVA y comisión se cargarán junto con el pago automático cuando se ejecute. IVA es 13% de la comisión.
               </div>
               <mat-divider credixDivider></mat-divider>
 
-              <div style="color: #707070; font-size: 12px; display: block;
-              line-height: 1.46;">
-                Ingrese el código generado en la aplicación Código Credix. Para obtenerlo presione aquí.
+              <div class="automatics__code">
+                Ingrese el código generado en la aplicación Código Credix. Para obtenerlo presione <a href="#" target="_blank" class="automatics__link">aquí.</a>
               </div>
           </div>
         </div>   
-        <div class="mt-24px" fxLayout="column">
+        <div style="margin-top: -16px !important;" fxLayout="column">
           <credix-code-input [formControl]="codeCredix" class="automatics__input disabled">
             <span *ngIf="codeCredix.hasError('invalid')"
                   error>Código MiCredix inválido.</span>
