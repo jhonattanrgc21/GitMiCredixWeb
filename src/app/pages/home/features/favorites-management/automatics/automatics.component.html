@@ -1,6 +1,6 @@
 <div *ngIf="data && !deleted" class="automatics" style="width: 100% !important;" fxLayout="column">
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="options" fxLayout="column" right>
-    <div *ngIf="data && !deleted" class="automatics" style="margin: auto;" fxLayout="column">
+    <div *ngIf="data && !deleted" class="automatics" style="margin-left: 156px;;" fxLayout="column">
       <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span>Número de contrato</span>
         <span class="truncate tr" fxFlex><strong>{{data?.key}}</strong></span>
@@ -124,8 +124,10 @@
           </div>
         </div>   
         <div style="margin-top: -16px !important;" fxLayout="column">
-          <credix-code-input [formControl]="codeCredix" class="automatics__input disabled">
-            <span *ngIf="codeCredix.hasError('invalid')"
+          <credix-code-input formControlName="codeCredix" class="automatics__input disabled">
+            <span *ngIf="automaticsDetailForm.controls.codeCredix.hasError('required')"
+            error>Introduzca el código credix.</span>
+            <span *ngIf="automaticsDetailForm.controls.codeCredix.hasError('invalid')"
                   error>Código MiCredix inválido.</span>
           </credix-code-input>
         </div>

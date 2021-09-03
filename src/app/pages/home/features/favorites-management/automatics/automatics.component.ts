@@ -25,12 +25,13 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     favoriteName: new FormControl(null, Validators.required),
     maxAmount: new FormControl(null, Validators.required),
     startDate: new FormControl(null, Validators.required),
-    periodicity: new FormControl(null, Validators.required)
+    periodicity: new FormControl(null, Validators.required),
+    codeCredix: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   rechargeFormGroup: FormGroup = new FormGroup({
     amount: new FormControl(null, [Validators.nullValidator]),
   });
-  codeCredix: FormControl = new FormControl(null);
+  codeCredix: FormControl = new FormControl(null, [Validators.required, Validators.minLength(6)]);
   data: SchedulePayments;
   periodicityList: Periodicity[];
   idParam: number;
@@ -100,7 +101,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   getSchedulePayment() {
     this.favoritesManagementService.schedulePayments.subscribe((response) => {
-      this.codeCredix.reset(null, {emitEvent: false});
+      this.automaticsDetailForm.controls.codeCredix.reset(null, {emitEvent: false});
       this.data = response;
       console.log("Data: ", this.data);
       this.deleted = false;
@@ -134,7 +135,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
           this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
           this.automaticsDetailControls.maxAmount.value,
           this.data.id,
-          this.codeCredix.value);
+          this.automaticsDetailControls.codeCredix.value);
       }
     });
   }
@@ -142,7 +143,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   setUpdateSchedule(periodId: number, date: string, mxAmount: number, id: number, codeCredix: string) {
     this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id, codeCredix)
       .subscribe((response) => {
-        this.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
+        this.automaticsDetailControls.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
         if (response.type === 'success') {
           this.favoritesManagementService.emitUpdateSuccessAlert();
         }
@@ -169,7 +170,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   getCredixCodeError() {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.codeCredix.setErrors({invalid: true});
+      this.automaticsDetailControls.codeCredix.setErrors({invalid: true});
       this.automaticsDetailForm.updateValueAndValidity();
     });
   }
