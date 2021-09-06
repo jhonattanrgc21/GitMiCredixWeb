@@ -35,6 +35,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
 import { CredixRadioButtonModule } from 'src/app/shared/components/credix-radio-button/credix-radio-button.module';
 import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
+import { AddAutomaticsSecondStepComponent } from './add-automatics/add-automatics-second-step/add-automatics-second-step.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,7 @@ const routes: Routes = [
     AddIbanAccountComponent,
     AddAutomaticsComponent,
     AddFavoritesPaymentComponent,
+    AddAutomaticsSecondStepComponent,
   ],
   imports: [
     CommonModule,

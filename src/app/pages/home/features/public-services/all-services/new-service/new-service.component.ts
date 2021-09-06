@@ -30,7 +30,7 @@ export class NewServiceComponent implements OnInit {
     term: new FormControl(null, [Validators.required])
   });
   confirmCodeFormGroup: FormGroup = new FormGroup({
-    credixCode: new FormControl(null, [Validators.required]),
+    credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   buttonFormGroup: FormGroup = null;
 
@@ -100,8 +100,8 @@ export class NewServiceComponent implements OnInit {
       this.buttonFormGroup = this.confirmCodeFormGroup;
       this.continue();
     } else {
-      this.buttonFormGroup = this.confirmFormGroup;
-      this.keyType = this.keys.find(key => key.keyType).description;
+      this.buttonFormGroup = this.confirmFormGroup;      
+      this.keyType = this.keys.find(key => key.keyType === this.contractFormGroup.controls.keysControl.value).description;      
       this.checkPendingReceipts();
     }
   }
@@ -160,7 +160,7 @@ export class NewServiceComponent implements OnInit {
   //       }
   //     });
   // }
-
+ 
   payService() {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,

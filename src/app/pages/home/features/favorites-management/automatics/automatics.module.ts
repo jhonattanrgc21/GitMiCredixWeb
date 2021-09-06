@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {AutomaticsComponent} from './automatics.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -14,6 +14,10 @@ import {SharedModule} from '../../../../../shared/shared.module';
 import {DateFormatterModule} from '../../../../../shared/pipes/date-formatter/date-formatter.module';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {CredixDatePickerModule} from '../../../../../shared/components/credix-date-picker/credix-date-picker.module';
+import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
+import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
+import { CredixRadioButtonModule } from 'src/app/shared/components/credix-radio-button/credix-radio-button.module';
+import { SimplebarAngularModule } from 'simplebar-angular';
 
 const routes: Routes = [
   {
@@ -41,13 +45,21 @@ const routes: Routes = [
     CredixLinkButtonModule,
     CredixCodeInputModule,
     DateFormatterModule,
-    CredixDatePickerModule
+    CredixDatePickerModule,
+    CredixNumericBlockModule,
+    CredixSliderModule,
+    CredixRadioButtonModule,
+    SimplebarAngularModule,
+
   ],
   providers: [
     ModalService,
     AutomaticsService,
     DatePipe,
     CredixToastService
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class AutomaticsModule {

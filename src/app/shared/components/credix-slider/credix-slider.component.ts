@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild} from '@angular/core';
 import {MatSlider} from '@angular/material/slider';
 
 @Component({
@@ -7,7 +7,7 @@ import {MatSlider} from '@angular/material/slider';
   templateUrl: './credix-slider.component.html',
   styleUrls: ['./credix-slider.component.scss']
 })
-export class CredixSliderComponent implements OnInit {
+export class CredixSliderComponent implements OnInit, OnChanges {
   @Input() disabled = false;
   @Input() max = 12;
   @Input() min = 1;
@@ -28,6 +28,15 @@ export class CredixSliderComponent implements OnInit {
   showMaxWrapper = false;
 
   constructor() {
+  }
+
+  ngOnChanges(simple: SimpleChanges) {
+    console.log(simple);
+    if ( simple.displayValue.currentValue === 1 ) {
+      this.value = 1;
+    }
+
+    console.log(this.value);
   }
 
   ngOnInit(): void {
