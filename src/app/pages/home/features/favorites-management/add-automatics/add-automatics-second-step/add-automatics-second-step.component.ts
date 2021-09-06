@@ -15,7 +15,6 @@ import { FavoritesManagementService } from '../../favorites-management.service';
 })
 export class AddAutomaticsSecondStepComponent implements OnInit, OnChanges {
   
-
   @Input() termControl: FormControl = new FormControl(null);
   @Input() confirmCodeFormGroup: FormGroup = new FormGroup({
     codeCredix: new FormControl(null, [Validators.required]),

@@ -60,15 +60,17 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   amountSliderStep = 1;
   amountSliderMin = 0;
   amountSliderMax = 1;
-  termSliderStep = 2;
+  termSliderStep = 1;
   termSliderMin = 1;
   termSliderMax = 12;
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
   termSliderDisplayValue = 7;
+  value = 1;
+  quota = 12;
   anotherAmount: boolean = false;
   publicServiceCategory;
-  isChanged = true;
+  isFirstChanged = false;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
@@ -103,7 +105,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     this.favoritesManagementService.schedulePayments.subscribe((response) => {
       this.automaticsDetailForm.controls.codeCredix.reset(null, {emitEvent: false});
       this.data = response;
-      console.log("Data: ", this.data);
+      this.quota = 1;
       this.deleted = false;
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount, {onlySelf: false, emitEvent: false});
@@ -162,7 +164,6 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
           this.favoritesManagementService.updating(false);
 
         }*/
-        console.log("form: ", this.automaticsDetailForm);
         this.automaticsDetailForm.status === 'VALID' ? this.favoritesManagementService.updating(true) : this.favoritesManagementService.updating(false);
 
       });
@@ -193,11 +194,19 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
-              this.termSliderStep = 2;
-              this.termSliderStep = 1;
+
+              if ( !this.isFirstChanged ) {
+                this.findSliderValue();
+                this.isFirstChanged = true;
+              }
             }
           },
         );
+  }
+
+  findSliderValue() {
+    this.value = this.quotas.findIndex(quota => quota.quotaTo === this.quota) + 1;
+    this.termSliderDisplayValue = this.quota;
   }
 
   selectPaymentQuotaSummary() {
@@ -207,7 +216,6 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
 
   getQuota(sliderValue) {
     this.termSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
-    //this.termControl.setValue( this.termSliderDisplayValue );
     this.selectPaymentQuotaSummary();
   }
 
@@ -266,7 +274,6 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
         } else {
           this.publicServiceCategory = 'Servicio';
         }
-        console.log("public: ", this.publicServiceCategory);     
       });
   }
 }
