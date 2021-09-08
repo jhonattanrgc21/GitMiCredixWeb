@@ -2,7 +2,7 @@
 
   <h1 class="mb-32px">Añadir pago automático</h1>
     <credix-stepper #addAutomaticsStepper fxFlex>
-      <cdk-step [label]="'Consultar'">
+      <cdk-step [label]="'Información'">
         <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="options" fxLayout="column" right>
 
           <div class="add-automatics__container mt-8px" fxFlex fxLayout="column" fxLayoutGap="16px">
@@ -100,7 +100,7 @@
           </div>
         </ngx-simplebar>
       </cdk-step>
-      <cdk-step [label]="'Pagar'">
+      <cdk-step [label]="'Plazo'">
         <app-add-automatics-second-step [termControl]="requestForm.controls.term"
         [confirmCodeFormGroup]="confirmCodeFormGroup"
         [isActive]="stepperIndex === 1"

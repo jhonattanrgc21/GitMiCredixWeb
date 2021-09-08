@@ -104,9 +104,9 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   getSchedulePayment() {
     this.favoritesManagementService.schedulePayments.subscribe((response) => {
       this.automaticsDetailForm.controls.codeCredix.reset(null, {emitEvent: false});
-      this.data = response;
       this.quota = 1;
       this.deleted = false;
+      this.data.alias = "otra cosa"
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.startDate.setValue(this.data?.startDate, {onlySelf: false, emitEvent: false});
@@ -137,15 +137,17 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
           this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
           this.automaticsDetailControls.maxAmount.value,
           this.data.id,
-          this.automaticsDetailControls.codeCredix.value);
+          this.automaticsDetailControls.codeCredix.value,
+          );
       }
     });
   }
 
   setUpdateSchedule(periodId: number, date: string, mxAmount: number, id: number, codeCredix: string) {
-    this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id, codeCredix)
+    this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id, codeCredix, this.automaticsDetailForm.controls.favoriteName.value)
       .subscribe((response) => {
         this.automaticsDetailControls.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
+        console.log("SetUpdateSchedule: ", response);
         if (response.type === 'success') {
           this.favoritesManagementService.emitUpdateSuccessAlert();
         }

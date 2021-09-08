@@ -12,14 +12,14 @@
                            [min]="termSliderMin"
                            [step]="termSliderStep"
                            [instructions]="'Deseo dividir este pago en'"
-                           [units]="'Meses'">
+                           [units]="paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes'">
             </credix-slider>
 
             <div *ngIf="paymentQuotaSummary" fxLayout="column" fxLayoutGap="16px">
 
                 <div fxLayout="row" fxLayoutAlign="space-between">
                   <span class="font-summary" fxFlex>{{ 'Plazo' }}</span>
-                  <span><strong>{{ paymentQuotaSummary?.quotaTo }} meses</strong></span>
+                  <span><strong>{{ paymentQuotaSummary?.quotaTo }} {{ paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes' }}</strong></span>
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="space-between">
