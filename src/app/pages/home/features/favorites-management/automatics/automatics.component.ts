@@ -104,6 +104,9 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   getSchedulePayment() {
     this.favoritesManagementService.schedulePayments.subscribe((response) => {
       this.automaticsDetailForm.controls.codeCredix.reset(null, {emitEvent: false});
+      console.log(response);
+      
+      this.data = response;
       this.quota = 1;
       this.deleted = false;
       this.data.alias = "otra cosa"
@@ -146,8 +149,9 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   setUpdateSchedule(periodId: number, date: string, mxAmount: number, id: number, codeCredix: string) {
     this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id, codeCredix, this.automaticsDetailForm.controls.favoriteName.value)
       .subscribe((response) => {
+
+        console.log("response: ", response);
         this.automaticsDetailControls.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
-        console.log("SetUpdateSchedule: ", response);
         if (response.type === 'success') {
           this.favoritesManagementService.emitUpdateSuccessAlert();
         }
