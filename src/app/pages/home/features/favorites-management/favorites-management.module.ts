@@ -36,6 +36,7 @@ import { CredixSliderModule } from 'src/app/shared/components/credix-slider/cred
 import { CredixRadioButtonModule } from 'src/app/shared/components/credix-radio-button/credix-radio-button.module';
 import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
 import { AddAutomaticsSecondStepComponent } from './add-automatics/add-automatics-second-step/add-automatics-second-step.component';
+import { SuccessScreenComponent } from './success-screen/success-screen.component';
 
 const routes: Routes = [
   {
@@ -76,7 +77,11 @@ const routes: Routes = [
   {
     path: 'new-automatics',
     component: AddAutomaticsComponent
-  }
+  },
+  {
+    path: 'success',
+    component: SuccessScreenComponent,
+  },
 ];
 
 @NgModule({
@@ -86,6 +91,7 @@ const routes: Routes = [
     AddAutomaticsComponent,
     AddFavoritesPaymentComponent,
     AddAutomaticsSecondStepComponent,
+    SuccessScreenComponent,
   ],
   imports: [
     CommonModule,

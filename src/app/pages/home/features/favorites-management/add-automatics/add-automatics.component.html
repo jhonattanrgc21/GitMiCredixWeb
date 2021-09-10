@@ -104,7 +104,8 @@
         <app-add-automatics-second-step [termControl]="requestForm.controls.term"
         [confirmCodeFormGroup]="confirmCodeFormGroup"
         [isActive]="stepperIndex === 1"
-        [amount]="rechargeFormGroup.controls.amount.value"></app-add-automatics-second-step>
+        [amount]="rechargeFormGroup.controls.amount.value"
+        [category]="category?.publicServiceCategory"></app-add-automatics-second-step>
       </cdk-step>
     </credix-stepper>
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">

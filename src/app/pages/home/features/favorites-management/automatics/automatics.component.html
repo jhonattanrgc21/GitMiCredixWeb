@@ -44,21 +44,22 @@
           </credix-select>
   
           <ng-container *ngIf="publicServiceCategory === 'Recargas'">
-            <div [formGroup]="rechargeFormGroup" fxLayout="row" fxLayoutAlign="space-between">
-              <span fxFlex="170px"><strong>Monto de la recarga</strong></span>
-              <div class="add-automatics__form" fxLayout="column" fxLayoutGap="16px">
-                <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+            <div [formGroup]="rechargeFormGroup" fxLayout="column" fxLayoutGap="18px" fxLayoutAlign="space-between">
+              <span><strong>Monto de recarga</strong></span>
+              <div class="add-automatics__form" fxLayout="column">
+                <div class="left-content" fxLayout="column">
                   <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
                                       *ngFor="let amount of amounts, let last = last"
                                       [label]="last ? 'Otro': ''"
-                                      [ngClass]="{'mb-16px' : !last}"
+                                      [ngClass]="{'mb-16px' : !last, 'ml-28px': last}"
                                       [value]="amount.amount"
+                                      [position]="last ? 'before' : 'after'"
                                       [checked]="convertAmount(amount.amount) === automaticsDetailControls.maxAmount.value">
                     <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>
                   </credix-radio-button>
             
                   <credix-input-field *ngIf="anotherAmount" class="automatics__content__input favorite mb-8px"
-                                      formControlName="amount" label="Otro monto"
+                                      formControlName="amount"
                                       mask="separator">
                     <div error>
                       El monto debe ser mayor a
@@ -93,7 +94,7 @@
                 <span><strong>{{ paymentQuotaSummary?.quotaTo }} {{ paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes' }}</strong></span>
               </div>
   
-              <div fxLayout="row" fxLayoutAlign="space-between">
+              <div *ngIf="publicServiceCategory === 'Recargas'" fxLayout="row" fxLayoutAlign="space-between">
                 <span fxFlex>{{ quoteTag || 'Cuota' }}
                 </span>
                 <credix-numeric-block
@@ -105,13 +106,23 @@
               <div fxLayout="row" fxLayoutAlign="space-between">
                   <span fxFlex>{{ popupCommissionTag || 'Comisión*' }}
                   </span>
-                  <span><strong>{{ paymentQuotaSummary?.commissionPercentage + ' ' + '%'}}</strong></span>
+                  <credix-numeric-block
+                      [value]="paymentQuotaSummary?.commissionPercentage"
+                      fontWeight="bold"
+                      type='percentage'
+                      ></credix-numeric-block>
+                  <span><strong>{{ '%' }}</strong></span>
                 </div>
-          
+               
                 <div fxLayout="row" fxLayoutAlign="space-between">
                   <span fxFlex>{{ popupInterestTag || 'Interés' }} 
                   </span>
-                  <span><strong>{{ paymentQuotaSummary?.feePercentage + '% mensual' }}</strong></span>
+                  <credix-numeric-block
+                      [value]="paymentQuotaSummary?.feePercentage"
+                      fontWeight="bold"
+                      type='percentage'
+                      ></credix-numeric-block>
+                  <span><strong>{{ '% mensual' }}</strong></span>
                 </div>
                 <div class="automatics__iva">
                     * IVA y comisión se cargarán junto con el pago automático cuando se ejecute. IVA es 13% de la comisión.

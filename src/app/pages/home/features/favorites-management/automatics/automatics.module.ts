@@ -18,6 +18,8 @@ import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numer
 import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
 import { CredixRadioButtonModule } from 'src/app/shared/components/credix-radio-button/credix-radio-button.module';
 import { SimplebarAngularModule } from 'simplebar-angular';
+import { CredixResultNotificationModule } from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
+import { CredixResultViewModule } from 'src/app/shared/components/credix-result-view/credix-result-view.module';
 
 const routes: Routes = [
   {
@@ -50,6 +52,8 @@ const routes: Routes = [
     CredixSliderModule,
     CredixRadioButtonModule,
     SimplebarAngularModule,
+    CredixResultNotificationModule,
+    CredixResultViewModule,
 
   ],
   providers: [

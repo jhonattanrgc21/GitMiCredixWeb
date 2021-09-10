@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {PopupReceiptComponent} from './popup-receipt/popup-receipt.component';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {PublicServicesService} from '../public-services.service';
 import { Router } from '@angular/router';
 import { AutomaticsService } from '../../favorites-management/automatics/automatics.service';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-success-screen',
@@ -29,7 +28,8 @@ export class SuccessScreenComponent implements OnInit {
   constructor(private publicServicesService: PublicServicesService,
               private modalService: ModalService,
               private router: Router,
-              private automaticsService: AutomaticsService,) {
+              private automaticsService: AutomaticsService,
+              ) {
   }
 
   ngOnInit(): void {

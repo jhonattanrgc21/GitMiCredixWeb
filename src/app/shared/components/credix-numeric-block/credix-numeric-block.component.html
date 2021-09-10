@@ -10,6 +10,6 @@
     <span [style.font-weight]="fontWeight"
           class="credix-numeric-block__integer">{{integerValue | mask: 'separator':'.'}}</span>
 
-  <span [style.font-weight]="fontWeight" class="credix-numeric-block__decimal">,{{decimalValue}}</span>
+  <span *ngIf="decimalValue" [style.font-weight]="fontWeight" class="credix-numeric-block__decimal">,{{decimalValue}}</span>
 
 </span>

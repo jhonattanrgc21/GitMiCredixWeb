@@ -36,6 +36,9 @@
   }
 }
 
+::ng-deep.credix-stepper__nav-bar__step {
+  margin-right: 150px !important;
+}
 
 .options {
   //height: calc(495px - 66px);

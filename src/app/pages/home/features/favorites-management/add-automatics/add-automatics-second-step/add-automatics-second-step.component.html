@@ -22,7 +22,7 @@
                   <span><strong>{{ paymentQuotaSummary?.quotaTo }} {{ paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes' }}</strong></span>
                 </div>
 
-                <div fxLayout="row" fxLayoutAlign="space-between">
+                <div *ngIf="category && category === 'Recargas'" fxLayout="row" fxLayoutAlign="space-between">
                   <span fxFlex>{{ quoteTag || 'Cuota' }}
                   </span>
                   <credix-numeric-block
@@ -34,13 +34,23 @@
                 <div fxLayout="row" fxLayoutAlign="space-between">
                     <span fxFlex>{{ popupCommissionTag || 'Comisión*' }}
                     </span>
-                    <span><strong>{{ paymentQuotaSummary?.commissionPercentage + ' ' + '%'}}</strong></span>
+                    <credix-numeric-block
+                      [value]="paymentQuotaSummary?.commissionPercentage"
+                      fontWeight="bold"
+                      type="percentage"
+                      ></credix-numeric-block>
+                    <span><strong>{{ '%' }}</strong></span>
                   </div>
             
                   <div fxLayout="row" fxLayoutAlign="space-between">
                     <span fxFlex>{{ popupInterestTag || 'Interés' }} 
                     </span>
-                    <span><strong>{{ paymentQuotaSummary?.feePercentage + '% mensual' }}</strong></span>
+                    <credix-numeric-block
+                      [value]="paymentQuotaSummary?.feePercentage"
+                      fontWeight="bold"
+                      type="percentage"
+                      ></credix-numeric-block>
+                    <span><strong>{{ '% mensual' }}</strong></span>
                   </div>
                   <p fxFlex style="color: #707070; font-size: 12px;">
                     * IVA y comisión se cargarán junto con el pago automático cuando se ejecute. IVA es 13% de la comisión.

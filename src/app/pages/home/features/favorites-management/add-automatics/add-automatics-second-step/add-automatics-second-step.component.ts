@@ -21,6 +21,7 @@ export class AddAutomaticsSecondStepComponent implements OnInit, OnChanges {
   });
   @Input() amount: string;
   @Input() isActive = false;
+  @Input() category = '';
   quoteTag: string;
   termTag: string;
   amountTag: string;

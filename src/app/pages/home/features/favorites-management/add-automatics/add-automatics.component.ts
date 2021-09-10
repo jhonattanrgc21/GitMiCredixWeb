@@ -29,7 +29,7 @@ export class AddAutomaticsComponent implements OnInit {
     contractControl: new FormControl(null, [Validators.required]),
     nameOfAutomatics: new FormControl(null, [Validators.required]),
     maxAmount: new FormControl(null, [Validators.required]),
-    startDate: new FormControl(new Date(), [Validators.required]),
+    startDate: new FormControl(null, [Validators.required]),
     periodicity: new FormControl(null, [Validators.required]),
   });
   rechargeFormGroup: FormGroup = new FormGroup({
@@ -65,7 +65,7 @@ export class AddAutomaticsComponent implements OnInit {
   invalidCodeCredix = true;
   stepperIndex: number = 0;
   anotherAmount: boolean = false;
-  category: any = null
+  category: any = null;
   amounts: {amount: string, id: number}[] = [];
 
   @ViewChild('addAutomaticsStepper') stepper: CdkStepper;

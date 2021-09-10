@@ -24,6 +24,7 @@
                                    [isActive]="stepperIndex === 1"
                                    [paymentType]="paymentType"
                                    [keyType]="keyType"
+                                   [prevStep]="stepperIndex === 0"
                                    [reference]="contractFormGroup.controls.contractControl.value"></app-new-service-second-step>
     </cdk-step>
     <cdk-step [label]="'Plazos'" [stepControl]="requestForm">
