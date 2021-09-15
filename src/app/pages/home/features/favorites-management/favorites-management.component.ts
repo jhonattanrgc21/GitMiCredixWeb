@@ -253,8 +253,6 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
 
   checkIsUpdating() {
     this.favoriteManagementService.update.subscribe((value) => {
-
-      console.log("checkIsUpdating: ", value);
       this.updating = value;
     });
   }

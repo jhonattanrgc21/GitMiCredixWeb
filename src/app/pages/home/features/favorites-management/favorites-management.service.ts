@@ -76,6 +76,16 @@ export class FavoritesManagementService {
     return this._favoritesPublicService.asObservable();
   }
 
+  // tslint:disable-next-line:variable-name
+  _result: { status: 'success' | 'error'; message: string; title: string };
+  get result(): { status: 'success' | 'error'; message: string; title: string } {
+    return this._result;
+  }
+
+  set result(result: { status: 'success' | 'error'; message: string; title: string }) {
+    this._result = result;
+  }
+  
   // tslint:disable-next-line:max-line-length
   get valuesFromFavorites(): {
     publicServiceCategoryId: number;

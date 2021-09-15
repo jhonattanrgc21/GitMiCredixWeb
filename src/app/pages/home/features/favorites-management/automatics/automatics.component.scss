@@ -18,8 +18,10 @@
   
       &__input {
         height: 43px;
-        width: 230px !important;
-  
+        width: 268px !important;
+        margin-left: 29px !important;
+        margin-top: -7px !important;
+
         &.favorite {
           margin-left: 20px;
         }
@@ -68,7 +70,12 @@
     }
   
     ::ng-deep.credix-slider {
-      width: 304px;
+      width: 295.76px;
+
+      .credix-slider__slider {
+        width: 97% !important;
+        margin-left: 11px !important;
+      }
   }
   
     .automatics-wrapper {
@@ -95,7 +102,9 @@
     }*/
   }
   
-  
+  .ml-28px {
+    margin-left: 28px !important;
+  }
   
   .mb-20px {
     margin-bottom: 20px !important;

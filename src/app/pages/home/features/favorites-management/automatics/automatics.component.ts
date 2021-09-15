@@ -7,7 +7,7 @@ import {DatePipe} from '@angular/common';
 import {CredixToastService} from '../../../../../core/services/credix-toast.service';
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
 import {CredixCodeErrorService} from '../../../../../core/services/credix-code-error.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Periodicity} from '../../../../../shared/models/periodicity';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { finalize } from 'rxjs/operators';
@@ -38,7 +38,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   today: Date;
   deleted = false;
   amounts = [];
-
+  done = false;
   amount: string;
   isActive = false;
   quoteTag: string;
@@ -71,6 +71,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   anotherAmount: boolean = false;
   publicServiceCategory;
   isFirstChanged = false;
+  result: { status: 'success' | 'error'; message: string; title: string; };
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
@@ -80,7 +81,8 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
               private credixCodeErrorService: CredixCodeErrorService,
               private route: ActivatedRoute,
               private favoriteMagamentService: FavoritesManagementService,
-              private publicServiceApi: PublicServicesApiService,) {
+              private publicServiceApi: PublicServicesApiService,
+              private router: Router,) {
   }
 
   get automaticsDetailControls() {
@@ -104,8 +106,9 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   getSchedulePayment() {
     this.favoritesManagementService.schedulePayments.subscribe((response) => {
       this.automaticsDetailForm.controls.codeCredix.reset(null, {emitEvent: false});
+      this.anotherAmount = false;
       this.data = response;
-      this.quota = 1;
+      this.quota = 1; // Colocar el valor de la quota que viene del endpoint, por defecto es 1
       this.deleted = false;
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount, {onlySelf: false, emitEvent: false});
@@ -137,19 +140,32 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
           this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
           this.automaticsDetailControls.maxAmount.value,
           this.data.id,
-          this.automaticsDetailControls.codeCredix.value);
+          this.automaticsDetailControls.codeCredix.value,
+          );
       }
     });
   }
 
   setUpdateSchedule(periodId: number, date: string, mxAmount: number, id: number, codeCredix: string) {
-    this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id, codeCredix)
-      .subscribe((response) => {
-        this.automaticsDetailControls.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
-        if (response.type === 'success') {
-          this.favoritesManagementService.emitUpdateSuccessAlert();
-        }
-      });
+    this.modalService.confirmationPopup('¿Desea editar este pago automático?').subscribe((confirm) => {
+      if ( confirm ) {
+        this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id, codeCredix, this.paymentQuotaSummary.quotaTo, this.automaticsDetailForm.controls.favoriteName.value)
+        .pipe(finalize(() => {
+          this.router.navigate(['/home/favorites-management/success']);
+        })).subscribe((response) => {
+          if ( response.type === 'success' ) {
+            let result = {
+              message: 'Ha editado un pago automático.',
+              status: response.type,
+              title: 'Editar pago automático'
+            }
+            this.automaticsDetailControls.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
+            this.favoritesManagementService.emitUpdateSuccessAlert();
+            this.favoritesManagementService.result = Object.assign({}, result);
+          }
+        });
+      }
+    });
   }
 
   scheduleDetailFormChanged() {

@@ -20,6 +20,7 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    console.log("ibannn");
     this.getIbanAccountDetail();
   }
 
