@@ -25,19 +25,6 @@ export class SignInService {
   }
 
   login(username: string, password: string, typeIncome: number = 3) {
-
-    console.log(
-      "username:", username
-    );
-    console.log(
-      password
-    );
-    console.log(
-      this.storageService.getUuid(),
-    );
-    console.log(
-      typeIncome
-    );
     return this.httpService.post('canales', this.loginUri, {
       username,
       password: CryptoJS.SHA256(password).toString(),
