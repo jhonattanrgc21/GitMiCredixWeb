@@ -21,7 +21,22 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
     {label: 'Ampliación', width: 'auto'}
   ];
   allowedMovementSelected: AllowedMovement;
-  allowedMovements: AllowedMovement[] = [];
+  allowedMovements: AllowedMovement[] = [{
+    originAmount: '2000',
+    originCurrency: '',
+    establishmentName: 'Casa popular',
+    cardId: 12345,
+    totalPlanQuota: 1,
+    accountNumber: 12345,
+    movementId: '1',
+    originDate: new Date().toString(),
+  }];
+  tabs = [
+    {id: 1, name: 'Compras recientes'},
+    {id: 2, name: 'Compras anteriores'},
+  ];
+  activeTabIndex = 1;
+  tabIsChanged: boolean;
   quotaAmountFromSelected: number;
   movementIdParam: string;
   quotas: ExtendTermQuota[];
@@ -29,7 +44,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   message = 'El plazo de su compra ha sido extendido correctamente.';
   status: 'success' | 'error';
   done = false;
-  empty = false;
+  empty = true;
   quotaSliderStep = 1;
   quotaSliderMin = 3;
   quotaSliderMax = 12;
@@ -63,6 +78,15 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log("allowedMovements: ", this.allowedMovements);
+
+    this.tableHeaders = [
+      {label: 'Fecha', width: '282px'},
+      {label: 'Comercio', width: '282px'},
+      {label: 'Saldo pendiente', width: '282px'},
+      {label: 'Cuotas pendientes', width: 'auto'},
+    ];
+
     this.checkCutDate();
     this.movementIdParam = this.route.snapshot.params?.movementId;
     this.getAllowedMovements();
@@ -71,14 +95,14 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   checkCutDate() {
-    this.extendTermService.checkCutDate().subscribe(response => {
-      if (!response.status) {
-        this.message = response.descriptionOne;
-        this.title = response.titleOne;
-        this.done = true;
-        this.template = this.disabledTemplate;
-      }
-    });
+    // this.extendTermService.checkCutDate().subscribe(response => {
+    //   if (!response.status) {
+    //     this.message = response.descriptionOne;
+    //     this.title = response.titleOne;
+    //     this.done = true;
+    //     this.template = this.disabledTemplate;
+    //   }
+    // });
   }
 
   getAllowedMovementDetail(movement: AllowedMovement) {
@@ -93,7 +117,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   getAllowedMovements() {
-    this.extendTermService.getAllowedMovements()
+    /*this.extendTermService.getAllowedMovements()
       .pipe(finalize(() => this.checkMovementParam()))
       .subscribe(allowedMovements => {
         if (allowedMovements.length) {
@@ -102,7 +126,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
         } else {
           this.empty = true;
         }
-      });
+      });*/
   }
 
   checkMovementParam() {
@@ -179,5 +203,34 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.extendTermService.unsubscribe();
+  }
+
+  tabSelected(tab) {
+    /*this.tabId = tab.id;
+    this.empty = false;
+    this.accounts = [];
+    switch (tab.id) {
+      case 1:
+        this.router.navigate(['home/favorites-management/iban-accounts']);
+        this.tableHeaders[0].label = 'Cuentas guardadas';
+        this.tableHeaders[1].label = 'Detalle de la cuenta';
+        this.getFavoritesIban();
+        this.favoriteManagementService.emitIsTabChange();
+        break;
+      case 2:
+        this.router.navigate(['home/favorites-management/favorites-payments']);
+        this.tableHeaders[0].label = 'Pagos guardados';
+        this.tableHeaders[1].label = 'Detalle del pago';
+        this.getPublicService();
+        this.favoriteManagementService.emitIsTabChange();
+        break;
+      case 3:
+        this.router.navigate(['home/favorites-management/automatics']);
+        this.tableHeaders[0].label = 'Cuentas guardadas';
+        this.tableHeaders[1].label = 'Detalle de la cuenta';
+        this.getSchedulePayment();
+        this.favoriteManagementService.emitIsTabChange();
+        break;
+    }*/
   }
 }
