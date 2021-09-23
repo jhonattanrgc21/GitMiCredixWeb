@@ -39,7 +39,7 @@ export class AddAutomaticsComponent implements OnInit {
     term: new FormControl(null, [Validators.required])
   });
   confirmCodeFormGroup: FormGroup = new FormGroup({
-    codeCredix: new FormControl(null, [Validators.required]),
+    codeCredix: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   buttonFormGroup: FormGroup = null;
   codeCredix: FormControl = new FormControl(null, [Validators.required]);

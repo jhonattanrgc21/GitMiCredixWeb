@@ -17,7 +17,7 @@ export class AddAutomaticsSecondStepComponent implements OnInit, OnChanges {
   
   @Input() termControl: FormControl = new FormControl(null);
   @Input() confirmCodeFormGroup: FormGroup = new FormGroup({
-    codeCredix: new FormControl(null, [Validators.required]),
+    codeCredix: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   @Input() amount: string;
   @Input() isActive = false;

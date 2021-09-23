@@ -84,6 +84,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
   getDetailFavorite(option) {
     this.optionSelected = this.tabId === 1 ? option.IdAccountFavorite : this.tabId === 2 ? option.publicServiceFavoriteId : option.id;
     this.tabIsChanged = false;
+    
+    console.log("Option: ", option);
     if (option.publicServiceFavoriteId) {
       const favoritePublicService: PublicServiceFavoriteByUser = {
         accountNumber: option.account,
