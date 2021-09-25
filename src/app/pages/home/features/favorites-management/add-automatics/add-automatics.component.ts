@@ -87,6 +87,17 @@ export class AddAutomaticsComponent implements OnInit {
   ngOnInit(): void {
     this.resultAutomatics = false;
     this.buttonFormGroup = this.newAutomaticsForm;
+
+    if ( this.publicServiceApi.publicService ) {
+      this.newAutomaticsForm.controls.publicServicesCategory.setValue(this.publicServiceApi.publicService.categoryId);
+      this.getCompaniesByCategory(this.publicServiceApi.publicService.categoryId);
+      this.newAutomaticsForm.controls.publicServiceCompany.setValue(this.publicServiceApi.publicService.enterpriseId);
+      this.getServicesByEnterprise(this.publicServiceApi.publicService.enterpriseId);
+      this.newAutomaticsForm.controls.publicService.setValue(this.publicServiceApi.publicService.serviceId);
+      this.getKeysByPublicService(this.publicServiceApi.publicService.serviceId );
+      this.newAutomaticsForm.controls.keyType.setValue(this.publicServiceApi.publicService.reference);
+    }
+
     this.getCategoryServices();
     this.getPeriodicityList();
     this.onCategoryChange();
@@ -116,9 +127,7 @@ export class AddAutomaticsComponent implements OnInit {
   }
 
   getPeriodicityList() {
-    this.automaticsService.getPeriodicity().subscribe((response) => {
-      console.log("periodicity: ", response);
-      
+    this.automaticsService.getPeriodicity().subscribe((response) => {      
       this.periodicityList = response;
     });
   }
@@ -127,6 +136,10 @@ export class AddAutomaticsComponent implements OnInit {
     this.publicServiceApi.getPublicServiceCategories()
       .subscribe((response) => {
         this.publicServicesCategory = response;
+        if ( this.publicServiceApi.publicService ) {
+          this.category = this.publicServicesCategory.find(category => category.publicServiceCategoryId === this.publicServiceApi.publicService.categoryId);
+          this.publicServiceApi.publicService = null;
+        }
       });
   }
 
@@ -179,31 +192,19 @@ export class AddAutomaticsComponent implements OnInit {
   
   addAutomaticPayment() {
     const date: Date = new Date(this.newAutomaticsForm.controls.startDate.value);
-    
-    /*transactionTypeId: number,
-                       publicServiceId: number,
-                       periodicityId: number,
-                       startDate: string,
-                       key: number,
-                       maxAmount: number,
-                       aliasName: string,
-                       credixCode: number,
-                       publicServiceAccessKeyId: number,
-                       quota: number = 1*/
-
-                       
+                     
     this.modalService.confirmationPopup('¿Desea añadir este pago automático?').subscribe((confirm) => {
       if (confirm) {
-        this.automaticsService.setAutomaticsPayment(1, // transactionTypeId number,
-          this.newAutomaticsControls.publicService.value, // publicServiceId
-          this.newAutomaticsControls.periodicity.value, // periodicityId
-          this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'), // startDate
-          +this.newAutomaticsControls.contractControl.value, // key
-          +this.rechargeFormGroup.controls.amount.value, // maxAmount
-          this.newAutomaticsControls.nameOfAutomatics.value, // aliasName
-          +this.confirmCodeFormGroup.controls.codeCredix.value, // credixCode
-          this.newAutomaticsControls.keyType.value, // publicServiceAccessKeyId
-          this.requestForm.controls.term.value) // quota
+        this.automaticsService.setAutomaticsPayment(1,
+          this.newAutomaticsControls.publicService.value,
+          this.newAutomaticsControls.periodicity.value,
+          this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
+          +this.newAutomaticsControls.contractControl.value,
+          +this.rechargeFormGroup.controls.amount.value,
+          this.newAutomaticsControls.nameOfAutomatics.value,
+          +this.confirmCodeFormGroup.controls.codeCredix.value,
+          this.newAutomaticsControls.keyType.value,
+          this.requestForm.controls.term.value)
           .pipe(finalize(() => {
             if (!this.confirmCodeFormGroup.controls.codeCredix.hasError('invalid')) {
               this.done = true;
@@ -211,7 +212,6 @@ export class AddAutomaticsComponent implements OnInit {
           }))
           .subscribe((response) => {
             this.resultAutomatics = !this.resultAutomatics;
-            
             this.result = {
               status: response.type,
               message: response.descriptionOne || response.message,

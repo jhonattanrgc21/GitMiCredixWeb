@@ -13,6 +13,7 @@ import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 import {finalize} from 'rxjs/operators';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 @Component({
   selector: 'app-favorites-management',
@@ -46,7 +47,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
               private channelsApiService: ChannelsApiService,
               private modalService: ModalService,
               private router: Router,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+            ) {
   }
 
   ngOnInit(): void {

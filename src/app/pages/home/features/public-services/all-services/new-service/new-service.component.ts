@@ -11,6 +11,7 @@ import {Keys} from '../../../../../../shared/models/keys';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 @Component({
   selector: 'app-new-service',
@@ -65,7 +66,8 @@ export class NewServiceComponent implements OnInit {
               private router: Router,
               private datePipe: DatePipe,
               private modalService: ModalService,
-              private credixCodeErrorService: CredixCodeErrorService) {
+              private credixCodeErrorService: CredixCodeErrorService,
+              private globalApi: GlobalApiService,) {
   }
 
   ngOnInit(): void {
@@ -73,6 +75,7 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesService.paymentType = 'Servicio';
     this.setErrorCredixCode();
     this.getPublicService();
+
   }
 
   getPublicService() {

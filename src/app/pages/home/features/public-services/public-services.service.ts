@@ -39,6 +39,13 @@ const iconPerCategory = [
   {category: 'Empresas de seguridad', icon: 'empresas_seguridad'}
 ];
 
+interface PublicServiceData {
+  categoryId: number,
+  enterpriseId: number,
+  serviceId: number,
+  reference: number,
+}
+
 @Injectable()
 export class PublicServicesService {
   private readonly getPendingReceiptsUri = 'publicservicebncr/pendingreceipts';
@@ -47,6 +54,12 @@ export class PublicServicesService {
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
   private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
+  private _publicServiceData: PublicServiceData = {
+    categoryId: 0,
+    enterpriseId: 0,
+    serviceId: 0,
+    reference: 0,
+  };
 
   company: string;
   publicServiceIdByFavorite: number;
@@ -55,6 +68,56 @@ export class PublicServicesService {
   paymentQuotaSummary: PaymentQuota = null;
   paymentType: string;
   automaticPayment: AutomaticPayment;
+  
+   // tslint:disable-next-line:variable-name
+   get publicServiceData(): PublicServiceData {
+    return this._publicServiceData;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceData(publicService: PublicServiceData) {
+    this._publicServiceData = publicService;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set publicServiceCategory(category: number) {
+    this._publicServiceData.categoryId = category;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceCategory(): number {
+    return this._publicServiceData.categoryId;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceEnterprise(enterprise: number) {
+    this._publicServiceData.enterpriseId = enterprise;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceEnterprise(): number {
+    return this._publicServiceData.enterpriseId;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceService(service: number) {
+    this._publicServiceData.serviceId = service;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceService(): number {
+    return this._publicServiceData.serviceId;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set publicServiceReference(reference: number) {
+    this._publicServiceData.reference = reference;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceReference(): number {
+    return this._publicServiceData.reference;
+  }
   
   // tslint:disable-next-line:variable-name
   private _isTabChanged = new Subject();
