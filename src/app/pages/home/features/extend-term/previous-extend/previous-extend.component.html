@@ -1,0 +1,51 @@
+<mat-card class="previous-extend" credixCard fxLayout="column" fxLayoutGap="16px">
+    <h1>Ampliar plazo de compra</h1>
+    <p>Haga su cuota más pequeña, ampliando el plazo de su total adeudado o compras individuales.</p>
+    
+    <mat-divider credixDivider></mat-divider>
+
+    <div class="previous-extend__content" fxLayout="column" fxLayoutGap="10px" fxFlex>
+        <div class="previous-extend__content__pending" fxLayout="row" fxLayoutAlign="space-between" fxFlex="64px">
+            <span><strong>Saldo pendiente</strong></span>
+            <credix-numeric-block [value]="'2000'" class="tr"
+                fontSize="24"
+                fontWeight="bold"
+                fxFlex="25"
+                prefix="₡">
+            </credix-numeric-block>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="previous-extend__content__option" fxLayout="row" fxLayoutAlign="space-between">
+            <span><strong>Modifique su plazo</strong></span>
+            <credix-slider fxFlex="420px" (inputChange)="getQuota($event)"
+                   (valueChange)="getQuota($event)"
+                   [displayMax]="termSliderDisplayMax"
+                   [displayMin]="termSliderDisplayMin"
+                   [displayValue]="termSliderDisplayValue"
+                   [max]="termSliderMax"
+                   [min]="termSliderMin"
+                   [step]="termSliderStep"
+                   instructions="Deseo ampliar este plazo a"
+                   [units]="'Meses'"></credix-slider>
+            <div fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
+                <span>Cuotas de:</span>
+                <credix-numeric-block [value]="'2000'" class="tr"
+                    fontSize="24"
+                    fontWeight="bold"
+                    fxFlex="25"
+                    prefix="₡">
+                </credix-numeric-block>
+                <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+        <credix-button (buttonClick)="extendTerm()">Ampliar plazo</credix-button>
+      </div>
+</mat-card>
+
+<ng-template #summaryTemplate>
+
+</ng-template>

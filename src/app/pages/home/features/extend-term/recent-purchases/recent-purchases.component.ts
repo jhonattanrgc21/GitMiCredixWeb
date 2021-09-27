@@ -1,21 +1,22 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {ModalService} from '../../../../core/services/modal.service';
+import {ModalService} from '../../../../../core/services/modal.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StorageService} from '../../../../core/services/storage.service';
-import {ConvertStringAmountToNumber} from '../../../../shared/utils';
-import {TagsService} from '../../../../core/services/tags.service';
-import {Tag} from '../../../../shared/models/tag';
+import {StorageService} from '../../../../../core/services/storage.service';
+import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
+import {TagsService} from '../../../../../core/services/tags.service';
+import {Tag} from '../../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
-import {ExtendTermQuota} from '../../../../shared/models/extend-term-quota';
-import {AllowedMovement} from '../../../../shared/models/allowed-movement';
-import {ExtendTermService} from './extend-term.service';
+import {ExtendTermQuota} from '../../../../../shared/models/extend-term-quota';
+import {AllowedMovement} from '../../../../../shared/models/allowed-movement';
+import {ExtendTermService} from '../extend-term.service';
 
 @Component({
-  selector: 'app-extend-term',
-  templateUrl: './extend-term.component.html',
-  styleUrls: ['./extend-term.component.scss'],
+  selector: 'app-recent-purchases',
+  templateUrl: './recent-purchases.component.html',
+  styleUrls: ['./recent-purchases.component.scss']
 })
-export class ExtendTermComponent implements OnInit, OnDestroy {
+export class RecentPurchasesComponent implements OnInit {
+
   tableHeaders = [
     {label: 'Consumos', width: '282px'},
     {label: 'Ampliación', width: 'auto'}
@@ -206,7 +207,32 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   tabSelected(tab) {
-    tab.id === 1 ? this.router.navigate(['home/extend-term/recent'])
-              : this.router.navigate(['home/extend-term/previous']);
+    /*this.tabId = tab.id;
+    this.empty = false;
+    this.accounts = [];
+    switch (tab.id) {
+      case 1:
+        this.router.navigate(['home/favorites-management/iban-accounts']);
+        this.tableHeaders[0].label = 'Cuentas guardadas';
+        this.tableHeaders[1].label = 'Detalle de la cuenta';
+        this.getFavoritesIban();
+        this.favoriteManagementService.emitIsTabChange();
+        break;
+      case 2:
+        this.router.navigate(['home/favorites-management/favorites-payments']);
+        this.tableHeaders[0].label = 'Pagos guardados';
+        this.tableHeaders[1].label = 'Detalle del pago';
+        this.getPublicService();
+        this.favoriteManagementService.emitIsTabChange();
+        break;
+      case 3:
+        this.router.navigate(['home/favorites-management/automatics']);
+        this.tableHeaders[0].label = 'Cuentas guardadas';
+        this.tableHeaders[1].label = 'Detalle de la cuenta';
+        this.getSchedulePayment();
+        this.favoriteManagementService.emitIsTabChange();
+        break;
+    }*/
   }
+
 }

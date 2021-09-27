@@ -7,11 +7,11 @@
   <credix-tab (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex]" [tabs]="tabs"></credix-tab>
   <p *ngIf="activeTabIndex === 1">Seleccione los consumos que desea ampliar.</p>
 
-  
-<app-previous-purchases>
-</app-previous-purchases>
+  <router-outlet></router-outlet>
+<!-- <app-previous-purchases>
+</app-previous-purchases> -->
 
-<credix-navigation-table *ngIf="activeTabIndex === 0" [headers]="tableHeaders" [hide]="empty" class="mt-24px">
+<!-- <credix-navigation-table *ngIf="activeTabIndex === 0" [headers]="tableHeaders" [hide]="empty" class="mt-24px">
 
   <ngx-simplebar [options]="{autoHide: false}" class="extend-term__menu-options" left>
     <div class="pl-16px pr-16px w-100" fxLayout="column">
@@ -118,7 +118,7 @@
     </div>
   </div>
 
-</credix-navigation-table>
+</credix-navigation-table> -->
 
 
 

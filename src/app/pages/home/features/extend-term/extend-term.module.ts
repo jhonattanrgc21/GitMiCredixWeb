@@ -33,32 +33,58 @@ import {CredixResultViewModule} from '../../../../shared/components/credix-resul
 import {ExtendTermService} from './extend-term.service';
 import {ExtendTermSuccessScreenComponent} from './extend-term-success-screen/extend-term-success-screen.component';
 import { TablesDirectivesModule } from 'src/app/shared/directives/tables/tables-directives.module';
-import { PreviousPurchasesComponent } from './previous-purchases/previous-purchases.component';
 import {CredixPaginatorModule} from '../../../../shared/components/credix-paginator/credix-paginator.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CredixCheckboxButtonComponent } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.component';
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
+import { PreviousExtendComponent } from './previous-extend/previous-extend.component';
+
+// const routes: Routes = [
+//   {
+//     path: '',
+//     component: ExtendTermComponent
+//   },
+//   {
+//     path: ':movementId',
+//     component: ExtendTermComponent
+//   },
+//   {
+//     path: 'establishment/:establishment/success',
+//     component: ExtendTermSuccessScreenComponent
+//   }
+// ];
 
 const routes: Routes = [
   {
     path: '',
-    component: ExtendTermComponent
+    component: ExtendTermComponent,
+    children: [{
+        path: '',
+        redirectTo: 'previous',
+        pathMatch: 'full',
+      },
+      {
+        path: 'recent',
+        loadChildren: () => import('./recent-purchases/recent-purchases.module').then(m => m.RecentPurchasesModule)
+      },
+      {
+        path: 'previous',
+        loadChildren: () => import('./previous-purchases/previous-purchases.module').then(m => m.PreviousPurchasesModule)
+      },
+    ]
   },
   {
-    path: ':movementId',
-    component: ExtendTermComponent
+    path: 'previous-extend',
+    component: PreviousExtendComponent
   },
-  {
-    path: 'establishment/:establishment/success',
-    component: ExtendTermSuccessScreenComponent
-  }
+
 ];
 
 @NgModule({
   declarations: [
     ExtendTermComponent,
     ExtendTermSuccessScreenComponent,
-    PreviousPurchasesComponent,
+    PreviousExtendComponent,
   ],
   imports: [
     CommonModule,
