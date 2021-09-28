@@ -12,6 +12,7 @@ export class ExtendTermService {
   private readonly calculateQuotaUri = 'channels/quotacalculator';
   private readonly saveNewQuotaUri = 'channels/savequotification';
   private readonly cutDateUri = 'channels/cutdateextermterm';
+  // private readonly allowedMovementsUri = /channels/allowedmovements
 // tslint:disable-next-line:variable-name
   _result: { status: 'success' | 'error'; message: string };
 

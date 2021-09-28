@@ -43,9 +43,65 @@
 
     <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
         <credix-button (buttonClick)="extendTerm()">Ampliar plazo</credix-button>
-      </div>
+    </div>
 </mat-card>
 
 <ng-template #summaryTemplate>
-
+    <div class="h-100 summary-custom" fxLayout="column" fxLayoutGap="16px">
+        <div fxLayout="column" fxLayoutGap="8px">
+    
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{ termTag || 'Plazo nuevo' }}</span>
+            <span><strong>{{ paymentQuotaSummary?.quotaTo }} {{ paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes' }} </strong></span>
+          </div>
+    
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{ quoteTag || 'Cuota nueva' }}</span>
+            <credix-numeric-block
+              [value]="paymentQuotaSummary?.amountPerQuota"
+              fontWeight="bold"
+              prefix="₡"></credix-numeric-block>
+          </div>
+    
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{ popupCommissionTag || 'Comisión' }} {{ '(' + paymentQuotaSummary?.commissionPercentage + '%)' }}*
+            </span>
+            <credix-numeric-block
+              [value]="paymentQuotaSummary?.commissionAmount"
+              fontWeight="bold"
+              prefix="₡"></credix-numeric-block>
+          </div>
+    
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{ popupInterestTag || 'Interés' }} {{ '(' + paymentQuotaSummary?.feePercentage + '% mensual)' }} 
+            </span>
+            
+            <credix-numeric-block
+              [value]="paymentQuotaSummary?.feeAmount"
+              fontWeight="bold"
+              prefix="₡"></credix-numeric-block>
+          </div>
+    
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{ popupIvaTag || 'IVA*'}}</span>
+            <credix-numeric-block
+            [value]="paymentQuotaSummary?.IVA"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+          </div>
+        </div>
+    
+        <p fxFlex style="color: #707070; font-size: 14px !important; margin-bottom: 26px !important">
+          * IVA y comisión se cargarán en el próximo estado de cuenta.
+        </p>
+    
+        <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">
+          <span fxFlex style="font-size: 20px !important;">{{ paymentQuotaSummary.quotaTo }} Cuotas de</span>
+            <credix-numeric-block
+            [value]="paymentQuotaSummary?.amountPerQuota"
+            fontSize="24"
+            fontWeight="bold"
+            prefix="₡"></credix-numeric-block>
+        </div>
+    </div>
 </ng-template>

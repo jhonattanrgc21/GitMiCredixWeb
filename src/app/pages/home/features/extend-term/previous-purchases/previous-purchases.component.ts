@@ -22,25 +22,25 @@ export class PreviousPurchasesComponent implements OnInit {
   previousPurchases: PreviousPurchase[] = [{
     pdqId: 1,
     currencySimbol: '¢',
-    establishmentName: 'Big payment!',
+    establishmentName: 'Nombre del comercio 4 2342342342342342342',
     originAmount: '2000',
-    originDate: '29 Oct 2021',
+    originDate: '29 Oct 21',
     quota: 1,
   },
   {
     pdqId: 2,
     currencySimbol: '¢',
-    establishmentName: 'La casa grande!',
+    establishmentName: 'Nombre del comercio',
     originAmount: '2000000',
-    originDate: '29 Oct 2021',
+    originDate: '29 Oct 21',
     quota: 1,
   },
   {
     pdqId: 3,
     currencySimbol: '¢',
-    establishmentName: 'Epa litle',
+    establishmentName: 'Nombre del comercio',
     originAmount: '2000000',
-    originDate: '29 Oct 2021',
+    originDate: '29 Oct 21',
     quota: 1,
   },];
   
@@ -66,6 +66,10 @@ export class PreviousPurchasesComponent implements OnInit {
     //     ConvertNumberToStringAmount(
     //       ConvertStringAmountToNumber(this.dollarsBalance) + ConvertStringAmountToNumber(cancellation.saldoPendiente));
     // }
+  }
+
+  next() {
+    
   }
 
 }
