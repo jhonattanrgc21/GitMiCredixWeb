@@ -141,7 +141,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
           this.automaticsDetailControls.maxAmount.value,
           this.data.id,
           this.automaticsDetailControls.codeCredix.value,
-          );
+        );
       }
     });
   }
@@ -149,21 +149,34 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   setUpdateSchedule(periodId: number, date: string, mxAmount: number, id: number, codeCredix: string) {
     this.modalService.confirmationPopup('¿Desea editar este pago automático?').subscribe((confirm) => {
       if ( confirm ) {
-        this.automaticsService.setUpdateAutomatics(periodId, date, mxAmount, id, codeCredix, this.paymentQuotaSummary.quotaTo, this.automaticsDetailForm.controls.favoriteName.value)
-        .pipe(finalize(() => {
-          this.router.navigate(['/home/favorites-management/success']);
-        })).subscribe((response) => {
-          if ( response.type === 'success' ) {
-            let result = {
-              message: 'Ha editado un pago automático.',
-              status: response.type,
-              title: 'Editar pago automático'
-            }
-            this.automaticsDetailControls.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
-            this.favoritesManagementService.emitUpdateSuccessAlert();
-            this.favoritesManagementService.result = Object.assign({}, result);
-          }
-        });
+        this.setAutomaticPayment(periodId, date, mxAmount, id, codeCredix);
+      }
+    });
+  }
+
+  setAutomaticPayment(periodId, date, mxAmount, id, codeCredix) {
+    this.automaticsService.setUpdateAutomatics(
+      periodId,
+      date,
+      mxAmount,
+      id,
+      codeCredix,
+      this.paymentQuotaSummary.quotaTo,
+      this.automaticsDetailForm.controls.favoriteName.value
+    )
+    .pipe(finalize(() => {
+      this.router.navigate(['/home/favorites-management/success']);
+    }))
+    .subscribe((response) => {
+      if ( response.type === 'success' ) {
+        let result = {
+          message: 'Ha editado un pago automático.',
+          status: response.type,
+          title: 'Editar pago automático'
+        }
+        this.automaticsDetailControls.codeCredix.reset(null, {onlySelf: false, emitEvent: false});
+        this.favoritesManagementService.emitUpdateSuccessAlert();
+        this.favoritesManagementService.result = Object.assign({}, result);
       }
     });
   }
@@ -171,17 +184,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   scheduleDetailFormChanged() {
     this.automaticsDetailForm.valueChanges
       .subscribe(() => {
-        /*if (this.automaticsDetailControls.favoriteName.dirty ||
-          this.automaticsDetailControls.maxAmount.dirty ||
-          this.automaticsDetailControls.startDate.dirty ||
-          this.automaticsDetailControls.periodicity.touched) {
-          this.favoritesManagementService.updating(true);
-        } else {
-          this.favoritesManagementService.updating(false);
-
-        }*/
         this.automaticsDetailForm.status === 'VALID' ? this.favoritesManagementService.updating(true) : this.favoritesManagementService.updating(false);
-
       });
   }
 
@@ -281,9 +284,6 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
         this.publicServiceCategory = response.find(category => category.publicServiceCategoryId === this.data.publicServiceCategoryId)?.publicServiceCategory;
         if ( this.publicServiceCategory === 'Recargas' ) {
           this.rechargeFormGroup.controls.amount.valueChanges.subscribe(value => {
-            /*this.automaticsDetailForm.patchValue({
-              maxAmount: value
-            });*/
             this.automaticsDetailForm.controls.maxAmount.setValue(value, {onlySelf: false, emitEvent: false});
 
           });
