@@ -1,14 +1,14 @@
-<div class="movements" fxLayout="column" fxLayoutGap="16px">
-  <div fxFlex>
-    <mat-table [dataSource]="previousPurchases | paginate: { itemsPerPage: 15, currentPage: p }"
-               class="movements__table">
+<div class="extend-term" fxLayout="column" fxLayoutGap="16px">
+  <ngx-simplebar [options]="{autoHide: false}" class="extend-term__scrollbar" fxFlex>
+  <div>
+    <mat-table [dataSource]="previousMovements| paginate: { itemsPerPage: 15, currentPage: p }"
+               class="extend-term__table">
 
       <ng-container matColumnDef="select">
         <mat-header-cell *matHeaderCellDef credixHeaderCell>
         </mat-header-cell>
         <mat-cell *matCellDef="let element" credixCell>
           <credix-checkbox-button (emitCheckBox)="change($event.checked, element)"
-                                  
                                   [value]="element">
           </credix-checkbox-button>
         </mat-cell>
@@ -50,10 +50,8 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
     </mat-table>
   </div>
-  
-    <!-- <credix-paginator (pageChange)="p = $event" [autoHide]="true" [maxSize]="8"></credix-paginator> -->
-
-    <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="next()">Continuar</credix-button>
-    </div>
+  </ngx-simplebar>
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button (buttonClick)="next()">Continuar</credix-button>
+  </div>
 </div>

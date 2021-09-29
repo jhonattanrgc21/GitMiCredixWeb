@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { AllowedMovement } from 'src/app/shared/models/allowed-movement';
 import { Cancellation } from 'src/app/shared/models/cancellation';
 import { Movement } from 'src/app/shared/models/movement';
 import { PreviousPurchase } from 'src/app/shared/models/previous-purchase';
+import { ExtendTermService } from '../extend-term.service';
 
 @Component({
   selector: 'app-previous-purchases',
@@ -10,6 +14,7 @@ import { PreviousPurchase } from 'src/app/shared/models/previous-purchase';
 })
 export class PreviousPurchasesComponent implements OnInit {
 
+  selection: number[] = [];
   displayedColumns: string[] = ['select', 'date', 'commerce', 'amount', 'quotas'];
   movementDataSource: Movement[] = [];
   p = 0;
@@ -18,8 +23,8 @@ export class PreviousPurchasesComponent implements OnInit {
   columnTwoTag: string;
   columnThreeTag: string;
   columnFourTag: string;
-  
-  previousPurchases: PreviousPurchase[] = [{
+
+  previousMovements: PreviousPurchase[] = [{
     pdqId: 1,
     currencySimbol: '¢',
     establishmentName: 'Nombre del comercio 4 2342342342342342342',
@@ -42,34 +47,225 @@ export class PreviousPurchasesComponent implements OnInit {
     originAmount: '2000000',
     originDate: '29 Oct 21',
     quota: 1,
-  },];
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 2,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+  {
+    pdqId: 3,
+    currencySimbol: '¢',
+    establishmentName: 'Nombre del comercio',
+    originAmount: '2000000',
+    originDate: '29 Oct 21',
+    quota: 1,
+  },
+];
   
-
-  constructor() { }
+  constructor(
+    private route: Router,
+    private extendTermService: ExtendTermService
+  ) { }
 
   ngOnInit(): void {
+    this.getAllowedMovements();
   }
 
-  change(checked: boolean, cancellation: Cancellation) {
-    // checked ? this.selection.push(cancellation) : this.selection
-    //   .splice(this.selection.findIndex(can => can === cancellation), 1);
-    // if (this.tabId === 1) {
-    //   this.colonesBalance = checked ?
-    //     ConvertNumberToStringAmount(
-    //       ConvertStringAmountToNumber(this.colonesBalance) - ConvertStringAmountToNumber(cancellation.saldoPendiente)) :
-    //     ConvertNumberToStringAmount(
-    //       ConvertStringAmountToNumber(this.colonesBalance) + ConvertStringAmountToNumber(cancellation.saldoPendiente));
-    // } else {
-    //   this.dollarsBalance = checked ?
-    //     ConvertNumberToStringAmount(
-    //       ConvertStringAmountToNumber(this.dollarsBalance) - ConvertStringAmountToNumber(cancellation.saldoPendiente)) :
-    //     ConvertNumberToStringAmount(
-    //       ConvertStringAmountToNumber(this.dollarsBalance) + ConvertStringAmountToNumber(cancellation.saldoPendiente));
-    // }
+  change(checked: boolean, movement: PreviousPurchase) {
+    checked ? this.selection.push(movement.pdqId) : this.selection
+      .splice(this.selection.findIndex(mov => mov === movement.pdqId), 1);
   }
 
   next() {
-    
+    this.extendTermService.movementsSelected = [...this.selection];
+    this.route.navigate(['/home/extend-term/previous-extend']);
+  }
+
+  
+  getAllowedMovements() {
+    this.extendTermService.getAllowedMovements()
+      .pipe(finalize(() => console.log('hola mundo')))
+      .subscribe(allowedMovements => {
+        console.log("res: ",allowedMovements);
+        
+        if ( allowedMovements.length ) {
+          allowedMovements.consumed.forEach(movement => {
+            this.previousMovements.push({
+              pdqId: movement.pdqId,
+              currencySimbol: movement.originCurrency.currency,
+              establishmentName:  movement.establishmentName,
+              originAmount: movement.originAmount,
+              originDate: movement.originDate,
+              quota: movement.totalPlanQuota,
+            });
+          });
+          console.log("allowedMovements: ", allowedMovements);
+        }
+      });
   }
 
 }

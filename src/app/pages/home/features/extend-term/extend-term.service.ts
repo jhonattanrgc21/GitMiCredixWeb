@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import {AllowedMovement} from '../../../../shared/models/allowed-movement';
 import {StorageService} from '../../../../core/services/storage.service';
 import {ExtendTermQuota} from '../../../../shared/models/extend-term-quota';
+import { PreviousPurchase } from 'src/app/shared/models/previous-purchase';
 
 @Injectable()
 export class ExtendTermService {
@@ -12,8 +13,23 @@ export class ExtendTermService {
   private readonly calculateQuotaUri = 'channels/quotacalculator';
   private readonly saveNewQuotaUri = 'channels/savequotification';
   private readonly cutDateUri = 'channels/cutdateextermterm';
+  private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
+  private readonly saveNewQuotaPreviousMovementsUri = 'account/savepreviousconsumptions';
+  
   // private readonly allowedMovementsUri = /channels/allowedmovements
-// tslint:disable-next-line:variable-name
+
+  // tslint:disable-next-line:variable-name
+  _movementsSelected: number[] = [];
+
+  get movementsSelected(): number[] {
+    return this._movementsSelected;
+  }
+  
+  set movementsSelected(movementSelected: number[]) {
+    this._movementsSelected = movementSelected;
+  }
+
+  // tslint:disable-next-line:variable-name
   _result: { status: 'success' | 'error'; message: string };
 
   get result(): { status: 'success' | 'error'; message: string } {
@@ -43,10 +59,11 @@ export class ExtendTermService {
     return this.httpService.post('canales', this.cutDateUri);
   }
 
-  getAllowedMovements(): Observable<AllowedMovement[]> {
+  getAllowedMovements(): Observable<any> {
     return this.httpService.post('canales', this.getAllowedMovementsUri, {
       accountId: this.storageService.getCurrentUser().actId,
-      cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId
+      cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId,
+      productId: 1005,
     })
       .pipe(
         map((response) => {
@@ -81,6 +98,22 @@ export class ExtendTermService {
         ));
   }
 
+  getQuotasPreviousMovement(transitions: any, productId: number): Observable<ExtendTermQuota[]> {
+    return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
+      productId,
+      transitions
+    })
+    .pipe(
+      map(response => {
+        if ( response.type === 'success' ) {
+          return response.listQuota;
+        } else {
+          return [];
+        }
+      })
+    );
+  }
+
   saveNewQuota(cardId: number, feeAmount: number, newQuota: number, movementId: string): Observable<any> {
     return this.httpService.post('canales', this.saveNewQuotaUri, {
       cardId,
@@ -90,6 +123,14 @@ export class ExtendTermService {
       statusId: 1,
       userIdCreate: this.storageService.getCurrentUser().userId,
     });
+  }
+
+  saveNewQuotaPreviousConsumptions(accountId = 1, quota = 1, transaction) {
+    return this.httpService.post('canales', this.saveNewQuotaPreviousMovementsUri, {
+      accountId,
+      quota,
+      transaction
+    })
   }
 
   unsubscribe() {

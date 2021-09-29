@@ -1,12 +1,15 @@
-.movements {
-  max-height: 662px;
+.extend-term {
+  // max-height: 662px;
   height: 100%;
   position: relative;
 
   width: 877px !important;
   margin-left: -16px !important;
     
-   
+  &__scrollbar {
+    height: 360px !important;
+  }
+
 
     &__table {
       border-bottom-left-radius: 8px;
@@ -140,6 +143,6 @@
   }
 
   ::ng-deep .mat-table{
-    height: 360px !important;
+    // height: 360px !important;
   }
   

@@ -2,7 +2,7 @@
 
   <h1 class="mb-4px">{{titleTag || 'Ampliar plazo de compra'}}</h1>
 
-  <p>Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
+  <p style="margin-bottom: 0px !important">Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
 
   <credix-tab (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex]" [tabs]="tabs"></credix-tab>
   <p *ngIf="activeTabIndex === 1">Seleccione los consumos que desea ampliar.</p>

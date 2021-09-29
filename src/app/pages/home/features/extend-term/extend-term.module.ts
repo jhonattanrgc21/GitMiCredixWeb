@@ -38,6 +38,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CredixCheckboxButtonComponent } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.component';
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import { PreviousExtendComponent } from './previous-extend/previous-extend.component';
+import { ExtendTermPreviousSuccessComponent } from './extend-term-previous-success/extend-term-previous-success.component';
 
 // const routes: Routes = [
 //   {
@@ -74,8 +75,16 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'establishment/:establishment?/success',
+    component: ExtendTermSuccessScreenComponent
+  },
+  {
     path: 'previous-extend',
     component: PreviousExtendComponent
+  },
+  {
+    path: 'previous-extend-success',
+    component: ExtendTermPreviousSuccessComponent,
   },
 
 ];
@@ -85,6 +94,7 @@ const routes: Routes = [
     ExtendTermComponent,
     ExtendTermSuccessScreenComponent,
     PreviousExtendComponent,
+    ExtendTermPreviousSuccessComponent,
   ],
   imports: [
     CommonModule,

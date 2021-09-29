@@ -82,6 +82,7 @@ const routes: Routes = [{
     SharedModule,
     MatCheckboxModule,
     CredixCheckboxButtonModule,
+    SimplebarAngularModule,
   ],
   providers: [
     ExtendTermService,

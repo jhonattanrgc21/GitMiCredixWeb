@@ -78,7 +78,6 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log("allowedMovements: ", this.allowedMovements);
 
     this.tableHeaders = [
       {label: 'Fecha', width: '282px'},

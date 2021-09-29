@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
+import { ExtendTermService } from '../extend-term.service';
 
 @Component({
   selector: 'app-previous-extend',
@@ -33,29 +35,21 @@ export class PreviousExtendComponent implements OnInit {
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
   termSliderDisplayValue = 0;
-
+  movementsSelected: number[];
+  quotas: any;
   paymentQuotaSummary: PaymentQuota = null;
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
   constructor(
     private modalService: ModalService,
-    private route: Router,
+    private extendTermService: ExtendTermService,
+    private router: Router,
   ) { }
-  
-//   export interface PaymentQuota {
-//     feeAmount: string,
-//     commissionPercentage: string,
-//     feePercentage: number,
-//     IVA: string,
-//     quotaTo: number,
-//     amountPerQuota: string,
-//     quotaFrom: number,
-//     financedPlan: number,
-//     commissionAmount: string,
-// };
 
   ngOnInit(): void {
+
+    this.movementsSelected = this.extendTermService.movementsSelected;
     this.paymentQuotaSummary = {
       feeAmount: '2000',
       commissionPercentage: '2',
@@ -76,33 +70,58 @@ export class PreviousExtendComponent implements OnInit {
     this.getQuotas();
   }
 
+  // this.extendTermService.calculateQuotaByMovement(movementId)
+  // .pipe(finalize(() => this.initSlider()))
+  // .subscribe(extendTermQuotas => this.quotas = extendTermQuotas);
+
   getQuotas() {
-    // this.publicSevice.getCuotaCalculator(this.amount)
-    //   .pipe(finalize(() => this.selectPaymentQuotaSummary()))
-    //     .subscribe(
-    //       response => {
-    //         if ( response ) {
-    //           this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
-    //           this.termSliderDisplayMin = this.quotas[0].quotaTo;
-    //           this.termSliderMin = 1;
-    //           this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
-    //           this.termSliderMax = this.quotas.length;
-    //           this.termSliderDisplayValue = this.termSliderDisplayMin;
-    //         }
-    //       }
-    //     );
+    this.extendTermService.getQuotasPreviousMovement( this.movementsSelected, 1005 )
+      .pipe(finalize(() => this.selectPaymentQuotaSummary()))
+        .subscribe(
+          response => {
+            if ( response.length > 0 ) {
+              this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
+              this.termSliderDisplayMin = this.quotas[0].quotaTo;
+              this.termSliderMin = 1;
+              this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
+              this.termSliderMax = this.quotas.length;
+              this.termSliderDisplayValue = this.termSliderDisplayMin;
+            }
+          }
+        );
   }
 
   getQuota(sliderValue) {
-    // this.termSliderDisplayValue = this.quotas[sliderValue - 1].quota;
-    // this.termControl.setValue(this.termSliderDisplayValue);
-    // this.selectPersonalCreditSummary();
+    this.termSliderDisplayValue = this.quotas[sliderValue - 1].quota;
+    this.selectPaymentQuotaSummary();
   }
 
   selectPaymentQuotaSummary() {
-    // this.paymentQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
+    this.paymentQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
     // //this.ivaAmount = Number((ConvertStringAmountToNumber(this.personalCreditSummary.commission) * 0.13).toFixed(2));
     // this.publicSevice.paymentQuotaSummary = Object.assign({}, this.paymentQuotaSummary);
+  }
+
+  saveQuota() {
+    this.extendTermService.saveNewQuotaPreviousConsumptions(
+      1,
+      this.paymentQuotaSummary.quotaTo,
+      1)
+      .pipe(finalize(() => this.router.navigate(
+        [`/home/extend-term/establishment/success`])))
+      .subscribe(response => {
+        this.extendTermService.result = {
+          status: response.type,
+          message: response.message
+        };
+
+        this.extendTermService.newQuota = {
+          establishment: '',
+          currency: '',
+          amount: this.paymentQuotaSummary.amountPerQuota,
+          quota: this.paymentQuotaSummary.quotaTo
+        };
+      });
   }
 
   openSummary() {
