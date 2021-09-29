@@ -22,7 +22,7 @@ import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/c
 })
 export class AutomaticsComponent implements OnInit, AfterViewInit {
   automaticsDetailForm: FormGroup = new FormGroup({
-    favoriteName: new FormControl(null, Validators.required),
+    favoriteName: new FormControl(null),
     maxAmount: new FormControl(null, Validators.required),
     startDate: new FormControl(null, Validators.required),
     periodicity: new FormControl(null, Validators.required),
@@ -108,6 +108,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
       this.automaticsDetailForm.controls.codeCredix.reset(null, {emitEvent: false});
       this.anotherAmount = false;
       this.data = response;
+      console.log(this.data);
       this.quota = 1; // Colocar el valor de la quota que viene del endpoint, por defecto es 1
       this.deleted = false;
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
@@ -132,12 +133,11 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   }
 
   getUpdateAlert() {
-    const date: Date = new Date(this.automaticsDetailControls.startDate.value);
     this.favoritesManagementService.confirmUpdate.subscribe((response) => {
       if (response.confirm && this.data.id) {
         this.setUpdateSchedule(
           this.automaticsDetailControls.periodicity.value,
-          this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
+          this.datePipe.transform(this.automaticsDetailControls.startDate.value, 'yyyy-MM-dd'),
           this.automaticsDetailControls.maxAmount.value,
           this.data.id,
           this.automaticsDetailControls.codeCredix.value,
@@ -154,7 +154,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  setAutomaticPayment(periodId, date, mxAmount, id, codeCredix) {
+  setAutomaticPayment(periodId, date, mxAmount, id, codeCredix) {    
     this.automaticsService.setUpdateAutomatics(
       periodId,
       date,
@@ -207,6 +207,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
         .subscribe(
           response => {
             if ( response ) {
+              console.log(response);
               this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
