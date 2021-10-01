@@ -1,4 +1,4 @@
-export class PreviousPurchase {
+export class PreviousMovements {
     pdqId: number;
     currencySimbol: string;
     establishmentName: string;

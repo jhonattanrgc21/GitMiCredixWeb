@@ -85,7 +85,6 @@ const routes: Routes = [{
     SimplebarAngularModule,
   ],
   providers: [
-    ExtendTermService,
     ModalService
   ],
   schemas: [

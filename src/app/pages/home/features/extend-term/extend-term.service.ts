@@ -5,7 +5,8 @@ import {map} from 'rxjs/operators';
 import {AllowedMovement} from '../../../../shared/models/allowed-movement';
 import {StorageService} from '../../../../core/services/storage.service';
 import {ExtendTermQuota} from '../../../../shared/models/extend-term-quota';
-import { PreviousPurchase } from 'src/app/shared/models/previous-purchase';
+import { PaymentQuota } from 'src/app/shared/models/payment-quota';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Injectable()
 export class ExtendTermService {
@@ -59,11 +60,11 @@ export class ExtendTermService {
     return this.httpService.post('canales', this.cutDateUri);
   }
 
-  getAllowedMovements(): Observable<any> {
+  getAllowedMovements(productId: number): Observable<any> {
     return this.httpService.post('canales', this.getAllowedMovementsUri, {
       accountId: this.storageService.getCurrentUser().actId,
       cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId,
-      productId: 1005,
+      productId,
     })
       .pipe(
         map((response) => {
@@ -76,8 +77,11 @@ export class ExtendTermService {
         ));
   }
 
-  calculateQuotaByMovement(movementId: string): Observable<ExtendTermQuota[]> {
-    return this.httpService.post('canales', this.calculateQuotaUri, {movementId})
+  calculateQuotaByMovement(movementId: string, productId = 1): Observable<ExtendTermQuota[]> {
+    return this.httpService.post('canales', this.calculateQuotaUri, {
+      transition: movementId,
+      productId
+    })
       .pipe(
         map(response => {
             if (response.type === 'success') {
@@ -98,7 +102,7 @@ export class ExtendTermService {
         ));
   }
 
-  getQuotasPreviousMovement(transitions: any, productId: number): Observable<ExtendTermQuota[]> {
+  getQuotasPreviousMovement(transitions: number[], productId: number): Observable<PaymentQuota[]> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,
       transitions
@@ -125,12 +129,20 @@ export class ExtendTermService {
     });
   }
 
-  saveNewQuotaPreviousConsumptions(accountId = 1, quota = 1, transaction) {
+  saveNewQuotaPreviousConsumptions( quota = 1, transaction: number[]): Observable<{title: string, message: string, type: string, status: string}> {
     return this.httpService.post('canales', this.saveNewQuotaPreviousMovementsUri, {
-      accountId,
+      accountId: this.storageService.getCurrentUser().actId,
       quota,
       transaction
     })
+    .pipe(
+      map(response => ({
+          title: response.tile,
+          message: response.message,
+          type: response.type,
+          status: response.status
+        }))
+    );
   }
 
   unsubscribe() {

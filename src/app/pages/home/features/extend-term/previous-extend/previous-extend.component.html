@@ -16,7 +16,7 @@
         </div>
         <mat-divider></mat-divider>
         <div class="previous-extend__content__option" fxLayout="row" fxLayoutAlign="space-between">
-            <span><strong>Modifique su plazo</strong></span>
+            <span><strong>{{ subtitleTag ||  'Modifique su plazo' }}</strong></span>
             <credix-slider fxFlex="420px" (inputChange)="getQuota($event)"
                    (valueChange)="getQuota($event)"
                    [displayMax]="termSliderDisplayMax"
@@ -25,8 +25,8 @@
                    [max]="termSliderMax"
                    [min]="termSliderMin"
                    [step]="termSliderStep"
-                   instructions="Deseo ampliar este plazo a"
-                   [units]="'Meses'"></credix-slider>
+                   instructions="{{ deseoTag || 'Deseo ampliar este plazo a' }}"
+                   [units]="movementQuotaSummary?.quotaTo > 1 ? 'Meses' : 'Mes'"></credix-slider>
             <div fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
                 <span>Cuotas de:</span>
                 <credix-numeric-block [value]="'2000'" class="tr"
@@ -38,11 +38,10 @@
                 <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
             </div>
         </div>
-        
     </div>
 
     <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-        <credix-button (buttonClick)="extendTerm()">Ampliar plazo</credix-button>
+        <credix-button (buttonClick)="saveQuota()">Ampliar plazo</credix-button>
     </div>
 </mat-card>
 
@@ -51,41 +50,41 @@
         <div fxLayout="column" fxLayoutGap="8px">
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ termTag || 'Plazo nuevo' }}</span>
-            <span><strong>{{ paymentQuotaSummary?.quotaTo }} {{ paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes' }} </strong></span>
+            <span fxFlex>{{ resultNew || 'Plazo nuevo' }}</span>
+            <span><strong>{{ movementQuotaSummary?.quotaTo }} {{ movementQuotaSummary?.quotaTo > 1 ? 'meses': 'mes' }} </strong></span>
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ quoteTag || 'Cuota nueva' }}</span>
+            <span fxFlex>{{ quotaTag || 'Cuota nueva' }}</span>
             <credix-numeric-block
-              [value]="paymentQuotaSummary?.amountPerQuota"
+              [value]="movementQuotaSummary?.amountPerQuota"
               fontWeight="bold"
               prefix="₡"></credix-numeric-block>
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ popupCommissionTag || 'Comisión' }} {{ '(' + paymentQuotaSummary?.commissionPercentage + '%)' }}*
+            <span fxFlex>{{ comissionTag || 'Comisión' }} {{ '(' + movementQuotaSummary?.commissionPercentage + '%)' }}*
             </span>
             <credix-numeric-block
-              [value]="paymentQuotaSummary?.commissionAmount"
+              [value]="movementQuotaSummary?.commissionAmount"
               fontWeight="bold"
               prefix="₡"></credix-numeric-block>
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ popupInterestTag || 'Interés' }} {{ '(' + paymentQuotaSummary?.feePercentage + '% mensual)' }} 
+            <span fxFlex>{{ 'Interés' }} {{ '(' + movementQuotaSummary?.feePercentage + '% mensual)' }} 
             </span>
             
             <credix-numeric-block
-              [value]="paymentQuotaSummary?.feeAmount"
+              [value]="movementQuotaSummary?.feeAmount"
               fontWeight="bold"
               prefix="₡"></credix-numeric-block>
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ popupIvaTag || 'IVA*'}}</span>
+            <span fxFlex>{{ 'IVA*'}}</span>
             <credix-numeric-block
-            [value]="paymentQuotaSummary?.IVA"
+            [value]="movementQuotaSummary?.IVA"
             fontWeight="bold"
             prefix="₡"></credix-numeric-block>
           </div>
@@ -96,9 +95,9 @@
         </p>
     
         <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">
-          <span fxFlex style="font-size: 20px !important;">{{ paymentQuotaSummary.quotaTo }} Cuotas de</span>
+          <span fxFlex style="font-size: 20px !important;">{{ movementQuotaSummary.quotaTo }} Cuotas de</span>
             <credix-numeric-block
-            [value]="paymentQuotaSummary?.amountPerQuota"
+            [value]="movementQuotaSummary?.amountPerQuota"
             fontSize="24"
             fontWeight="bold"
             prefix="₡"></credix-numeric-block>

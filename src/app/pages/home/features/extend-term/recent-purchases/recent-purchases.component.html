@@ -1,5 +1,6 @@
-
-<credix-navigation-table *ngIf="activeTabIndex === 0" [headers]="tableHeaders" [hide]="empty" class="mt-24px">
+<ng-container *ngIf="!done">
+  <credix-navigation-table [headers]="tableHeaders" [hide]="!done" class="mt-24px">
+  
     <ngx-simplebar [options]="{autoHide: false}" class="extend-term__menu-options" left>
       <div class="pl-16px pr-16px w-100" fxLayout="column">
         <a (click)="getAllowedMovementDetail(allowedMovement)"
@@ -104,27 +105,30 @@
           {{disclaTag || '*IVA y comisión se cargarán en el próximo estado de cuenta'}}.</p>
       </div>
     </div>
-</credix-navigation-table>
-
-  <!-- <credix-result-notification *ngIf="!empty" class="extend-term__empty" status="info"
+  
+  </credix-navigation-table>
+  
+  <credix-result-notification *ngIf="empty" class="extend-term__empty" status="info"
                               title="{{warningTag || 'No tiene consumos para ampliar en este momento.'}}">
-  </credix-result-notification> -->
+  </credix-result-notification>
+  
+  
 
-  <!-- <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+  <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="openConfirmationModal()" *ngIf="allowedMovementSelected"
                    [disabled]="allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo">
       Ampliar plazo
     </credix-button>
-  </div> -->
+  </div>
+</ng-container>
 
-  
 <ng-template #disabledTemplate>
-    <app-credix-result-view [resultMessage]="message"
-                            [resultTile]="title"
-                            [moduleTitle]="titleTag || 'Ampliación de plazo'"
-                            buttonText="Listo"
-                            routeTo="/home"
-                            status="error"></app-credix-result-view>
-  </ng-template>
-  
-  <ng-container [ngTemplateOutlet]="template"></ng-container> -->
+  <credix-result-notification
+    class="extend-term__empty"
+    status="error"
+    [message]="message"
+    [title]="title">
+  </credix-result-notification>
+</ng-template>
+
+<ng-container [ngTemplateOutlet]="template"></ng-container>

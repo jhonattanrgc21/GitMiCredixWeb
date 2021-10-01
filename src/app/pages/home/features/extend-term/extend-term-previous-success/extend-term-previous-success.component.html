@@ -8,10 +8,10 @@
   <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
     <mat-divider class="mb-24px" credixDivider></mat-divider>
 
-    <div fxLayout="row" fxLayoutAlign="space-between">
+    <div fxLayout="row" style="padding: 0 22px;" fxLayoutAlign="space-between">
       <span fxFlex="175px"><strong>Datos de la ampliación</strong></span>
 
-      <div fxLayout="column" fxLayoutGap="8px">
+      <div fxFlex="200px" fxLayout="column" fxLayoutGap="8px">
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>{{newQuotaTag || 'Cuota nueva'}}</span>

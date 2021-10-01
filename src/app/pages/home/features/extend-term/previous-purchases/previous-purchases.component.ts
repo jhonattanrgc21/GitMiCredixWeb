@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { AllowedMovement } from 'src/app/shared/models/allowed-movement';
 import { Cancellation } from 'src/app/shared/models/cancellation';
 import { Movement } from 'src/app/shared/models/movement';
-import { PreviousPurchase } from 'src/app/shared/models/previous-purchase';
+import { PreviousMovements } from 'src/app/shared/models/previous-purchase';
 import { ExtendTermService } from '../extend-term.service';
 
 @Component({
@@ -17,14 +17,13 @@ export class PreviousPurchasesComponent implements OnInit {
   selection: number[] = [];
   displayedColumns: string[] = ['select', 'date', 'commerce', 'amount', 'quotas'];
   movementDataSource: Movement[] = [];
-  p = 0;
   linkTag: string;
   columnOneTag: string;
   columnTwoTag: string;
   columnThreeTag: string;
   columnFourTag: string;
 
-  previousMovements: PreviousPurchase[] = [{
+  previousMovements: PreviousMovements[] = [{
     pdqId: 1,
     currencySimbol: '¢',
     establishmentName: 'Nombre del comercio 4 2342342342342342342',
@@ -235,7 +234,7 @@ export class PreviousPurchasesComponent implements OnInit {
     this.getAllowedMovements();
   }
 
-  change(checked: boolean, movement: PreviousPurchase) {
+  change(checked: boolean, movement: PreviousMovements) {
     checked ? this.selection.push(movement.pdqId) : this.selection
       .splice(this.selection.findIndex(mov => mov === movement.pdqId), 1);
   }
@@ -244,15 +243,13 @@ export class PreviousPurchasesComponent implements OnInit {
     this.extendTermService.movementsSelected = [...this.selection];
     this.route.navigate(['/home/extend-term/previous-extend']);
   }
-
   
   getAllowedMovements() {
-    this.extendTermService.getAllowedMovements()
-      .pipe(finalize(() => console.log('hola mundo')))
+    this.extendTermService.getAllowedMovements( 1005 )
       .subscribe(allowedMovements => {
         console.log("res: ",allowedMovements);
         
-        if ( allowedMovements.length ) {
+        if ( allowedMovements.length > 0 ) {
           allowedMovements.consumed.forEach(movement => {
             this.previousMovements.push({
               pdqId: movement.pdqId,
@@ -265,6 +262,9 @@ export class PreviousPurchasesComponent implements OnInit {
           });
           console.log("allowedMovements: ", allowedMovements);
         }
+      },
+      err => {
+        console.log("error: ", err);
       });
   }
 

@@ -1,7 +1,7 @@
 <div class="extend-term" fxLayout="column" fxLayoutGap="16px">
   <ngx-simplebar [options]="{autoHide: false}" class="extend-term__scrollbar" fxFlex>
   <div>
-    <mat-table [dataSource]="previousMovements| paginate: { itemsPerPage: 15, currentPage: p }"
+    <mat-table [dataSource]="previousMovements"
                class="extend-term__table">
 
       <ng-container matColumnDef="select">

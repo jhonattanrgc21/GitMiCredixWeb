@@ -20,6 +20,10 @@
                 font-size: 16px;
                 color: #3E3E3E;
             }
+
+            ::ng-deep .credix-numeric-block__decimal {
+                font-size: 14px !important;
+            }
         }
 
         &__option {
@@ -39,6 +43,10 @@
 
             credix-link-button {
                 margin-top: 8px;
+            }
+
+            ::ng-deep .credix-numeric-block__decimal {
+                font-size: 14px !important;
             }
         }
     }   

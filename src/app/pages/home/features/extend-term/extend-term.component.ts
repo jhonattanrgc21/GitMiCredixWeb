@@ -35,7 +35,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
     {id: 1, name: 'Compras recientes'},
     {id: 2, name: 'Compras anteriores'},
   ];
-  activeTabIndex = 1;
+  activeTabIndex = 0;
   tabIsChanged: boolean;
   quotaAmountFromSelected: number;
   movementIdParam: string;
@@ -205,7 +205,12 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   tabSelected(tab) {
-    tab.id === 1 ? this.router.navigate(['home/extend-term/recent'])
-              : this.router.navigate(['home/extend-term/previous']);
+    if ( tab.id === 1 ) {
+      this.activeTabIndex = 0;
+      this.router.navigate(['home/extend-term/recent'])
+    } else {
+      this.activeTabIndex = 1;
+      this.router.navigate(['home/extend-term/previous']);
+    }
   }
 }
