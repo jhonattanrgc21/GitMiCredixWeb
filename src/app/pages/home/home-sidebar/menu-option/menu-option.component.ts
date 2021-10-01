@@ -184,7 +184,7 @@ export const menus: Menu[] = [
 export const submenus = [
   {id: 1, name: 'Servicios', route: '/home/public-services', icon: 'public_services', parentId: 'Pagar'},
   {id: 2, name: 'Pagar tarjeta', route: '/home', icon: 'pay', parentId: 'Pagar'},
-  {id: 3, name: 'Marchamo', route: '/home/marchamo', icon: 'car', parentId: 'Pagar'},
+  {id: 3, name: 'Marchamo', route: '/home/marchamos', icon: 'car', parentId: 'Pagar'},
   {id: 4, name: 'Enviar dinero', route: '/home/send-money', icon: 'transfer', parentId: 'Pagar'},
   {id: 5, name: 'Reportar transferencia', route: '/home/report-transference', icon: 'transfer_report', parentId: 'Pagar'},
   {id: 6, name: 'Lugares de pago', route: '/home/payment-places', icon: 'map-marker', parentId: 'Pagar'},
