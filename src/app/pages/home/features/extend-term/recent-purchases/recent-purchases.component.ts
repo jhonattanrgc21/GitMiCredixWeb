@@ -73,12 +73,11 @@ export class RecentPurchasesComponent implements OnInit {
 
   checkCutDate() {
     this.extendTermService.checkCutDate().subscribe(response => {
-      console.log("responseeeee: ", response);
       if (!response.status) {
         this.message = response.descriptionOne;
         this.title = response.titleOne;
-        //this.done = true;
-        //this.template = this.disabledTemplate;
+        // this.done = true;
+        // this.template = this.disabledTemplate;
       }
     });
   }
@@ -98,10 +97,224 @@ export class RecentPurchasesComponent implements OnInit {
     this.extendTermService.getAllowedMovements( 1004 )
       .pipe(finalize(() => this.checkMovementParam()))
       .subscribe(allowedMovements => {
-        console.log( "allowedMovement:  ", allowedMovements);
-        if (allowedMovements.length > 0) {
+
+
+        this.allowedMovements = [
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+          {
+        originAmount: 'string',
+        originCurrency: 'any',
+        establishmentName: 'string',
+        cardId: 2,
+        totalPlanQuota: 2,
+        accountNumber: 1,
+        movementId: 'tring',
+        originDate: 'string',
+        },
+      ];
+
+        if (this.allowedMovements.length > 0) {
           this.empty = false;
-          this.allowedMovements = allowedMovements;
+          // this.allowedMovements = allowedMovements;
         } else {
           this.empty = true;
         }

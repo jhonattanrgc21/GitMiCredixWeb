@@ -1,6 +1,6 @@
-<div class="extend-term" fxLayout="column" fxLayoutGap="16px">
+<div class="extend-term" fxLayout="column">
   <ngx-simplebar [options]="{autoHide: false}" class="extend-term__scrollbar" fxFlex>
-  <div>
+  <div class="extend-term__table-wrapper">
     <mat-table [dataSource]="previousMovements"
                class="extend-term__table">
 
@@ -8,7 +8,7 @@
         <mat-header-cell *matHeaderCellDef credixHeaderCell>
         </mat-header-cell>
         <mat-cell *matCellDef="let element" credixCell>
-          <credix-checkbox-button (emitCheckBox)="change($event.checked, element)"
+          <credix-checkbox-button class="checkbox-dimension" (emitCheckBox)="change($event.checked, element)"
                                   [value]="element">
           </credix-checkbox-button>
         </mat-cell>

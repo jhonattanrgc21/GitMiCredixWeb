@@ -35,7 +35,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
     {id: 1, name: 'Compras recientes'},
     {id: 2, name: 'Compras anteriores'},
   ];
-  activeTabIndex = 0;
+  activeTabIndex = 1;
   tabIsChanged: boolean;
   quotaAmountFromSelected: number;
   movementIdParam: string;
@@ -89,8 +89,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
     this.checkCutDate();
     this.movementIdParam = this.route.snapshot.params?.movementId;
     this.getAllowedMovements();
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
+
   }
 
   checkCutDate() {
@@ -185,31 +184,16 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
       });
   }
 
-  getTags(tags: Tag[]) {
-    this.comisionTag = tags.find(tag => tag.description === 'ampliar.tag.comision')?.value;
-    this.subtitle = tags.find(tag => tag.description === 'ampliar.subtitle')?.value;
-    this.question = tags.find(tag => tag.description === 'ampliar.question')?.value;
-    this.titleTag = tags.find(tag => tag.description === 'ampliar.title')?.value;
-    this.disclaTag = tags.find(tag => tag.description === 'ampliar.disclaimer')?.value;
-    this.monthTag = tags.find(tag => tag.description === 'ampliar.tag.meses')?.value;
-    this.warningTag = tags.find(tag => tag.description === 'ampliar.message.warning')?.value;
-    this.dateTag = tags.find(tag => tag.description === 'ampliar.result.fecha')?.value;
-    this.quotaTag = tags.find(tag => tag.description === 'ampliar.tag.cuota')?.value;
-    this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo')?.value;
-    this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota')?.value;
-    this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo')?.value;
-  }
-
   ngOnDestroy(): void {
     this.extendTermService.unsubscribe();
   }
 
   tabSelected(tab) {
     if ( tab.id === 1 ) {
-      this.activeTabIndex = 0;
+      this.activeTabIndex = 1;
       this.router.navigate(['home/extend-term/recent'])
     } else {
-      this.activeTabIndex = 1;
+      this.activeTabIndex = 2;
       this.router.navigate(['home/extend-term/previous']);
     }
   }

@@ -61,7 +61,7 @@ const routes: Routes = [
     component: ExtendTermComponent,
     children: [{
         path: '',
-        redirectTo: 'previous',
+        redirectTo: 'recent',
         pathMatch: 'full',
       },
       {
