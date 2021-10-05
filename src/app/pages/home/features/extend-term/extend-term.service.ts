@@ -68,8 +68,8 @@ export class ExtendTermService {
     })
       .pipe(
         map((response) => {
-            if (response.result) {
-              return response.result;
+            if ( response.type === 'success' ) {
+              return response.consumed;
             } else {
               return [];
             }
@@ -102,14 +102,14 @@ export class ExtendTermService {
         ));
   }
 
-  getQuotasPreviousMovement(transitions: number[], productId: number): Observable<PaymentQuota[]> {
+  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<PaymentQuota[]> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,
-      transitions
+      transaction
     })
     .pipe(
       map(response => {
-        if ( response.type === 'success' ) {
+        if ( response?.listQuota ) {
           return response.listQuota;
         } else {
           return [];
@@ -129,7 +129,7 @@ export class ExtendTermService {
     });
   }
 
-  saveNewQuotaPreviousConsumptions( quota = 1, transaction: number[]): Observable<{title: string, message: string, type: string, status: string}> {
+  saveNewQuotaPreviousConsumptions( quota = 1, transaction: number[]): Observable<{title: string, message: string, type: string, status: 'success' | 'error'}> {
     return this.httpService.post('canales', this.saveNewQuotaPreviousMovementsUri, {
       accountId: this.storageService.getCurrentUser().actId,
       quota,

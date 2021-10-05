@@ -23,128 +23,7 @@ export class PreviousPurchasesComponent implements OnInit {
   columnThreeTag: string;
   columnFourTag: string;
 
-  previousMovements: PreviousMovements[] = [{
-    pdqId: 1,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio 4 2342342342342342342',
-    originAmount: '2000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 2,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 3,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 2,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 3,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 2,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 3,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 2,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 3,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 2,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 3,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 2,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 3,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 2,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-  {
-    pdqId: 3,
-    currencySimbol: '¢',
-    establishmentName: 'Nombre del comercio',
-    originAmount: '2000000',
-    originDate: '29 Oct 21',
-    quota: 1,
-  },
-
-];
+  previousMovements: PreviousMovements[] = null;
   
   constructor(
     private route: Router,
@@ -167,12 +46,12 @@ export class PreviousPurchasesComponent implements OnInit {
   
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements( 1005 )
-      .subscribe(allowedMovements => {
-        console.log("res: ",allowedMovements);
-        
+      .subscribe(allowedMovements => {        
         if ( allowedMovements.length > 0 ) {
-          allowedMovements.consumed.forEach(movement => {
-            this.previousMovements.push({
+          let previousMovements = [];
+
+          allowedMovements.forEach(movement => {
+            previousMovements.push({
               pdqId: movement.pdqId,
               currencySimbol: movement.originCurrency.currency,
               establishmentName:  movement.establishmentName,
@@ -181,11 +60,9 @@ export class PreviousPurchasesComponent implements OnInit {
               quota: movement.totalPlanQuota,
             });
           });
-          console.log("allowedMovements: ", allowedMovements);
+
+          this.previousMovements = [...previousMovements];
         }
-      },
-      err => {
-        console.log("error: ", err);
       });
   }
 

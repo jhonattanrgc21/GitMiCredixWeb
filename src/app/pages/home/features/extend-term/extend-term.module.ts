@@ -40,21 +40,6 @@ import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-che
 import { PreviousExtendComponent } from './previous-extend/previous-extend.component';
 import { ExtendTermPreviousSuccessComponent } from './extend-term-previous-success/extend-term-previous-success.component';
 
-// const routes: Routes = [
-//   {
-//     path: '',
-//     component: ExtendTermComponent
-//   },
-//   {
-//     path: ':movementId',
-//     component: ExtendTermComponent
-//   },
-//   {
-//     path: 'establishment/:establishment/success',
-//     component: ExtendTermSuccessScreenComponent
-//   }
-// ];
-
 const routes: Routes = [
   {
     path: '',
@@ -66,6 +51,10 @@ const routes: Routes = [
       },
       {
         path: 'recent',
+        loadChildren: () => import('./recent-purchases/recent-purchases.module').then(m => m.RecentPurchasesModule)
+      },
+      {
+        path: 'recent/:movementId',
         loadChildren: () => import('./recent-purchases/recent-purchases.module').then(m => m.RecentPurchasesModule)
       },
       {

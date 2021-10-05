@@ -4,7 +4,7 @@
 
   <p class="mb-16px">Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
 
-  <credix-tab class="mb-16px" (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex -1]" [tabs]="tabs"></credix-tab>
+  <credix-tab [ngClass]="{'mb-16px': activeTabIndex === 2 ? true : false}" (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex -1]" [tabs]="tabs"></credix-tab>
   <p class="mb-16px" *ngIf="activeTabIndex === 2">Seleccione los consumos que desea ampliar.</p>
 
   <router-outlet></router-outlet>

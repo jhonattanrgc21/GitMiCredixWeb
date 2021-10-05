@@ -50,86 +50,20 @@ export class PreviousExtendComponent implements OnInit {
     if ( this.extendTermService.movementsSelected.length <= 0 ) {
       this.router.navigate(['/home/extend-term']);
     }
-
+    
     this.movementsSelected = this.extendTermService.movementsSelected;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
     this.getQuotas();
   }
 
-  feeAmount: string;
-  feePercentage: number;
-  quotaTo: number;
-  amountPerQuota: string;
-  quotaFrom: number;
-  financedPlan: number;
-  purchaseAmount: string;
-  IVA: string;
-
   getQuotas() {
     this.extendTermService.getQuotasPreviousMovement( this.movementsSelected, 1005 )
       .pipe(finalize(() => this.selectMovementQuotaSummary()))
         .subscribe(
           response => {
-            if ( response ) {
-              this.quotas = [
-                {
-                  IVA: "3,90",
-                  amountPerQuota: "2.000,00",
-                  commissionAmount: "30,00",
-                  commissionPercentage: '1.5',
-                  feeAmount: "0.0",
-                  feePercentage: 0,
-                  financedPlan: 0,
-                  quotaFrom: 1,
-                  quotaTo: 1,
-                },
-                {
-                  IVA: "3,90",
-                  amountPerQuota: "3.000,00",
-                  commissionAmount: "40,00",
-                  commissionPercentage: '1.5',
-                  feeAmount: "0.0",
-                  feePercentage: 0,
-                  financedPlan: 0,
-                  quotaFrom: 1,
-                  quotaTo: 3,
-                },
-                {
-                  IVA: "3,90",
-                  amountPerQuota: "4.000,00",
-                  commissionAmount: "50,00",
-                  commissionPercentage: '1.5',
-                  feeAmount: "0.0",
-                  feePercentage: 0,
-                  financedPlan: 0,
-                  quotaFrom: 1,
-                  quotaTo: 6,
-                },
-                {
-                  IVA: "3,90",
-                  amountPerQuota: "5.000,00",
-                  commissionAmount: "60,00",
-                  commissionPercentage: '1.5',
-                  feeAmount: "0.0",
-                  feePercentage: 0,
-                  financedPlan: 0,
-                  quotaFrom: 1,
-                  quotaTo: 10,
-                },
-                {
-                  IVA: "3,90",
-                  amountPerQuota: "6.000,00",
-                  commissionAmount: "70,00",
-                  commissionPercentage: '1.5',
-                  feeAmount: "0.0",
-                  feePercentage: 0,
-                  financedPlan: 0,
-                  quotaFrom: 1,
-                  quotaTo: 12,
-                }];
-              
-              this.quotas = this.quotas.sort((a, b) => a.quotaTo - b.quotaTo);
+            if ( response.length > 0 ) {
+              this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
@@ -149,43 +83,42 @@ export class PreviousExtendComponent implements OnInit {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
   }
 
-  // saveQuota() {
-  //   this.extendTermService.saveNewQuotaPreviousConsumptions(
-  //     this.movementQuotaSummary.quotaTo,
-  //     this.movementsSelected)
-  //     .pipe(finalize(() => this.router.navigate([`/home/extend-term/previous-extend-success`])))
-  //       .subscribe(response => {
-          
-  //         this.extendTermService.result = {
-  //           status: response.type,
-  //           message: response.message
-  //         };
-
-  //         this.extendTermService.newQuota = {
-  //           establishment: '',
-  //           currency: '₡', // verificar donde consigo el currency
-  //           amount: this.movementQuotaSummary.amountPerQuota,
-  //           quota: this.movementQuotaSummary.quotaTo
-  //         };
-  //       });
-  // }
-
   saveQuota() {
-    this.router.navigate([`/home/extend-term/previous-extend-success`])
+    this.extendTermService.saveNewQuotaPreviousConsumptions(
+      this.movementQuotaSummary.quotaTo,
+      this.movementsSelected)
+      .pipe(finalize(() => this.router.navigate([`/home/extend-term/previous-extend-success`])))
+        .subscribe(response => {
+          this.extendTermService.result = {
+            status: response.status,
+            message: response.message
+          };
 
-    this.extendTermService.result = {
-      status: 'success',
-      message: 'El plazo de su compra ha sido extendido correctamente. En tres días estará reflejado en su cuenta.'
-    };
-
-    this.extendTermService.newQuota = {
-      establishment: '',
-      currency: '₡', // verificar donde consigo el currency
-      amount: this.movementQuotaSummary.amountPerQuota,
-      quota: this.movementQuotaSummary.quotaTo
-    };
-
+          this.extendTermService.newQuota = {
+            establishment: '',
+            currency: '₡', // verificar donde consigo el currency
+            amount: this.movementQuotaSummary.amountPerQuota,
+            quota: this.movementQuotaSummary.quotaTo
+          };
+        });
   }
+
+  // saveQuota() {
+  //   this.router.navigate([`/home/extend-term/previous-extend-success`])
+
+  //   this.extendTermService.result = {
+  //     status: 'success',
+  //     message: 'El plazo de su compra ha sido extendido correctamente. En tres días estará reflejado en su cuenta.'
+  //   };
+
+  //   this.extendTermService.newQuota = {
+  //     establishment: '',
+  //     currency: '₡', // verificar donde consigo el currency
+  //     amount: this.movementQuotaSummary.amountPerQuota,
+  //     quota: this.movementQuotaSummary.quotaTo
+  //   };
+
+  // }
 
   openSummary() {
     this.modalService.open({

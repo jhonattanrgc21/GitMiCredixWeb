@@ -17,7 +17,7 @@
         <mat-divider></mat-divider>
         <div class="previous-extend__content__option" fxLayout="row" fxLayoutAlign="space-between">
             <span><strong>{{ subtitleTag ||  'Modifique su plazo' }}</strong></span>
-            <credix-slider fxFlex="420px" (inputChange)="getQuota($event)"
+            <credix-slider fxFlex="400px" (inputChange)="getQuota($event)"
                    (valueChange)="getQuota($event)"
                    [displayMax]="termSliderDisplayMax"
                    [displayMin]="termSliderDisplayMin"
@@ -27,9 +27,9 @@
                    [step]="termSliderStep"
                    instructions="{{ deseoTag || 'Deseo ampliar este plazo a' }}"
                    [units]="movementQuotaSummary?.quotaTo > 1 ? 'Meses' : 'Mes'"></credix-slider>
-            <div fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
+            <div fxFlex="110px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
                 <span>Cuotas de:</span>
-                <credix-numeric-block [value]="'2000'" class="tr"
+                <credix-numeric-block [value]="movementQuotaSummary?.amountPerQuota" class="tr"
                     fontSize="24"
                     fontWeight="bold"
                     fxFlex="25"
@@ -95,7 +95,7 @@
         </p>
     
         <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">
-          <span fxFlex style="font-size: 20px !important;">{{ movementQuotaSummary.quotaTo }} Cuotas de</span>
+          <span fxFlex style="font-size: 20px !important;">{{ movementQuotaSummary.quotaTo }} {{ movementQuotaSummary.quotaTo > 1 ? 'Cuotas' : 'Cuota' }} de</span>
             <credix-numeric-block
             [value]="movementQuotaSummary?.amountPerQuota"
             fontSize="24"

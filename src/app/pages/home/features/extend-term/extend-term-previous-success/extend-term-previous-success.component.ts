@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Tag} from '../../../../../shared/models/tag';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {ExtendTermService} from '../extend-term.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-extend-term-previous-success',
@@ -22,10 +23,16 @@ export class ExtendTermPreviousSuccessComponent implements OnInit {
   today = new Date();
 
   constructor(private extendTermService: ExtendTermService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private router: Router,) {
   }
 
   ngOnInit(): void {
+
+    if ( !this.extendTermService.result?.status ) {
+      this.router.navigate(['/home/extend-term']);
+    }
+
     this.currency = this.extendTermService.newQuota?.currency;
     this.amount = this.extendTermService.newQuota?.amount;
     this.quota = this.extendTermService.newQuota?.quota;
