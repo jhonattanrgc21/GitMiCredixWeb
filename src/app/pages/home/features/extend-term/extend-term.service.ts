@@ -102,7 +102,7 @@ export class ExtendTermService {
         ));
   }
 
-  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<PaymentQuota[]> {
+  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, listQuota: any[]}> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,
       transaction
@@ -110,7 +110,7 @@ export class ExtendTermService {
     .pipe(
       map(response => {
         if ( response?.listQuota ) {
-          return response.listQuota;
+          return response;
         } else {
           return [];
         }
@@ -137,10 +137,10 @@ export class ExtendTermService {
     })
     .pipe(
       map(response => ({
-          title: response.tile,
+          title: response.titleOne,
           message: response.message,
           type: response.type,
-          status: response.status
+          status: response.titleOne
         }))
     );
   }

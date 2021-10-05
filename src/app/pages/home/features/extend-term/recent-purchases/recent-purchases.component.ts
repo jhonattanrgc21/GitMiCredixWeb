@@ -267,6 +267,5 @@ export class RecentPurchasesComponent implements OnInit {
   ngOnDestroy(): void {
     this.extendTermService.unsubscribe();
   }
-
-
+  
 }

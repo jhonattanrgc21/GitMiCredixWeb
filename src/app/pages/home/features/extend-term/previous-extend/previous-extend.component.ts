@@ -28,7 +28,7 @@ export class PreviousExtendComponent implements OnInit {
   amountSliderMin = 0;
   amountSliderMax = 1;
   termSliderStep = 1;
-  termSliderMin = 3;
+  termSliderMin = 1;
   termSliderMax = 12;
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
@@ -36,6 +36,7 @@ export class PreviousExtendComponent implements OnInit {
   movementsSelected: number[];
   quotas: PaymentQuota[];
   movementQuotaSummary: PaymentQuota = null;
+  purchaseAmount: string = '';
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -62,8 +63,9 @@ export class PreviousExtendComponent implements OnInit {
       .pipe(finalize(() => this.selectMovementQuotaSummary()))
         .subscribe(
           response => {
-            if ( response.length > 0 ) {
-              this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
+            if ( response.listQuota.length > 0 ) {
+              this.purchaseAmount = response.purchaseAmount;
+              this.quotas = response.listQuota.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
@@ -102,23 +104,6 @@ export class PreviousExtendComponent implements OnInit {
           };
         });
   }
-
-  // saveQuota() {
-  //   this.router.navigate([`/home/extend-term/previous-extend-success`])
-
-  //   this.extendTermService.result = {
-  //     status: 'success',
-  //     message: 'El plazo de su compra ha sido extendido correctamente. En tres días estará reflejado en su cuenta.'
-  //   };
-
-  //   this.extendTermService.newQuota = {
-  //     establishment: '',
-  //     currency: '₡', // verificar donde consigo el currency
-  //     amount: this.movementQuotaSummary.amountPerQuota,
-  //     quota: this.movementQuotaSummary.quotaTo
-  //   };
-
-  // }
 
   openSummary() {
     this.modalService.open({

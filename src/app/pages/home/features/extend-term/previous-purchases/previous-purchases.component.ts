@@ -22,7 +22,7 @@ export class PreviousPurchasesComponent implements OnInit {
   columnTwoTag: string;
   columnThreeTag: string;
   columnFourTag: string;
-
+  isEmpty: boolean = false;
   previousMovements: PreviousMovements[] = null;
   
   constructor(
@@ -60,8 +60,9 @@ export class PreviousPurchasesComponent implements OnInit {
               quota: movement.totalPlanQuota,
             });
           });
-
           this.previousMovements = [...previousMovements];
+        } else {
+          this.isEmpty = true;
         }
       });
   }

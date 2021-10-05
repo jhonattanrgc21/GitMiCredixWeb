@@ -13,6 +13,13 @@
     height: 384px !important; 
   }
 
+  &__empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   &__table {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -88,6 +95,21 @@
     margin-left: 0px !important;
   } 
   
+}
+
+.title-space {
+  margin: 0 0 16px 16px !important 
+}
+
+:host {
+  ::ng-deep credix-result-notification {
+    transform: translate(-50%, -50%) !important;
+    padding-top: 85px !important;
+
+    .credix-result-notification__title {
+      width: 310px !important;
+    }
+  }
 }
 
 @media screen and (max-width: 1199px) {
