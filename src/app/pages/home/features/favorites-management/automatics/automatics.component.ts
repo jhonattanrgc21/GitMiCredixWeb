@@ -22,7 +22,7 @@ import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/c
 })
 export class AutomaticsComponent implements OnInit, AfterViewInit {
   automaticsDetailForm: FormGroup = new FormGroup({
-    favoriteName: new FormControl(null),
+    favoriteName: new FormControl(null, Validators.required),
     maxAmount: new FormControl(null, Validators.required),
     startDate: new FormControl(null, Validators.required),
     periodicity: new FormControl(null, Validators.required),
@@ -72,6 +72,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   publicServiceCategory;
   isFirstChanged = false;
   result: { status: 'success' | 'error'; message: string; title: string; };
+  confirmUpdate$: any;
 
   constructor(private favoritesManagementService: FavoritesManagementService,
               private automaticsService: AutomaticsService,
@@ -108,7 +109,6 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
       this.automaticsDetailForm.controls.codeCredix.reset(null, {emitEvent: false});
       this.anotherAmount = false;
       this.data = response;
-      console.log(this.data);
       this.quota = 1; // Colocar el valor de la quota que viene del endpoint, por defecto es 1
       this.deleted = false;
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
@@ -133,7 +133,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   }
 
   getUpdateAlert() {
-    this.favoritesManagementService.confirmUpdate.subscribe((response) => {
+    this.confirmUpdate$ = this.favoritesManagementService.confirmUpdate.subscribe((response) => {
       if (response.confirm && this.data.id) {
         this.setUpdateSchedule(
           this.automaticsDetailControls.periodicity.value,
@@ -207,7 +207,6 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
         .subscribe(
           response => {
             if ( response ) {
-              console.log(response);
               this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
@@ -292,6 +291,10 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
           this.publicServiceCategory = 'Servicio';
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.confirmUpdate$.unsubscribe();
   }
 }
 
