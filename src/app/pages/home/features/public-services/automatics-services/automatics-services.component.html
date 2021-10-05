@@ -53,7 +53,12 @@
       </div>
       <div class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
         <span><strong>Monto máximo a pagar</strong></span>
-        <credix-numeric-block [value]="dataToDetail?.maxAmount" prefix="₡"></credix-numeric-block>
+        <credix-numeric-block
+          [value]="dataToDetail?.maxAmount"
+          fontSize="18"
+          fontWeight="bold"
+          prefix="₡">
+        </credix-numeric-block>
       </div>
     </div>
 

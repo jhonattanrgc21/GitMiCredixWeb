@@ -90,7 +90,6 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.publicServiceName = this.publicServicesService.publicService.publicServiceName;
     } else {
       this.router.navigate(['/home/public-services']);
-
     }
 
   }
@@ -161,7 +160,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   recharge() {
     const receipt = this.pendingReceipts.receipts;
-    
+    this.publicServicesService.publicServiceReference = this.keys[0].keyType;
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,

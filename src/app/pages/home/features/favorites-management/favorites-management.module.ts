@@ -37,6 +37,7 @@ import { CredixRadioButtonModule } from 'src/app/shared/components/credix-radio-
 import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
 import { AddAutomaticsSecondStepComponent } from './add-automatics/add-automatics-second-step/add-automatics-second-step.component';
 import { SuccessScreenComponent } from './success-screen/success-screen.component';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 const routes: Routes = [
   {
@@ -129,6 +130,7 @@ const routes: Routes = [
     FavoritesPaymentsService,
     AutomaticsService,
     CredixToastService,
+    GlobalApiService,
   ],
   exports: [
     MatCardModule,

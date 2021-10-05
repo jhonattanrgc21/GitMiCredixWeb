@@ -4,6 +4,7 @@ import {ModalService} from '../../../../../core/services/modal.service';
 import {PublicServicesService} from '../public-services.service';
 import { Router } from '@angular/router';
 import { AutomaticsService } from '../../favorites-management/automatics/automatics.service';
+import { PublicServicesApiService } from 'src/app/core/services/public-services-api.service';
 
 @Component({
   selector: 'app-success-screen',
@@ -28,7 +29,7 @@ export class SuccessScreenComponent implements OnInit {
   constructor(private publicServicesService: PublicServicesService,
               private modalService: ModalService,
               private router: Router,
-              private automaticsService: AutomaticsService,
+              private publicServicesApiService: PublicServicesApiService,
               ) {
   }
 
@@ -49,6 +50,7 @@ export class SuccessScreenComponent implements OnInit {
   }
 
   addAutomaticPayment() {
+    this.publicServicesApiService.publicService = this.publicServicesService.publicServiceData;
     this.router.navigate(['/home/favorites-management/new-automatics']);
   }
 

@@ -20,7 +20,7 @@ export class SuccessScreenComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    if ( this.favoritesManagementService ) {
+    if ( this.favoritesManagementService.result ) {
       this.title = this.favoritesManagementService.result.title;
       this.status = this.favoritesManagementService.result.status;
       this.message = this.favoritesManagementService.result.message;

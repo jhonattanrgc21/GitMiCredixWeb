@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
 import {FavoritesManagementService} from './favorites-management.service';
@@ -13,6 +13,7 @@ import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 import {finalize} from 'rxjs/operators';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 @Component({
   selector: 'app-favorites-management',
@@ -46,7 +47,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
               private channelsApiService: ChannelsApiService,
               private modalService: ModalService,
               private router: Router,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private cdr: ChangeDetectorRef,
+            ) {
   }
 
   ngOnInit(): void {
@@ -63,6 +66,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
     this.checkIsUpdating();
     this.checkUpdateCompleted();
     this.checkUrlParam();
+    this.cdr.detectChanges();
     this.favoriteManagementService.tabChanged.subscribe(() => {
       this.tabIsChanged = true;
     });
@@ -84,6 +88,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
   getDetailFavorite(option) {
     this.optionSelected = this.tabId === 1 ? option.IdAccountFavorite : this.tabId === 2 ? option.publicServiceFavoriteId : option.id;
     this.tabIsChanged = false;
+    
     if (option.publicServiceFavoriteId) {
       const favoritePublicService: PublicServiceFavoriteByUser = {
         accountNumber: option.account,

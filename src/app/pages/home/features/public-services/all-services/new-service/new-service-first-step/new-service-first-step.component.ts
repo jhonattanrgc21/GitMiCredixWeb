@@ -1,6 +1,8 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { PublicServicesApiService } from 'src/app/core/services/public-services-api.service';
 import {Keys} from '../../../../../../../shared/models/keys';
+import { PublicServicesService } from '../../../public-services.service';
 
 @Component({
   selector: 'app-new-service-first-step',
@@ -18,7 +20,10 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
   @Input() quantityOfKeys: number;
   label = 'contrato';
 
-  constructor() {
+  constructor(
+    private publicServiceService: PublicServicesService,
+    private publicServiceApiService: PublicServicesApiService,
+  ) {
   }
 
   ngOnInit(): void {
@@ -30,13 +35,15 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
       if (this.keys?.length === 1) {
         this.contractFormGroup.controls.keysControl.setValue(this.keys[0].keyType);
         this.label = this.keys[0].description;
-        console.log("keysControl: ", this.contractFormGroup.controls.keysControl.value);
+        this.publicServiceService.publicServiceReference = this.keys[0].keyType;
       }
     }
   }
 
   getLabel() {
-    this.contractFormGroup.controls.keysControl.valueChanges.subscribe(value =>
-      this.label = this.keys.find(key => key.keyType === value).description);
+    this.contractFormGroup.controls.keysControl.valueChanges.subscribe(value => {
+      this.label = this.keys.find(key => key.keyType === value).description;
+      this.publicServiceService.publicServiceReference = this.keys.find(key => key.keyType === value).keyType;
+    });
   }
 }

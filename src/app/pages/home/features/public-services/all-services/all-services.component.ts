@@ -39,6 +39,7 @@ export class AllServicesComponent implements OnInit, OnDestroy {
   getPublicServiceEnterpriseByCategory(category: PublicServiceCategory) {
     this.openSubmenu = this.categorySelected === category ? !this.openSubmenu : true;
     this.categorySelected = category;
+    this.publicServicesService.publicServiceCategory = category.publicServiceCategoryId;
     this.enterprises = [];
     this.publicServicesApiService.getPublicServiceEnterpriseByCategory(category.publicServiceCategoryId)
       .subscribe(enterprises => this.enterprises = enterprises);
@@ -46,12 +47,14 @@ export class AllServicesComponent implements OnInit, OnDestroy {
 
   getPublicService(enterprise: PublicServiceEnterprise) {
     this.enterpriseSelected = enterprise;
+    this.publicServicesService.publicServiceEnterprise = enterprise.publicServiceEnterpriseId;    
     this.publicServicesApiService.getPublicServiceByEnterprise(enterprise.publicServiceEnterpriseId)
       .subscribe(publicServices => this.publicServices = publicServices);
   }
 
   newPublicService(publicService: PublicService) {
     this.publicServicesService.publicService = publicService;
+    this.publicServicesService.publicServiceService = publicService.publicServiceId;
     this.publicServicesService.company = this.enterpriseSelected.publicServiceEnterpriseDescription;
     this.router.navigate([
       publicService.publicServiceCategory === 'Recargas' ? '/home/public-services/recharge' : '/home/public-services/public-service']);
