@@ -78,9 +78,6 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
 
   print() {
     if (!environment.production && this.printUserInfo) {
-      console.log('token: ', this.storageService.getCurrentToken());
-      console.log('usuario: ', this.storageService.getCurrentUser());
-      console.log('tarjetas: ', this.storageService.getCurrentCards());
       this.printUserInfo = false;
     }
   }

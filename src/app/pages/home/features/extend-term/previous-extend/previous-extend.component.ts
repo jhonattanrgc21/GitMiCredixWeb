@@ -98,7 +98,7 @@ export class PreviousExtendComponent implements OnInit {
 
           this.extendTermService.newQuota = {
             establishment: '',
-            currency: '₡', // verificar donde consigo el currency
+            currency: '₡',
             amount: this.movementQuotaSummary.amountPerQuota,
             quota: this.movementQuotaSummary.quotaTo
           };

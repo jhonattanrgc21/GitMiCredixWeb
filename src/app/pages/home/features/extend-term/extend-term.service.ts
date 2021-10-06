@@ -69,7 +69,7 @@ export class ExtendTermService {
       .pipe(
         map((response) => {
             if ( response.type === 'success' ) {
-              return response.consumed;
+              return response;
             } else {
               return [];
             }
@@ -79,12 +79,12 @@ export class ExtendTermService {
 
   calculateQuotaByMovement(movementId: string, productId = 1): Observable<ExtendTermQuota[]> {
     return this.httpService.post('canales', this.calculateQuotaUri, {
-      transition: movementId,
+      transaction: movementId,
       productId
     })
       .pipe(
         map(response => {
-            if (response.type === 'success') {
+            if ( response?.listQuota ) {
               return [{
                 feeAmount: '0,00',
                 feePercentage: 0,
@@ -100,9 +100,11 @@ export class ExtendTermService {
             }
           }
         ));
+
+        
   }
 
-  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, listQuota: any[]}> {
+  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, listQuota: PaymentQuota[]}> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,
       transaction

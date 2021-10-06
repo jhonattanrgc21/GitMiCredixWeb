@@ -21,7 +21,7 @@ export class RecentPurchasesComponent implements OnInit {
     {label: 'Consumos', width: '282px'},
     {label: 'Ampliación', width: 'auto'}
   ];
-  allowedMovementSelected: AllowedMovement;
+   allowedMovementSelected: AllowedMovement;
   allowedMovements: AllowedMovement[] = [];
   quotaAmountFromSelected: number;
   movementIdParam: string;
@@ -76,8 +76,8 @@ export class RecentPurchasesComponent implements OnInit {
       if (!response.status) {
         this.message = response.descriptionOne;
         this.title = response.titleOne;
-        // this.done = true;
-        // this.template = this.disabledTemplate;
+        this.done = true;
+        this.template = this.disabledTemplate;
       }
     });
   }
@@ -96,96 +96,10 @@ export class RecentPurchasesComponent implements OnInit {
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements( 1004 )
       .pipe(finalize(() => this.checkMovementParam()))
-      .subscribe(allowedMovements => {
-
-        console.log("allowedMovements: ", allowedMovements);
-
-        this.allowedMovements = [
-          {
-        originAmount: 'string',
-        originCurrency: 'any',
-        establishmentName: 'string',
-        cardId: 2,
-        totalPlanQuota: 2,
-        accountNumber: 1,
-        movementId: '1',
-        originDate: 'string',
-        },
-          {
-        originAmount: 'string',
-        originCurrency: 'any',
-        establishmentName: 'string',
-        cardId: 2,
-        totalPlanQuota: 2,
-        accountNumber: 1,
-        movementId: '2',
-        originDate: 'string',
-        },
-          {
-        originAmount: 'string',
-        originCurrency: 'any',
-        establishmentName: 'string',
-        cardId: 2,
-        totalPlanQuota: 2,
-        accountNumber: 1,
-        movementId: '3',
-        originDate: 'string',
-        },
-          {
-        originAmount: 'string',
-        originCurrency: 'any',
-        establishmentName: 'string',
-        cardId: 2,
-        totalPlanQuota: 2,
-        accountNumber: 1,
-        movementId: '4',
-        originDate: 'string',
-        },
-          {
-        originAmount: 'string',
-        originCurrency: 'any',
-        establishmentName: 'string',
-        cardId: 2,
-        totalPlanQuota: 2,
-        accountNumber: 1,
-        movementId: '5',
-        originDate: 'string',
-        },
-          {
-        originAmount: 'string',
-        originCurrency: 'any',
-        establishmentName: 'string',
-        cardId: 2,
-        totalPlanQuota: 2,
-        accountNumber: 1,
-        movementId: '6',
-        originDate: 'string',
-        },
-          {
-        originAmount: 'string',
-        originCurrency: 'any',
-        establishmentName: 'string',
-        cardId: 2,
-        totalPlanQuota: 2,
-        accountNumber: 1,
-        movementId: '7',
-        originDate: 'string',
-        },
-          {
-        originAmount: 'string',
-        originCurrency: 'any',
-        establishmentName: 'string',
-        cardId: 2,
-        totalPlanQuota: 2,
-        accountNumber: 1,
-        movementId: '8',
-        originDate: 'string',
-        },
-      ];
-
-        if (this.allowedMovements.length > 0) {
+      .subscribe(response => {
+        if ( response?.result ) {
           this.empty = false;
-          // this.allowedMovements = allowedMovements;
+          this.allowedMovements = response.result;
         } else {
           this.empty = true;
         }
@@ -200,7 +114,7 @@ export class RecentPurchasesComponent implements OnInit {
   }
 
   calculateQuota(movementId: string) {
-    this.extendTermService.calculateQuotaByMovement(movementId)
+    this.extendTermService.calculateQuotaByMovement(movementId, 1004)
       .pipe(finalize(() => this.initSlider()))
       .subscribe(extendTermQuotas => this.quotas = extendTermQuotas);
   }
@@ -267,5 +181,6 @@ export class RecentPurchasesComponent implements OnInit {
   ngOnDestroy(): void {
     this.extendTermService.unsubscribe();
   }
-  
+
+
 }

@@ -23,7 +23,7 @@ export class PreviousPurchasesComponent implements OnInit {
   columnThreeTag: string;
   columnFourTag: string;
   isEmpty: boolean = false;
-  previousMovements: PreviousMovements[] = null;
+  previousMovements: PreviousMovements[] = [];
   
   constructor(
     private route: Router,
@@ -46,11 +46,10 @@ export class PreviousPurchasesComponent implements OnInit {
   
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements( 1005 )
-      .subscribe(allowedMovements => {        
-        if ( allowedMovements.length > 0 ) {
+      .subscribe(response => {        
+        if ( response?.consumed ) {
           let previousMovements = [];
-
-          allowedMovements.forEach(movement => {
+          response.consumed.forEach(movement => {
             previousMovements.push({
               pdqId: movement.pdqId,
               currencySimbol: movement.originCurrency.currency,
