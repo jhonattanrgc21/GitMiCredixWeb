@@ -1,38 +1,122 @@
-.automatics {
-  width: 296px;
-  height: 350px;
-  padding: 0 8px;
+:host {
+    width: 100%;
+  }
+  
+  .automatics {
+    width: 296px;
+    height: 400px;
+    //padding: 0 8px;
+    margin-top: 16px;
+    
+    &__content {
+      width: 100%;
+      padding-bottom: 16px;
+  
+      &:not(:first-of-type) {
+        padding-top: 16px;
+      }
+  
+      &__input {
+        height: 43px;
+        width: 268px !important;
+        margin-left: 29px !important;
+        margin-top: -7px !important;
 
-  &__input {
-    height: 42px;
-
-    .calendar-icon {
-      width: 13px;
-      height: 15px;
-    }
-
-    &.disabled {
-      color: #7b7b7b;
-
-      ::ng-deep .mat-select-value-text {
-        span {
-          color: #7b7b7b;
+        &.favorite {
+          margin-left: 20px;
         }
       }
     }
+  
+    &__link {
+      color: #239df7;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  
+    &__code {
+      color: #3E3E3E;
+      font-size: 12px;
+      display: block;
+      line-height: 1.46;
+      padding-top: 8px !important;
+    }
+  
+    &__iva {
+      color: #707070;
+      font-size: 9px;
+      display: block;
+      line-height: 1.5;
+      padding-bottom: 8px !important;
+    }
+  
+    &__input {
+      height: 42px;
+  
+      .calendar-icon {
+        width: 13px;
+        height: 15px;
+      }
+  
+      &.disabled {
+        color: #7b7b7b;
+  
+        ::ng-deep .mat-select-value-text {
+          span {
+            color: #7b7b7b;
+          }
+        }
+      }
+    }
+  
+    ::ng-deep.credix-slider {
+      width: 295.76px;
+
+      .credix-slider__slider {
+        width: 97% !important;
+        margin-left: 11px !important;
+      }
   }
-}
-
-.mb-20px {
-  margin-bottom: 20px !important;
-}
-
-.enabled {
-  color: #3e3e3e !important;
-
-  ::ng-deep .mat-select-value-text {
-    span {
-      color: #3e3e3e !important;
+  
+    .automatics-wrapper {
+      width: 100% !important;
+      height: 300px;
+    }
+  
+    .options {
+      //height: calc(495px - 66px);
+      height: 400px !important;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  
+    /*::ng-deep.credix-slider {
+      //width: 296px !important;
+      //padding-left: 13px !important;
+      margin-top: -8px;
+      .mat-slider {
+        width: 286px !important;
+        margin-left: 11px !important;
+      }
+    }*/
+  }
+  
+  .ml-28px {
+    margin-left: 28px !important;
+  }
+  
+  .mb-20px {
+    margin-bottom: 20px !important;
+  }
+  
+  .enabled {
+    color: #3e3e3e !important;
+  
+    ::ng-deep .mat-select-value-text {
+      span {
+        color: #3e3e3e !important;
+      }
     }
   }
-}
+  

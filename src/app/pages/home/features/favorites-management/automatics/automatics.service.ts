@@ -41,7 +41,8 @@ export class AutomaticsService {
                        maxAmount: number,
                        aliasName: string,
                        credixCode: number,
-                       publicServiceAccessKeyId: number) {
+                       publicServiceAccessKeyId: number,
+                       quota: number = 1) {
     return this.httpServices.post('canales', 'schedulerpayment/createschedulerpayment', {
       cardId: this.storageServices.getCurrentCards()
         .find((element) => element.category = 'Principal').cardId,
@@ -54,20 +55,23 @@ export class AutomaticsService {
       maxAmount,
       aliasName,
       publicServiceAccessKeyId,
-      credixCode
+      credixCode,
+      quota,
     });
   }
 
   @CacheBuster({
     cacheBusterNotifier: cleanSchedulePayments$
   })
-  setUpdateAutomatics(periodicityId: number, startDate: string, maxAmount: number, schedulerPayId: number, codeCredix: string) {
+  setUpdateAutomatics(periodicityId: number, startDate: string, maxAmount: number, schedulerPayId: number, codeCredix: string, quota = 1, favoriteName = "Pago fav") {
     return this.httpServices.post('canales', 'schedulerpayment/updateschedulerpayment', {
       periodicityId,
       startDate,
       maxAmount,
       schedulerPayId,
-      codeCredix
+      codeCredix,
+      quota,
+      favoriteName,
     });
   }
 }

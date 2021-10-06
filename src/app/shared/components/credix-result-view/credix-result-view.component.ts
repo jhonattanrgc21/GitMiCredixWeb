@@ -12,8 +12,9 @@ export class CredixResultViewComponent implements OnInit {
   @Input() status: 'success' | 'error' | 'warn' | 'info';
   @Input() buttonText: string;
   @Input() routeTo: string;
+  @Input() paymentService: boolean = false;
   @Output() buttonPressed = new EventEmitter();
-
+  //@Output() openModal = new EventEmitter();
   constructor() {
   }
 

@@ -9,12 +9,16 @@ import {CacheBuster} from 'ngx-cacheable';
 import {cleanIbanFavoriteAccount$} from '../../../../core/services/account-api.service';
 import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
 import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
+import { map } from 'rxjs/operators';
+import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 
 @Injectable()
 export class FavoritesManagementService {
   private readonly deleteIbanAccountUri = 'iban/deletePublicServiceFavorite';
   private readonly deleteFavoritePublicServiceUri = 'publicservice/deletepublicservicefavorite';
   private readonly deleteSchedulePaymentUri = 'schedulerpayment/deleteschedulerpayment';
+  private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
+  private readonly getAmountRechargeUri = 'publicservicebncr/amountsrecharge';
 
   // tslint:disable-next-line:variable-name max-line-length
   private _favoritesPublicService: Subject<PublicServiceFavoriteByUser> = new Subject<PublicServiceFavoriteByUser>();
@@ -72,6 +76,16 @@ export class FavoritesManagementService {
     return this._favoritesPublicService.asObservable();
   }
 
+  // tslint:disable-next-line:variable-name
+  _result: { status: 'success' | 'error'; message: string; title: string };
+  get result(): { status: 'success' | 'error'; message: string; title: string } {
+    return this._result;
+  }
+
+  set result(result: { status: 'success' | 'error'; message: string; title: string }) {
+    this._result = result;
+  }
+  
   // tslint:disable-next-line:max-line-length
   get valuesFromFavorites(): {
     publicServiceCategoryId: number;
@@ -148,8 +162,8 @@ export class FavoritesManagementService {
     this.__confirmUpdate.next({confirm});
   }
 
-  updating() {
-    this.__update.next();
+  updating(value = false) {
+    this.__update.next(value);
   }
 
   emitUpdateSuccessAlert() {
@@ -186,6 +200,33 @@ export class FavoritesManagementService {
     return this.httpService.post('canales', this.deleteSchedulePaymentUri, {
       schedulerPayId
     });
+  }
+
+  getCuotaCalculator(amount: string): Observable<PaymentQuota[]>{
+    return this.httpService.post('incomex', this.getQuotaCalculatorUri, {
+      transaction : '1',
+      amount,
+      productId : 5
+    }).pipe(
+        map(response => {
+          if ( response ) {
+            return response.listQuota;
+          }
+        })
+      );
+  }
+
+  getAmountRecharge(): Observable<any> {
+    return this.httpService.post('incomex', this.getAmountRechargeUri, {
+    }).pipe(
+      map(response => {
+        if ( response.type === 'success' ) {
+          return response.amounts;
+        } else {
+          return [];
+        }
+      })
+    );
   }
 
   unsubscribe() {

@@ -3,88 +3,88 @@
   <div class="receipt" fxLayout="column" fxLayoutGap="16px">
 
     <div class="receipt__info-table" fxLayout="column" fxLayoutGap="16px">
-      <span><strong>{{ popupTagsReceipt.subtitle1 || 'Datos generales'}}</strong></span>
+      <span><strong>{{ popupTagsReceipt?.subtitle1 || 'Datos generales'}}</strong></span>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span style="width: 80px">{{ popupTagsReceipt.tag1 || 'Institución' }}</span>
+        <span style="width: 80px">{{ popupTagsReceipt?.tag1 || 'Institución' }}</span>
         <span *ngFor="let institute of voucher.institution" class="tr" fxFlex>
           <strong>{{institute.companyCode}} {{institute.companyName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span style="width: 80px">{{ popupTagsReceipt.tag2 || 'Convenio' }}</span>
+        <span style="width: 80px">{{ popupTagsReceipt?.tag2 || 'Convenio' }}</span>
         <span *ngFor="let agreement of voucher.agreement" class="tr" fxFlex>
           <strong>{{agreement.contractCode}} {{agreement.contractName}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span style="width: 50px">{{ popupTagsReceipt.tag3 || 'Agencia' }}</span>
+        <span style="width: 50px">{{ popupTagsReceipt?.tag3 || 'Agencia' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.agencyCode}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span style="width: 50px">{{ popupTagsReceipt.tag4 || 'Cajero' }}</span>
+        <span style="width: 50px">{{ popupTagsReceipt?.tag4 || 'Cajero' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.cashier}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag5 || 'Moneda' }}</span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt?.tag5 || 'Moneda' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.currencyCode}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span style="width: 50px">{{ popupTagsReceipt.tag6 || 'Canal' }}</span>
+        <span style="width: 50px">{{ popupTagsReceipt?.tag6 || 'Canal' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.channelType}}</strong></span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span style="width: 50px">{{ popupTagsReceipt.tag7 || 'Cliente' }}</span>
+        <span style="width: 50px">{{ popupTagsReceipt?.tag7 || 'Cliente' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.clientName}}</strong></span>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag8 || 'Comprobante' }}</span>
+        <span class="receipt__tag">{{ popupTagsReceipt?.tag8 || 'Comprobante' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.transactionNumber}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag9 || 'No. factura' }}</span>
+        <span class="receipt__tag">{{ popupTagsReceipt?.tag9 || 'No. factura' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.billNumber}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag10 || 'Estado pago' }}</span>
+        <span class="receipt__tag">{{ popupTagsReceipt?.tag10 || 'Estado pago' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.paymentStatus}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="truncate" style="width: 150px">{{ popupTagsReceipt.tag11 || 'Fecha movimiento' }}</span>
+        <span class="truncate" style="width: 150px">{{ popupTagsReceipt?.tag11 || 'Fecha movimiento' }}</span>
         <span class="tr"
               fxFlex><strong>{{voucher.movementDate | dateFormatter: 'alphanumeric' }}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag12 || 'Vencimiento' }}</span>
+        <span class="receipt__tag">{{ popupTagsReceipt?.tag12 || 'Vencimiento' }}</span>
         <span class="tr" fxFlex>
           <strong>{{voucher.expirationDate | dateFormatter: 'alphanumeric'}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
         <span class="receipt__tag truncate">{{ voucher.institution[0].companyName === 'ICETEL' ? 'Mes al cobro'
-            : popupTagsReceipt.tag13 || 'Período' }}</span>
+            : popupTagsReceipt?.tag13 || 'Período' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.period | dateFormatter: 'yearMonth'}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag">{{ popupTagsReceipt.tag14 || 'No. servicio' }}</span>
+        <span class="receipt__tag">{{ popupTagsReceipt?.tag14 || 'No. servicio' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.reference}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span class="receipt__tag truncate">{{ popupTagsReceipt.tag15 || 'Tipo de valor' }}</span>
+        <span class="receipt__tag truncate">{{ popupTagsReceipt?.tag15 || 'Tipo de valor' }}</span>
         <span class="tr" fxFlex><strong>{{voucher.valorType}}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="16px">
-        <span fxFlex>{{ popupTagsReceipt.tag16 || 'Monto' }}</span>
+        <span fxFlex>{{ popupTagsReceipt?.tag16 || 'Monto' }}</span>
         <credix-numeric-block [prefix]="voucher.currencySymbol"
                               [value]="voucher.amount" fontWeight="bold"></credix-numeric-block>
       </div>
@@ -92,7 +92,7 @@
     </div>
 
     <div *ngIf="voucher.paymentConcepts" fxLayout="column" fxLayoutGap="16px">
-      <span><strong>{{ popupTagsReceipt.subtitle2 || 'Conceptos de pago'}}</strong></span>
+      <span><strong>{{ popupTagsReceipt?.subtitle2 || 'Conceptos de pago'}}</strong></span>
 
       <div *ngFor="let conceptPay of voucher.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between"
            fxLayoutGap="16px">
@@ -107,14 +107,14 @@
     <mat-divider credixDivider></mat-divider>
 
     <div *ngIf="voucher.paymentConcepts" fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex style="font-size: 22px;"><strong>{{popupTagsReceipt.subtitle3 || 'Total'}}</strong></span>
+      <span fxFlex style="font-size: 22px;"><strong>{{popupTagsReceipt?.subtitle3 || 'Total'}}</strong></span>
       <credix-numeric-block [fontSize]="22" [prefix]="voucher.currencySymbol"
                             [value]="voucher.amount" fontWeight="bold"></credix-numeric-block>
     </div>
 
     <div *ngIf="voucher.informativeConcepts" class="receipt__info-table" fxLayout="column"
          fxLayoutGap="16px">
-      <span><strong>{{ popupTagsReceipt.subtitle4 || 'Conceptos informativos'}}</strong></span>
+      <span><strong>{{ popupTagsReceipt?.subtitle4 || 'Conceptos informativos'}}</strong></span>
 
       <div *ngFor="let conceptInformative of voucher.informativeConcepts" fxLayout="row"
            fxLayoutAlign="space-between">
@@ -123,7 +123,7 @@
       </div>
     </div>
 
-    <p class="receipt__footer">{{ popupTagsReceipt.disclaimer ||
+    <p class="receipt__footer">{{ popupTagsReceipt?.disclaimer ||
     'Servicio brindado mediante convenio con el Banco Nacional de Costa Rica.'}}</p>
 
   </div>

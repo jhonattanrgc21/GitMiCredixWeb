@@ -13,7 +13,9 @@ import {Voucher} from '../../../../shared/models/voucher';
 import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
 import {Keys} from '../../../../shared/models/keys';
 import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
-
+import { PaymentQuota } from 'src/app/shared/models/payment-quota';
+import { environment } from 'src/environments/environment';
+import { AutomaticPayment } from 'src/app/shared/models/automatic-payment';
 const iconPerCategory = [
   {category: 'Recargas', icon: 'recargas'},
   {category: 'Telefonía', icon: 'telefonia'},
@@ -37,6 +39,13 @@ const iconPerCategory = [
   {category: 'Empresas de seguridad', icon: 'empresas_seguridad'}
 ];
 
+interface PublicServiceData {
+  categoryId: number,
+  enterpriseId: number,
+  serviceId: number,
+  reference: number,
+}
+
 @Injectable()
 export class PublicServicesService {
   private readonly getPendingReceiptsUri = 'publicservicebncr/pendingreceipts';
@@ -44,11 +53,72 @@ export class PublicServicesService {
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
+  private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
+  private _publicServiceData: PublicServiceData = {
+    categoryId: 0,
+    enterpriseId: 0,
+    serviceId: 0,
+    reference: 0,
+  };
+
   company: string;
   publicServiceIdByFavorite: number;
   phoneNumberByFavorite: string;
   keyTypeByFavorite: Keys[] = [];
+  paymentQuotaSummary: PaymentQuota = null;
+  paymentType: string;
+  automaticPayment: AutomaticPayment;
+  
+   // tslint:disable-next-line:variable-name
+   get publicServiceData(): PublicServiceData {
+    return this._publicServiceData;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceData(publicService: PublicServiceData) {
+    this._publicServiceData = publicService;
+  }
 
+  // tslint:disable-next-line:variable-name
+  set publicServiceCategory(category: number) {
+    this._publicServiceData.categoryId = category;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceCategory(): number {
+    return this._publicServiceData.categoryId;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceEnterprise(enterprise: number) {
+    this._publicServiceData.enterpriseId = enterprise;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceEnterprise(): number {
+    return this._publicServiceData.enterpriseId;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceService(service: number) {
+    this._publicServiceData.serviceId = service;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceService(): number {
+    return this._publicServiceData.serviceId;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set publicServiceReference(reference: number) {
+    this._publicServiceData.reference = reference;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceReference(): number {
+    return this._publicServiceData.reference;
+  }
+  
   // tslint:disable-next-line:variable-name
   private _isTabChanged = new Subject();
 // tslint:disable-next-line:variable-name
@@ -82,12 +152,12 @@ export class PublicServicesService {
   }
 
   // tslint:disable-next-line:variable-name
-  _payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' };
-  get payment(): { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' } {
+  _payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio', quota: number };
+  get payment(): { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio', quota: number } {
     return this._payment;
   }
 
-  set payment(payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' }) {
+  set payment(payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio', quota: number }) {
     this._payment = payment;
   }
 
@@ -169,7 +239,7 @@ export class PublicServicesService {
   }
 
   payPublicService(clientName: string, publicServiceId: number, serviceValue: string, currencyCode: string, amount: string,
-                   term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string, selfCode?: string):
+                   term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string, selfCode?: string, quota: number = 1):
     Observable<any> {
     return this.httpService.post('incomex', this.payPublicServiceUri, {
       cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId.toString(),
@@ -183,11 +253,12 @@ export class PublicServicesService {
       keyType,
       expirationDate,
       credixCode,
-      selfCode
+      selfCode,
+      quota,
     });
   }
 
-  savePublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, keyType: number, codeCredix: number):
+  savePublicServiceFavorite(publicServiceId: number, serviceReference: string, aliasName: string, keyType: number, codeCredix: number, quota: number):
     Observable<{ type: 'success' | 'error', status?: number, message: string, title: string }> {
     return this.httpService.post('canales', 'publicservice/savepublicservicefavorite', {
       accountId: this.storageService.getCurrentUser().actId,
@@ -197,12 +268,29 @@ export class PublicServicesService {
       userId: this.storageService.getCurrentUser().userId,
       aliasName,
       publicServiceAccessKeyId: keyType,
-      codeCredix
+      quota,
+      codeCredix,
     }).pipe(
       map(response => {
         return {type: response.type, title: response.titleOne, message: response.descriptionOne, status: response.status};
       }));
   }
+
+  getCuotaCalculator(amount: string): Observable<PaymentQuota[]>{
+    return this.httpService.post('incomex', this.getQuotaCalculatorUri, {
+      transaction : '1',
+      amount,
+      productId : 5
+    }).pipe(
+        map(response => {
+          if ( response ) {
+            return response.listQuota;
+          }
+        })
+      );
+  }
+
+  
 
   // getMinAmounts() {
   //   return this.httpService.post('incomex', this.getMinAmountsUri).pipe(map(response => {

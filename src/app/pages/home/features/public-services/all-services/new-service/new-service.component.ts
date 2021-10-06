@@ -10,6 +10,8 @@ import {ModalService} from '../../../../../../core/services/modal.service';
 import {Keys} from '../../../../../../shared/models/keys';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 @Component({
   selector: 'app-new-service',
@@ -22,10 +24,17 @@ export class NewServiceComponent implements OnInit {
     keysControl: new FormControl(null, [Validators.required])
   });
   confirmFormGroup: FormGroup = new FormGroup({
-    credixCode: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null),
     amount: new FormControl(null, [Validators.required])
   });
+  requestForm: FormGroup = new FormGroup({
+    term: new FormControl(null, [Validators.required])
+  });
+  confirmCodeFormGroup: FormGroup = new FormGroup({
+    credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+  });
+  buttonFormGroup: FormGroup = null;
+
   currencySymbol = '₡';
   saveAsFavorite = false;
   stepperIndex = 0;
@@ -48,23 +57,28 @@ export class NewServiceComponent implements OnInit {
   quantityOfKeys: number;
   publicServiceName: string;
   paymentType = '';
+  keyType: string = '';
+
   @ViewChild('newServiceStepper') stepper: CdkStepper;
 
   constructor(private publicServicesService: PublicServicesService,
               private publicServicesApiService: PublicServicesApiService,
               private router: Router,
+              private datePipe: DatePipe,
               private modalService: ModalService,
-              private credixCodeErrorService: CredixCodeErrorService) {
+              private credixCodeErrorService: CredixCodeErrorService,
+              private globalApi: GlobalApiService,) {
   }
 
   ngOnInit(): void {
+    this.buttonFormGroup = this.contractFormGroup;
+    this.publicServicesService.paymentType = 'Servicio';
     this.setErrorCredixCode();
     this.getPublicService();
+
   }
 
   getPublicService() {
-
-    console.log("Public Service: ", this.publicServicesService.publicService);
     if (this.publicServicesService.publicService) {
       this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
       this.keys = this.publicServicesService.publicService.keys;
@@ -82,6 +96,17 @@ export class NewServiceComponent implements OnInit {
         this.payService();
       }
     });
+  }
+
+  next() {
+    if ( this.stepperIndex === 1 ) {
+      this.buttonFormGroup = this.confirmCodeFormGroup;
+      this.continue();
+    } else {
+      this.buttonFormGroup = this.confirmFormGroup;      
+      this.keyType = this.keys.find(key => key.keyType === this.contractFormGroup.controls.keysControl.value).description;      
+      this.checkPendingReceipts();
+    }
   }
 
   checkPendingReceipts() {
@@ -138,7 +163,7 @@ export class NewServiceComponent implements OnInit {
   //       }
   //     });
   // }
-
+ 
   payService() {
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
@@ -150,11 +175,12 @@ export class NewServiceComponent implements OnInit {
       +this.contractFormGroup.controls.keysControl.value,
       this.receiptValues.expirationDate,
       this.receiptValues.billNumber,
-      this.confirmFormGroup.controls.credixCode.value,
-      this.receiptValues.selfCode
+      this.confirmCodeFormGroup.controls.credixCode.value,
+      this.receiptValues.selfCode,
+      this.publicServicesService.paymentQuotaSummary.quotaTo,
       )
       .pipe(finalize(() => {
-        if (this.confirmFormGroup.controls.credixCode.valid) {
+        if (this.confirmCodeFormGroup.controls.credixCode.valid) {
           this.router.navigate(['/home/public-services/success']);
         }
       }))
@@ -173,7 +199,8 @@ export class NewServiceComponent implements OnInit {
           currencySymbol: this.currencySymbol,
           amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount?.value),
           contract: this.contractFormGroup.controls.contractControl.value,
-          type: 'Servicio'
+          type: 'Servicio',
+          quota: this.requestForm.controls.term.value,
         };
 
         this.publicServicesService.voucher = {
@@ -197,7 +224,6 @@ export class NewServiceComponent implements OnInit {
           informativeConcepts: response.informativeConcepts,
           currencySymbol: this.currencySymbol
         };
-
       });
   }
 
@@ -214,10 +240,17 @@ export class NewServiceComponent implements OnInit {
       this.contractFormGroup.controls.contractControl.value,
       this.confirmFormGroup.controls.favorite.value,
       this.contractFormGroup.controls.keysControl.value,
-      this.confirmFormGroup.controls.credixCode.value).subscribe();
+      this.confirmCodeFormGroup.controls.credixCode.value,
+      this.publicServicesService.paymentQuotaSummary.quotaTo).subscribe();
   }
 
-  back() {
+  back() { 
+    if ( this.stepperIndex === 1 ) {
+      this.buttonFormGroup = this.contractFormGroup;
+    } else if ( this.stepperIndex === 2 ) {
+      this.buttonFormGroup = this.confirmFormGroup;
+    }
+
     this.stepperIndex === 0 ? this.router.navigate(['/home/public-services']) : this.stepper.previous();
     this.stepperIndex = this.stepper.selectedIndex;
   }
@@ -229,8 +262,8 @@ export class NewServiceComponent implements OnInit {
 
   setErrorCredixCode() {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.confirmFormGroup.controls.credixCode.setErrors({invalid: true});
-      this.confirmFormGroup.updateValueAndValidity();
+      this.confirmCodeFormGroup.controls.credixCode.setErrors({invalid: true});
+      this.confirmCodeFormGroup.updateValueAndValidity();
     });
   }
 }

@@ -3,7 +3,9 @@
   height: 100%;
 
   &__container {
-    padding: 0 84px;
+    padding: 0 83px 0 85px;
+
+    height: 565px !important;
   }
 
   &__form {
@@ -11,8 +13,39 @@
 
     &__input {
       height: 44px;
+      margin-bottom: 10.5px !important;
     }
   }
+
+  &__content {
+    width: 100%;
+    padding-bottom: 16px;
+
+    &:not(:first-of-type) {
+      padding-top: 16px;
+    }
+
+    &__input {
+      height: 43px;
+      width: 360px;
+
+      &.favorite {
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+::ng-deep.credix-stepper__nav-bar__step {
+  margin-right: 150px !important;
+}
+
+.options {
+  //height: calc(495px - 66px);
+  height: 565px !important;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 @media screen and (max-width: 1199px) {
