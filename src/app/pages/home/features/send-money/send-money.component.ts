@@ -12,6 +12,7 @@ import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {finalize} from 'rxjs/operators';
 import {AccountApiService} from '../../../../core/services/account-api.service';
 import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-send-money',
@@ -150,7 +151,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit, OnDestroy {
       ConvertStringAmountToNumber(this.amountAndQuotaForm.controls.amount.value),
       this.informationForm.controls.account.value.ibanAccount.trim(),
       this.typeDestination,
-      this.informationForm.controls.account.value.aliasName.trim(),
+      !this.informationForm.controls.account.value.aliasName ? 'Temporal' : this.informationForm.controls.account.value.aliasName.trim(),
       this.amountAndQuotaForm.controls.quotas.value.toString(),
       this.commission,
       this.total,
