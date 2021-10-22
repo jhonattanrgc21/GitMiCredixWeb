@@ -46,7 +46,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   quotas: Quota[] = [];
   amountSliderStep = 1;
   amountSliderMin = 0;
-  amountSliderMax = 1;
+  amountSliderMax = 0;
   termSliderStep = 1;
   termSliderMin = 3;
   termSliderMax = 12;
@@ -71,11 +71,22 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cardLimit) {
       if (this.cardLimit >= MIN_AMOUNT && this.cardLimit < CENTER_AMOUNT) {
-        this.amountSliderMax = Math.trunc(this.cardLimit / FIRST_STEP) + 1;
+          this.amountSliderMax = Math.trunc((this.cardLimit - MIN_AMOUNT) / FIRST_STEP) +1 ;
+          if(this.cardLimit == MIN_AMOUNT){
+            this.amountSliderMax--;
+            console.log('aqui');
+            console.log(this.amountSliderMax );
+          }
       } else if (this.cardLimit >= CENTER_AMOUNT && this.cardLimit < MAX_AMOUNT) {
-        this.amountSliderMax = 20 + Math.trunc((this.cardLimit - CENTER_AMOUNT) / SECOND_STEP) + 1;
+        this.amountSliderMax = 20 + Math.trunc((this.cardLimit - CENTER_AMOUNT) / SECOND_STEP) +1 ;
+        if(this.cardLimit == CENTER_AMOUNT){
+          this.amountSliderMax--;
+        }
       } else {
-        this.amountSliderMax = 20 + 14 + Math.trunc((this.cardLimit - MAX_AMOUNT) / THIRD_STEP) + 1;
+        this.amountSliderMax = 34 + Math.trunc((this.cardLimit - MAX_AMOUNT) / THIRD_STEP) + 1;
+        if(this.cardLimit == MAX_AMOUNT){
+          this.amountSliderMax--;
+        }
       }
     }
   }
@@ -108,15 +119,14 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
 
   getAmount(sliderValue) {
     let amount: number;
-
-    if (sliderValue <= 20) {
-      amount = MIN_AMOUNT + (sliderValue * FIRST_STEP);
-    } else if (sliderValue > 20 && sliderValue <= 34) {
-      amount = CENTER_AMOUNT + (SECOND_STEP * (sliderValue - 20));
-    } else if (sliderValue > 34 && sliderValue !== this.amountSliderMax) {
-      amount = MAX_AMOUNT + (THIRD_STEP * (sliderValue - 34));
-    } else {
+    if(sliderValue === this.amountSliderMax){
       amount = this.cardLimit;
+    }else if (sliderValue <= 19) {
+      amount = MIN_AMOUNT + (sliderValue * FIRST_STEP);
+    } else if (sliderValue >= 20 && sliderValue < 34) {
+      amount = CENTER_AMOUNT + (SECOND_STEP * (sliderValue - 20));
+    } else if (sliderValue >= 34) {
+      amount = MAX_AMOUNT + (THIRD_STEP * (sliderValue - 34));
     }
 
     this.amountControl.setValue(amount);
