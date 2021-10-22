@@ -30,6 +30,12 @@ export class CredixSliderComponent implements OnInit {
   constructor() {
   }
 
+  ngOnChanges(simple: SimpleChanges) {
+    if ( simple.displayValue.currentValue === 0 ) {
+      this.value = 0;
+    }
+  }
+
   ngOnInit(): void {
     this.showMinWrapper = !!this.minWrapper.nativeElement.innerHTML;
     this.showMaxWrapper = !!this.maxWrapper.nativeElement.innerHTML;
@@ -38,6 +44,7 @@ export class CredixSliderComponent implements OnInit {
   valueChangeEvent(event) {
     this.value = event.value;
     this.valueChange.emit(this.value);
+
   }
 
   inputChangeEvent(event) {
