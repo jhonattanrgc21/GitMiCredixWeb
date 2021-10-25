@@ -58,7 +58,7 @@ const routes: Routes = [
       },
       {
         path: 'extend-term',
-        loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule)
+        loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule)
       },
       {
         path: 'change-password',
@@ -84,6 +84,10 @@ const routes: Routes = [
       {
         path: 'current-pin',
         loadChildren: () => import('./features/pin-code/pin-code.module.js').then(m => m.PinCodeModule)
+      },
+      {
+        path: 'extend-term-total-owed',
+        loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule)
       },
     ]
   }
