@@ -1,25 +1,25 @@
-<mat-card class="previous-extend" credixCard fxLayout="column" fxLayoutGap="16px">
+<mat-card *ngIf="!done" class="extend-term" credixCard fxLayout="column" fxLayoutGap="16px">
     <h1>Ampliar plazo del total adeudado</h1>
-    <p>Haga su cuota más pequeña, ampliando el plazo de su total adeudado o compras individuales.</p>
+    <p>Haga su cuota más pequeña, ampliando el plazo de su total adeudado.</p>
     
     <mat-divider credixDivider></mat-divider>
 
-    <div class="previous-extend__content" fxLayout="column" fxLayoutGap="10px" fxFlex>
+    <div class="extend-term__content" fxLayout="column" fxLayoutGap="10px" fxFlex>
       <div fxLayout="column" fxLayoutAlign="" fxLayoutGap="8px">
-        <div [ngClass]="['previous-extend__content__pending', hasMinimunPayment === 0 ? 'mb-32' : '']" fxLayout="row" fxLayoutAlign="space-between" >
-            <div fxFlex="350px">
-              <span><strong>Total adeudado</strong></span>
-              <p class="mt-4">Si tiene productos financiados, el total adeudado incluye intereses a hoy.</p>
-            </div>
-            <credix-numeric-block [value]="'350000'" class="tr"
-                fontSize="24"
-                fontWeight="bold"
-                fxFlex="25"
-                prefix="₡">
-            </credix-numeric-block>
+        <div [ngClass]="['extend-term__content__pending', hasMinimunPayment !== 0 ? '' : 'mb-13']" fxLayout="row" fxLayoutAlign="space-between" >
+          <div fxFlex="350px">
+            <span><strong>Total adeudado</strong></span>
+            <p class="mt-4">Si tiene productos financiados, el total adeudado incluye intereses a hoy.</p>
+          </div>
+          <credix-numeric-block [value]="purchaseAmount" class="tr"
+              fontSize="24"
+              fontWeight="bold"
+              fxFlex="25"
+              prefix="₡">
+          </credix-numeric-block>
         </div>
         <ng-container *ngIf="hasMinimunPayment !== 0">
-          <div class="previous-extend__content__pending" fxLayout="row" fxLayoutAlign="space-between">
+          <div class="extend-term__content__pending" fxLayout="row" fxLayoutAlign="space-between">
               <div fxFlex="350px">
                 <span><strong>Pago mínimo requerido</strong></span>
                 <p class="mt-4">Este pago es requerido antes de poder ampliar el plazo de su total adeudado. Lo puede pagar usando el medio de su preferencia o usando el link de pagar tarjeta.</p>
@@ -27,7 +27,7 @@
   
               <div fxLayout="column" fxLayoutGap="11.5px" fxLayoutAlign="flex-start flex-end">
                 <div>
-                  <credix-numeric-block [value]="'350000'" class="tr"
+                  <credix-numeric-block [value]="minimunPayment" class="tr"
                       fontSize="24"
                       fontWeight="bold"
                       fxFlex="25"
@@ -39,11 +39,11 @@
                 </credix-link-button>
               </div>
           </div>
-          <div class="previous-extend__content__pending" style="padding-bottom: 26.5px;" fxLayout="row" fxLayoutAlign="space-between">
+          <div class="extend-term__content__pending" style="padding-bottom: 26.5px;" fxLayout="row" fxLayoutAlign="space-between">
             <div fxFlex="350px">
               <span><strong>Total adeudado restante</strong></span>
             </div>
-            <credix-numeric-block [value]="'350000'" class="tr"
+            <credix-numeric-block [value]="pendingPayment" class="tr"
                 fontSize="24"
                 fontWeight="bold"
                 fxFlex="25"
@@ -52,34 +52,33 @@
           </div>
         </ng-container>
       </div>
-        <mat-divider></mat-divider>
-        <div class="previous-extend__content__option" fxLayout="row" fxLayoutAlign="space-between">
-            <span><strong>{{ subtitleTag ||  'Modifique su plazo' }}</strong></span>
-            <credix-slider fxFlex="400px" (inputChange)="getQuota($event)"
-                   (valueChange)="getQuota($event)"
-                   [displayMax]="termSliderDisplayMax"
-                   [displayMin]="termSliderDisplayMin"
-                   [displayValue]="termSliderDisplayValue"
-                   [max]="termSliderMax"
-                   [min]="termSliderMin"
-                   [step]="termSliderStep"
-                   instructions="{{ deseoTag || 'Deseo ampliar este plapo a' }}"
-                   [units]="movementQuotaSummary?.quotaTo > 1 ? 'Meses' : 'Mes'"></credix-slider>
-            <div fxFlex="110px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
-                <span>Cuotas de:</span>
-                <credix-numeric-block [value]="movementQuotaSummary?.amountPerQuota" class="tr"
-                    fontSize="24"
-                    fontWeight="bold"
-                    fxFlex="25"
-                    prefix="₡">
-                </credix-numeric-block>
-                <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
-            </div>
+      <mat-divider></mat-divider>
+      <div class="extend-term__content__option" fxLayout="row" fxLayoutAlign="space-between">
+        <span><strong>{{ subtitleTag ||  'Modifique su plazo' }}</strong></span>
+        <credix-slider fxFlex="400px" (inputChange)="getQuota($event)"
+                (valueChange)="getQuota($event)"
+                [displayMax]="termSliderDisplayMax"
+                [displayMin]="termSliderDisplayMin"
+                [displayValue]="termSliderDisplayValue"
+                [max]="termSliderMax"
+                [min]="termSliderMin"
+                [step]="termSliderStep"
+                instructions="{{ deseoTag || 'Deseo ampliar este plapo a' }}"
+                [units]="movementQuotaSummary?.quotaTo > 1 ? 'Meses' : 'Mes'"></credix-slider>
+        <div fxFlex="110px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
+            <span>Cuotas de:</span>
+            <credix-numeric-block [value]="movementQuotaSummary?.amountPerQuota" class="tr"
+                fontSize="24"
+                fontWeight="bold"
+                fxFlex="25"
+                prefix="₡">
+            </credix-numeric-block>
+            <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
         </div>
+      </div>
     </div>
-
     <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-        <credix-button>Ampliar plazo</credix-button>
+      <credix-button (click)="saveQuota()">Ampliar plazo</credix-button>
     </div>
 </mat-card>
 
@@ -101,7 +100,7 @@
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ comissionTag || 'Comisión' }} {{ '(' + movementQuotaSummary?.commissionPercentage + '%)' }}*
+            <span fxFlex>{{ comissionTag || 'Comisión' }} {{ '(' + movementQuotaSummary?.commissionPercentage + '%)' }}
             </span>
             <credix-numeric-block
               [value]="movementQuotaSummary?.commissionAmount"
@@ -129,7 +128,7 @@
         </div>
     
         <p fxFlex style="color: #707070; font-size: 14px !important; margin-bottom: 26px !important">
-          * IVA y comisión se cargarán en el próximo estado de cuenta.
+          * IVA se cargará en el próximo estado de cuenta.
         </p>
     
         <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">
@@ -142,3 +141,14 @@
         </div>
     </div>
 </ng-template>
+
+<ng-template #disabledTemplate>
+  <app-credix-result-view [resultMessage]="message"
+  [resultTile]="title"
+  [moduleTitle]="'Ampliación de plazo'"
+  buttonText="Listo"
+  routeTo="/home"
+  status="error"></app-credix-result-view>
+</ng-template>
+
+<ng-container [ngTemplateOutlet]="template"></ng-container>

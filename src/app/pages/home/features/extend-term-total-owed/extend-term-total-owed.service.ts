@@ -9,6 +9,8 @@ import {map} from 'rxjs/operators';
 export class ExtendTermTotalOwedService {
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
   private readonly saveExtendTotalDebitUri = 'account/saveentendtotaldebit';
+  private readonly cutDateUri = 'channels/cutdateextermterm';
+
   public result: {title: string, message: string, status: string} = null;
   public newQuota: {amount: string, quota: number, currency: string,} = null;
 
@@ -16,8 +18,11 @@ export class ExtendTermTotalOwedService {
     private httpService: HttpService,
   ) { }
 
-
-  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, listQuota: any}> {
+  checkCutDate() {
+    return this.httpService.post('canales', this.cutDateUri);
+  }
+  
+  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, minimunPayment: string, listQuota: any}> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,
       transaction : '1'

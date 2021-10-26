@@ -6,6 +6,7 @@ import { TagsService } from 'src/app/core/services/tags.service';
 import { ExtendTermQuota } from 'src/app/shared/models/extend-term-quota';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { Tag } from 'src/app/shared/models/tag';
+import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 import { ExtendTermTotalOwedService } from './extend-term-total-owed.service';
 
 @Component({
@@ -37,9 +38,17 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   quotas: PaymentQuota[];
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
-  hasMinimunPayment: number = 0;
+  minimunPayment: string = '';
+  pendingPayment: string = '';
+  hasMinimunPayment: number = 1;
+  message: string = '';
+  title: string = '';
+  template: TemplateRef<any>;
+  done: boolean = false;
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
+  @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
+
 
   constructor(
     private modalService: ModalService,
@@ -49,10 +58,23 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+    this.checkCutDate();
+
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
     this.getQuotas();
+  }
+
+  checkCutDate() {
+    this.extendTermTotalOwedService.checkCutDate().subscribe(response => {
+      console.log("response: ", response);
+      if (!response.status) {
+        this.message = 'Para ampliar el plazo de su total adeudado debe realizarlo 3 días antes de su fecha de corte.';
+        this.title = response.titleOne;
+        this.done = true;
+        this.template = this.disabledTemplate;
+      }
+    });
   }
 
   getQuotas() {
@@ -63,6 +85,10 @@ export class ExtendTermTotalOwedComponent implements OnInit {
             console.log("response: ", response);
             if ( response.listQuota.length > 0 ) {
               this.purchaseAmount = response.purchaseAmount;
+              this.minimunPayment = response.minimunPayment;
+              console.log("covertString: ", ConvertStringAmountToNumber(this.purchaseAmount));
+              this.pendingPayment = response.purchaseAmount;
+              // this.pendingPayment = ConvertStringAmountToNumber(this.purchaseAmount) - ConvertStringAmountToNumber(this.minimunPayment);
               this.quotas = response.listQuota.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
@@ -84,15 +110,14 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   }
 
   saveQuota() {
-    this.extendTermTotalOwedService.saveExtendTotalDebit(
-      this.movementQuotaSummary.quotaTo,
-      2004)
-      .pipe(finalize(() => this.router.navigate([`/home/extend-term/previous-extend-success`])))
-        .subscribe(response => {
+ 
           this.extendTermTotalOwedService.result = {
-            status: response.status,
-            message: response.message,
-            title: response.title,
+            status: 'success',
+            message: 'El plazo de su total adeudado ha sido extendido correctamente. Estará reflejado en su próximo estado de cuenta. Le estaremos enviando un correo con los detalles del producto próximamente.',
+            title: 'success',
+            // status: 'error',
+            // message: 'Para ampliar el plazo de su total adeudado debe realizarlo 3 días antes de su fecha de corte.',
+            // title: 'error',
           };
 
           this.extendTermTotalOwedService.newQuota = {
@@ -100,8 +125,28 @@ export class ExtendTermTotalOwedComponent implements OnInit {
             amount: this.movementQuotaSummary.amountPerQuota,
             quota: this.movementQuotaSummary.quotaTo,
           };
-        });
+
+          this.router.navigate([`/home/extend-term/extend-term-total-notification`])
   }
+  // saveQuota() {
+  //   this.extendTermTotalOwedService.saveExtendTotalDebit(
+  //     this.movementQuotaSummary.quotaTo,
+  //     2004)
+  //     .pipe(finalize(() => this.router.navigate([`/home/extend-term/previous-extend-success`])))
+  //       .subscribe(response => {
+  //         this.extendTermTotalOwedService.result = {
+  //           status: response.status,
+  //           message: response.message,
+  //           title: response.title,
+  //         };
+
+  //         this.extendTermTotalOwedService.newQuota = {
+  //           currency: '₡',
+  //           amount: this.movementQuotaSummary.amountPerQuota,
+  //           quota: this.movementQuotaSummary.quotaTo,
+  //         };
+  //       });
+  // }
 
   openSummary() {
     this.modalService.open({

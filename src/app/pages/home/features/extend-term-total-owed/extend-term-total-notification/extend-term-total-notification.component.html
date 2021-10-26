@@ -3,15 +3,18 @@
                         [status]="status"
                         [moduleTitle]="titleTag || 'Ampliar plazo del total adeudado'"
                         buttonText="Listo"
-                        routeTo="/home/extend-term-total-owed">
+                        routeTo="/home/extend-term-total-owed"
+                        [ngClass]="status === 'success' ? 'notification-success' : 'notification-error'">
 
   <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+    
     <mat-divider class="mb-24px" credixDivider></mat-divider>
 
-    <div fxLayout="row" fxLayoutAlign="space-between">
+    <div fxLayout="row" style="padding: 0 22px;" fxLayoutAlign="space-between">
       <span fxFlex="175px"><strong>Datos de la ampliación</strong></span>
 
-      <div fxLayout="column" fxLayoutGap="8px">
+      <div fxFlex="200px" fxLayout="column" fxLayoutGap="8px">
+
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>{{newQuotaTag || 'Cuota nueva'}}</span>
           <credix-numeric-block [prefix]="currency"
@@ -21,7 +24,7 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>Plazo nuevo</span>
-          <span><strong>{{ quota }} Cuota</strong></span>
+          <span><strong>{{ quota }} {{ quota > 1 ? 'Cuotas' : 'Cuota'  }}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
@@ -31,6 +34,7 @@
 
       </div>
     </div>
+
 
     <credix-share-button fxFlexAlign="center" style="margin-top: 90px"></credix-share-button>
   </div>

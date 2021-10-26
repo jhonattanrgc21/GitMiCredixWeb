@@ -42,7 +42,7 @@ const routes: Routes = [{
   path: '',
   component: ExtendTermTotalOwedComponent,
 }, {
-  path: '/extend-term-total-notification',
+  path: 'extend-term-total-notification',
   component: ExtendTermTotalNotificationComponent,
 }];
 
