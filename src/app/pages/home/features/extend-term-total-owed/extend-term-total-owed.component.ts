@@ -7,6 +7,7 @@ import { ExtendTermQuota } from 'src/app/shared/models/extend-term-quota';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { Tag } from 'src/app/shared/models/tag';
 import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
+import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
 import { ExtendTermTotalOwedService } from './extend-term-total-owed.service';
 
 @Component({
@@ -38,13 +39,14 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   quotas: PaymentQuota[];
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
-  minimunPayment: string = '';
+  minimumPayment: string = '';
   pendingPayment: string = '';
   hasMinimunPayment: number = 1;
   message: string = '';
   title: string = '';
   template: TemplateRef<any>;
   done: boolean = false;
+  isEmpty: boolean = false;
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
@@ -71,8 +73,9 @@ export class ExtendTermTotalOwedComponent implements OnInit {
       if (!response.status) {
         this.message = 'Para ampliar el plazo de su total adeudado debe realizarlo 3 días antes de su fecha de corte.';
         this.title = response.titleOne;
-        this.done = true;
-        this.template = this.disabledTemplate;
+        // this.done = true;
+        // this.template = this.disabledTemplate;
+        // this.isEmpty = true;
       }
     });
   }
@@ -85,10 +88,11 @@ export class ExtendTermTotalOwedComponent implements OnInit {
             console.log("response: ", response);
             if ( response.listQuota.length > 0 ) {
               this.purchaseAmount = response.purchaseAmount;
-              this.minimunPayment = response.minimunPayment;
+              this.minimumPayment = response.minimumPayment;
               console.log("covertString: ", ConvertStringAmountToNumber(this.purchaseAmount));
+              console.log("covertString: ", this.minimumPayment);
               this.pendingPayment = response.purchaseAmount;
-              // this.pendingPayment = ConvertStringAmountToNumber(this.purchaseAmount) - ConvertStringAmountToNumber(this.minimunPayment);
+              this.pendingPayment =  ConvertNumberToStringAmount((ConvertStringAmountToNumber(this.purchaseAmount) - ConvertStringAmountToNumber(this.minimumPayment)));
               this.quotas = response.listQuota.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
@@ -155,6 +159,10 @@ export class ExtendTermTotalOwedComponent implements OnInit {
     },
     {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'}
     )
+  }
+
+  redirect() {
+
   }
 
   getTags(tags: Tag[]) {

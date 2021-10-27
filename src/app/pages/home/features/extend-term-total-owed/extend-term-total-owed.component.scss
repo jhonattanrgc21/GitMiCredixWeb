@@ -8,6 +8,13 @@
         color: #3E3E3E;
     }
 
+    &__empty {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
     &__content {
         margin-left: 83px;
         margin-right: 85px;
@@ -52,7 +59,21 @@
                 font-size: 14px !important;
             }
         }
-    }   
+    }
+
+    credix-result-notification ::ng-deep.credix-result-notification__message {
+        width: 287px !important;
+    }
+
+    &__footer {
+        width: 70%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 16px;
+        border-top: 1px solid #E9E9E9;
+        width: 100%;
+      } 
 }
 
 .mt-4 {

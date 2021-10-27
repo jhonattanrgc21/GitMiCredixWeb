@@ -22,7 +22,7 @@ export class ExtendTermTotalOwedService {
     return this.httpService.post('canales', this.cutDateUri);
   }
   
-  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, minimunPayment: string, listQuota: any}> {
+  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, minimumPayment: string, listQuota: any}> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,
       transaction : '1'
