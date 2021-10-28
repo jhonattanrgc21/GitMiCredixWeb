@@ -48,6 +48,14 @@
           prefix="₡"></credix-numeric-block>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>{{step4TagDom || 'Envío a domicilio'}}</span>
+        <credix-numeric-block
+          [value]="deliveryAmount"
+          fontWeight="bold"
+          prefix="₡">
+        </credix-numeric-block>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
         <span>{{step4TagIva || 'IVA'}}</span>
         <credix-numeric-block
           [value]="iva"

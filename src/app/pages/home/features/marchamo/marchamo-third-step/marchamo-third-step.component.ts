@@ -42,41 +42,69 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   optionOneTag: string;
   optionTwoTag: string;
   firstSubtitle: string;
+  //new tags marchamos
+  deliveryAmount: string;
+  leyendTag: string;
+  totalAmount = 0;
 
   constructor(private httpService: HttpService,
               private modalService: ModalService,
               private channelsApiService: ChannelsApiService,
               private marchamoService: MarchamoService,
               private storageService: StorageService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,) {
   }
 
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+    
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.isActive && this.isActive) {
       this.getUserAddress();
       this.pickUpForm.controls.person.setValue(this.storageService.getCurrentUser().aplicantName);
+      this.totalAmount = this.marchamoService.consultVehicle.amount;
     }
   }
 
+ 
+
   placesRadioButtonChanged(value: number) {
     this.placeRadioButton = value;
+    
     if (value === 1) {
       this.getDeliveryPlaces();
       this.pickUpForm.controls.deliveryPlace.setValidators([Validators.required]);
       this.pickUpForm.controls.phoneNumber.clearValidators();
       this.pickUpForm.controls.person.clearValidators();
+      this.deliveryAmount = "0";
     } else {
       this.pickUpForm.controls.deliveryPlace.clearValidators();
       this.pickUpForm.controls.phoneNumber.setValidators([Validators.required]);
       this.pickUpForm.controls.person.setValidators([Validators.required]);
     }
     this.pickUpForm.updateValueAndValidity();
+  }
+
+  eventClick(checked) {
+
+    if (checked) {
+      this.deliveryAmount = localStorage.getItem("delivery");
+      localStorage.setItem("delivery2", this.deliveryAmount);
+      //console.log(this.deliveryAmount);
+      return;      
+    }
+  }
+
+  eventClick2(checked) {
+    if (checked) {
+      localStorage.setItem("delivery2", "0");
+      //console.log(this.deliveryAmount);
+      return;
+    }
   }
 
   domicileRadioButtonChanged(value: number) {
@@ -147,11 +175,13 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   getTags(tags: Tag[]) {
-    this.secondSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle2')?.value;
-    this.subOptionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option2')?.value;
-    this.subOptionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1.option1')?.value;
-    this.optionOneTag = tags.find(tag => tag.description === 'marchamo.stepper3.option1')?.value;
-    this.optionTwoTag = tags.find(tag => tag.description === 'marchamo.stepper3.option2')?.value;
-    this.firstSubtitle = tags.find(tag => tag.description === 'marchamo.stepper3.subtitle1')?.value;
+    this.secondSubtitle = tags.find(tag => tag.description === 'marchamos.stepper3.subtitle2')?.value;
+    this.subOptionTwoTag = tags.find(tag => tag.description === 'marchamos.stepper3.option1.option2')?.value;
+    this.subOptionOneTag = tags.find(tag => tag.description === 'marchamos.stepper3.option1.option1')?.value;
+    this.optionOneTag = tags.find(tag => tag.description === 'marchamos.stepper3.option1')?.value;
+    this.optionTwoTag = tags.find(tag => tag.description === 'marchamos.stepper3.option2')?.value;
+    this.firstSubtitle = tags.find(tag => tag.description === 'marchamos.stepper3.subtitle1')?.value;
+    this.leyendTag = tags.find(tag => tag.description === 'marchamos.deliveryAmount.leyend')?.value;
   }
+
 }
