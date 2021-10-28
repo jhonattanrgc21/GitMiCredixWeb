@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ExtendTermTotalOwedApiService } from 'src/app/core/services/extend-term-total-owed-apoi.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { Tag } from 'src/app/shared/models/tag';
-import { ExtendTermTotalOwedService } from '../extend-term-total-owed.service';
 
 @Component({
   selector: 'app-extend-term-total-notification',
@@ -23,21 +24,25 @@ export class ExtendTermTotalNotificationComponent implements OnInit {
   dateTag: string;
 
   constructor(
-    private extendTermTotalOwedService: ExtendTermTotalOwedService,
+    private extendTermTotalOwedService: ExtendTermTotalOwedApiService,
     private tagsService: TagsService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
 
+    if ( !this.extendTermTotalOwedService.result ) {
+      this.router.navigate(['/home/extend-term-total-owed']);
+    }
+    
     this.currency = this.extendTermTotalOwedService.newQuota?.currency;
     this.amount = this.extendTermTotalOwedService.newQuota?.amount;
     this.quota = this.extendTermTotalOwedService.newQuota?.quota;
     this.status = this.extendTermTotalOwedService.result.status;
     this.message = this.extendTermTotalOwedService.result.message;
-
+  
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
-
   }
 
   getTags(tags:Tag[]) {
@@ -47,5 +52,7 @@ export class ExtendTermTotalNotificationComponent implements OnInit {
     this.titleTag = tags.find(tag => tag.description === 'ampliar.title')?.value;
   }
 
+  ngOnDestroy(): void {
+  }
 
 }

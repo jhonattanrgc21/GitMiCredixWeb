@@ -74,6 +74,16 @@ export class MenuOptionComponent implements OnInit {
               func.link = '/home/current-pin';
             }
 
+            if ( func.description === 'Ampliar plazo de compra') {
+              this.submenus.push({
+                id: func.id,
+                name: 'Amplar plazo del total adeudado',
+                route: func.link,
+                icon: func.iconAddress,
+                parentId: func.superiorFuncionality
+              });
+            }
+
             this.submenus.push({
               id: func.id,
               name: func.description,
@@ -88,6 +98,21 @@ export class MenuOptionComponent implements OnInit {
       this.menus.forEach(menu => {
         if (menu.id !== 1) {
           menu.submenus = this.submenus.filter(sub => sub.parentId === menu.name);
+
+          if ( menu.name === 'Productos' ) {
+            let aux = Object.assign({}, menu.submenus[3]);
+
+            menu.submenus[3] = {
+              icon: "anticipated_canc",
+              id: 18,
+              name: 'Ampliar plazo del total adeudado',
+              parentId: 'Productos',
+              route: "/home/extend-term-total-owed"
+            };
+
+            menu.submenus.push( Object.assign({}, aux) );
+
+          }
         }
       });
 
@@ -171,7 +196,7 @@ export class MenuOptionComponent implements OnInit {
 
 }
 
-const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar plazo de compra', 'Cancelación anticipada'];
+const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar plazo de compra', 'Ampliar plazo total adeudado', 'Cancelación anticipada'];
 const payOrdering = ['Servicios', 'Pagar tarjeta', 'Marchamo', 'Enviar dinero', 'Reportar transferencia', 'Lugares de pago'];
 
 export const menus: Menu[] = [
@@ -191,6 +216,7 @@ export const submenus = [
   {id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit', parentId: 'Productos'},
   {id: 8, name: 'Compra sin tarjeta', route: '/home/buy-without-card', icon: 'code', parentId: 'Productos'},
   {id: 9, name: 'Ampliar plazo de compra', route: '/home/extend-term', icon: 'anticipated_canc', parentId: 'Productos'},
+  {id: 18, name: 'Ampliar plazo total adeudado', route: '/home/extend-term-total-owed', icon: 'anticipated_canc', parentId: 'Productos'},
   {id: 10, name: 'Cancelación anticipada', route: '/home/anticipated-cancellation', icon: 'anticipated_canc', parentId: 'Productos'},
   {id: 11, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data', parentId: 'Mi Cuenta'},
   {id: 12, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites', parentId: 'Mi Cuenta'},

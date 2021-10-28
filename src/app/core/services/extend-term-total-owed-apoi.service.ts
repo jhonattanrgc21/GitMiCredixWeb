@@ -1,17 +1,27 @@
 import { Injectable } from '@angular/core';
-import {HttpService} from '../../../../core/services/http.service';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import { HttpService } from './http.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ExtendTermTotalOwedService {
+@Injectable()
+export class ExtendTermTotalOwedApiService {
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
   private readonly saveExtendTotalDebitUri = 'account/saveentendtotaldebit';
   private readonly cutDateUri = 'channels/cutdateextermterm';
 
-  public result: {title: string, message: string, status: string} = null;
+  // public result: {title: string, message: string, status: string} = null;
+
+  // tslint:disable-next-line:variable-name
+  public _result: { status: 'success' | 'error'; message: string };
+
+  get result(): { status: 'success' | 'error'; message: string } {
+    return this._result;
+  }
+
+  set result(result: { status: 'success' | 'error'; message: string }) {
+    this._result = result;
+  }
+
   public newQuota: {amount: string, quota: number, currency: string,} = null;
 
   constructor(
@@ -38,7 +48,7 @@ export class ExtendTermTotalOwedService {
     );
   }
 
-  saveExtendTotalDebit(quota: number, productId: number): Observable<{title: string, type: string, status: 'success' | 'error', message: string,}> {
+  saveExtendTotalDebit(quota: number, productId: number): Observable<{title: 'success' | 'error', type: string, status: number, message: string,}> {
     return this.httpService.post('canales', this.saveExtendTotalDebitUri, {
       channelId : 101,
       accountId : 1,
@@ -47,7 +57,7 @@ export class ExtendTermTotalOwedService {
   })
     .pipe(
       map(response => ({
-          title: response.titeOne,
+          title: response.titleOne,
           type: response.type,
           status: response.status,
           message: response.message,
@@ -55,5 +65,7 @@ export class ExtendTermTotalOwedService {
     );
   }
 
-
+  unsubscribe() {
+    this.httpService.unsubscribeHttpCall();
+  }
 }

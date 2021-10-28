@@ -35,14 +35,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 
 import { ExtendTermTotalOwedComponent } from './extend-term-total-owed.component';
-import { ExtendTermTotalOwedService } from './extend-term-total-owed.service';
 import { ExtendTermTotalNotificationComponent } from './extend-term-total-notification/extend-term-total-notification.component';
 
 const routes: Routes = [{
   path: '',
   component: ExtendTermTotalOwedComponent,
 }, {
-  path: 'extend-term-total-notification',
+  path: 'extend-term-total-notification-success',
   component: ExtendTermTotalNotificationComponent,
 }];
 
@@ -86,7 +85,6 @@ const routes: Routes = [{
     CredixCheckboxButtonModule,
   ],
   providers: [
-    ExtendTermTotalOwedService,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

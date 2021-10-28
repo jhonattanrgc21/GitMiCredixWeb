@@ -58,7 +58,7 @@ const routes: Routes = [
       },
       {
         path: 'extend-term',
-        loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule)
+        loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule)
       },
       {
         path: 'change-password',
