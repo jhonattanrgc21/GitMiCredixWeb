@@ -35,15 +35,15 @@
                              [value]="2" name="places">
         </credix-radio-button>
         <div fxLayout="row" fxLayoutAlign="justify">
-          <span class="span-tag" style="font-size: 11px;">Este envío tiene un costo de</span>
+          <span class="span-tag" style="font-size: 11px; position: relative; top: -2px">Este envío tiene un costo de</span>
           <span class="span-mount">
             <credix-numeric-block-specific [value]="leyendTag"
                                 prefix="₡"></credix-numeric-block-specific>
           </span>
-          <span style="font-size: 11px;">y se cobra en el próximo</span>
+          <span style="font-size: 11px; position: relative; top: -2px">y se cobra en el próximo</span>
         </div>
         <div fxLayout="row" fxLayoutAlign="justify">
-          <span class="span-tag" style="font-size: 11px;">estado de cuenta.</span>
+          <span class="span-tag" style="font-size: 11px; position: relative; top:-9px">estado de cuenta.</span>
         </div>
 
         <div *ngIf="placeRadioButton === 2" class="marchamo-third-step__sub-content"
