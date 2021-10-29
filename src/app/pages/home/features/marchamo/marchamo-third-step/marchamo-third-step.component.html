@@ -28,22 +28,22 @@
         </credix-select>
       </div>
 
-      <div fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="column">
         <credix-radio-button (emitRadioButton)="placesRadioButtonChanged(2)"
                              [checked]="false"
                              [label]="optionTwoTag || 'Domicilio'"
                              [value]="2" name="places">
         </credix-radio-button>
         <div fxLayout="row" fxLayoutAlign="justify">
-          <span class="span-tag" style="font-size: 12px;">Este envío tiene un costo de</span>
+          <span class="span-tag" style="font-size: 11px;">Este envío tiene un costo de</span>
           <span class="span-mount">
-            <credix-numeric-block [value]="leyendTag" fontWeight="bold"
-                                prefix="₡"></credix-numeric-block>
+            <credix-numeric-block-specific [value]="leyendTag"
+                                prefix="₡"></credix-numeric-block-specific>
           </span>
-          <span style="font-size: 12px;">y se cobra en el</span>
+          <span style="font-size: 11px;">y se cobra en el próximo</span>
         </div>
         <div fxLayout="row" fxLayoutAlign="justify">
-          <span class="span-tag" style="font-size: 12px;">próximo estado de cuenta.</span>
+          <span class="span-tag" style="font-size: 11px;">estado de cuenta.</span>
         </div>
 
         <div *ngIf="placeRadioButton === 2" class="marchamo-third-step__sub-content"
