@@ -47,7 +47,7 @@ export class PreviousPurchasesComponent implements OnInit {
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements( 1005 )
       .subscribe(response => {        
-        if ( response?.consumed ) {
+        if ( response?.consumed && response?.consumed.length > 0 ) {
           let previousMovements = [];
           response.consumed.forEach(movement => {
             previousMovements.push({

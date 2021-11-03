@@ -13,11 +13,14 @@
               {{allowedMovement.originDate | dateFormatter: "shortAlphanumeric"}}
             </p>
           </div>
-          <span [class.is-selected]="allowedMovementSelected?.movementId == allowedMovement.movementId"
+            <span [class.is-selected]="allowedMovementSelected?.movementId == allowedMovement.movementId"
                 class="extend-term__content__subtitle">
-             
+              <credix-numeric-block [prefix]="allowedMovement.originCurrency.currency"
+                                    [value]="allowedMovement.originAmount" fontSize="16"
+                                    fontWeight="allowedMovementSelected?.id == option.id ? 'bold': 'normal'"></credix-numeric-block>
               a {{ allowedMovement.totalPlanQuota }} cuotas
             </span>
+
           <span *ngIf="allowedMovementSelected?.movementId == allowedMovement.movementId"
                 class="extend-term__option__arrow"></span>
         </a>
@@ -66,7 +69,7 @@
             <span [ngClass]="{'extend-term__text-disabled' :
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <strong>{{ allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo ? 0 : quotaSelected?.quotaTo }}
-                {{monthTag || 'meses'}}</strong></span>
+                {{monthTag || quotaSelected?.quotaTo === 1 ? 'mes' :'meses' }}</strong></span>
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
@@ -80,10 +83,22 @@
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <p fxFlex="98px">{{comisionTag || 'Comisión (%)'}}*</p>
+            <p fxFlex="95px">{{comisionTag || 'Comisión (' + quotaSelected?.commissionPercentage + '%)'}}*</p>
             <div [ngClass]="{'extend-term__text-disabled' :
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
+                                    [value]="quotaSelected?.commissionAmount"
+                                    fontSize="16" fontWeight="bold"></credix-numeric-block>
+            </div>
+          </div>
+
+          
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <p fxFlex="98px">{{comisionTag || 'Interés (' + quotaSelected?.feePercentage + '% mensual)'}}*</p>
+            <div [ngClass]="{'extend-term__text-disabled' :
+            allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
+              <credix-numeric-block [prefix]="quotaSelected?.feeAmount"
                                     [value]="'2000'"
                                     fontSize="16" fontWeight="bold"></credix-numeric-block>
             </div>
@@ -100,7 +115,7 @@
           </div>
     
           <p class="extend-term__message">
-            {{disclaTag || '*IVA y comisión se cargarán en el próximo estado de cuenta'}}.</p>
+            {{disclaTag || '* IVA y comisión se cargarán en el próximo estado de cuenta.'}}.</p>
 
       </div>
 
