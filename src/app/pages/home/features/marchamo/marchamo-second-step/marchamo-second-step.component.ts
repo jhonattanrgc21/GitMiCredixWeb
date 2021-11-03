@@ -214,6 +214,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         this.iva = ConvertStringAmountToNumber(response.iva);
         this.marchamosService.iva = this.iva;
         this.marchamosService.commission = this.commission;
+        localStorage.setItem("delivery", response.deliveryAmount);
       }
     });
   }

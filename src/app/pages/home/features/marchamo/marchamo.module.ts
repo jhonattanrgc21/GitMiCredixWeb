@@ -37,6 +37,7 @@ import {NewAddressPopupComponent} from './marchamo-third-step/new-address-popup/
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {DateFormatterModule} from '../../../../shared/pipes/date-formatter/date-formatter.module';
 import {CredixTextareaFieldModule} from '../../../../shared/components/credix-textarea-field/credix-textarea-field.module';
+import { CredixNumericBlockSpecificModule } from 'src/app/shared/components/credix-numeric-block-specific/credix-numeric-block-specific.module';
 
 const routes: Routes = [
   {
@@ -83,7 +84,8 @@ const routes: Routes = [
     CredixCodeLinkModule,
     CredixResultViewModule,
     DateFormatterModule,
-    CredixTextareaFieldModule
+    CredixTextareaFieldModule,
+    CredixNumericBlockSpecificModule,
   ],
   providers: [
     MarchamoService,

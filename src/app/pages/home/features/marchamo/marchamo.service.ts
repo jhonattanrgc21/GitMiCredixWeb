@@ -38,6 +38,7 @@ export class MarchamoService {
   iva = 0;
   commission = 0;
   total = 0;
+  deliveryAmount;
   private readonly getPromoApplyUri = 'pay/promoapply';
   private readonly paySoapayUri = 'pay/soapay';
   // tslint:disable-next-line:variable-name
