@@ -52,6 +52,7 @@ export class SendMoneyFirstStepComponent implements OnInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Enviar dinero').tags)
     );
+
   }
 
   getCurrencies() {
