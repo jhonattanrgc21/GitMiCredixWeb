@@ -44,6 +44,7 @@ interface PublicServiceData {
   enterpriseId: number,
   serviceId: number,
   reference: number,
+  referenceNumber: number,
 }
 
 @Injectable()
@@ -59,6 +60,7 @@ export class PublicServicesService {
     enterpriseId: 0,
     serviceId: 0,
     reference: 0,
+    referenceNumber: 0,
   };
 
   company: string;
@@ -87,6 +89,16 @@ export class PublicServicesService {
   // tslint:disable-next-line:variable-name
   get publicServiceCategory(): number {
     return this._publicServiceData.categoryId;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set publicServiceReferenceNumber(referenceNumber: number) {
+    this._publicServiceData.referenceNumber = referenceNumber;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceReferenceNumber(): number {
+    return this._publicServiceData.referenceNumber;
   }
   
   // tslint:disable-next-line:variable-name

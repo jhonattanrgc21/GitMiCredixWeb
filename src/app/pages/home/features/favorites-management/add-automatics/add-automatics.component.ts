@@ -96,6 +96,7 @@ export class AddAutomaticsComponent implements OnInit {
       this.newAutomaticsForm.controls.publicService.setValue(this.publicServiceApi.publicService.serviceId);
       this.getKeysByPublicService(this.publicServiceApi.publicService.serviceId );
       this.newAutomaticsForm.controls.keyType.setValue(this.publicServiceApi.publicService.reference);
+      this.newAutomaticsForm.controls.contractControl.setValue(this.publicServiceApi.publicService.referenceNumber);
     }
 
     this.getCategoryServices();

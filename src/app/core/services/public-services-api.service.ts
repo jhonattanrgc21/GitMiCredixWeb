@@ -37,6 +37,7 @@ interface PublicServiceData {
   enterpriseId: number,
   serviceId: number,
   reference: number,
+  referenceNumber,
 }
 
 export const cleanFavoritesPublicService$ = new Subject();
