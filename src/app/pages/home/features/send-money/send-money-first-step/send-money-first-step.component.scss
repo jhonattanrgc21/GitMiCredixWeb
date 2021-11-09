@@ -27,6 +27,15 @@
   }
 }
 
+:host credix-radio-button::ng-deep mat-radio-button.mat-radio-ripple {
+  position: absolute;
+left: calc(50% - 20px);
+top: calc(50% - 20px);
+height: 80px;
+width: 80px;
+z-index: 1;
+pointer-events: none;
+}
 @media screen and (max-width: 1199px) {
   .first-step {
     padding: 0 94px;

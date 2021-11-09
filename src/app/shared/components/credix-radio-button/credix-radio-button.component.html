@@ -1,5 +1,5 @@
 <mat-radio-button [checked]="checked" [disabled]="disabled" [name]="name" [value]="value"
-                  (change)="isCheckedValue($event)" class="credix-radio-button">
+                  (change)="isCheckedValue($event)" [ngClass]="['credix-radio-button', optional ? 'credix-radio-button-optional': '']" >
   {{label}}
   <ng-content></ng-content>
 </mat-radio-button>
