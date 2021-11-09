@@ -136,7 +136,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
         startDate: option.startDate,
         key: option.key,
         publicServiceCategoryId: option.publicServiceCategoryId,
-        publicServiceCategoryName: option.publicServiceCategoryName
+        publicServiceCategoryName: option.publicServiceCategoryName,
+        quota: option.quota,
       };
       this.favoriteManagementService.emitSchedulePaymentData(schedulePayment);
       this.updating = false;
@@ -352,7 +353,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
               startDate: values.startDate,
               key: values.key,
               publicServiceCategoryName: values.publicServiceCategoryName,
-              publicServiceCategoryId: values.publicServiceCategoryId
+              publicServiceCategoryId: values.publicServiceCategoryId,
+              quota: values?.quota,
             });
           });
         }
