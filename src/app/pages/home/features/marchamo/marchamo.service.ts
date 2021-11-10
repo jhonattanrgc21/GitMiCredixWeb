@@ -90,7 +90,7 @@ export class MarchamoService {
           productCode: 5
         },
         {
-          productCode: 6
+          productCode: 9
         },
         {
           productCode: 8
