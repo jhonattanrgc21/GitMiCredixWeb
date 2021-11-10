@@ -17,6 +17,8 @@ export class CredixLinkButtonComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log("Credix link button");
   }
 
 }

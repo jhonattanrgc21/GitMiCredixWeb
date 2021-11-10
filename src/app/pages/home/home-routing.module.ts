@@ -85,6 +85,10 @@ const routes: Routes = [
         path: 'current-pin',
         loadChildren: () => import('./features/pin-code/pin-code.module.js').then(m => m.PinCodeModule)
       },
+      {
+        path: 'extend-term-total-owed',
+        loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule)
+      },
     ]
   }
 ];

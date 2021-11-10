@@ -1,0 +1,21 @@
+.notification-success {
+    ::ng-deep svg.credix-result-notification__icon {
+      width: 82px;
+      height: 82px;
+    }
+
+    ::ng-deep span.credix-result-notification__message {
+        width: 480px !important;
+    }
+}
+
+.notification-error {
+    ::ng-deep svg.credix-result-notification__icon {
+      width: 100px;
+      height: 100px;
+    }
+
+    ::ng-deep span.credix-result-notification__message {
+        width: 287px !important;
+    }
+}
