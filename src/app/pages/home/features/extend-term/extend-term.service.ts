@@ -93,7 +93,9 @@ export class ExtendTermService {
                 quotaFrom: 0,
                 financedPlan: 0,
                 purchaseAmount: '0,00',
-                IVA: '0,00'
+                IVA: '0,00',
+                commissionAmount: '0,00',
+                commissionPercentage: '0,00',
               }, ...response.listQuota];
             } else {
               return [];

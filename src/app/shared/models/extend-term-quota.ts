@@ -7,4 +7,6 @@ export interface ExtendTermQuota {
   financedPlan: number;
   purchaseAmount: string;
   IVA: string;
+  commissionAmount: string,
+  commissionPercentage: string,
 }

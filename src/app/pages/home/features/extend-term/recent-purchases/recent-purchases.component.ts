@@ -131,7 +131,7 @@ export class RecentPurchasesComponent implements OnInit {
 
   openConfirmationModal() {
     if (this.quotaSelected) {
-      this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este pago?')
+      this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este consumo?')
         .subscribe(confirmation => {
           if (confirmation) {
             this.saveQuota();

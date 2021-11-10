@@ -1,6 +1,6 @@
 <div class="first-step" fxLayout="column" fxLayoutAlign="flex-start center">
   <div class="first-step__content" fxLayout="row">
-    <span class="tl" fxFlex="40"><strong>Tipo de transferencia</strong></span>
+    <span class="tl" fxFlex="40"><strong>Tipo de moneda</strong></span>
 
     <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)" *ngFor="let currency of currencies"
