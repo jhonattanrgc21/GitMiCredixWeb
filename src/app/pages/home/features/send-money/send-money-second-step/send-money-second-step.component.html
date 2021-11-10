@@ -2,8 +2,18 @@
 
   <div class="second-step__content" fxLayout="row" fxLayoutGap="space-between">
     <span class="tl" fxFlex="30"><strong>Monto a enviar</strong></span>
-
     <credix-input-field [formControl]="amountToSendControl" class="second-step__input" label="Monto" mask="separator">
+      <div *ngIf="amountToSendControl.hasError('limitAmount')" error>
+        {{'El monto debe ser menor a ' + currencyCode + amountAvailableDolar + (amountAvailableDolar.split(',').length === 1 ? ',00' : '')}}
+
+      </div>
+      <div *ngIf="amountToSendControl.hasError('maxLimitAmount')" error>
+        {{'El monto debe ser menor a ' + currencyCode + limitAmountSendMoney + (limitAmountSendMoney.split(',').length === 1 ? ',00' : '')}}
+
+      </div>
+      <div *ngIf="amountToSendControl.hasError('required')" error>
+        ingrese el monto
+      </div>
     </credix-input-field>
   </div>
 
@@ -13,7 +23,7 @@
 
     <span class="tl" fxFlex="30"><strong>{{step2Subt1 || 'Cuotas'}}</strong></span>
 
-    <div fxFlex fxLayout="column">
+    <div fxFlex fxLayout="column" fxLayoutGap="8px">
       <div fxLayout="row" fxLayoutAlign="space-between">
         <credix-slider (inputChange)="getQuota($event)"
                        (valueChange)="getQuota($event)"
@@ -26,16 +36,21 @@
                        instructions="{{step2Tag1 || 'Deseo dividir este pago en'}}" units="cuotas"></credix-slider>
 
 
-        <div fxLayout="column">
+        <!--div fxLayout="column">
           <credix-numeric-block [prefix]="currencyCode" [value]="quotaAmountView" class="tr" fontSize="24"
                                 fontWeight="bold"></credix-numeric-block>
           <credix-link-button (click)="openDetails()" class="tr">Ver detalle</credix-link-button>
-        </div>
+        </div-->
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Comisión</span>
+        <span>Cargo por transferencia</span>
         <credix-numeric-block [prefix]="currencyCode" [value]="commission" fontWeight="bold"></credix-numeric-block>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>IVA</span>
+        <credix-numeric-block [prefix]="currencyCode" [value]="iva" fontWeight="bold"></credix-numeric-block>
       </div>
 
     </div>

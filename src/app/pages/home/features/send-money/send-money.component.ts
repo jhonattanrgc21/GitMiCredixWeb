@@ -159,12 +159,13 @@ export class SendMoneyComponent implements OnInit, AfterViewInit, OnDestroy {
       this.confirmForm.controls.code.value
     ).pipe(finalize(() => this.done = this.confirmForm.controls.code.valid))
       .subscribe(result => {
-        this.title = result.title;
+        this.title = result?.title ? result.title : 'Oops...';
         this.status = result.type;
-        this.message = result.message;
+        this.message = result?.message ? result.message : 'Ocurrió un error. Favor volver a intentar';
         if (result.type !== 'success') {
           this.selectedIndex = 2;
         }
+        
       });
   }
 

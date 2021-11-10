@@ -13,13 +13,13 @@ export class CustomerApiService {
   }
 
   @Cacheable()
-  getQuotas(productId: number): Observable<Quota[]> {
+  getQuotas(productId: number): Observable<any> {
     return this.httpService
       .post('canales', this.getQuotasUri, {productId})
       .pipe(
         map((response) => {
           if (response.type === 'success') {
-            return response.listQuota;
+            return response;
           } else {
             return [];
           }

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {SendMoneyService} from '../send-money.service';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {ModalDetailsComponent} from './modal-details/modal-details.component';
@@ -7,6 +7,9 @@ import {Quota} from '../../../../../shared/models/quota';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
 import {CustomerApiService} from '../../../../../core/services/customer-api.service';
+import { ChannelsApiService } from 'src/app/core/services/channels-api.service';
+import { StorageService } from 'src/app/core/services/storage.service';
+import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-send-money-second-step',
@@ -14,7 +17,7 @@ import {CustomerApiService} from '../../../../../core/services/customer-api.serv
   styleUrls: ['./send-money-second-step.component.scss']
 })
 export class SendMoneySecondStepComponent implements OnInit {
-  @Input() amountToSendControl: FormControl = new FormControl(null);
+  @Input() amountToSendControl: FormControl = new FormControl(null, [Validators.required]);
   @Input() quotasControl: FormControl = new FormControl(null);
   @Input() detailsControl: FormControl = new FormControl(null);
   @Input() currencyCode = '';
@@ -34,18 +37,41 @@ export class SendMoneySecondStepComponent implements OnInit {
   commissionRate = 0;
   step2Tag1: string;
   step2Subt1: string;
+  cardId: number;
+  accountSummary;
+  amountAvailableDolar: string;
+  limitAmountSendMoney: string;
+  ivaRate: number;
+  iva: number;
 
   constructor(private sendMoneyService: SendMoneyService,
               private customerApiService: CustomerApiService,
               private modalService: ModalService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private channelsApiService: ChannelsApiService,
+              private storageService: StorageService,
+              ) {
   }
 
   ngOnInit(): void {
+
+    
     this.amountToSendControl.valueChanges.subscribe(value => {
       this.computeQuotaAmount(value, this.quotasControl.value);
       this.change();
+
+      if ( value > ConvertStringAmountToNumber( this.amountAvailableDolar ) || value > ConvertStringAmountToNumber(  this.limitAmountSendMoney ) ) {
+        if ( value >  ConvertStringAmountToNumber( this.limitAmountSendMoney ) ) {
+          this.amountToSendControl.setErrors({'maxLimitAmount': true});
+        } else {
+          this.amountToSendControl.setErrors({'limitAmount': true});
+        }
+      }
+      
     });
+
+    this.cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal')?.cardId;
+    this.getAccountsSummary();
 
     this.quotasControl.valueChanges.subscribe(value => {
       this.computeQuotaAmount(this.amountToSendControl.value, value);
@@ -62,6 +88,7 @@ export class SendMoneySecondStepComponent implements OnInit {
   change() {
     this.commissionRate = this.quotas.find((elem) => elem.quota === this.quotasControl.value).commissionRate;
     this.commission = this.amountToSendControl.value * (this.commissionRate / 100);
+    this.iva = this.commission * this.ivaRate;
     this.total = this.commission + (+this.amountToSendControl.value);
     this.commissionEmitEvent.emit(this.commission);
     this.commissionRateEmitEvent.emit(this.commissionRate);
@@ -78,7 +105,8 @@ export class SendMoneySecondStepComponent implements OnInit {
 
   getQuotas() {
     this.customerApiService.getQuotas(3).subscribe(quotas => {
-      this.quotas = quotas.sort((a, b) => a.quota - b.quota);
+      this.ivaRate = quotas.IVA;
+      this.quotas = quotas.listQuota.sort((a, b) => a.quota - b.quota);
       this.quotaSliderDisplayMin = this.quotas[0].quota;
       this.quotaSliderMin = 1;
       this.quotaSliderDisplayMax = this.quotas[this.quotas.length - 1].quota;
@@ -110,6 +138,19 @@ export class SendMoneySecondStepComponent implements OnInit {
       },
       {width: 380, height: 301, disableClose: false, panelClass: 'details-panel'}, 1
     );
+  }
+
+  getAccountsSummary() {
+    this.channelsApiService.getAccountSummary(this.cardId).subscribe(accountSummary => {
+      this.accountSummary = accountSummary;
+      this.sendMoneyService.getvailabledolarlimitsendmoney( ConvertStringAmountToNumber( this.accountSummary.available ) )
+        .subscribe(
+          response => {
+            this.amountAvailableDolar = response.amountAvailableDolar;
+            this.limitAmountSendMoney = response.limitAmountSendMoney;
+          }
+        )
+    });
   }
 
   getTags(tags: Tag[]) {
