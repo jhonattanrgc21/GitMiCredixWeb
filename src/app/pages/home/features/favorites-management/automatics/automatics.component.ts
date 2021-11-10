@@ -109,7 +109,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
       this.automaticsDetailForm.controls.codeCredix.reset(null, {emitEvent: false});
       this.anotherAmount = false;
       this.data = response;
-      this.quota = 1; // Colocar el valor de la quota que viene del endpoint, por defecto es 1
+      this.quota = this.data.quota;
       this.deleted = false;
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount, {onlySelf: false, emitEvent: false});
