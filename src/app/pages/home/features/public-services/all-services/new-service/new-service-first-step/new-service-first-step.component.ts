@@ -28,6 +28,7 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getLabel();
+    this.getReferenceNumber();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,6 +45,12 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
     this.contractFormGroup.controls.keysControl.valueChanges.subscribe(value => {
       this.label = this.keys.find(key => key.keyType === value).description;
       this.publicServiceService.publicServiceReference = this.keys.find(key => key.keyType === value).keyType;
+    });
+  }
+
+  getReferenceNumber() {
+    this.contractFormGroup.controls.contractControl.valueChanges.subscribe(value => {
+      this.publicServiceService.publicServiceReferenceNumber = value;
     });
   }
 }

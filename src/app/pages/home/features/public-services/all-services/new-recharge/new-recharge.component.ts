@@ -72,6 +72,10 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
     );
+
+    this.phoneNumberFormGroup.controls.phoneNumber.statusChanges.subscribe(value => {
+      this.publicServicesService.publicServiceReferenceNumber = value;
+    })
   }
 
   ngAfterViewInit(): void {
