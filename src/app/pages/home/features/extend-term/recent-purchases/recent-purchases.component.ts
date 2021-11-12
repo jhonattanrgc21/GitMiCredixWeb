@@ -164,6 +164,7 @@ export class RecentPurchasesComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
+
     this.comisionTag = tags.find(tag => tag.description === 'ampliar.tag.comision')?.value;
     this.subtitle = tags.find(tag => tag.description === 'ampliar.subtitle')?.value;
     this.question = tags.find(tag => tag.description === 'ampliar.question')?.value;

@@ -23,6 +23,7 @@ export class PreviousExtendComponent implements OnInit {
   deseoTag: string;
   newQuota: string;
   resultNew: string;
+  question: string;
 
   amountSliderStep = 1;
   amountSliderMin = 0;
@@ -85,6 +86,15 @@ export class PreviousExtendComponent implements OnInit {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
   }
 
+  openConfirmationModal() {
+    this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este consumo?')
+      .subscribe((confirmation) => {
+        if (confirmation) {
+          this.saveQuota();
+        }
+      });
+  }
+
   saveQuota() {
     this.extendTermService.saveNewQuotaPreviousConsumptions(
       this.movementQuotaSummary.quotaTo,
@@ -123,5 +133,6 @@ export class PreviousExtendComponent implements OnInit {
     this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo')?.value;
     this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota')?.value;
     this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo')?.value;
+    this.question = tags.find(tag => tag.description === 'ampliar.question')?.value;
   }
 }
