@@ -23,7 +23,7 @@
         <credix-select *ngIf="placeRadioButton === 1" class="marchamo-third-step__sub-content"
                        formControlName="deliveryPlace" label="Seleccione la más cercana">
           <mat-option *ngFor="let delivery of deliveryPlaces" [value]="delivery.id">
-            {{delivery.description}}
+            {{delivery.displayName}}
           </mat-option>
         </credix-select>
       </div>
