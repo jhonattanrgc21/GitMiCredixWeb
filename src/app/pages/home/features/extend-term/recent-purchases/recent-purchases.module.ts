@@ -92,7 +92,6 @@ const routes: Routes = [
     CredixCheckboxButtonModule,
   ],
   providers: [
-    ExtendTermService,
     ModalService
   ],
   schemas: [

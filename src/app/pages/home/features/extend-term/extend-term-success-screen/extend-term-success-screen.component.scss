@@ -1,4 +1,15 @@
-:host {
-    max-height: 662px;
+
+
+:host{
+  ::ng-deep svg.credix-result-notification__icon {
+    width: 82px;
+    height: 82px;
+  }
+
+  display: block;
   height: 662px;
+
+  ::ng-deep .credix-result-notification__message {
+      width: 477px !important;
+  }
 }

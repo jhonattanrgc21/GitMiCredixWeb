@@ -51,6 +51,7 @@ export class RecentPurchasesComponent implements OnInit {
   newQuota: string;
   resultNew: string;
   title: string;
+  percentageCommission: string;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
 
@@ -127,6 +128,21 @@ export class RecentPurchasesComponent implements OnInit {
     this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
     const quota = this.quotas.find(q => q.quotaTo === this.allowedMovementSelected.totalPlanQuota);
     this.quotaSelected = quota || this.quotas[0];
+
+    const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
+
+    const aux = [...this.quotas];
+
+    aux.shift();
+    
+    const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
+
+    if ( !result ) {
+      this.percentageCommission = '';
+    } else {
+      this.percentageCommission = '(' + this.quotaSelected?.commissionPercentage + '%)';
+    }
+
   }
 
   openConfirmationModal() {

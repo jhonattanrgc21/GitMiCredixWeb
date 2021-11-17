@@ -112,6 +112,10 @@ export class PreviousExtendComponent implements OnInit {
             amount: this.movementQuotaSummary.amountPerQuota,
             quota: this.movementQuotaSummary.quotaTo
           };
+
+ 
+
+
         });
   }
 
