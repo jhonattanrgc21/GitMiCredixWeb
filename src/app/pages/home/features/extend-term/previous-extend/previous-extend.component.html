@@ -41,7 +41,7 @@
     </div>
 
     <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-        <credix-button (buttonClick)="saveQuota()">Ampliar plazo</credix-button>
+        <credix-button (buttonClick)="openConfirmationModal()">Ampliar plazo</credix-button>
     </div>
 </mat-card>
 
@@ -55,7 +55,7 @@
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ quotaTag || 'Cuota nueva' }}</span>
+            <span fxFlex>{{ 'Cuota nueva' }}</span>
             <credix-numeric-block
               [value]="movementQuotaSummary?.amountPerQuota"
               fontWeight="bold"
