@@ -81,21 +81,11 @@ export class MarchamoService {
   }
 
   @Cacheable()
-  getConsultVehicle(plateClassId: string, plateNumber: string): Observable<any> {
+  getConsultVehicle(plateClassId: string, plateNumber: string, aditionalProducts: Array<Object>): Observable<any> {
     return this.httpService.post('marchamos', this.getVehicleConsultUri, {
       plateClassId,
       plateNumber,
-      aditionalProducts: [
-        {
-          productCode: 5
-        },
-        {
-          productCode: 9
-        },
-        {
-          productCode: 8
-        }
-      ]
+      aditionalProducts,
     }).pipe(
       map((response) => {
         if (response.type === 'success') {
