@@ -37,7 +37,7 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
       values.itemsProductsAmount.forEach(itemProduct => {
         this.totalAmountItemsProducts = this.totalAmountItemsProducts + itemProduct.amounts;
       });
-      this.totalAmount = this.totalAmount + this.marchamo + this.iva + this.totalAmountItemsProducts;
+      this.totalAmount = this.totalAmount + this.commission + this.marchamo + this.iva + this.totalAmountItemsProducts;
     });
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
