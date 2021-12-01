@@ -181,7 +181,7 @@ export class MarchamoService {
     return this.httpService.post('marchamos', this.paySoapayUri,
       {
         aditionalProducts,
-        amount: this.consultVehicle.amount,
+        amount: this.consultVehicle.amount.toString().replace(".","").replace(".","").replace(",","."),
         cardNumber: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
         deliveryPlaceId,
         authenticationNumberCommission: '0000',
