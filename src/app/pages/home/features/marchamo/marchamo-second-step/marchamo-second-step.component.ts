@@ -208,7 +208,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   getCommission(quotas: number) {
-    this.marchamosService.getCommission(quotas, this.totalAmount).subscribe((response) => {
+    this.marchamosService.getCommission(quotas, this.totalAmount + this.getTotalAmountItemsProducts()).subscribe((response) => {
       if (typeof response.result === 'string') {
         this.commission = ConvertStringAmountToNumber(response.result);
         this.iva = ConvertStringAmountToNumber(response.iva);
