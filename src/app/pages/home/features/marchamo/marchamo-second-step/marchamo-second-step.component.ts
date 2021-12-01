@@ -177,7 +177,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
       this.showPaymentDates = this.quotaSliderDisplayMin > 1;
       this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayMin);
-      this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[0].id);
+      this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[0].quota);
       this.computeAmountPerQuota(this.quotaSliderDisplayMin);
     });
   }
