@@ -14,6 +14,7 @@ import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
 import {CustomerApiService} from '../../../../../core/services/customer-api.service';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-marchamo-second-step',
@@ -186,8 +187,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quota;
     this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayValue);
     this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[sliderValue - 1].id);
-    this.getCommission(this.quotas.find(element => element.quota === this.quotaSliderDisplayValue).quota);
-    this.computeAmountPerQuota(this.quotaSliderDisplayValue);
+    this.getCommission(this.quotas.find(element => element.quota === this.quotaSliderDisplayValue).quota, this.quotaSliderDisplayValue);
+    //this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }
 
   computeAmountPerQuota(quota: number) {
@@ -207,8 +208,10 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     return totalAmountItemsProducts;
   }
 
-  getCommission(quotas: number) {
-    this.marchamosService.getCommission(quotas, this.totalAmount + this.getTotalAmountItemsProducts()).subscribe((response) => {
+  getCommission(quotas: number, quota: number) {
+    this.marchamosService.getCommission(quotas, this.totalAmount + this.getTotalAmountItemsProducts()).pipe(finalize(() =>
+    this.computeAmountPerQuota(quota)))
+    .subscribe((response) => {
       if (typeof response.result === 'string') {
         this.commission = ConvertStringAmountToNumber(response.result);
         this.iva = ConvertStringAmountToNumber(response.iva);
