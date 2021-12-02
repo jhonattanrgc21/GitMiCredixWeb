@@ -45,9 +45,22 @@ export class MarchamoFirstStepComponent implements OnInit {
   }
 
   consult() {
+    const additionalProducts = [
+      {
+        productCode: 5
+      },
+      {
+        productCode: 9
+      },
+      {
+        productCode: 8
+      }
+    ];
+
     this.marchamosService
       .getConsultVehicle(this.consultForm.controls.vehicleType.value.toString(),
-        this.consultForm.controls.plateNumber.value.toUpperCase())
+        this.consultForm.controls.plateNumber.value.toUpperCase(),
+        additionalProducts)
       .subscribe((response) => {
         this.consultVehicle = response.header;
         // this.consultVehicle.amount = typeof response.header.amount === 'string' ?
