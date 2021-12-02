@@ -138,7 +138,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
     this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
     this.isCheckedAll = this.arrayOfAmountProducts.length === this.itemProduct.length;
-    this.computeAmountPerQuota(this.quotaSliderDisplayValue);
+    this.getCommission(this.quotas.find(element => element.quota === this.quotaSliderDisplayValue).quota, this.quotaSliderDisplayValue);
+    //this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }
 
   getValueOfCheckBoxAll(event) {
@@ -158,7 +159,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       this.marchamosService.setAmountProducts = this.arrayOfAmountProducts;
     }
 
-    this.computeAmountPerQuota(this.quotaSliderDisplayValue);
+    //this.computeAmountPerQuota(this.quotaSliderDisplayValue);
+    this.getCommission(this.quotas.find(element => element.quota === this.quotaSliderDisplayValue).quota, this.quotaSliderDisplayValue);
   }
 
   getPromo() {
