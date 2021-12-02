@@ -36,7 +36,7 @@ export class MarchamoFirstStepComponent implements OnInit {
     this.getVehicleTypes();
     this.marchamosService.consultVehicle$.subscribe(() => this.consult());
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
+      this.getTags(functionality.find(fun => fun.description === 'Marchamo')?.tags)
     );
   }
 
