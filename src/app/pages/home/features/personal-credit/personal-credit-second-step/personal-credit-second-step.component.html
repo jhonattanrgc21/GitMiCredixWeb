@@ -1,13 +1,11 @@
 <div class="personal-credit-second-step" fxLayout="column" fxLayoutAlign="flex-start center">
 
-  <div class="w-100" fxLayout="row" fxLayoutAlign="space-between">
+  <div class="personal-credit-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
 
-    <div class="left-content" fxFlexAlign="flex-start flex-start" fxLayout="column" fxLayoutGap="16px">
+    <span fxFlex="250px" style="padding-top: 10px;"><strong>Transferencia bancaria</strong></span>
 
-      <div fxLayout="column">
-        <span class="ml-20px left-content">Transferencia</span>
-
-        <credix-input-field class="personal-credit-second-step__input ml-20px"
+        <div class="left-content" fxLayout="column" fxLayoutAlign="space-between">
+          <credix-input-field  class="personal-credit-second-step__input ml-20px"
                             [formControl]="accountControl" label="Digite la cuenta IBAN">
              <span *ngIf="accountControl.hasError('invalid')"
                    error>Cuenta IBAN inválida.</span>
@@ -15,10 +13,7 @@
 
         <span class="ml-20px left-content">
           {{ secondStepOption1Tag || 'El dinero será transferido en un plazo máximo de 48 horas hábiles.'}}</span>
-
-      </div>
-
-    </div>
+        </div>
 
   </div>
 
