@@ -74,16 +74,6 @@ export class MenuOptionComponent implements OnInit {
               func.link = '/home/current-pin';
             }
 
-            if ( func.description === 'Ampliar plazo de compra') {
-              this.submenus.push({
-                id: func.id,
-                name: 'Amplar plazo del total adeudado',
-                route: func.link,
-                icon: func.iconAddress,
-                parentId: func.superiorFuncionality
-              });
-            }
-
             this.submenus.push({
               id: func.id,
               name: func.description,
@@ -98,21 +88,6 @@ export class MenuOptionComponent implements OnInit {
       this.menus.forEach(menu => {
         if (menu.id !== 1) {
           menu.submenus = this.submenus.filter(sub => sub.parentId === menu.name);
-
-          if ( menu.name === 'Productos' ) {
-            let aux = Object.assign({}, menu.submenus[3]);
-
-            menu.submenus[3] = {
-              icon: "anticipated_canc",
-              id: 18,
-              name: 'Ampliar plazo del total adeudado',
-              parentId: 'Productos',
-              route: "/home/extend-term-total-owed"
-            };
-
-            menu.submenus.push( Object.assign({}, aux) );
-
-          }
         }
       });
 
@@ -216,14 +191,14 @@ export const submenus = [
   {id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit', parentId: 'Productos'},
   {id: 8, name: 'Compra sin tarjeta', route: '/home/buy-without-card', icon: 'code', parentId: 'Productos'},
   {id: 9, name: 'Ampliar plazo de compra', route: '/home/extend-term', icon: 'anticipated_canc', parentId: 'Productos'},
-  {id: 18, name: 'Ampliar plazo total adeudado', route: '/home/extend-term-total-owed', icon: 'anticipated_canc', parentId: 'Productos'},
-  {id: 10, name: 'Cancelación anticipada', route: '/home/anticipated-cancellation', icon: 'anticipated_canc', parentId: 'Productos'},
-  {id: 11, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data', parentId: 'Mi Cuenta'},
-  {id: 12, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites', parentId: 'Mi Cuenta'},
-  {id: 13, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password', parentId: 'Mi Cuenta'},
-  {id: 14, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta'},
-  {id: 15, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta'},
-  {id: 16, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'}
+  {id: 10, name: 'Ampliar plazo total adeudado', route: '/home/extend-term-total-owed', icon: 'anticipated_canc', parentId: 'Productos'},
+  {id: 11, name: 'Cancelación anticipada', route: '/home/anticipated-cancellation', icon: 'anticipated_canc', parentId: 'Productos'},
+  {id: 12, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data', parentId: 'Mi Cuenta'},
+  {id: 13, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites', parentId: 'Mi Cuenta'},
+  {id: 14, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password', parentId: 'Mi Cuenta'},
+  {id: 15, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta'},
+  {id: 16, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta'},
+  {id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'}
 ];
 
 export interface Menu {
