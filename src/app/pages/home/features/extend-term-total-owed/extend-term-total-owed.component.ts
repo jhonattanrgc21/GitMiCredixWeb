@@ -112,7 +112,7 @@ export class ExtendTermTotalOwedComponent implements OnInit {
     this.extendTermTotalOwedService.saveExtendTotalDebit(
       this.extendQuotaSummary.quotaTo,
       2004)
-      .pipe(finalize(() => this.router.navigate([`/home/extend-term/extend-term-total-notification-success`])))
+      .pipe(finalize(() => this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`])))
         .subscribe(response => {
           const message = response.title === 'success' ? 'El plazo de su total adeudado ha sido extendido correctamente. Estará reflejado en su próximo estado de cuenta. Le estaremos enviando un correo con los detalles del producto próximamente.'
                                                       : 'En este momento su cuenta no aplica para este producto.';
