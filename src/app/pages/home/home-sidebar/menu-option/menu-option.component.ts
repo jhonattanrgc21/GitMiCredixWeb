@@ -66,6 +66,7 @@ export class MenuOptionComponent implements OnInit {
       if (functionalities.length > 0) {
 
         console.log("funcionalities: ", functionalities);
+        
         this.submenus = [];
         functionalities.forEach(func => {
           if (func.level === 2) {
@@ -85,11 +86,13 @@ export class MenuOptionComponent implements OnInit {
         });
       }
 
+
       this.menus.forEach(menu => {
         if (menu.id !== 1) {
           menu.submenus = this.submenus.filter(sub => sub.parentId === menu.name);
         }
       });
+
 
       this.orderingMenu();
     });
@@ -171,7 +174,7 @@ export class MenuOptionComponent implements OnInit {
 
 }
 
-const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar plazo de compra', 'Ampliar plazo total adeudado', 'Cancelación anticipada'];
+const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar plazo de compra', 'Ampliar plazo del total adeudado', 'Cancelación anticipada'];
 const payOrdering = ['Servicios', 'Pagar tarjeta', 'Marchamo', 'Enviar dinero', 'Reportar transferencia', 'Lugares de pago'];
 
 export const menus: Menu[] = [
@@ -191,7 +194,7 @@ export const submenus = [
   {id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit', parentId: 'Productos'},
   {id: 8, name: 'Compra sin tarjeta', route: '/home/buy-without-card', icon: 'code', parentId: 'Productos'},
   {id: 9, name: 'Ampliar plazo de compra', route: '/home/extend-term', icon: 'anticipated_canc', parentId: 'Productos'},
-  {id: 10, name: 'Ampliar plazo total adeudado', route: '/home/extend-term-total-owed', icon: 'anticipated_canc', parentId: 'Productos'},
+  {id: 10, name: 'Ampliar plazo del total adeudado', route: '/home/extend-term-total-debt', icon: 'anticipated_canc', parentId: 'Productos'},
   {id: 11, name: 'Cancelación anticipada', route: '/home/anticipated-cancellation', icon: 'anticipated_canc', parentId: 'Productos'},
   {id: 12, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data', parentId: 'Mi Cuenta'},
   {id: 13, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites', parentId: 'Mi Cuenta'},
