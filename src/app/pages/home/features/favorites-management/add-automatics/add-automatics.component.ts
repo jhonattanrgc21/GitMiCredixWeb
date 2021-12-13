@@ -46,7 +46,7 @@ export class AddAutomaticsComponent implements OnInit {
     publicServiceId: number;
     keyType: number;
     favoriteName: string;
-    contractControl: number;
+    contractControl: string;
   };
   done = false;
   resultAutomatics: boolean;
@@ -149,7 +149,7 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.publicService.value,
           this.newAutomaticsControls.periodicity.value,
           this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
-          +this.newAutomaticsControls.contractControl.value,
+          this.newAutomaticsControls.contractControl.value,
           +this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
           +this.codeCredix.value,
