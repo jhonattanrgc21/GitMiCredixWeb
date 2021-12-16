@@ -39,6 +39,7 @@ export class NewServiceComponent implements OnInit {
   saveAsFavorite = false;
   stepperIndex = 0;
   hasReceipts = true;
+  status: 'info' | 'success' | 'error' = 'info';
   pendingReceipts: PendingReceipts;
   receiptValues: {
     serviceValue: string;
@@ -128,10 +129,20 @@ export class NewServiceComponent implements OnInit {
           };
         this.continue();
       })).subscribe(pendingReceipts => {
-      this.pendingReceipts = pendingReceipts;
-      this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
-      this.message = this.pendingReceipts.responseDescription;
-      this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
+        console.log("pendingReceipts: ", pendingReceipts);
+
+      if ( pendingReceipts?.receipts ) {
+
+        console.log("entro");
+        this.pendingReceipts = pendingReceipts;
+        this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
+        this.message = this.pendingReceipts.responseDescription;
+        this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
+      } else {
+        this.message = pendingReceipts.message;
+        this.status = pendingReceipts.type;
+        this.hasReceipts = false;
+      }
     });
   }
 

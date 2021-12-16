@@ -15,14 +15,15 @@
 
     &__input {
       height: 43px;
-      width: 360px;
-      margin-bottom: 30px;
+      max-width: 360px;
+      margin-bottom: 26px;
+      margin-top: -15.5px !important;
       &.favorite {
         margin-left: 20px;
       }
 
       &.amount-to-pay {
-        margin-left: 16px;
+        margin-left: 30px;
       }
     }
   }
@@ -39,12 +40,13 @@
   opacity: 1;
 }
 
+
 @media screen and (max-width: 1199px) {
   .new-service-second-step {
     padding: 0 78px;
 
     &__content__input {
-      width: 245px;
+      max-width: 245px;
     }
 
     .left-content {

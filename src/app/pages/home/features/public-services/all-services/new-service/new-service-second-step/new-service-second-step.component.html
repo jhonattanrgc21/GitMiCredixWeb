@@ -56,7 +56,7 @@
        fxLayout="row"
        fxLayoutAlign="space-between">
     <span><strong>Monto a pagar</strong></span>
-    <div *ngIf="!prevStep" class="left-content" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="!prevStep" class="left-content" fxLayout="column" fxLayoutGap="12px">
       <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
                            [value]="0"
                            label="Monto pendiente total"
