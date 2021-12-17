@@ -170,7 +170,7 @@ export class MarchamoComponent implements OnInit, OnDestroy {
 
   secureToPay() {
     this.deliveryPlaceId = this.pickUpForm.controls.deliveryPlace.value === null ?
-      1 : this.pickUpForm.controls.deliveryPlace.value;
+      6 : this.pickUpForm.controls.deliveryPlace.value;
     this.ownerEmail= this.marchamosService.ownerPayer.email === '' ?
       this.pickUpForm.controls.email.value : this.marchamosService.ownerPayer.email;
     this.firstPayment = !this.secureAndQuotesForm.controls.firstQuotaDate.value ?
