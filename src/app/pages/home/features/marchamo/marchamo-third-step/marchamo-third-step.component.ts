@@ -166,6 +166,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
         this.pickUpForm.controls.person.setValue(value.name);
         this.pickUpForm.controls.address.setValue(this.userAddress);
         this.pickUpForm.controls.phoneNumber.setValue(this.phoneNumber);
+        this.pickUpForm.enable();
       }
     });
   }
