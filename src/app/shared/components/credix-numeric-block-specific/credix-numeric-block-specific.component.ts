@@ -12,6 +12,7 @@ export class CredixNumericBlockSpecificComponent implements OnInit, OnChanges {
   @Input() prefix = '';
   @Input() fontSize = 14;
   @Input() fontWeight: 'normal';
+  @Input() disabled = false;
   integerValue: string;
   decimalValue: string;
   sign = '+';

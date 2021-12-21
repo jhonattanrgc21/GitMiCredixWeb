@@ -46,6 +46,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   deliveryAmount: string;
   leyendTag: string;
   totalAmount = 0;
+  activateDeliveryOption = null;
 
   constructor(private httpService: HttpService,
               private modalService: ModalService,
@@ -56,10 +57,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.getValueActivateOrDisableDeliveryOption();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -70,11 +72,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
     }
   }
 
- 
+
 
   placesRadioButtonChanged(value: number) {
     this.placeRadioButton = value;
-    
+
     if (value === 1) {
       this.getDeliveryPlaces();
       this.pickUpForm.controls.deliveryPlace.setValidators([Validators.required]);
@@ -95,7 +97,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       this.deliveryAmount = localStorage.getItem("delivery");
       localStorage.setItem("delivery2", this.deliveryAmount);
       //console.log(this.deliveryAmount);
-      return;      
+      return;
     }
   }
 
@@ -126,6 +128,16 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       .pipe(finalize(() => this.onDeliveryPlaceChanged()))
       .subscribe((response) => {
         this.deliveryPlaces = response;
+      });
+  }
+
+  getValueActivateOrDisableDeliveryOption() {
+    this.marchamoService.getValueActivateOrDisableDeliveryOption()
+      .pipe(finalize(() => {}))
+      .subscribe((response) => {
+        this.activateDeliveryOption = response;
+        this.placesRadioButtonChanged(1);
+        this.eventClick2(true);
       });
   }
 
