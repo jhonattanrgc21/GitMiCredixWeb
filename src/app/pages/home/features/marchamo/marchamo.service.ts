@@ -20,6 +20,7 @@ export class MarchamoService {
   private readonly getCalculateComissionUri = 'pay/calculatecommission';
   marchamoAmount: number;
   private readonly getDeliveryPlacesUri = 'global/deliveryplace';
+  private readonly getValueActivateOrDisableDeliveryOptionUri = 'customerservice/getvalueenableordisablemarchamodelivery';
   consultVehicle: ConsultVehicle;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
@@ -140,6 +141,20 @@ export class MarchamoService {
             return response.deliveryPlace.filter(x => x.id !== 6 && x.id !== 7);
           } else {
             return [];
+          }
+        })
+      );
+  }
+
+  @Cacheable()
+  getValueActivateOrDisableDeliveryOption(): Observable<Boolean> {
+    return this.httpService.post('canales', this.getValueActivateOrDisableDeliveryOptionUri)
+      .pipe(map((response) => {
+          if (response.type === 'success') {
+            return response.value;
+          } else {
+            this.toastService.show({text: 'Error', type: 'error'});
+            return null;
           }
         })
       );
