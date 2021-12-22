@@ -69,8 +69,8 @@
             <p fxFlex="auto">{{resultNew || 'Plazo nuevo'}}</p>
             <span [ngClass]="{'extend-term__text-disabled' :
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
-              <strong>{{ allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo ? 0 : quotaSelected?.quotaTo }}
-                {{monthTag || quotaSelected?.quotaTo > 1 ? 'meses' :'mes' }}</strong></span>
+              <strong>{{ allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo ? '0 mes' : quotaSelected?.quotaTo }}
+                {{ allowedMovementSelected?.totalPlanQuota !== quotaSelected?.quotaTo ? quotaSelected?.quotaTo > 1 ? 'meses' :'mes' : '' }}</strong></span>
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
@@ -110,7 +110,7 @@
             <div [ngClass]="{'extend-term__text-disabled' :
              allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
-                                    [value]="'20'"
+                                    [value]="iva"
                                     fontSize="16" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>

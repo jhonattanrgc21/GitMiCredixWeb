@@ -51,6 +51,7 @@ export class RecentPurchasesComponent implements OnInit {
   newQuota: string;
   resultNew: string;
   title: string;
+  iva: number;
   percentageCommission: string;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
@@ -142,6 +143,8 @@ export class RecentPurchasesComponent implements OnInit {
     } else {
       this.percentageCommission = '(' + this.quotaSelected?.commissionPercentage + '%)';
     }
+
+    this.iva = commission * 0.13;
 
   }
 

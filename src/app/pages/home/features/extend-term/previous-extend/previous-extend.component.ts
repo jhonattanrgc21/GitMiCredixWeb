@@ -6,6 +6,7 @@ import { TagsService } from 'src/app/core/services/tags.service';
 import { ExtendTermQuota } from 'src/app/shared/models/extend-term-quota';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { Tag } from 'src/app/shared/models/tag';
+import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 import { ExtendTermService } from '../extend-term.service';
 
 @Component({
@@ -38,6 +39,7 @@ export class PreviousExtendComponent implements OnInit {
   quotas: PaymentQuota[];
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
+  percentageCommission: string = '';
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -72,6 +74,20 @@ export class PreviousExtendComponent implements OnInit {
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
+
+              const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
+
+              const aux = [...this.quotas];
+
+              aux.shift();
+              
+              const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
+
+              if ( !result ) {
+                this.percentageCommission = '';
+              } else {
+                this.percentageCommission = '(' + this.movementQuotaSummary?.commissionPercentage + '%)';
+              }
             }
           }
         );
@@ -87,7 +103,7 @@ export class PreviousExtendComponent implements OnInit {
   }
 
   openConfirmationModal() {
-    this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este consumo?')
+    this.modalService.confirmationPopup('¿Desea ampliar el plazo de este consumo?')
       .subscribe((confirmation) => {
         if (confirmation) {
           this.saveQuota();
