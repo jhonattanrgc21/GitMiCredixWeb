@@ -1,14 +1,14 @@
 <span [style.font-size.px]="fontSize" class="credix-numeric-block-specific">
 
     <span [style.font-weight]="fontWeight"
-          class="credix-numeric-block-specific__integer">{{prefix}}</span>
+          class="credix-numeric-block-specific__integer" [class.isDisabled]="disabled === true">{{prefix}}</span>
 
     <span *ngIf="sign === '-'"
           [style.font-weight]="fontWeight"
-          class="credix-numeric-block-specific__integer">{{sign}}</span>
+          class="credix-numeric-block-specific__integer" [class.isDisabled]="disabled === true">{{sign}}</span>
 
     <span [style.font-weight]="fontWeight"
-          class="credix-numeric-block-specific__integer">{{integerValue | mask: 'separator':'.'}}</span>
+          class="credix-numeric-block-specific__integer" [class.isDisabled]="disabled === true">{{integerValue | mask: 'separator':'.'}}</span>
 
   <span [style.font-weight]="fontWeight" class="credix-numeric-block__decimal" *ngIf="decimalValue !== '00'">,{{decimalValue}}</span>
 
