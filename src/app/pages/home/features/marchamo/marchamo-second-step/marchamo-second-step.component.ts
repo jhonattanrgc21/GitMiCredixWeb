@@ -188,7 +188,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   getQuota(sliderValue) {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quota;
     this.secureAndQuotesForm.controls.quota.setValue(this.quotaSliderDisplayValue);
-    this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[sliderValue - 1].id);
+    this.secureAndQuotesForm.controls.quotaId.setValue(this.quotas[sliderValue - 1].quota);
     this.getCommission(this.quotas.find(element => element.quota === this.quotaSliderDisplayValue).quota, this.quotaSliderDisplayValue);
     //this.computeAmountPerQuota(this.quotaSliderDisplayValue);
   }
