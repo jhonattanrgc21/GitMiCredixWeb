@@ -97,18 +97,21 @@ export class SendMoneyFirstStepComponent implements OnInit {
   }
 
   openModal(info) {
+
+    console.log("info: ", info);
     const modal = this.modalService
       .open({component: ModalAddIbanComponent, title: 'Añadir cuenta IBAN', data: {info, currency: this.currency}},
         {width: 380, height: 535, disableClose: false, panelClass: 'add-account-panel'}, 1, );
      
     modal.afterClosed().subscribe(ibanAccount => {
       
+      console.log("ibanAccount: ", ibanAccount);
       if (ibanAccount) {
         this.info = ibanAccount;
         this.favoriteAccountControl.setValue(ibanAccount);
         this.isActive = true;
-      } else {
-        this.checked2 = false;
+      } else if ( !this.info  ) {
+          this.checked2 = false;
       }   
     });
   }

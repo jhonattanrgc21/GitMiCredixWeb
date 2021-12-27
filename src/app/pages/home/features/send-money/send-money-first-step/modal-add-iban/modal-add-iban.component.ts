@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {finalize} from 'rxjs/operators';
 import {IdentificationType} from '../../../../../../shared/models/identification-type';
 import {getIdentificationMaskByType} from '../../../../../../shared/utils';
@@ -33,7 +33,7 @@ export class ModalAddIbanComponent implements OnInit {
         value: this.data.data.info ? this.data.data.info.identification : null,
         disabled: !this.data.data.info,
       },
-      [Validators.required]
+      [Validators.required, Validators.minLength(9)]
     ),
     favName: new FormControl(
       this.data.data.info ? this.data.data.info.favName : null,
@@ -56,6 +56,8 @@ export class ModalAddIbanComponent implements OnInit {
 
   onChanges(): void {
     this.newAccountForm.valueChanges.subscribe((value) => {
+
+      console.log("value: ", value);
       if (value.ibanAccount && value.identificationType && value.identification && !value.favName) {
         if (value.ibanAccount.length === 22 && value.identification.length === 9) {
           this.sendMoneyService
