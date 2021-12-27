@@ -37,7 +37,7 @@
 
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex="50px">{{step3Tag6 || 'Plazo'}}</span>
-        <span><strong>{{timeLimit}} Meses</strong></span>
+        <span><strong>{{timeLimit}} {{ timeLimit > 1 ? 'Meses' : 'Mes' }}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">

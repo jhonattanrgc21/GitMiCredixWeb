@@ -148,6 +148,8 @@ export class SendMoneySecondStepComponent implements OnInit {
           response => {
             this.amountAvailableDolar = response.amountAvailableDolar;
             this.limitAmountSendMoney = response.limitAmountSendMoney;
+
+            console.log("response: ", response);
           }
         )
     });
