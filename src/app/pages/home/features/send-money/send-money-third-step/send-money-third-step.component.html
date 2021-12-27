@@ -29,11 +29,11 @@
     <span fxFlex="260px"><strong>{{step3Subt2 || 'Detalles de la transferencia'}}</strong></span>
 
     <div class="right-content" fxLayout="column" fxLayoutGap="8px">
-      <div fxLayout="row" fxLayoutAlign="space-between">
+      <!--div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex>{{step3Tag5 || 'Cuota'}}</span>
         <credix-numeric-block [prefix]="currencyPrefix" [value]="quotaAmountView"
                               fontWeight="bold"></credix-numeric-block>
-      </div>
+      </div-->
 
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex="50px">{{step3Tag6 || 'Plazo'}}</span>
@@ -46,12 +46,12 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{step3Tag8 || 'Comisión'}} ({{commissionRate}}%)*</span>
+        <span fxFlex>{{step3Tag8 || 'Cargo por transferencia'}}</span>
         <credix-numeric-block [prefix]="currencyPrefix" [value]="commission" fontWeight="bold"></credix-numeric-block>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>IVA*</span>
+        <span fxFlex>IVA</span>
         <credix-numeric-block [prefix]="currencyPrefix" [value]="iva" fontWeight="bold"></credix-numeric-block>
       </div>
 

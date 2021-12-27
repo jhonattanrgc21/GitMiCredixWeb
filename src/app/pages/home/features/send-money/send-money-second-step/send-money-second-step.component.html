@@ -11,9 +11,6 @@
         {{'El monto debe ser menor a ' + currencyCode + limitAmountSendMoney + (limitAmountSendMoney.split(',').length === 1 ? ',00' : '')}}
 
       </div>
-      <div *ngIf="amountToSendControl.hasError('required')" error>
-        ingrese el monto
-      </div>
     </credix-input-field>
   </div>
 
@@ -33,7 +30,7 @@
                        [max]="quotaSliderMax"
                        [min]="quotaSliderMin"
                        [step]="quotaSliderStep" class="second-step__slider"
-                       instructions="{{step2Tag1 || 'Deseo dividir este pago en'}}" units="cuotas"></credix-slider>
+                       instructions="{{'Deseo dividirlo en'}}" units="cuotas"></credix-slider>
 
 
         <!--div fxLayout="column">
@@ -49,7 +46,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>IVA</span>
+        <span>{{quotaSliderDisplayValue !== 1 ? 'IVA*': 'IVA'}}</span>
         <credix-numeric-block [prefix]="currencyCode" [value]="iva" fontWeight="bold"></credix-numeric-block>
       </div>
 

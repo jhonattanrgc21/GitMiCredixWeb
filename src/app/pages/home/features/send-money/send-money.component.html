@@ -47,15 +47,15 @@
                           buttonText="Listo"
                           routeTo="/home">
 
-    <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
-      <mat-divider class="mb-24px" credixDivider></mat-divider>
+    <div *ngIf="status === 'success'" fxLayout="column">
+      <mat-divider class="mb-24px" credixDivider fxLayoutAlign="center" style="width: 80%;"></mat-divider>
 
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <p fxFlex="200px"><strong>Datos de la transferencia</strong></p>
+      <div fxLayout="row" fxLayoutAlign="space-between" class="content-max">
+        <p><strong>Datos de la transferencia</strong></p>
 
         <div fxLayout="column" fxLayoutGap="8px">
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>Monto</span>
+            <span fxFlex="247">Monto</span>
             <div>
               <credix-numeric-block [prefix]="currencyPrefix" [value]="amountAndQuotaForm.controls.amount.value"
                                     class="tr" fontWeight="bold"></credix-numeric-block>
@@ -73,7 +73,7 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Cuenta</span>
+            <span fxFlex="100px">Cuenta</span>
             <span class="tr"><strong>{{informationForm.controls.account.value.ibanAccount}}</strong></span>
           </div>
 

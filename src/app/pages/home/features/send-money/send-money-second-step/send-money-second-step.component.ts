@@ -17,7 +17,7 @@ import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
   styleUrls: ['./send-money-second-step.component.scss']
 })
 export class SendMoneySecondStepComponent implements OnInit {
-  @Input() amountToSendControl: FormControl = new FormControl(null, [Validators.required]);
+  @Input() amountToSendControl: FormControl = new FormControl(null);
   @Input() quotasControl: FormControl = new FormControl(null);
   @Input() detailsControl: FormControl = new FormControl(null);
   @Input() currencyCode = '';
