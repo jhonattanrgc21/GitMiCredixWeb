@@ -20,6 +20,10 @@
                              [label]="optionOneTag ||'Sucursales Credix'"
                              [value]="1" name="places" (click)="eventClick2(true)"></credix-radio-button>
 
+          <div fxLayout="row" fxLayoutAlign="justify">
+            <span class="span-tag" style="font-size: 11px; position: relative; top: -2px">Tiempo de entrega: 3 días hábiles.</span>
+          </div>
+
         <credix-select *ngIf="placeRadioButton === 1" class="marchamo-third-step__sub-content"
                        formControlName="deliveryPlace" label="Seleccione la más cercana">
           <mat-option *ngFor="let delivery of deliveryPlaces" [value]="delivery.id">
