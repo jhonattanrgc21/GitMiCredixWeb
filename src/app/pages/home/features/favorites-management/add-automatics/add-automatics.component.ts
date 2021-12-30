@@ -68,24 +68,7 @@ export class AddAutomaticsComponent implements OnInit {
   category: any = {
     publicServiceCategory: ''
   };
-  amounts: {amount: string, id: number}[] = [
-    {
-    amount: '2000',
-    id: 1,
-  }, {
-    amount: '5000',
-    id: 2,
-  }, {
-    amount: '3000',
-    id: 3,
-  }, {
-    amount: '1000',
-    id: 4,
-  }, {
-    amount: 'Otro',
-    id: 6,
-  }
-];
+  amounts: {amount: string, id: number}[] = [];
 
   @ViewChild('addAutomaticsStepper') stepper: CdkStepper;
 
@@ -127,7 +110,7 @@ export class AddAutomaticsComponent implements OnInit {
     this.getFromFavorites();
     this.getCredixCodeError();
     this.onMaxAmount();
-    // this.getAmountsRecharge();
+    this.getAmountsRecharge();
   }
 
   getAmountsRecharge() {
