@@ -51,7 +51,7 @@
                   <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
                                       *ngFor="let amount of amounts, let last = last"
                                       [label]="last ? 'Otro': ''"
-                                      [ngClass]="{'mb-16px' : !last, 'ml-28px': last}"
+                                      [ngClass]="{'mb-16' : !last, 'ml-28': last}"
                                       [value]="amount.amount"
                                       [position]="last ? 'before' : 'after'"
                                       [checked]="convertAmount(amount.amount) === automaticsDetailControls.maxAmount.value">
@@ -73,7 +73,7 @@
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="150px"><strong>Elija su plazo</strong></span>
           </div>
-          <div fxLayout="column" fxFlex="363px" fxLayoutGap="16px" style="margin-bottom: 0 !important;">
+          <div fxLayout="column" fxFlex="363px" fxLayoutGap="16px" class="mb-0">
             <credix-slider (inputChange)="getQuota($event)"
                              (valueChange)="getQuota($event)"
                              [displayMax]="termSliderDisplayMax"
@@ -130,11 +130,13 @@
                 <mat-divider credixDivider></mat-divider>
   
                 <div class="automatics__code">
-                  Ingrese el código generado en la aplicación Código Credix. Para obtenerlo presione <a href="#" target="_blank" class="automatics__link">aquí.</a>
+                  Ingrese el código generado en la aplicación <a href="#" target="_blank" class="automatics__link">Código MiCredix ></a>
                 </div>
+
+                
             </div>
           </div>   
-          <div style="margin-top: -16px !important;" fxLayout="column">
+          <div class="mt-16" fxLayout="column">
             <credix-code-input formControlName="codeCredix" class="automatics__input disabled">
               <span *ngIf="automaticsDetailForm.controls.codeCredix.hasError('required')"
               error>Introduzca el código credix.</span>

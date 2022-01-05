@@ -1,11 +1,11 @@
-<mat-card *ngIf="!done else doneNewAutomaticsTemplate" class="add-automatics" credixCard fxLayout="column">
+<mat-card *ngIf="!done else doneNewAutomaticsTemplate" class="add-automatics"  credixCard fxLayout="column">
 
-  <h1 class="mb-32px">Añadir pago automático</h1>
+  <h1 class="mb-16px">Añadir pago automático</h1>
     <credix-stepper #addAutomaticsStepper fxFlex>
       <cdk-step [label]="'Información'">
-        <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="options" fxLayout="column" right>
+        <!-- <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="options" fxLayout="column" right> -->
 
-          <div class="add-automatics__container mt-8px" fxFlex fxLayout="column" fxLayoutGap="16px">
+          <div class="add-automatics__container mt-8px" fxFlex="auto" fxLayout="column" fxLayoutGap="16px">
 
             <div fxLayout="row" fxLayoutAlign="space-between">
               <span fxFlex="210px"><strong>Nuevo pago automático</strong></span>
@@ -66,17 +66,17 @@
               <div [formGroup]="rechargeFormGroup" fxLayout="row" fxLayoutAlign="space-between">
                 <span fxFlex="210px"><strong>Monto de la recarga</strong></span>
                 <div class="add-automatics__form" fxLayout="column" fxLayoutGap="16px">
-                  <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+                  <div class="left-content" fxLayout="column" fxLayoutGap="10px">
                     <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
                                         *ngFor="let amount of amounts, let last = last"
                                         [label]="last ? 'Otro': ''"
-                                        [ngClass]="{'mb-16px' : !last}"
+                                        [ngClass]="{'mb-10px' : !last}"
                                         [value]="amount.amount">
                       <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>
                     </credix-radio-button>
               
                     <credix-input-field *ngIf="anotherAmount" class="add-automatics__content__input favorite mb-8px"
-                                        formControlName="amount" label="Otro monto"
+                                        formControlName="amount" label="Monto"
                                         mask="separator">
                       <div error>
                         El monto debe ser mayor a
@@ -98,7 +98,7 @@
             </div>-->
 
           </div>
-        </ngx-simplebar>
+        <!-- </ngx-simplebar> -->
       </cdk-step>
       <cdk-step [label]="'Plazo'">
         <app-add-automatics-second-step [termControl]="requestForm.controls.term"

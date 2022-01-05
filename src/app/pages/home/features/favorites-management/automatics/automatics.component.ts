@@ -111,6 +111,11 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
       this.data = response;
       this.quota = this.data.quota;
       this.deleted = false;
+      
+      if ( this.data.alias.length <= 0) {
+        this.data.alias = ' ';
+      }
+
       this.automaticsDetailForm.controls.favoriteName.setValue(this.data?.alias, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.maxAmount.setValue(this.data?.maxAmount, {onlySelf: false, emitEvent: false});
       this.automaticsDetailForm.controls.startDate.setValue(this.data?.startDate, {onlySelf: false, emitEvent: false});

@@ -18,6 +18,7 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
   @Input() message: string;
   @Input() keys: Keys[];
   @Input() quantityOfKeys: number;
+  @Input() status: 'info' | 'success' | 'error';
   label = 'contrato';
 
   constructor(

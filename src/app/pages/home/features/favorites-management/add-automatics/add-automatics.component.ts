@@ -65,7 +65,9 @@ export class AddAutomaticsComponent implements OnInit {
   invalidCodeCredix = true;
   stepperIndex: number = 0;
   anotherAmount: boolean = false;
-  category: any = null;
+  category: any = {
+    publicServiceCategory: ''
+  };
   amounts: {amount: string, id: number}[] = [];
 
   @ViewChild('addAutomaticsStepper') stepper: CdkStepper;
@@ -227,9 +229,13 @@ export class AddAutomaticsComponent implements OnInit {
     this.newAutomaticsForm.controls.publicServicesCategory.valueChanges.subscribe(value => {
       this.category = this.publicServicesCategory.find(category => category.publicServiceCategoryId === value);
       if ( this.category.publicServiceCategory !== 'Recargas' ) {
+
+        console.log("if category: ", this.category.publicServiceCategory);
         this.rechargeFormGroup.controls.amount.setValidators([Validators.nullValidator]);
         this.newAutomaticsForm.controls.maxAmount.setValidators([Validators.required]);
+        this.category.publicServiceCategory = '';
       } else {
+        console.log("else category: ", this.category.publicServiceCategory);
         this.newAutomaticsForm.controls.maxAmount.setValidators([Validators.nullValidator]);
         this.rechargeFormGroup.controls.amount.setValidators([Validators.required]);
       }

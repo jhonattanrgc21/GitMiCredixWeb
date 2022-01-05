@@ -77,7 +77,8 @@
       width: 32px;
       background-color: #F1F1F1;
       border: solid 4px #ffffff;
-
+      right: -30px;
+      
       &:hover {
         background-color: #D0D0D0;
       }
@@ -107,6 +108,7 @@
     }
 
     .mat-slider-horizontal.is-full .mat-slider-thumb {
+      right: -5px;
       &:after {
         content: url(./slider_chevron_right_disabled_icon.svg);
         position: absolute;

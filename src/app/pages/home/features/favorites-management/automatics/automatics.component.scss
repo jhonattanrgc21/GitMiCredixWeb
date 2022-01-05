@@ -73,8 +73,7 @@
       width: 295.76px;
 
       .credix-slider__slider {
-        width: 97% !important;
-        margin-left: 11px !important;
+        width: 100% !important;
       }
   }
   
@@ -84,30 +83,32 @@
     }
   
     .options {
-      //height: calc(495px - 66px);
       height: 400px !important;
       width: 100%;
       overflow-y: auto;
       overflow-x: hidden;
     }
   
-    /*::ng-deep.credix-slider {
-      //width: 296px !important;
-      //padding-left: 13px !important;
-      margin-top: -8px;
-      .mat-slider {
-        width: 286px !important;
-        margin-left: 11px !important;
-      }
-    }*/
   }
   
-  .ml-28px {
+  .ml-28 {
     margin-left: 28px !important;
   }
   
-  .mb-20px {
+  .mb-20 {
     margin-bottom: 20px !important;
+  }
+
+  .automatics__code {
+    max-width: 205px;
+  }
+
+  .mt-16 {
+    margin-top: -16px !important;
+  }
+
+  .mb-0 {
+    margin-bottom: 0 !important;
   }
   
   .enabled {

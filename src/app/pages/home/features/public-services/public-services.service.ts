@@ -235,12 +235,12 @@ export class PublicServicesService {
       );
   }
 
-  checkPendingReceipts(publicServiceId: number, accessKey: number, keyType: number): Observable<PendingReceipts> {
+  checkPendingReceipts(publicServiceId: number, accessKey: number, keyType: number): Observable<any> {
     return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType})
       .pipe(
         map((response) => {
-          if (response.type && response.type === 'error') {
-            return null;
+          if (response?.type && response.type === 'error') {
+            return response;
           } else {
             if (response.receipts && response.receipts.totalAmount) {
               response.receipts.totalAmount = ConvertStringAmountToNumber(response.receipts?.totalAmount).toString();

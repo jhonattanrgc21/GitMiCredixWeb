@@ -16,7 +16,9 @@
     </form>
   </div>
 
-  <credix-result-notification *ngIf="!hasReceipts" status="info"
-                              [title]="message"></credix-result-notification>
+  <credix-result-notification *ngIf="!hasReceipts" [status]="status"
+                              [title]="status === 'info' ? message : 'Oops...'"
+                              [message]="status === 'info' ? '' : message"
+                            ></credix-result-notification>
 
 </div>
