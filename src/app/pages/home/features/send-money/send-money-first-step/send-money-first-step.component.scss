@@ -41,3 +41,17 @@ pointer-events: none;
     padding: 0 94px;
   }
 }
+
+:host credix-select::ng-deep mat-form-field .mat-form-field-flex  {
+  padding-top: 0 !important;
+}
+
+:host { 
+  credix-select ::ng-deep first-step__favorites__select {
+   margin-bottom: 16.5px !important; 
+  }
+}
+
+.margin-select{
+  margin-bottom: 16.5px !important;
+}

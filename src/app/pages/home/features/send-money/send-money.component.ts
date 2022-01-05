@@ -22,7 +22,7 @@ import { stringify } from 'querystring';
 })
 export class SendMoneyComponent implements OnInit, AfterViewInit, OnDestroy {
   informationForm: FormGroup = new FormGroup({
-    account: new FormControl(null, [Validators.required]),
+    account: new FormControl(23213, [Validators.required]),
   });
   amountAndQuotaForm: FormGroup = new FormGroup({
     amount: new FormControl(null, [Validators.required]),

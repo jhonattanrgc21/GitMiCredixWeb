@@ -8,6 +8,13 @@
   }
 }
 
+.divider {
+  width: 479px !important;
+  margin: auto !important;
+  margin-bottom: 24px !important;
+  border: '1px solid #E9E9E9' !important;
+}
+
 @media screen and (max-width: 1199px) {
 
   .send-money {
@@ -19,3 +26,29 @@
     }
   }
 }
+
+    .align-success {
+
+      margin-right: 65px;
+    
+    }
+   
+
+    .content-max{
+     min-width: 541px;
+     max-width: 541px;
+      margin-bottom: 45px;
+    }
+
+    .align-cuotas{
+  
+      margin-left:124px;
+    }
+
+    .align-entidad{
+
+      margin-left:124px;
+    }
+
+
+    
