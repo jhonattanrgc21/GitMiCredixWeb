@@ -1,6 +1,6 @@
 .extend-term {
     max-height: 662px;
-    height: 100%;
+    height: 662px;
     position: relative;
     
     p {
@@ -114,9 +114,17 @@
 
 @media screen and (max-width: 1199px) {
     .extend-term  {
+        max-height: 886px;
+
         &__content {
             margin: 0;
         }
+    }
+  }
+  
+  @media screen and (max-width: 1199px) {
+    .personal-credit {
+      max-height: 886px;
     }
   }
   
