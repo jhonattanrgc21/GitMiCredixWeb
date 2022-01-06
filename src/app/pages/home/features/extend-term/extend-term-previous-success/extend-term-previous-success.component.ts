@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ExtendTermPreviousSuccessComponent implements OnInit {
 
-  status: 'success' | 'error';
+  status: any;
   message: string;
   establishment: string;
   currency: string;
@@ -33,7 +33,6 @@ export class ExtendTermPreviousSuccessComponent implements OnInit {
       this.router.navigate(['/home/extend-term']);
     }
 
-    console.log("this.extendTermService.result?: ", this.extendTermService.result);
     this.currency = this.extendTermService.newQuota?.currency;
     this.amount = this.extendTermService.newQuota?.amount;
     this.quota = this.extendTermService.newQuota?.quota;

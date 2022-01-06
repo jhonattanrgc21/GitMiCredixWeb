@@ -70,7 +70,13 @@
 
 .summary-custom {
     height: 273px !important;
-  
+    
+    &__info-iva {
+        color: #707070;
+        font-size: 14px !important;
+        margin-bottom: 26px !important
+    }
+
     ::ng-deep .credix-numeric-block__decimal {
       font-size: 14px !important;
     }

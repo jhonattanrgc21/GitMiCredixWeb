@@ -1,11 +1,11 @@
 <app-credix-result-view [resultMessage]="message"
-                        [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
-                        [status]="status"
+                        [resultTile]="status"
+                        [status]="status === '¡Éxito!' ? 'success' : 'error'"
                         [moduleTitle]="titleTag || 'Ampliar plazo de compra'"
                         buttonText="Listo"
                         routeTo="/home/extend-term">
 
-  <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
+  <div *ngIf="status === '¡Éxito!'" class="w-100" fxLayout="column" fxFlex="auto">
     <mat-divider class="mb-24px" credixDivider></mat-divider>
 
     <div fxLayout="row" style="padding: 0 22px;" fxLayoutAlign="space-between">
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <credix-share-button fxFlexAlign="center" style="margin-top: 90px"></credix-share-button>
+    <credix-share-button fxFlex="auto" fxFlexAlign="center"></credix-share-button>
   </div>
 
 </app-credix-result-view>
