@@ -47,6 +47,8 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   leyendTag: string;
   totalAmount = 0;
   activateDeliveryOption = null;
+  officeMessage= null;
+  residenceMessage = null;
 
   constructor(private httpService: HttpService,
               private modalService: ModalService,
@@ -58,6 +60,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getValueActivateOrDisableDeliveryOption();
+    this.getDeliveryTimeMessagesMarchamo();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
@@ -138,6 +141,15 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
         this.activateDeliveryOption = response;
         this.placesRadioButtonChanged(1);
         this.eventClick2(true);
+      });
+  }
+
+  getDeliveryTimeMessagesMarchamo() {
+    this.marchamoService.getDeliveryTimeMessagesMarchamo()
+      .pipe(finalize(() => {}))
+      .subscribe((response) => {
+        this.officeMessage = response.office;
+        this.residenceMessage = response.residence;
       });
   }
 
