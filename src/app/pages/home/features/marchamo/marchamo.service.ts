@@ -18,6 +18,7 @@ export class MarchamoService {
   private readonly getVehicleConsultUri = 'pay/vehicleconsult';
   private readonly getOwnerPayerInfoUri = 'owners/payerinfo';
   private readonly getCalculateComissionUri = 'pay/calculatecommission';
+  private readonly getMessagesSLAMarchamo = 'customerservice/getdeliverytimemessagesmarchamo';
   marchamoAmount: number;
   private readonly getDeliveryPlacesUri = 'global/deliveryplace';
   private readonly getValueActivateOrDisableDeliveryOptionUri = 'customerservice/getvalueenableordisablemarchamodelivery';
@@ -151,6 +152,21 @@ export class MarchamoService {
     return this.httpService.post('canales', this.getValueActivateOrDisableDeliveryOptionUri)
       .pipe(map((response) => {
           if (response.type === 'success') {
+            return response.value;
+          } else {
+            this.toastService.show({text: 'Error', type: 'error'});
+            return null;
+          }
+        })
+      );
+  }
+
+  @Cacheable()
+  getDeliveryTimeMessagesMarchamo(): Observable<{ office: string; residence: string; }> {
+    return this.httpService.post('canales', this.getMessagesSLAMarchamo)
+      .pipe(map((response) => {
+          if (response.type === 'success') {
+            console.log(response.value);
             return response.value;
           } else {
             this.toastService.show({text: 'Error', type: 'error'});

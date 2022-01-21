@@ -20,8 +20,9 @@
                              [label]="optionOneTag ||'Sucursales Credix'"
                              [value]="1" name="places" (click)="eventClick2(true)"></credix-radio-button>
 
-          <div fxLayout="row" fxLayoutAlign="justify">
-            <span class="span-tag" style="font-size: 11px; position: relative; top: -2px">Tiempo de entrega: 3 días hábiles.</span>
+          <div fxLayout="row" fxLayoutAlign="justify" style="width: 90%;">
+            <span class="span-tag" style="font-size: 11px; position: relative; top: -2px;width: 100%;
+            text-align: justify;">{{officeMessage}}</span>
           </div>
 
         <credix-select *ngIf="placeRadioButton === 1" class="marchamo-third-step__sub-content"
@@ -39,16 +40,9 @@
                              [value]="2" name="places"
                              [disabled]="activateDeliveryOption != null ? activateDeliveryOption ? false : true : true">
         </credix-radio-button>
-        <div fxLayout="row" fxLayoutAlign="justify">
-          <span class="span-tag" [class.isDisabled]="activateDeliveryOption === false" style="font-size: 11px; position: relative; top: -2px">Este envío tiene un costo de</span>
-          <span class="span-mount" [class.isDisabled]="activateDeliveryOption === false">
-            <credix-numeric-block-specific [value]="leyendTag" [disabled]="activateDeliveryOption === false"
-                                prefix="₡"></credix-numeric-block-specific>
-          </span>
-          <span [class.isDisabled]="activateDeliveryOption === false" style="font-size: 11px; position: relative; top: -2px">y se cobra en el próximo</span>
-        </div>
-        <div  fxLayout="row" fxLayoutAlign="justify">
-          <span [class.isDisabled]="activateDeliveryOption === false" class="span-tag" style="font-size: 11px; position: relative; top:-9px">estado de cuenta.</span>
+        <div fxLayout="row" fxLayoutAlign="justify" style="width: 90%;">
+          <span class="span-tag" [class.isDisabled]="activateDeliveryOption === false" style="font-size: 11px; position: relative; top: -2px;width: 100%;
+          text-align: justify;">{{residenceMessage}}</span>
         </div>
 
         <div *ngIf="placeRadioButton === 2" class="marchamo-third-step__sub-content"
