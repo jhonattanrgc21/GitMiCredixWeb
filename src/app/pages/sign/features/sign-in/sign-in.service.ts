@@ -83,10 +83,10 @@ export class SignInService {
     );
   }
 
-  getDeviceInfo(): Observable<{ status: string; id: number; phone: string; email: string; }> {
+  getDeviceInfo(): Observable<{ status: string; id: number; phone?: string; email?: string; }> {
     return this.httpService.post('canales', this.getDeviceInfoUri, {uuid: this.storageService.getUuid()})
       .pipe(
-        map(response => ({status: response.type, id: response.id, email: response.email, phone: response.phone}))
+        map(response => ({status: response.type, id: response.id, email: response?.email, phone: response?.phone}))
       );
   }
 
@@ -109,7 +109,7 @@ export class SignInService {
       map(response => {
         console.log(response);
         if (response.type === 'success') {
-          return {userId: response.userId, phoneNumber: response.phone, email: response.email};
+          return {userId: response.userId, phoneNumber: response?.phone, email: response?.email};
         } else {
           return null;
         }
