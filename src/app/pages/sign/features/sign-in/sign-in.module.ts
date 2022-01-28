@@ -15,7 +15,7 @@ import {CredixInputFieldModule} from '../../../../shared/components/credix-input
 import {SignInService} from './sign-in.service';
 import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
-import {CredixStepperSignUpComponent} from './sign-up/credix-stepper-sign-up/credix-stepper-sign-up.component';
+import {CredixStepperSignUpComponent} from '../../../../shared/components/credix-stepper-sign-up/credix-stepper-sign-up.component';
 import {ForgotPasswordService} from './forgot-password/forgot-password.service';
 import {SignUpService} from './sign-up/sign-up.service';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
@@ -24,6 +24,7 @@ import {CdkStepperModule} from '@angular/cdk/stepper';
 import {StepperModule} from '../../../../shared/directives/stepper/stepper.module';
 import {MatStepperModule} from '@angular/material/stepper';
 import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
+import {CredixRadioButtonModule} from '../../../../shared/components/credix-radio-button/credix-radio-button.module';
 
 const routes: Routes = [
   {
@@ -56,7 +57,8 @@ const routes: Routes = [
     CredixCodeLinkModule,
     CdkStepperModule,
     StepperModule,
-    MatStepperModule
+    MatStepperModule,
+    CredixRadioButtonModule
   ],
   providers: [
     SignInService,

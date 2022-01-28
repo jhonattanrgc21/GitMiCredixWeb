@@ -49,33 +49,81 @@
 
 <ng-template #newDeviceTemplate>
   <div class="h-100" fxLayout="column" fxLayoutAlign="flex-start center">
-    <p class="mb-16px">
-      Por su seguridad le hemos enviado un código de verificación vía SMS al teléfono registrado: {{phone}}.
-    </p>
+    <credix-stepper-sign-up #stepper class="modal-send-otp__stepper">
+      <cdk-step [label]="'Medio de contacto'" [stepControl]="shippingTypeFormControl">
+        <div class="modal-send-otp__stepper-1" fxLayout="column">
+          <span class="modal-send-otp__label">Seleccione cómo desea recibir el código de confirmación:</span>
 
-    <form [formGroup]="newDeviceFormGroup" class="w-100 mb-32px">
-      <credix-code-input formControlName="credixCode">
-        <span *ngIf="newDeviceFormGroup.controls.credixCode.hasError('invalid')"
-              error>{{errorOtpMessage}}</span>
-      </credix-code-input>
-    </form>
+          <credix-radio-button (emitRadioButton)="shippingTypeChange($event)"
+                               [label]="labelEmail"
+                               [name]="'shippingType'"
+                               [value]="2"
+                               class="modal-send-otp__radio-button">
+          </credix-radio-button>
 
-    <div class="w-100 mt-16px" fxLayout="column" fxLayoutAlign="center center">
-      <span>¿No ha recibido el código?</span>
-      <credix-link-button (click)="sendOtp()">Enviar nuevamente</credix-link-button>
+          <credix-radio-button (emitRadioButton)="shippingTypeChange($event)"
+                               [label]="labelPhone"
+                               [name]="'shippingType'"
+                               [value]="1"
+                               class="modal-send-otp__radio-button">
+          </credix-radio-button>
+
+
+          <p class="mb-16px f-14px modal-send-otp__parrafe">
+            Si este no es su teléfono/correo o ya no tiene acceso a él, por favor, comuníquese con nuestro call center
+            22 CREDIX
+            <credix-link-button>2227-3349</credix-link-button>
+            o visite una de nuestras sucursales para solicitar el cambio.
+          </p>
+        </div>
+      </cdk-step>
+      <cdk-step [label]="'Validación'">
+        <div class="modal-send-otp__stepper-2" fxLayout="column">
+
+          <span *ngIf="shippingTypeFormControl.value === 2" class="mt-24px mb-16px">Ingrese el código que hemos enviado al correo: {{email}}</span>
+          <span *ngIf="shippingTypeFormControl.value === 1" class="mt-24px mb-16px">Ingrese el código que hemos enviado al teléfono: {{phone}}</span>
+
+          <span class="mb-16px">El código es válido por: <b>10 minutos</b></span>
+
+          <form [formGroup]="newDeviceFormGroup" class="w-100 mb-32px">
+            <credix-code-input formControlName="credixCode">
+            <span *ngIf="newDeviceFormGroup.controls.credixCode.hasError('invalid')"
+                  error>{{errorOtpMessage}}</span>
+            </credix-code-input>
+          </form>
+
+          <div class="w-100 mt-16px" fxLayout="column" fxLayoutAlign="center center">
+            <span>¿No ha recibido el código?</span>
+            <credix-link-button (click)="sendOtp()">Enviar nuevamente</credix-link-button>
+          </div>
+
+
+          <span fxFlex></span>
+
+          <p class="mb-24px f-14px" style="margin-top: 64px;">
+            Si este no es su teléfono/correo o ya no tiene acceso a él, por favor, comuníquese con nuestro call center
+            22 CREDIX
+            <credix-link-button>2227-3349</credix-link-button>
+            o visite una de nuestras sucursales para solicitar el cambio.
+          </p>
+        </div>
+      </cdk-step>
+    </credix-stepper-sign-up>
+
+    <credix-button (buttonClick)="next()" *ngIf="stepIndex === 0" [disabled]="shippingTypeFormControl.invalid"
+                   class="w-100">
+      Continuar
+    </credix-button>
+
+    <div *ngIf="stepIndex === 1" class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end center">
+      <credix-button (buttonClick)="back()" class="mr-16px" type="secondary">
+        Atrás
+      </credix-button>
+      <credix-button (buttonClick)="validateOtp()" [disabled]="newDeviceFormGroup.controls.credixCode.invalid"
+                     style="width: 441px;">
+        Ingresar
+      </credix-button>
     </div>
 
-
-    <span fxFlex></span>
-
-    <p class="mb-16px f-14px">
-      Si este no es su teléfono o ya no tiene acceso a él, por favor, comuníquese con nuestro call center 22 CREDIX
-      <credix-link-button>2227-3349</credix-link-button>
-      o visite una de nuestras sucursales para solicitar el cambio.
-    </p>
-
-    <credix-button (buttonClick)="validateOtp()" [disabled]="newDeviceFormGroup.invalid" class="w-100">
-      Ingresar
-    </credix-button>
   </div>
 </ng-template>

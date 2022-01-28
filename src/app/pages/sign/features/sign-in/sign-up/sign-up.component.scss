@@ -58,3 +58,13 @@
     line-height: 30px !important;
   }
 }
+
+:host ::ng-deep.credix-stepper-sign-up__nav-bar {
+  &__line {
+    width: 98px !important;
+  }
+
+  &__label {
+    width: min-content !important;
+  }
+}
