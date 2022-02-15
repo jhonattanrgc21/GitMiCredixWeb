@@ -7,6 +7,8 @@
       <form [formGroup]="newUserFirstStepForm" class="modal-new-user_first-form" fxLayout="column"
             fxLayoutGap="space-between">
 
+        <span class="modal-new-user__stepper--parrafe" style="width: 483px;">Ingrese los siguientes datos para validar su usuario y generar su nueva clave.</span>
+
         <div class="modal-new-user__first-form__input-wrapper" fxLayout="column">
           <credix-select formControlName="typeIdentification" label="Tipo de identificación">
             <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
@@ -33,9 +35,57 @@
       </form>
     </cdk-step>
 
-    <cdk-step [label]="'Validar teléfono'" [stepControl]="newUserSecondStepForm">
-      <p class="modal-new-user__stepper--parrafe">Ingrese el código que hemos enviado al teléfono
+    <cdk-step [label]="'Medio de contacto'" [stepControl]="selectOptionToSendOTP">
+      <div class="mt-24px" fxLayout="column">
+
+        <span class="mt-24px mb-24px">Seleccione cómo desea recibir el código de confirmación:</span>
+
+        <credix-radio-button (emitRadioButton)="onChangeSelectOtpToSend($event)"
+                             [label]="phoneLabel"
+                             [value]="2" class="mb-16px"
+                             name="otpOption">
+
+        </credix-radio-button>
+
+        <credix-radio-button (emitRadioButton)="onChangeSelectOtpToSend($event)"
+                             [label]="mailLabel"
+                             [value]="1"
+                             name="otpOption">
+
+        </credix-radio-button>
+
+
+        <p class="modal-new-user__stepper--parrafe info mb-24px" style="margin-top: 191px;">Si este no es su
+          teléfono/correo o ya no tiene acceso a él, por
+          favor, comuníquese con nuestro call center 22 CREDIX (<strong style="color: #239DF7;">2227-3349</strong>)
+          o visite una de nuestras sucursales para solicitar el cambio. Al ingresar a la aplicación puede cambiar su
+          correo.</p>
+
+        <div class="actions-footer" fxFlex="100%" fxLayout="row">
+          <credix-button (buttonClick)="back()" class="mr-16px" style="width: 71px;" type="secondary">
+            Atrás
+          </credix-button>
+
+
+          <credix-button
+            (buttonClick)=nextStep()
+            [disabled]="!selectOptionToSendOTP.valid"
+            class="step-two"
+            fxFlexAlign="flex-start"
+            style="width: 441px;">Continuar
+          </credix-button>
+        </div>
+      </div>
+    </cdk-step>
+
+    <cdk-step [label]="'Validación'" [stepControl]="newUserSecondStepForm">
+
+      <p *ngIf="selectOptionToSendOTP.value === 2" class="modal-new-user__stepper--parrafe">Ingrese el código que hemos
+        enviado al teléfono
         registrado: {{phoneNumber}}</p>
+
+      <p *ngIf="selectOptionToSendOTP.value === 1" class="modal-new-user__stepper--parrafe">
+        Ingrese el código que hemos enviado al correo: {{mail}}</p>
 
       <form [formGroup]="newUserSecondStepForm" fxLayout="column">
 
@@ -49,16 +99,25 @@
           <credix-link-button (click)=sendOtp()>Enviar nuevamente</credix-link-button>
         </div>
 
-        <p class="modal-new-user__stepper--parrafe info">Si este no es su correo o ya no tiene acceso a él, por
+        <p class="modal-new-user__stepper--parrafe info">Si este no es su teléfono/correo o ya no tiene acceso a él, por
           favor, comuníquese con nuestro call center 22 CREDIX (<strong style="color: #239DF7;">2227-3349</strong>)
-          o visite una de nuestras sucursales para solicitar el cambio.</p>
+          o visite una de nuestras sucursales para solicitar el cambio. Al ingresar a la aplicación puede cambiar su
+          correo.</p>
 
-        <credix-button
-          (buttonClick)=validateOtp()
-          [disabled]="!newUserSecondStepForm.valid"
-          class="modal-new-user__button step-two"
-          fxFlexAlign="flex-start">Continuar
-        </credix-button>
+
+        <div class="actions-footer" fxFlex="100%" fxLayout="row">
+          <credix-button (buttonClick)="back()" class="mr-16px" style="width: 71px;" type="secondary">
+            Atrás
+          </credix-button>
+
+          <credix-button
+            (buttonClick)=validateOtp()
+            [disabled]="!newUserSecondStepForm.valid"
+            class="modal-new-user__button step-two"
+            fxFlexAlign="flex-start"
+            style="width: 441px;">Continuar
+          </credix-button>
+        </div>
 
       </form>
     </cdk-step>

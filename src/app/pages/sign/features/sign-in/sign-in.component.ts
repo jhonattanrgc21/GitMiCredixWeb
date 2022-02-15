@@ -148,7 +148,12 @@ export class SignInComponent implements OnInit, OnDestroy {
     switch (modal) {
       case 'sign-up':
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
-          {width: 376, minHeight: 623, disableClose: true, panelClass: 'sign-up-panel'}).afterClosed().subscribe(user => {
+          {
+            width: 608,
+            minHeight: 688,
+            disableClose: true,
+            panelClass: 'sign-up-panel'
+          }).afterClosed().subscribe(user => {
           if (user) {
             this.signInformGroup.controls.identification.setValue(user.identification);
             this.signInformGroup.controls.password.setValue(user.password);

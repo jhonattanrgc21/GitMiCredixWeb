@@ -19,11 +19,14 @@ import {Subject} from 'rxjs';
 export class SignUpComponent implements OnInit, OnDestroy {
   identificationTypes: IdentificationType[];
   phoneNumber: string;
+  mail: string;
   identificationMask = '0-0000-0000';
   hidePassword = true;
   hideConfirmPassword = true;
   userId: number;
   otpSent = false;
+  phoneLabel: string;
+  mailLabel: string;
   newUserFirstStepForm: FormGroup = new FormGroup({
     typeIdentification: new FormControl(null, [Validators.required]),
     identification: new FormControl({value: null, disabled: true}, [Validators.required])
@@ -31,6 +34,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   newUserSecondStepForm: FormGroup = new FormGroup({
     credixCode: new FormControl('', [Validators.required])
   });
+  selectOptionToSendOTP: FormControl = new FormControl(null, [Validators.required]);
   newUserThirdStepForm: FormGroup = new FormGroup({
     newPassword: new FormControl(null, [Validators.required]),
     confirmPassword: new FormControl(null, [Validators.required])
@@ -54,6 +58,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.globalApiService.getIdentificationTypes()
       .pipe(finalize(() => this.identificationChanged()))
       .subscribe(identificationTypes => this.identificationTypes = identificationTypes.filter(idt => idt.id > 0));
+  }
+
+  back() {
+    this.stepper.previous();
   }
 
   nextStep() {
@@ -89,7 +97,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.newUserFirstStepForm.controls.identification.value,
       this.newUserFirstStepForm.controls.typeIdentification.value).subscribe(user => {
       if (user) {
+        this.phoneLabel = `SMS: ${user.phoneNumber}`;
+        this.mailLabel = `Correo: ${user.email}`;
         this.phoneNumber = user.phoneNumber;
+        this.mail = user.email;
         this.userId = user.userId;
         this.otpSent = true;
       } else {
@@ -137,6 +148,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
         this.newUserFirstStepForm.controls.identification.disable();
       }
     });
+  }
+
+  onChangeSelectOtpToSend(event) {
+    console.log(event);
+    if (event.checked) {
+      this.selectOptionToSendOTP.patchValue(event.value);
+    }
   }
 
   checkPasswords(group: FormGroup): ValidationErrors | null {

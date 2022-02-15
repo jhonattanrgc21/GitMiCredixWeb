@@ -24,6 +24,7 @@ import {CdkStepperModule} from '@angular/cdk/stepper';
 import {StepperModule} from '../../../../shared/directives/stepper/stepper.module';
 import {MatStepperModule} from '@angular/material/stepper';
 import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
+import {CredixRadioButtonModule} from "../../../../shared/components/credix-radio-button/credix-radio-button.module";
 
 const routes: Routes = [
   {
@@ -56,7 +57,8 @@ const routes: Routes = [
     CredixCodeLinkModule,
     CdkStepperModule,
     StepperModule,
-    MatStepperModule
+    MatStepperModule,
+    CredixRadioButtonModule
   ],
   providers: [
     SignInService,

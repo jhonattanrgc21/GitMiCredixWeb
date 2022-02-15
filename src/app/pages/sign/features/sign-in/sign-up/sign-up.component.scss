@@ -18,7 +18,6 @@
 
       &.info {
         display: block;
-        margin-bottom: 52px;
       }
     }
   }
@@ -57,4 +56,28 @@
     margin-bottom: 16px !important;
     line-height: 30px !important;
   }
+}
+
+
+:host ::ng-deep.step-one {
+  width: 528px;
+}
+
+:host ::ng-deep.credix-stepper-sign-up {
+  &__nav-bar {
+    &__line {
+      width: 131.18px !important;
+      margin-right: 1px !important;
+    }
+
+    &__label {
+      width: 72px !important;
+    }
+  }
+}
+
+:host ::ng-deep.actions-footer {
+  border-top: none;
+  padding-top: 0 !important;
+  margin-left: 0;
 }
