@@ -1,13 +1,14 @@
-<div class="h-100" fxLayout="column">
-  <p class="modal-new-user__parrafe">Ingrese los siguientes datos para crear una clave nueva.</p>
-
+<div class="h-100" fxLayout="column" style="margin-top: 40px">
   <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
 
     <cdk-step [label]="'Identificación'" [stepControl]="newUserFirstStepForm">
-      <form [formGroup]="newUserFirstStepForm" class="modal-new-user_first-form" fxLayout="column"
+      <form [formGroup]="newUserFirstStepForm"
+            class="modal-new-user_first-form"
+            fxLayout="column"
+            style="margin-top: 40px !important;"
             fxLayoutGap="space-between">
 
-        <span class="modal-new-user__stepper--parrafe" style="width: 483px;">Ingrese los siguientes datos para validar su usuario y generar su nueva clave.</span>
+        <span class="modal-new-user__stepper--parrafe">Ingrese los siguientes datos para validar su usuario y generar su nueva clave.</span>
 
         <div class="modal-new-user__first-form__input-wrapper" fxLayout="column">
           <credix-select formControlName="typeIdentification" label="Tipo de identificación">
@@ -55,7 +56,7 @@
         </credix-radio-button>
 
 
-        <p class="modal-new-user__stepper--parrafe info mb-24px" style="margin-top: 191px;">Si este no es su
+        <p class="modal-new-user__stepper--parrafe info mb-24px" style="margin-top: 169px;">Si este no es su
           teléfono/correo o ya no tiene acceso a él, por
           favor, comuníquese con nuestro call center 22 CREDIX (<strong style="color: #239DF7;">2227-3349</strong>)
           o visite una de nuestras sucursales para solicitar el cambio. Al ingresar a la aplicación puede cambiar su
@@ -80,12 +81,16 @@
 
     <cdk-step [label]="'Validación'" [stepControl]="newUserSecondStepForm">
 
-      <p *ngIf="selectOptionToSendOTP.value === 2" class="modal-new-user__stepper--parrafe">Ingrese el código que hemos
+      <p *ngIf="selectOptionToSendOTP.value === 2" class="modal-new-user__stepper--parrafe mt-16px">Ingrese el código
+        que hemos
         enviado al teléfono
         registrado: {{phoneNumber}}</p>
 
-      <p *ngIf="selectOptionToSendOTP.value === 1" class="modal-new-user__stepper--parrafe">
+      <p *ngIf="selectOptionToSendOTP.value === 1" class="modal-new-user__stepper--parrafe mt-16px">
         Ingrese el código que hemos enviado al correo: {{mail}}</p>
+
+      <p class="modal-new-user__stepper--parrafe mt-16px mb-16px">El código es válido por: <b>10 minutos</b></p>
+
 
       <form [formGroup]="newUserSecondStepForm" fxLayout="column">
 
@@ -99,7 +104,8 @@
           <credix-link-button (click)=sendOtp()>Enviar nuevamente</credix-link-button>
         </div>
 
-        <p class="modal-new-user__stepper--parrafe info">Si este no es su teléfono/correo o ya no tiene acceso a él, por
+        <p class="modal-new-user__stepper--parrafe info" style="margin-top: 96px">Si este no es su teléfono/correo o ya
+          no tiene acceso a él, por
           favor, comuníquese con nuestro call center 22 CREDIX (<strong style="color: #239DF7;">2227-3349</strong>)
           o visite una de nuestras sucursales para solicitar el cambio. Al ingresar a la aplicación puede cambiar su
           correo.</p>
@@ -123,7 +129,10 @@
     </cdk-step>
 
     <cdk-step [label]="'Clave'" [stepControl]="newUserThirdStepForm">
-      <form [formGroup]="newUserThirdStepForm" class="modal-new-user__third-form" fxLayout="column">
+      <form [formGroup]="newUserThirdStepForm" class="modal-new-user__third-form" fxLayout="column"
+            style="margin-top: 40px">
+
+        <p class="modal-new-user__stepper--parrafe">Ingrese su nueva clave.</p>
 
         <credix-input-field [credixPasswordFieldTooltip]="newUserThirdStepForm.controls.newPassword"
                             [tooltipWidth]="296" [type]="hidePassword ? 'password' : 'text'"
@@ -136,7 +145,7 @@
         </credix-input-field>
 
         <credix-input-field formControlName="confirmPassword"
-                            class="modal-new-user__third-form__input-pass"
+                            class="modal-new-user__third-form__input-pass mt-16px"
                             focusLabel="Clave" label="Confirme su nueva clave"
                             [type]="hideConfirmPassword ? 'password' : 'text'">
           <mat-icon (click)="hideConfirmPassword = !hideConfirmPassword"
@@ -147,7 +156,7 @@
           (buttonClick)=submit()
           [disabled]="!newUserThirdStepForm.valid"
           class="modal-new-user__button step-three"
-          fxFlexAlign="flex-end">Ingresar
+          fxFlexAlign="flex-start">Listo
         </credix-button>
       </form>
     </cdk-step>

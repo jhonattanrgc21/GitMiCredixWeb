@@ -33,6 +33,7 @@
   }
 
   &__third-form {
+    width: 100%;
 
     &__input-pass {
       height: 38px;
@@ -44,7 +45,7 @@
   }
 
   &__button {
-    width: 296px;
+    width: 528px;
     bottom: 40px;
     position: absolute;
   }
@@ -58,10 +59,6 @@
   }
 }
 
-
-:host ::ng-deep.step-one {
-  width: 528px;
-}
 
 :host ::ng-deep.credix-stepper-sign-up {
   &__nav-bar {
