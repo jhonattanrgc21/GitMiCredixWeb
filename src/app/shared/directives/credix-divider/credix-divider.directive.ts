@@ -11,7 +11,7 @@ export class CredixDividerDirective implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.renderer.setStyle(this.el.nativeElement, 'border', '1px solid #E9E9E9', 1);
     this.renderer.setStyle(this.el.nativeElement, 'width', '100%');
+    this.renderer.setStyle(this.el.nativeElement, 'color', '#E9E9E9' );
   }
 }

@@ -219,7 +219,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
           });
         break;
       case 3:
-        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((confirm) => {
+        this.modalService.confirmationPopup('¿Desea eliminar este pago automático?').subscribe((confirm) => {
           if (confirm) {
             this.deleteAutomatic();
           }
