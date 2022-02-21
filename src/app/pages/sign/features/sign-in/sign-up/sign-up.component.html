@@ -28,7 +28,7 @@
         </div>
 
         <credix-button
-          (buttonClick)=verifyRegistryUser()
+          (buttonClick)=informationUser()
           [disabled]="!newUserFirstStepForm.valid || !(newUserFirstStepForm.controls.identification.value)"
           class="modal-new-user__button step-one"
           fxFlexAlign="flex-start">Continuar
@@ -69,7 +69,7 @@
 
 
           <credix-button
-            (buttonClick)=nextStep()
+            (buttonClick)=sendOtp()
             [disabled]="!selectOptionToSendOTP.valid"
             class="step-two"
             fxFlexAlign="flex-start"
@@ -119,8 +119,8 @@
           <credix-button
             (buttonClick)=validateOtp()
             [disabled]="!newUserSecondStepForm.valid"
-            class="modal-new-user__button step-two"
-            fxFlexAlign="flex-start"
+            class="step-two"
+            fxFlexAlign="flex-end"
             style="width: 441px;">Continuar
           </credix-button>
         </div>

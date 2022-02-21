@@ -13,6 +13,7 @@ export class SignUpService {
   private readonly sendOtpUri = 'security/getdatamaskednameapplicantsendotp';
   private readonly validateOtpUri = 'security/validateonetimepassword';
   private readonly checkPasswordUri = 'security/validatePasswordAndConfirmPassword';
+  private readonly getInformationClientUri = 'applicant/findinformationclient';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService,
@@ -34,11 +35,29 @@ export class SignUpService {
     );
   }
 
-  sendOtp(optSent: boolean, identification: string, typeIdentification: number = 1):
+  getInformationClient(identification: string, assignOrUpdatePassword: boolean): Observable<{ phone: string; email: string; }> {
+    return this.httpService.post('canales', this.getInformationClientUri, {
+      identification,
+      username: 'sts_sac',
+      password: '27ddddd7aa59f8c80837e6f46e79d5d5c05a4068914babbbf7745b43a2b21f4',
+      assignOrUpdatePassword
+    }).pipe(map(response => {
+      if (response.titleOne === 'success') {
+        return {
+          email: response.json.email,
+          phone: response.json.phone
+        };
+      }
+    }));
+  }
+
+
+  sendOtp(optSent: boolean, identification: string, typeIdentification: number = 1, shippingType: number):
     Observable<{ userId: number, phoneNumber: string; email: string }> {
     return this.httpService.post('canales', this.sendOtpUri, {
       identification,
-      typeIdentification
+      typeIdentification,
+      shippingType
     }).pipe(
       tap(response => {
           if (response.type === 'error') {
@@ -49,7 +68,7 @@ export class SignUpService {
         },
         () => {
           if (optSent) {
-            this.toastService.show({text: 'SMS enviado nuevamente', type: 'success'});
+            this.toastService.show({text: 'Código enviado nuevamente', type: 'success'});
           }
         }),
       map(response => {

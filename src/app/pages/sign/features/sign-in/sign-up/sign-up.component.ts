@@ -68,12 +68,25 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.stepper.next();
   }
 
+  informationUser() {
+    this.signUpService.getInformationClient(this.newUserFirstStepForm.controls.identification.value, true)
+      .pipe(finalize(() => this.verifyRegistryUser()))
+      .subscribe(response => {
+        this.phoneNumber = response.phone;
+        this.mail = response.email;
+        this.phoneLabel = `SMS: ${this.phoneNumber}`;
+        this.mailLabel = `Correo: ${this.mail}`;
+
+        console.log(response);
+      });
+  }
+
+
   verifyRegistryUser() {
     this.signUpService.checkUser(this.newUserFirstStepForm.controls.identification.value)
       .subscribe(response => {
         if (response.status === 'success') {
           this.nextStep();
-          this.sendOtp();
           /*    if (!response.isRegistered) {
                 this.nextStep();
                 this.sendOtp();
@@ -95,12 +108,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.signUpService.sendOtp(
       this.otpSent,
       this.newUserFirstStepForm.controls.identification.value,
-      this.newUserFirstStepForm.controls.typeIdentification.value).subscribe(user => {
+      this.newUserFirstStepForm.controls.typeIdentification.value,
+      this.selectOptionToSendOTP.value).subscribe(user => {
       if (user) {
-        this.phoneLabel = `SMS: ${user.phoneNumber}`;
-        this.mailLabel = `Correo: ${user.email}`;
-        this.phoneNumber = user.phoneNumber;
-        this.mail = user.email;
+        this.nextStep();
         this.userId = user.userId;
         this.otpSent = true;
       } else {
