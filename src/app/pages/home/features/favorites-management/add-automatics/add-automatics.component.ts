@@ -58,7 +58,7 @@ export class AddAutomaticsComponent implements OnInit {
     publicServiceId: number;
     keyType: number;
     favoriteName: string;
-    contractControl: number;
+    contractControl: string;
   };
   done = false;
   resultAutomatics: boolean;

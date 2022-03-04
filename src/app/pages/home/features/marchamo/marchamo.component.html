@@ -61,7 +61,7 @@
 
         <div fxLayout="column" fxLayoutGap="8px">
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>Monto</span>
+            <span fxFlex="80px">Monto</span>
             <div>
               <credix-numeric-block [value]="total" class="tr"
                                     fontWeight="bold" prefix="₡"></credix-numeric-block>
@@ -69,23 +69,23 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Cuotas</span>
+            <span fxFlex="80px">Cuotas</span>
             <span class="tr"><strong>{{secureAndQuotesForm.controls.quota.value}}</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Placa</span>
+            <span fxFlex="80px">Placa</span>
             <span class="tr"><strong>{{plateNumber}}</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex="60px">Fecha</span>
+            <span fxFlex="80px">Fecha</span>
             <span class="tr"><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
           </div>
         </div>
       </div>
 
-      <credix-link-button class="mt-16px" fxFlexAlign="center">Ampliar plazo</credix-link-button>
+      <!-- <credix-link-button class="mt-16px" fxFlexAlign="center">Ampliar plazo</credix-link-button> -->
       <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
     </div>
   </app-credix-result-view>

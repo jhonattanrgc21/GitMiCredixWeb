@@ -16,6 +16,17 @@
   }
 }
 
+.span-mount {
+  margin: 0 5px 0 33px;
+  position: relative;
+  top: -2px;
+}
+
+.span-tag {
+  position: relative;
+  left: 29px;
+}
+
 @media screen and (max-width: 1199px) {
 
   .marchamo-third-step {
@@ -29,4 +40,15 @@
       width: 266px;
     }
   }
+  .span-mount {
+    margin: 0 2px 0 2px;
+  }
+
+  .span-tag {
+    left: 5px;
+  }
+}
+
+.isDisabled{
+  color: rgba(0, 0, 0, 0.38);
 }

@@ -18,8 +18,10 @@ export class MarchamoService {
   private readonly getVehicleConsultUri = 'pay/vehicleconsult';
   private readonly getOwnerPayerInfoUri = 'owners/payerinfo';
   private readonly getCalculateComissionUri = 'pay/calculatecommission';
+  private readonly getMessagesSLAMarchamo = 'customerservice/getdeliverytimemessagesmarchamo';
   marchamoAmount: number;
   private readonly getDeliveryPlacesUri = 'global/deliveryplace';
+  private readonly getValueActivateOrDisableDeliveryOptionUri = 'customerservice/getvalueenableordisablemarchamodelivery';
   consultVehicle: ConsultVehicle;
   billingHistories: BillingHistory[];
   ownerPayer: OwnerPayer;
@@ -38,6 +40,7 @@ export class MarchamoService {
   iva = 0;
   commission = 0;
   total = 0;
+  deliveryAmount;
   private readonly getPromoApplyUri = 'pay/promoapply';
   private readonly paySoapayUri = 'pay/soapay';
   // tslint:disable-next-line:variable-name
@@ -80,21 +83,11 @@ export class MarchamoService {
   }
 
   @Cacheable()
-  getConsultVehicle(plateClassId: string, plateNumber: string): Observable<any> {
+  getConsultVehicle(plateClassId: string, plateNumber: string, aditionalProducts: Array<Object>): Observable<any> {
     return this.httpService.post('marchamos', this.getVehicleConsultUri, {
       plateClassId,
       plateNumber,
-      aditionalProducts: [
-        {
-          productCode: 5
-        },
-        {
-          productCode: 6
-        },
-        {
-          productCode: 8
-        }
-      ]
+      aditionalProducts,
     }).pipe(
       map((response) => {
         if (response.type === 'success') {
@@ -155,6 +148,35 @@ export class MarchamoService {
   }
 
   @Cacheable()
+  getValueActivateOrDisableDeliveryOption(): Observable<Boolean> {
+    return this.httpService.post('canales', this.getValueActivateOrDisableDeliveryOptionUri)
+      .pipe(map((response) => {
+          if (response.type === 'success') {
+            return response.value;
+          } else {
+            this.toastService.show({text: 'Error', type: 'error'});
+            return null;
+          }
+        })
+      );
+  }
+
+  @Cacheable()
+  getDeliveryTimeMessagesMarchamo(): Observable<{ office: string; residence: string; }> {
+    return this.httpService.post('canales', this.getMessagesSLAMarchamo)
+      .pipe(map((response) => {
+          if (response.type === 'success') {
+            console.log(response.value);
+            return response.value;
+          } else {
+            this.toastService.show({text: 'Error', type: 'error'});
+            return null;
+          }
+        })
+      );
+  }
+
+  @Cacheable()
   getPromoApply(): Observable<{ promoStatus: number; paymentDate: string; }[]> {
     return this.httpService.post('marchamos', this.getPromoApplyUri,
       {accountNumber: this.storageService.getCurrentUser().accountNumber.toString()})
@@ -190,7 +212,7 @@ export class MarchamoService {
     return this.httpService.post('marchamos', this.paySoapayUri,
       {
         aditionalProducts,
-        amount: this.consultVehicle.amount,
+        amount: this.consultVehicle.amount.toString().replace(".","").replace(".","").replace(",","."),
         cardNumber: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
         deliveryPlaceId,
         authenticationNumberCommission: '0000',

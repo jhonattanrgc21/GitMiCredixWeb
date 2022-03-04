@@ -133,12 +133,12 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit, OnDestroy
   submit() {
     this.personalCreditService.savePersonalCredit({
       amount: this.requestForm.controls.amount.value.toString(),
-      commission: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.commission).toString(),
-      quota: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.quota).toString(),
+      commission: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.commission).toFixed(2),
+      quota: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.quota).toFixed(2),
       term: this.requestForm.controls.term.value.toString(),
       method: this.disbursementForm.controls.account.value === 0 ? 'Cheque' : 'Transferencia',
       bankAccount: this.disbursementForm.controls.account.value.toString(),
-      total: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.totalPay).toString(),
+      total: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.totalPay).toFixed(2),
       ads: 'Revista Digital',
       otherAds: 'No aplica',
       commissionRate: this.personalCreditService.personalCreditSummary.percentageCommission.toString(),
