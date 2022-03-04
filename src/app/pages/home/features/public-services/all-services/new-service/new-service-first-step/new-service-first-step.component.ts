@@ -30,10 +30,10 @@ export class NewServiceFirstStepComponent implements OnInit, OnChanges {
       if (this.keys?.length === 1) {
         this.contractFormGroup.controls.keysControl.setValue(this.keys[0].keyType);
         this.label = this.keys[0].description;
+        console.log("keysControl: ", this.contractFormGroup.controls.keysControl.value);
       }
     }
   }
-
 
   getLabel() {
     this.contractFormGroup.controls.keysControl.valueChanges.subscribe(value =>

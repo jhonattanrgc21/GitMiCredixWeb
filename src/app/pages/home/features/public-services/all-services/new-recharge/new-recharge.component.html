@@ -1,17 +1,19 @@
 <mat-card class="new-recharge" credixCard fxLayout="column"
           fxLayoutGap="4px">
-  <h1 class="mb-16px">{{publicServiceName}}</h1>
+  <h1 class="mb-title">{{publicServiceName}}</h1>
 
   <credix-stepper #newRechargeStepper fxFlex>
 
-    <cdk-step [label]="stepOneTitleTag || 'Consultar'" [stepControl]="phoneNumber">
+    <cdk-step [label]="stepOneTitleTag || 'Consultar'" [stepControl]="phoneNumberFormGroup">
 
       <div class="new-recharge__first-step" fxLayout="column" fxLayoutGap="80px">
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex="150px"><strong>Datos de referencia</strong></span>
-          <credix-input-field [formControl]="phoneNumber" class="new-recharge__first-step__content__input mb-16px"
-                              focusLabel="Número de celular" label="Digite el número de celular"
-                              mask="0000-0000"></credix-input-field>
+          <form [formGroup]="phoneNumberFormGroup" fxLayout="column">
+            <credix-input-field formControlName="phoneNumber" class="new-recharge__first-step__content__input mb-16px"
+                                focusLabel="Número de celular" label="Digite el número de celular"
+                                mask="0000-0000"></credix-input-field>
+          </form>
         </div>
 
         <credix-result-notification *ngIf="!hasReceipts" [title]="message" status="info"></credix-result-notification>
@@ -19,21 +21,28 @@
 
     </cdk-step>
 
-    <cdk-step [label]="'Pagar'" [stepControl]="rechargeFormGroup">
+    <cdk-step [label]="'Monto a pagar'" [stepControl]="rechargeFormGroup">
       <app-new-recharge-second-step
         (saveFavoriteEvent)="saveAsFavorite = $event"
         [amounts]="amounts"
-        [phoneNumber]="phoneNumber.value"
+        [phoneNumber]="phoneNumberFormGroup.controls.phoneNumber.value"
         [rechargeFormGroup]="rechargeFormGroup">
       </app-new-recharge-second-step>
+    </cdk-step>
+
+    <cdk-step [label]="'Plazos'" [stepControl]="requestForm">
+      <app-new-recharge-third-step [termControl]="requestForm.controls.term"
+                                  [confirmCodeFormGroup]="confirmCodeFormGroup"
+                                  [isActive]="stepperIndex === 2"
+                                  [amount]="rechargeFormGroup.controls.amount.value"></app-new-recharge-third-step>
     </cdk-step>
   </credix-stepper>
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
-    <credix-button (buttonClick)="stepperIndex === 0 ? checkPendingReceipts() : openModal()"
-                   [disabled]="stepperIndex === 0 ? phoneNumber.invalid : rechargeFormGroup.invalid">
-      {{stepperIndex === 0 ? 'Continuar' : 'Recargar'}}
+    <credix-button (buttonClick)="stepperIndex !== 2 ? next() : openModal()"
+                   [disabled]="buttonFormGroup.invalid">
+      {{stepperIndex !== 2 ? 'Continuar' : 'Recargar'}}
     </credix-button>
   </div>
 </mat-card>

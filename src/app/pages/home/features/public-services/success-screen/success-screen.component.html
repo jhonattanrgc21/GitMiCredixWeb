@@ -1,9 +1,11 @@
-<app-credix-result-view [resultMessage]="message"
+<app-credix-result-view *ngIf="!done" [resultMessage]="message"
                         [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
                         [status]="status"
                         [moduleTitle]="title"
-                        buttonText="Realizar otro pago"
-                        routeTo="/home/public-services">
+                        [buttonText]="paymentType === 'Servicio' ? 'Agregar a pagos automáticos' : 'Realizar otro pago'"
+                        [routeTo]="paymentType === 'Servicio' ? '/home/public-services/success' : '/home/public-services/public-service'"
+                        [paymentService]="paymentType === 'Servicio' ? 'true' : 'false'"
+                        (buttonPressed)="addAutomaticPayment()">
 
   <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
     <mat-divider class="mb-24px" credixDivider></mat-divider>
@@ -16,6 +18,11 @@
           <span fxFlex>Monto</span>
           <credix-numeric-block [prefix]="currencySymbol" [value]="amount"
                                 class="tr" fontWeight="bold"></credix-numeric-block>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <span fxFlex>Plazo</span>
+          <span class="tr truncate"><strong>{{quota + ' ' + 'meses'}}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutGap="16px">
@@ -39,3 +46,13 @@
     <credix-share-button class="mt-16px" fxFlexAlign="center"></credix-share-button>
   </div>
 </app-credix-result-view>
+
+<app-credix-result-view *ngIf="done" [resultMessage]="message"
+                        [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
+                        [status]="status"
+                        [moduleTitle]="title"
+                        [buttonText]="'Listo'"
+                        [routeTo]="'/home/public-services/public-service'"
+                        >
+</app-credix-result-view>
+

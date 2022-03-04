@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CommonModule, DatePipe} from '@angular/common';
 import {PublicServicesComponent} from './public-services.component';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexModule} from '@angular/flex-layout';
@@ -43,6 +43,11 @@ import {NewRechargeSecondStepComponent} from './all-services/new-recharge/new-re
 import {CredixSearchBoxModule} from 'src/app/shared/components/credix-search-box/credix-search-box.module';
 import {SuccessScreenComponent} from './success-screen/success-screen.component';
 import {PopupAllReceiptsComponent} from './all-services/popup-all-receipts/popup-all-receipts.component';
+import { NewServiceThirdStepComponent } from './all-services/new-service/new-service-third-step/new-service-third-step.component';
+import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
+import { NewRechargeThirdStepComponent } from './all-services/new-recharge/new-recharge-third-step/new-recharge-third-step.component';
+import { AutomaticsService } from '../favorites-management/automatics/automatics.service';
+import { DateFormatterPipe } from 'src/app/shared/pipes/date-formatter/date-formatter.pipe';
 
 const routes: Routes = [
   {
@@ -90,7 +95,9 @@ const routes: Routes = [
     PopupReceiptComponent,
     NewRechargeSecondStepComponent,
     SuccessScreenComponent,
-    PopupAllReceiptsComponent
+    PopupAllReceiptsComponent,
+    NewServiceThirdStepComponent,
+    NewRechargeThirdStepComponent,
   ],
   imports: [
     CommonModule,
@@ -124,10 +131,14 @@ const routes: Routes = [
     DigitOnlyModule,
     NgxMaskModule,
     CredixSelectModule,
+    CredixSliderModule,
   ],
   providers: [
-    PublicServicesService
-  ]
+    PublicServicesService,
+    AutomaticsService,
+    DatePipe,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PublicServicesModule {
 }

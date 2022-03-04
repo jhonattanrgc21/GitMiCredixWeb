@@ -9,6 +9,8 @@ import {CacheBuster} from 'ngx-cacheable';
 import {cleanIbanFavoriteAccount$} from '../../../../core/services/account-api.service';
 import {cleanFavoritesPublicService$} from '../../../../core/services/public-services-api.service';
 import {cleanSchedulePayments$} from '../../../../core/services/channels-api.service';
+import { map } from 'rxjs/operators';
+import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 
 @Injectable()
 export class FavoritesManagementService {

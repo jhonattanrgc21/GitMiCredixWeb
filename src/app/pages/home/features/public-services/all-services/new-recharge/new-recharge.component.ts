@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {PendingReceipts} from '../../../../../../shared/models/pending-receipts';
-import {finalize} from 'rxjs/operators';
+import {finalize, take} from 'rxjs/operators';
 import {PublicServicesService} from '../../public-services.service';
 import {PublicServicesApiService} from '../../../../../../core/services/public-services-api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -11,6 +11,7 @@ import {CdkStepper} from '@angular/cdk/stepper';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {TagsService} from '../../../../../../core/services/tags.service';
 import {Tag} from '../../../../../../shared/models/tag';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-new-recharge',
@@ -18,13 +19,22 @@ import {Tag} from '../../../../../../shared/models/tag';
   styleUrls: ['./new-recharge.component.scss']
 })
 export class NewRechargeComponent implements OnInit, AfterViewInit {
-  phoneNumber: FormControl = new FormControl(null,
-    [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+  phoneNumberFormGroup: FormGroup = new FormGroup({
+    phoneNumber: new FormControl(null,
+      [Validators.required, Validators.minLength(8), Validators.maxLength(8)])
+  });
   rechargeFormGroup: FormGroup = new FormGroup({
     amount: new FormControl(null, [Validators.required]),
-    credixCode: new FormControl(null, [Validators.required]),
     favorite: new FormControl(null),
   });
+  requestForm: FormGroup = new FormGroup({
+    term: new FormControl(null, [Validators.required])
+  });
+  confirmCodeFormGroup: FormGroup = new FormGroup({
+    credixCode: new FormControl(null, [Validators.required]),
+  });
+  buttonFormGroup: FormGroup = null;
+
   amounts: { amount: string, id: number }[] = [
     // {id: 1, amount: '1.000,00'},
     // {id: 2, amount: '2.000,00'},
@@ -56,6 +66,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // this.getMinAmounts();
+    this.publicServicesService.paymentType = 'Servicio';
+    this.buttonFormGroup = this.phoneNumberFormGroup;
     this.setErrorCredixCode();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
@@ -72,9 +84,15 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
   }
 
   getPublicService() {
-    this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
-    this.keys = this.publicServicesService.publicService.keys;
-    this.publicServiceName = this.publicServicesService.publicService.publicServiceName;
+    if ( this.publicServicesService.publicService ) {
+      this.publicServiceId = this.publicServicesService.publicService.publicServiceId;
+      this.keys = this.publicServicesService.publicService.keys;
+      this.publicServiceName = this.publicServicesService.publicService.publicServiceName;
+    } else {
+      this.router.navigate(['/home/public-services']);
+
+    }
+
   }
 
   getMinAmounts() {
@@ -83,11 +101,11 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   getPublicServiceByFavorite() {
     this.pendingReceipts = this.publicServicesService.pendingReceipt;
-    this.phoneNumber.setValue(this.publicServicesService.phoneNumberByFavorite);
+    this.phoneNumberFormGroup.controls.phoneNumber.setValue(this.publicServicesService.phoneNumberByFavorite);
     this.publicServiceId = this.publicServicesService.publicServiceIdByFavorite;
     this.keys = this.publicServicesService.keyTypeByFavorite;
     if (this.publicServicesService.pendingReceipt?.amounts) {
-      this.amounts = [];
+     // this.amounts = [];
       this.publicServicesService.pendingReceipt.amounts.map((value, index) => {
         this.amounts.push({
           amount: value,
@@ -107,8 +125,18 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  next() {
+    if ( this.stepperIndex === 1 ) {
+      this.buttonFormGroup = this.confirmCodeFormGroup;
+      this.continue();
+    } else {
+      this.buttonFormGroup = this.rechargeFormGroup;
+      this.checkPendingReceipts();
+    }
+  }
+
   checkPendingReceipts() {
-    this.publicServicesService.checkPendingReceipts(this.publicServiceId, +this.phoneNumber.value, this.keys[0].keyType)
+    this.publicServicesService.checkPendingReceipts(this.publicServiceId, +this.phoneNumberFormGroup.controls.phoneNumber.value, this.keys[0].keyType)
       .pipe(finalize(() => {
         this.message = this.pendingReceipts.responseDescription;
         if (this.pendingReceipts?.receipts) {
@@ -119,6 +147,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       })).subscribe(pendingReceipts => {
       this.pendingReceipts = pendingReceipts;
       if (this.pendingReceipts?.amounts) {
+        this.amounts = [];
         this.pendingReceipts.amounts.map((value, index) => {
           this.amounts.push({
             amount: value,
@@ -132,6 +161,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   recharge() {
     const receipt = this.pendingReceipts.receipts;
+    
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,
@@ -142,10 +172,11 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.keys[0].keyType,
       receipt[0].expirationDate,
       receipt[0].billNumber,
-      this.rechargeFormGroup.controls.credixCode.value,
-      receipt[0].selfCode)
+      this.confirmCodeFormGroup.controls.credixCode.value,
+      receipt[0].selfCode,
+      this.publicServicesService.paymentQuotaSummary.quotaTo)
       .pipe(finalize(() => {
-        if (this.rechargeFormGroup.controls.credixCode.valid) {
+        if (this.confirmCodeFormGroup.controls.credixCode.valid) {
           this.router.navigate(['/home/public-services/success']);
         }
       }))
@@ -163,8 +194,9 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
         this.publicServicesService.payment = {
           currencySymbol: '₡',
           amount: this.rechargeFormGroup.controls.amount?.value,
-          contract: this.phoneNumber.value,
-          type: 'Recarga'
+          contract: this.phoneNumberFormGroup.controls.phoneNumber.value,
+          type: 'Recarga',
+          quota: this.publicServicesService.paymentQuotaSummary.quotaTo,
         };
 
         this.publicServicesService.voucher = {
@@ -197,10 +229,16 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.rechargeFormGroup.controls.phoneNumber.value,
       this.rechargeFormGroup.controls.favorite.value,
       this.keys[0].keyType,
-      this.rechargeFormGroup.controls.credixCode.value).subscribe();
+      this.confirmCodeFormGroup.controls.credixCode.value,
+      this.publicServicesService.paymentQuotaSummary.quotaTo).subscribe();
   }
 
   back() {
+    if ( this.stepperIndex === 1 ) {
+      this.buttonFormGroup = this.phoneNumberFormGroup;
+    } else if ( this.stepperIndex === 2 ) {
+      this.buttonFormGroup = this.rechargeFormGroup;
+    }
     this.stepperIndex === 0 ? this.router.navigate(['/home/public-services']) : this.stepper.previous();
     this.stepperIndex = this.stepper.selectedIndex;
   }
@@ -212,8 +250,8 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   setErrorCredixCode() {
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.rechargeFormGroup.controls.credixCode.setErrors({invalid: true});
-      this.rechargeFormGroup.updateValueAndValidity();
+      this.confirmCodeFormGroup.controls.credixCode.setErrors({invalid: true});
+      this.confirmCodeFormGroup.updateValueAndValidity();
     });
   }
 

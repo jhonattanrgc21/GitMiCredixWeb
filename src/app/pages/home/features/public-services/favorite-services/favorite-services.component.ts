@@ -113,9 +113,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         +this.pendingReceipt.receipts[0].receiptPeriod,
         this.selectedPublicService.publicServiceAccessKeyType,
         this.pendingReceipt.receipts[0].expirationDate,
-        this.pendingReceipt.receipts[0].billNumber,
-        undefined,
-        this.pendingReceipt.receipts[0].selfCode)
+        this.pendingReceipt.receipts[0].billNumber)
         .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
         .subscribe((response) => {
           this.publicServicesService.result = {
@@ -128,7 +126,8 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
             currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$',
             amount: this.amountOfPay,
             contract: this.selectedPublicService.serviceReference,
-            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio'
+            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio',
+            quota: 1,
           };
 
           this.publicServicesService.voucher = {
