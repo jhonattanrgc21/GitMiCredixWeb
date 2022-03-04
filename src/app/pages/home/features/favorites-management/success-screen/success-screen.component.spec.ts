@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AutomaticsComponent } from './automatics.component';
+import { SuccessScreenComponent } from './success-screen.component';
 
-describe('AutomaticsComponent', () => {
-  let component: AutomaticsComponent;
-  let fixture: ComponentFixture<AutomaticsComponent>;
+describe('SuccessScreenComponent', () => {
+  let component: SuccessScreenComponent;
+  let fixture: ComponentFixture<SuccessScreenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AutomaticsComponent ]
+      declarations: [ SuccessScreenComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AutomaticsComponent);
+    fixture = TestBed.createComponent(SuccessScreenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

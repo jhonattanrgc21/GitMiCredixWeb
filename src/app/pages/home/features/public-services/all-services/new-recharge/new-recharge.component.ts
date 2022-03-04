@@ -31,7 +31,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
     term: new FormControl(null, [Validators.required])
   });
   confirmCodeFormGroup: FormGroup = new FormGroup({
-    credixCode: new FormControl(null, [Validators.required]),
+    credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   buttonFormGroup: FormGroup = null;
 
@@ -72,6 +72,10 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
     );
+
+    this.phoneNumberFormGroup.controls.phoneNumber.statusChanges.subscribe(value => {
+      this.publicServicesService.publicServiceReferenceNumber = value;
+    })
   }
 
   ngAfterViewInit(): void {
@@ -90,7 +94,6 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
       this.publicServiceName = this.publicServicesService.publicService.publicServiceName;
     } else {
       this.router.navigate(['/home/public-services']);
-
     }
 
   }
@@ -161,7 +164,7 @@ export class NewRechargeComponent implements OnInit, AfterViewInit {
 
   recharge() {
     const receipt = this.pendingReceipts.receipts;
-    
+    this.publicServicesService.publicServiceReference = this.keys[0].keyType;
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,

@@ -11,7 +11,7 @@
                      [min]="termSliderMin"
                      [step]="termSliderStep"
                      [instructions]="'Por un período de'"
-                     [units]="'Meses'">
+                     [units]="paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes'">
       </credix-slider>
       
   
@@ -30,7 +30,7 @@
     <mat-divider credixDivider></mat-divider>
   
     <div [formGroup]="confirmCodeFormGroup" class="new-service-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-      <credix-code-link></credix-code-link>
+      <credix-code-link route="https://www.credix.com/"></credix-code-link>
   
       <credix-code-input class="new-service-third-step__form" formControlName="credixCode">
         <span *ngIf="confirmCodeFormGroup.controls.credixCode.hasError('required')"
@@ -53,7 +53,7 @@
 
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex>{{ termTag || 'Plazo' }}</span>
-        <span><strong>{{ paymentQuotaSummary.quotaTo }} meses</strong></span>
+        <span><strong>{{ paymentQuotaSummary.quotaTo }} {{ paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes' }} </strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
@@ -76,6 +76,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex>{{ popupInterestTag || 'Interés' }} {{ '(' + paymentQuotaSummary?.feePercentage + '% mensual)' }} 
         </span>
+        
         <credix-numeric-block
           [value]="paymentQuotaSummary?.feeAmount"
           fontWeight="bold"
@@ -97,7 +98,7 @@
     </p>
 
     <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">
-      <span fxFlex style="font-size: 20px !important;">{{ paymentQuotaSummary.quotaTo }} Cuotas de</span>
+      <span fxFlex style="font-size: 20px !important;">{{ paymentQuotaSummary.quotaTo }} {{ paymentQuotaSummary.quotaTo > 1 ? 'Cuotas' : 'Cuota'}} de</span>
         <credix-numeric-block
         [value]="paymentQuotaSummary?.amountPerQuota"
         fontSize="24"

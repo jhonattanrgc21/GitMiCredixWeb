@@ -11,6 +11,7 @@ import {Keys} from '../../../../../../shared/models/keys';
 import {CredixCodeErrorService} from '../../../../../../core/services/credix-code-error.service';
 import {finalize} from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 @Component({
   selector: 'app-new-service',
@@ -30,7 +31,7 @@ export class NewServiceComponent implements OnInit {
     term: new FormControl(null, [Validators.required])
   });
   confirmCodeFormGroup: FormGroup = new FormGroup({
-    credixCode: new FormControl(null, [Validators.required]),
+    credixCode: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   buttonFormGroup: FormGroup = null;
 
@@ -38,6 +39,7 @@ export class NewServiceComponent implements OnInit {
   saveAsFavorite = false;
   stepperIndex = 0;
   hasReceipts = true;
+  status: 'info' | 'success' | 'error' = 'info';
   pendingReceipts: PendingReceipts;
   receiptValues: {
     serviceValue: string;
@@ -65,7 +67,8 @@ export class NewServiceComponent implements OnInit {
               private router: Router,
               private datePipe: DatePipe,
               private modalService: ModalService,
-              private credixCodeErrorService: CredixCodeErrorService) {
+              private credixCodeErrorService: CredixCodeErrorService,
+              private globalApi: GlobalApiService,) {
   }
 
   ngOnInit(): void {
@@ -73,6 +76,7 @@ export class NewServiceComponent implements OnInit {
     this.publicServicesService.paymentType = 'Servicio';
     this.setErrorCredixCode();
     this.getPublicService();
+
   }
 
   getPublicService() {
@@ -100,8 +104,8 @@ export class NewServiceComponent implements OnInit {
       this.buttonFormGroup = this.confirmCodeFormGroup;
       this.continue();
     } else {
-      this.buttonFormGroup = this.confirmFormGroup;
-      this.keyType = this.keys.find(key => key.keyType).description;
+      this.buttonFormGroup = this.confirmFormGroup;      
+      this.keyType = this.keys.find(key => key.keyType === this.contractFormGroup.controls.keysControl.value).description;      
       this.checkPendingReceipts();
     }
   }
@@ -125,10 +129,16 @@ export class NewServiceComponent implements OnInit {
           };
         this.continue();
       })).subscribe(pendingReceipts => {
-      this.pendingReceipts = pendingReceipts;
-      this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
-      this.message = this.pendingReceipts.responseDescription;
-      this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
+        if ( pendingReceipts?.receipts ) {
+          this.pendingReceipts = pendingReceipts;
+          this.hasReceipts = this.pendingReceipts?.receipts !== null && this.pendingReceipts?.receipts.length > 0;
+          this.message = this.pendingReceipts.responseDescription;
+          this.currencySymbol = this.pendingReceipts.currencyCode === 'COL' ? '₡' : '$';
+        } else {
+          this.message = pendingReceipts.message;
+          this.status = pendingReceipts.type;
+          this.hasReceipts = false;
+        }
     });
   }
 
@@ -160,8 +170,9 @@ export class NewServiceComponent implements OnInit {
   //       }
   //     });
   // }
-
+ 
   payService() {
+
     this.publicServicesService.payPublicService(
       this.pendingReceipts.clientName,
       this.publicServiceId,

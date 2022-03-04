@@ -1,9 +1,11 @@
 .add-automatics {
-  max-height: 800px;
-  height: 100%;
+  height: auto;
+  max-height: 910px;
 
   &__container {
-    padding: 0 84px;
+    padding: 0 83px 0 85px;
+
+    // height: 565px !important;
   }
 
   &__form {
@@ -11,13 +13,59 @@
 
     &__input {
       height: 44px;
+      margin-bottom: 10.5px !important;
     }
   }
+
+  &__content {
+    width: 100%;
+    padding-bottom: 16px;
+
+    &:not(:first-of-type) {
+      padding-top: 16px;
+    }
+
+    &__input {
+      height: 43px;
+      width: 350px;
+      margin-top: 0px;
+      margin-left: 28px !important;
+
+      &.favorite {
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+.mb-10px {
+  margin-bottom: 10px;
+}
+
+.actions-footer {
+  height: 50px;
+  margin-top: 17.5px;
+}
+
+::ng-deep.credix-stepper__nav-bar__step {
+  margin-right: 150px !important;
+}
+
+.options {
+  //height: calc(495px - 66px);
+  height: 565px !important;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 @media screen and (max-width: 1199px) {
   .add-automatics {
     max-height: 886px;
+
+    &__content__input {
+      width: 233px;
+    }
 
     &__container {
       padding: 0 78px;

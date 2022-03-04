@@ -48,9 +48,11 @@
     .new-service-third-step {
       max-height: 886px;
       height: 100%;
-  
+      padding: 0 0 0 94px;
+
       &__form {
         width: 266px;
+        padding-right: 94px;
       }
     }
   }

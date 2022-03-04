@@ -3,6 +3,7 @@ import {PublicServicesService} from '../public-services.service';
 import {SchedulePayments} from '../../../../../shared/models/schedule-payments';
 import {getMontByMonthNumber} from '../../../../../shared/utils/get-month-by-month-number';
 import {NavigationService} from '../../../../../core/services/navigation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-automatics-services',
@@ -29,12 +30,19 @@ export class AutomaticsServicesComponent implements OnInit, OnDestroy {
   empty = false;
 
   constructor(private publicServicesService: PublicServicesService,
-              private navigationService: NavigationService) {
+              private navigationService: NavigationService,
+              private router: Router,
+              ) {
     this.dataToDetail = null;
   }
 
   ngOnInit(): void {
-    this.getAllSchedule();
+
+    if ( this.publicServicesService.tabIndex === 'Automáticos' ) {
+      this.getAllSchedule();
+    } else {
+      this.router.navigate(['/home/public-services']);
+    }
   }
 
   schedulePaymentsDetail(data) {

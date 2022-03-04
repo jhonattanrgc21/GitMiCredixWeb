@@ -25,6 +25,7 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   @Input() paymentType: string;
   @Input() isActive = false;
   @Input() keyType = '';
+  @Input() prevStep = false;
   @Output() saveFavoriteEvent = new EventEmitter<boolean>();
   showInput = false;
   newAmount = false;
@@ -43,6 +44,13 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
+    if ( changes.prevStep ) {
+      if ( this.prevStep ) {
+        this.newAmount = false;
+      }
+    }
+
     if (changes.isActive && this.isActive) {
       switch (this.paymentType) {
         case 'E':
@@ -81,6 +89,9 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
     this.newAmount = event.value === 1;
     if (!this.newAmount) {
       this.confirmFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(this.amount).toString());
+    } else {
+      this.confirmFormGroup.controls.amount.markAsUntouched();
+      this.confirmFormGroup.controls.amount.setValue(null, {onlySelf: false, emitEvent: false});
     }
   }
 

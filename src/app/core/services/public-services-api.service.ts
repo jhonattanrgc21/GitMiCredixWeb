@@ -32,6 +32,14 @@ const iconPerCategory = [
   {category: 'Empresas de seguridad', icon: 'empresas_seguridad'}
 ];
 
+interface PublicServiceData {
+  categoryId: number,
+  enterpriseId: number,
+  serviceId: number,
+  reference: number,
+  referenceNumber,
+}
+
 export const cleanFavoritesPublicService$ = new Subject();
 
 @Injectable()
@@ -41,10 +49,23 @@ export class PublicServicesApiService {
   private readonly getPublicServiceByEnterpriseUri = 'publicservice/publicservicelistbyenterpriseid';
   private readonly getAllFavoritePublicServiceUri = 'publicservice/findallpublicservicefavoritebyuser';
   private readonly getAllPublicServiceUri = 'publicservice/findAll';
+  private _publicService: PublicServiceData = null;
 
   constructor(private httpService: HttpService,
-              private storageService: StorageService) {
+    private storageService: StorageService) {
   }
+
+  // tslint:disable-next-line:variable-name
+  get publicService(): PublicServiceData {
+    return this._publicService;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicService(publicService: PublicServiceData) {
+    this._publicService = publicService;
+  }
+
+
 
   @Cacheable()
   getPublicServiceCategories(): Observable<PublicServiceCategory[]> {

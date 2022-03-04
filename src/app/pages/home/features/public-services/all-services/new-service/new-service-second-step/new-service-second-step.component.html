@@ -15,7 +15,7 @@
       <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
                               label="Guardar como favorito"></credix-checkbox-button>
       <credix-input-field *ngIf="showInput" formControlName="favorite"
-                          class="new-service-second-step__content__input favorite"
+                          class="new-service-second-step__content__input favorite matForm"
                           label="Nombre del favorito"></credix-input-field>
     </div>
   </div>
@@ -56,7 +56,7 @@
        fxLayout="row"
        fxLayoutAlign="space-between">
     <span><strong>Monto a pagar</strong></span>
-    <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="!prevStep" class="left-content" fxLayout="column" fxLayoutGap="12px">
       <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
                            [value]="0"
                            label="Monto pendiente total"

@@ -48,6 +48,7 @@ import { CredixSliderModule } from 'src/app/shared/components/credix-slider/cred
 import { NewRechargeThirdStepComponent } from './all-services/new-recharge/new-recharge-third-step/new-recharge-third-step.component';
 import { AutomaticsService } from '../favorites-management/automatics/automatics.service';
 import { DateFormatterPipe } from 'src/app/shared/pipes/date-formatter/date-formatter.pipe';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 const routes: Routes = [
   {
@@ -137,6 +138,7 @@ const routes: Routes = [
     PublicServicesService,
     AutomaticsService,
     DatePipe,
+    GlobalApiService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

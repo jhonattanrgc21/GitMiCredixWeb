@@ -63,13 +63,15 @@ export class AutomaticsService {
   @CacheBuster({
     cacheBusterNotifier: cleanSchedulePayments$
   })
-  setUpdateAutomatics(periodicityId: number, startDate: string, maxAmount: number, schedulerPayId: number, codeCredix: string) {
+  setUpdateAutomatics(periodicityId: number, startDate: string, maxAmount: number, schedulerPayId: number, codeCredix: string, quota = 1, aliasName) {
     return this.httpServices.post('canales', 'schedulerpayment/updateschedulerpayment', {
       periodicityId,
       startDate,
       maxAmount,
       schedulerPayId,
-      codeCredix
+      codeCredix,
+      quota,
+      aliasName,
     });
   }
 }

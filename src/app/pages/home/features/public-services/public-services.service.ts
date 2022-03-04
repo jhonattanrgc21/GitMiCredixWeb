@@ -39,6 +39,14 @@ const iconPerCategory = [
   {category: 'Empresas de seguridad', icon: 'empresas_seguridad'}
 ];
 
+interface PublicServiceData {
+  categoryId: number,
+  enterpriseId: number,
+  serviceId: number,
+  reference: number,
+  referenceNumber: number,
+}
+
 @Injectable()
 export class PublicServicesService {
   private readonly getPendingReceiptsUri = 'publicservicebncr/pendingreceipts';
@@ -46,8 +54,15 @@ export class PublicServicesService {
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
-  private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
-
+  private readonly getQuotaCalculatorUri = 'general/quotacalculator';
+  private _tabIndex: 'Todos' | 'Favoritos' | 'Automáticos';
+  private _publicServiceData: PublicServiceData = {
+    categoryId: 0,
+    enterpriseId: 0,
+    serviceId: 0,
+    reference: 0,
+    referenceNumber: 0,
+  };
   company: string;
   publicServiceIdByFavorite: number;
   phoneNumberByFavorite: string;
@@ -55,6 +70,76 @@ export class PublicServicesService {
   paymentQuotaSummary: PaymentQuota = null;
   paymentType: string;
   automaticPayment: AutomaticPayment;
+  
+   // tslint:disable-next-line:variable-name
+   get publicServiceData(): PublicServiceData {
+    return this._publicServiceData;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceData(publicService: PublicServiceData) {
+    this._publicServiceData = publicService;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set publicServiceCategory(category: number) {
+    this._publicServiceData.categoryId = category;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceCategory(): number {
+    return this._publicServiceData.categoryId;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set publicServiceReferenceNumber(referenceNumber: number) {
+    this._publicServiceData.referenceNumber = referenceNumber;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get tabIndex(): 'Todos' | 'Favoritos' | 'Automáticos' {
+    return this._tabIndex;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set tabIndex(tabIndex: 'Todos' | 'Favoritos' | 'Automáticos') {
+    this._tabIndex = tabIndex;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceReferenceNumber(): number {
+    return this._publicServiceData.referenceNumber;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceEnterprise(enterprise: number) {
+    this._publicServiceData.enterpriseId = enterprise;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceEnterprise(): number {
+    return this._publicServiceData.enterpriseId;
+  }
+  
+  // tslint:disable-next-line:variable-name
+  set publicServiceService(service: number) {
+    this._publicServiceData.serviceId = service;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceService(): number {
+    return this._publicServiceData.serviceId;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set publicServiceReference(reference: number) {
+    this._publicServiceData.reference = reference;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get publicServiceReference(): number {
+    return this._publicServiceData.reference;
+  }
   
   // tslint:disable-next-line:variable-name
   private _isTabChanged = new Subject();
@@ -160,12 +245,12 @@ export class PublicServicesService {
       );
   }
 
-  checkPendingReceipts(publicServiceId: number, accessKey: number, keyType: number): Observable<PendingReceipts> {
+  checkPendingReceipts(publicServiceId: number, accessKey: number, keyType: number): Observable<any> {
     return this.httpService.post('incomex', this.getPendingReceiptsUri, {publicServiceId, accessKey, keyType})
       .pipe(
         map((response) => {
-          if (response.type && response.type === 'error') {
-            return null;
+          if (response?.type && response.type === 'error') {
+            return response;
           } else {
             if (response.receipts && response.receipts.totalAmount) {
               response.receipts.totalAmount = ConvertStringAmountToNumber(response.receipts?.totalAmount).toString();
@@ -177,7 +262,7 @@ export class PublicServicesService {
 
   payPublicService(clientName: string, publicServiceId: number, serviceValue: string, currencyCode: string, amount: string,
                    term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string, selfCode?: string, quota: number = 1):
-    Observable<any> {
+    Observable<any> { 
     return this.httpService.post('incomex', this.payPublicServiceUri, {
       cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId.toString(),
       currencyId: currencyCode === 'COL' ? '188' : '840',

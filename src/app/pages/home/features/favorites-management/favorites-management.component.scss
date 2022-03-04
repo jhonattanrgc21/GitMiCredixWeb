@@ -60,11 +60,13 @@
   }
 
   &__empty {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top:100px;
   }
+}
+
+credix-navigation-table {
+  margin-bottom: 20px !important;
+
 }
 
 :host ::ng-deep {
@@ -92,8 +94,21 @@
 
   .credix-result-notification {
 
+  
+    .favorites-management__empty {
+      height: 100px;
+      margin-bottom: 257px;
+  
+    }
+
     .credix-result-notification__title, .credix-result-notification__message {
       width: 290px;
+      margin-top: 25.02px;
+      margin-bottom: 132.08px;
+    }
+
+    .credix-result-notification__icon {
+      margin-bottom: 0px !important;
     }
   }
 }

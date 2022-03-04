@@ -35,6 +35,9 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CredixSliderModule } from 'src/app/shared/components/credix-slider/credix-slider.module';
 import { CredixRadioButtonModule } from 'src/app/shared/components/credix-radio-button/credix-radio-button.module';
 import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
+import { AddAutomaticsSecondStepComponent } from './add-automatics/add-automatics-second-step/add-automatics-second-step.component';
+import { SuccessScreenComponent } from './success-screen/success-screen.component';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 const routes: Routes = [
   {
@@ -75,7 +78,11 @@ const routes: Routes = [
   {
     path: 'new-automatics',
     component: AddAutomaticsComponent
-  }
+  },
+  {
+    path: 'success',
+    component: SuccessScreenComponent,
+  },
 ];
 
 @NgModule({
@@ -84,6 +91,8 @@ const routes: Routes = [
     AddIbanAccountComponent,
     AddAutomaticsComponent,
     AddFavoritesPaymentComponent,
+    AddAutomaticsSecondStepComponent,
+    SuccessScreenComponent,
   ],
   imports: [
     CommonModule,
@@ -121,6 +130,7 @@ const routes: Routes = [
     FavoritesPaymentsService,
     AutomaticsService,
     CredixToastService,
+    GlobalApiService,
   ],
   exports: [
     MatCardModule,
