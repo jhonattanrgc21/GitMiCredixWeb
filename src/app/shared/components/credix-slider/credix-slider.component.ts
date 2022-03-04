@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, OnChanges} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild} from '@angular/core';
 import {MatSlider} from '@angular/material/slider';
 
 @Component({
@@ -31,8 +31,8 @@ export class CredixSliderComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(simple: SimpleChanges) {
-    if ( simple.displayValue.currentValue === 0 ) {
-      this.value = 0;
+    if ( simple.displayValue.currentValue === 1 ) {
+      this.value = 1;
     }
   }
 
