@@ -16,24 +16,34 @@
 
       <div fxLayout="column">
         <credix-radio-button (emitRadioButton)="placesRadioButtonChanged(1)"
-                             [checked]="false"
+                             [checked]="activateDeliveryOption != null ? !activateDeliveryOption ? true : false : false"
                              [label]="optionOneTag ||'Sucursales Credix'"
-                             [value]="1" name="places"></credix-radio-button>
+                             [value]="1" name="places" (click)="eventClick2(true)"></credix-radio-button>
+
+          <div fxLayout="row" fxLayoutAlign="justify" style="width: 90%;">
+            <span class="span-tag" style="font-size: 11px; position: relative; top: -2px;width: 100%;
+            text-align: justify;">{{officeMessage}}</span>
+          </div>
 
         <credix-select *ngIf="placeRadioButton === 1" class="marchamo-third-step__sub-content"
                        formControlName="deliveryPlace" label="Seleccione la más cercana">
           <mat-option *ngFor="let delivery of deliveryPlaces" [value]="delivery.id">
-            {{delivery.description}}
+            {{delivery.displayName}}
           </mat-option>
         </credix-select>
       </div>
 
-      <div fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="column">
         <credix-radio-button (emitRadioButton)="placesRadioButtonChanged(2)"
                              [checked]="false"
                              [label]="optionTwoTag || 'Domicilio'"
-                             [value]="2" name="places">
+                             [value]="2" name="places"
+                             [disabled]="activateDeliveryOption != null ? activateDeliveryOption ? false : true : true">
         </credix-radio-button>
+        <div fxLayout="row" fxLayoutAlign="justify" style="width: 90%;">
+          <span class="span-tag" [class.isDisabled]="activateDeliveryOption === false" style="font-size: 11px; position: relative; top: -2px;width: 100%;
+          text-align: justify;">{{residenceMessage}}</span>
+        </div>
 
         <div *ngIf="placeRadioButton === 2" class="marchamo-third-step__sub-content"
              fxLayout="column"
@@ -41,7 +51,8 @@
 
           <credix-radio-button (emitRadioButton)="domicileRadioButtonChanged(1)"
                                [label]="subOptionOneTag || 'Dirección registrada en Credix'"
-                               [value]="1" name="address">
+                               [value]="1" name="address" (click)="eventClick(true)">
+
           </credix-radio-button>
 
           <div *ngIf="addressRadioButton == 1 && (phoneNumber && userAddress)">
@@ -52,7 +63,7 @@
             <credix-radio-button (emitRadioButton)="domicileRadioButtonChanged(2)"
                                  [label]="subOptionTwoTag  || 'User otra dirección'"
                                  [value]="2"
-                                 name="address"></credix-radio-button>
+                                 name="address" (click)="eventClick(true)"></credix-radio-button>
 
             <credix-link-button (click)="editNewAddress()" *ngIf="newAddress">Editar</credix-link-button>
           </div>

@@ -37,7 +37,7 @@ export class AutomaticsService {
                        publicServiceId: number,
                        periodicityId: number,
                        startDate: string,
-                       key: number,
+                       key: string,
                        maxAmount: number,
                        aliasName: string,
                        credixCode: number,

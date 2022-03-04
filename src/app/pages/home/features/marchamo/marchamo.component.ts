@@ -9,6 +9,7 @@ import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
 import {finalize} from 'rxjs/operators';
 import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
+import { ConsultVehicle } from 'src/app/shared/models/consult-vehicle';
 
 @Component({
   selector: 'app-marchamos',
@@ -58,6 +59,10 @@ export class MarchamoComponent implements OnInit, OnDestroy {
   step3: string;
   step2: string;
   resumeTag1: string;
+  deliveryPlaceId: number;
+  ownerEmail: string;
+  firstPayment: string;
+  consultVehicle: ConsultVehicle;
   @ViewChild('stepper') stepper: CdkStepper;
 
   constructor(private httpService: HttpService,
@@ -121,22 +126,15 @@ export class MarchamoComponent implements OnInit, OnDestroy {
     this.marchamosService.consultNewVehicle();
   }
 
-  secureToPay() {
-    const deliveryPlaceId: number = this.pickUpForm.controls.deliveryPlace.value === null ?
-      1 : this.pickUpForm.controls.deliveryPlace.value;
-    const ownerEmail: string = this.marchamosService.ownerPayer.email === '' ?
-      this.pickUpForm.controls.email.value : this.marchamosService.ownerPayer.email;
-    const firstPayment: string = !this.secureAndQuotesForm.controls.firstQuotaDate.value ?
-      '' : this.marchamosService.payments
-        .find(elem => elem.promoStatus === this.secureAndQuotesForm.controls.firstQuotaDate.value).paymentDate;
+  setSoaPay() {
     this.marchamosService.setSoaPay(
       this.secureAndQuotesForm.controls.additionalProducts.value,
-      deliveryPlaceId,
+      this.deliveryPlaceId,
       this.pickUpForm.controls.person.value,
       this.pickUpForm.controls.phoneNumber.value.toString(),
       this.pickUpForm.controls.address.value,
       this.pickUpForm.controls.email.value,
-      firstPayment,
+      this.firstPayment,
       +this.consultForm.controls.vehicleType.value,
       this.consultForm.controls.plateNumber.value.toUpperCase(),
       !this.secureAndQuotesForm.controls.firstQuotaDate.value ?
@@ -144,7 +142,7 @@ export class MarchamoComponent implements OnInit, OnDestroy {
       !this.secureAndQuotesForm.controls.quotaId.value ?
         0 : this.secureAndQuotesForm.controls.quotaId.value,
       this.pickUpForm.controls.phoneNumber.value,
-      ownerEmail,
+      this.ownerEmail,
       this.confirmForm.controls.credixCode.value
     )
       .pipe(finalize(() => {
@@ -156,6 +154,31 @@ export class MarchamoComponent implements OnInit, OnDestroy {
         this.message = response.message;
         this.total = this.marchamosService.total;
       });
+  }
+
+  getConsultVehicle() {
+    this.marchamosService
+      .getConsultVehicle(this.consultForm.controls.vehicleType.value.toString(),
+        this.consultForm.controls.plateNumber.value.toUpperCase(),
+        this.secureAndQuotesForm.controls.additionalProducts.value)
+          .pipe(finalize(() => this.setSoaPay()))
+            .subscribe((response) => {
+              this.consultVehicle = response.header;
+              this.marchamosService.consultVehicle = this.consultVehicle;
+            }); 
+  }
+
+  secureToPay() {
+    this.deliveryPlaceId = this.pickUpForm.controls.deliveryPlace.value === null ?
+      6 : this.pickUpForm.controls.deliveryPlace.value;
+    this.ownerEmail= this.marchamosService.ownerPayer.email === '' ?
+      this.pickUpForm.controls.email.value : this.marchamosService.ownerPayer.email;
+    this.firstPayment = !this.secureAndQuotesForm.controls.firstQuotaDate.value ?
+      '' : this.marchamosService.payments
+        .find(elem => elem.promoStatus === this.secureAndQuotesForm.controls.firstQuotaDate.value).paymentDate;
+
+    this.getConsultVehicle();
+
   }
 
   confirmModal() {

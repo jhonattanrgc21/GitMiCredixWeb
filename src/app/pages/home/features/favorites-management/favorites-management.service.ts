@@ -57,7 +57,7 @@ export class FavoritesManagementService {
     publicServiceId: number;
     keyType: number;
     favoriteName: string;
-    contractControl: number;
+    contractControl: string;
   };
 
   constructor(private httpService: HttpService,
@@ -93,7 +93,7 @@ export class FavoritesManagementService {
     publicServiceId: number;
     keyType: number;
     favoriteName: string;
-    contractControl: number;
+    contractControl: string;
   } {
     return this._valuesFromFavorites;
   }
@@ -112,7 +112,7 @@ export class FavoritesManagementService {
     publicServiceId: number;
     keyType: number;
     favoriteName: string;
-    contractControl: number;
+    contractControl: string;
   }) {
     this._valuesFromFavorites = data;
   }

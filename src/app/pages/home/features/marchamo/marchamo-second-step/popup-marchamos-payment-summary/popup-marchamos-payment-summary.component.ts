@@ -15,6 +15,7 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   marchamo: number;
   quotesToPay: { quotes: number, quotesAmount: number } = {quotes: 0, quotesAmount: 0};
   totalAmount = 0;
+  resumeTag6;
   resumeTag5;
   resumeTag4;
   resumeTag3;
@@ -36,7 +37,7 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
       values.itemsProductsAmount.forEach(itemProduct => {
         this.totalAmountItemsProducts = this.totalAmountItemsProducts + itemProduct.amounts;
       });
-      this.totalAmount = this.totalAmount + this.marchamo + this.iva + this.commission + this.totalAmountItemsProducts;
+      this.totalAmount = this.totalAmount + this.commission + this.marchamo + this.iva + this.totalAmountItemsProducts;
     });
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
@@ -44,13 +45,14 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.resumeTag4 = tags.find(tag => tag.description === 'marchamo.resumen.tag4')?.value;
-    this.resumeTag2 = tags.find(tag => tag.description === 'marchamo.resumen.tag2')?.value;
-    this.resumeTag1 = tags.find(tag => tag.description === 'marchamo.resumen.tag1')?.value;
-    this.resumeTag3 = tags.find(tag => tag.description === 'marchamo.resumen.tag3')?.value;
-    this.resumeTag5 = tags.find(tag => tag.description === 'marchamo.resumen.tag5')?.value;
-    this.resumeDisclaimer = tags.find(tag => tag.description === 'marchamo.resumen.disclaimer')?.value;
-
+    this.resumeTag4 = tags.find(tag => tag.description === 'marchamos.resumen.tag4')?.value;
+    this.resumeTag2 = tags.find(tag => tag.description === 'marchamos.resumen.tag2')?.value;
+    this.resumeTag1 = tags.find(tag => tag.description === 'marchamos.resumen.tag1')?.value;
+    this.resumeTag3 = tags.find(tag => tag.description === 'marchamos.resumen.tag3')?.value;
+    this.resumeTag5 = tags.find(tag => tag.description === 'marchamos.resumen.tag5')?.value;
+    this.resumeTag6 = tags.find(tag => tag.description === 'marchamos.resumen.tag6')?.value;
+    this.resumeDisclaimer = tags.find(tag => tag.description === 'marchamos.resumen.disclaimer')?.value;
+    
   }
 
 }
