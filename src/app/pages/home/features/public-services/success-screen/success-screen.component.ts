@@ -50,8 +50,10 @@ export class SuccessScreenComponent implements OnInit {
   }
 
   addAutomaticPayment() {
-    this.publicServicesApiService.publicService = this.publicServicesService.publicServiceData;
-    this.router.navigate(['/home/favorites-management/new-automatics']);
+    if ( this.publicServicesService?.paymentType === 'Servicio' ) {
+      this.publicServicesApiService.publicService = this.publicServicesService.publicServiceData;
+      this.router.navigate(['/home/favorites-management/new-automatics']);
+    }
   }
 
   openBillingModal() {

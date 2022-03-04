@@ -74,9 +74,12 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.publicServicesService.paymentType = 'Favorite';
-    this.getFavoritePublicServiceDetail();
-    this.getIsTabChanged();
+    if ( this.publicServicesService.tabIndex === 'Favoritos' ) {
+      this.getFavoritePublicServiceDetail();
+      this.getIsTabChanged();
+    } else {
+      this.router.navigate(['/home/public-services']);
+    }
   }
 
   getIsTabChanged() {
@@ -152,6 +155,22 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   payService() {
     if (this.pendingReceipt?.receipts !== null) {
       const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
+
+      // const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
+      // this.publicServicesService.payPublicService(
+      //   this.pendingReceipt.clientName,
+      //   this.selectedPublicService.publicServiceId,
+      //   this.pendingReceipt.receipts[0].serviceValue,
+      //   this.pendingReceipt.currencyCode,
+      //   amount,
+      //   +this.pendingReceipt.receipts[0].receiptPeriod,
+      //   this.selectedPublicService.publicServiceAccessKeyType,
+      //   this.pendingReceipt.receipts[0].expirationDate,
+      //   this.pendingReceipt.receipts[0].billNumber,
+      //   this.pendingReceipt.receipts[0].selfCode
+      //   +this.paymentQuotaSummary.quotaTo,)
+      
+
       this.publicServicesService.payPublicService(
         this.pendingReceipt.clientName,
         this.selectedPublicService.publicServiceId,
@@ -159,9 +178,10 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         this.pendingReceipt.currencyCode,
         amount,
         +this.pendingReceipt.receipts[0].receiptPeriod,
-        this.selectedPublicService.publicServiceAccessKeyType,
+        +this.selectedPublicService.publicServiceAccessKeyType,
         this.pendingReceipt.receipts[0].expirationDate,
         this.pendingReceipt.receipts[0].billNumber,
+        undefined,
         this.pendingReceipt.receipts[0].selfCode
         +this.paymentQuotaSummary.quotaTo,)
         .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))

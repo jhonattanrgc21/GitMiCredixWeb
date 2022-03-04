@@ -77,7 +77,7 @@
                        [min]="termSliderMin"
                        [step]="termSliderStep"
                        [instructions]="'Por un período de'"
-                       [units]="'Meses'">
+                       [units]="paymentQuotaSummary?.quotaTo > 1 ? 'Meses' : 'Mes'">
         </credix-slider>
         
     
@@ -112,7 +112,7 @@
 
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex>{{ termTag || 'Plazo' }}</span>
-        <span><strong>{{ paymentQuotaSummary.quotaTo }} meses</strong></span>
+        <span><strong>{{ paymentQuotaSummary.quotaTo }} {{ paymentQuotaSummary?.quotaTo > 1 ? 'meses' : 'mes' }}</strong></span>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
@@ -124,7 +124,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupCommissionTag || 'Comisión' }} {{ '(' + paymentQuotaSummary?.commissionPercentage + '%)*'}}
+        <span fxFlex>{{ popupCommissionTag || 'Comisión' }}*
         </span>
         <credix-numeric-block
           [value]="paymentQuotaSummary?.commissionAmount"
@@ -156,7 +156,7 @@
     </p>
 
     <div fxFlex fxFlexLayout="row" style="padding-top: 8px;" fxLayoutAlign="space-between">
-      <span fxFlex style="font-size: 20px !important; padding-top: 4px;">{{ paymentQuotaSummary.quotaTo }} Cuotas de</span>
+      <span fxFlex style="font-size: 20px !important; padding-top: 4px;">{{ paymentQuotaSummary.quotaTo }} {{ paymentQuotaSummary.quotaTo > 1 ? 'Cuotas' : 'Cuota'}} de</span>
         <credix-numeric-block
         [value]="paymentQuotaSummary?.amountPerQuota"
         fontSize="24"
