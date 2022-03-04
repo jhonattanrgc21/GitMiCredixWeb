@@ -54,7 +54,8 @@ export class PublicServicesService {
   private readonly getMinAmountsUri = 'channels/publicservice/recharge/rechargeamountlist';
   public readonly getSchedulerPaymentsUserUri = 'schedulerpayment/getscheduledpays';
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
-  private readonly getQuotaCalculatorUri = 'general/quotacalculator'; 	
+  private readonly getQuotaCalculatorUri = 'general/quotacalculator';
+  private _tabIndex: 'Todos' | 'Favoritos' | 'Automáticos';
   private _publicServiceData: PublicServiceData = {
     categoryId: 0,
     enterpriseId: 0,
@@ -62,7 +63,6 @@ export class PublicServicesService {
     reference: 0,
     referenceNumber: 0,
   };
-
   company: string;
   publicServiceIdByFavorite: number;
   phoneNumberByFavorite: string;
@@ -94,6 +94,16 @@ export class PublicServicesService {
   // tslint:disable-next-line:variable-name
   set publicServiceReferenceNumber(referenceNumber: number) {
     this._publicServiceData.referenceNumber = referenceNumber;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get tabIndex(): 'Todos' | 'Favoritos' | 'Automáticos' {
+    return this._tabIndex;
+  }
+
+  // tslint:disable-next-line:variable-name
+  set tabIndex(tabIndex: 'Todos' | 'Favoritos' | 'Automáticos') {
+    this._tabIndex = tabIndex;
   }
 
   // tslint:disable-next-line:variable-name
@@ -252,7 +262,7 @@ export class PublicServicesService {
 
   payPublicService(clientName: string, publicServiceId: number, serviceValue: string, currencyCode: string, amount: string,
                    term: number, keyType: number, expirationDate: string, billNumber: string, credixCode?: string, selfCode?: string, quota: number = 1):
-    Observable<any> {
+    Observable<any> { 
     return this.httpService.post('incomex', this.payPublicServiceUri, {
       cardId: this.storageService.getCurrentCards().find(element => element.category === 'Principal').cardId.toString(),
       currencyId: currencyCode === 'COL' ? '188' : '840',

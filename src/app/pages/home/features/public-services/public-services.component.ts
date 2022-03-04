@@ -28,6 +28,7 @@ export class PublicServicesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.publicServicesService.tabIndex = 'Todos';
     this.getAllPublicService();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)
@@ -57,13 +58,16 @@ export class PublicServicesComponent implements OnInit {
     this.tabId = tab.id;
     switch (tab.id) {
       case 1:
+        this.publicServicesService.tabIndex = 'Todos';
         this.router.navigate(['home/public-services']);
         break;
-      case 2:
-        this.router.navigate(['home/public-services/favorites']);
-        this.publicServicesService.emitIsTabChange();
-        break;
-      case 3:
+        case 2:
+          this.publicServicesService.tabIndex = 'Favoritos';
+          this.router.navigate(['home/public-services/favorites']);
+          this.publicServicesService.emitIsTabChange();
+          break;
+        case 3:
+        this.publicServicesService.tabIndex = 'Automáticos';
         this.router.navigate(['home/public-services/automatics']);
         this.publicServicesService.emitIsTabChange();
         break;
