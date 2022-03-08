@@ -147,14 +147,19 @@ export class SignInComponent implements OnInit, OnDestroy {
   open(modal: 'sign-up' | 'forgot-pass' | 'session-activate' | 'new-device') {
     switch (modal) {
       case 'sign-up':
-        this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
-          {width: 376, minHeight: 623, disableClose: true, panelClass: 'sign-up-panel'}).afterClosed().subscribe(user => {
+        this.modalService.open({component: SignUpComponent, title: 'Recuperar o crear clave'},
+          {
+            width: 608,
+            height: 688,
+            disableClose: true,
+            panelClass: 'sign-up-panel'
+          }).afterClosed().subscribe(user => {
           if (user) {
             this.signInformGroup.controls.identification.setValue(user.identification);
             this.signInformGroup.controls.password.setValue(user.password);
-            this.openCompletedModal(376, 349, {
-              title: '¡Ha finalizado su registro!',
-              message: '¡Felicidades! Ya puede disfrutar nuestros beneficios ingresando a la aplicación.',
+            this.openCompletedModal(608, 688, {
+              title: '¡Éxito!',
+              message: 'Su clave ha sido generada correctamente.',
               type: 'sign-up'
             });
           }
@@ -206,6 +211,10 @@ export class SignInComponent implements OnInit, OnDestroy {
           this.unsubscribe.complete();
         }
       });
+  }
+
+  redirectToCredixWeb() {
+    window.location.href = 'https://credixweb.credix.com/?token=v4sXw#no-back-button';
   }
 
   ngOnDestroy(): void {

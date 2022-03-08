@@ -72,10 +72,9 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
     if (changes.cardLimit) {
       if (this.cardLimit >= MIN_AMOUNT && this.cardLimit < CENTER_AMOUNT) {
           this.amountSliderMax = Math.trunc((this.cardLimit - MIN_AMOUNT) / FIRST_STEP) +1 ;
-          if(this.cardLimit == MIN_AMOUNT){
+          if (this.cardLimit === MIN_AMOUNT) {
             this.amountSliderMax--;
-            console.log('aqui');
-            console.log(this.amountSliderMax );
+            console.log(this.amountSliderMax);
           }
       } else if (this.cardLimit >= CENTER_AMOUNT && this.cardLimit < MAX_AMOUNT) {
         this.amountSliderMax = 20 + Math.trunc((this.cardLimit - CENTER_AMOUNT) / SECOND_STEP) +1 ;

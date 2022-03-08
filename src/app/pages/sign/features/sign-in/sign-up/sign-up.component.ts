@@ -19,11 +19,14 @@ import {Subject} from 'rxjs';
 export class SignUpComponent implements OnInit, OnDestroy {
   identificationTypes: IdentificationType[];
   phoneNumber: string;
+  mail: string;
   identificationMask = '0-0000-0000';
   hidePassword = true;
   hideConfirmPassword = true;
   userId: number;
   otpSent = false;
+  phoneLabel: string;
+  mailLabel: string;
   newUserFirstStepForm: FormGroup = new FormGroup({
     typeIdentification: new FormControl(null, [Validators.required]),
     identification: new FormControl({value: null, disabled: true}, [Validators.required])
@@ -31,6 +34,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   newUserSecondStepForm: FormGroup = new FormGroup({
     credixCode: new FormControl('', [Validators.required])
   });
+  selectOptionToSendOTP: FormControl = new FormControl(null, [Validators.required]);
   newUserThirdStepForm: FormGroup = new FormGroup({
     newPassword: new FormControl(null, [Validators.required]),
     confirmPassword: new FormControl(null, [Validators.required])
@@ -56,16 +60,33 @@ export class SignUpComponent implements OnInit, OnDestroy {
       .subscribe(identificationTypes => this.identificationTypes = identificationTypes.filter(idt => idt.id > 0));
   }
 
+  back() {
+    this.stepper.previous();
+  }
+
   nextStep() {
     this.stepper.next();
   }
+
+  informationUser() {
+    this.signUpService.getInformationClient(this.newUserFirstStepForm.controls.identification.value, true)
+      .pipe(finalize(() => this.verifyRegistryUser()))
+      .subscribe(response => {
+        this.phoneNumber = response.phone;
+        this.mail = response.email;
+        this.phoneLabel = `SMS: ${this.phoneNumber}`;
+        this.mailLabel = `Correo: ${this.mail}`;
+
+        console.log(response);
+      });
+  }
+
 
   verifyRegistryUser() {
     this.signUpService.checkUser(this.newUserFirstStepForm.controls.identification.value)
       .subscribe(response => {
         if (response.status === 'success') {
           this.nextStep();
-          this.sendOtp();
           /*    if (!response.isRegistered) {
                 this.nextStep();
                 this.sendOtp();
@@ -87,9 +108,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.signUpService.sendOtp(
       this.otpSent,
       this.newUserFirstStepForm.controls.identification.value,
-      this.newUserFirstStepForm.controls.typeIdentification.value).subscribe(user => {
+      this.newUserFirstStepForm.controls.typeIdentification.value,
+      this.selectOptionToSendOTP.value).subscribe(user => {
       if (user) {
-        this.phoneNumber = user.phoneNumber;
+        this.nextStep();
         this.userId = user.userId;
         this.otpSent = true;
       } else {
@@ -137,6 +159,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
         this.newUserFirstStepForm.controls.identification.disable();
       }
     });
+  }
+
+  onChangeSelectOtpToSend(event) {
+    console.log(event);
+    if (event.checked) {
+      this.selectOptionToSendOTP.patchValue(event.value);
+    }
   }
 
   checkPasswords(group: FormGroup): ValidationErrors | null {
