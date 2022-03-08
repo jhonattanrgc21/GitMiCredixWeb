@@ -29,7 +29,7 @@ export class AddAutomaticsComponent implements OnInit {
     contractControl: new FormControl(null, [Validators.required]),
     nameOfAutomatics: new FormControl(null, [Validators.required]),
     maxAmount: new FormControl(null, [Validators.required]),
-    startDate: new FormControl(null, [Validators.required]),
+    startDate: new FormControl(new Date(Date.now() + (3600 * 1000 * 24)), [Validators.required]),
     periodicity: new FormControl(null, [Validators.required]),
   });
   rechargeFormGroup: FormGroup = new FormGroup({
