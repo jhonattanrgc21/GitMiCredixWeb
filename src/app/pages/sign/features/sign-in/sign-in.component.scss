@@ -81,7 +81,38 @@
   font-size: 12px;
 }
 
-.error-span{
+.error-span {
   position: relative;
   top: 16px;
+}
+
+
+.modal-send-otp {
+  &__stepper {
+    width: 100%;
+    min-height: 460px;
+  }
+
+  &__radio-button {
+    margin: 8px 0;
+  }
+
+  &__label {
+    margin: 24px 0;
+  }
+
+  &__parrafe {
+    margin-top: 160px;
+  }
+}
+
+::ng-deep.credix-stepper-sign-up__nav-bar {
+  &__line {
+    width: 263.35px !important;
+    margin-left: 1px;
+  }
+
+  &__label {
+    width: 100% !important;
+  }
 }

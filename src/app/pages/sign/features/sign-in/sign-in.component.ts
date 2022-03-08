@@ -12,6 +12,7 @@ import {v4 as uuidv4} from 'uuid';
 import {finalize, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {CredixBotService} from '../../../../core/services/credix-bot.service';
+import {CdkStepper} from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-sign-in',
@@ -23,6 +24,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     identification: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required])
   });
+  shippingTypeFormControl: FormControl = new FormControl(null, [Validators.required]);
   newDeviceFormGroup: FormGroup = new FormGroup(
     {credixCode: new FormControl('', [Validators.required, Validators.minLength(6)])});
   sessionActivateModal: MatDialogRef<any>;
@@ -32,10 +34,15 @@ export class SignInComponent implements OnInit, OnDestroy {
   phone: string;
   userId: number;
   hide = true;
+  email: string;
+  labelEmail = '';
+  labelPhone = '';
   errorMessage: string;
   unsubscribe = new Subject();
+  stepIndex = 0;
   @ViewChild('sessionActiveTemplate') sessionActiveTemplate: TemplateRef<any>;
   @ViewChild('newDeviceTemplate') newDeviceTemplate: TemplateRef<any>;
+  @ViewChild('stepper') stepper: CdkStepper;
 
   constructor(private readonly signInService: SignInService,
               private readonly credixBotService: CredixBotService,
@@ -86,10 +93,15 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   deviceInfo() {
     this.signInService.getDeviceInfo()
+      .pipe(finalize(() => {
+        this.labelEmail = `Correo: ${this.email}`;
+        this.labelPhone = `SMS: ${this.phone}`;
+      }))
       .subscribe(response => {
         if (response.status === 'success' && (response.id === 0 || response.id === 2)) {
-          this.sendOtp();
           this.open('new-device');
+          this.email = response.email;
+          this.phone = response.phone;
         }
 
         if (response.status === 'success' && response.id === 1) {
@@ -99,9 +111,11 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   sendOtp() {
-    this.signInService.sendOtp(this.otpSent, this.signInformGroup.controls.identification.value).subscribe(user => {
+    this.signInService.sendOtp(
+      this.otpSent,
+      this.signInformGroup.controls.identification.value,
+      this.shippingTypeFormControl.value).subscribe(user => {
       if (user) {
-        this.phone = user.phoneNumber;
         this.userId = user.userId;
         this.otpSent = true;
       }
@@ -185,7 +199,7 @@ export class SignInComponent implements OnInit, OnDestroy {
             hideCloseButton: false,
             title: 'Validación de Identidad'
           },
-          {width: 376, height: 623, disableClose: true, panelClass: 'new-device-panel'});
+          {width: 608, height: 688, disableClose: true, panelClass: 'new-device-panel'});
         break;
       default:
         this.modalService.open({component: SignUpComponent, title: '¡Bienvenido(a) a MiCredix!'},
@@ -213,8 +227,19 @@ export class SignInComponent implements OnInit, OnDestroy {
       });
   }
 
-  redirectToCredixWeb() {
-    window.location.href = 'https://credixweb.credix.com/?token=v4sXw#no-back-button';
+  next() {
+    this.stepper.next();
+    this.stepIndex = this.stepper.selectedIndex;
+    this.sendOtp();
+  }
+
+  back() {
+    this.stepper.previous();
+    this.stepIndex = this.stepper.selectedIndex;
+  }
+
+  shippingTypeChange(event) {
+    this.shippingTypeFormControl.setValue(event.value);
   }
 
   ngOnDestroy(): void {

@@ -83,18 +83,19 @@ export class SignInService {
     );
   }
 
-  getDeviceInfo(): Observable<{ status: string; id: number }> {
+  getDeviceInfo(): Observable<{ status: string; id: number; phone?: string; email?: string; }> {
     return this.httpService.post('canales', this.getDeviceInfoUri, {uuid: this.storageService.getUuid()})
       .pipe(
-        map(response => ({status: response.type, id: response.id}))
+        map(response => ({status: response.type, id: response.id, email: response?.email, phone: response?.phone}))
       );
   }
 
-  sendOtp(optSent: boolean, identification: string, typeIdentification: number = 1):
+  sendOtp(optSent: boolean, identification: string, shippingType: number, typeIdentification: number = 1):
     Observable<{ userId: number, phoneNumber: string; email: string }> {
     return this.httpService.post('canales', 'security/getdatamaskednameapplicantsendotp', {
       identification,
-      typeIdentification
+      typeIdentification,
+      shippingType
     }).pipe(
       tap(response => {
         },
@@ -102,12 +103,13 @@ export class SignInService {
         },
         () => {
           if (optSent) {
-            this.toastService.show({text: 'SMS enviado nuevamente', type: 'success'});
+            this.toastService.show({text: 'Código enviado nuevamente', type: 'success'});
           }
         }),
       map(response => {
+        console.log(response);
         if (response.type === 'success') {
-          return {userId: response.userId, phoneNumber: response.phone, email: response.email};
+          return {userId: response.userId, phoneNumber: response?.phone, email: response?.email};
         } else {
           return null;
         }
