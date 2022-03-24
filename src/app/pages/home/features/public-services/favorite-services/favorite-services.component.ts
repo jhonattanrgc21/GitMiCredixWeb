@@ -118,6 +118,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
           this.month = getMontByMonthNumber(months.getMonth());
           this.expirationDate = new Date(this.pendingReceipt.receipts[0].expirationDate);
           this.amountOfPay = this.pendingReceipt.receipts[0].totalAmount;
+          
           this.getQuotas(this.amountOfPay);
         }
       });
@@ -211,19 +212,19 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatPurchaseAmount(amount: string | number) {
-    const integerValue = Math.trunc(Number(amount)).toLocaleString('es');
-    const decimalPart = (this.amount.toString()).split('.')[1];
-    let decimalValue;
+  // formatPurchaseAmount(amount: string | number) {
+  //   const integerValue = Math.trunc(Number(amount)).toLocaleString('es');
+  //   const decimalPart = (this.amount.toString()).split('.')[1];
+  //   let decimalValue;
 
-    decimalValue = decimalPart ?
-          (decimalPart.substring(0, 2).length === 1 ? decimalPart.substring(0, 2) + '0' : decimalPart.substring(0, 2)) : '00';
+  //   decimalValue = decimalPart ?
+  //         (decimalPart.substring(0, 2).length === 1 ? decimalPart.substring(0, 2) + '0' : decimalPart.substring(0, 2)) : '00';
 
-    return integerValue + ',' + decimalValue;
-  }
+  //   return integerValue + ',' + decimalValue;
+  // }
 
   getQuotas(amount) {
-    this.publicServicesService.getCuotaCalculator(this.formatPurchaseAmount(amount))
+    this.publicServicesService.getCuotaCalculator(amount)
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
@@ -244,7 +245,6 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     //this.ivaAmount = Number((ConvertStringAmountToNumber(this.personalCreditSummary.commission) * 0.13).toFixed(2));
     this.publicServicesService.paymentQuotaSummary = Object.assign({}, this.paymentQuotaSummary);
   }
-
 
   getQuota(sliderValue) {
     this.termSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
