@@ -221,9 +221,9 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
     return integerValue + ',' + decimalValue;
   }
-  
+
   getQuotas(amount) {
-    this.publicServicesService.getCuotaCalculator(this.formatPurchaseAmount(this.amount))
+    this.publicServicesService.getCuotaCalculator(this.formatPurchaseAmount(amount))
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
