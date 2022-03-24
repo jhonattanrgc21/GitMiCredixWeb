@@ -77,6 +77,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     if ( this.publicServicesService.tabIndex === 'Favoritos' ) {
       this.getFavoritePublicServiceDetail();
       this.getIsTabChanged();
+      this.publicServicesService.paymentType = 'Favoritos';
     } else {
       this.router.navigate(['/home/public-services']);
     }
@@ -156,21 +157,6 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     if (this.pendingReceipt?.receipts !== null) {
       const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
 
-      // const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
-      // this.publicServicesService.payPublicService(
-      //   this.pendingReceipt.clientName,
-      //   this.selectedPublicService.publicServiceId,
-      //   this.pendingReceipt.receipts[0].serviceValue,
-      //   this.pendingReceipt.currencyCode,
-      //   amount,
-      //   +this.pendingReceipt.receipts[0].receiptPeriod,
-      //   this.selectedPublicService.publicServiceAccessKeyType,
-      //   this.pendingReceipt.receipts[0].expirationDate,
-      //   this.pendingReceipt.receipts[0].billNumber,
-      //   this.pendingReceipt.receipts[0].selfCode
-      //   +this.paymentQuotaSummary.quotaTo,)
-      
-
       this.publicServicesService.payPublicService(
         this.pendingReceipt.clientName,
         this.selectedPublicService.publicServiceId,
@@ -225,13 +211,23 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     }
   }
 
+  formatPurchaseAmount(amount: string | number) {
+    const integerValue = Math.trunc(Number(amount)).toLocaleString('es');
+    const decimalPart = (this.amount.toString()).split('.')[1];
+    let decimalValue;
+
+    decimalValue = decimalPart ?
+          (decimalPart.substring(0, 2).length === 1 ? decimalPart.substring(0, 2) + '0' : decimalPart.substring(0, 2)) : '00';
+
+    return integerValue + ',' + decimalValue;
+  }
+  
   getQuotas(amount) {
-    this.publicServicesService.getCuotaCalculator(amount)
+    this.publicServicesService.getCuotaCalculator(this.formatPurchaseAmount(this.amount))
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
             if ( response ) {
-              console.log( response );
               this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
