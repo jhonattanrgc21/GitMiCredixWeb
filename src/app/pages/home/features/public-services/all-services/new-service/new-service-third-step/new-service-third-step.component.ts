@@ -81,8 +81,20 @@ export class NewServiceThirdStepComponent implements OnInit, OnChanges {
     }
   }
 
+  
+  formatPurchaseAmount(amount: string | number) {
+    const integerValue = Math.trunc(Number(amount)).toLocaleString('es');
+    const decimalPart = (this.amount.toString()).split('.')[1];
+    let decimalValue;
+
+    decimalValue = decimalPart ?
+          (decimalPart.substring(0, 2).length === 1 ? decimalPart.substring(0, 2) + '0' : decimalPart.substring(0, 2)) : '00';
+
+    return integerValue + ',' + decimalValue;
+  }
+
   getQuotas() {
-    this.publicSevice.getCuotaCalculator(this.amount)
+    this.publicSevice.getCuotaCalculator(this.formatPurchaseAmount(this.amount))
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {

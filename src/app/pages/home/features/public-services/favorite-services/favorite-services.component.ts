@@ -211,8 +211,19 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     }
   }
 
+  formatPurchaseAmount(amount: string | number) {
+    const integerValue = Math.trunc(Number(amount)).toLocaleString('es');
+    const decimalPart = (this.amount.toString()).split('.')[1];
+    let decimalValue;
+
+    decimalValue = decimalPart ?
+          (decimalPart.substring(0, 2).length === 1 ? decimalPart.substring(0, 2) + '0' : decimalPart.substring(0, 2)) : '00';
+
+    return integerValue + ',' + decimalValue;
+  }
+  
   getQuotas(amount) {
-    this.publicServicesService.getCuotaCalculator(amount)
+    this.publicServicesService.getCuotaCalculator(this.formatPurchaseAmount(this.amount))
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
