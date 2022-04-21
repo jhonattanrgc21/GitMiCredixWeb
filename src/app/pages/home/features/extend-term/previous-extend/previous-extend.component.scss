@@ -81,3 +81,20 @@
       font-size: 14px !important;
     }
 }
+
+@media screen and (max-width: 1199px) {
+    .extend-term {
+      max-height: 886px;
+    
+        &__content {
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 8px;
+        }
+        
+        &__menu-options {
+            height: 733px;
+        }
+    }
+  
+  }

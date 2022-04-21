@@ -118,7 +118,7 @@ export class PreviousExtendComponent implements OnInit {
       .pipe(finalize(() => this.router.navigate([`/home/extend-term/previous-extend-success`])))
         .subscribe(response => {
           this.extendTermService.result = {
-            status: response.status,
+            status: response.type === 'success' ? 'success' : 'error',
             message: response.message
           };
 
