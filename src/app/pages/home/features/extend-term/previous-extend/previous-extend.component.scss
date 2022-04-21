@@ -83,12 +83,12 @@
 }
 
 @media screen and (max-width: 1199px) {
-    .extend-term {
+    .previous-extend {
       max-height: 886px;
     
         &__content {
-            margin-left: 0;
-            margin-right: 0;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
             margin-top: 8px;
         }
         
