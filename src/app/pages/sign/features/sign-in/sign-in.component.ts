@@ -227,6 +227,10 @@ export class SignInComponent implements OnInit, OnDestroy {
       });
   }
 
+  redirectToCredixWeb() {
+    window.location.href = 'https://credixweb.credix.com/?token=v4sXw#no-back-button';
+  }
+
   next() {
     this.stepper.next();
     this.stepIndex = this.stepper.selectedIndex;
