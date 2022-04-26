@@ -40,6 +40,7 @@ export class PreviousExtendComponent implements OnInit {
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
   percentageCommission: string = '';
+  result: any;
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -81,13 +82,7 @@ export class PreviousExtendComponent implements OnInit {
 
               aux.shift();
               
-              const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
-
-              if ( !result ) {
-                this.percentageCommission = '';
-              } else {
-                this.percentageCommission = '(' + this.movementQuotaSummary?.commissionPercentage + '%)';
-              }
+              this.result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
             }
           }
         );
@@ -100,6 +95,12 @@ export class PreviousExtendComponent implements OnInit {
 
   selectMovementQuotaSummary() {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
+
+    if ( !this.result ) {
+      this.percentageCommission = '';
+    } else {
+      this.percentageCommission = '(' + this.movementQuotaSummary?.commissionPercentage + '%)';
+    }
   }
 
   openConfirmationModal() {
