@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ExtendTermPreviousSuccessComponent implements OnInit {
 
-  status: 'success' | 'error';
+  status: any;
   message: string;
   establishment: string;
   currency: string;

@@ -114,14 +114,29 @@
 
 @media screen and (max-width: 1199px) {
   .extend-term {
-    max-height: 886px;
+    //max-height: 886px;
+    //width: 100% !important;
+    width: 736px !important;
+    margin-left: -16px !important;
 
     &__scrollbar {
-      height: 733px !important;
+      height: auto !important;
     }
 
     &__table-wrapper {
       height: 578px;
     }
+
+    &__table {
+
+      ::ng-deep.mat-header-row {
+        width: 100% !important;
+      }
+    }
+
+    .actions-footer {
+      width: 100% !important;
+      margin-left: 0px !important;
+    } 
   }
 }
