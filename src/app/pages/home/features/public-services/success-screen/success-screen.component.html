@@ -22,7 +22,7 @@
 
         <div fxLayout="row" fxLayoutGap="16px">
           <span fxFlex>Plazo</span>
-          <span class="tr truncate"><strong>{{quota + ' ' + 'meses'}}</strong></span>
+          <span class="tr truncate"><strong>{{ quota }} {{ quota > 1 ? 'meses': 'mes'}}</strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutGap="16px">
