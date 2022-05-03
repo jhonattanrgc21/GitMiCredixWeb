@@ -214,7 +214,7 @@ export class AutomaticsComponent implements OnInit, AfterViewInit {
   }
 
   getQuotas(amount) {
-    this.favoriteMagamentService.getCuotaCalculator(this.formatPurchaseAmount(amount))
+    this.favoriteMagamentService.getCuotaCalculator(amount)
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {

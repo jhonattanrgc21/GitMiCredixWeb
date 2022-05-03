@@ -56,6 +56,7 @@ export class PublicServicesService {
   private readonly getPublicServiceFavoriteByUserUri = 'publicservice/findallpublicservicefavoritebyuser';
   private readonly getQuotaCalculatorUri = 'general/quotacalculator';
   private _tabIndex: 'Todos' | 'Favoritos' | 'Automáticos';
+  private _changeHeightDim: Subject<string> = new Subject();
   private _publicServiceData: PublicServiceData = {
     categoryId: 0,
     enterpriseId: 0,
@@ -70,7 +71,7 @@ export class PublicServicesService {
   paymentQuotaSummary: PaymentQuota = null;
   paymentType: string;
   automaticPayment: AutomaticPayment;
-  
+
    // tslint:disable-next-line:variable-name
    get publicServiceData(): PublicServiceData {
     return this._publicServiceData;
@@ -89,6 +90,11 @@ export class PublicServicesService {
   // tslint:disable-next-line:variable-name
   get publicServiceCategory(): number {
     return this._publicServiceData.categoryId;
+  }
+
+  // tslint:disable-next-line:variable-name
+  get changeHeightDim$(): Observable<string> {
+    return this._changeHeightDim.asObservable();
   }
 
   // tslint:disable-next-line:variable-name
@@ -203,6 +209,10 @@ export class PublicServicesService {
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
+  }
+
+  updateHeightDim(heightDim: string) {
+    this._changeHeightDim.next(heightDim);
   }
 
   @Cacheable({

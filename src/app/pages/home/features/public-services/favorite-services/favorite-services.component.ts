@@ -19,13 +19,16 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     favorite: new FormControl(null),
     amount: new FormControl(null, [Validators.required])
   });
+  amountControl: FormControl = new FormControl(null, []);
   currencySymbol = '₡';
   publicFavoriteService: PublicServiceFavoriteByUser[] = [];
   pendingReceipt: PendingReceipts;
   selectedPublicService: PublicServiceFavoriteByUser;
   newAmount: boolean;
+  anotherAmount: boolean =  false;
   month: string;
   showMessage = false;
+  typeService: 'recharge' | 'service';
   hasReceipts = false;
   amountOfPay: string;
   message: string;
@@ -38,8 +41,10 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   ];
   isRecharge: boolean;
   tabChanged: boolean;
+  heightDim = '_height';
   empty = false;
   amount = '0.00';
+  amounts: { amount: string, id: number }[] = [];
   quotas: PaymentQuota[] = [];
   paymentQuotaSummary: PaymentQuota = null;
   amountSliderStep = 1;
@@ -107,7 +112,10 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
       +this.selectedPublicService.serviceReference,
       this.selectedPublicService.publicServiceAccessKeyType)
       .subscribe((response) => {
+        console.log("response: ", response);
         this.pendingReceipt = response;
+        
+        console.log("typeService: ", this.typeService);
         this.hasReceipts = this.pendingReceipt?.receipts !== null && this.pendingReceipt?.receipts.length > 0;
         this.status = this.pendingReceipt ? 'info' : 'error';
         this.message = this.status === 'error' ? 'Oops...' : this.pendingReceipt?.responseDescription;
@@ -115,6 +123,20 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
         if (this.pendingReceipt && this.pendingReceipt.receipts !== null) {
           const months: Date = new Date(this.pendingReceipt.date);
+          this.typeService = this.pendingReceipt?.amounts ? 'recharge' : 'service';
+          
+          if ( this.typeService === 'recharge' ) {
+            this.amounts = [];
+            this.pendingReceipt.amounts.map((value, index) => {
+              this.amounts.push({
+                amount: value,
+                id: index + 1
+              });
+            });
+            this.amounts.push({id: 10, amount: 'Otro'});
+          }
+        
+          // this.amounts = this.pendingReceipt.amounts;
           this.month = getMontByMonthNumber(months.getMonth());
           this.expirationDate = new Date(this.pendingReceipt.receipts[0].expirationDate);
           this.amountOfPay = this.pendingReceipt.receipts[0].totalAmount;
@@ -238,6 +260,24 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
             }
           }
         );
+  }
+
+  onAmountChanged(value) {
+
+    this.heightDim = '';
+    if (value !== 'Otro') {
+      this.anotherAmount = false;
+      this.confirmFormGroup.controls.amount.setValidators([Validators.required]);
+      this.confirmFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(value).toString());
+      this.publicServicesService.updateHeightDim('662px');
+    } else {
+      this.publicServicesService.updateHeightDim('715px');
+      this.confirmFormGroup.controls.amount.reset();
+      this.confirmFormGroup.controls.amount.setValidators([Validators.required,
+        Validators.min(ConvertStringAmountToNumber(this.amounts[0].amount))]);
+      this.anotherAmount = true;
+    }
+    this.confirmFormGroup.controls.amount.updateValueAndValidity();
   }
 
   selectPaymentQuotaSummary() {

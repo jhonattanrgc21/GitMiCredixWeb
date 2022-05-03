@@ -17,6 +17,7 @@
     position: absolute;
     bottom: 16px;
     padding-right: 16px;
+    align-self: flex-end;
   }
 
   &__table {
@@ -92,5 +93,9 @@
       width: 321px;
     }
   }
+}
+
+credix-navigation-table {
+  height: 700px !important;
 }
 
