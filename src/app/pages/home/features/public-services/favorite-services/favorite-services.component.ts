@@ -262,6 +262,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         );
   }
 
+  
   onAmountChanged(value) {
 
     this.heightDim = '';

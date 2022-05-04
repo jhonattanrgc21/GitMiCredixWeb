@@ -1,5 +1,6 @@
 .favorites-services {
     height: 845px !important;
+
   &__options-wrapper {
     width: 252px;
   }
@@ -14,7 +15,7 @@
 
   &__footer {
     width: 100%;
-    position: absolute;
+    //position: absolute;
     bottom: 16px;
     padding-right: 16px;
     align-self: flex-end;
@@ -22,7 +23,7 @@
 
   &__table {
     width: 444px !important;
-    height: 226px !important;
+    //height: 100% !important;
     margin-top: 16.5px;
   }
 
@@ -32,6 +33,37 @@
   }
 }
 
+.payment__content {
+  width: 100%;
+
+  &:not(:last-of-type) {
+    padding-bottom: 16px;
+  }
+
+  &:not(:first-of-type) {
+    padding-top: 16px;
+  }
+
+  &__input {
+    height: 43px;
+    max-width: 360px;
+    margin-bottom: 26px;
+    margin-top: -15.5px !important;
+    &.favorite {
+      margin-left: 20px;
+    }
+
+    &.amount-to-pay {
+      margin-left: 30px;
+    }
+  }
+}
+
+credix-navigation-table {
+  ::ng-deep.navigation-table__content {
+    height: 100% !important;
+  }
+}
 .left-content {
   width: 380px;
   color: #3E3E3E;
@@ -48,6 +80,18 @@
 
 .amount-to-pay {
   margin-left: 30px;
+}
+
+.mb-max {
+  margin-bottom: 32px !important;
+}
+
+.mb-min {
+  margin-bottom: 10.5px !important;
+}
+
+.mb-16 {
+  margin-bottom: 15.96px;
 }
 
 .amount-quota {
