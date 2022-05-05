@@ -31,7 +31,7 @@ export class CredixSliderComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(simple: SimpleChanges) {
-    if ( simple.displayValue.currentValue === 1 ) {
+    if ( simple.displayValue?.currentValue === 1 ) {
       this.value = 1;
     }
   }

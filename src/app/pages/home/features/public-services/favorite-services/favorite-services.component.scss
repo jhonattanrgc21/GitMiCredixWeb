@@ -17,14 +17,17 @@
     width: 100%;
     //position: absolute;
     bottom: 16px;
-    padding-right: 16px;
+    margin: auto;
+    // padding-right: 16px;
     align-self: flex-end;
+    padding: 16px;
+    border-top: 1px solid #E9E9E9;
   }
 
   &__table {
     width: 444px !important;
     //height: 100% !important;
-    margin-top: 16.5px;
+    margin-top: 16px;
   }
 
   &__notification {
@@ -41,7 +44,7 @@
   }
 
   &:not(:first-of-type) {
-    padding-top: 16px;
+    //padding-top: 16px;
   }
 
   &__input {

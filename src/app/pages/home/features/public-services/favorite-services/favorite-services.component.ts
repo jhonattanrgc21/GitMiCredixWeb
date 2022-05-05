@@ -45,6 +45,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   empty = false;
   amount = '0.00';
   amounts: { amount: string, id: number }[] = [];
+  selectAmount: boolean = false;
   quotas: PaymentQuota[] = [];
   paymentQuotaSummary: PaymentQuota = null;
   amountSliderStep = 1;
@@ -86,6 +87,12 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/home/public-services']);
     }
+
+    this.confirmFormGroup.valueChanges
+      .subscribe(controls => {
+        console.log("value: ", controls);
+        this.getQuotas(controls.amount);
+      });
   }
 
   getIsTabChanged() {
@@ -124,6 +131,14 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         if (this.pendingReceipt && this.pendingReceipt.receipts !== null) {
           const months: Date = new Date(this.pendingReceipt.date);
           this.typeService = this.pendingReceipt?.amounts ? 'recharge' : 'service';
+          this.selectAmount = false;
+          this.newAmount = false;
+          this.anotherAmount = false;
+          this.confirmFormGroup.reset();
+          this.confirmFormGroup.controls.amount.setErrors({required: false});
+          this.confirmFormGroup.controls.amount.updateValueAndValidity();
+          this.paymentQuotaSummary = null;
+          this.quotas = [];
           
           if ( this.typeService === 'recharge' ) {
             this.amounts = [];
@@ -153,32 +168,10 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  openConfirmationModal() {
-    this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
-      if (confirmation) {
-        if (this.isRecharge) {
-          this.publicServicesService.pendingReceipt = this.pendingReceipt;
-          this.router.navigate(['/home/public-services/recharge']);
-        } else {
-          this.payService();
-        }
-      }
-    });
-  }
-
-  onSelectRadioButtons(event) {
-    this.newAmount = event.value === 1;
-    if (!this.newAmount) {
-      this.confirmFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(this.amount).toString());
-    } else {
-      this.confirmFormGroup.controls.amount.markAsUntouched();
-      this.confirmFormGroup.controls.amount.setValue(null, {onlySelf: false, emitEvent: false});
-    }
-  }
-
   payService() {
     if (this.pendingReceipt?.receipts !== null) {
-      const amount = ConvertStringAmountToNumber(this.pendingReceipt.receipts[0].totalAmount).toString();
+      console.log("this.confirmFormGroup.controls.amount.value,: ", this.confirmFormGroup.controls.amount.value);
+      const amount = ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value,).toString();
 
       this.publicServicesService.payPublicService(
         this.pendingReceipt.clientName,
@@ -203,7 +196,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
           this.publicServicesService.payment = {
             currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$',
-            amount: this.amountOfPay,
+            amount: this.confirmFormGroup.controls.amount.value,
             contract: this.selectedPublicService.serviceReference,
             type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio',
             quota: this.paymentQuotaSummary.quotaTo,
@@ -232,6 +225,36 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
           };
         });
     }
+  }
+
+  openConfirmationModal() {
+    this.modalService.confirmationPopup('¿Desea realizar este pago?').subscribe(confirmation => {
+      if (confirmation) {
+
+        this.payService();
+
+        // if (this.isRecharge) {
+        //   this.publicServicesService.pendingReceipt = this.pendingReceipt;
+        //   this.router.navigate(['/home/public-services/recharge']);
+        // } else {
+        //   this.payService();
+        // }
+      }
+    });
+  }
+
+  onSelectRadioButtons(event) {
+    this.newAmount = event.value === 1;
+    this.selectAmount = true;
+
+    if (!this.newAmount) {
+      this.confirmFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(this.amountOfPay).toString());
+    } else {
+      this.confirmFormGroup.controls.amount.markAsUntouched();
+      this.confirmFormGroup.controls.amount.setValue(null, {onlySelf: false, emitEvent: false});
+    }
+
+    console.log("confirmFormGroup: ", this.confirmFormGroup);
   }
 
   // formatPurchaseAmount(amount: string | number) {
@@ -264,15 +287,16 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
   
   onAmountChanged(value) {
-
     this.heightDim = '';
+    this.selectAmount = true;
+
     if (value !== 'Otro') {
       this.anotherAmount = false;
       this.confirmFormGroup.controls.amount.setValidators([Validators.required]);
       this.confirmFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(value).toString());
-      this.publicServicesService.updateHeightDim('662px');
+      //this.publicServicesService.updateHeightDim('662px');
     } else {
-      this.publicServicesService.updateHeightDim('715px');
+      //this.publicServicesService.updateHeightDim('715px');
       this.confirmFormGroup.controls.amount.reset();
       this.confirmFormGroup.controls.amount.setValidators([Validators.required,
         Validators.min(ConvertStringAmountToNumber(this.amounts[0].amount))]);
