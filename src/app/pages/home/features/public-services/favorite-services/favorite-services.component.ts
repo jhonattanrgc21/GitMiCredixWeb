@@ -91,6 +91,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     this.confirmFormGroup.valueChanges
       .subscribe(controls => {
         console.log("value: ", controls);
+        console.log("summary: ", this.paymentQuotaSummary);
         this.getQuotas(controls.amount);
       });
   }
@@ -122,7 +123,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         console.log("response: ", response);
         this.pendingReceipt = response;
         
-        console.log("typeService: ", this.typeService);
+        
         this.hasReceipts = this.pendingReceipt?.receipts !== null && this.pendingReceipt?.receipts.length > 0;
         this.status = this.pendingReceipt ? 'info' : 'error';
         this.message = this.status === 'error' ? 'Oops...' : this.pendingReceipt?.responseDescription;
@@ -138,6 +139,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
           this.confirmFormGroup.controls.amount.setErrors({required: false});
           this.confirmFormGroup.controls.amount.updateValueAndValidity();
           this.paymentQuotaSummary = null;
+          this.termSliderDisplayValue = 0;
           this.quotas = [];
           
           if ( this.typeService === 'recharge' ) {
@@ -165,6 +167,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
     this.publicServicesService.getPublicServicesFavoritesByUser().subscribe(publicServices => {
       this.empty = publicServices.length === 0;
       this.publicFavoriteService = publicServices;
+
     });
   }
 
@@ -273,6 +276,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
+            console.log("response: ", response);
             if ( response ) {
               this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;

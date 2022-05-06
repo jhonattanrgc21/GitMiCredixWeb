@@ -111,8 +111,8 @@
         </ng-container>
   
         <ng-template #tplRecharge>
-          <div class="new-recharge-second-step__content" fxLayout="column" fxLayoutGap="22px" [ngClass]="{'mb-max': !anotherAmount, 'mb-min': anotherAmount}">
-            <span><strong>Monto de la recarga</strong></span>
+          <div class="new-recharge-second-step__content" fxLayout="column" fxLayoutGap="16px" [ngClass]="{'mb-max': !anotherAmount, 'mb-min': anotherAmount}">
+            <span><strong>Monto de recarga</strong></span>
         
             <div class="left-content" fxLayout="column" fxLayoutGap="16px">
               <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
@@ -188,11 +188,6 @@
 
 </credix-navigation-table>
 
-
-
-
-
-
 <ng-template #summaryTemplate>
   <div class="h-100 summary-custom" fxLayout="column" fxLayoutGap="16px">
 
@@ -240,7 +235,7 @@
 
 
     <p fxFlex style="color: #707070; font-size: 14px !important; margin-bottom: 26px !important">
-      * IVA y comisión se cargarán en el próximo estado de cuenta.
+      *Se cargará en el próximo estado de cuenta.
     </p>
 
     <div fxFlex fxFlexLayout="row" style="padding-top: 8px;" fxLayoutAlign="space-between">
