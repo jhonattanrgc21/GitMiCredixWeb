@@ -58,7 +58,19 @@
 
     &.amount-to-pay {
       margin-left: 30px;
+      width: 109% !important;
     }
+  }
+}
+
+.amount-to-pay {
+  margin-left: 30px;
+  width: 109% !important;
+}
+
+credix-button {
+  ::ng-deep button {
+    width: 120px !important;
   }
 }
 
@@ -67,6 +79,7 @@ credix-navigation-table {
     height: 100% !important;
   }
 }
+
 .left-content {
   width: 380px;
   color: #3E3E3E;
