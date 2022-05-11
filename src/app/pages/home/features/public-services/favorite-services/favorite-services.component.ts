@@ -301,7 +301,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => this.selectPaymentQuotaSummary()))
         .subscribe(
           response => {
-            if ( response ) {
+            if ( response && amount ) {
               this.quotas = response.sort((a, b) => a.quotaTo - b.quotaTo);
               this.termSliderDisplayMin = this.quotas[0].quotaTo;
               this.termSliderMin = 1;
