@@ -52,6 +52,7 @@ export class NewServiceSecondStepComponent implements OnInit, OnChanges {
     }
 
     if (changes.isActive && this.isActive) {
+      console.log(this.paymentType);
       switch (this.paymentType) {
         case 'E':
           this.confirmFormGroup.controls.amount.setValue(ConvertStringAmountToNumber(this.amount).toString());

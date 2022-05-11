@@ -111,7 +111,7 @@
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button (buttonClick)="back()" type="secondary">Atrás</credix-button>
     <credix-button (buttonClick)="stepperIndex !== 1 ? next() : addAutomaticPayment()" [disabled]="buttonFormGroup.invalid || rechargeFormGroup.invalid">
-      {{ stepperIndex !== 1 ? 'Continuar' : 'Añadir' }}
+      {{ 'Continuar' }}
     </credix-button>
     <!--<credix-button (buttonClick)="addAutomaticPayment()" [disabled]="invalidCodeCredix || newAutomaticsForm.invalid">
       Añadir
