@@ -32,4 +32,5 @@ export interface AccountsFavoriteManagement {
   key?: number;
   publicServiceCategoryId?: number;
   publicServiceCategoryName?: string;
+  quota?: number;
 }

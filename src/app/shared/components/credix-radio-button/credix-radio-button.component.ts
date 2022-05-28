@@ -12,6 +12,7 @@ export class CredixRadioButtonComponent implements OnInit {
   @Input() name: string;
   @Input() checked: boolean;
   @Input() disabled: boolean;
+  @Input() position: string = 'after';
   @Output() emitRadioButton = new EventEmitter();
 
   constructor() {

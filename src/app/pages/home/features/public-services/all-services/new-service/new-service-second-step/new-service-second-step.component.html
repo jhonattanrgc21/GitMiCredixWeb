@@ -4,11 +4,18 @@
     <span fxFlex="150px"><strong>Datos de referencia</strong></span>
 
     <div class="left-content mb-8px" fxLayout="column">
-      <span class="mb-16px"><strong>{{reference}}</strong></span>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Tipo de referencia</span>
+        <span class="mb-16px">{{keyType}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span>Número de contrato</span>
+        <span class="mb-16px">{{reference}}</span>
+      </div>
       <credix-checkbox-button (emitCheckBox)="onCheckboxChanged($event.checked)"
                               label="Guardar como favorito"></credix-checkbox-button>
       <credix-input-field *ngIf="showInput" formControlName="favorite"
-                          class="new-service-second-step__content__input favorite"
+                          class="new-service-second-step__content__input favorite matForm"
                           label="Nombre del favorito"></credix-input-field>
     </div>
   </div>
@@ -36,7 +43,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span><strong>Monto a pagar</strong></span>
+        <span><strong>Monto pendiente</strong></span>
         <span><credix-numeric-block [prefix]="currencySymbol" [value]="amount" fontWeight="bold"></credix-numeric-block></span>
       </div>
     </div>
@@ -49,7 +56,7 @@
        fxLayout="row"
        fxLayoutAlign="space-between">
     <span><strong>Monto a pagar</strong></span>
-    <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="!prevStep" class="left-content" fxLayout="column" fxLayoutGap="12px">
       <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
                            [value]="0"
                            label="Monto pendiente total"
@@ -77,9 +84,9 @@
     </div>
   </div>
 
-  <mat-divider class="mt-16px" credixDivider></mat-divider>
+  <!--<mat-divider class="mt-16px" credixDivider></mat-divider>-->
 
-  <div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
+  <!--<div class="new-service-second-step__content" fxLayout="row" fxLayoutAlign="space-between">
     <credix-code-link></credix-code-link>
 
     <credix-code-input class="new-service-second-step__content__input left-content" formControlName="credixCode">
@@ -88,6 +95,6 @@
       <span *ngIf="confirmFormGroup.controls.credixCode.hasError('invalid')"
             error>Código MiCredix inválido.</span>
     </credix-code-input>
-  </div>
+  </div>-->
 
 </form>

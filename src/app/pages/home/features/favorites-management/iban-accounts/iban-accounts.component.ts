@@ -20,6 +20,7 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    console.log("ibannn");
     this.getIbanAccountDetail();
   }
 
@@ -40,7 +41,7 @@ export class IbanAccountsComponent implements OnInit, AfterViewInit {
 
   getUpdateAlert() {
     this.favoritesManagementService.confirmUpdate.subscribe(response => {
-      if (response.confirm && this.data.IdAccountFavorite) {
+      if (response.confirm && this.data?.IdAccountFavorite) {
         this.setUpdateIban(this.data.IdAccountFavorite, this.ibanAccountDetailControl.value);
       }
     });

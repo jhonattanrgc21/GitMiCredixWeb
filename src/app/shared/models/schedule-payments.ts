@@ -9,4 +9,5 @@ export interface SchedulePayments {
   publicServiceDescription: string;
   startDate: string;
   icon?: string;
+  quota?: number;
 }

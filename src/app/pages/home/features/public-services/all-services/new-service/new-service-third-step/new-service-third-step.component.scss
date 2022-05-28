@@ -1,0 +1,61 @@
+.new-service-third-step {
+    padding: 0 100px;
+    margin-top: 32px;
+
+    &__content {
+      width: 100%;
+    }
+  
+    ::ng-deep.credix-slider {
+      width: 280px;
+    }
+  
+    .credix-slider--no-units ::ng-deep.credix-slider__units {
+      display: none;
+    }
+
+    &__form {
+      width: 379px;
+    }
+    
+  }
+
+  ::ng-deep .summary-panel .mat-dialog-container {
+    padding: 36px !important;
+    padding-bottom: 51px !important;
+    padding-right: 42px !important;
+  
+    .credix-popup__content {
+      padding-left: 6px !important;
+    }
+  
+    .credix-popup__title {
+      margin: 22px 0 16px 0 !important;
+      padding-right: 50px !important;
+      font-size: 30px !important;
+    }
+  }
+  
+  .summary-custom {
+    height: 273px !important;
+  
+    ::ng-deep .credix-numeric-block__decimal {
+      font-size: 14px !important;
+    }
+  }
+
+  @media screen and (max-width: 1199px) {
+    .new-service-third-step {
+      max-height: 886px;
+      height: 100%;
+      padding: 0 0 0 94px;
+
+      &__form {
+        width: 266px;
+        padding-right: 94px;
+      }
+    }
+  }
+  
+  
+  

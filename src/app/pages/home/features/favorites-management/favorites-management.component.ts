@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {CredixToastService} from '../../../../core/services/credix-toast.service';
 import {Router} from '@angular/router';
 import {FavoritesManagementService} from './favorites-management.service';
@@ -13,6 +13,7 @@ import {SchedulePayments} from '../../../../shared/models/schedule-payments';
 import {finalize} from 'rxjs/operators';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
 
 @Component({
   selector: 'app-favorites-management',
@@ -22,8 +23,8 @@ import {Tag} from '../../../../shared/models/tag';
 export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDestroy {
   accounts: AccountsFavoriteManagement[] = [];
   tableHeaders = [
-    {label: 'Cuentas guardadas', width: '276px'},
-    {label: 'Detalle de la cuenta', width: 'auto'}
+    {label: 'Pago guardado', width: '276px'},
+    {label: 'Detalle del pago', width: 'auto'}
   ];
   tabs = [
     {id: 1, name: 'Cuentas IBAN'},
@@ -46,7 +47,9 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
               private channelsApiService: ChannelsApiService,
               private modalService: ModalService,
               private router: Router,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private cdr: ChangeDetectorRef,
+            ) {
   }
 
   ngOnInit(): void {
@@ -63,6 +66,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
     this.checkIsUpdating();
     this.checkUpdateCompleted();
     this.checkUrlParam();
+    this.cdr.detectChanges();
     this.favoriteManagementService.tabChanged.subscribe(() => {
       this.tabIsChanged = true;
     });
@@ -84,6 +88,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
   getDetailFavorite(option) {
     this.optionSelected = this.tabId === 1 ? option.IdAccountFavorite : this.tabId === 2 ? option.publicServiceFavoriteId : option.id;
     this.tabIsChanged = false;
+    
     if (option.publicServiceFavoriteId) {
       const favoritePublicService: PublicServiceFavoriteByUser = {
         accountNumber: option.account,
@@ -131,7 +136,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
         startDate: option.startDate,
         key: option.key,
         publicServiceCategoryId: option.publicServiceCategoryId,
-        publicServiceCategoryName: option.publicServiceCategoryName
+        publicServiceCategoryName: option.publicServiceCategoryName,
+        quota: option.quota,
       };
       this.favoriteManagementService.emitSchedulePaymentData(schedulePayment);
       this.updating = false;
@@ -146,7 +152,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
       case 1:
         this.router.navigate(['home/favorites-management/iban-accounts']);
         this.tableHeaders[0].label = 'Cuentas guardadas';
-        this.tableHeaders[1].label = 'Detalle de la cuenta';
+        this.tableHeaders[1].label = 'Detalle del pago';
         this.getFavoritesIban();
         this.favoriteManagementService.emitIsTabChange();
         break;
@@ -160,7 +166,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
       case 3:
         this.router.navigate(['home/favorites-management/automatics']);
         this.tableHeaders[0].label = 'Cuentas guardadas';
-        this.tableHeaders[1].label = 'Detalle de la cuenta';
+        this.tableHeaders[1].label = 'Detalle del pago';
         this.getSchedulePayment();
         this.favoriteManagementService.emitIsTabChange();
         break;
@@ -213,7 +219,7 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
           });
         break;
       case 3:
-        this.modalService.confirmationPopup('¿Desea eliminar este pago favorito?').subscribe((confirm) => {
+        this.modalService.confirmationPopup('¿Desea eliminar este pago automático?').subscribe((confirm) => {
           if (confirm) {
             this.deleteAutomatic();
           }
@@ -252,8 +258,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   checkIsUpdating() {
-    this.favoriteManagementService.update.subscribe(() => {
-      this.updating = true;
+    this.favoriteManagementService.update.subscribe((value) => {
+      this.updating = value;
     });
   }
 
@@ -347,7 +353,8 @@ export class FavoritesManagementComponent implements OnInit, AfterViewInit, OnDe
               startDate: values.startDate,
               key: values.key,
               publicServiceCategoryName: values.publicServiceCategoryName,
-              publicServiceCategoryId: values.publicServiceCategoryId
+              publicServiceCategoryId: values.publicServiceCategoryId,
+              quota: values?.quota,
             });
           });
         }

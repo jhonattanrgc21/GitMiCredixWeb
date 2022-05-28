@@ -4,7 +4,7 @@
 
   &__first-step {
     padding: 0 84px;
-
+    
     &__content {
       width: 100%;
 
@@ -14,6 +14,19 @@
       }
     }
   }
+
+  ::ng-deep.mat-form-field-flex {
+    padding-top: 0px !important;
+  }
+
+  /*::ng-deep.credix-stepper__nav-bar {
+    padding-bottom: 19px !important;
+    margin-bottom: 19px !important;
+  }*/
+}
+
+.mb-title {
+  margin-bottom: 25px !important;
 }
 
 @media screen and (max-width: 1199px) {
