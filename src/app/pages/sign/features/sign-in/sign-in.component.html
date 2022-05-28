@@ -24,11 +24,18 @@
       </credix-button>
     </form>
 
-    <span class="sign-in__card__sign-up-span">¿Nuevo en MiCredix?
-      <credix-link-button (click)="open('sign-up')">¡Regístrese aquí!</credix-link-button>
-    </span>
 
-    <credix-link-button (click)="open('forgot-pass')">¿Olvidó su clave?</credix-link-button>
+    <credix-link-button (click)="open('sign-up')" class="mb-24px">Crear o recuperar clave</credix-link-button>
+
+    <div class="sign-in__card__sign-up-span" fxLayout="column" fxLayoutAlign=" center">
+        <span>
+          ¿Quiere unirse a la familia Credix?
+        </span>
+      <credix-link-button (click)="redirectToCredixWeb()">
+        ¡Solicite su tarjeta aquí!
+      </credix-link-button>
+    </div>
+
   </mat-card>
 
 </div>
