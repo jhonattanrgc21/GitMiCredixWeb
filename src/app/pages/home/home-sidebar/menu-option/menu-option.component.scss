@@ -73,6 +73,7 @@
       box-sizing: border-box;
       font-size: 16px;
       color: #696d6f;
+      
     }
 
     .submenu-icon {
@@ -112,4 +113,10 @@
       border-left: 2px solid #e42313;
     }
   }
+}
+
+.text-wrapping{
+  width: 180px;
+  white-space: pre-line;
+  word-break: break-word;
 }
