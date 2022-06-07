@@ -15,7 +15,7 @@ export class SuccessScreenComponent implements OnInit {
   message: string;
   status: 'success' | 'error';
   title: string;
-  type: 'Recarga' | 'Servicio';
+  type: 'Recarga' | 'Servicio' | 'Servicio Fav';
   currencySymbol: string;
   amount: string;
   contract: string;

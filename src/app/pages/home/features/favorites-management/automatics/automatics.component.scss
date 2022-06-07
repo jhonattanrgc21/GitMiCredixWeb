@@ -104,7 +104,7 @@
   }
 
   .mt-16 {
-    margin-top: -16px !important;
+    margin-top: 15.99px !important;
   }
 
   .mb-0 {
@@ -120,4 +120,17 @@
       }
     }
   }
+
+  .style-credix-code{
+   
+    /* 16 pt Bold  */
   
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    line-height: 24px !important;
+    /* identical to box height */
+
+    /* Gris oscuro (#3E3E3E) */
+    color: #3E3E3E !important;
+  }
