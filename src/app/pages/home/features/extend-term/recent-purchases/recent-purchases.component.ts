@@ -9,6 +9,7 @@ import {finalize} from 'rxjs/operators';
 import {ExtendTermQuota} from '../../../../../shared/models/extend-term-quota';
 import {AllowedMovement} from '../../../../../shared/models/allowed-movement';
 import {ExtendTermService} from '../extend-term.service';
+import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/credix-slider.component';
 
 @Component({
   selector: 'app-recent-purchases',
@@ -53,9 +54,10 @@ export class RecentPurchasesComponent implements OnInit {
   title: string;
   iva: number;
   percentageCommission: string;
+  comissionUnique: boolean = false;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
-
+  @ViewChild(CredixSliderComponent) credixSlider: CredixSliderComponent;
   constructor(private extendTermService: ExtendTermService,
               private storageService: StorageService,
               private tagsService: TagsService,
@@ -78,8 +80,8 @@ export class RecentPurchasesComponent implements OnInit {
       if (!response.status) {
         this.message = response.descriptionOne;
         this.title = response.titleOne;
-        this.done = true;
-        this.template = this.disabledTemplate;
+        this.done = false;
+        //this.template = this.disabledTemplate;
       }
     });
   }
@@ -93,6 +95,10 @@ export class RecentPurchasesComponent implements OnInit {
   getQuota(sliderValue) {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
     this.quotaSelected = this.quotas[sliderValue - 1];
+    
+    if ( !this.comissionUnique ) {
+      this.percentageCommission = '(' + this.quotaSelected.commissionPercentage + '%)';
+    }
   }
 
   getAllowedMovements() {
@@ -122,6 +128,8 @@ export class RecentPurchasesComponent implements OnInit {
   }
 
   initSlider() {
+    this.credixSlider.value = 1;
+    this.quotaSliderStep = 1;
     this.quotaSliderDisplayMin = this.quotas[0].quotaTo;
     this.quotaSliderMin = 1;
     this.quotaSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
@@ -137,8 +145,9 @@ export class RecentPurchasesComponent implements OnInit {
     aux.shift();
     
     const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
-
+  
     if ( !result ) {
+      this.comissionUnique = true;
       this.percentageCommission = '';
     } else {
       this.percentageCommission = '(' + this.quotaSelected?.commissionPercentage + '%)';

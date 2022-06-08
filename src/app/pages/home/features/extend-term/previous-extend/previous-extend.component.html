@@ -26,7 +26,7 @@
                    [min]="termSliderMin"
                    [step]="termSliderStep"
                    instructions="{{ deseoTag || 'Deseo ampliar este plazo a' }}"
-                   [units]="movementQuotaSummary?.quotaTo > 1 ? 'Meses' : 'Mes'"></credix-slider>
+                   [units]="movementQuotaSummary?.quotaTo > 1 ? 'meses' : 'mes'"></credix-slider>
             <div fxFlex="110px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
                 <span>Cuotas de:</span>
                 <credix-numeric-block [value]="movementQuotaSummary?.amountPerQuota" class="tr"

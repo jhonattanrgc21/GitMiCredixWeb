@@ -104,7 +104,7 @@ export class PreviousExtendComponent implements OnInit {
   }
 
   openConfirmationModal() {
-    this.modalService.confirmationPopup('¿Desea ampliar el plazo de este consumo?')
+    this.modalService.confirmationPopup('¿Desea ampliar el plazo?')
       .subscribe((confirmation) => {
         if (confirmation) {
           this.saveQuota();

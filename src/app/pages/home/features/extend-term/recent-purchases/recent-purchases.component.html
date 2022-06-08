@@ -38,7 +38,7 @@
         <p class="extend-term__content__subtitle">
           <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
                                 [value]="allowedMovementSelected?.originAmount"
-                                fontSize="14" fontWeight="bold"></credix-numeric-block>
+                                fontSize="16" fontWeight="bold"></credix-numeric-block>
           a {{ allowedMovementSelected?.totalPlanQuota }} cuotas
         </p>
     
@@ -54,6 +54,7 @@
           <p class="mb-8px"><strong>{{subtitle || 'Modifique su plazo'}}</strong></p>
     
           <credix-slider (inputChange)="getQuota($event)"
+                         
                          (valueChange)="getQuota($event)"
                          [displayMax]="quotaSliderDisplayMax"
                          [displayMin]="quotaSliderDisplayMin"
@@ -63,7 +64,7 @@
                          [step]="quotaSliderStep"
                          class="second-step__slider"
                          instructions="{{deseoTag || 'Deseo ampliar este plazo a'}}"
-                         [units]="quotaSelected?.quotaTo > 1 ? 'Meses' : 'Mes'"></credix-slider>
+                         [units]="quotaSelected?.quotaTo > 1 ? 'meses' : 'mes'"></credix-slider>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
             <p fxFlex="auto">{{resultNew || 'Plazo nuevo'}}</p>
