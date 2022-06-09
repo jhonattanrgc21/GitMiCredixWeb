@@ -85,7 +85,7 @@
           </div>
     
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <p fxFlex="auto">{{comisionTag || 'Comisión'}}* {{ percentageCommission }}</p>
+            <p fxFlex="auto">{{comisionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%)' }}</p>
             <div [ngClass]="{'extend-term__text-disabled' :
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
@@ -97,7 +97,7 @@
           
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <p fxFlex="auto">{{'Interés (' + quotaSelected?.feePercentage + '% mensual)'}}</p>
+            <p fxFlex="auto">{{'Interés (' + feedPercentage + '% mensual)'}}</p>
             <div [ngClass]="{'extend-term__text-disabled' :
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"

@@ -2,7 +2,7 @@ export interface ExtendTermQuota {
   feeAmount: string;
   feePercentage: number;
   quotaTo: number;
-  amountPerQuota: string;
+  amountPerQuota: string ;
   quotaFrom: number;
   financedPlan: number;
   purchaseAmount: string;

@@ -8,7 +8,7 @@ import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { Tag } from 'src/app/shared/models/tag';
 import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 import { ExtendTermService } from '../extend-term.service';
-
+import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
 @Component({
   selector: 'app-previous-extend',
   templateUrl: './previous-extend.component.html',
@@ -40,6 +40,7 @@ export class PreviousExtendComponent implements OnInit {
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
   percentageCommission: string = '';
+  feedPercentage : any;
   result: any;
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
@@ -95,14 +96,26 @@ export class PreviousExtendComponent implements OnInit {
 
   selectMovementQuotaSummary() {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
-
+    this.feedPercentage = this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage);
+    
     if ( !this.result ) {
       this.percentageCommission = '';
     } else {
-      this.percentageCommission = '(' + this.movementQuotaSummary?.commissionPercentage + '%)';
+      this.percentageCommission =  this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
     }
   }
+  
+  convertAmountValue(value: any): any {
+    let result: any = '';
 
+    if ( typeof value === "number" )  {
+      result =  ConvertNumberToStringAmount(value);
+    } else {
+      result = ConvertStringAmountToNumber(value);
+    }
+
+    return result;
+  }
   openConfirmationModal() {
     this.modalService.confirmationPopup('¿Desea ampliar el plazo?')
       .subscribe((confirmation) => {

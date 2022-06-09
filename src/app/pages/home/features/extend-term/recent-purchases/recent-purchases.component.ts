@@ -10,6 +10,7 @@ import {ExtendTermQuota} from '../../../../../shared/models/extend-term-quota';
 import {AllowedMovement} from '../../../../../shared/models/allowed-movement';
 import {ExtendTermService} from '../extend-term.service';
 import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/credix-slider.component';
+import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
 
 @Component({
   selector: 'app-recent-purchases',
@@ -54,10 +55,12 @@ export class RecentPurchasesComponent implements OnInit {
   title: string;
   iva: number;
   percentageCommission: string;
+  feedPercentage: any;
   comissionUnique: boolean = false;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
   @ViewChild(CredixSliderComponent) credixSlider: CredixSliderComponent;
+  
   constructor(private extendTermService: ExtendTermService,
               private storageService: StorageService,
               private tagsService: TagsService,
@@ -91,13 +94,28 @@ export class RecentPurchasesComponent implements OnInit {
     this.quotaAmountFromSelected = ConvertStringAmountToNumber(movement.originAmount) / movement.totalPlanQuota;
     this.calculateQuota(movement.movementId);
   }
+  
+  convertAmountValue(value: any): any {
+    let result: any = '';
+
+    if ( typeof value === "number" )  {
+      result =  ConvertNumberToStringAmount(value);
+    } else {
+      result = ConvertStringAmountToNumber(value);
+    }
+
+    return result;
+  }
 
   getQuota(sliderValue) {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
     this.quotaSelected = this.quotas[sliderValue - 1];
+    console.log("quota: ", this.quotaSelected);
     
+    this.feedPercentage = this.quotaSelected?.feePercentage === 0 ? this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
+
     if ( !this.comissionUnique ) {
-      this.percentageCommission = '(' + this.quotaSelected.commissionPercentage + '%)';
+      this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
     }
   }
 
@@ -135,7 +153,9 @@ export class RecentPurchasesComponent implements OnInit {
     this.quotaSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
     this.quotaSliderMax = this.quotas.length;
     this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
+
     const quota = this.quotas.find(q => q.quotaTo === this.allowedMovementSelected.totalPlanQuota);
+    
     this.quotaSelected = quota || this.quotas[0];
 
     const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
@@ -145,12 +165,14 @@ export class RecentPurchasesComponent implements OnInit {
     aux.shift();
     
     const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
-  
+    
+    this.feedPercentage = this.quotaSelected?.feePercentage === 0 ? this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
+
     if ( !result ) {
       this.comissionUnique = true;
       this.percentageCommission = '';
     } else {
-      this.percentageCommission = '(' + this.quotaSelected?.commissionPercentage + '%)';
+      this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
     }
 
     this.iva = commission * 0.13;
