@@ -80,8 +80,8 @@ export class RecentPurchasesComponent implements OnInit {
       if (!response.status) {
         this.message = response.descriptionOne;
         this.title = response.titleOne;
-        this.done = false;
-        //this.template = this.disabledTemplate;
+        this.done = true;
+        this.template = this.disabledTemplate;
       }
     });
   }
