@@ -82,7 +82,10 @@ export class ExtendTermTotalOwedComponent implements OnInit {
       .pipe(finalize(() => this.selectExtendQuotaSummary()))
         .subscribe(
           response => {
-            if ( response.listQuota.length > 0 ) {
+            console.log("response quotas: ", response);
+            if ( response?.listQuota ) {
+
+              console.log("if");
               this.purchaseAmount = response.purchaseAmount;
               this.minimumPayment = response.minimumPayment;
               this.pendingPayment = response.purchaseAmount;
@@ -94,6 +97,17 @@ export class ExtendTermTotalOwedComponent implements OnInit {
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
+            } else {
+              
+              console.log("entro");
+              const message = 'En este momento su cuenta no aplica para este producto.';
+              
+              this.extendTermTotalOwedService.result = {
+                status: 'error',
+                message,
+              };
+
+              this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`]);
             }
           }
         );
