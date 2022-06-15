@@ -48,6 +48,7 @@ export class ExtendTermTotalOwedApiService {
   //     })
   //   );
   // }
+  
   getQuotasPreviousMovement(transaction: number[], productId: number): Observable<any> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExtendTermTotalOwedApiService } from 'src/app/core/services/extend-term-total-owed-apoi.service';
+import { ExtendTermTotalOwedApiService } from 'src/app/core/services/extend-term-total-owed-api.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { Tag } from 'src/app/shared/models/tag';
 

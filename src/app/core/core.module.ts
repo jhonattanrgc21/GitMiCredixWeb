@@ -19,7 +19,7 @@ import {CustomerApiService} from './services/customer-api.service';
 import {PublicServicesApiService} from './services/public-services-api.service';
 import {CredixCodeErrorService} from './services/credix-code-error.service';
 import {CredixBotService} from './services/credix-bot.service';
-import { ExtendTermTotalOwedApiService } from './services/extend-term-total-owed-apoi.service';
+import { ExtendTermTotalOwedApiService } from './services/extend-term-total-owed-api.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,

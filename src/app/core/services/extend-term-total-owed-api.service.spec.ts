@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ExtendTermTotalOwedApiService } from './extend-term-total-owed-apoi.service';
+import { ExtendTermTotalOwedApiService } from './extend-term-total-owed-api.service';
 
 describe('ExtendTermTotalOwedApoiService', () => {
   let service: ExtendTermTotalOwedApiService;
