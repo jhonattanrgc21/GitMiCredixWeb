@@ -17,6 +17,8 @@ import {CredixResultNotificationModule} from '../../shared/components/credix-res
 import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.module';
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {HomeSidebarService} from './home-sidebar/home-sidebar.service';
+import { HttpRequestsResponseInterceptor } from 'src/app/core/interceptors/http.interceptor';
+import { UserIdleModule } from 'angular-user-idle';
 
 @NgModule({
   declarations: [
@@ -36,12 +38,14 @@ import {HomeSidebarService} from './home-sidebar/home-sidebar.service';
     CredixShareButtonModule,
     CredixResultNotificationModule,
     CredixPopupAlternativeModule,
-    SimplebarAngularModule
+    SimplebarAngularModule,
+    UserIdleModule
   ],
   providers: [
     HomeService,
     HomeSidebarService,
-    ModalService
+    ModalService,
+    HttpRequestsResponseInterceptor
   ]
 })
 export class HomeModule {
