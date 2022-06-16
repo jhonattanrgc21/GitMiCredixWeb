@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { ExtendTermTotalOwedApiService } from 'src/app/core/services/extend-term-total-owed-apoi.service';
+import { ExtendTermTotalOwedApiService } from 'src/app/core/services/extend-term-total-owed-api.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
@@ -82,7 +82,7 @@ export class ExtendTermTotalOwedComponent implements OnInit {
       .pipe(finalize(() => this.selectExtendQuotaSummary()))
         .subscribe(
           response => {
-            if ( response.listQuota.length > 0 ) {
+            if ( response?.listQuota ) {
               this.purchaseAmount = response.purchaseAmount;
               this.minimumPayment = response.minimumPayment;
               this.pendingPayment = response.purchaseAmount;
@@ -94,6 +94,15 @@ export class ExtendTermTotalOwedComponent implements OnInit {
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
+            } else {
+              const message = 'En este momento su cuenta no aplica para este producto.';
+              
+              this.extendTermTotalOwedService.result = {
+                status: 'error',
+                message,
+              };
+
+              this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`]);
             }
           }
         );
@@ -115,7 +124,7 @@ export class ExtendTermTotalOwedComponent implements OnInit {
       .pipe(finalize(() => this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`])))
         .subscribe(response => {
           const message = response.title === 'success' ? 'El plazo de su total adeudado ha sido extendido correctamente. Estará reflejado en su próximo estado de cuenta. Le estaremos enviando un correo con los detalles del producto próximamente.'
-                                                      : 'En este momento su cuenta no aplica para este producto.';
+                                                      : 'Ocurrió un error. Favor vuelva a intentar.';
           this.extendTermTotalOwedService.result = {
             status: response.title,
             message,

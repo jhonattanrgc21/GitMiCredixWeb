@@ -32,18 +32,31 @@ export class ExtendTermTotalOwedApiService {
     return this.httpService.post('canales', this.cutDateUri);
   }
   
-  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, minimumPayment: string, listQuota: any}> {
+  // getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, minimumPayment: string, listQuota: any}> {
+  //   return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
+  //     productId,
+  //     transaction : '1'
+  //   })
+  //   .pipe(
+  //     map(response => {
+  //       return response;
+  //       // if ( response?.listQuota ) {
+  //       //   return response;
+  //       // } else {
+  //       //   return [];
+  //       // }
+  //     })
+  //   );
+  // }
+  
+  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<any> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,
       transaction : '1'
     })
     .pipe(
       map(response => {
-        if ( response?.listQuota ) {
-          return response;
-        } else {
-          return [];
-        }
+        return response;
       })
     );
   }

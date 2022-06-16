@@ -19,7 +19,7 @@ import {CustomerApiService} from './services/customer-api.service';
 import {PublicServicesApiService} from './services/public-services-api.service';
 import {CredixCodeErrorService} from './services/credix-code-error.service';
 import {CredixBotService} from './services/credix-bot.service';
-import { ExtendTermTotalOwedApiService } from './services/extend-term-total-owed-apoi.service';
+import { ExtendTermTotalOwedApiService } from './services/extend-term-total-owed-api.service';
 import { ModalService } from './services/modal.service';
 import { SharedModule } from '../shared/shared.module';
 import { HomeService } from '../pages/home/home.service';

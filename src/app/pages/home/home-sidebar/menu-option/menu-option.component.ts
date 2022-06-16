@@ -97,7 +97,17 @@ export class MenuOptionComponent implements OnInit {
       this.orderingMenu();
     });
   }
+  validateWord(submenu){
+    console.log(submenu)
+    if(submenu == 'Ampliar plazo del total adeudado'){
+      let aux = submenu.split(" ")
+      let newWord = 'prueba'+ '\n' + 'holi'
+      submenu = newWord
+      console.log(submenu.split(""))
+    }
+    return submenu
 
+  }
   menuChanged(menuId: number, route: string, submenusSize: number, isFirst: boolean) {
     this.homeNavigationMenuService.closeMessages();
     this.openSubmenu = this.preActiveMenu === menuId ? !this.openSubmenu : !isFirst;
