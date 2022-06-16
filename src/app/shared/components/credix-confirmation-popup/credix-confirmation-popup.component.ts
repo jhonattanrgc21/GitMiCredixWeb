@@ -10,13 +10,14 @@ import {MatDialogRef} from '@angular/material/dialog';
 export class CredixConfirmationPopupComponent implements OnInit {
   title: string;
   message: string;
+  okButton: Boolean;
 
   constructor(public modal: MatDialogRef<CredixConfirmationPopupComponent>) {
   }
 
   ngOnInit(): void {
     console.log(this.modal);
-    
+
   }
 
 }

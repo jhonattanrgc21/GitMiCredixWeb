@@ -12,6 +12,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 export class SignInService {
   private readonly loginUri = 'security/userlogin';
   private readonly logoutUri = 'security/logoutbyusername';
+  private readonly renewTokenUri = 'security/renewtoken';
   private readonly getDeviceInfoUri = 'channels/getdeviceinfo';
   private readonly validateOtpUri = 'security/validateonetimepassword';
   private readonly saveDeviceUri = 'channels/savedevice';
@@ -74,6 +75,17 @@ export class SignInService {
       deviceIdentifier,
       typeIncome
     }).pipe(
+      tap(response => {
+          if (response.type === 'error') {
+            this.toastService.show({text: response.descriptionOne, type: 'error'});
+          }
+        }),
+      map(response => response.type)
+    );
+  }
+
+  renewToken(): Observable<'success' | 'error'> {
+    return this.httpService.post('canales', this.renewTokenUri, {}).pipe(
       tap(response => {
           if (response.type === 'error') {
             this.toastService.show({text: response.descriptionOne, type: 'error'});

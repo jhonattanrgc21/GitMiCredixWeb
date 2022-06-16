@@ -7,6 +7,7 @@ import {LoadingSpinnerService} from '../services/loading-spinner.service';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {CredixCodeErrorService} from '../services/credix-code-error.service';
+import { RenewTokenService } from '../services/renew-token.service';
 
 @Injectable()
 export class HttpRequestsResponseInterceptor implements HttpInterceptor {
@@ -19,7 +20,8 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
   constructor(private storageService: StorageService,
               private credixCodeErrorService: CredixCodeErrorService,
               private loadingSpinnerService: LoadingSpinnerService,
-              private router: Router) {
+              private router: Router,
+              private renewToken: RenewTokenService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -47,6 +49,8 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
           if (event.headers) {
             if (event.headers.get('x-auth-token') != null) {
               this.storageService.setCurrentToken(event.headers.get('x-auth-token'));
+              this.renewToken.clearTimer(event.body.json.timelife * 60);
+              if(this.renewToken.requestsCount === 0) this.renewToken.startTimer();
               this.print();
             }
           }
@@ -71,6 +75,7 @@ export class HttpRequestsResponseInterceptor implements HttpInterceptor {
           if (this.requestsCount === 0) {
             this.loadingSpinnerService.stopLoading();
           }
+          this.renewToken.increaseRequestCount();
         }
       })
     );

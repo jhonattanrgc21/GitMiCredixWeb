@@ -20,6 +20,10 @@ import {PublicServicesApiService} from './services/public-services-api.service';
 import {CredixCodeErrorService} from './services/credix-code-error.service';
 import {CredixBotService} from './services/credix-bot.service';
 import { ExtendTermTotalOwedApiService } from './services/extend-term-total-owed-apoi.service';
+import { ModalService } from './services/modal.service';
+import { SharedModule } from '../shared/shared.module';
+import { HomeService } from '../pages/home/home.service';
+import { SignInService } from '../pages/sign/features/sign-in/sign-in.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -33,7 +37,8 @@ const maskConfig: Partial<IConfig> = {
   imports: [
     CommonModule,
     HttpClientModule,
-    NgxMaskModule.forRoot(maskConfig)
+    NgxMaskModule.forRoot(maskConfig),
+    SharedModule
   ],
   providers: [
     CustomIconLoaderService,
@@ -53,6 +58,9 @@ const maskConfig: Partial<IConfig> = {
     ScrollService,
     AuthorizationGuard,
     ExtendTermTotalOwedApiService,
+    ModalService,
+    HomeService,
+    SignInService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpRequestsResponseInterceptor, multi: true}
   ]
 })

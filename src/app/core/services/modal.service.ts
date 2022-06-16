@@ -45,7 +45,7 @@ export class ModalService {
     }
   }
 
-  public confirmationPopup(title: string, message?: string, width: number | 'auto' = 420, height: number | 'auto' = 200):
+  public confirmationPopup(title: string, message?: string, width: number | 'auto' = 420, height: number | 'auto' = 200, autoclose?: Boolean | false, timeAutoClose?: number | 0, onlyOkButton?: Boolean | false ):
     Observable<boolean> {
     let dialogRef: MatDialogRef<CredixConfirmationPopupComponent>;
     dialogRef = this.dialog.open(CredixConfirmationPopupComponent, {
@@ -56,8 +56,16 @@ export class ModalService {
     });
     dialogRef.componentInstance.title = title;
     dialogRef.componentInstance.message = message && message;
+    dialogRef.componentInstance.okButton = onlyOkButton;
+    if(autoclose){
+      setTimeout(() => {if(dialogRef) this.dialog.closeAll()} , timeAutoClose);
+    }
     return dialogRef.afterClosed();
   }
+
+  public closeConfirmationPopUp(){
+  this.dialog.closeAll();
+}
 
   public openCalendarPopup(startDate?: Date, endDate?: Date): Observable<any> {
     let dialogRef: MatDialogRef<CredixCalendarComponent>;
