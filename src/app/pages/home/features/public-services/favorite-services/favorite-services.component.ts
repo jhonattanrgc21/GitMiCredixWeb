@@ -209,7 +209,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
             amount: this.confirmFormGroup.controls.amount.value,
             //contract: this.typeService === 'recharge' ? this.pendingReceipt.Telefono : this.selectedPublicService.serviceReference,
             contract: this.typeService === 'recharge' ? this.pendingReceipt.Telefono : this.pendingReceipt.identification,
-            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio',
+            type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio Fav',
             quota: this.paymentQuotaSummary.quotaTo,
           };
 

@@ -73,14 +73,14 @@
             <mat-divider credixDivider></mat-divider>
             
             <div 
-              class="payment__content"
+              class="payment__content space-mount"
               fxLayout="column"
               fxLayoutAlign="space-between"
               fxLayoutGap="19px"
               [ngClass]="{'mb-max': !newAmount, 'mb-min': newAmount}"
             >
               <span><strong>Monto a pagar</strong></span>
-              <div class="left-content" fxLayout="column" fxLayoutGap="21px">
+              <div class="left-content" fxLayout="column" fxLayoutGap="19px">
                 <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
                                       [value]="0"
                                       label="Monto pendiente total"
@@ -154,12 +154,12 @@
                          [step]="termSliderStep"
                          [value]="value"
                          [instructions]="'Por un período de'"
-                         [units]="paymentQuotaSummary?.quotaTo > 1 ? 'Meses' : 'Mes'">
+                         [units]="paymentQuotaSummary?.quotaTo > 1 ? 'meses' : 'mes'">
           </credix-slider>
           
       
           <div fxFlex="25" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
-            <span>Cuotas de</span>
+            <span>Cuotas de:</span>
       
             <credix-numeric-block [value]="paymentQuotaSummary?.amountPerQuota ? paymentQuotaSummary?.amountPerQuota : 0"
                                   fontSize="24"

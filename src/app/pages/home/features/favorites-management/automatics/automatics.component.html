@@ -73,7 +73,7 @@
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="150px"><strong>Elija su plazo</strong></span>
           </div>
-          <div fxLayout="column" fxFlex="363px" fxLayoutGap="16px" class="mb-0">
+          <div fxLayout="column" fxFlex="publicServiceCategory == 'Recargas' ? 363px : 0px" fxLayoutGap="15.99px" class="mb-0">
             <credix-slider (inputChange)="getQuota($event)"
                              (valueChange)="getQuota($event)"
                              [displayMax]="termSliderDisplayMax"
@@ -87,7 +87,7 @@
                              [units]="paymentQuotaSummary?.quotaTo > 1 ? 'meses': 'mes'">
               </credix-slider>
   
-            <div *ngIf="paymentQuotaSummary" fxLayout="column" fxLayoutGap="16px">
+            <div *ngIf="paymentQuotaSummary" fxLayout="column" fxLayoutGap="15.99px">
   
               <div fxLayout="row" fxLayoutAlign="space-between">
                 <span class="font-summary" fxFlex>{{ 'Plazo' }}</span>
@@ -124,19 +124,20 @@
                       ></credix-numeric-block>
                   <span><strong>{{ '% mensual' }}</strong></span>
                 </div>
-                <div class="automatics__iva">
+                <div class="automatics__iva" style="padding: 0 !important;">
                     * IVA y comisión se cargarán junto con el pago automático cuando se ejecute. IVA es 13% de la comisión.
                 </div>
                 <mat-divider credixDivider></mat-divider>
-  
-                <div class="automatics__code">
+                
+                <div class="automatics__code"  style="padding: 0 !important;">
+                  <p class="style-credix-code"> Código MiCredix</p>
                   Ingrese el código generado en la aplicación <a href="#" target="_blank" class="automatics__link">Código MiCredix ></a>
                 </div>
 
                 
             </div>
           </div>   
-          <div class="mt-16" fxLayout="column">
+          <div class="mt-16" fxLayout="column"  style="padding: 0 !important;">
             <credix-code-input formControlName="codeCredix" class="automatics__input disabled">
               <span *ngIf="automaticsDetailForm.controls.codeCredix.hasError('required')"
               error>Introduzca el código credix.</span>

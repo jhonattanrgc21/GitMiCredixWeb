@@ -180,12 +180,12 @@ export class PublicServicesService {
   }
 
   // tslint:disable-next-line:variable-name
-  _payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio', quota: number };
-  get payment(): { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio', quota: number } {
+  _payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' | 'Servicio Fav', quota: number };
+  get payment(): { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' | 'Servicio Fav', quota: number } {
     return this._payment;
   }
 
-  set payment(payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio', quota: number }) {
+  set payment(payment: { currencySymbol: string; amount: string; contract: string, type: 'Recarga' | 'Servicio' | 'Servicio Fav', quota: number }) {
     this._payment = payment;
   }
 
