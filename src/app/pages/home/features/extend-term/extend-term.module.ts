@@ -1,9 +1,11 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FlexModule} from '@angular/flex-layout';
 import {RouterModule, Routes} from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
+import {NgxPaginationModule} from 'ngx-pagination';
 import {ExtendTermComponent} from './extend-term.component';
+import {SharedModule} from '../../../../shared/shared.module';
 import {CredixPopupModule} from '../../../../shared/components/credix-popup/credix-popup.module';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import {CredixConfirmationPopupModule} from '../../../../shared/components/credix-confirmation-popup/credix-confirmation-popup.module';
@@ -30,26 +32,58 @@ import {CredixDividerModule} from '../../../../shared/directives/credix-divider/
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {ExtendTermService} from './extend-term.service';
 import {ExtendTermSuccessScreenComponent} from './extend-term-success-screen/extend-term-success-screen.component';
+import { TablesDirectivesModule } from 'src/app/shared/directives/tables/tables-directives.module';
+import {CredixPaginatorModule} from '../../../../shared/components/credix-paginator/credix-paginator.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CredixCheckboxButtonComponent } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.component';
+import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
+import { PreviousExtendComponent } from './previous-extend/previous-extend.component';
+import { ExtendTermPreviousSuccessComponent } from './extend-term-previous-success/extend-term-previous-success.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ExtendTermComponent
+    component: ExtendTermComponent,
+    children: [{
+        path: '',
+        redirectTo: 'recent',
+        pathMatch: 'full',
+      },
+      {
+        path: 'recent',
+        loadChildren: () => import('./recent-purchases/recent-purchases.module').then(m => m.RecentPurchasesModule)
+      },
+      {
+        path: 'recent/:movementId',
+        loadChildren: () => import('./recent-purchases/recent-purchases.module').then(m => m.RecentPurchasesModule)
+      },
+      {
+        path: 'previous',
+        loadChildren: () => import('./previous-purchases/previous-purchases.module').then(m => m.PreviousPurchasesModule)
+      },
+    ]
   },
   {
-    path: ':movementId',
-    component: ExtendTermComponent
-  },
-  {
-    path: 'establishment/:establishment/success',
+    path: 'establishment/:establishment?/success',
     component: ExtendTermSuccessScreenComponent
-  }
+  },
+  {
+    path: 'previous-extend',
+    component: PreviousExtendComponent
+  },
+  {
+    path: 'previous-extend-success',
+    component: ExtendTermPreviousSuccessComponent,
+  },
+
 ];
 
 @NgModule({
   declarations: [
     ExtendTermComponent,
-    ExtendTermSuccessScreenComponent
+    ExtendTermSuccessScreenComponent,
+    PreviousExtendComponent,
+    ExtendTermPreviousSuccessComponent,
   ],
   imports: [
     CommonModule,
@@ -78,11 +112,21 @@ const routes: Routes = [
     DateFormatterModule,
     SimplebarAngularModule,
     CredixDividerModule,
-    CredixResultViewModule
+    CredixResultViewModule,
+    TablesDirectivesModule,
+    NgxPaginationModule,
+    CredixPaginatorModule,
+    CredixNumericBlockModule,
+    SharedModule,
+    MatCheckboxModule,
+    CredixCheckboxButtonModule,
   ],
   providers: [
     ExtendTermService,
     ModalService
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
   ]
 })
 export class ExtendTermModule {
