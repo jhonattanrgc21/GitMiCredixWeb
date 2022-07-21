@@ -20,13 +20,13 @@
           <mat-cell *matCellDef="let element"
                     credixCell> {{element.originDate}} </mat-cell>
         </ng-container>
-    
+
         <ng-container matColumnDef="commerce">
           <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Comercio'}}</mat-header-cell>
           <mat-cell *matCellDef="let element" credixCell>
             {{element.establishmentName}}</mat-cell>
         </ng-container>
-    
+
         <ng-container matColumnDef="amount">
           <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Saldo pendiente'}}</mat-header-cell>
           <mat-cell *matCellDef="let element"
@@ -35,7 +35,7 @@
                                   ></credix-numeric-block>
           </mat-cell>
         </ng-container>
-    
+
         <ng-container matColumnDef="quotas">
           <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Cuotas pendientes'}} </mat-header-cell>
           <mat-cell *matCellDef="let element"
@@ -43,7 +43,7 @@
                     <span>{{ element.quota }}</span>
           </mat-cell>
         </ng-container>
-    
+
         <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
       </mat-table>
@@ -51,7 +51,7 @@
   </ngx-simplebar>
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button (buttonClick)="next()">Continuar</credix-button>
+    <credix-button [disabled]="selection.length === 0" (buttonClick)="next()">Continuar</credix-button>
   </div>
 </div>
 

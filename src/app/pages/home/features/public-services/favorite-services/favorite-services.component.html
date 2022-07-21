@@ -1,4 +1,4 @@
-<credix-navigation-table [headers]="tableHeaders" class="favorites-services">
+<credix-navigation-table [headers]="tableHeaders" style="height: 100% !important;" [hide]="empty" class="favorites-services">
 
   <ngx-simplebar [options]="{autoHide: false, scrollbarMinSize: 100}" class="left-container" fxLayout="column" left>
     <div class="favorites-services__options-wrapper" fxLayout="column">
@@ -28,82 +28,174 @@
     </div>
   </ngx-simplebar>
 
-  <div class="h-100 relative" fxLayout="column" fxLayoutAlign="flex-start center" right>
+  <div class="h-100  relative" fxLayout="column" fxLayoutAlign="space-between center"  right>
 
-    <credix-result-notification *ngIf="showMessage"
-                                [status]="status"
-                                [title]="message" class="favorites-services__notification"></credix-result-notification>
+    <credix-result-notification 
+      *ngIf="showMessage"
+      [status]="status"
+      [title]="message" class="favorites-services__notification">
+    </credix-result-notification>
 
-    <div *ngIf="hasReceipts" class="favorites-services__table" fxLayout="column" fxLayoutGap="16px">
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Compañía</span>
-        <span class="tr">{{selectedPublicService?.publicServiceEnterpriseDescription}}</span>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Nombre</span>
-        <span class="tr">{{pendingReceipt?.clientName}}</span>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Mes al cobro</span>
-        <span class="tr">{{month}}</span>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Vencimiento</span>
-        <span class="tr">
-          {{expirationDate | dateFormatter : 'alphanumeric'}}</span>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>Recibos pendientes</span>
-        <span class="tr">{{ pendingReceipt?.numberPendingReceipts}}</span>
-      </div>
-      <div *ngIf="!isRecharge" class="mt-2px" fxLayout="row" fxLayoutAlign="space-between">
-        <span><strong>Monto a pagar</strong></span>
-        <credix-numeric-block
-          [value]="amountOfPay"
-          prefix="₡"
-          fontWeight="bold"></credix-numeric-block>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-between" style="padding-top: 16.5px !important;">
-        <span fxFlex="150px"><strong>Elija su plazo</strong></span>
-      </div>
-
-      <div class="new-service-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
-        <credix-slider (inputChange)="getQuota($event)"
-                       (valueChange)="getQuota($event)"
-                       [displayMax]="termSliderDisplayMax"
-                       [displayMin]="termSliderDisplayMin"
-                       [displayValue]="termSliderDisplayValue"
-                       [max]="termSliderMax"
-                       [min]="termSliderMin"
-                       [step]="termSliderStep"
-                       [instructions]="'Por un período de'"
-                       [units]="paymentQuotaSummary?.quotaTo > 1 ? 'Meses' : 'Mes'">
-        </credix-slider>
+    <div *ngIf="hasReceipts" [formGroup]="confirmFormGroup" class="w-100 h-100" fxLayout="column" fxLayoutAlign="flex-start center" fxLayoutGap="23px" >
+      <div class="favorites-services__table">
+        <ng-container *ngIf="typeService === 'service'; else tplRecharge">
+          <div fxLayout="column"  fxLayoutGap="16px">
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <span>Compañía</span>
+              <span class="tr">{{selectedPublicService?.publicServiceEnterpriseDescription}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <span>Nombre</span>
+              <span class="tr">{{pendingReceipt?.clientName}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <span>Mes al cobro</span>
+              <span class="tr">{{month}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <span>Vencimiento</span>
+              <span class="tr">
+                {{expirationDate | dateFormatter : 'alphanumeric'}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <span>Recibos pendientes</span>
+              <span class="tr">{{ pendingReceipt?.numberPendingReceipts}}</span>
+            </div>
+  
+            <div *ngIf="!isRecharge" style="margin-bottom: 1px;" fxLayout="row" fxLayoutAlign="space-between">
+              <span><strong>Monto pendiente</strong></span>
+              <credix-numeric-block
+                [value]="amountOfPay"
+                prefix="₡"
+                fontWeight="bold"></credix-numeric-block>
+            </div>
+  
+            <mat-divider credixDivider></mat-divider>
+            
+            <div 
+              class="payment__content space-mount"
+              fxLayout="column"
+              fxLayoutAlign="space-between"
+              fxLayoutGap="19px"
+              [ngClass]="{'mb-max': !newAmount, 'mb-min': newAmount}"
+            >
+              <span><strong>Monto a pagar</strong></span>
+              <div class="left-content" fxLayout="column" fxLayoutGap="19px">
+                <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
+                                      [value]="0"
+                                      label="Monto pendiente total"
+                                      name="selectPayment"></credix-radio-button>
+                <credix-radio-button (emitRadioButton)="onSelectRadioButtons($event)"
+                                      [value]="1"
+                                      label="Otro"
+                                      name="selectPayment"></credix-radio-button>
+                <credix-input-field *ngIf="newAmount"
+                                    class="new-service-second-step__content__input amount-to-pay"
+                                    formControlName="amount"
+                                    label="Monto"
+                                    mask="separator">
+                  <div *ngIf="confirmFormGroup.controls.amount.hasError('min')" error>
+                    {{'El monto debe ser mayor a ' + currencySymbol + amount + (amount.split(',').length === 1 ? ',00' : '')}}
+                  </div>
+                  <div *ngIf="confirmFormGroup.controls.amount.hasError('max')" error>
+                    {{'El monto debe ser menor a ' + currencySymbol + amount + (amount.split(',').length === 1 ? ',00' : '')}}
+                  </div>
+                  <div *ngIf="confirmFormGroup.controls.amount.hasError('required')" error>
+                    ingrese el monto
+                  </div>
+                </credix-input-field>
+          
+              </div>
+            </div>
+          </div>
+        </ng-container>
+  
+        <ng-template #tplRecharge>
+          <div class="new-recharge-second-step__content" fxLayout="column" fxLayoutGap="22px" [ngClass]="{'mb-max': !anotherAmount, 'mb-min': anotherAmount}">
+            <span><strong>Monto de la recarga</strong></span>
         
-    
-        <div fxFlex="25" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
-          <span>Cuotas de</span>
-    
-          <credix-numeric-block [value]="paymentQuotaSummary?.amountPerQuota"
-                                fontSize="24"
-                                fontWeight="bold"
-                                prefix="₡"></credix-numeric-block>
-    
-          <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
+            <div class="left-content" fxLayout="column" fxLayoutGap="16px">
+              <credix-radio-button (emitRadioButton)="onAmountChanged($event.value)"
+                                   *ngFor="let amount of amounts, let last = last"
+                                   [label]="last ? 'Otro': ''"
+                                   [ngClass]="{'mb-16px' : !last}"
+                                   [value]="amount.amount">
+                <credix-numeric-block *ngIf="!last" [value]="amount.amount" prefix="₡"></credix-numeric-block>
+              </credix-radio-button>
+        
+              <credix-input-field *ngIf="anotherAmount"
+                                  class="amount-to-pay"
+                                  formControlName="amount" label="Otro monto"
+                                  mask="separator">
+                <div error>
+                  El monto debe ser mayor a
+                  ₡{{amounts[0].amount}}{{amounts[0].amount.split(',').length === 1 ? ',00' : ''}}</div>
+              </credix-input-field>
+  
+              
+            </div>
+          </div>
+        </ng-template>
+  
+        <div fxLayout="row" fxLayoutAlign="space-between" class="mb-16">
+          <span fxFlex="150px"><strong>Elija su plazo</strong></span>
         </div>
-    
+  
+        <div class="new-service-third-step__content" fxLayout="row" fxLayoutAlign="space-between">
+          <credix-slider #slider
+                (inputChange)="getQuota($event)"
+                         [disabled]="confirmFormGroup.controls.amount.value === null || (confirmFormGroup.controls.amount.value === '')"
+                         (valueChange)="getQuota($event)"
+                         [displayMax]="termSliderDisplayMax"
+                         [displayMin]="termSliderDisplayMin"
+                         [displayValue]="termSliderDisplayValue"
+                         [max]="termSliderMax"
+                         [min]="termSliderMin"
+                         [step]="termSliderStep"
+                         [value]="value"
+                         [instructions]="'Por un período de'"
+                         [units]="paymentQuotaSummary?.quotaTo > 1 ? 'meses' : 'mes'">
+          </credix-slider>
+          
+      
+          <div fxFlex="25" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
+            <span>Cuotas de:</span>
+      
+            <credix-numeric-block [value]="paymentQuotaSummary?.amountPerQuota ? paymentQuotaSummary?.amountPerQuota : 0"
+                                  fontSize="24"
+                                  fontWeight="bold"
+                                  prefix="₡"></credix-numeric-block>
+      
+            <credix-link-button *ngIf="paymentQuotaSummary" (click)="openSummary()">Ver detalle</credix-link-button>
+            <credix-link-button *ngIf="!paymentQuotaSummary" [disabled]="confirmFormGroup.controls.amount.value === null || (confirmFormGroup.controls.amount.value === '')">Ver detalle</credix-link-button>
+          </div>
+      
+        </div>
+      </div> 
+      <div class="favorites-services__footer" >
+        <credix-button (buttonClick)="openConfirmationModal()" [disabled]="(confirmFormGroup.controls.amount.value === null || (confirmFormGroup.controls.amount.value === '')) || tabChanged"
+                       fxLayoutAlign="flex-end center">
+          Pagar
+        </credix-button>
       </div>
     </div>
-
-    <div class="favorites-services__footer">
+    <!-- <div *ngIf="hasReceipts" class="favorites-services__footer" >
       <credix-button (buttonClick)="openConfirmationModal()" [disabled]="!hasReceipts || tabChanged"
                      fxLayoutAlign="flex-end center">
         Pagar
       </credix-button>
-    </div>
+    </div> -->
+    
+
+    
   </div>
 
 </credix-navigation-table>
+
+
+
+
+
 
 <ng-template #summaryTemplate>
   <div class="h-100 summary-custom" fxLayout="column" fxLayoutGap="16px">
@@ -118,16 +210,16 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex>{{ quoteTag || 'Cuota' }}</span>
         <credix-numeric-block
-          [value]="paymentQuotaSummary?.amountPerQuota"
+          [value]="paymentQuotaSummary?.amountPerQuota ? paymentQuotaSummary?.amountPerQuota : 0"
           fontWeight="bold"
           prefix="₡"></credix-numeric-block>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ popupCommissionTag || 'Comisión' }}*
+        <span fxFlex>{{ popupCommissionTag || 'Comisión' }}
         </span>
         <credix-numeric-block
-          [value]="paymentQuotaSummary?.commissionAmount"
+          [value]="paymentQuotaSummary?.commissionAmount ? paymentQuotaSummary?.commissionAmount : 0"
           fontWeight="bold"
           prefix="₡"></credix-numeric-block>
       </div>
@@ -136,7 +228,7 @@
         <span fxFlex>{{ popupInterestTag || 'Interés' }} {{ '(' + paymentQuotaSummary?.feePercentage + '% mensual)' }} 
         </span>
         <credix-numeric-block
-          [value]="paymentQuotaSummary?.feeAmount"
+          [value]="paymentQuotaSummary?.feeAmount ? paymentQuotaSummary?.feeAmount : 0"
           fontWeight="bold"
           prefix="₡"></credix-numeric-block>
       </div>
@@ -144,7 +236,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex>{{ popupIvaTag || 'IVA*'}}</span>
         <credix-numeric-block
-        [value]="paymentQuotaSummary?.IVA"
+        [value]="paymentQuotaSummary?.IVA ? paymentQuotaSummary?.IVA : 0"
         fontWeight="bold"
         prefix="₡"></credix-numeric-block>
       </div>
@@ -152,13 +244,13 @@
 
 
     <p fxFlex style="color: #707070; font-size: 14px !important; margin-bottom: 26px !important">
-      * IVA y comisión se cargarán en el próximo estado de cuenta.
+      *Se cargará en el próximo estado de cuenta.
     </p>
 
     <div fxFlex fxFlexLayout="row" style="padding-top: 8px;" fxLayoutAlign="space-between">
       <span fxFlex style="font-size: 20px !important; padding-top: 4px;">{{ paymentQuotaSummary.quotaTo }} {{ paymentQuotaSummary.quotaTo > 1 ? 'Cuotas' : 'Cuota'}} de</span>
         <credix-numeric-block
-        [value]="paymentQuotaSummary?.amountPerQuota"
+        [value]="paymentQuotaSummary?.amountPerQuota ? paymentQuotaSummary?.amountPerQuota : 0"
         fontSize="24"
         fontWeight="bold"
         prefix="₡"></credix-numeric-block>

@@ -203,7 +203,7 @@ export class AddAutomaticsComponent implements OnInit {
           this.newAutomaticsControls.periodicity.value,
           this.datePipe.transform(date.toISOString(), 'yyyy-MM-dd'),
           this.newAutomaticsControls.contractControl.value,
-          +this.rechargeFormGroup.controls.amount.value,
+          +this.newAutomaticsControls.maxAmount.value,
           this.newAutomaticsControls.nameOfAutomatics.value,
           +this.confirmCodeFormGroup.controls.codeCredix.value,
           this.newAutomaticsControls.keyType.value,

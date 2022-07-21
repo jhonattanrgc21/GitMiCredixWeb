@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {PublicServicesApiService} from 'src/app/core/services/public-services-api.service';
 import {PublicService} from '../../../../shared/models/public-service';
 import {PublicServicesService} from './public-services.service';
 import {TagsService} from '../../../../core/services/tags.service';
 import {Tag} from '../../../../shared/models/tag';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-public-services',
@@ -20,15 +21,28 @@ export class PublicServicesComponent implements OnInit {
   tabId: number;
   publicServices: PublicService[] = [];
   searchingData: SearchingData[] = [];
+  changeHeightDim: Observable<any>;
+  heightDim: string = '662px';
 
   constructor(private publicServicesApiService: PublicServicesApiService,
               private publicServicesService: PublicServicesService,
               private router: Router,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.publicServicesService.tabIndex = 'Todos';
+
+    this.changeHeightDim = this.publicServicesService.changeHeightDim$;
+
+    this.changeHeightDim.subscribe(heightDim => {
+      console.log("Llego");
+      this.heightDim = heightDim;
+      // Mark as check
+      this.changeDetectorRef.markForCheck();
+    });
+
     this.getAllPublicService();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Servicios').tags)

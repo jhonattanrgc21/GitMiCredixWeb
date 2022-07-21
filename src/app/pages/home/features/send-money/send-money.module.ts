@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SendMoneyComponent} from './send-money.component';
@@ -35,6 +35,7 @@ import {CredixCodeLinkModule} from '../../../../shared/components/credix-code-li
 import {AccountApiService} from '../../../../core/services/account-api.service';
 import {GlobalApiService} from '../../../../core/services/global-api.service';
 import {CustomerApiService} from '../../../../core/services/customer-api.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 const routes: Routes = [
   {
@@ -77,7 +78,8 @@ const routes: Routes = [
     CredixCheckboxButtonModule,
     CredixDividerModule,
     CredixResultViewModule,
-    CredixCodeLinkModule
+    CredixCodeLinkModule,
+    MatFormFieldModule,
   ],
   providers: [
     SendMoneyService,
@@ -85,6 +87,9 @@ const routes: Routes = [
     AccountApiService,
     GlobalApiService,
     CustomerApiService
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
   ]
 })
 export class SendMoneyModule {
