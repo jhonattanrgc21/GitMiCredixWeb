@@ -8,7 +8,8 @@ export class SendMoneyService {
   private readonly getFavoritesAccountsUri = 'iban/findAllAccountiBANFavoritebyUserId';
   private readonly sendMoneyUri = 'channels/senddirect';
   private readonly getAccountByIbanNumberUri = 'account/getinformationibanaccount';
-
+  private readonly getSendMoneyLimit = 'channels/getvailabledolarlimitsendmoney';
+  
   constructor(private httpService: HttpService) {
   }
 
@@ -69,6 +70,16 @@ export class SendMoneyService {
       currencyValidationTag,
       bankValidationTag: 1
     });
+  }
+
+  getvailabledolarlimitsendmoney( amountAvailable: number ){
+    return this.httpService.post('canales',this.getSendMoneyLimit,{
+      amountAvailable,
+	    currency : 188,
+	    channelId : 101
+
+
+    })
   }
 
   unsubscribe() {

@@ -15,7 +15,7 @@ export class SuccessScreenComponent implements OnInit {
   message: string;
   status: 'success' | 'error';
   title: string;
-  type: 'Recarga' | 'Servicio';
+  type: 'Recarga' | 'Servicio' | 'Servicio Fav';
   currencySymbol: string;
   amount: string;
   contract: string;
@@ -35,7 +35,6 @@ export class SuccessScreenComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("paymentType: ", this.publicServicesService.paymentType);
     if ( this.publicServicesService?.result ) {
       this.title = this.publicServicesService.result.title;
       this.status = this.publicServicesService.result.status;

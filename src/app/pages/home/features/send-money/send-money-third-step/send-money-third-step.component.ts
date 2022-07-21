@@ -38,6 +38,7 @@ export class SendMoneyThirdStepComponent implements OnInit, OnChanges {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Enviar dinero').tags)
     );
+    console.log("account", this.account)
   }
 
   ngOnChanges(changes: SimpleChanges): void {

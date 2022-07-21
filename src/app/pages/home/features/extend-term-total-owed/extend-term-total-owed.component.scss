@@ -1,0 +1,130 @@
+.extend-term {
+    max-height: 662px;
+    height: 662px;
+    position: relative;
+    
+    p {
+        margin-top: -3px;
+        color: #3E3E3E;
+    }
+
+    &__empty {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &__content {
+        margin-left: 83px;
+        margin-right: 85px;
+        margin-top: 8px;
+
+        &__pending {
+            // margin-bottom: 32px !important;
+            span {
+                font-size: 16px;
+                color: #3E3E3E;
+            }
+
+            p {
+                color: #707070;
+            }
+
+            ::ng-deep .credix-numeric-block__decimal {
+                font-size: 14px !important;
+            }
+        }
+
+        &__option {
+            margin-top: 6.5px !important;
+
+            span {
+                font-size: 16px;
+                color: #3E3E3E;
+            }
+
+            credix-slider {
+                 ::ng-deep .credix-slider {
+                    width: 280px;
+                    margin-left: 50.5px;
+                }
+            }
+
+            credix-link-button {
+                margin-top: 8px;
+            }
+
+            ::ng-deep .credix-numeric-block__decimal {
+                font-size: 14px !important;
+            }
+        }
+    }
+
+    credix-result-notification ::ng-deep.credix-result-notification__message {
+        width: 287px !important;
+    }
+
+    &__footer {
+        width: 70%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 16px;
+        border-top: 1px solid #E9E9E9;
+        width: 100%;
+      } 
+}
+
+.mt-4 {
+    margin-top: 4px !important;
+}
+
+.mb-32 {
+    margin-bottom: 32px !important;
+}
+
+.mb-13 {
+    margin-bottom: 13.5px !important;
+}
+
+::ng-deep  .summary-panel .mat-dialog-container {
+    padding: 36px !important;
+    padding-bottom: 51px !important;
+    padding-right: 42px !important;
+    
+    .credix-popup__content {
+        padding-left: 6px !important;
+    }
+    
+    .credix-popup__title {
+        margin: 22px 0 16px 0 !important;
+        padding-right: 50px !important;
+        font-size: 30px !important;
+    }
+}
+
+.summary-custom {
+    height: 273px !important;
+  
+    ::ng-deep .credix-numeric-block__decimal {
+      font-size: 14px !important;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    .extend-term  {
+        max-height: 886px;
+
+        &__content {
+            margin: 0;
+        }
+    }
+  }
+  
+  @media screen and (max-width: 1199px) {
+    .personal-credit {
+      max-height: 886px;
+    }
+  }
+  

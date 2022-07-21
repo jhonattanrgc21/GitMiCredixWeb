@@ -27,6 +27,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
     "@fortawesome/free-brands-svg-icons": "^5.15.0",
     "@fortawesome/free-solid-svg-icons": "^5.15.0",
+    "angular-user-idle": "^2.2.7",
     "crypto-js": "^4.0.0",
     "jsbarcode": "^3.11.0",
     "ngx-barcode6": "^1.0.12",

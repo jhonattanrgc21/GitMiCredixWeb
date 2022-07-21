@@ -9,4 +9,3 @@ export interface PaymentQuota {
     financedPlan: number,
     commissionAmount: string,
 };
-

@@ -59,22 +59,12 @@
   }
 }
 
-
-:host ::ng-deep.credix-stepper-sign-up {
-  &__nav-bar {
-    &__line {
-      width: 131.18px !important;
-      margin-right: 1px !important;
-    }
-
-    &__label {
-      width: 72px !important;
-    }
+:host ::ng-deep.credix-stepper-sign-up__nav-bar {
+  &__line {
+    width: 98px !important;
   }
-}
 
-:host ::ng-deep.actions-footer {
-  border-top: none;
-  padding-top: 0 !important;
-  margin-left: 0;
+  &__label {
+    width: min-content !important;
+  }
 }

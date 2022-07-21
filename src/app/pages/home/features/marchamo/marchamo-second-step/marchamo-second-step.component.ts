@@ -172,7 +172,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   getQuotasByProduct() {
     this.customerApiService.getQuotas(2).subscribe(quotas => {
-      this.quotas = quotas.sort((a, b) => a.quota - b.quota);
+      this.quotas = quotas.listQuota.sort((a, b) => a.quota - b.quota);
       this.quotaSliderDisplayMin = this.quotas[0].quota;
       this.quotaSliderMin = 1;
       this.quotaSliderDisplayMax = this.quotas[this.quotas.length - 1].quota;

@@ -2,8 +2,7 @@
 
   <form [formGroup]="newAccountForm" class="add-account__form" fxLayout="column">
 
-    <credix-input-field class="add-account__form__input" formControlName="ibanAccount" label="Cuenta IBAN"
-                        mask="9999999999999999999999">
+    <credix-input-field class="add-account__form__input" formControlName="ibanAccount" label="Cuenta IBAN">
       <span *ngIf="newAccountForm.controls.ibanAccount.hasError('invalid')"
             error>{{errorDescription}}</span>
     </credix-input-field>

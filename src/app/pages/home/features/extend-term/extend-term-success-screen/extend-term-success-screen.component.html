@@ -11,11 +11,11 @@
     <div fxLayout="row" fxLayoutAlign="space-between">
       <span fxFlex="175px"><strong>Datos de la ampliación</strong></span>
 
-      <div fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="column" fxLayoutGap="8px" fxFlex="208px">
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex="90px">{{commerceTag || 'Comercio'}}</span>
-          <span class="truncate tr" fxFlex="200px">
+          <span class="truncate tr" fxFlex="auto">
               <strong>{{establishment}}</strong></span>
         </div>
 
@@ -28,7 +28,7 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>Plazo nuevo</span>
-          <span><strong>{{ quota }} Cuota</strong></span>
+          <span><strong>{{ quota }} <p>{{quota > 1 ? 'Cuotas' : 'Cuota'}}</p></strong></span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">

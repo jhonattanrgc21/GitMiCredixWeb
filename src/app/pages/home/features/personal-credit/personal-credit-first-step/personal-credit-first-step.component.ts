@@ -106,7 +106,7 @@ export class PersonalCreditFirstStepComponent implements OnInit, OnChanges {
     this.customerApiServices.getQuotas(1)
       .pipe(finalize(() => this.getPersonalCreditsSummaries()))
       .subscribe(response => {
-        this.quotas = response.sort((a, b) => a.quota - b.quota);
+        this.quotas = response.listQuota.sort((a, b) => a.quota - b.quota);
         this.termSliderDisplayMin = this.quotas[0].quota;
         this.termSliderMin = 1;
         this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quota;

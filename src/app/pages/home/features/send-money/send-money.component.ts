@@ -12,6 +12,7 @@ import {ConvertStringAmountToNumber} from '../../../../shared/utils';
 import {finalize} from 'rxjs/operators';
 import {AccountApiService} from '../../../../core/services/account-api.service';
 import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-send-money',
@@ -21,7 +22,7 @@ import {CredixCodeErrorService} from '../../../../core/services/credix-code-erro
 })
 export class SendMoneyComponent implements OnInit, AfterViewInit, OnDestroy {
   informationForm: FormGroup = new FormGroup({
-    account: new FormControl(null, [Validators.required]),
+    account: new FormControl(23213, [Validators.required]),
   });
   amountAndQuotaForm: FormGroup = new FormGroup({
     amount: new FormControl(null, [Validators.required]),
@@ -150,7 +151,7 @@ export class SendMoneyComponent implements OnInit, AfterViewInit, OnDestroy {
       ConvertStringAmountToNumber(this.amountAndQuotaForm.controls.amount.value),
       this.informationForm.controls.account.value.ibanAccount.trim(),
       this.typeDestination,
-      this.informationForm.controls.account.value.aliasName.trim(),
+      !this.informationForm.controls.account.value.aliasName ? 'Temporal' : this.informationForm.controls.account.value.aliasName.trim(),
       this.amountAndQuotaForm.controls.quotas.value.toString(),
       this.commission,
       this.total,
@@ -158,12 +159,13 @@ export class SendMoneyComponent implements OnInit, AfterViewInit, OnDestroy {
       this.confirmForm.controls.code.value
     ).pipe(finalize(() => this.done = this.confirmForm.controls.code.valid))
       .subscribe(result => {
-        this.title = result.title;
+        this.title = result?.title ? result.title : 'Oops...';
         this.status = result.type;
-        this.message = result.message;
+        this.message = result?.message ? result.message : 'Ocurrió un error. Favor volver a intentar';
         if (result.type !== 'success') {
           this.selectedIndex = 2;
         }
+        
       });
   }
 

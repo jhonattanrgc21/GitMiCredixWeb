@@ -20,7 +20,7 @@
       }
     }
   }
-
+  
   &.mat-radio-button.mat-accent {
     ::ng-deep.mat-radio-inner-circle {
       background-color: #3E3E3E;
@@ -35,5 +35,18 @@
         border-color: #D2D2D2;
       }
     }
+  }
+}
+
+.credix-radio-button-optional {
+  ::ng-deep.mat-radio-ripple {
+    position: absolute;
+    left: calc(50% - 20px);
+    top: calc(50% - 20px);
+    height: 0px;
+    width: 0px;
+    z-index: 1;
+    pointer-events: none;
+
   }
 }

@@ -15,7 +15,7 @@ import {CredixInputFieldModule} from '../../../../shared/components/credix-input
 import {SignInService} from './sign-in.service';
 import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
-import {CredixStepperSignUpComponent} from './sign-up/credix-stepper-sign-up/credix-stepper-sign-up.component';
+import {CredixStepperSignUpComponent} from '../../../../shared/components/credix-stepper-sign-up/credix-stepper-sign-up.component';
 import {ForgotPasswordService} from './forgot-password/forgot-password.service';
 import {SignUpService} from './sign-up/sign-up.service';
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';

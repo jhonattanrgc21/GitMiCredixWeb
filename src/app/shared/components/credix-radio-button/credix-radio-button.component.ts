@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { MatRadioButton } from '@angular/material/radio';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -13,7 +14,10 @@ export class CredixRadioButtonComponent implements OnInit {
   @Input() checked: boolean;
   @Input() disabled: boolean;
   @Input() position: string = 'after';
+  @Input() optional: boolean = false;
   @Output() emitRadioButton = new EventEmitter();
+
+  @ViewChild('mat-button') matButton: MatRadioButton;
 
   constructor() {
   }

@@ -1,6 +1,6 @@
 <div class="first-step" fxLayout="column" fxLayoutAlign="flex-start center">
   <div class="first-step__content" fxLayout="row">
-    <span class="tl" fxFlex="40"><strong>Tipo de transferencia</strong></span>
+    <span class="tl" fxFlex="40"><strong>Tipo de moneda</strong></span>
 
     <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
       <credix-radio-button (emitRadioButton)="currencyRadioButtonChange($event)" *ngFor="let currency of currencies"
@@ -16,12 +16,12 @@
     <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
       <div class="first-step__favorites" fxLayout="column">
         <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="{{stepOpt3 || 'Favoritos'}}"
-                             name="accountType" value="1"></credix-radio-button>
+                             name="accountType" value="1" [checked]="checked1"></credix-radio-button>
 
-        <credix-select *ngIf="showFavoriteAccountsSelect" class="first-step__favorites__select ml-20px"
+        <credix-select *ngIf="showFavoriteAccountsSelect" class="first-step__favorites__select ml-20px margin-select"
                        [formControl]="favoriteAccountControl" label="Cuentas favoritas">
           <mat-option *ngFor="let favoriteAccount of favoritesAccounts" [value]="favoriteAccount">
-            {{ favoriteAccount.aliasName }} - {{ favoriteAccount.ibanAccount }}
+            {{ favoriteAccount.aliasName }}
           </mat-option>
         </credix-select>
 
@@ -43,7 +43,7 @@
 
       <div>
         <credix-radio-button (emitRadioButton)="accountRadioButtonChange($event)" label="{{stepOpt4 || 'Otra cuenta'}}"
-                             name="accountType" value="2"></credix-radio-button>
+                             name="accountType" value="2" [checked]="checked2" [optional]="true" ></credix-radio-button>
 
         <div *ngIf="info && showDetails" class="ml-20px mt-16px" fxLayout="column" fxLayoutGap="8px">
 
