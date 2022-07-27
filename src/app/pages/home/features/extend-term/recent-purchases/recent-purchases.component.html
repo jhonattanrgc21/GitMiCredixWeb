@@ -1,6 +1,6 @@
 <div *ngIf="!done" fxLayout="column" fxLayoutAlign="space-between">
   <credix-navigation-table  *ngIf="!empty" [headers]="tableHeaders" [hide]="empty" class="mt-10px">
-  
+
     <ngx-simplebar [options]="{autoHide: false}" class="extend-term__menu-options" left>
       <div class="pl-16px pr-16px w-100" fxLayout="column">
         <a (click)="getAllowedMovementDetail(allowedMovement)"
@@ -26,7 +26,7 @@
         </a>
       </div>
     </ngx-simplebar>
-  
+
     <div *ngIf="allowedMovementSelected"
          fxLayout="column" fxLayoutGap="16px" right>
       <div class="extend-term__content-right mt-16px"  fxLayout="column" fxFlexAlign="center">
@@ -34,27 +34,26 @@
           <p class="truncate" fxFlex="221px"><strong>{{allowedMovementSelected?.establishmentName}}</strong></p>
           <p class="tr extend-term__content__date-smaller">{{ allowedMovementSelected?.originDate }}</p>
         </div>
-    
+
         <p class="extend-term__content__subtitle">
           <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
                                 [value]="allowedMovementSelected?.originAmount"
                                 fontSize="16" fontWeight="bold"></credix-numeric-block>
           a {{ allowedMovementSelected?.totalPlanQuota }} cuotas
         </p>
-    
+
         <div class="extend-term__content-right__option" fxLayout="row" fxLayoutAlign="space-between">
           <p fxFlex>{{quotaTag || 'Cuota actual'}}</p>
           <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
                                 [value]="quotaAmountFromSelected"
                                 fontSize="16" fontWeight="bold"></credix-numeric-block>
         </div>
-    
+
         <div class="mt-16px" fxLayout="column" fxLayoutGap="16px">
-    
+
           <p class="mb-8px"><strong>{{subtitle || 'Modifique su plazo'}}</strong></p>
-    
+
           <credix-slider (inputChange)="getQuota($event)"
-                         
                          (valueChange)="getQuota($event)"
                          [displayMax]="quotaSliderDisplayMax"
                          [displayMin]="quotaSliderDisplayMin"
@@ -65,7 +64,7 @@
                          class="second-step__slider"
                          instructions="{{deseoTag || 'Deseo ampliar este plazo a'}}"
                          [units]="quotaSelected?.quotaTo > 1 ? 'meses' : 'mes'"></credix-slider>
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
             <p fxFlex="auto">{{resultNew || 'Plazo nuevo'}}</p>
             <span [ngClass]="{'extend-term__text-disabled' :
@@ -73,7 +72,7 @@
               <strong>{{ allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo ? '0 mes' : quotaSelected?.quotaTo }}
                 {{ allowedMovementSelected?.totalPlanQuota !== quotaSelected?.quotaTo ? quotaSelected?.quotaTo > 1 ? 'meses' :'mes' : '' }}</strong></span>
           </div>
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
             <p fxFlex="auto">{{newQuota || 'Cuota nueva'}}</p>
             <div [ngClass]="{'extend-term__text-disabled' :
@@ -83,7 +82,7 @@
                                     fontSize="16" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
             <p fxFlex="auto">{{comisionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%)' }}</p>
             <div [ngClass]="{'extend-term__text-disabled' :
@@ -94,7 +93,6 @@
             </div>
           </div>
 
-          
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <p fxFlex="auto">{{'Interés (' + feedPercentage + '% mensual)'}}</p>
@@ -105,7 +103,7 @@
                                     fontSize="16" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
             <p fxFlex="auto">IVA*</p>
             <div [ngClass]="{'extend-term__text-disabled' :
@@ -115,7 +113,7 @@
                                     fontSize="16" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>
-    
+
           <p class="extend-term__message">
             {{'* IVA y comisión se cargarán en el próximo estado de cuenta.'}}.</p>
 
@@ -130,17 +128,15 @@
         </credix-button>
       </div>
     </div>
-  
+
   </credix-navigation-table>
 
-  
-  
 
   <credix-result-notification *ngIf="empty" class="extend-term__empty" status="info"
-    title="{{warningTag || 'No tiene consumos para ampliar en este momento.'}}">
-</credix-result-notification> 
+                              title="{{warningTag || 'No tiene consumos para ampliar en este momento.'}}">
+  </credix-result-notification>
 
-</div> 
+</div>
 
 <ng-template #disabledTemplate>
   <credix-result-notification
