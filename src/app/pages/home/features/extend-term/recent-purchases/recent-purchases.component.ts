@@ -60,7 +60,7 @@ export class RecentPurchasesComponent implements OnInit {
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
   @ViewChild(CredixSliderComponent) credixSlider: CredixSliderComponent;
-  
+
   constructor(private extendTermService: ExtendTermService,
               private storageService: StorageService,
               private tagsService: TagsService,
@@ -94,7 +94,7 @@ export class RecentPurchasesComponent implements OnInit {
     this.quotaAmountFromSelected = ConvertStringAmountToNumber(movement.originAmount) / movement.totalPlanQuota;
     this.calculateQuota(movement.movementId);
   }
-  
+
   convertAmountValue(value: any): any {
     let result: any = '';
 
@@ -111,10 +111,10 @@ export class RecentPurchasesComponent implements OnInit {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
     this.quotaSelected = this.quotas[sliderValue - 1];
     console.log("quota: ", this.quotaSelected);
-    
-    this.feedPercentage = this.quotaSelected?.feePercentage === 0 ? this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
+    this.feedPercentage = this.quotaSelected?.feePercentage === 0 ?
+      this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
 
-    if ( !this.comissionUnique ) {
+    if (!this.comissionUnique) {
       this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
     }
   }
@@ -155,7 +155,7 @@ export class RecentPurchasesComponent implements OnInit {
     this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
 
     const quota = this.quotas.find(q => q.quotaTo === this.allowedMovementSelected.totalPlanQuota);
-    
+
     this.quotaSelected = quota || this.quotas[0];
 
     const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
@@ -163,9 +163,9 @@ export class RecentPurchasesComponent implements OnInit {
     const aux = [...this.quotas];
 
     aux.shift();
-    
+
     const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
-    
+
     this.feedPercentage = this.quotaSelected?.feePercentage === 0 ? this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
 
     if ( !result ) {
@@ -193,7 +193,7 @@ export class RecentPurchasesComponent implements OnInit {
   saveQuota() {
     this.extendTermService.saveNewQuota(
       this.allowedMovementSelected.cardId,
-      ConvertStringAmountToNumber(this.quotaSelected.feeAmount),
+      ConvertStringAmountToNumber(this.quotaSelected.commissionAmount),
       this.quotaSelected.quotaTo,
       this.allowedMovementSelected.movementId)
       .pipe(finalize(() => this.router.navigate(
