@@ -16,7 +16,7 @@ export class ExtendTermService {
   private readonly cutDateUri = 'channels/cutdateextermterm';
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
   private readonly saveNewQuotaPreviousMovementsUri = 'account/savepreviousconsumptions';
-  
+
   // private readonly allowedMovementsUri = /channels/allowedmovements
 
   // tslint:disable-next-line:variable-name
@@ -25,7 +25,7 @@ export class ExtendTermService {
   get movementsSelected(): number[] {
     return this._movementsSelected;
   }
-  
+
   set movementsSelected(movementSelected: number[]) {
     this._movementsSelected = movementSelected;
   }
@@ -103,7 +103,7 @@ export class ExtendTermService {
           }
         ));
 
-        
+
   }
 
   getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, listQuota: PaymentQuota[]}> {

@@ -17,13 +17,13 @@ import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number
   templateUrl: './recent-purchases.component.html',
   styleUrls: ['./recent-purchases.component.scss']
 })
-export class RecentPurchasesComponent implements OnInit {
+export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
   tableHeaders = [
     {label: 'Consumos', width: '282px'},
     {label: 'Ampliación', width: 'auto'}
   ];
-   allowedMovementSelected: AllowedMovement;
+  allowedMovementSelected: AllowedMovement;
   allowedMovements: AllowedMovement[] = [];
   quotaAmountFromSelected: number;
   movementIdParam: string;
@@ -114,6 +114,8 @@ export class RecentPurchasesComponent implements OnInit {
     this.feedPercentage = this.quotaSelected?.feePercentage === 0 ?
       this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
 
+    this.iva = this.quotaSelected.quotaTo === 0 ?
+      ConvertStringAmountToNumber(this.quotaSelected.commissionAmount) * 0.13 : ConvertStringAmountToNumber(this.quotaSelected.IVA);
     if (!this.comissionUnique) {
       this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
     }
@@ -142,7 +144,9 @@ export class RecentPurchasesComponent implements OnInit {
   calculateQuota(movementId: string) {
     this.extendTermService.calculateQuotaByMovement(movementId, 1004)
       .pipe(finalize(() => this.initSlider()))
-      .subscribe(extendTermQuotas => this.quotas = extendTermQuotas);
+      .subscribe(extendTermQuotas => {
+        this.quotas = extendTermQuotas;
+      });
   }
 
   initSlider() {
@@ -176,7 +180,6 @@ export class RecentPurchasesComponent implements OnInit {
     }
 
     this.iva = commission * 0.13;
-
   }
 
   openConfirmationModal() {
