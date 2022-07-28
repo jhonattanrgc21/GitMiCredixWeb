@@ -181,7 +181,9 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
   payService() {
     if (this.pendingReceipt?.receipts !== null) {
-      const amount = ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString();
+      //const amount = ConvertStringAmountToNumber(this.confirmFormGroup.controls.amount.value).toString();
+
+      const amount = this.confirmFormGroup.controls.amount.value.toString();
 
       this.publicServicesService.payPublicService(
         this.pendingReceipt.clientName,
@@ -206,7 +208,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
           this.publicServicesService.payment = {
             currencySymbol: this.pendingReceipt.currencyCode === 'COL' ? '₡' : '$',
-            amount: this.confirmFormGroup.controls.amount.value,
+            amount: this.formatAmountWithDecimalString(this.confirmFormGroup.controls.amount.value),
             //contract: this.typeService === 'recharge' ? this.pendingReceipt.Telefono : this.selectedPublicService.serviceReference,
             contract: this.typeService === 'recharge' ? this.pendingReceipt.Telefono : this.pendingReceipt.identification,
             type: this.selectedPublicService.publicServiceCategory === 'Recargas' ? 'Recarga' : 'Servicio Fav',
@@ -351,6 +353,13 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         template: this.summaryTemplate, title: 'Resumen general'
       },
       {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'});
+  }
+
+  formatAmountWithDecimalString(value: string) {
+    if ((value.indexOf(',') === -1) && (value.indexOf('.') > -1)) {
+      return value.replace('.', ',');
+    }
+    return value;
   }
 
   ngOnDestroy(): void {
