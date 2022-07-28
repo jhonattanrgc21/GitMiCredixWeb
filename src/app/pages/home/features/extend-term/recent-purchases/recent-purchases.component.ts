@@ -114,8 +114,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.feedPercentage = this.quotaSelected?.feePercentage === 0 ?
       this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
 
-    this.iva = this.quotaSelected.quotaTo === 0 ?
-      ConvertStringAmountToNumber(this.quotaSelected.commissionAmount) * 0.13 : ConvertStringAmountToNumber(this.quotaSelected.IVA);
+    this.iva = this.quotaSelected.quotaTo === 1 ?
+      ConvertStringAmountToNumber(this.quotas[1].commissionAmount) * 0.13 : ConvertStringAmountToNumber(this.quotaSelected.IVA);
     if (!this.comissionUnique) {
       this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
     }
