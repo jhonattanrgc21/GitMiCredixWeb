@@ -19,7 +19,7 @@ pipeline {
 		    }
             steps {
                 sh 'npm install -g @angular/cli@' + "${angularCliVersion}"
-                sh 'ng build --configuration=' + "${environment}" + ' --aot'
+                sh 'ng build --configuration=' + "${environment}" + ' --aot ----base-href "//personas\\"'
             }
         }
         stage('Deploy-App') {
@@ -29,13 +29,13 @@ pipeline {
                     if( autoDeploy == "true" )  {
                         withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh', keyFileVariable: 'keyfile', usernameVariable: 'username')]) {
                             sh "ssh -i ${keyfile} ${username}@${sftpDestServer} \
-                            'cd /var/www/personasFE && \
-                            rm -fr /var/www/personasFE/*'"
+                            'cd /opt/jboss/welcome-content/personas && \
+                            rm -fr /opt/jboss/welcome-content/personas/*'"
                         }
                     }
                     if( autoDeploy == "true" )  {
                         withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh', keyFileVariable: 'keyfile', usernameVariable: 'username')]) {
-                            sh "scp -i ${keyfile} -r dist/* ${username}@${sftpDestServer}:/var/www/personasFE/"
+                            sh "scp -i ${keyfile} -r dist/* ${username}@${sftpDestServer}:/opt/jboss/welcome-content/personas/"
                         }
                     }
                 }
