@@ -19,7 +19,7 @@ pipeline {
 		    }
             steps {
                 sh 'npm install -g @angular/cli@' + "${angularCliVersion}"
-                sh 'ng build --configuration=' + "${environment}" + ' --aot ----base-href "//personas\\"'
+                sh 'ng build --configuration=' + "${environment}" + ' --aot ----base-href /personas/'
             }
         }
         stage('Deploy-App') {
