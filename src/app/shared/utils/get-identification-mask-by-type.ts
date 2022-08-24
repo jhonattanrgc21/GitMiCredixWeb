@@ -18,7 +18,7 @@ export function getIdentificationMaskByType(value: string): { mask: string, maxL
     case 'PE':
       return {
         mask: '000000000000',
-        maxLength: 12
+        maxLength: 1
       };
     default:
       return {
