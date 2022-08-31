@@ -63,9 +63,9 @@ export class ModalService {
     return dialogRef.afterClosed();
   }
 
-  public closeConfirmationPopUp(){
-  this.dialog.closeAll();
-}
+  public closeConfirmationPopUp() {
+    this.dialog.closeAll();
+  }
 
   public openCalendarPopup(startDate?: Date, endDate?: Date): Observable<any> {
     let dialogRef: MatDialogRef<CredixCalendarComponent>;
