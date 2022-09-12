@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {HomeService} from './home.service';
 import {Router} from '@angular/router';
@@ -6,17 +6,18 @@ import {SimplebarAngularComponent} from 'simplebar-angular';
 import {ScrollService} from '../../core/services/scroll.service';
 import {TagsService} from '../../core/services/tags.service';
 import {globalCacheBusterNotifier} from 'ngx-cacheable';
-import { UserIdleService } from 'angular-user-idle';
-import { ModalService } from 'src/app/core/services/modal.service';
-import { RenewTokenService } from '../../core/services/renew-token.service';
-import { HttpRequestsResponseInterceptor } from '../../core/interceptors/http.interceptor';
+import {UserIdleService} from 'angular-user-idle';
+import {ModalService} from 'src/app/core/services/modal.service';
+import {RenewTokenService} from '../../core/services/renew-token.service';
+import {HttpRequestsResponseInterceptor} from '../../core/interceptors/http.interceptor';
+import {CredixToastService} from '../../core/services/credix-toast.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   isTablet = false;
   globalListenFunc: Function;
   options = {autoHide: false, scrollbarMinSize: 100};
@@ -36,7 +37,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
               private userIdle: UserIdleService,
               private renderer: Renderer2,
               private modalService: ModalService,
-              private renewTokenService: RenewTokenService) {
+              private renewTokenService: RenewTokenService,
+              private toastService: CredixToastService) {
   }
 
   ngOnInit() {
@@ -44,14 +46,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     //Start watching for user inactivity.
     this.userIdle.setConfigValues({idle: 300, timeout: 240, ping: 10});
     this.userIdle.startWatching();
-    this.obs1 = this.userIdle.onTimerStart().subscribe(count => {
-                                                      if(count === 1)this.openConfirmModal();
-                                                    });
+    this.obs1 = this.userIdle.onTimerStart().subscribe();
     this.obs2 = this.userIdle.onTimeout().subscribe(() => {
-                                                this.stop();
-                                                this.stopWatching();
-                                                this.openConfirmTwoModal();
-                                              });
+      this.stop();
+      this.stopWatching();
+      this.redirectAndShowMessage();
+    });
 
     this.globalListenFunc = this.renderer.listen('document', 'click', e => {
       this.restart();
@@ -109,6 +109,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.userIdle.resetTimer();
   }
 
+  redirectAndShowMessage() {
+    this.router.navigate(['/']);
+    this.toastService
+      .show({
+        text: 'Su cuenta lleva más de 10 minutos abierta e inactiva. Por su seguridad hemos cerrado la sesión.',
+        type: 'error'
+      });
+  }
+
   ngOnDestroy() {
     // remove listener
     this.globalListenFunc();
@@ -118,25 +127,5 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.renewTokenService.resetRequestCount();
     this.obs1.unsubscribe();
     this.obs2.unsubscribe();
-  }
-
-  openConfirmModal() {
-
-      this.modalService.confirmationPopup('Inactividad detectada','En 60 segundos, procederemos a cerrar su sesión, ¿Desea continuar logueado?', 500,250,true,59000).subscribe(response => {
-        if (response ){
-          this.restart();
-        }else if(response !== undefined){
-            this.stop();
-            this.stopWatching();
-            this.signOut();
-        }
-      });
-
-  }
-
-  openConfirmTwoModal() {
-      this.modalService.confirmationPopup('Aviso','Su sesión ha vencido, por favor inicie sesión nuevamente.', 500, 250, undefined, undefined, true).subscribe(response => {
-        this.signOut();
-      });
   }
 }
