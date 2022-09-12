@@ -6,9 +6,9 @@ import {SimplebarAngularComponent} from 'simplebar-angular';
 import {ScrollService} from '../../core/services/scroll.service';
 import {TagsService} from '../../core/services/tags.service';
 import {globalCacheBusterNotifier} from 'ngx-cacheable';
-import { UserIdleService } from 'angular-user-idle';
-import { ModalService } from 'src/app/core/services/modal.service';
-import { RenewTokenService } from '../../core/services/renew-token.service';
+import {UserIdleService} from 'angular-user-idle';
+import {ModalService} from 'src/app/core/services/modal.service';
+import {RenewTokenService} from '../../core/services/renew-token.service';
 import {HttpRequestsResponseInterceptor} from '../../core/interceptors/http.interceptor';
 import {CredixToastService} from '../../core/services/credix-toast.service';
 
@@ -46,14 +46,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     //Start watching for user inactivity.
     this.userIdle.setConfigValues({idle: 300, timeout: 240, ping: 10});
     this.userIdle.startWatching();
-    this.obs1 = this.userIdle.onTimerStart().subscribe(count => {
-      console.log(count);
-                                                    });
+    this.obs1 = this.userIdle.onTimerStart().subscribe();
     this.obs2 = this.userIdle.onTimeout().subscribe(() => {
-                                                this.stop();
+      this.stop();
       this.stopWatching();
       this.redirectAndShowMessage();
-                                              });
+    });
 
     this.globalListenFunc = this.renderer.listen('document', 'click', e => {
       this.restart();
@@ -118,39 +116,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         text: 'Su cuenta lleva más de 10 minutos abierta e inactiva. Por su seguridad hemos cerrado la sesión.',
         type: 'error'
       });
-  }
-
-  openConfirmModal() {
-
-    this.modalService
-      .confirmationPopup('Inactividad detectada',
-        'En 60 segundos, procederemos a cerrar su sesión, ¿Desea continuar logueado?',
-        500,
-        250,
-        true,
-        59000).subscribe(response => {
-      if (response) {
-        this.restart();
-      } else if (response !== undefined) {
-        this.stop();
-        this.stopWatching();
-        this.signOut();
-      }
-    });
-
-  }
-
-  openConfirmTwoModal() {
-    this.modalService
-      .confirmationPopup('Aviso',
-        'Su sesión ha vencido, por favor inicie sesión nuevamente.',
-        500,
-        250,
-        undefined,
-        undefined,
-        true).subscribe(response => {
-      this.signOut();
-    });
   }
 
   ngOnDestroy() {
