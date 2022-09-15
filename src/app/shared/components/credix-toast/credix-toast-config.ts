@@ -6,4 +6,4 @@ export class ToastData {
   template?: TemplateRef<any>;
 }
 
-export type ToastType = 'warning' | 'error' | 'success' | 'info';
+export type ToastType = 'warning' | 'error' | 'success' | 'info' | 'timeout';
