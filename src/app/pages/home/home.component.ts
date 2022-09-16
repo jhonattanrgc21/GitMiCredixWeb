@@ -114,7 +114,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.toastService
       .show({
         text: 'Su cuenta lleva más de 10 minutos abierta e inactiva. Por su seguridad hemos cerrado la sesión.',
-        type: 'error'
+        type: 'timeout'
       });
   }
 
