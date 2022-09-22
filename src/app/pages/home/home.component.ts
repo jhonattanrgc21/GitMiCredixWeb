@@ -44,9 +44,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
 
     //Start watching for user inactivity.
-    this.userIdle.setConfigValues({idle: 300, timeout: 240, ping: 10});
+    this.userIdle.setConfigValues({idle: 20, timeout: 600, ping: 10});
     this.userIdle.startWatching();
-    this.obs1 = this.userIdle.onTimerStart().subscribe();
+    this.obs1 = this.userIdle.onTimerStart().subscribe( (params) => {
+      console.log(params);
+    } );
     this.obs2 = this.userIdle.onTimeout().subscribe(() => {
       this.stop();
       this.stopWatching();
