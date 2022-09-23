@@ -6,7 +6,7 @@ import { HttpService } from './http.service';
 @Injectable()
 export class ExtendTermTotalOwedApiService {
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
-  private readonly saveExtendTotalDebitUri = 'account/saveentendtotaldebit';
+  private readonly saveExtendTotalDebitUri = 'account/saveextendtotaldebit';
   private readonly cutDateUri = 'channels/cutdateextermterm';
 
   // public result: {title: string, message: string, status: string} = null;
