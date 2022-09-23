@@ -3,7 +3,7 @@
                         [status]="status"
                         [moduleTitle]="titleTag || 'Ampliar plazo del total adeudado'"
                         buttonText="Listo"
-                        routeTo="/home/extend-term-total-owed"
+                        routeTo="/home/extend-term-total-debt"
                         [ngClass]="status === 'success' ? 'notification-success' : 'notification-error'">
 
   <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
