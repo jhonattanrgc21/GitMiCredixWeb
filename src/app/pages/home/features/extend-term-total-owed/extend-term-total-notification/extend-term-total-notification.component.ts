@@ -32,7 +32,7 @@ export class ExtendTermTotalNotificationComponent implements OnInit {
   ngOnInit(): void {
 
     if ( !this.extendTermTotalOwedService.result ) {
-      this.router.navigate(['/home/extend-term-total-owed']);
+      this.router.navigate(['/home/extend-term-total-debt']);
     }
     
     this.currency = this.extendTermTotalOwedService.newQuota?.currency;
