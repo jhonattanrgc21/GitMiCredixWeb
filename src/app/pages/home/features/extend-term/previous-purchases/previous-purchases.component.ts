@@ -24,7 +24,7 @@ export class PreviousPurchasesComponent implements OnInit {
   columnFourTag: string;
   isEmpty: boolean = false;
   previousMovements: PreviousMovements[] = [];
-  
+
   constructor(
     private route: Router,
     private extendTermService: ExtendTermService
@@ -43,17 +43,17 @@ export class PreviousPurchasesComponent implements OnInit {
     this.extendTermService.movementsSelected = [...this.selection];
     this.route.navigate(['/home/extend-term/previous-extend']);
   }
-  
+
   getAllowedMovements() {
-    this.extendTermService.getAllowedMovements( 1005 )
-      .subscribe(response => {        
-        if ( response?.consumed && response?.consumed.length > 0 ) {
+    this.extendTermService.getAllowedMovements(1005)
+      .subscribe(response => {
+        if (response?.consumed && response?.consumed.length > 0) {
           let previousMovements = [];
           response.consumed.forEach(movement => {
             previousMovements.push({
               pdqId: movement.pdqId,
               currencySimbol: movement.originCurrency.currency,
-              establishmentName:  movement.establishmentName,
+              establishmentName: movement.establishmentName,
               originAmount: movement.originAmount,
               originDate: movement.originDate,
               quota: movement.totalPlanQuota,
