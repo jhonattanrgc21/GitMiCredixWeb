@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import { HttpService } from './http.service';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class ExtendTermTotalOwedApiService {
@@ -26,6 +27,7 @@ export class ExtendTermTotalOwedApiService {
 
   constructor(
     private httpService: HttpService,
+    private storageService: StorageService,
   ) { }
 
   checkCutDate() {
@@ -64,7 +66,7 @@ export class ExtendTermTotalOwedApiService {
   saveExtendTotalDebit(quota: number, productId: number): Observable<{title: 'success' | 'error', type: string, status: number, message: string,}> {
     return this.httpService.post('canales', this.saveExtendTotalDebitUri, {
       channelId : 101,
-      accountId : 1,
+      accountId : this.storageService.getCurrentUser().actId,
       quota,
       productId
   })
