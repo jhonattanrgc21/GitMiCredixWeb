@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { ExtendTermTotalOwedApiService } from 'src/app/core/services/extend-term-total-owed-api.service';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { Tag } from 'src/app/shared/models/tag';
@@ -56,11 +57,12 @@ export class ExtendTermTotalOwedComponent implements OnInit {
     private extendTermTotalOwedService: ExtendTermTotalOwedApiService,
     private tagsService: TagsService,
     private router: Router,
+    private storage: StorageService
   ) { }
 
   ngOnInit(): void {
     this.checkCutDate();
-
+    console.log("actID: ", this.storage.getCurrentUser().actId),
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
     this.getQuotas();
