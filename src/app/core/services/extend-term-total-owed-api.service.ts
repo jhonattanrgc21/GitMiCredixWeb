@@ -72,8 +72,8 @@ export class ExtendTermTotalOwedApiService {
   })
     .pipe(
       map(response => ({
-          title: response.titleOne,
-          type: response.type,
+          title: response.type,
+          type: response.titleOne,
           status: response.status,
           message: response.message,
       }))

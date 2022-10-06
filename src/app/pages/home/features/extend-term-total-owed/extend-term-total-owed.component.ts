@@ -120,25 +120,28 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   }
 
   saveQuota() {
-    this.extendTermTotalOwedService.saveExtendTotalDebit(
-      this.extendQuotaSummary.quotaTo,
-      2004)
-      .pipe(finalize(() => this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`])))
-        .subscribe(response => {
-          const message = response.title === 'success' ? 'El plazo de su total adeudado ha sido extendido correctamente. Estará reflejado en su próximo estado de cuenta. Le estaremos enviando un correo con los detalles del producto próximamente.'
-                                                      : 'Ocurrió un error. Favor vuelva a intentar.';
-          this.extendTermTotalOwedService.result = {
-            status: response.title,
-            message,
-          };
-
-          this.extendTermTotalOwedService.newQuota = {
-            currency: '₡',
-            amount: this.extendQuotaSummary.amountPerQuota,
-            quota: this.extendQuotaSummary.quotaTo,
-          };
-        });
-  }
+    if ( !this.hasMinimumPayment ) {
+      this.extendTermTotalOwedService.saveExtendTotalDebit(
+        this.extendQuotaSummary.quotaTo,
+        2004)
+        .pipe(finalize(() => this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`])))
+          .subscribe(response => {
+            const message = response.title === 'success' ? 'El plazo de su total adeudado ha sido extendido correctamente. Estará reflejado en su próximo estado de cuenta. Le estaremos enviando un correo con los detalles del producto próximamente.'
+                                                        : 'Ocurrió un error. Favor vuelva a intentar.';
+            this.extendTermTotalOwedService.result = {
+              status: response.title,
+              message,
+            };
+  
+            this.extendTermTotalOwedService.newQuota = {
+              currency: '₡',
+              amount: this.extendQuotaSummary.amountPerQuota,
+              quota: this.extendQuotaSummary.quotaTo,
+            };
+          });
+    }
+    }
+    
 
   openSummary() {
     this.modalService.open({

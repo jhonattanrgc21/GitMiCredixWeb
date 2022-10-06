@@ -1,7 +1,7 @@
 <app-credix-result-view [resultMessage]="message"
                         [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
                         [status]="status"
-                        [moduleTitle]="titleTag || 'Plan Liquidez'"
+                        [moduleTitle]="'Plan Liquidez'"
                         buttonText="Listo"
                         routeTo="/home/extend-term-total-debt"
                         [ngClass]="status === 'success' ? 'notification-success' : 'notification-error'">
