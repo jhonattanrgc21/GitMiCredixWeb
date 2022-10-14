@@ -66,7 +66,7 @@ export class MenuOptionComponent implements OnInit {
       if (functionalities.length > 0) {
 
         console.log("funcionalities: ", functionalities);
-        
+
         this.submenus = [];
         functionalities.forEach(func => {
           if (func.level === 2) {

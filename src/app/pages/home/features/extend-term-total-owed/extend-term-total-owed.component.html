@@ -1,7 +1,7 @@
 <mat-card class="extend-term" credixCard fxLayout="column" fxLayoutGap="16px">
     <h1>Plan Liquidez</h1>
     <p>Haga su cuota más pequeña, ampliando el plazo de su total adeudado.</p>
-    
+
     <mat-divider credixDivider></mat-divider>
 
     <div *ngIf="!isEmpty" class="extend-term__content" fxLayout="column" fxLayoutGap="10px" fxFlex>
@@ -24,7 +24,7 @@
                 <span><strong>Pago mínimo requerido</strong></span>
                 <p class="mt-4">Este pago es requerido antes de poder ampliar el plazo de su total adeudado. Lo puede pagar usando el medio de su preferencia.</p>
               </div>
-  
+
               <div fxLayout="column" fxLayoutGap="11.5px" fxLayoutAlign="flex-start flex-end">
                 <div>
                   <credix-numeric-block [value]="minimumPayment" class="tr"
@@ -91,12 +91,12 @@
 <ng-template #summaryTemplate>
     <div class="h-100 summary-custom" fxLayout="column" fxLayoutGap="16px">
         <div fxLayout="column" fxLayoutGap="8px">
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>{{ resultNew || 'Plazo nuevo' }}</span>
             <span><strong>{{ extendQuotaSummary?.quotaTo }} {{ extendQuotaSummary?.quotaTo > 1 ? 'meses': 'mes' }} </strong></span>
           </div>
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>{{ quotaTag || 'Cuota nueva' }}</span>
             <credix-numeric-block
@@ -104,26 +104,36 @@
               fontWeight="bold"
               prefix="₡"></credix-numeric-block>
           </div>
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ comissionTag || 'Comisión' }} {{ '(' + extendQuotaSummary?.commissionPercentage + '%)' }}
+            <span fxFlex>{{ comissionTag || 'Comisión' }}
+              (<credix-numeric-block
+                [value]="extendQuotaSummary?.commissionPercentage"
+                fontWeight=""
+                type="percentage"
+                prefix=""></credix-numeric-block>%)
             </span>
             <credix-numeric-block
               [value]="extendQuotaSummary?.commissionAmount"
               fontWeight="bold"
               prefix="₡"></credix-numeric-block>
           </div>
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{ 'Interés' }} {{ '(' + extendQuotaSummary?.feePercentage + '% mensual)' }} 
+            <span fxFlex>{{ 'Interés' }}
+              (<credix-numeric-block
+                [value]="extendQuotaSummary?.feePercentage"
+                fontWeight=""
+                type="percentage"
+                prefix=""></credix-numeric-block>% mensual)
             </span>
-            
+
             <credix-numeric-block
               [value]="extendQuotaSummary?.feeAmount"
               fontWeight="bold"
               prefix="₡"></credix-numeric-block>
           </div>
-    
+
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex>{{ 'IVA*'}}</span>
             <credix-numeric-block
@@ -132,11 +142,11 @@
             prefix="₡"></credix-numeric-block>
           </div>
         </div>
-    
+
         <p fxFlex style="color: #707070; font-size: 14px !important; margin-bottom: 26px !important">
-          * IVA se cargará en el próximo estado de cuenta.
+          *Se cargará en el próximo estado de cuenta.
         </p>
-    
+
         <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">
           <span fxFlex style="font-size: 20px !important;">{{ extendQuotaSummary.quotaTo }} {{ extendQuotaSummary.quotaTo > 1 ? 'Cuotas' : 'Cuota' }} de</span>
             <credix-numeric-block
