@@ -10,7 +10,7 @@ import {ForgotPasswordComponent} from './forgot-password/forgot-password.compone
 import {PopupCompletedComponent} from './popup-completed/popup-completed.component';
 import {v4 as uuidv4} from 'uuid';
 import {finalize, takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import {forkJoin, Subject} from 'rxjs';
 import {CredixBotService} from '../../../../core/services/credix-bot.service';
 import {CdkStepper} from '@angular/cdk/stepper';
 
@@ -88,7 +88,28 @@ export class SignInComponent implements OnInit, OnDestroy {
           this.checkChanges();
         });
     }
+  }
 
+  loginUnification() {
+      this.signInService.login(this.signInformGroup.controls.identification.value, this.signInformGroup.controls.password.value)
+        .subscribe(res => {
+          switch (res.type) {
+            case 'success':
+              this.storageService.setCurrentSession(res.user, res.cards);
+              this.otpSent = false;
+              this.saveDeviceUnification();
+              break;
+            case 'warm':
+              this.open('session-activate');
+              break;
+          }
+      });
+  }
+
+  saveDeviceUnification() {
+    this.signInService.saveDevice().subscribe((_) => {
+        this.router.navigate(['/home']).then();
+    });
   }
 
   deviceInfo() {
@@ -210,7 +231,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   openCompletedModal(width: number, height: number, data: any) {
     this.modalService.openModalContainer(PopupCompletedComponent, width, height, data).subscribe(() => {
-      this.login();
+      this.loginUnification();
     });
   }
 
