@@ -106,7 +106,8 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
 
   eventClick2(checked) {
     if (checked) {
-      localStorage.setItem("delivery2", "0");
+      this.deliveryAmount = localStorage.getItem("delivery");
+      localStorage.setItem("delivery2", this.deliveryAmount);
       //console.log(this.deliveryAmount);
       return;
     }
