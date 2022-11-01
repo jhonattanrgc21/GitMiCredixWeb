@@ -54,7 +54,7 @@
                      [max]="quotaSliderMax"
                      [min]="quotaSliderMin"
                      [step]="quotaSliderStep"
-                     class="marchamo-second-step__content__middle" units="cuotas"></credix-slider>
+                     class="marchamo-second-step__content__middle" units="{{secondStepTagDiv === '1' ? 'cuota' : 'cuotas'}}"></credix-slider>
 
       <div fxFlex="130px" fxLayout="column" fxLayoutAlign="flex-start flex-end" fxLayoutGap="4px">
         <credix-numeric-block [value]="amountPerQuota" fontSize="24" fontWeight="bold"
