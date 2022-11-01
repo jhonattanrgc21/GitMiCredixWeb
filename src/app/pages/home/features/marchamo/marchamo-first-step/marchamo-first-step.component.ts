@@ -50,6 +50,9 @@ export class MarchamoFirstStepComponent implements OnInit {
         productCode: 5
       },
       {
+        productCode : 6
+      },
+      {
         productCode: 9
       },
       {

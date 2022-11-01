@@ -64,6 +64,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+    this.placeRadioButton = 0;
 
   }
 
@@ -140,7 +141,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       .pipe(finalize(() => {}))
       .subscribe((response) => {
         this.activateDeliveryOption = response;
-        this.placesRadioButtonChanged(1);
+        this.placesRadioButtonChanged(0);
         this.eventClick2(true);
       });
   }
