@@ -113,7 +113,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
           quotesAmount: this.amountPerQuota
         }
       }]
-    }, {width: 380, height: 417, disableClose: false, panelClass: 'marchamo-summary-panel'});
+    }, {width: 380, height: 450, disableClose: false, panelClass: 'marchamo-summary-panel'});
   }
 
   getValueCheckBoxes(isChecked: boolean, item: Item) {
