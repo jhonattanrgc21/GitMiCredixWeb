@@ -113,7 +113,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   deliveryPlaceAmount(){
     this.deliveryAmount = localStorage.getItem("delivery");
     localStorage.setItem("delivery2", this.deliveryAmount);
-    this.marchamoService.iva = Number(this.deliveryAmount) * 0.13;
+    this.marchamoService.iva += Number(this.deliveryAmount) * 0.13;
     //console.log(this.deliveryAmount);
   }
 
