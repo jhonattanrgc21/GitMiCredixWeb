@@ -98,20 +98,23 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   eventClick(checked) {
 
     if (checked) {
-      this.deliveryAmount = localStorage.getItem("delivery");
-      localStorage.setItem("delivery2", this.deliveryAmount);
-      //console.log(this.deliveryAmount);
+      this.deliveryPlaceAmount();
       return;
     }
   }
 
   eventClick2(checked) {
     if (checked) {
-      this.deliveryAmount = localStorage.getItem("delivery");
-      localStorage.setItem("delivery2", this.deliveryAmount);
-      //console.log(this.deliveryAmount);
+      this.deliveryPlaceAmount();
       return;
     }
+  }
+
+  deliveryPlaceAmount(){
+    this.deliveryAmount = localStorage.getItem("delivery");
+    localStorage.setItem("delivery2", this.deliveryAmount);
+    this.marchamoService.iva = Number(this.deliveryAmount) * 0.13;
+    //console.log(this.deliveryAmount);
   }
 
   domicileRadioButtonChanged(value: number) {
