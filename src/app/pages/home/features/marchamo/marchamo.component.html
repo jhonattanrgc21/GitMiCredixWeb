@@ -70,7 +70,7 @@
 
           <div fxLayout="row" fxLayoutAlign="space-between">
             <span fxFlex="80px">Plazo</span>
-            <span class="tr"><strong>{{secureAndQuotesForm.controls.quota.value.toString() === '1' ? secureAndQuotesForm.controls.quota.value.toString() || ' cuota' : secureAndQuotesForm.controls.quota.value.toString() || ' cuotas'}}</strong></span>
+            <span class="tr"><strong>{{secureAndQuotesForm.controls.quota.value.toString() === '1' ? secureAndQuotesForm.controls.quota.value.toString() + ' cuota' : secureAndQuotesForm.controls.quota.value.toString() + ' cuotas'}}</strong></span>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
