@@ -15,6 +15,8 @@ import {Tag} from '../../../../../shared/models/tag';
 import {CustomerApiService} from '../../../../../core/services/customer-api.service';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import { finalize } from 'rxjs/operators';
+import { MarchamoThirdStepComponent } from '../marchamo-third-step/marchamo-third-step.component';
+import { MarchamoComponent } from '../marchamo.component';
 
 @Component({
   selector: 'app-marchamo-second-step',
@@ -64,7 +66,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
               private httpService: HttpService,
               private modalService: ModalService,
               private storageService: StorageService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private marchamoComponent: MarchamoComponent,) {
   }
 
   get additionalProducts() {
@@ -113,7 +116,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
           quotesAmount: this.amountPerQuota
         }
       }]
-    }, {width: 380, height: 417, disableClose: false, panelClass: 'marchamo-summary-panel'});
+    }, {width: 380, height: 450, disableClose: false, panelClass: 'marchamo-summary-panel'});
   }
 
   getValueCheckBoxes(isChecked: boolean, item: Item) {
@@ -220,6 +223,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         this.marchamosService.iva = this.iva;
         this.marchamosService.commission = this.commission;
         localStorage.setItem("delivery", response.deliveryAmount);
+        this.marchamoComponent.validaIVA = false;
       }
     });
   }
@@ -236,5 +240,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
     this.secondStepTagDiv = tags.find(tag => tag.description === 'marchamo.stepper2.tagdividr')?.value;
     this.secondStepCom = tags.find(tag => tag.description === 'marchamo.stepper2.comision')?.value;
     this.secondStepTagT = tags.find(tag => tag.description === 'marchamo.stepper2.tagTodos')?.value;
+  }
+
+  ngOnDestroy(): void {
   }
 }

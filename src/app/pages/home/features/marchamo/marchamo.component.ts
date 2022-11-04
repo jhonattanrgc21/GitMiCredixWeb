@@ -63,6 +63,7 @@ export class MarchamoComponent implements OnInit, OnDestroy {
   ownerEmail: string;
   firstPayment: string;
   consultVehicle: ConsultVehicle;
+  validaIVA = false;
   @ViewChild('stepper') stepper: CdkStepper;
 
   constructor(private httpService: HttpService,
@@ -78,6 +79,7 @@ export class MarchamoComponent implements OnInit, OnDestroy {
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags));
     this.checkNextStep();
     this.getCredixCodeError();
+    console.log(this.validaIVA);
   }
 
   continue() {

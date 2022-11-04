@@ -11,6 +11,7 @@ import {Address} from '../../../../../shared/models/address';
 import {NewAddressPopupComponent} from './new-address-popup/new-address-popup.component';
 import {ChannelsApiService} from '../../../../../core/services/channels-api.service';
 import {finalize} from 'rxjs/operators';
+import { MarchamoComponent } from '../marchamo.component';
 
 @Component({
   selector: 'app-marchamo-third-step',
@@ -55,7 +56,8 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
               private channelsApiService: ChannelsApiService,
               private marchamoService: MarchamoService,
               private storageService: StorageService,
-              private tagsService: TagsService,) {
+              private tagsService: TagsService,
+              private marchamoComponent: MarchamoComponent,) {
   }
 
   ngOnInit(): void {
@@ -97,19 +99,29 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   eventClick(checked) {
 
     if (checked) {
-      this.deliveryAmount = localStorage.getItem("delivery");
-      localStorage.setItem("delivery2", this.deliveryAmount);
-      //console.log(this.deliveryAmount);
+      this.deliveryPlaceAmount();
       return;
     }
   }
 
   eventClick2(checked) {
     if (checked) {
-      localStorage.setItem("delivery2", "0");
-      //console.log(this.deliveryAmount);
+      this.deliveryPlaceAmount();
       return;
     }
+  }
+
+  deliveryPlaceAmount(){
+    this.deliveryAmount = localStorage.getItem("delivery");
+    localStorage.setItem("delivery2", this.deliveryAmount);
+    console.log(this.marchamoComponent.validaIVA);
+    if(!this.marchamoComponent.validaIVA){
+      console.log(this.marchamoService.iva);
+      this.marchamoService.iva += (Number(this.deliveryAmount) * 0.13);
+      this.marchamoComponent.validaIVA = true;
+    }
+    
+    //console.log(this.deliveryAmount);
   }
 
   domicileRadioButtonChanged(value: number) {
@@ -139,7 +151,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       .pipe(finalize(() => {}))
       .subscribe((response) => {
         this.activateDeliveryOption = response;
-        this.placesRadioButtonChanged(1);
+        this.placesRadioButtonChanged(0);
         this.eventClick2(true);
       });
   }
@@ -208,5 +220,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
     this.firstSubtitle = tags.find(tag => tag.description === 'marchamos.stepper3.subtitle1')?.value;
     this.leyendTag = tags.find(tag => tag.description === 'marchamos.deliveryAmount.leyend')?.value;
   }
+
+  ngOnDestroy(): void {
+    this.marchamoComponent.validaIVA = false;
+    this.placeRadioButton = 0;
+  }
+
 
 }
