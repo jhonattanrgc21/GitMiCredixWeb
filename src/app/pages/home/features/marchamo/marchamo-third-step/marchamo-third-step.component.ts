@@ -11,6 +11,7 @@ import {Address} from '../../../../../shared/models/address';
 import {NewAddressPopupComponent} from './new-address-popup/new-address-popup.component';
 import {ChannelsApiService} from '../../../../../core/services/channels-api.service';
 import {finalize} from 'rxjs/operators';
+import { MarchamoComponent } from '../marchamo.component';
 
 @Component({
   selector: 'app-marchamo-third-step',
@@ -55,7 +56,8 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
               private channelsApiService: ChannelsApiService,
               private marchamoService: MarchamoService,
               private storageService: StorageService,
-              private tagsService: TagsService,) {
+              private tagsService: TagsService,
+              private marchamoComponent: MarchamoComponent,) {
   }
 
   ngOnInit(): void {
@@ -64,7 +66,6 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
-    this.placeRadioButton = 0;
 
   }
 
@@ -113,7 +114,13 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   deliveryPlaceAmount(){
     this.deliveryAmount = localStorage.getItem("delivery");
     localStorage.setItem("delivery2", this.deliveryAmount);
-    this.marchamoService.iva += Number(this.deliveryAmount) * 0.13;
+    console.log(this.marchamoComponent.validaIVA);
+    if(!this.marchamoComponent.validaIVA){
+      console.log(this.marchamoService.iva);
+      this.marchamoService.iva += (Number(this.deliveryAmount) * 0.13);
+      this.marchamoComponent.validaIVA = true;
+    }
+    
     //console.log(this.deliveryAmount);
   }
 
@@ -213,5 +220,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
     this.firstSubtitle = tags.find(tag => tag.description === 'marchamos.stepper3.subtitle1')?.value;
     this.leyendTag = tags.find(tag => tag.description === 'marchamos.deliveryAmount.leyend')?.value;
   }
+
+  ngOnDestroy(): void {
+    this.marchamoComponent.validaIVA = false;
+    this.placeRadioButton = 0;
+  }
+
 
 }
