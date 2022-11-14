@@ -87,8 +87,8 @@
       <cdk-step [label]="'Validación'">
         <div class="modal-send-otp__stepper-2" fxLayout="column">
 
-          <span *ngIf="shippingTypeFormControl.value === 2" class="mt-24px mb-16px">Ingrese el código que hemos enviado al correo: {{email}}</span>
-          <span *ngIf="shippingTypeFormControl.value === 1" class="mt-24px mb-16px">Ingrese el código que hemos enviado al teléfono: {{phone}}</span>
+          <span *ngIf="shippingTypeFormControl.value === 2" class="mt-24px mb-16px">Ingrese el código que hemos enviado al teléfono: {{phone}}</span>
+          <span *ngIf="shippingTypeFormControl.value === 1" class="mt-24px mb-16px">Ingrese el código que hemos enviado al correo: {{email}}</span>
 
           <span class="mb-16px">El código es válido por: <b>10 minutos</b></span>
 

@@ -9,7 +9,10 @@ import {CdkStepper} from '@angular/cdk/stepper';
 import {getIdentificationMaskByType} from '../../../../../shared/utils';
 import {GlobalApiService} from '../../../../../core/services/global-api.service';
 import {SignUpService} from './sign-up.service';
-import {Subject} from 'rxjs';
+import {forkJoin, Subject} from 'rxjs';
+import {SignInService} from '../sign-in.service';
+import {StorageService} from '../../../../../core/services/storage.service';
+import {v4 as uuidv4} from 'uuid';
 
 @Component({
   selector: 'app-sign-up',
@@ -47,6 +50,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
               private modalService: ModalService,
               private globalApiService: GlobalApiService,
               private toastService: CredixToastService,
+              private readonly signInService: SignInService,
+              private storageService: StorageService,
               private dialogRef: MatDialogRef<SignUpComponent>) {
   }
 
@@ -124,6 +129,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.signUpService.validateOtp(this.newUserSecondStepForm.controls.credixCode.value, this.userId).subscribe(response => {
       if (response.status === 'success') {
         this.nextStep();
+
       } else {
         this.newUserSecondStepForm.controls.credixCode.setErrors({invalid: true});
         this.newUserSecondStepForm.updateValueAndValidity();
