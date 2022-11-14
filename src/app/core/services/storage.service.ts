@@ -29,7 +29,7 @@ export class StorageService {
   }
 
   getCurrentCards() {
-    return JSON.parse(localStorage.getItem('cards')) as Card[];
+    return JSON.parse(localStorage.getItem('cards')) ;
   }
 
   clearCurrentCard() {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { ExtendTermTotalOwedApiService } from 'src/app/core/services/extend-term-total-owed-api.service';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { Tag } from 'src/app/shared/models/tag';
@@ -56,11 +57,12 @@ export class ExtendTermTotalOwedComponent implements OnInit {
     private extendTermTotalOwedService: ExtendTermTotalOwedApiService,
     private tagsService: TagsService,
     private router: Router,
+    private storage: StorageService
   ) { }
 
   ngOnInit(): void {
     this.checkCutDate();
-
+    console.log("actID: ", this.storage.getCurrentUser().actId),
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
     this.getQuotas();
@@ -118,25 +120,28 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   }
 
   saveQuota() {
-    this.extendTermTotalOwedService.saveExtendTotalDebit(
-      this.extendQuotaSummary.quotaTo,
-      2004)
-      .pipe(finalize(() => this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`])))
-        .subscribe(response => {
-          const message = response.title === 'success' ? 'El plazo de su total adeudado ha sido extendido correctamente. Estará reflejado en su próximo estado de cuenta. Le estaremos enviando un correo con los detalles del producto próximamente.'
-                                                      : 'Ocurrió un error. Favor vuelva a intentar.';
-          this.extendTermTotalOwedService.result = {
-            status: response.title,
-            message,
-          };
-
-          this.extendTermTotalOwedService.newQuota = {
-            currency: '₡',
-            amount: this.extendQuotaSummary.amountPerQuota,
-            quota: this.extendQuotaSummary.quotaTo,
-          };
-        });
-  }
+    if ( !this.hasMinimumPayment ) {
+      this.extendTermTotalOwedService.saveExtendTotalDebit(
+        this.extendQuotaSummary.quotaTo,
+        2004)
+        .pipe(finalize(() => this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`])))
+          .subscribe(response => {
+            const message = response.title === 'success' ? 'El plazo de su total adeudado ha sido extendido correctamente. Estará reflejado en su próximo estado de cuenta. Le estaremos enviando un correo con los detalles del producto próximamente.'
+                                                        : 'Ocurrió un error. Favor vuelva a intentar.';
+            this.extendTermTotalOwedService.result = {
+              status: response.title,
+              message,
+            };
+  
+            this.extendTermTotalOwedService.newQuota = {
+              currency: '₡',
+              amount: this.extendQuotaSummary.amountPerQuota,
+              quota: this.extendQuotaSummary.quotaTo,
+            };
+          });
+    }
+    }
+    
 
   openSummary() {
     this.modalService.open({
