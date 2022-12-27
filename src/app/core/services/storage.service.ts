@@ -59,4 +59,13 @@ export class StorageService {
   clearUuid(): void {
     localStorage.removeItem('uuid');
   }
+  setCurrentNotificationLogin(notificationLogin: string) {
+    localStorage.setItem('notificationLogin', notificationLogin);
+  }
+  getCurrentNotificationLogin() {
+    return localStorage.getItem('notificationLogin');
+  }
+  clearNotificationLogin(){
+    localStorage.removeItem('notificationLogin');
+  }
 }

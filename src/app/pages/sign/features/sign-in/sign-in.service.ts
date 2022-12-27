@@ -16,6 +16,7 @@ export class SignInService {
   private readonly getDeviceInfoUri = 'channels/getdeviceinfo';
   private readonly validateOtpUri = 'security/validateonetimepassword';
   private readonly saveDeviceUri = 'channels/savedevice';
+  private readonly notificationLogin = 'security/sendnotificationaccesslogin';
   private newDeviceSub = new Subject();
   newDevice$ = this.newDeviceSub.asObservable();
 
@@ -34,6 +35,7 @@ export class SignInService {
     }).pipe(
       map(response => {
         if (response.titleOne === 'success') {
+          this.storageService.setCurrentNotificationLogin('1');
           return {
             type: 'success',
             user: {
@@ -164,7 +166,15 @@ export class SignInService {
       map(response => response.type)
     );
   }
-
+  sendNotificationLogin(): Observable<'success' | 'error'> {
+    return this.httpService.post('canales', this.notificationLogin, {
+    }).pipe(
+      tap(response => {
+        this.storageService.setCurrentNotificationLogin('0');
+      }),
+      map(response => response.type)
+    );
+  }
   unsubscribe() {
     this.httpService.unsubscribeHttpCall();
   }

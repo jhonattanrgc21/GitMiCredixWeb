@@ -54,6 +54,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.getHomeTags();
     this.getHomeContent();
     this.getAccountsSummary();
+    this.sendNotificationLogin();
   }
 
   getHomeContent() {
@@ -123,6 +124,12 @@ export class LandingComponent implements OnInit, OnDestroy {
         };
       }
     });
+  }
+
+  sendNotificationLogin() {
+    if (this.storageService.getCurrentNotificationLogin() === '1') {
+      this.channelsApiService.sendNotificationLogin().subscribe();
+    }
   }
 
   onCardChanged(cardId: number) {
