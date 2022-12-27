@@ -63,6 +63,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.getValueActivateOrDisableDeliveryOption();
     this.getDeliveryTimeMessagesMarchamo();
+    this.placesRadioButtonChanged(0);
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
@@ -88,7 +89,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       this.pickUpForm.controls.phoneNumber.clearValidators();
       this.pickUpForm.controls.person.clearValidators();
       this.deliveryAmount = "0";
-    } else {
+    } else if(value === 2) {
       this.pickUpForm.controls.deliveryPlace.clearValidators();
       this.pickUpForm.controls.phoneNumber.setValidators([Validators.required]);
       this.pickUpForm.controls.person.setValidators([Validators.required]);
