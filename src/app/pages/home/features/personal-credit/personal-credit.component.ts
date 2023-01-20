@@ -136,7 +136,7 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit, OnDestroy
       commission: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.commission).toFixed(2),
       quota: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.quota).toFixed(2),
       term: this.requestForm.controls.term.value.toString(),
-      method: this.disbursementForm.controls.account.value === 0 ? 'Cheque' : 'Transferencia',
+      method: this.disbursementForm.controls.account.value === 0 ? 'Cheque' : 'Banco',
       bankAccount: this.disbursementForm.controls.account.value.toString(),
       total: ConvertStringAmountToNumber(this.personalCreditService.personalCreditSummary.totalPay).toFixed(2),
       ads: 'Revista Digital',
