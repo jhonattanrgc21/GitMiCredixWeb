@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http.service';
 import {Cacheable} from 'ngx-cacheable';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {StorageService} from './storage.service';
 import {Observable, Subject} from 'rxjs';
 import {AdditionalCard} from '../../shared/models/additional-card';
@@ -18,6 +18,7 @@ export class ChannelsApiService {
   private readonly thAddressesUri = 'channels/getaddressth';
   private readonly getSchedulePaymentsUri = 'schedulerpayment/getscheduledpays';
   private readonly getamountavailablecreditUri = 'channels/getamountavailablecredit';
+  private readonly notificationLogin = 'security/sendnotificationaccesslogin';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -120,5 +121,13 @@ export class ChannelsApiService {
           }
         })
       );
+  }
+  sendNotificationLogin(): Observable<'success' | 'error'> {
+    this.storageService.setCurrentNotificationLogin('0');
+    return this.httpService.post('canales', this.notificationLogin, {
+    }).pipe(
+      tap(response => {}),
+      map(response => response.type)
+    );
   }
 }
