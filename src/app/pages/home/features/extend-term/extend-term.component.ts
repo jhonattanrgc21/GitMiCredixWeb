@@ -21,16 +21,16 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
     {label: 'Ampliación', width: 'auto'}
   ];
   allowedMovementSelected: AllowedMovement;
-  allowedMovements: AllowedMovement[] = [{
-    originAmount: '2000',
-    originCurrency: '',
-    establishmentName: 'Casa popular',
-    cardId: 12345,
-    totalPlanQuota: 1,
-    accountNumber: 12345,
-    movementId: '1',
-    originDate: new Date().toString(),
-  }];
+  // allowedMovements: AllowedMovement[] = [{
+  //   originAmount: '2000',
+  //   originCurrency: '',
+  //   establishmentName: 'Casa popular',
+  //   cardId: 12345,
+  //   totalPlanQuota: 1,
+  //   accountNumber: 12345,
+  //   movementId: '1',
+  //   originDate: new Date().toString(),
+  // }];
   tabs = [
     {id: 1, name: 'Compras recientes'},
     {id: 2, name: 'Compras anteriores'},

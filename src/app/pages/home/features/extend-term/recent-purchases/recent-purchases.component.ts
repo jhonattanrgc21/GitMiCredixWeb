@@ -25,6 +25,10 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   ];
   allowedMovementSelected: AllowedMovement;
   allowedMovements: AllowedMovement[] = [];
+  promo = true;
+  promoMessage = 'Traslade una compra a \n' +
+    '3 cuotas cero interés sin comisión';
+  promoDescription = '¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un consumo a 3 cuotas cero interés sin ningún costo.';
   quotaAmountFromSelected: number;
   movementIdParam: string;
   quotas: ExtendTermQuota[];
@@ -57,6 +61,30 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   percentageCommission: string;
   feedPercentage: any;
   comissionUnique: boolean = false;
+  private promoMessages: string[] = [
+    'Descuento: 50%',
+    '¡Sin comisión!',
+    'Descuento: 25%',
+    '¡Totalmente Gratis!',
+  ];
+  private promosFreeCommission: boolean[] = [
+    false,
+    true,
+    false,
+    true,
+  ];
+  private promosDiscountCommission: boolean[] = [
+    true,
+    false,
+    true,
+    false,
+  ];
+  private promosAmountCommission: number[] = [
+    0.50,
+    0.0,
+    0.25,
+    0.0,
+  ];
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
   @ViewChild(CredixSliderComponent) credixSlider: CredixSliderComponent;
@@ -127,7 +155,23 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         if ( response?.result ) {
           this.empty = false;
-          this.allowedMovements = response.result;
+          this.allowedMovements = response.result.map((values, index) => {
+            return {
+              originAmount: values.originAmount,
+              originCurrency: values.originCurrency,
+              establishmentName: values.establishmentName,
+              cardId: values.cardId,
+              totalPlanQuota: values.totalPlanQuota,
+              accountNumber: values.accountNumber,
+              movementId: values.movementId,
+              originDate: values.originDate,
+              promoApply: (index < 4),
+              promoMessage: (index < 4) ? this.promoMessages[index] : null,
+              promoFreeCommission: (index < 4) ? this.promosFreeCommission[index] : null,
+              promoDiscountCommission: (index < 4) ? this.promosDiscountCommission[index] : null,
+              discountCommissionAmount: (index < 4) ? this.promosAmountCommission[index] : null
+            };
+          });
         } else {
           this.empty = true;
         }
