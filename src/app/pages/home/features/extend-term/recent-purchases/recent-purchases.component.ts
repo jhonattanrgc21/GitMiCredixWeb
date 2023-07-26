@@ -11,6 +11,7 @@ import {AllowedMovement} from '../../../../../shared/models/allowed-movement';
 import {ExtendTermService} from '../extend-term.service';
 import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/credix-slider.component';
 import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
+import {PopupPromoComponent} from "../popup-promo/popup-promo.component";
 
 @Component({
   selector: 'app-recent-purchases',
@@ -104,6 +105,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.getAllowedMovements();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
+    this.openModalPromo();
   }
 
   checkCutDate() {
@@ -282,7 +284,10 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
 
   openModalPromo() {
-    this.modalService.open({}, {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'});
+    this.modalService
+      .open(
+        { hideCloseButton: true, component: PopupPromoComponent},
+        {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'});
   }
 
 }
