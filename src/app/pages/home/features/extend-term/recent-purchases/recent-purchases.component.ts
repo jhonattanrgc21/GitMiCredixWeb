@@ -281,4 +281,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   }
 
 
+  openModalPromo() {
+    this.modalService.open({}, {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'});
+  }
+
 }

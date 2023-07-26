@@ -39,6 +39,7 @@ import { CredixCheckboxButtonComponent } from 'src/app/shared/components/credix-
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import { PreviousExtendComponent } from './previous-extend/previous-extend.component';
 import { ExtendTermPreviousSuccessComponent } from './extend-term-previous-success/extend-term-previous-success.component';
+import { PopupPromoComponent } from './popup-promo/popup-promo.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,7 @@ const routes: Routes = [
     ExtendTermSuccessScreenComponent,
     PreviousExtendComponent,
     ExtendTermPreviousSuccessComponent,
+    PopupPromoComponent,
   ],
   imports: [
     CommonModule,
