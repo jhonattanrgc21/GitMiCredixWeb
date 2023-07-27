@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {CredixConfirmationPopupComponent} from '../../shared/components/credix-confirmation-popup/credix-confirmation-popup.component';
 import {CredixPopupAlternativeComponent} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.component';
 import {CredixCalendarComponent} from '../../shared/components/credix-calendar/credix-calendar.component';
+import {CredixPopupPromoComponent} from "../../shared/components/credix-popup-promo/credix-popup-promo.component";
 
 @Injectable()
 export class ModalService {
@@ -24,7 +25,7 @@ export class ModalService {
   }
 
   public open(data: DialogData, options: DialogOptions = {width: 800, minHeight: 0, height: 200, disableClose: true},
-              modalType: 1 | 2 = 1): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
+              modalType: 1 | 2 | 3 = 1): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
     switch (modalType) {
       case 1:
         return this.dialog.open<CredixPopupComponent, DialogData>(
@@ -39,6 +40,14 @@ export class ModalService {
           CredixPopupAlternativeComponent,
           {
             ...ModalService.fetchOptions(options, 2),
+            data
+          }
+        );
+      case 3:
+        return this.dialog.open<CredixPopupPromoComponent, DialogData>(
+          CredixPopupPromoComponent,
+          {
+            ...ModalService.fetchOptions(options, 1),
             data
           }
         );
