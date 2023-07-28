@@ -27,6 +27,12 @@
 }
 
 
-   mat-dialog-container{
-
+::ng-deep div.promo-popup{
+  mat-dialog-container{
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px #00000029;
+    padding: 33px 16px 16px 16px ;
+    background-image: url("src/assets/images/confetti_3.png");
   }
+}

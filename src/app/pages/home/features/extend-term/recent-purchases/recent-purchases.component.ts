@@ -287,7 +287,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.modalService
       .open(
         { hideCloseButton: true, component: PopupPromoComponent},
-        {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'}, 3);
+        {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'}, 1);
   }
 
 }

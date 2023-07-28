@@ -32,15 +32,13 @@ import {CredixDividerModule} from '../../../../shared/directives/credix-divider/
 import {CredixResultViewModule} from '../../../../shared/components/credix-result-view/credix-result-view.module';
 import {ExtendTermService} from './extend-term.service';
 import {ExtendTermSuccessScreenComponent} from './extend-term-success-screen/extend-term-success-screen.component';
-import { TablesDirectivesModule } from 'src/app/shared/directives/tables/tables-directives.module';
+import {TablesDirectivesModule} from 'src/app/shared/directives/tables/tables-directives.module';
 import {CredixPaginatorModule} from '../../../../shared/components/credix-paginator/credix-paginator.module';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { CredixCheckboxButtonComponent } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.component';
-import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
-import { PreviousExtendComponent } from './previous-extend/previous-extend.component';
-import { ExtendTermPreviousSuccessComponent } from './extend-term-previous-success/extend-term-previous-success.component';
-import { PopupPromoComponent } from './popup-promo/popup-promo.component';
-import {CredixPopupPromoModule} from '../../../../shared/components/credix-popup-promo/credix-popup-promo.module';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {CredixCheckboxButtonModule} from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
+import {PreviousExtendComponent} from './previous-extend/previous-extend.component';
+import {ExtendTermPreviousSuccessComponent} from './extend-term-previous-success/extend-term-previous-success.component';
+import {PopupPromoComponent} from './popup-promo/popup-promo.component';
 
 const routes: Routes = [
   {
@@ -93,7 +91,6 @@ const routes: Routes = [
     FlexModule,
     RouterModule.forChild(routes),
     CredixPopupModule,
-    CredixPopupPromoModule,
     CredixConfirmationPopupModule,
     CredixButtonModule,
     MatCardModule,
