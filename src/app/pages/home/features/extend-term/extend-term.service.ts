@@ -95,6 +95,7 @@ export class ExtendTermService {
                 purchaseAmount: '0,00',
                 IVA: '0,00',
                 commissionAmount: '0,00',
+                commissionAmountDilute: '0,00',
                 commissionPercentage: '0,00',
               }, ...response.listQuota];
             } else {

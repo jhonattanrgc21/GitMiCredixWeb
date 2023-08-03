@@ -77,13 +77,13 @@ export class PreviousExtendComponent implements OnInit {
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
 
-              const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
+              const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmountDilute );
 
               const aux = [...this.quotas];
 
               aux.shift();
               
-              this.result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
+              this.result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmountDilute ) !== commission);
             }
           }
         );

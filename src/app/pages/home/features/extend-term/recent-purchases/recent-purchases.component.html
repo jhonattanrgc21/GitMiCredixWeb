@@ -88,7 +88,7 @@
             <div [ngClass]="{'extend-term__text-disabled' :
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
-                                    [value]="quotaSelected?.commissionAmount"
+                                    [value]="quotaSelected?.commissionAmountDilute"
                                     fontSize="16" fontWeight="bold"></credix-numeric-block>
             </div>
           </div>

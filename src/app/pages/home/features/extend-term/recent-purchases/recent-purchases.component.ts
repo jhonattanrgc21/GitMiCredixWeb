@@ -162,13 +162,13 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
     this.quotaSelected = quota || this.quotas[0];
 
-    const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
+    const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmountDilute );
 
     const aux = [...this.quotas];
 
     aux.shift();
 
-    const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
+    const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmountDilute ) !== commission);
 
     this.feedPercentage = this.quotaSelected?.feePercentage === 0 ? this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
 
