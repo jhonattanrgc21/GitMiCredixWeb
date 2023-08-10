@@ -11,7 +11,7 @@ import {AllowedMovement} from '../../../../../shared/models/allowed-movement';
 import {ExtendTermService} from '../extend-term.service';
 import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/credix-slider.component';
 import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
-import {PopupPromoComponent} from "../popup-promo/popup-promo.component";
+import {PopupPromoComponent} from '../popup-promo/popup-promo.component';
 
 @Component({
   selector: 'app-recent-purchases',
@@ -26,10 +26,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   ];
   allowedMovementSelected: AllowedMovement;
   allowedMovements: AllowedMovement[] = [];
-  promo = true;
-  promoMessage = 'Traslade una compra a \n' +
-    '3 cuotas cero interés sin comisión';
-  promoDescription = '¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un consumo a 3 cuotas cero interés sin ningún costo.';
   quotaAmountFromSelected: number;
   movementIdParam: string;
   quotas: ExtendTermQuota[];
@@ -62,30 +58,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   percentageCommission: string;
   feedPercentage: any;
   comissionUnique: boolean = false;
-  private promoMessages: string[] = [
-    'Descuento: 50%',
-    '¡Sin comisión!',
-    'Descuento: 25%',
-    '¡Totalmente Gratis!',
-  ];
-  private promosFreeCommission: boolean[] = [
-    false,
-    true,
-    false,
-    true,
-  ];
-  private promosDiscountCommission: boolean[] = [
-    true,
-    false,
-    true,
-    false,
-  ];
-  private promosAmountCommission: number[] = [
-    0.50,
-    0.0,
-    0.25,
-    0.0,
-  ];
+
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
   @ViewChild(CredixSliderComponent) credixSlider: CredixSliderComponent;
@@ -105,7 +78,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.getAllowedMovements();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
-    this.openModalPromo();
   }
 
   checkCutDate() {
@@ -156,6 +128,10 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => this.checkMovementParam()))
       .subscribe(response => {
         if ( response?.result ) {
+          console.log(response);
+          if (response.promo) {
+            this.openModalPromo(response.promoDescription, response.promoMessage);
+          }
           this.empty = false;
           this.allowedMovements = response.result.map((values, index) => {
             return {
@@ -167,11 +143,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
               accountNumber: values.accountNumber,
               movementId: values.movementId,
               originDate: values.originDate,
-              promoApply: (index < 4),
-              promoMessage: (index < 4) ? this.promoMessages[index] : null,
-              promoFreeCommission: (index < 4) ? this.promosFreeCommission[index] : null,
-              promoDiscountCommission: (index < 4) ? this.promosDiscountCommission[index] : null,
-              discountCommissionAmount: (index < 4) ? this.promosAmountCommission[index] : null
+              promoApply: (values.promoAppy) ? values.promoAppy : false,
+              promoMessage: (values.promoMessage) ? values.promoMessage : ''
             };
           });
         } else {
@@ -283,10 +256,13 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   }
 
 
-  openModalPromo() {
+  openModalPromo(promoDescription: string, promoMessage: string) {
     this.modalService
       .open(
-        { hideCloseButton: true, component: PopupPromoComponent},
+        { data: {
+            promoDescription,
+            promoMessage
+          }, hideCloseButton: true, component: PopupPromoComponent},
         {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'}, 1);
   }
 

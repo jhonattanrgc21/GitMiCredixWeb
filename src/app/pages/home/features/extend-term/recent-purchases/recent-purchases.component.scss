@@ -116,6 +116,11 @@
 
     &__promo-apply {
       color: #19D27E;
+      &__selected {
+        width:55%;
+        color: #19D27E;
+        text-overflow: clip;
+      }
       ::ng-deep{
         .credix-numeric-block{
           &__integer{

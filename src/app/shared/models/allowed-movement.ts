@@ -9,7 +9,4 @@ export interface AllowedMovement {
   originDate: string;
   promoApply: boolean;
   promoMessage: string;
-  promoFreeCommission: boolean;
-  promoDiscountCommission: boolean;
-  discountCommissionAmount: number;
 }

@@ -24,7 +24,7 @@ export class ModalService {
   }
 
   public open(data: DialogData, options: DialogOptions = {width: 800, minHeight: 0, height: 200, disableClose: true},
-              modalType: 1 | 2 | 3 = 1): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
+              modalType: 1 | 2 = 1): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
     switch (modalType) {
       case 1:
         return this.dialog.open<CredixPopupComponent, DialogData>(
