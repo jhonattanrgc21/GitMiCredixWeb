@@ -10,4 +10,5 @@ export interface ExtendTermQuota {
   commissionAmount: string,
   commissionAmountDilute: string,
   commissionPercentage: string,
+  isCommissionMonthly: boolean
 }

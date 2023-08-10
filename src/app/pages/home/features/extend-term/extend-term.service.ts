@@ -97,6 +97,7 @@ export class ExtendTermService {
                 commissionAmount: '0,00',
                 commissionAmountDilute: '0,00',
                 commissionPercentage: '0,00',
+                isCommissionMonthly: response.listQuota[0].isCommissionMonthly
               }, ...response.listQuota];
             } else {
               return [];

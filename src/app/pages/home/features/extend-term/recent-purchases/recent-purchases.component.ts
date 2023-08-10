@@ -55,6 +55,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   title: string;
   iva: number;
   percentageCommission: string;
+  commissionMonthly: string = '';
   feedPercentage: any;
   comissionUnique: boolean = false;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
@@ -117,6 +118,12 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.iva = this.quotaSelected.quotaTo === 1 ?
       ConvertStringAmountToNumber(this.quotas[1].commissionAmount) * 0.13 : ConvertStringAmountToNumber(this.quotaSelected.IVA);
     if (!this.comissionUnique) {
+      if(this.quotaSelected?.isCommissionMonthly){
+        this.commissionMonthly = ' mensual';
+      }
+      else{
+        this.commissionMonthly = '';
+      }
       this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
     }
   }
@@ -176,6 +183,12 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       this.comissionUnique = true;
       this.percentageCommission = '';
     } else {
+      if(this.quotaSelected?.isCommissionMonthly){
+        this.commissionMonthly = ' mensual';
+      }
+      else{
+        this.commissionMonthly = '';
+      }
       this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
     }
 

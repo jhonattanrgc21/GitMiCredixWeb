@@ -63,7 +63,7 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{comissionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%)' }}
+            <span fxFlex>{{comissionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%' + commissionMonthly + ')' }}
             </span>
             <credix-numeric-block
               [value]="movementQuotaSummary?.commissionAmountDilute"

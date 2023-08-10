@@ -42,6 +42,7 @@ export class PreviousExtendComponent implements OnInit {
   percentageCommission: string = '';
   feedPercentage : any;
   result: any;
+  commissionMonthly: string = '';
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -101,6 +102,12 @@ export class PreviousExtendComponent implements OnInit {
     if ( !this.result ) {
       this.percentageCommission = '';
     } else {
+      if(this.movementQuotaSummary.isCommissionMonthly){
+        this.commissionMonthly = ' mensual';
+      }
+      else{
+        this.commissionMonthly = '';
+      }
       this.percentageCommission =  this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
     }
   }

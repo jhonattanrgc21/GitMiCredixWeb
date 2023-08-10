@@ -84,7 +84,7 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <p fxFlex="auto">{{comisionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%)' }}</p>
+            <p fxFlex="auto">{{comisionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%' + commissionMonthly +  ')' }}</p>
             <div [ngClass]="{'extend-term__text-disabled' :
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
