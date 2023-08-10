@@ -56,7 +56,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   iva: number;
   percentageCommission: string;
   commissionMonthly: string = '';
-  feedPercentage: any;
+  feedPercentage: string;
   comissionUnique: boolean = false;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
@@ -112,8 +112,9 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
     this.quotaSelected = this.quotas[sliderValue - 1];
     console.log("quota: ", this.quotaSelected);
-    this.feedPercentage = this.quotaSelected?.feePercentage === 0 ?
-      this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
+    this.feedPercentage = String(this.quotaSelected?.feePercentage === 0 ?
+      this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage));
+    this.feedPercentage =     this.feedPercentage.replace('.', ',');
 
     this.iva = this.quotaSelected.quotaTo === 1 ?
       ConvertStringAmountToNumber(this.quotas[1].commissionAmount) * 0.13 : ConvertStringAmountToNumber(this.quotaSelected.IVA);
@@ -124,7 +125,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       else{
         this.commissionMonthly = '';
       }
-      this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
+      this.percentageCommission = String(this.convertAmountValue(this.quotaSelected?.commissionPercentage)); 
+      this.percentageCommission = this.percentageCommission.replace('.', ',');
     }
   }
 
@@ -177,7 +179,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
     const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmountDilute ) !== commission);
 
-    this.feedPercentage = this.quotaSelected?.feePercentage === 0 ? this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage);
+    this.feedPercentage = String(this.quotaSelected?.feePercentage === 0 ? this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage));
+    this.feedPercentage =  this.feedPercentage.replace('.', ',');
 
     if ( !result ) {
       this.comissionUnique = true;
@@ -189,7 +192,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       else{
         this.commissionMonthly = '';
       }
-      this.percentageCommission = this.convertAmountValue(this.quotaSelected?.commissionPercentage);
+      this.percentageCommission = String(this.convertAmountValue(this.quotaSelected?.commissionPercentage)) ;
+      this.percentageCommission.replace('.', ',');
     }
 
     this.iva = commission * 0.13;

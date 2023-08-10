@@ -40,7 +40,7 @@ export class PreviousExtendComponent implements OnInit {
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
   percentageCommission: string = '';
-  feedPercentage : any;
+  feedPercentage : string;
   result: any;
   commissionMonthly: string = '';
 
@@ -97,7 +97,8 @@ export class PreviousExtendComponent implements OnInit {
 
   selectMovementQuotaSummary() {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
-    this.feedPercentage = this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage);
+    this.feedPercentage = String(this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage));
+    this.feedPercentage = this.feedPercentage .replace('.', ',');
     
     if ( !this.result ) {
       this.percentageCommission = '';
@@ -108,7 +109,8 @@ export class PreviousExtendComponent implements OnInit {
       else{
         this.commissionMonthly = '';
       }
-      this.percentageCommission =  this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
+      this.percentageCommission =  String(this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage));
+      this.percentageCommission = this.percentageCommission .replace('.', ',');
     }
   }
   
