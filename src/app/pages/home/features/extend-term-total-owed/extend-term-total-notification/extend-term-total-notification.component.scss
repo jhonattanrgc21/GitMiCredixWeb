@@ -19,3 +19,19 @@
         width: 287px !important;
     }
 }
+
+.notification-warn {
+  ::ng-deep svg.credix-result-notification__icon {
+    width: 100px;
+    height: 100px;
+    .result-notification-exclamation-red {
+      fill: #ffdc49;
+    }
+  }
+
+  ::ng-deep span.credix-result-notification__message {
+      width: 287px !important;
+  }
+}
+
+

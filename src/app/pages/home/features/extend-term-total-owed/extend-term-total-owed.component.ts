@@ -97,11 +97,10 @@ export class ExtendTermTotalOwedComponent implements OnInit {
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
             } else {
-              const message = 'En este momento su cuenta no aplica para este producto.';
-              
               this.extendTermTotalOwedService.result = {
-                status: 'error',
-                message,
+                status: response.type,
+                title: response.title,
+                message: response.message,
               };
 
               this.router.navigate([`/home/extend-term-total-debt/extend-term-total-notification-success`]);
@@ -129,8 +128,9 @@ export class ExtendTermTotalOwedComponent implements OnInit {
             const message = response.title === 'success' ? 'El plazo de su total adeudado ha sido extendido correctamente. Estará reflejado en su próximo estado de cuenta. Le estaremos enviando un correo con los detalles del producto próximamente.'
                                                         : 'Ocurrió un error. Favor vuelva a intentar.';
             this.extendTermTotalOwedService.result = {
-              status: response.title,
-              message,
+              status: response.type,
+              title: response.title,
+              message: response.message,
             };
   
             this.extendTermTotalOwedService.newQuota = {
