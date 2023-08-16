@@ -13,13 +13,13 @@ export class ExtendTermTotalOwedApiService {
   // public result: {title: string, message: string, status: string} = null;
 
   // tslint:disable-next-line:variable-name
-  public _result: { status: 'success' | 'error'; message: string };
+  public _result: { status: string; title: string; message: string };
 
-  get result(): { status: 'success' | 'error'; message: string } {
+  get result(): { status: string; title: string; message: string } {
     return this._result;
   }
 
-  set result(result: { status: 'success' | 'error'; message: string }) {
+  set result(result: { status: string; title: string; message: string }) {
     this._result = result;
   }
 
@@ -63,7 +63,9 @@ export class ExtendTermTotalOwedApiService {
     );
   }
 
-  saveExtendTotalDebit(quota: number, productId: number): Observable<{title: 'success' | 'error', type: string, status: number, message: string,}> {
+  saveExtendTotalDebit(quota: number, productId: number): Observable<{
+    title: string, type: string, status: number, message: string,
+}> {
     return this.httpService.post('canales', this.saveExtendTotalDebitUri, {
       channelId : 101,
       accountId : this.storageService.getCurrentUser().actId,
@@ -72,8 +74,8 @@ export class ExtendTermTotalOwedApiService {
   })
     .pipe(
       map(response => ({
-          title: response.type,
-          type: response.titleOne,
+          title: response.titleOne,
+          type: response.type,
           status: response.status,
           message: response.message,
       }))
