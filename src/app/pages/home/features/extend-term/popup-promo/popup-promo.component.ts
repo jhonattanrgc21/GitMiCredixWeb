@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-popup-promo',
@@ -8,7 +8,14 @@ import {MatDialogRef} from '@angular/material/dialog';
 })
 export class PopupPromoComponent implements OnInit, OnDestroy {
 
-  constructor(public dialogRef: MatDialogRef<PopupPromoComponent>) { }
+  promoDescription: string;
+  promoMessage: string;
+  constructor(public dialogRef: MatDialogRef<PopupPromoComponent>, @Inject(MAT_DIALOG_DATA) public dataModal) {
+    const { data } = dataModal;
+    const {promoMessage, promoDescription} = data;
+    this.promoDescription = promoDescription;
+    this.promoMessage = promoMessage;
+  }
 
   ngOnInit(): void {
   }

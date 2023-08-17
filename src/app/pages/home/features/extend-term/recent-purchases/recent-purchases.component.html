@@ -60,7 +60,7 @@
 
           <div fxLayout='row' fxLayoutGap='16px'>
             <p class="mb-8px"><strong>{{subtitle || 'Modifique su plazo'}}</strong></p>
-            <p class="mb-8px" *ngIf='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo <= quotaPromoMax)' [class.extend-term__promo-apply__selected]='allowedMovementSelected.promoApply'><strong>{{allowedMovementSelected.promoMessage}}</strong></p>
+            <p class="mb-8px" *ngIf='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo === quotaPromoMax)' [class.extend-term__promo-apply__selected]='allowedMovementSelected.promoApply'><strong>{{allowedMovementSelected.promoMessage}}</strong></p>
           </div>
           <credix-slider (inputChange)="getQuota($event)"
                          (valueChange)="getQuota($event)"
@@ -98,7 +98,7 @@
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
                                     [value]="quotaSelected?.commissionAmount"
-                                    fontSize="16" fontWeight="bold" [class.extend-term__promo-apply]='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo != 1 && quotaSelected?.quotaTo <= quotaPromoMax)'></credix-numeric-block>
+                                    fontSize="16" fontWeight="bold" [class.extend-term__promo-apply]='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo != 1 && quotaSelected?.quotaTo == quotaPromoMax)'></credix-numeric-block>
             </div>
           </div>
 
