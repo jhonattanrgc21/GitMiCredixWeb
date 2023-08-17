@@ -84,6 +84,11 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
     this.extendTermService.unsubscribe();
   }
 
+  filterRecentPromo({source, checked}) {
+   this.extendTermService.setFilterPromo(checked);
+  }
+
+
   tabSelected(tab) {
     if ( tab.id === 1 ) {
       this.activeTabIndex = 1;
