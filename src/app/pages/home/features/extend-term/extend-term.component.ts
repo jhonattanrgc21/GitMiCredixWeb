@@ -21,16 +21,16 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
     {label: 'Ampliación', width: 'auto'}
   ];
   allowedMovementSelected: AllowedMovement;
-  allowedMovements: AllowedMovement[] = [{
-    originAmount: '2000',
-    originCurrency: '',
-    establishmentName: 'Casa popular',
-    cardId: 12345,
-    totalPlanQuota: 1,
-    accountNumber: 12345,
-    movementId: '1',
-    originDate: new Date().toString(),
-  }];
+  // allowedMovements: AllowedMovement[] = [{
+  //   originAmount: '2000',
+  //   originCurrency: '',
+  //   establishmentName: 'Casa popular',
+  //   cardId: 12345,
+  //   totalPlanQuota: 1,
+  //   accountNumber: 12345,
+  //   movementId: '1',
+  //   originDate: new Date().toString(),
+  // }];
   tabs = [
     {id: 1, name: 'Compras recientes'},
     {id: 2, name: 'Compras anteriores'},
@@ -83,6 +83,11 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.extendTermService.unsubscribe();
   }
+
+  filterRecentPromo({source, checked}) {
+   this.extendTermService.setFilterPromo(checked);
+  }
+
 
   tabSelected(tab) {
     if ( tab.id === 1 ) {

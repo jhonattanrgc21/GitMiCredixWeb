@@ -1,0 +1,38 @@
+.promo-popup{
+  &__img-background{
+  }
+
+  &__icon{
+    z-index: 1;
+  }
+
+  &__description{
+    font-size: 24px;
+    line-height: 35.25px;
+    z-index: 1;
+    text-align: center;
+  }
+
+  &__message{
+    text-align: center;
+    font-size: 16px;
+    line-height: 23.5px;
+    z-index: 1;
+  }
+
+  &__button{
+    width: 311px;
+    height: 44px;
+  }
+}
+
+
+::ng-deep div.promo-popup{
+  mat-dialog-container{
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px #00000029;
+    padding: 33px 16px 16px 16px ;
+    background-image: url("src/assets/images/confetti_3.png");
+  }
+}

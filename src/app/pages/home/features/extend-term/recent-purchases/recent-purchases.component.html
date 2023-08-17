@@ -20,9 +20,16 @@
                                     fontWeight="allowedMovementSelected?.id == option.id ? 'bold': 'normal'"></credix-numeric-block>
               a {{ allowedMovement.totalPlanQuota }} cuotas
             </span>
-
           <span *ngIf="allowedMovementSelected?.movementId == allowedMovement.movementId"
                 class="extend-term__option__arrow"></span>
+
+          <span *ngIf='allowedMovement.promoApply'
+                [class.extend-term__promo-apply]='allowedMovement.promoApply'
+                class="extend-term__content__subtitle">
+              {{ allowedMovement.promoMessage }}
+            </span>
+
+
         </a>
       </div>
     </ngx-simplebar>
@@ -51,8 +58,10 @@
 
         <div class="mt-16px" fxLayout="column" fxLayoutGap="16px">
 
-          <p class="mb-8px"><strong>{{subtitle || 'Modifique su plazo'}}</strong></p>
-
+          <div fxLayout='row' fxLayoutGap='16px'>
+            <p class="mb-8px"><strong>{{subtitle || 'Modifique su plazo'}}</strong></p>
+            <p class="mb-8px" *ngIf='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo === quotaPromoMax)' [class.extend-term__promo-apply__selected]='allowedMovementSelected.promoApply'><strong>{{allowedMovementSelected.promoMessage}}</strong></p>
+          </div>
           <credix-slider (inputChange)="getQuota($event)"
                          (valueChange)="getQuota($event)"
                          [displayMax]="quotaSliderDisplayMax"
@@ -89,7 +98,7 @@
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
                                     [value]="quotaSelected?.commissionAmountDilute"
-                                    fontSize="16" fontWeight="bold"></credix-numeric-block>
+                                    fontSize="16" fontWeight="bold" [class.extend-term__promo-apply]='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo != 1 && quotaSelected?.quotaTo == quotaPromoMax)'></credix-numeric-block>
             </div>
           </div>
 
@@ -146,5 +155,6 @@
     [title]="title">
   </credix-result-notification>
 </ng-template>
+
 
 <ng-container [ngTemplateOutlet]="template"></ng-container>

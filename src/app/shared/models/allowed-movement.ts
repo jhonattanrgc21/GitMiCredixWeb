@@ -7,4 +7,6 @@ export interface AllowedMovement {
   accountNumber: number;
   movementId: string;
   originDate: string;
+  promoApply: boolean;
+  promoMessage: string;
 }
