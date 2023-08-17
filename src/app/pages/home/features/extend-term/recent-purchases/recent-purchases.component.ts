@@ -177,7 +177,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => this.checkMovementParam()))
       .subscribe(response => {
         if ( response?.result ) {
-          console.log(response);
           if (response.promo) {
             this.openModalPromo(response.promoDescription, response.promoMessage);
           }

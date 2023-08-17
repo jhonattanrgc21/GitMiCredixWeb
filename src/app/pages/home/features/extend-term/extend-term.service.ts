@@ -123,7 +123,6 @@ export class ExtendTermService {
         map(response => {
           this.quotaPromoMin = response.quotaPromoMin;
           this.quotaPromoMax = response.quotaPromoMax;
-          console.log(response);
           if ( response?.listQuota ) {
               return [{
                 feeAmount: '0,00',
