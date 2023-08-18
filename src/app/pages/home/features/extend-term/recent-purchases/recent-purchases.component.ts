@@ -318,7 +318,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
             promoDescription,
             promoMessage
           }, hideCloseButton: true, component: PopupPromoComponent},
-        {width: 343, height: 390 + ((screen.height <= 1080) ? (screen.height * 0.04) : (screen.height * 0.03)), disableClose: false, panelClass: 'promo-popup'}, 1);
+        {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'}, 1);
   }
-
 }

@@ -6,7 +6,7 @@
 
   <div fxLayout='row' fxLayoutGap='40px'>
     <credix-tab [ngClass]="{'mb-16px': activeTabIndex === 2 ? true : false}" (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex -1]" [tabs]="tabs"></credix-tab>
-    <credix-checkbox-button label='Ver promos' (emitCheckBox)='filterRecentPromo($event)'></credix-checkbox-button>
+    <credix-checkbox-button *ngIf='!hideButtonPromoFilter' label='Ver promos' (emitCheckBox)='filterRecentPromo($event)'></credix-checkbox-button>
   </div>
 
   <router-outlet></router-outlet>

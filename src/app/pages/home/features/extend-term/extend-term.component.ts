@@ -65,6 +65,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   newQuota: string;
   resultNew: string;
   title: string;
+  hideButtonPromoFilter: boolean;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
 
@@ -78,6 +79,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getHidePromoFilter();
   }
 
   ngOnDestroy(): void {
@@ -97,5 +99,13 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
       this.activeTabIndex = 2;
       this.router.navigate(['home/extend-term/previous']);
     }
+  }
+
+  getHidePromoFilter() {
+    this.extendTermService.$hidePromoFilter
+      .subscribe(response => {
+        console.log(response);
+        this.hideButtonPromoFilter = response;
+      });
   }
 }
