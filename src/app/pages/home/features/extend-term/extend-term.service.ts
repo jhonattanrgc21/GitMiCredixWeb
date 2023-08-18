@@ -12,11 +12,15 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 export class ExtendTermService {
 
   get $allowedMovement(): Observable<AllowedMovement[]> {
-    return this._allowedMovementsState.asObservable();
+    return this.$allowedMovementsState.asObservable();
   }
 
   get $promoFilter(): Observable<boolean> {
-    return this._filterPromo.asObservable();
+    return this.$filterPromo.asObservable();
+  }
+
+  get $hidePromoFilter(): Observable<boolean> {
+    return this.$hideButtonPromoFilter.asObservable();
   }
 
   get movementsSelected(): number[] {
@@ -57,8 +61,9 @@ export class ExtendTermService {
 
   // tslint:disable-next-line:variable-name
   _movementsSelected: number[] = [];
-  private _allowedMovementsState: Subject<AllowedMovement[]> = new BehaviorSubject<AllowedMovement[]>([]);
-  private _filterPromo: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private $allowedMovementsState: Subject<AllowedMovement[]> = new Subject<AllowedMovement[]>();
+  private $filterPromo: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private $hideButtonPromoFilter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _quotaPromoMin: number;
   private _quotaPromoMax: number;
 
@@ -85,11 +90,15 @@ export class ExtendTermService {
   _newQuota: { establishment: string; currency: string; amount: string; quota: number };
 
   setFilterPromo(checked: boolean) {
-    this._filterPromo.next(checked);
+    this.$filterPromo.next(checked);
   }
 
   setAllowedMovements(allowedMovements: AllowedMovement[]) {
-    this._allowedMovementsState.next(allowedMovements);
+    this.$allowedMovementsState.next(allowedMovements);
+  }
+
+  setHidePromoButtonFilter(hide: boolean) {
+    this.$hideButtonPromoFilter.next(hide);
   }
 
   checkCutDate() {
@@ -104,6 +113,12 @@ export class ExtendTermService {
     })
       .pipe(
         map((response) => {
+            if ((response?.result) && productId === 1004 && response.type === 'success') {
+                this.setHidePromoButtonFilter(false);
+            } else {
+              this.setHidePromoButtonFilter(true);
+            }
+
             if ( response.type === 'success' ) {
               this.setAllowedMovements(response.result);
               return response;

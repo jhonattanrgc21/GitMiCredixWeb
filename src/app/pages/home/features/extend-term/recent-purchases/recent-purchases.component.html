@@ -130,7 +130,7 @@
 
       </div>
 
-      <div fxLayout="row" style="padding-right: 16px;" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+      <div fxLayout="row" style="padding-right: 16px; padding-bottom: 16px" fxLayoutAlign="flex-end" fxLayoutGap="16px">
         <credix-button (buttonClick)="openConfirmationModal()" *ngIf="allowedMovementSelected"
                        [disabled]="allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo">
           Ampliar plazo
