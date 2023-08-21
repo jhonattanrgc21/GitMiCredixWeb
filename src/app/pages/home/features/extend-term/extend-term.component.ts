@@ -66,6 +66,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   resultNew: string;
   title: string;
   hideButtonPromoFilter: boolean;
+  disableCheckBox: boolean;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
 
@@ -80,6 +81,7 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getHidePromoFilter();
+    this.getDisabledCheckBox();
   }
 
   ngOnDestroy(): void {
@@ -107,5 +109,12 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
         console.log(response);
         this.hideButtonPromoFilter = response;
       });
+  }
+
+  getDisabledCheckBox() {
+    this.extendTermService.$disabledCheckBox.subscribe( response => {
+      console.log(response);
+      this.disableCheckBox = response;
+    });
   }
 }

@@ -61,6 +61,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   comissionUnique: boolean = false;
   quotaPromoMin = 0;
   quotaPromoMax = 0;
+  private counterPromo = 0;
 
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
@@ -106,6 +107,10 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     combineLatest(this.extendTermService.$allowedMovement, this.extendTermService.$promoFilter)
       .pipe(map(([allowedMovementState, filterPromoState]) => {
         const allowedMovementAux: AllowedMovement[] = allowedMovementState.map((values, index) => {
+          if (values.promoApply) {
+            this.counterPromo += 1;
+            console.log(this.counterPromo);
+          }
           return {
             originAmount: values.originAmount,
             originCurrency: values.originCurrency,
@@ -120,25 +125,17 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
           };
         });
 
+        console.log(allowedMovementAux.length);
+        if (this.counterPromo === allowedMovementAux.length) {
+          this.extendTermService.setDisabledCheckBox(true);
+        }
+
         if (filterPromoState) {
           console.log('filtrando');
           return allowedMovementAux.filter( obj => (obj.promoApply));
         } else {
           console.log('sin filtrar');
-          return allowedMovementState.map((values, index) => {
-            return {
-              originAmount: values.originAmount,
-              originCurrency: values.originCurrency,
-              establishmentName: values.establishmentName,
-              cardId: values.cardId,
-              totalPlanQuota: values.totalPlanQuota,
-              accountNumber: values.accountNumber,
-              movementId: values.movementId,
-              originDate: values.originDate,
-              promoApply: (values.promoApply) ? values.promoApply : false,
-              promoMessage: (values.promoMessage) ? values.promoMessage : ''
-            };
-          });
+          return allowedMovementAux;
         }
       })).subscribe( (response) => {
       this.allowedMovements  = response;
