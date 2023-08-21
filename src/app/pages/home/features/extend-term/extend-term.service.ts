@@ -11,18 +11,6 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 @Injectable()
 export class ExtendTermService {
 
-  get $allowedMovement(): Observable<AllowedMovement[]> {
-    return this.$allowedMovementsState.asObservable();
-  }
-
-  get $promoFilter(): Observable<boolean> {
-    return this.$filterPromo.asObservable();
-  }
-
-  get $hidePromoFilter(): Observable<boolean> {
-    return this.$hideButtonPromoFilter.asObservable();
-  }
-
   get movementsSelected(): number[] {
     return this._movementsSelected;
   }
@@ -64,8 +52,29 @@ export class ExtendTermService {
   private $allowedMovementsState: Subject<AllowedMovement[]> = new Subject<AllowedMovement[]>();
   private $filterPromo: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private $hideButtonPromoFilter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private $disableCheckBoxState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _quotaPromoMin: number;
   private _quotaPromoMax: number;
+
+  get $allowedMovement(): Observable<AllowedMovement[]> {
+    return this.$allowedMovementsState.asObservable();
+  }
+
+  get $promoFilter(): Observable<boolean> {
+    return this.$filterPromo.asObservable();
+  }
+
+  get $hidePromoFilter(): Observable<boolean> {
+    return this.$hideButtonPromoFilter.asObservable();
+  }
+
+  get $disabledCheckBox(): Observable<boolean> {
+    return this.$disableCheckBoxState.asObservable();
+  }
+
+  setDisabledCheckBox(value: boolean) {
+    this.$disableCheckBoxState.next(value);
+  }
 
   get quotaPromoMin() {
     return this._quotaPromoMin;
