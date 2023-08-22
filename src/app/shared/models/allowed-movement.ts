@@ -8,5 +8,6 @@ export interface AllowedMovement {
   movementId: string;
   originDate: string;
   promoApply: boolean;
-  promoMessage: string;
+  promoMessage?: string;
+  promoDiscountMessage?: string;
 }

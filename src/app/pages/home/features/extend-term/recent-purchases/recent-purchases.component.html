@@ -60,7 +60,7 @@
 
           <div fxLayout='row' fxLayoutGap='16px'>
             <p class="mb-8px"><strong>{{subtitle || 'Modifique su plazo'}}</strong></p>
-            <p class="mb-8px" *ngIf='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo === quotaPromoMax)' [class.extend-term__promo-apply__selected]='allowedMovementSelected.promoApply'><strong>{{allowedMovementSelected.promoMessage}}</strong></p>
+            <p class="mb-8px" *ngIf='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo === quotaPromoMax)' [class.extend-term__promo-apply__selected]='allowedMovementSelected.promoApply'><strong>{{allowedMovementSelected?.promoDiscountMessage}}</strong></p>
           </div>
           <credix-slider (inputChange)="getQuota($event)"
                          (valueChange)="getQuota($event)"
