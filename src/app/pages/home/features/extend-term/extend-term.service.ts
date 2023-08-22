@@ -122,7 +122,7 @@ export class ExtendTermService {
     })
       .pipe(
         map((response) => {
-            if ((response?.result) && productId === 1004 && response.type === 'success') {
+            if ((response?.result) && productId === 1004 && response.type === 'success' && response.promoApply) {
                 this.setHidePromoButtonFilter(false);
             } else {
               this.setHidePromoButtonFilter(true);
