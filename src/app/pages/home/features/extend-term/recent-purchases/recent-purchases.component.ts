@@ -122,11 +122,11 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
             movementId: values.movementId,
             originDate: values.originDate,
             promoApply: (values.promoApply) ? values.promoApply : false,
-            promoMessage: (values.promoMessage) ? values.promoMessage : ''
+            promoMessage: (values.promoMessage) ? values.promoMessage : '',
+            promoDiscountMessage: (values.promoDiscountMessage) ? values.promoDiscountMessage : ''
           };
         });
 
-        console.log(allowedMovementAux.length);
         if (this.counterPromo === allowedMovementAux.length) {
           this.extendTermService.setDisabledCheckBox(true);
         }
