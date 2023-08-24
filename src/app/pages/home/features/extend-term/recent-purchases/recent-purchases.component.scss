@@ -116,9 +116,18 @@
 
     &__promo-apply {
       color: #19D27E;
+
+      &__subtitle {
+        font-size: 12px;
+        font-weight: bold;
+        color: #19D27E;
+      }
+
       &__selected {
         width:55%;
         color: #19D27E;
+        font-weight: bold;
+        font-size: 12px;
         text-overflow: clip;
       }
       ::ng-deep{
