@@ -42,7 +42,19 @@
       <credix-numeric-block [prefix]="prefix" [value]="accountSummary?.limit" fontSize="24"></credix-numeric-block>
       <credix-link-button (click)="openIncreaseLimitModal()">{{balancesTag.increaseCreditLimitTag}}</credix-link-button>
     </div>
+
   </div>
+
+  <ng-container *ngIf="isEnablePersonalCredit">
+    <div class="w-100" fxLayout="row">
+      <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-start">
+        <span class="balances-card__tag">{{balancesTag.personalCreditAvailable}}</span>
+        <credix-numeric-block [prefix]="prefix" [value]="accountSummary?.personalcreditavailable" fontSize="24"></credix-numeric-block>
+        <credix-link-button (click)="openApplyforcreditModal()" [disabled]="disablelinkapplyforcredit">{{balancesTag.linkapplyforcredit}}</credix-link-button>
+      </div>
+    </div>
+  </ng-container>
+
 
   <span class="balances-card__legend mt-8px" fxFlexAlign="flex-start" [class.legend-offline]="accountSummary.onLine === 0">{{accountSummary.legend}}</span>
 

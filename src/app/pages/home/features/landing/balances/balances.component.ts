@@ -10,6 +10,9 @@ import {Router} from '@angular/router';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
 import {AccountApiService} from '../../../../../core/services/account-api.service';
+import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
+import { Subscription } from 'rxjs';
+import { HomeSidebarService } from '../../../home-sidebar/home-sidebar.service';
 
 @Component({
   selector: 'app-balances',
@@ -19,6 +22,8 @@ import {AccountApiService} from '../../../../../core/services/account-api.servic
 export class BalancesComponent implements OnInit {
   @Input() accountSummary: AccountSummary;
   @Input() balancesTag = {
+    personalCreditAvailable: 'Disponible crédito personal',
+    linkapplyforcredit: 'Solicitar crédito',
     creditLimitTag: 'Límite de crédito',
     consumedTag: 'Consumido',
     availableTag: 'Disponible',
@@ -38,18 +43,28 @@ export class BalancesComponent implements OnInit {
   colonesIbanAccount: IbanAccount;
   dollarsIbanAccount: IbanAccount;
   questionTag: string;
+  disablelinkapplyforcredit: boolean = false;
+  isEnablePersonalCredit: boolean;
+  enablePersonalCreditSubscription: Subscription;
 
   constructor(private storageService: StorageService,
               private toastService: CredixToastService,
               private modalService: ModalService,
               private tagsService: TagsService,
               private accountApiService: AccountApiService,
-              private router: Router) {
+              private router: Router,
+              private homeSidebarService: HomeSidebarService) {
     this.cards = this.storageService.getCurrentCards();
     this.cardFormControl.setValue(this.cards.find(card => card.category === 'Principal'));
   }
 
   ngOnInit(): void {
+    this.enablePersonalCreditSubscription = this.homeSidebarService.enableOptionPersonalCredit$.subscribe(isEnable => this.isEnablePersonalCredit = isEnable);
+    const personalcreditavailable = ConvertStringAmountToNumber(this.accountSummary.personalcreditavailable);
+    if(personalcreditavailable <= 100000){
+      this.disablelinkapplyforcredit = true;
+    }
+
     this.onCardChanged();
     this.getIbanAccounts();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
@@ -85,7 +100,17 @@ export class BalancesComponent implements OnInit {
     });
   }
 
+  openApplyforcreditModal() {
+    if (!this.disablelinkapplyforcredit && this.isEnablePersonalCredit) {
+      this.router.navigate(['/home/personal-credit']);
+    }
+  }
+
   getTags(tags: Tag[]) {
     this.questionTag = tags.find(tag => tag.description === 'aumento.question').value;
+  }
+
+  ngOnDestroy(): void {
+    this.enablePersonalCreditSubscription.unsubscribe()
   }
 }
