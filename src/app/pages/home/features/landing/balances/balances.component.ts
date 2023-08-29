@@ -68,7 +68,7 @@ export class BalancesComponent implements OnInit {
         }
         else {
           const personalcreditavailable = ConvertStringAmountToNumber(this.accountSummary.personalcreditavailable);
-          if (personalcreditavailable < 100000) {
+          if (personalcreditavailable < this.accountSummary.lowerpersonalcreditlimit) {
             this.disablelinkapplyforcredit = true;
           }
         }
