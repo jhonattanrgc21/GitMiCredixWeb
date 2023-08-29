@@ -100,7 +100,7 @@ export class LandingComponent implements OnInit, OnDestroy {
       if (response.type === 'success' && response.tagsHome?.tags.length > 0) {
         this.balancesTags = {
           personalCreditAvailable: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.disponiblecreditopersonal').value ?? '0',
-          linkapplyforcredit: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.solicitarcreditoredito').value,
+          linkapplyforcredit: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.solicitarcredito').value,
           creditLimitTag: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.limitecredito').value,
           consumedTag: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.consumido').value,
           availableTag: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.disponible').value,
