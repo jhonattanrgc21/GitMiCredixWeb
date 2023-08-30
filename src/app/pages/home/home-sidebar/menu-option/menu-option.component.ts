@@ -75,6 +75,10 @@ export class MenuOptionComponent implements OnInit {
               func.link = '/home/current-pin';
             }
 
+            if(func.link == '/home/personal-credit'){
+              this.homeNavigationMenuService.setEnableOptionPersonalCredit(true);
+            }
+
             this.submenus.push({
               id: func.id,
               name: func.description,

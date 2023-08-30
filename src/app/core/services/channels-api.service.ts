@@ -37,6 +37,8 @@ export class ChannelsApiService {
         if (response.type === 'success' || response.titleOne === 'Éxito') {
           return {
             available: response.json.compracuotasdisp,
+            personalcreditavailable: response.json.personalcreditavailable,
+            lowerpersonalcreditlimit: response.json.limitpersonalcredit,
             limit: response.json.compra,
             consumed: response.json.consumed,
             legend: response.json.legend,
@@ -45,6 +47,8 @@ export class ChannelsApiService {
         } else {
           return {
             available: '0',
+            personalcreditavailable: '0',
+            lowerpersonalcreditlimit: 0,
             limit: '0',
             consumed: '0',
             legend:' ',
