@@ -107,10 +107,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     combineLatest(this.extendTermService.$allowedMovement, this.extendTermService.$promoFilter)
       .pipe(map(([allowedMovementState, filterPromoState]) => {
         const allowedMovementAux: AllowedMovement[] = allowedMovementState.map((values, index) => {
-          if (values.promoApply) {
-            this.counterPromo += 1;
-            console.log(this.counterPromo);
-          }
           return {
             originAmount: values.originAmount,
             originCurrency: values.originCurrency,
@@ -126,7 +122,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
           };
         });
 
-        if (this.counterPromo === allowedMovementAux.length) {
+        const promoFilterAuxArr = allowedMovementAux.filter(( obj) => (obj.promoApply));
+        if (promoFilterAuxArr.length === allowedMovementAux.length) {
           this.extendTermService.setDisabledCheckBox(true);
         }
 
@@ -173,6 +170,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.extendTermService.getAllowedMovements( 1004 )
       .pipe(finalize(() => this.checkMovementParam()))
       .subscribe(response => {
+        console.log(response);
         if ( response?.result ) {
           if (response.promo) {
             this.openModalPromo(response.promoDescription, response.promoMessage);
@@ -287,6 +285,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.extendTermService.unsubscribe();
+    this.counterPromo = 0;
   }
 
 
