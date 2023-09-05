@@ -1,9 +1,7 @@
-<div class='credix-amount-summary'>
-  <div class='credix-amount-summary__data' fxLayout='row' fxLayoutGap='113px'>
+<div class='credix-amount-summary' fxLayout='row' fxLayoutGap='113px'>
     <h3 class='credix-amount-summary__label'>
       {{label!}}
     </h3>
-    <credix-numeric-block [value]='amount'>
+    <credix-numeric-block [value]='amount' [fontWeight]='"bold"' fontSize='20' [prefix]='"₡"'>
     </credix-numeric-block>
-  </div>
 </div>

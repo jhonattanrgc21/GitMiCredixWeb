@@ -24,6 +24,51 @@ export class PreviousPurchasesComponent implements OnInit {
   columnFourTag: string;
   isEmpty: boolean = false;
   previousMovements: PreviousMovements[] = [];
+  private consumed = {
+    consumed: [
+      {
+        originAmount: '60.600,00',
+        pdqId: 186103963,
+        originCurrency: {
+          currencyDescription: 'Colones',
+          currency: '¢',
+          currencyId: 188
+        },
+        establishmentName: 'IMP MONGE TIENDA 36 CARTAGO-CIA COMERCIA',
+        totalPlanQuota: 2,
+        originDate: '01/02/2020'
+      },
+      {
+        originAmount: '115.866,66',
+        pdqId: 186103965,
+        originCurrency: {
+          currencyDescription: 'Colones',
+          currency: '¢',
+          currencyId: 188
+        },
+        establishmentName: 'GOLLO-003 CARTAGO                       ',
+        totalPlanQuota: 11,
+        originDate: '08/02/2020'
+      },
+      {
+        originAmount: '105.333,33',
+        pdqId: 186244367,
+        originCurrency: {
+          currencyDescription: 'Colones',
+          currency: '¢',
+          currencyId: 188
+        },
+        establishmentName: 'GOLLO-003 CARTAGO                       ',
+        totalPlanQuota: 10,
+        originDate: '08/02/2020'
+      }
+    ],
+    descriptionOne: 'Consulta exitosa.',
+    titleOne: '¡Éxito!',
+    message: 'Consulta exitosa.',
+    type: 'success',
+    status: 200
+  };
 
   constructor(
     private route: Router,
@@ -48,16 +93,15 @@ export class PreviousPurchasesComponent implements OnInit {
     this.extendTermService.getAllowedMovements(1005)
       .subscribe(response => {
         if (response?.consumed && response?.consumed.length > 0) {
-          let previousMovements = [];
-          response.consumed.forEach(movement => {
-            previousMovements.push({
+          let previousMovements = response.consumed.map(movement => {
+            return {
               pdqId: movement.pdqId,
               currencySimbol: movement.originCurrency.currency,
               establishmentName: movement.establishmentName,
               originAmount: movement.originAmount,
               originDate: movement.originDate,
               quota: movement.totalPlanQuota,
-            });
+            };
           });
           this.previousMovements = [...previousMovements];
         } else {
