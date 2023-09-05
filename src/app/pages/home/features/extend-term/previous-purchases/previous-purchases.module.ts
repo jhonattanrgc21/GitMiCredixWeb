@@ -38,6 +38,7 @@ import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-che
 
 import { PreviousPurchasesComponent } from './previous-purchases.component';
 import {CredixAmountSummaryModule} from "../../../../../shared/components/credix-amount-summary/credix-amount-summary.module";
+import {PopupPreviousInfoComponent} from "./popup-previous-info/popup-previous-info.component";
 
 const routes: Routes = [{
   path: '',
@@ -46,7 +47,8 @@ const routes: Routes = [{
 
 @NgModule({
   declarations: [
-    PreviousPurchasesComponent
+    PreviousPurchasesComponent,
+    PopupPreviousInfoComponent,
   ],
     imports: [
         CommonModule,

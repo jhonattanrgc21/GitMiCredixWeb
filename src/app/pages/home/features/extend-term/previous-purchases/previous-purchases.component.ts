@@ -6,6 +6,8 @@ import { Cancellation } from 'src/app/shared/models/cancellation';
 import { Movement } from 'src/app/shared/models/movement';
 import { PreviousMovements } from 'src/app/shared/models/previous-purchase';
 import { ExtendTermService } from '../extend-term.service';
+import {ConvertStringAmountToNumber} from "../../../../../shared/utils";
+import {ConvertNumberToStringAmount} from "../../../../../shared/utils/convert-number-to-string-amount";
 
 @Component({
   selector: 'app-previous-purchases',
@@ -24,6 +26,9 @@ export class PreviousPurchasesComponent implements OnInit {
   columnFourTag: string;
   isEmpty: boolean = false;
   previousMovements: PreviousMovements[] = [];
+  amountArray: {amount: number, movementId: number}[] = [];
+  amountSummary = '0';
+
   private consumed = {
     consumed: [
       {
@@ -79,7 +84,24 @@ export class PreviousPurchasesComponent implements OnInit {
     this.getAllowedMovements();
   }
 
+  calculateTotalAmountSelect(amount: string, movementId: number, checked: boolean) {
+    let totalAmount = 0;
+    if (checked) {
+      const amountToNumber = ConvertStringAmountToNumber(amount);
+      this.amountArray.push({
+        amount: amountToNumber,
+        movementId
+      });
+    } else {
+      this.amountArray.splice(this.amountArray.findIndex((obj) => obj.movementId === movementId), 1);
+    }
+    totalAmount = this.amountArray.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
+    this.amountSummary = ConvertNumberToStringAmount(totalAmount);
+  }
+
   change(checked: boolean, movement: PreviousMovements) {
+    console.log(movement);
+    this.calculateTotalAmountSelect(movement.originAmount, movement.pdqId, checked);
     checked ? this.selection.push(movement.pdqId) : this.selection
       .splice(this.selection.findIndex(mov => mov === movement.pdqId), 1);
   }
