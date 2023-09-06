@@ -121,7 +121,8 @@ export class PreviousPurchasesComponent implements OnInit {
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements(1005)
       .subscribe(response => {
-          let previousMovements = this.consumed.consumed.map(movement => {
+        if (response?.consumed && response?.consumed.length > 0) {
+          const previousMovements = response.consumed.map(movement => {
             return {
               pdqId: movement.pdqId,
               currencySimbol: movement.originCurrency.currency,
@@ -132,10 +133,9 @@ export class PreviousPurchasesComponent implements OnInit {
             };
           });
           this.previousMovements = [...previousMovements];
-        /*if (response?.consumed && response?.consumed.length > 0) {
         } else {
           this.isEmpty = true;
-        }*/
+        }
       });
   }
 
