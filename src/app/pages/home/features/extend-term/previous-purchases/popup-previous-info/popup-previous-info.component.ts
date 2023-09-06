@@ -14,4 +14,7 @@ export class PopupPreviousInfoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }

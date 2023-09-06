@@ -6,8 +6,10 @@ import { Cancellation } from 'src/app/shared/models/cancellation';
 import { Movement } from 'src/app/shared/models/movement';
 import { PreviousMovements } from 'src/app/shared/models/previous-purchase';
 import { ExtendTermService } from '../extend-term.service';
-import {ConvertStringAmountToNumber} from "../../../../../shared/utils";
-import {ConvertNumberToStringAmount} from "../../../../../shared/utils/convert-number-to-string-amount";
+import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
+import {ConvertNumberToStringAmount} from '../../../../../shared/utils/convert-number-to-string-amount';
+import {ModalService} from '../../../../../core/services/modal.service';
+import {PopupPreviousInfoComponent} from "./popup-previous-info/popup-previous-info.component";
 
 @Component({
   selector: 'app-previous-purchases',
@@ -77,7 +79,8 @@ export class PreviousPurchasesComponent implements OnInit {
 
   constructor(
     private route: Router,
-    private extendTermService: ExtendTermService
+    private extendTermService: ExtendTermService,
+    private modalService: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -107,15 +110,18 @@ export class PreviousPurchasesComponent implements OnInit {
   }
 
   next() {
-    this.extendTermService.movementsSelected = [...this.selection];
-    this.route.navigate(['/home/extend-term/previous-extend']);
+    this.modalService.open({title: 'Recordatorio', hideCloseButton: false, component: PopupPreviousInfoComponent},
+      {disableClose: true, height: 324, width: 328, panelClass: 'info'}).afterClosed()
+      .subscribe(() => {
+        this.extendTermService.movementsSelected = [...this.selection];
+        this.route.navigate(['/home/extend-term/previous-extend']);
+      });
   }
 
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements(1005)
       .subscribe(response => {
-        if (response?.consumed && response?.consumed.length > 0) {
-          let previousMovements = response.consumed.map(movement => {
+          let previousMovements = this.consumed.consumed.map(movement => {
             return {
               pdqId: movement.pdqId,
               currencySimbol: movement.originCurrency.currency,
@@ -126,9 +132,10 @@ export class PreviousPurchasesComponent implements OnInit {
             };
           });
           this.previousMovements = [...previousMovements];
+        /*if (response?.consumed && response?.consumed.length > 0) {
         } else {
           this.isEmpty = true;
-        }
+        }*/
       });
   }
 

@@ -1,0 +1,19 @@
+<div class='popup-info-previous' fxLayout='column'>
+  <div class='popup-info-previous__data mb-16px' fxLayout='row' fxLayoutAlign='space-between'>
+    <div fxLayout='column' class='popup-info-previous__data__title' fxLayoutGap='8px'>
+      <p>Pago contado</p>
+      <p>Monto a ampliar</p>
+    </div>
+    <div fxLayout='column' class='popup-info-previous__data__amount' fxLayoutGap='8px'>
+      <credix-numeric-block [value]='"500.000,00"' [prefix]='"₡"'  fontSize='16' fontWeight='bold'></credix-numeric-block>
+      <credix-numeric-block [value]='"-120.000,00"' [prefix]='"₡"'  fontSize='16' fontWeight='bold'></credix-numeric-block>
+    </div>
+  </div>
+  <span class='popup-info-previous__message mb-16px'>
+      Para no asumir intereses corrientes, pague mínimo  <credix-numeric-block [value]='"380.000,00"' [prefix]='"₡"'  fontSize='16' fontWeight='bold'></credix-numeric-block> antes de su fecha máxima de pago <strong>02 agosto 23 (hora: 9:00 pm)</strong> .
+  </span>
+
+  <credix-button (buttonClick)='closeDialog()'>
+    Continuar
+  </credix-button>
+</div>

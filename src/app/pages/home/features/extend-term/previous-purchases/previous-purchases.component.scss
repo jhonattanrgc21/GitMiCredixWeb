@@ -115,6 +115,21 @@
     right: 16px;
     bottom: 102px;
   }
+
+}
+::ng-deep.info {
+  .mat-dialog-container{
+    padding: 16px;
+  }
+  .credix-popup{
+      &__title {
+      margin-top: 0 !important;
+      margin-bottom: 20px !important;
+    }
+    &__close-button{
+      top: 24px !important;
+    }
+  }
 }
 
 @media screen and (max-width: 1199px) {
