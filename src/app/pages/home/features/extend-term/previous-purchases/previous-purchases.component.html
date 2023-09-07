@@ -9,7 +9,10 @@
           <mat-header-cell *matHeaderCellDef credixHeaderCell>
           </mat-header-cell>
           <mat-cell *matCellDef="let element" credixCell>
-            <credix-checkbox-button class="checkbox-dimension" (emitCheckBox)="change($event.checked, element)"
+            <credix-checkbox-button class="checkbox-dimension"
+                                    (emitCheckBox)="change($event.checked, element)"
+                                    [checked]='element.checked'
+                                    [disable]='element.productDisable'
                                     [value]="element">
             </credix-checkbox-button>
           </mat-cell>

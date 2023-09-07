@@ -9,6 +9,7 @@ import { Tag } from 'src/app/shared/models/tag';
 import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 import { ExtendTermService } from '../extend-term.service';
 import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
+import {PopupPreviousInfoComponent} from "../previous-purchases/popup-previous-info/popup-previous-info.component";
 @Component({
   selector: 'app-previous-extend',
   templateUrl: './previous-extend.component.html',
@@ -56,7 +57,7 @@ export class PreviousExtendComponent implements OnInit {
     if ( this.extendTermService.movementsSelected.length <= 0 ) {
       this.router.navigate(['/home/extend-term']);
     }
-    
+
     this.movementsSelected = this.extendTermService.movementsSelected;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
@@ -82,7 +83,7 @@ export class PreviousExtendComponent implements OnInit {
               const aux = [...this.quotas];
 
               aux.shift();
-              
+
               this.result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
             }
           }
@@ -97,14 +98,14 @@ export class PreviousExtendComponent implements OnInit {
   selectMovementQuotaSummary() {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
     this.feedPercentage = this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage);
-    
+
     if ( !this.result ) {
       this.percentageCommission = '';
     } else {
       this.percentageCommission =  this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
     }
   }
-  
+
   convertAmountValue(value: any): any {
     let result: any = '';
 

@@ -91,10 +91,12 @@ export class PreviousPurchasesComponent implements OnInit {
     let totalAmount = 0;
     if (checked) {
       const amountToNumber = ConvertStringAmountToNumber(amount);
-      this.amountArray.push({
-        amount: amountToNumber,
-        movementId
-      });
+      if (this.amountArray.findIndex((obj) => obj.movementId === movementId) === -1) {
+        this.amountArray.push({
+          amount: amountToNumber,
+          movementId
+        });
+      }
     } else {
       this.amountArray.splice(this.amountArray.findIndex((obj) => obj.movementId === movementId), 1);
     }
@@ -104,9 +106,38 @@ export class PreviousPurchasesComponent implements OnInit {
 
   change(checked: boolean, movement: PreviousMovements) {
     console.log(movement);
+    console.log(checked);
     this.calculateTotalAmountSelect(movement.originAmount, movement.pdqId, checked);
-    checked ? this.selection.push(movement.pdqId) : this.selection
-      .splice(this.selection.findIndex(mov => mov === movement.pdqId), 1);
+    if (checked) {
+      this.selection.push(movement.pdqId);
+      this.previousMovements = this.previousMovements.map((obj) => {
+          return {
+            pdqId: obj.pdqId,
+            currencySimbol: obj.currencySimbol,
+            establishmentName: obj.establishmentName,
+            originAmount: obj.originAmount,
+            originDate: obj.originDate,
+            quota: obj.quota,
+            productDisable: (movement.pdqId !== obj.pdqId && (movement.quota < obj.quota || movement.quota > obj.quota)),
+            checked: (movement.pdqId === obj.pdqId)
+          };
+      });
+    } else {
+      this.selection
+        .splice(this.selection.findIndex(mov => mov === movement.pdqId), 1);
+      this.previousMovements = this.previousMovements.map((obj) => {
+        return {
+          pdqId: obj.pdqId,
+          currencySimbol: obj.currencySimbol,
+          establishmentName: obj.establishmentName,
+          originAmount: obj.originAmount,
+          originDate: obj.originDate,
+          quota: obj.quota,
+          productDisable: false,
+          checked: false
+        };
+      });
+    }
   }
 
   next() {
@@ -121,8 +152,7 @@ export class PreviousPurchasesComponent implements OnInit {
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements(1005)
       .subscribe(response => {
-        if (response?.consumed && response?.consumed.length > 0) {
-          const previousMovements = response.consumed.map(movement => {
+          const previousMovements = this.consumed.consumed.map(movement => {
             return {
               pdqId: movement.pdqId,
               currencySimbol: movement.originCurrency.currency,
@@ -130,12 +160,15 @@ export class PreviousPurchasesComponent implements OnInit {
               originAmount: movement.originAmount,
               originDate: movement.originDate,
               quota: movement.totalPlanQuota,
+              productDisable: false,
+              checked: false
             };
           });
           this.previousMovements = [...previousMovements];
+      /*  if (response?.consumed && response?.consumed.length > 0) {
         } else {
           this.isEmpty = true;
-        }
+        }*/
       });
   }
 

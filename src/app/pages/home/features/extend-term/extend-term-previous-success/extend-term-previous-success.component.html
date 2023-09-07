@@ -2,8 +2,9 @@
                         [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
                         [status]="status"
                         [moduleTitle]="titleTag || 'Ampliar plazo de compra'"
+                        [recordatoryForExtendTerm]='true'
                         buttonText="Listo"
-                        routeTo="/home/extend-term">
+                        routeTo="/home">
 
   <div *ngIf="status === 'success'" class="w-100" fxLayout="column" fxFlex="auto">
     <mat-divider class="mb-24px" credixDivider></mat-divider>

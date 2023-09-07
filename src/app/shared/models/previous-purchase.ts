@@ -5,5 +5,6 @@ export class PreviousMovements {
     originAmount: string;
     originDate: string;
     quota: number;
+    productDisable?: boolean;
+    checked: boolean;
 }
-  
