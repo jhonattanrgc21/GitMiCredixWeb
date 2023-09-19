@@ -37,6 +37,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 
 import { RecentPurchasesComponent } from './recent-purchases.component';
+import { CredixAmountSummaryModule } from 'src/app/shared/components/credix-amount-summary/credix-amount-summary.module';
 
 const routes: Routes = [
   {
@@ -62,6 +63,7 @@ const routes: Routes = [
     CredixPopupModule,
     CredixConfirmationPopupModule,
     CredixButtonModule,
+    CredixAmountSummaryModule,
     MatCardModule,
     MatDialogModule,
     MatSliderModule,

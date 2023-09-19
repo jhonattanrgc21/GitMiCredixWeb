@@ -1,4 +1,167 @@
 .extend-term {
+  max-height: 662px;
+  height: 100%;
+  width: 877px !important;
+  margin-left: -16px !important;
+
+  &__table-wrapper {
+    height: 384px !important;
+  }
+
+  &__scrollbar {
+    height: 384px !important;
+  }
+
+  &__empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__table {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+    ::ng-deep.mat-header-row {
+          background: #F0F0F0 !important;
+          top: 0 !important;
+          width: 877px !important;
+    }
+
+    mat-header-cell:first-of-type {
+      justify-content: flex-start !important;
+    }
+
+    mat-header-cell:nth-child(3) {
+      text-align: end !important;
+    }
+
+    mat-header-cell:nth-child(4) {
+      text-align: end !important;
+    }
+
+    mat-cell:first-of-type {
+      text-align: left !important;
+    }
+
+    mat-header-cell, mat-cell {
+      margin: 0 !important;
+
+      &:first-child {
+        flex: 4.285% !important;
+
+        .checkbox-dimension {
+          ::ng-deep {
+            .mat-checkbox-inner-container {
+              width: 20px !important;
+              height: 20px !important;
+            }
+          }
+        }
+
+        justify-content: flex-start!important;
+      }
+
+      &:nth-child(2) {
+        color: #6F7071;
+        font-size: 16px !important;
+        flex: 10% !important;
+        justify-content: flex-start!important;
+        text-align: left !important;
+      }
+
+      &:nth-child(3) {
+        flex: 36.37% !important;
+        text-align: center !important;
+      }
+
+      &:nth-child(4) {
+        flex: 29.5% !important;
+        text-align: center !important;
+      }
+
+      &:nth-child(5) {
+        flex: 20.3% !important;
+
+      }
+
+    }
+  }
+
+  .actions-footer {
+    width: 877px !important;
+    margin-left: 0px !important;
+  }
+
+}
+
+.title-space {
+  margin: 16px 0 16px 16px !important
+}
+
+:host {
+  ::ng-deep credix-result-notification {
+    transform: translate(-50%, -50%) !important;
+    padding-top: 85px !important;
+
+    .credix-result-notification__title {
+      width: 310px !important;
+    }
+  }
+
+  ::ng-deep credix-amount-summary {
+    position: absolute;
+    right: 16px;
+    bottom: 102px;
+  }
+
+}
+::ng-deep.info {
+  .mat-dialog-container{
+    padding: 16px;
+  }
+  .credix-popup{
+      &__title {
+      margin-top: 0 !important;
+      margin-bottom: 20px !important;
+    }
+    &__close-button{
+      top: 24px !important;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .extend-term {
+    //max-height: 886px;
+    //width: 100% !important;
+    width: 736px !important;
+    margin-left: -16px !important;
+
+    &__scrollbar {
+      height: auto !important;
+    }
+
+    &__table-wrapper {
+      height: 578px;
+    }
+
+    &__table {
+
+      ::ng-deep.mat-header-row {
+        width: 100% !important;
+      }
+    }
+
+    .actions-footer {
+      width: 100% !important;
+      margin-left: 0px !important;
+    }
+  }
+}
+
+/*.extend-term {
     max-height: 662px;
     height: 100%;
     position: relative;
@@ -182,3 +345,4 @@
       }
     }
   }
+*/

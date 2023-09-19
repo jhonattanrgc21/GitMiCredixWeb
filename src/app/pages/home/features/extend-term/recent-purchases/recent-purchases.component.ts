@@ -25,7 +25,9 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     {label: 'Consumos', width: '282px'},
     {label: 'Ampliación', width: 'auto'}
   ];
-  allowedMovementSelected: AllowedMovement;
+  selection: string[] = [];
+  displayedColumns: string[] = ['select', 'date', 'commerce',  'quotas', 'amount'];
+  allowedMovementSelected: AllowedMovement[] = [];
   allowedMovements: AllowedMovement[] = [];
   quotaAmountFromSelected: number;
   movementIdParam: string;
@@ -61,6 +63,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   comissionUnique: boolean = false;
   quotaPromoMin = 0;
   quotaPromoMax = 0;
+  amountArray: {amount: number, movementId: string}[] = [];
+  amountSummary = '0';
   private counterPromo = 0;
 
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
@@ -72,7 +76,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
               private tagsService: TagsService,
               private modalService: ModalService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              ) {
     this.today = new Date();
   }
 
@@ -97,11 +102,12 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     });
   }
 
+  /*
   getAllowedMovementDetail(movement: AllowedMovement) {
     this.allowedMovementSelected = movement;
     this.quotaAmountFromSelected = ConvertStringAmountToNumber(movement.originAmount) / movement.totalPlanQuota;
     this.calculateQuota(movement.movementId);
-  }
+  }*/
 
   allowedMovementState() {
     combineLatest(this.extendTermService.$allowedMovement, this.extendTermService.$promoFilter)
@@ -182,13 +188,15 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       });
   }
 
+  
   checkMovementParam() {
-    if (this.movementIdParam) {
+    /*if (this.movementIdParam) {
       this.getAllowedMovementDetail(this.allowedMovements
         .find(allowedMovement => allowedMovement.movementId === this.movementIdParam));
-    }
+    }*/
   }
 
+  /*
   calculateQuota(movementId: string) {
     this.extendTermService.calculateQuotaByMovement(movementId, 1004)
       .pipe(finalize(() => {
@@ -198,9 +206,9 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       .subscribe(extendTermQuotas => {
         this.quotas = extendTermQuotas;
       });
-  }
+  }*/
 
-  initSlider() {
+  /*initSlider() {
     this.credixSlider.value = 1;
     this.quotaSliderStep = 1;
     this.quotaSliderDisplayMin = this.quotas[0].quotaTo;
@@ -232,7 +240,9 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
     this.iva = commission * 0.13;
   }
+*/
 
+/*
   openConfirmationModal() {
     if (this.quotaSelected) {
       this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este consumo?')
@@ -243,7 +253,76 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
         });
     }
   }
+*/
+  calculateTotalAmountSelect(amount: string, movementId: string, checked: boolean) {
+    let totalAmount = 0;
+    if (checked) {
+      const amountToNumber = ConvertStringAmountToNumber(amount);
+      if (this.amountArray.findIndex((obj) => obj.movementId === movementId) === -1) {
+        this.amountArray.push({
+          amount: amountToNumber,
+          movementId
+        });
+      }
+    } else {
+      this.amountArray.splice(this.amountArray.findIndex((obj) => obj.movementId === movementId), 1);
+    }
+    totalAmount = this.amountArray.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
+    this.amountSummary = ConvertNumberToStringAmount(totalAmount);
+  }
 
+
+  change(checked: boolean, movement: AllowedMovement) {
+    console.log(movement);
+    console.log(checked);
+    checked ? this.selection.push(movement.movementId) : this.selection
+      .splice(this.selection.findIndex(mov => mov === movement.movementId), 1);
+    this.calculateTotalAmountSelect(movement.originAmount, movement.movementId, checked);
+    /*if (checked) {
+      this.selection.push(movement.movementId);
+      this.allowedMovements = this.allowedMovements.map((obj) => {
+          return {
+            originAmount: obj.originAmount,
+            originCurrency: obj.originCurrency,
+            establishmentName: obj.establishmentName,
+            totalPlanQuota: obj.totalPlanQuota,
+            accountNumber: obj.accountNumber,
+            cardId: obj.cardId,
+            movementId: obj.movementId,
+            originDate: obj.originDate,
+            promoApply: obj.promoApply,
+            productDisable: (movement.movementId !== obj.movementId && (movement.totalPlanQuota < obj.totalPlanQuota || movement.totalPlanQuota > obj.totalPlanQuota)),
+            checked: (movement.movementId === obj.movementId)
+          };
+      });
+    } else {
+      this.selection
+        .splice(this.selection.findIndex(mov => mov === movement.movementId), 1);
+      this.allowedMovements = this.allowedMovements.map((obj) => {
+        return {
+          originAmount: obj.originAmount,
+          originCurrency: obj.originCurrency,
+          establishmentName: obj.establishmentName,
+          totalPlanQuota: obj.totalPlanQuota,
+          accountNumber: obj.accountNumber,
+          cardId: obj.cardId,
+          movementId: obj.movementId,
+          originDate: obj.originDate,
+          promoApply: obj.promoApply,
+          productDisable: false,
+          checked: false
+        };
+      });
+    }*/
+  }
+
+  
+
+  next() {
+    this.extendTermService.recentMovementsSelected = [...this.selection];
+    this.router.navigate(['/home/extend-term/recent-extend']);
+  }
+/*
   saveQuota() {
     this.extendTermService.saveNewQuota(
       this.allowedMovementSelected.cardId,
@@ -265,7 +344,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
           quota: this.quotaSelected.quotaTo
         };
       });
-  }
+  }*/
 
   getTags(tags: Tag[]) {
 

@@ -10,4 +10,6 @@ export interface AllowedMovement {
   promoApply: boolean;
   promoMessage?: string;
   promoDiscountMessage?: string;
+  productDisable?: boolean;
+  checked?: boolean;
 }

@@ -1,0 +1,100 @@
+.previous-extend {
+    max-height: 662px;
+    height: 100%;
+    position: relative;
+    
+    p {
+        margin-top: -3px;
+        color: #3E3E3E;
+    }
+
+    &__content {
+        margin-left: 83px;
+        margin-right: 85px;
+        margin-top: 8px;
+
+        &__pending {
+            margin-bottom: 32px !important;
+
+            span {
+                font-size: 16px;
+                color: #3E3E3E;
+            }
+
+            ::ng-deep .credix-numeric-block__decimal {
+                font-size: 14px !important;
+            }
+        }
+
+        &__option {
+            margin-top: 2px !important;
+
+            span {
+                font-size: 16px;
+                color: #3E3E3E;
+            }
+
+            credix-slider {
+                 ::ng-deep .credix-slider {
+                    width: 280px;
+                    margin-left: 50.5px;
+                }
+            }
+
+            credix-link-button {
+                margin-top: 8px;
+            }
+
+            ::ng-deep .credix-numeric-block__decimal {
+                font-size: 14px !important;
+            }
+        }
+    }   
+}
+
+::ng-deep  .summary-panel .mat-dialog-container {
+    padding: 36px !important;
+    padding-bottom: 51px !important;
+    padding-right: 42px !important;
+    
+    .credix-popup__content {
+        padding-left: 6px !important;
+    }
+    
+    .credix-popup__title {
+        margin: 22px 0 16px 0 !important;
+        padding-right: 50px !important;
+        font-size: 30px !important;
+    }
+}
+
+.summary-custom {
+    height: 273px !important;
+    
+    &__info-iva {
+        color: #707070;
+        font-size: 14px !important;
+        margin-bottom: 26px !important
+    }
+
+    ::ng-deep .credix-numeric-block__decimal {
+      font-size: 14px !important;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    .previous-extend {
+      max-height: 886px;
+    
+        &__content {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            margin-top: 8px;
+        }
+        
+        &__menu-options {
+            height: 733px;
+        }
+    }
+  
+  }

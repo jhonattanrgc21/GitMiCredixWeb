@@ -19,6 +19,14 @@ export class ExtendTermService {
     this._movementsSelected = movementSelected;
   }
 
+  get recentMovementsSelected(): string[] {
+    return this._recentMovementsSelected;
+  }
+
+  set recentMovementsSelected(movementSelected: string[]) {
+    this._recentMovementsSelected = movementSelected;
+  }
+
   get result(): { status: 'success' | 'error'; message: string } {
     return this._result;
   }
@@ -49,6 +57,7 @@ export class ExtendTermService {
 
   // tslint:disable-next-line:variable-name
   _movementsSelected: number[] = [];
+  _recentMovementsSelected: string[] = [];
   private $allowedMovementsState: Subject<AllowedMovement[]> = new Subject<AllowedMovement[]>();
   private $filterPromo: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private $hideButtonPromoFilter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
