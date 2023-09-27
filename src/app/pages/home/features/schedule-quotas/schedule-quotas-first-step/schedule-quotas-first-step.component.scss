@@ -1,0 +1,19 @@
+.schedule-quotas-first-step{
+  margin: 32px auto 367px;
+  max-width:420px;
+  width: 420px;
+  height: 64px;
+
+  &__info{
+    width: 265px;
+    height: 48px;
+
+    .text{
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+  }
+}

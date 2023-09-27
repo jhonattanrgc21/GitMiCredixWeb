@@ -1,0 +1,42 @@
+.schedule-quotas{
+
+  &__stepper{
+    margin-top: 24px;
+  }
+  
+  .color-blue{
+    color: #239DF7;
+  }
+
+  .icon-info {
+    cursor: pointer;
+    margin-left: 16px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .container{
+    margin: 32px auto 95px;
+    max-width: 311px;
+    width: 311px;
+  }
+
+  .content{
+    width: 100%;
+    .options{
+      padding-left: 24px;
+    }
+
+    .web-site{
+      margin-top: 16px;
+
+      &__text{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 21px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
+  }
+}

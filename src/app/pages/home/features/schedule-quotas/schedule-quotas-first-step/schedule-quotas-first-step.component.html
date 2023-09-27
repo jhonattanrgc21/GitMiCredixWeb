@@ -1,0 +1,14 @@
+<div fxLayout="row"  class="schedule-quotas-first-step" fxLayoutAlign="space-between" fxLayoutGap="71.5px">
+  <div class="schedule-quotas-first-step__info">
+    <p class="text">Deseo programar automáticamente mis compras en:</p>
+  </div>
+
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+    <credix-checkbox-button
+      *ngFor="let item of itemCurrencyList"
+      (emitCheckBox)="getValueCheckBoxes($event.checked, item)"
+      [checked]="item.isSelected != undefined && item.isSelected"
+      [label]="item.description"
+      [value]="item"></credix-checkbox-button>
+  </div>
+</div>

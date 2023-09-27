@@ -1,0 +1,97 @@
+<mat-card class="schedule-quotas" *ngIf="!done  else scheduleQuotasTemplate" credixCard fxLayout="column" >
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <h1>
+      Programar cuotas
+      <ng-container *ngIf="!isActiveStepper">
+        <mat-icon [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
+      </ng-container>
+    </h1>
+
+    <ng-container *ngIf="existRules() && !isActiveStepper">
+      <credix-button (buttonClick)="activeStepper(true)" >Definir otra regla</credix-button>
+    </ng-container>
+  </div>
+
+  <!-- Informacion para crear reglas Inicio-->
+  <ng-container *ngIf="!existRules() && !isActiveStepper else stepperTemplate">
+    <div fxLayout="row" class="container">
+      <div fxLayout="column" class="content" fxLayoutAlign="center center">
+        <div  fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="18px">
+          <p>Para ampliar el plazo de las compras de manera automática:</p>
+          <ol class="options">
+              <li>Seleccione la moneda de las compras.</li>
+              <li>Defina los montos y a cuál plazo quiere dividir sus compras para que se aplique cada vez que las realice.</li>
+          </ol>
+          <p>Al hacer esto, todo consumo que cumpla con las reglas establecidas se ampliará al plazo seleccionado sin gestiones adicionales.</p>
+          <p>Este producto aplica únicamente para los consumos de la red Visa.</p>
+        </div>
+        <div class="web-site" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
+          <button mat-button>
+            <mat-icon class="web-site__icon color-blue" >language</mat-icon>
+            <p class="web-site__text color-blue">Blog Credix</p>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+      <credix-button (buttonClick)="activeStepper(true)">
+        {{'Definir regla'}}
+      </credix-button>
+    </div>
+  </ng-container>
+    <!-- Informacion para crear reglas Fin -->
+
+  <!-- Stepper Inicio-->
+  <ng-template #stepperTemplate>
+    <credix-stepper #scheduleQuotasStepper class="schedule-quotas__stepper" fxFlex>
+      <cdk-step [stepControl]="currencyForm" fxLayout="column" label="{{step || 'Moneda'}}">
+        <app-schedule-quotas-first-step
+          [currencyForm]="currencyForm"
+          (colonesOption)="setIsColones($event)"
+          (dollarsOption)="setIsDollars($event)">
+        </app-schedule-quotas-first-step>
+      </cdk-step>
+
+      <cdk-step [stepControl]="ruleForm" fxLayout="column" label="{{step2 || 'Regla'}}">
+        <app-schedule-quotas-second-step>
+
+        </app-schedule-quotas-second-step>
+      </cdk-step>
+
+      <cdk-step [stepControl]="summaryForm" fxLayout="column" label="{{step3 || 'Resumen'}}">
+        <app-schedule-quotas-third-step>
+
+        </app-schedule-quotas-third-step>
+      </cdk-step>
+    </credix-stepper>
+
+    <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+      <credix-button (buttonClick)="back()" *ngIf="selectedIndex > 0" type="secondary">Atrás</credix-button>
+      <credix-button (buttonClick)="next()" [disabled]="disableButton">
+        {{selectedIndex >= 2 ? 'Definir regla' : 'Continuar'}}
+      </credix-button>
+    </div>
+  </ng-template>
+    <!-- Stepper Fin -->
+
+</mat-card>
+
+<!-- Lista de reglas Inicio -->
+<ng-container *ngIf="existRules() && !isActiveStepper">
+  <ng-container *ngFor="let rule of rulesList">
+    <!-- TODO: Crear el componente card para la regla y agregar el llamado para cada item -->
+  </ng-container>
+</ng-container>
+<!-- Lista de reglas Fin -->
+
+<ng-template #scheduleQuotasTemplate>
+  <app-credix-result-view [resultMessage]="message"
+                          [resultTile]="title"
+                          [status]="status"
+                          [moduleTitle]="'Enviar dinero'"
+                          buttonText="Listo"
+                          routeTo="/home">
+  </app-credix-result-view>
+</ng-template>
+
