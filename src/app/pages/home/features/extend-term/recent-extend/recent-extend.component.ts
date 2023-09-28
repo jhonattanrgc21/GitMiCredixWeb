@@ -35,7 +35,7 @@ export class RecentExtendComponent implements OnInit {
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
   termSliderDisplayValue = 0;
-  movementsSelected: number[];
+  movementsSelected: string[];
   quotas: PaymentQuota[];
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
@@ -57,14 +57,14 @@ export class RecentExtendComponent implements OnInit {
       this.router.navigate(['/home/extend-term']);
     }
     
-    this.movementsSelected = this.extendTermService.movementsSelected;
+    this.movementsSelected = this.extendTermService.recentMovementsSelected;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
     this.getQuotas();
   }
 
   getQuotas() {
-    this.extendTermService.getQuotasPreviousMovement( this.movementsSelected, 1005 )
+    this.extendTermService.calculateQuotaByMovementUnified(this.movementsSelected, 4007)
       .pipe(finalize(() => this.selectMovementQuotaSummary()))
         .subscribe(
           response => {
@@ -120,12 +120,12 @@ export class RecentExtendComponent implements OnInit {
     this.modalService.confirmationPopup('¿Desea ampliar el plazo?')
       .subscribe((confirmation) => {
         if (confirmation) {
-          this.saveQuota();
+          //this.saveQuota();
         }
       });
   }
 
-  saveQuota() {
+  /*saveQuota() {
     this.extendTermService.saveNewQuotaPreviousConsumptions(
       this.movementQuotaSummary.quotaTo,
       this.movementsSelected)
@@ -143,7 +143,7 @@ export class RecentExtendComponent implements OnInit {
             quota: this.movementQuotaSummary.quotaTo
           };
         });
-  }
+  }*/
 
   openSummary() {
     this.modalService.open({

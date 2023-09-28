@@ -5,11 +5,11 @@
   margin-left: -16px !important;
 
   &__table-wrapper {
-    height: 384px !important;
+    height: 400px !important;
   }
 
   &__scrollbar {
-    height: 384px !important;
+    height: 400px !important;
   }
 
   &__empty {
@@ -111,9 +111,9 @@
   }
 
   ::ng-deep credix-amount-summary {
-    position: absolute;
-    right: 16px;
-    bottom: 102px;
+    // position: absolute;
+    // right: 16px;
+    // bottom: calc(100vh - 103%);
   }
 
 }
@@ -157,6 +157,7 @@
     .actions-footer {
       width: 100% !important;
       margin-left: 0px !important;
+      background-color: #fff !important;
     }
   }
 }

@@ -19,7 +19,7 @@ import {combineLatest, forkJoin} from "rxjs";
   templateUrl: './recent-purchases.component.html',
   styleUrls: ['./recent-purchases.component.scss']
 })
-export class RecentPurchasesComponent implements OnInit, OnDestroy {
+export class RecentPurchasesComponent implements OnInit {
 
   tableHeaders = [
     {label: 'Consumos', width: '282px'},
@@ -83,7 +83,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkCutDate();
-    this.movementIdParam = this.route.snapshot.params?.movementId;
+    //this.movementIdParam = this.route.snapshot.params?.movementId;
     this.getAllowedMovements();
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
@@ -117,6 +117,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
             originAmount: values.originAmount,
             originCurrency: values.originCurrency,
             establishmentName: values.establishmentName,
+            amount: values?.amount,
             cardId: values.cardId,
             totalPlanQuota: values.totalPlanQuota,
             accountNumber: values.accountNumber,
@@ -127,7 +128,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
             promoDiscountMessage: (values.promoDiscountMessage) ? values.promoDiscountMessage : ''
           };
         });
-
+        console.log("si "+allowedMovementAux)
         const promoFilterAuxArr = allowedMovementAux.filter(( obj) => (obj.promoApply));
         if (promoFilterAuxArr.length === allowedMovementAux.length) {
           this.extendTermService.setDisabledCheckBox(true);
@@ -179,7 +180,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
         console.log(response);
         if ( response?.result ) {
           if (response.promo) {
-            this.openModalPromo(response.promoDescription, response.promoMessage);
+            this.openModalPromo(response.promoDescription, response.promoMessage)
           }
           this.empty = false;
         } else {
@@ -277,7 +278,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     console.log(checked);
     checked ? this.selection.push(movement.movementId) : this.selection
       .splice(this.selection.findIndex(mov => mov === movement.movementId), 1);
-    this.calculateTotalAmountSelect(movement.originAmount, movement.movementId, checked);
+    this.calculateTotalAmountSelect(movement.amount, movement.movementId, checked);
     /*if (checked) {
       this.selection.push(movement.movementId);
       this.allowedMovements = this.allowedMovements.map((obj) => {
@@ -360,11 +361,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo')?.value;
     this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota')?.value;
     this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo')?.value;
-  }
-
-  ngOnDestroy(): void {
-    this.extendTermService.unsubscribe();
-    this.counterPromo = 0;
   }
 
 

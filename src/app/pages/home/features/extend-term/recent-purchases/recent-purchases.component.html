@@ -52,14 +52,15 @@
       </mat-table>
     </div>
   </ngx-simplebar>
-
-  <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary'>
-  </credix-amount-summary>
-
+  <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary'>
+    </credix-amount-summary>
+  </div>
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button [disabled]="selection.length === 0" (buttonClick)="next()">Continuar</credix-button>
   </div>
+  
 
   <credix-result-notification *ngIf="empty" class="extend-term__empty" status="info"
                               title="{{warningTag || 'No tiene consumos para ampliar en este momento.'}}">

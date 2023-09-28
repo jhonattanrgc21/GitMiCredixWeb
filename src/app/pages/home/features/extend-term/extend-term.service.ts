@@ -138,7 +138,6 @@ export class ExtendTermService {
             }
 
             if ( response.type === 'success' ) {
-              this.setAllowedMovements(response.result);
               return response;
             } else {
               return [];
@@ -156,6 +155,46 @@ export class ExtendTermService {
         map(response => {
           this.quotaPromoMin = response.quotaPromoMin;
           this.quotaPromoMax = response.quotaPromoMax;
+          if ( response?.listQuota ) {
+              return [{
+                feeAmount: '0,00',
+                feePercentage: 0,
+                quotaTo: (response.listQuota as ExtendTermQuota[])[0].quotaFrom,
+                amountPerQuota: '0,00',
+                quotaFrom: 0,
+                financedPlan: 0,
+                purchaseAmount: '0,00',
+                IVA: '0,00',
+                commissionAmount: '0,00',
+                commissionPercentage: '0,00',
+              }, ...response.listQuota];
+            } else {
+              return [];
+            }
+          }
+        ));
+  }
+
+  calculateQuotaByMovementUnified(movementList: string[], productId = 1): Observable<any> {
+    let transactions = "";
+    for (let index = 0; index < movementList.length; index++) {
+      if(index == 0){
+        transactions += "["
+      }
+      transactions += movementList[index]
+      if(index + 1 !== movementList.length){
+        transactions += ","
+      }else{
+        transactions += "]"
+      }
+      
+    }
+    return this.httpService.post('canales', this.calculateQuotaUri, {
+      transaction: transactions,
+      productId
+    })
+      .pipe(
+        map(response => {
           if ( response?.listQuota ) {
               return [{
                 feeAmount: '0,00',

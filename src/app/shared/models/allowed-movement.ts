@@ -1,5 +1,6 @@
 export interface AllowedMovement {
   originAmount: string;
+  amount?: string;
   originCurrency: any;
   establishmentName: string;
   cardId: number;
