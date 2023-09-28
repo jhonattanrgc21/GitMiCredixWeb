@@ -46,23 +46,48 @@
   <ng-template #stepperTemplate>
     <credix-stepper #scheduleQuotasStepper class="schedule-quotas__stepper" fxFlex>
       <cdk-step [stepControl]="currencyForm" fxLayout="column" label="{{step || 'Moneda'}}">
-        <app-schedule-quotas-first-step
-          [currencyForm]="currencyForm"
-          (colonesOption)="setIsColones($event)"
-          (dollarsOption)="setIsDollars($event)">
-        </app-schedule-quotas-first-step>
+        <div class="schedule-quotas__container-step">
+          <app-schedule-quotas-first-step
+            [currencyList]="currencyList"
+            [currencyForm]="currencyForm"
+            (colonesOption)="setIsColones($event)"
+            (dollarsOption)="setIsDollars($event)">
+          </app-schedule-quotas-first-step>
+        </div>
       </cdk-step>
 
       <cdk-step [stepControl]="ruleForm" fxLayout="column" label="{{step2 || 'Regla'}}">
-        <app-schedule-quotas-second-step>
+        <div class="schedule-quotas__container-step">
+          <ng-container *ngIf="isColones">
+            <app-schedule-quotas-second-step
+            [currencyCode]="188"
+            [ruleForm]="ruleForm.get('colones')">
 
-        </app-schedule-quotas-second-step>
+            </app-schedule-quotas-second-step>
+          </ng-container>
+
+          <ng-container *ngIf="isColones && isDollars">
+            <div fxLayout="row" fxLayoutAlign="center center" class="schedule-quotas__divider">
+              <mat-divider credixDivider></mat-divider>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="isDollars">
+            <app-schedule-quotas-second-step
+            [currencyCode]="840"
+            [ruleForm]="ruleForm.get('dollars')">
+
+            </app-schedule-quotas-second-step>
+          </ng-container>
+        </div>
       </cdk-step>
 
       <cdk-step [stepControl]="summaryForm" fxLayout="column" label="{{step3 || 'Resumen'}}">
-        <app-schedule-quotas-third-step>
+        <div class="schedule-quotas__container-step">
+          <app-schedule-quotas-third-step >
 
-        </app-schedule-quotas-third-step>
+          </app-schedule-quotas-third-step>
+        </div>
       </cdk-step>
     </credix-stepper>
 

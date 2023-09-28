@@ -9,22 +9,9 @@ import { FormGroup } from '@angular/forms';
 export class ScheduleQuotasFirstStepComponent implements OnInit {
 
   @Input() currencyForm: FormGroup;
+  @Input() currencyList: any[];
   @Output() dollarsOption = new EventEmitter<boolean>()
   @Output() colonesOption = new EventEmitter<boolean>()
-
-  itemCurrencyList = [
-    {
-      description: 'Colones',
-      code: 188,
-      isSelected: false,
-    },
-    {
-      description: 'Dólares',
-      code: 640,
-      isSelected: false,
-    }
-  ]
-
 
   constructor() { }
 

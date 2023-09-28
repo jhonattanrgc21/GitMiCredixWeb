@@ -15,40 +15,28 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   providers: [DatePipe]
 })
 export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
-  currencyForm: FormGroup = new FormGroup({
-    colones: new FormControl(null),
-    dollars: new FormControl(null),
-  });
+  currencyForm: FormGroup;
+  ruleForm: FormGroup;
+  summaryForm: FormGroup;
 
-  ruleForm: FormGroup = new FormGroup({
-    colones: new FormGroup({
-      minimumAmount: new FormControl('', [Validators.required]),
-      maximumAmount: new FormControl('', [Validators.required]),
-      quotas:  new FormControl('', [Validators.required]),
-      commissions: new FormControl('', [Validators.required]),
-      interest:  new FormControl('', [Validators.required]),
-      initDate:  new FormControl('', [Validators.required]),
-      endDate:  new FormControl('', [Validators.required]),
-    }),
-    dollars: new FormGroup({
-      minimumAmount: new FormControl('', [Validators.required]),
-      maximumAmount: new FormControl('', [Validators.required]),
-      quotas:  new FormControl('', [Validators.required]),
-      commissions: new FormControl('', [Validators.required]),
-      interest:  new FormControl('', [Validators.required]),
-      initDate:  new FormControl('', [Validators.required]),
-      endDate:  new FormControl('', [Validators.required]),
-    }),
-  });
-
-  summaryForm: FormGroup = new FormGroup({
-  });
-
+  // Esto debe recuperarse de Backend
+  currencyList: any[] = [
+    {
+      code: 188,
+      description: 'Colones',
+      isSelected: false,
+    },
+    {
+      code: 840,
+      description: 'Dólares',
+      isSelected: false,
+    }
+  ]
 
   isColones: boolean = false;
   isDollars: boolean = false;
   selectedIndex = 0;
-  disableButton = false;
+  disableButton = true;
   done = false;
   message: string;
   status: 'success' | 'error';
@@ -68,6 +56,34 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     private router: Router,
     private datePipe: DatePipe) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.currencyForm = new FormGroup({
+      colones: new FormControl(null),
+      dollars: new FormControl(null),
+    });
+
+    this.ruleForm = new FormGroup({
+      colones: new FormGroup({
+        minimumAmount: new FormControl('', [Validators.required]),
+        maximumAmount: new FormControl('', [Validators.required]),
+        quotas:  new FormControl('', [Validators.required]),
+        commissions: new FormControl('', [Validators.required]),
+        interest:  new FormControl('', [Validators.required]),
+        initDate:  new FormControl('', [Validators.required]),
+        endDate:  new FormControl('', [Validators.required]),
+      }),
+      dollars: new FormGroup({
+        minimumAmount: new FormControl('', [Validators.required]),
+        maximumAmount: new FormControl('', [Validators.required]),
+        quotas:  new FormControl('', [Validators.required]),
+        commissions: new FormControl('', [Validators.required]),
+        interest:  new FormControl('', [Validators.required]),
+        initDate:  new FormControl('', [Validators.required]),
+        endDate:  new FormControl('', [Validators.required]),
+      }),
+    });
+
+    this.summaryForm = new FormGroup({
+    });
   }
 
 
@@ -97,7 +113,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   setEnableButton() {
     switch (this.selectedIndex) {
       case 0:
-        this.disableButton = true
+        if(this.isColones || this.isDollars) this.disableButton = false;
         this.currencyForm.valueChanges.subscribe((obj) => {
           if(!obj.colones && !obj.dollars) this.disableButton = true;
           else this.disableButton = false;

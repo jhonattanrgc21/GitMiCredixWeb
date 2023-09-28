@@ -1,4 +1,17 @@
-<div fxLayout="row"  class="schedule-quotas-second-step" fxLayoutAlign="space-between">
-  <h1>Hola</h1>
-  <h1>Hola</h1>
+<div class="schedule-quotas-second-step" fxLayout="row" fxLayoutGap="32px">
+  <span fxFlex="50%"><strong>{{ infoLabel }}</strong></span>
+
+
+  <div fxFlex="50%" class="content" fxLayout="column" fxLayoutGap="16px">
+      <form [formGroup]="ruleForm" >
+        <div fxLayout="row"  fxLayoutGap="17px">
+          <credix-input-field [prefix]="currencyCode != 188? '$': ''" class="content__input"  formControlName="minimumAmount" label="Monto mínimo" mask="separator">
+          </credix-input-field>
+
+          <credix-input-field  [prefix]="currencyCode != 188? '$': ''" class="content__input" formControlName="maximumAmount"  label="Monto máximo" mask="separator">
+          </credix-input-field>
+      </div>
+    </form>
+  </div>
+
 </div>

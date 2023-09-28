@@ -5,7 +5,7 @@
 
   <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
     <credix-checkbox-button
-      *ngFor="let item of itemCurrencyList"
+      *ngFor="let item of currencyList"
       (emitCheckBox)="getValueCheckBoxes($event.checked, item)"
       [checked]="item.isSelected != undefined && item.isSelected"
       [label]="item.description"
