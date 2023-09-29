@@ -47,6 +47,7 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   template: TemplateRef<any>;
   done: boolean = false;
   isEmpty: boolean = false;
+  commissionMonthly: string = '';
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
@@ -116,6 +117,13 @@ export class ExtendTermTotalOwedComponent implements OnInit {
 
   selectExtendQuotaSummary() {
     this.extendQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
+    this.extendQuotaSummary.feeAmount = this.extendQuotaSummary?.feeAmount.replace('.', ',')
+    if(this.extendQuotaSummary?.isCommissionMonthly){
+      this.commissionMonthly = 'mensual';
+    }
+    else{
+      this.commissionMonthly = '';
+    }
   }
 
   saveQuota() {

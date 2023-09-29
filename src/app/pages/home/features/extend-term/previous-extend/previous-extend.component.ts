@@ -40,8 +40,9 @@ export class PreviousExtendComponent implements OnInit {
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
   percentageCommission: string = '';
-  feedPercentage : any;
+  feedPercentage : string;
   result: any;
+  commissionMonthly: string = '';
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -77,13 +78,13 @@ export class PreviousExtendComponent implements OnInit {
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
 
-              const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
+              const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmountDilute );
 
               const aux = [...this.quotas];
 
               aux.shift();
               
-              this.result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
+              this.result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmountDilute ) !== commission);
             }
           }
         );
@@ -96,12 +97,20 @@ export class PreviousExtendComponent implements OnInit {
 
   selectMovementQuotaSummary() {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
-    this.feedPercentage = this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage);
+    this.feedPercentage = String(this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage));
+    this.feedPercentage = this.feedPercentage .replace('.', ',');
     
     if ( !this.result ) {
       this.percentageCommission = '';
     } else {
-      this.percentageCommission =  this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
+      if(this.movementQuotaSummary.isCommissionMonthly){
+        this.commissionMonthly = ' mensual';
+      }
+      else{
+        this.commissionMonthly = '';
+      }
+      this.percentageCommission =  String(this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage));
+      this.percentageCommission = this.percentageCommission .replace('.', ',');
     }
   }
   

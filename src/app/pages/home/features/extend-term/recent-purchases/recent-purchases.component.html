@@ -92,11 +92,11 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <p fxFlex="auto">{{comisionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%)' }}</p>
+            <p fxFlex="auto">{{comisionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%' + commissionMonthly +  ')' }}</p>
             <div [ngClass]="{'extend-term__text-disabled' :
             allowedMovementSelected?.totalPlanQuota === quotaSelected?.quotaTo}">
               <credix-numeric-block [prefix]="allowedMovementSelected?.originCurrency.currency"
-                                    [value]="quotaSelected?.commissionAmount"
+                                    [value]="quotaSelected?.commissionAmountDilute"
                                     fontSize="16" fontWeight="bold" [class.extend-term__promo-apply]='allowedMovementSelected.promoApply && (quotaSelected?.quotaTo != 1 && quotaSelected?.quotaTo == quotaPromoMax)'></credix-numeric-block>
             </div>
           </div>
@@ -123,7 +123,7 @@
           </div>
 
           <p class="extend-term__message">
-            {{'* IVA y comisión se cargarán en el próximo estado de cuenta.'}}.</p>
+            {{'* Se cargará en el próximo estado de cuenta.'}}.</p>
 
       </div>
 
