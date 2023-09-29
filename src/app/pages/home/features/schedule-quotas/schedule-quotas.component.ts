@@ -17,7 +17,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   currencyForm: FormGroup;
   ruleForm: FormGroup;
-  summaryForm: FormGroup;
 
   // Esto debe recuperarse de Backend
   currencyList: any[] = [
@@ -63,27 +62,25 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
 
     this.ruleForm = new FormGroup({
       colones: new FormGroup({
-        minimumAmount: new FormControl('', [Validators.required]),
-        maximumAmount: new FormControl('', [Validators.required]),
-        quotas:  new FormControl('', [Validators.required]),
-        commissions: new FormControl('', [Validators.required]),
-        interest:  new FormControl('', [Validators.required]),
-        initDate:  new FormControl('', [Validators.required]),
-        endDate:  new FormControl('', [Validators.required]),
+        minimumAmount: new FormControl(''),
+        maximumAmount: new FormControl(''),
+        quotas:  new FormControl(''),
+        commissions: new FormControl(''),
+        interest:  new FormControl(''),
+        initDate:  new FormControl(''),
+        endDate:  new FormControl(''),
       }),
       dollars: new FormGroup({
-        minimumAmount: new FormControl('', [Validators.required]),
-        maximumAmount: new FormControl('', [Validators.required]),
-        quotas:  new FormControl('', [Validators.required]),
-        commissions: new FormControl('', [Validators.required]),
-        interest:  new FormControl('', [Validators.required]),
-        initDate:  new FormControl('', [Validators.required]),
-        endDate:  new FormControl('', [Validators.required]),
+        minimumAmount: new FormControl(''),
+        maximumAmount: new FormControl(''),
+        quotas:  new FormControl(''),
+        commissions: new FormControl(''),
+        interest:  new FormControl(''),
+        initDate:  new FormControl(''),
+        endDate:  new FormControl(''),
       }),
     });
 
-    this.summaryForm = new FormGroup({
-    });
   }
 
 
@@ -109,6 +106,26 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.isActiveStepper = value;
   }
 
+  addValidationToForm(fieldName: string, isActive: boolean){
+    if(isActive){
+      this.ruleForm.get(fieldName).get('minimumAmount').setValidators(Validators.required);
+      this.ruleForm.get(fieldName).get('maximumAmount').setValidators(Validators.required);
+      this.ruleForm.get(fieldName).get('quotas').setValidators(Validators.required);
+      this.ruleForm.get(fieldName).get('commissions').setValidators(Validators.required);
+      this.ruleForm.get(fieldName).get('interest').setValidators(Validators.required);
+      this.ruleForm.get(fieldName).get('initDate').setValidators(Validators.required);
+      this.ruleForm.get(fieldName).get('endDate').setValidators(Validators.required);
+    }
+    else{
+      this.ruleForm.get(fieldName).get('minimumAmount').clearValidators();
+      this.ruleForm.get(fieldName).get('maximumAmount').clearValidators();
+      this.ruleForm.get(fieldName).get('quotas').clearValidators();
+      this.ruleForm.get(fieldName).get('commissions').clearValidators();
+      this.ruleForm.get(fieldName).get('interest').clearValidators();
+      this.ruleForm.get(fieldName).get('initDate').clearValidators();
+      this.ruleForm.get(fieldName).get('endDate').clearValidators();
+    }
+  }
 
   setEnableButton() {
     switch (this.selectedIndex) {
@@ -120,16 +137,16 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
         });
         break;
       case 1:
+        this.addValidationToForm('coolones', this.isColones);
+        this.addValidationToForm('dollars', this.isDollars);
         this.disableButton = this.ruleForm.invalid;
-        this.ruleForm.valueChanges.subscribe(() => {
+        this.disableButton = false;
+        this.ruleForm.valueChanges.subscribe((form) => {
           this.disableButton = this.ruleForm.invalid;
         });
         break;
       case 2:
-        this.disableButton = this.summaryForm.invalid;
-        this.summaryForm.valueChanges.subscribe(() => {
-          this.disableButton = this.summaryForm.invalid;
-        });
+        this.disableButton = false;
         break;
     }
   }
@@ -137,12 +154,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   next() {
     if (this.selectedIndex < 3) {
       this.stepper.next();
-      this.selectedIndex++;
+      this.selectedIndex = this.stepper.selectedIndex;
       this.disableButton = false;
-    }
-
-    if (this.selectedIndex === 2) {
-      this.summaryForm.controls.code.reset(null, [Validators.required]);
     }
 
     if (this.selectedIndex === 3) {

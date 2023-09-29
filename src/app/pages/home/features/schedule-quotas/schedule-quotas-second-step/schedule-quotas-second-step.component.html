@@ -3,15 +3,38 @@
 
 
   <div fxFlex="50%" class="content" fxLayout="column" fxLayoutGap="16px">
-      <form [formGroup]="ruleForm" >
-        <div fxLayout="row"  fxLayoutGap="17px">
-          <credix-input-field [prefix]="currencyCode != 188? '$': ''" class="content__input"  formControlName="minimumAmount" label="Monto mínimo" mask="separator">
+      <form [formGroup]="ruleForm" class="content__form">
+        <div fxLayout="row" fxLayoutGap="17px">
+          <credix-input-field [prefix]="currencyCode != 188? '$': ''" class="content__input" formControlName="minimumAmount"
+            label="Monto mínimo" mask="separator">
           </credix-input-field>
 
-          <credix-input-field  [prefix]="currencyCode != 188? '$': ''" class="content__input" formControlName="maximumAmount"  label="Monto máximo" mask="separator">
+          <credix-input-field [prefix]="currencyCode != 188? '$': ''" class="content__input" formControlName="maximumAmount"
+            label="Monto máximo" mask="separator">
           </credix-input-field>
-      </div>
-    </form>
+        </div>
+
+        <!-- <div fxLayout="row" >
+                <credix-slider (inputChange)="getQuota($event)" (valueChange)="getQuota($event)" [displayMax]="quotaSliderDisplayMax"
+                  [displayMin]="quotaSliderDisplayMin" [displayValue]="quotaSliderDisplayValue"
+                  instructions="{{secondStepTagDiv || 'Deseo dividir este pago en'}}" [max]="quotaSliderMax" [min]="quotaSliderMin"
+                  [step]="quotaSliderStep" class="marchamo-second-step__content__middle"
+                  [units]="quotaSliderDisplayValue === 1 ? 'Cuota' : 'Cuotas'"></credix-slider>
+              </div> -->
+        <div fxLayout="row" class="mt-16px" fxLayoutAlign="space-between">
+          <span fxFlex="133px">Comisión mensual</span>
+          <span class="tr"><strong>5,5%</strong></span>
+        </div>
+
+        <div fxLayout="row" class="mt-8px" fxLayoutAlign="space-between">
+          <span fxFlex="115px">Interés mensual</span>
+          <span class="tr"><strong>0%</strong></span>
+        </div>
+
+        <div fxLayout="row" class="mt-16px" fxLayoutAlign="flex-end">
+          <credix-link-button (click)="''">Definir fechas</credix-link-button>
+        </div>
+      </form>
   </div>
 
 </div>

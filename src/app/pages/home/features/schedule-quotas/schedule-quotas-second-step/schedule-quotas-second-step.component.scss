@@ -1,14 +1,19 @@
 .schedule-quotas-second-step{
   width: 877px;
-  height: 662px;
+  //height: 662px;
   padding: 0 84px;
 
 
   .content {
     position: relative;
     top: -12px;
+
     &__input {
       width: 147px;
+    }
+
+    &__form{
+      width: 311px;
     }
   }
 }

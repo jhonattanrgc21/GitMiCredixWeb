@@ -1,6 +1,6 @@
 .schedule-quotas{
   position: relative;
-  
+
   &__stepper{
     margin-top: 24px;
   }
@@ -10,7 +10,8 @@
   }
 
   &__divider {
-    padding: 16px 112px;
+    width: 850px;
+    padding: 16px 84px;
   }
 
   .color-blue{

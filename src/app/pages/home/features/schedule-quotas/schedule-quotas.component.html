@@ -26,10 +26,8 @@
           <p>Este producto aplica únicamente para los consumos de la red Visa.</p>
         </div>
         <div class="web-site" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
-          <button mat-button>
-            <mat-icon class="web-site__icon color-blue" >language</mat-icon>
-            <p class="web-site__text color-blue">Blog Credix</p>
-          </button>
+          <mat-icon class="web-site__icon color-blue" >language</mat-icon>
+          <credix-link-button (click)="''">Blog Credix</credix-link-button>
         </div>
       </div>
     </div>
@@ -56,7 +54,7 @@
         </div>
       </cdk-step>
 
-      <cdk-step [stepControl]="ruleForm" fxLayout="column" label="{{step2 || 'Regla'}}">
+      <cdk-step [stepControl]="ruleForm" fxLayout="column" fxLayoutAlign="start center" label="{{step2 || 'Regla'}}">
         <div class="schedule-quotas__container-step">
           <ng-container *ngIf="isColones">
             <app-schedule-quotas-second-step
@@ -67,8 +65,8 @@
           </ng-container>
 
           <ng-container *ngIf="isColones && isDollars">
-            <div fxLayout="row" fxLayoutAlign="center center" class="schedule-quotas__divider">
-              <mat-divider credixDivider></mat-divider>
+            <div fxLayout="row" class="schedule-quotas__divider">
+              <mat-divider credixDivider ></mat-divider>
             </div>
           </ng-container>
 
@@ -82,7 +80,7 @@
         </div>
       </cdk-step>
 
-      <cdk-step [stepControl]="summaryForm" fxLayout="column" label="{{step3 || 'Resumen'}}">
+      <cdk-step  fxLayout="column" label="{{step3 || 'Resumen'}}">
         <div class="schedule-quotas__container-step">
           <app-schedule-quotas-third-step >
 
