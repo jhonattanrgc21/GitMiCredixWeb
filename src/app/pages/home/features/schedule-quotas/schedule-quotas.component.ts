@@ -16,21 +16,24 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   currencyForm: FormGroup;
-  ruleForm: FormGroup;
-
-  // Esto debe recuperarse de Backend
-  currencyList: any[] = [
-    {
-      code: 188,
-      description: 'Colones',
-      isSelected: false,
-    },
-    {
-      code: 840,
-      description: 'Dólares',
-      isSelected: false,
-    }
-  ]
+  colonesForm: FormGroup =  new FormGroup({
+    minimumAmount: new FormControl(null, Validators.required),
+    maximumAmount: new FormControl(null, Validators.required),
+    quotas: new FormControl(null, Validators.required),
+    commissions: new FormControl(null, Validators.required),
+    interest: new FormControl(null, Validators.required),
+    initDate: new FormControl(null, Validators.required),
+    endDate: new FormControl(null, Validators.required),
+  })
+  dollarsForm: FormGroup =  new FormGroup({
+    minimumAmount: new FormControl(null, Validators.required),
+    maximumAmount: new FormControl(null, Validators.required),
+    quotas: new FormControl(null, Validators.required),
+    commissions: new FormControl(null, Validators.required),
+    interest: new FormControl(null, Validators.required),
+    initDate: new FormControl(null, Validators.required),
+    endDate: new FormControl(null, Validators.required),
+  })
 
   isColones: boolean = false;
   isDollars: boolean = false;
@@ -55,32 +58,29 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     private router: Router,
     private datePipe: DatePipe) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+
     this.currencyForm = new FormGroup({
-      colones: new FormControl(null),
-      dollars: new FormControl(null),
+      disableNextStep: new FormControl(false, Validators.required),
     });
 
-    this.ruleForm = new FormGroup({
-      colones: new FormGroup({
-        minimumAmount: new FormControl(''),
-        maximumAmount: new FormControl(''),
-        quotas:  new FormControl(''),
-        commissions: new FormControl(''),
-        interest:  new FormControl(''),
-        initDate:  new FormControl(''),
-        endDate:  new FormControl(''),
-      }),
-      dollars: new FormGroup({
-        minimumAmount: new FormControl(''),
-        maximumAmount: new FormControl(''),
-        quotas:  new FormControl(''),
-        commissions: new FormControl(''),
-        interest:  new FormControl(''),
-        initDate:  new FormControl(''),
-        endDate:  new FormControl(''),
-      }),
-    });
-
+    this.colonesForm =  new FormGroup({
+      minimumAmount: new FormControl(null, Validators.required),
+      maximumAmount: new FormControl(null, Validators.required),
+      quotas: new FormControl(null, Validators.required),
+      commissions: new FormControl(null, Validators.required),
+      interest: new FormControl(null, Validators.required),
+      initDate: new FormControl(null, Validators.required),
+      endDate: new FormControl(null, Validators.required),
+    })
+    this.dollarsForm =  new FormGroup({
+      minimumAmount: new FormControl(null, Validators.required),
+      maximumAmount: new FormControl(null, Validators.required),
+      quotas: new FormControl(null, Validators.required),
+      commissions: new FormControl(null, Validators.required),
+      interest: new FormControl(null, Validators.required),
+      initDate: new FormControl(null, Validators.required),
+      endDate: new FormControl(null, Validators.required),
+    })
   }
 
 
@@ -106,44 +106,23 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.isActiveStepper = value;
   }
 
-  addValidationToForm(fieldName: string, isActive: boolean){
-    if(isActive){
-      this.ruleForm.get(fieldName).get('minimumAmount').setValidators(Validators.required);
-      this.ruleForm.get(fieldName).get('maximumAmount').setValidators(Validators.required);
-      this.ruleForm.get(fieldName).get('quotas').setValidators(Validators.required);
-      this.ruleForm.get(fieldName).get('commissions').setValidators(Validators.required);
-      this.ruleForm.get(fieldName).get('interest').setValidators(Validators.required);
-      this.ruleForm.get(fieldName).get('initDate').setValidators(Validators.required);
-      this.ruleForm.get(fieldName).get('endDate').setValidators(Validators.required);
-    }
-    else{
-      this.ruleForm.get(fieldName).get('minimumAmount').clearValidators();
-      this.ruleForm.get(fieldName).get('maximumAmount').clearValidators();
-      this.ruleForm.get(fieldName).get('quotas').clearValidators();
-      this.ruleForm.get(fieldName).get('commissions').clearValidators();
-      this.ruleForm.get(fieldName).get('interest').clearValidators();
-      this.ruleForm.get(fieldName).get('initDate').clearValidators();
-      this.ruleForm.get(fieldName).get('endDate').clearValidators();
-    }
+  canNotAdvance(): boolean {
+    return this.colonesForm.invalid || this.dollarsForm.invalid;
   }
 
   setEnableButton() {
     switch (this.selectedIndex) {
       case 0:
-        if(this.isColones || this.isDollars) this.disableButton = false;
         this.currencyForm.valueChanges.subscribe((obj) => {
-          if(!obj.colones && !obj.dollars) this.disableButton = true;
-          else this.disableButton = false;
+          this.disableButton = this.currencyForm.get('disableNextStep').value;
         });
+        this.colonesForm.reset();
+        this.dollarsForm.reset();
+        if(this.isColones || this.isDollars) this.disableButton = false;
         break;
-      case 1:
-        this.addValidationToForm('coolones', this.isColones);
-        this.addValidationToForm('dollars', this.isDollars);
-        this.disableButton = this.ruleForm.invalid;
-        this.disableButton = false;
-        this.ruleForm.valueChanges.subscribe((form) => {
-          this.disableButton = this.ruleForm.invalid;
-        });
+        case 1:
+          //this.disableButton = this.canNotAdvance();
+          this.disableButton = false;
         break;
       case 2:
         this.disableButton = false;

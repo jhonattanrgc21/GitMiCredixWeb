@@ -42,47 +42,32 @@
 
   <!-- Stepper Inicio-->
   <ng-template #stepperTemplate>
-    <credix-stepper #scheduleQuotasStepper class="schedule-quotas__stepper" fxFlex>
-      <cdk-step [stepControl]="currencyForm" fxLayout="column" label="{{step || 'Moneda'}}">
+    <credix-stepper  #scheduleQuotasStepper class="schedule-quotas__stepper" fxFlex>
+      <cdk-step  [stepControl]="currencyForm" fxLayout="column" label="{{step || 'Moneda'}}">
         <div class="schedule-quotas__container-step">
           <app-schedule-quotas-first-step
-            [currencyList]="currencyList"
-            [currencyForm]="currencyForm"
+            [disableNextStepControl]="currencyForm.get('disableNextStep')"
             (colonesOption)="setIsColones($event)"
             (dollarsOption)="setIsDollars($event)">
           </app-schedule-quotas-first-step>
         </div>
       </cdk-step>
 
-      <cdk-step [stepControl]="ruleForm" fxLayout="column" fxLayoutAlign="start center" label="{{step2 || 'Regla'}}">
+      <cdk-step fxLayout="column" fxLayoutAlign="start center" label="{{step2 || 'Regla'}}">
         <div class="schedule-quotas__container-step">
-          <ng-container *ngIf="isColones">
-            <app-schedule-quotas-second-step
-            [currencyCode]="188"
-            [ruleForm]="ruleForm.get('colones')">
-
-            </app-schedule-quotas-second-step>
-          </ng-container>
-
-          <ng-container *ngIf="isColones && isDollars">
-            <div fxLayout="row" class="schedule-quotas__divider">
-              <mat-divider credixDivider ></mat-divider>
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="isDollars">
-            <app-schedule-quotas-second-step
-            [currencyCode]="840"
-            [ruleForm]="ruleForm.get('dollars')">
-
-            </app-schedule-quotas-second-step>
-          </ng-container>
+          <app-schedule-quotas-second-step
+            [colonesForm]="colonesForm"
+            [dollarsForm]="dollarsForm"
+            [isColones]="isColones"
+            [isDollars]="isDollars">
+          </app-schedule-quotas-second-step>
         </div>
       </cdk-step>
 
       <cdk-step  fxLayout="column" label="{{step3 || 'Resumen'}}">
         <div class="schedule-quotas__container-step">
-          <app-schedule-quotas-third-step >
+          <app-schedule-quotas-third-step [colonesForm]="colonesForm" [dollarsForm]="dollarsForm" [isColones]="isColones"
+            [isDollars]="isDollars">>
 
           </app-schedule-quotas-third-step>
         </div>

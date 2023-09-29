@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-schedule-quotas-first-step',
@@ -8,10 +8,22 @@ import { FormGroup } from '@angular/forms';
 })
 export class ScheduleQuotasFirstStepComponent implements OnInit {
 
-  @Input() currencyForm: FormGroup;
-  @Input() currencyList: any[];
+  @Input() disableNextStepControl: FormControl;
   @Output() dollarsOption = new EventEmitter<boolean>()
   @Output() colonesOption = new EventEmitter<boolean>()
+  
+  currencyList: any[] = [
+    {
+      code: 188,
+      description: 'Colones',
+      isSelected: false,
+    },
+    {
+      code: 840,
+      description: 'Dólares',
+      isSelected: false,
+    }
+  ]
 
   constructor() { }
 
@@ -20,14 +32,14 @@ export class ScheduleQuotasFirstStepComponent implements OnInit {
 
   getValueCheckBoxes(isChecked: boolean, item: any) {
     item.isSelected = isChecked;
-    if(item.code == 188)
-    {
-      this.currencyForm.get('colones').setValue(item.isSelected);
-      this.colonesOption.emit(item.isSelected);
+    if(item.code == 188) this.colonesOption.emit(item.isSelected);
+    else this.dollarsOption.emit(item.isSelected);
+
+    if(this.currencyList.filter(item => item.isSelected == false).length == 2){
+      this.disableNextStepControl.setValue(true);
     }
     else{
-      this.currencyForm.get('dollars').setValue(item.isSelected);
-      this.dollarsOption.emit(item.isSelected);
+      this.disableNextStepControl.setValue(false);
     }
   }
 }

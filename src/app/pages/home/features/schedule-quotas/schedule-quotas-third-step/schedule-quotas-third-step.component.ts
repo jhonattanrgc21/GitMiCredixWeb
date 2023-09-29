@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-schedule-quotas-third-step',
@@ -6,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./schedule-quotas-third-step.component.scss']
 })
 export class ScheduleQuotasThirdStepComponent implements OnInit {
+  @Input() colonesForm: FormGroup;
+  @Input() dollarsForm: FormGroup;
+  @Input() isColones: boolean;
+  @Input() isDollars: boolean;
 
   constructor() { }
 

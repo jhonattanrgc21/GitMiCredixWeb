@@ -1,1 +1,75 @@
-<p>schedule-quotas-third-step works!</p>
+<div class="schedule-quotas-third-step" >
+  <div fxLayout="column" class="content"  fxLayoutGap="16px"  >
+    <ng-container *ngIf="isColones">
+      <div fxLayout="row"  fxLayoutGap="32px" fxLayoutAlign="space-between">
+        <div fxLayout="column" fxFlex="35%"   fxLayoutGap="16px">
+          <span><strong>Compra en colones</strong></span>
+          <credix-link-button (click)="''">Editar</credix-link-button>
+        </div>
+
+        <div fxLayout="column" fxFlex="65%"  fxLayoutGap="16px">
+          <div fxLayout="row">
+            <span class="width-info">Toda compra entre <strong>₡10.000 - ₡100.000</strong> se ampliará a <strong>3 cuotas.</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span >Comisión mensual*</span>
+            <span><strong>5,5%</strong></span>
+          </div>
+
+          <div fxLayout="row"  fxLayoutAlign="space-between">
+            <span >Interés mensual</span>
+            <span><strong>0%</strong></span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="isDollars">
+      <div fxLayout="row"  fxLayoutGap="32px" fxLayoutAlign="space-between">
+        <div fxLayout="column" fxFlex="35%"   fxLayoutGap="16px">
+          <span><strong>Compra en d&oacute;lares</strong></span>
+          <credix-link-button (click)="''">Editar</credix-link-button>
+        </div>
+
+        <div fxLayout="column" fxFlex="65%"  fxLayoutGap="16px">
+          <div fxLayout="row">
+            <span class="width-info">Toda compra entre <strong>₡10.000 - ₡100.000</strong> se ampliará a <strong>3 cuotas.</strong></span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span >Comisión mensual*</span>
+            <span><strong>5,5%</strong></span>
+          </div>
+
+          <div fxLayout="row"  fxLayoutAlign="space-between">
+            <span >Interés mensual</span>
+            <span><strong>0%</strong></span>
+          </div>
+
+        </div>
+      </div>
+    </ng-container>
+
+    <div fxLayout="row" fxLayoutAlign="flex-end">
+      <div fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="row">
+          <span  class="width-info"><strong>Aplica</strong> para transacciones en firme (no flotantes) entre el 30 y el 26
+            de cada mes. </span>
+        </div>
+
+        <div fxLayout="row">
+          <span  class="width-info"><strong>No aplica</strong> para transacciones que queden en firme entre el 27 y el 29
+            del mes.</span>
+        </div>
+
+        <div fxLayout="row">
+          <span  class="width-info">*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el Banco
+            Central.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

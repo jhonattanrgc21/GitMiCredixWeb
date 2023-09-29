@@ -1,40 +1,93 @@
-<div class="schedule-quotas-second-step" fxLayout="row" fxLayoutGap="32px">
-  <span fxFlex="50%"><strong>{{ infoLabel }}</strong></span>
+<div class="schedule-quotas-second-step" >
+  <ng-container *ngIf="isColones">
+    <div fxLayout="row" fxLayoutGap="32px">
+      <span fxFlex="50%"><strong>Quiero que mis compras en colones entre:</strong></span>
+
+      <div fxFlex="50%" class="content" fxLayout="column" fxLayoutGap="16px">
+          <form [formGroup]="colonesForm" class="content__form">
+            <div fxLayout="row" fxLayoutGap="17px">
+              <credix-input-field class="content__input" formControlName="minimumAmount"
+                label="Monto mínimo" mask="separator">
+              </credix-input-field>
+
+              <credix-input-field class="content__input" formControlName="maximumAmount"
+                label="Monto máximo" mask="separator">
+              </credix-input-field>
+            </div>
+
+            <!-- <div fxLayout="row" >
+                    <credix-slider (inputChange)="getQuota($event)" (valueChange)="getQuota($event)" [displayMax]="quotaSliderDisplayMax"
+                      [displayMin]="quotaSliderDisplayMin" [displayValue]="quotaSliderDisplayValue"
+                      instructions="{{secondStepTagDiv || 'Deseo dividir este pago en'}}" [max]="quotaSliderMax" [min]="quotaSliderMin"
+                      [step]="quotaSliderStep" class="marchamo-second-step__content__middle"
+                      [units]="quotaSliderDisplayValue === 1 ? 'Cuota' : 'Cuotas'"></credix-slider>
+                  </div> -->
+            <div fxLayout="row" class="mt-16px" fxLayoutAlign="space-between">
+              <span fxFlex="133px">Comisión mensual</span>
+              <span class="tr"><strong>5,5%</strong></span>
+            </div>
+
+            <div fxLayout="row" class="mt-8px" fxLayoutAlign="space-between">
+              <span fxFlex="115px">Interés mensual</span>
+              <span class="tr"><strong>0%</strong></span>
+            </div>
+
+            <div fxLayout="row" class="mt-16px" fxLayoutAlign="flex-end">
+              <credix-link-button (click)="''">Definir fechas</credix-link-button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </ng-container>
 
 
-  <div fxFlex="50%" class="content" fxLayout="column" fxLayoutGap="16px">
-      <form [formGroup]="ruleForm" class="content__form">
-        <div fxLayout="row" fxLayoutGap="17px">
-          <credix-input-field [prefix]="currencyCode != 188? '$': ''" class="content__input" formControlName="minimumAmount"
-            label="Monto mínimo" mask="separator">
-          </credix-input-field>
+  <ng-container *ngIf="isColones && isDollars">
+    <div fxLayout="row" class="schedule-quotas__divider">
+      <mat-divider class="mt-16px mb-16px" credixDivider ></mat-divider>
+    </div>
+  </ng-container>
 
-          <credix-input-field [prefix]="currencyCode != 188? '$': ''" class="content__input" formControlName="maximumAmount"
-            label="Monto máximo" mask="separator">
-          </credix-input-field>
-        </div>
+  <ng-container *ngIf="isDollars">
+    <div fxLayout="row" fxLayoutGap="32px">
+      <span fxFlex="50%"><strong>Quiero que mis compras en d&oacute;lares entre:</strong></span>
 
-        <!-- <div fxLayout="row" >
-                <credix-slider (inputChange)="getQuota($event)" (valueChange)="getQuota($event)" [displayMax]="quotaSliderDisplayMax"
-                  [displayMin]="quotaSliderDisplayMin" [displayValue]="quotaSliderDisplayValue"
-                  instructions="{{secondStepTagDiv || 'Deseo dividir este pago en'}}" [max]="quotaSliderMax" [min]="quotaSliderMin"
-                  [step]="quotaSliderStep" class="marchamo-second-step__content__middle"
-                  [units]="quotaSliderDisplayValue === 1 ? 'Cuota' : 'Cuotas'"></credix-slider>
-              </div> -->
-        <div fxLayout="row" class="mt-16px" fxLayoutAlign="space-between">
-          <span fxFlex="133px">Comisión mensual</span>
-          <span class="tr"><strong>5,5%</strong></span>
-        </div>
 
-        <div fxLayout="row" class="mt-8px" fxLayoutAlign="space-between">
-          <span fxFlex="115px">Interés mensual</span>
-          <span class="tr"><strong>0%</strong></span>
-        </div>
+      <div fxFlex="50%" class="content" fxLayout="column" fxLayoutGap="16px">
+          <form [formGroup]="dollarsForm" class="content__form">
+            <div fxLayout="row" fxLayoutGap="17px">
+              <credix-input-field  class="content__input" formControlName="minimumAmount"
+                label="Monto mínimo" mask="separator">
+              </credix-input-field>
 
-        <div fxLayout="row" class="mt-16px" fxLayoutAlign="flex-end">
-          <credix-link-button (click)="''">Definir fechas</credix-link-button>
-        </div>
-      </form>
-  </div>
+              <credix-input-field class="content__input" formControlName="maximumAmount"
+                label="Monto máximo" mask="separator">
+              </credix-input-field>
+            </div>
+
+            <!-- <div fxLayout="row" >
+                    <credix-slider (inputChange)="getQuota($event)" (valueChange)="getQuota($event)" [displayMax]="quotaSliderDisplayMax"
+                      [displayMin]="quotaSliderDisplayMin" [displayValue]="quotaSliderDisplayValue"
+                      instructions="{{secondStepTagDiv || 'Deseo dividir este pago en'}}" [max]="quotaSliderMax" [min]="quotaSliderMin"
+                      [step]="quotaSliderStep" class="marchamo-second-step__content__middle"
+                      [units]="quotaSliderDisplayValue === 1 ? 'Cuota' : 'Cuotas'"></credix-slider>
+                  </div> -->
+            <div fxLayout="row" class="mt-16px" fxLayoutAlign="space-between">
+              <span fxFlex="133px">Comisión mensual</span>
+              <span class="tr"><strong>5,5%</strong></span>
+            </div>
+
+            <div fxLayout="row" class="mt-8px" fxLayoutAlign="space-between">
+              <span fxFlex="115px">Interés mensual</span>
+              <span class="tr"><strong>0%</strong></span>
+            </div>
+
+            <div fxLayout="row" class="mt-16px" fxLayoutAlign="flex-end">
+              <credix-link-button (click)="''">Definir fechas</credix-link-button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </ng-container>
+
 
 </div>
