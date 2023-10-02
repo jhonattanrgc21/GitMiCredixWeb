@@ -1,8 +1,10 @@
 .schedule-quotas-first-step{
-  margin: 0 auto 367px;
+  //margin: 0 auto 367px;
+  margin: 0 auto;
+  box-sizing: border-box;
   max-width:420px;
   width: 420px;
-  height: 64px;
+  height: 367px;
 
   &__info{
     width: 265px;

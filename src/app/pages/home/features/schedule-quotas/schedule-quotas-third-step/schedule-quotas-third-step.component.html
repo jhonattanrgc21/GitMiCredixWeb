@@ -1,5 +1,5 @@
-<div class="schedule-quotas-third-step" >
-  <div fxLayout="column" class="content"  fxLayoutGap="16px"  >
+<div class="schedule-quotas-third-step"  [ngStyle]="{'margin-bottom':isColones && isDollars? '16px':'169px'}">
+  <div fxLayout="column" class="content"  fxLayoutGap="16px">
     <ng-container *ngIf="isColones">
       <div fxLayout="row"  fxLayoutGap="32px" fxLayoutAlign="space-between">
         <div fxLayout="column" fxFlex="35%"   fxLayoutGap="16px">
@@ -21,7 +21,17 @@
             <span >Interés mensual</span>
             <span><strong>0%</strong></span>
           </div>
+
+          <div fxLayout="row">
+            <span >Aplica del <strong>04/11/2023</strong> al <strong>04/12/2023</strong></span>
+          </div>
         </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="isColones && isDollars">
+      <div fxLayout="row">
+        <mat-divider  credixDivider ></mat-divider>
       </div>
     </ng-container>
 
@@ -47,27 +57,24 @@
             <span><strong>0%</strong></span>
           </div>
 
+          <div fxLayout="row">
+            <span >Aplica del <strong>04/11/2023</strong> al <strong>04/12/2023</strong></span>
+          </div>
+
         </div>
       </div>
     </ng-container>
 
     <div fxLayout="row" fxLayoutAlign="flex-end">
-      <div fxLayout="column" fxLayoutGap="8px">
-        <div fxLayout="row">
-          <span  class="width-info"><strong>Aplica</strong> para transacciones en firme (no flotantes) entre el 30 y el 26
-            de cada mes. </span>
-        </div>
+      <div fxLayout="column" fxLayoutGap="8px" class="summary">
+        <p class="summary__text"><span class="summary__resalt-text">Aplica</span> para transacciones en firme (no flotantes) entre el 30 y el 26
+          de cada mes. </p>
+        <p class="summary__text"><span class="summary__resalt-text">No aplica</span> para transacciones que queden en firme entre el 27 y el 29
+          del mes.</p>
 
-        <div fxLayout="row">
-          <span  class="width-info"><strong>No aplica</strong> para transacciones que queden en firme entre el 27 y el 29
-            del mes.</span>
-        </div>
-
-        <div fxLayout="row">
-          <span  class="width-info">*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el Banco
-            Central.
-          </span>
-        </div>
+        <p class="summary__text">*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el Banco
+          Central.
+        </p>
       </div>
     </div>
   </div>

@@ -1,11 +1,32 @@
 .schedule-quotas-third-step{
   padding: 0 170px;
+  box-sizing: border-box;
+
   .content{
     width: 492px;
-
+    height: auto;
+    box-sizing: border-box;
     .width-info{
       width: 311px;
     }
-    
+
+    .summary{
+      width: 311px;
+      height: 127px;
+      box-sizing: border-box;
+
+      &__text{
+        color: #696D6F;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      &__resalt-text{
+        font-weight: 700;
+      }
+    }
+
   }
 }

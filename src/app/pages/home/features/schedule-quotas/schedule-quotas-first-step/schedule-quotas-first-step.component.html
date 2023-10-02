@@ -3,7 +3,7 @@
     <p class="text">Deseo programar automáticamente mis compras en:</p>
   </div>
 
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+  <div fxLayout="column"  fxLayoutGap="16px">
     <credix-checkbox-button
       *ngFor="let item of currencyList"
       (emitCheckBox)="getValueCheckBoxes($event.checked, item)"

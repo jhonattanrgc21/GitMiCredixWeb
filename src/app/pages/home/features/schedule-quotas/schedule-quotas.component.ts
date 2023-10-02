@@ -150,4 +150,53 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.setEnableButton();
   }
 
+  openConfirmationModal(typeModal: number) {
+
+    switch(typeModal){
+      case 1:
+        this.modalService.confirmationPopup('¿Desea establecer esta regla?')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            console.log('Confirmado');
+          } else {
+            this.selectedIndex = 2;
+          }
+        });
+      break;
+
+      case 2:
+        this.modalService.confirmationPopup('¿Desea desactivar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            console.log('Regla desactivada');
+          } else {
+            console.log('Cancelado');
+          }
+        });
+      break;
+
+      case 3:
+        this.modalService.confirmationPopup('¿Desea activar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            console.log('Regla activada');
+          } else {
+            console.log('Cancelado');
+          }
+        });
+      break;
+
+      case 4:
+        this.modalService.confirmationPopup('¿Desea editar esta regla?')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            console.log('Regla editada');
+          } else {
+            console.log('Cancelado');
+          }
+        });
+      break;
+    }
+  }
+
 }
