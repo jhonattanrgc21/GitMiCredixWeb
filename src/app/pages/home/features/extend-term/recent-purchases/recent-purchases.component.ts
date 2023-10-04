@@ -114,7 +114,7 @@ export class RecentPurchasesComponent implements OnInit {
 
         if (filterPromoState) {
           console.log('filtrando');
-          return allowedMovementAux.filter( obj => (obj.promoApply));
+          return allowedMovementAux.filter(obj => (obj.promoApply));
         } else {
           console.log('sin filtrar');
           return allowedMovementAux;
@@ -123,40 +123,6 @@ export class RecentPurchasesComponent implements OnInit {
     ).subscribe((res) => {
       next: this.allowedMovements = res
     });
-
-    /*combineLatest(this.extendTermService.$allowedMovement, this.extendTermService.$promoFilter)
-      .pipe(map(([allowedMovementState, filterPromoState]) => {
-        const allowedMovementAux: AllowedMovement[] = allowedMovementState.map((values, index) => {
-          return {
-            originAmount: values.originAmount,
-            originCurrency: values.originCurrency,
-            establishmentName: values.establishmentName,
-            amount: values.amount,
-            cardId: values.cardId,
-            totalPlanQuota: values.totalPlanQuota,
-            accountNumber: values.accountNumber,
-            movementId: values.movementId,
-            originDate: values.originDate,
-            promoApply: (values.promoApply) ? values.promoApply : false,
-            promoMessage: (values.promoMessage) ? values.promoMessage : '',
-            promoDiscountMessage: (values.promoDiscountMessage) ? values.promoDiscountMessage : ''
-          };
-        });
-        const promoFilterAuxArr = allowedMovementAux.filter(( obj) => (obj.promoApply));
-        if (promoFilterAuxArr.length === allowedMovementAux.length) {
-          this.extendTermService.setDisabledCheckBox(true);
-        }
-
-        if (filterPromoState) {
-          console.log('filtrando');
-          return allowedMovementAux.filter( obj => (obj.promoApply));
-        } else {
-          console.log('sin filtrar');
-          return allowedMovementAux;
-        }
-      })).subscribe( (response) => {
-      this.allowedMovements  = response;
-    });*/
   }
 
   convertAmountValue(value: any): any {
