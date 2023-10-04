@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { ExtendTermService } from '../extend-term.service';
@@ -8,13 +8,14 @@ import { finalize } from 'rxjs/operators';
 import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
 import { Tag } from 'src/app/shared/models/tag';
+import { AllowedMovement } from 'src/app/shared/models/allowed-movement';
 
 @Component({
   selector: 'app-recent-extend',
   templateUrl: './recent-extend.component.html',
   styleUrls: ['./recent-extend.component.scss']
 })
-export class RecentExtendComponent implements OnInit {
+export class RecentExtendComponent implements OnInit, OnDestroy {
 
   comissionTag: string;
   subtitleTag: string;
@@ -29,19 +30,21 @@ export class RecentExtendComponent implements OnInit {
   amountSliderStep = 1;
   amountSliderMin = 0;
   amountSliderMax = 1;
-  termSliderStep = 1;
   termSliderMin = 1;
   termSliderMax = 12;
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
   termSliderDisplayValue = 0;
-  movementsSelected: string[];
+  movementsSelected: AllowedMovement[];
   quotas: PaymentQuota[];
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
   percentageCommission: string = '';
   feedPercentage : any;
   result: any;
+  quotaPromoMin: number;
+  quotaPromoMax: number;
+  singleMovement: AllowedMovement;
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -53,7 +56,7 @@ export class RecentExtendComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if ( this.extendTermService.movementsSelected.length <= 0 ) {
+    if ( this.extendTermService.recentMovementsSelected.length <= 0 ) {
       this.router.navigate(['/home/extend-term']);
     }
     
@@ -61,9 +64,20 @@ export class RecentExtendComponent implements OnInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
     this.getQuotas();
+    
   }
 
   getQuotas() {
+    if(this.movementsSelected.length > 1){
+      this.getQuotasUnified();
+      this.singleMovement = undefined;
+    }else{
+      this.getQuotasSingleMovement();
+    }
+    
+  }
+
+  getQuotasUnified(){
     this.extendTermService.calculateQuotaByMovementUnified(this.movementsSelected, 4007)
       .pipe(finalize(() => this.selectMovementQuotaSummary()))
         .subscribe(
@@ -89,6 +103,35 @@ export class RecentExtendComponent implements OnInit {
         );
   }
 
+  getQuotasSingleMovement(){
+    this.extendTermService.calculateQuotaByMovement(this.movementsSelected[0].movementId, 1004)
+      .pipe(finalize(() => {
+        this.selectMovementQuotaSummary()
+      }))
+        .subscribe(
+          response => {
+            if ( response.length > 0 ) {
+              this.singleMovement = this.movementsSelected[0]
+              this.quotas = response;
+              this.quotaPromoMin = this.extendTermService.quotaPromoMin ? this.extendTermService.quotaPromoMin : undefined;
+              this.quotaPromoMax = this.extendTermService.quotaPromoMax ? this.extendTermService.quotaPromoMax : undefined;
+              this.initSlider()
+            }
+          }
+        );
+  }
+
+  initSlider() {
+    this.termSliderDisplayMin = this.quotas[0].quotaTo;
+    this.termSliderMin = 1;
+    this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
+    this.termSliderMax = this.quotas.length;
+    this.termSliderDisplayValue = this.termSliderDisplayMin;
+
+  }
+
+
+
   getQuota(sliderValue) {
     this.termSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
     this.selectMovementQuotaSummary();
@@ -97,12 +140,7 @@ export class RecentExtendComponent implements OnInit {
   selectMovementQuotaSummary() {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
     this.feedPercentage = this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage);
-    
-    if ( !this.result ) {
-      this.percentageCommission = '';
-    } else {
-      this.percentageCommission =  this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
-    }
+    this.percentageCommission = this.movementQuotaSummary?.commissionPercentage === '' ? this.movementQuotaSummary?.commissionPercentage : this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
   }
   
   convertAmountValue(value: any): any {
@@ -116,20 +154,51 @@ export class RecentExtendComponent implements OnInit {
 
     return result;
   }
+
   openConfirmationModal() {
     this.modalService.confirmationPopup('¿Desea ampliar el plazo?')
       .subscribe((confirmation) => {
         if (confirmation) {
-          //this.saveQuota();
+          if(this.movementsSelected.length > 1){
+            this.saveQuotaUnified()
+          }else{
+            this.saveQuota()
+          }
         }
       });
   }
 
-  /*saveQuota() {
-    this.extendTermService.saveNewQuotaPreviousConsumptions(
+  saveQuota() {
+    this.extendTermService.saveNewQuota(
+      this.singleMovement.cardId,
+      ConvertStringAmountToNumber(this.movementQuotaSummary.commissionAmount),
+      this.movementQuotaSummary.quotaTo,
+      this.singleMovement.movementId)
+      .pipe(finalize(() => this.router.navigate(
+        [`/home/extend-term/establishment/${this.singleMovement.establishmentName.trim()}/success`])))
+      .subscribe(response => {
+        this.extendTermService.result = {
+          status: response.type,
+          message: response.message
+        };
+
+        this.extendTermService.newQuota = {
+          establishment: this.singleMovement.establishmentName.trim(),
+          currency: this.singleMovement.originCurrency.currency,
+          amount: this.movementQuotaSummary.amountPerQuota,
+          quota: this.movementQuotaSummary.quotaTo
+        };
+      });
+  }
+
+  saveQuotaUnified() {
+    this.extendTermService.saveNewQuotaUnified(
+      this.movementsSelected[0].cardId,
+      ConvertStringAmountToNumber(this.movementQuotaSummary.commissionAmount),
       this.movementQuotaSummary.quotaTo,
       this.movementsSelected)
-      .pipe(finalize(() => this.router.navigate([`/home/extend-term/previous-extend-success`])))
+      .pipe(finalize(() => this.router.navigate(
+        [`/home/extend-term/establishment/${this.movementsSelected[0].establishmentName.trim()}/success`])))
         .subscribe(response => {
           this.extendTermService.result = {
             status: response.type === 'success' ? 'success' : 'error',
@@ -137,13 +206,14 @@ export class RecentExtendComponent implements OnInit {
           };
 
           this.extendTermService.newQuota = {
-            establishment: '',
-            currency: '₡',
+            establishment: this.movementsSelected[0].establishmentName.trim(),
+            currency: this.movementsSelected.length > 1 ? '₡' : this.singleMovement.originCurrency.currency,
             amount: this.movementQuotaSummary.amountPerQuota,
             quota: this.movementQuotaSummary.quotaTo
           };
+          this.extendTermService.recentMovementsSelected = [];
         });
-  }*/
+  }
 
   openSummary() {
     this.modalService.open({
@@ -165,5 +235,10 @@ export class RecentExtendComponent implements OnInit {
     this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo')?.value;
     this.question = tags.find(tag => tag.description === 'ampliar.question')?.value;
   }
+
+  ngOnDestroy(): void {
+    this.extendTermService.recentMovementsSelected = [];
+  }
+
 }
 
