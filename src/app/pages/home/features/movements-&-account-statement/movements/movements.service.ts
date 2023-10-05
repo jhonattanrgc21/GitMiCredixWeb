@@ -2,12 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../../core/services/http.service';
 import {StorageService} from '../../../../../core/services/storage.service';
 import {map} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Movement} from '../../../../../shared/models/movement';
+import {MovementDetail} from "../../../../../shared/models/movement-detail";
 
 @Injectable()
 export class MovementsService {
   private getMovementsUri = 'account/movements';
+  private getMovementDetailsUri = 'account/movementdetails';
   private dataSourceSub: Subject<Movement[]> = new Subject();
   dataSourceObs = this.dataSourceSub.asObservable();
 
@@ -34,7 +36,19 @@ export class MovementsService {
       }));
   }
 
+  getMovementDetails(originDate: number, accountId: number, originAmount: string, quota: number): Observable<any> {
+    return this.httpService.post('canales', this.getMovementDetailsUri, {
+      accountId,
+      originDate,
+      originAmount,
+      quota
+    }).pipe( map((response) => {
+      return response.json;
+    }));
+  }
+
   unsubscribe() {
     this.httpService.unsubscribeHttpCall();
   }
+
 }

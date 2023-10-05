@@ -1,0 +1,44 @@
+<div class='movement-details' fxLayout='column'>
+  <h1 class='movement-details__title mb-16px'>Detalle</h1>
+
+    <div fxLayout='column' *ngFor='let detail of movementDetail?.movements; let index = i'>
+      <div class='movement-details__detail mb-16px' fxLayout='row' fxLayoutAlign='space-between' >
+        <div fxLayout='column'>
+          <span class='movement-details__detail--establishment'>{{detail.establishmentName}}</span>
+          <span class='movement-details__detail--date'>{{detail.originDate | dateFormatter: 'numeric' }}</span>
+        </div>
+
+        <credix-numeric-block [prefix]="detail.originCurrency === 188 ? '₡' : '$'" [value]="detail.amount" class="tr" fontSize="24"
+                              fontWeight="bold"></credix-numeric-block>
+      </div>
+    </div>
+
+  <div class='movement-details__info mb-16px' fxLayout='row' fxLayoutAlign='space-between'>
+    <span>Interés total</span>
+    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail.feeAmount" class="tr" fontSize="24"
+                          fontWeight="bold"></credix-numeric-block>
+  </div>
+  <mat-divider credixDivider></mat-divider>
+  <div class='movement-details__info mt-16px' fxLayout='row' fxLayoutAlign='space-between'>
+    <span>Total</span>
+    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail.amount" class="tr" fontSize="24"
+                          fontWeight="bold"></credix-numeric-block>
+  </div>
+
+  <div class='movement-details__quotas mb-16px' style='margin-top: 50px' fxLayout='row' fxLayoutAlign='space-between'>
+    <span>{{movementDetail.quota}} Cuotas de</span>
+    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail.amountPerQuota" class="tr" fontSize="24"
+                          fontWeight="bold"></credix-numeric-block>
+  </div>
+
+  <div class='mb-24px' fxLayout='row' fxFlexAlign='end'>
+
+    <credix-link-button >
+      <mat-icon>keyboard_arrow_down</mat-icon>
+      Ver detalle
+    </credix-link-button>
+  </div>
+  <div class='movement-details__button' fxLayout='row' fxLayoutAlign='center'>
+    <credix-button>Listo</credix-button>
+  </div>
+</div>

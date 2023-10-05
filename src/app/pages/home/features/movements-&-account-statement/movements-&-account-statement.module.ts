@@ -19,6 +19,10 @@ import {CredixNumericBlockModule} from '../../../../shared/components/credix-num
 import {CredixSelectModule} from '../../../../shared/components/credix-select/credix-select.module';
 import {AccountStatementService} from './account-statement/account-statement.service';
 import {GlobalApiService} from '../../../../core/services/global-api.service';
+import { MovementDetailsComponent } from './movements/movement-details/movement-details.component';
+import {CredixDividerModule} from "../../../../shared/directives/credix-divider/credix-divider.module";
+import {ModalService} from "../../../../core/services/modal.service";
+import {CredixButtonModule} from "../../../../shared/components/credix-button/credix-button.module";
 
 const routes: Routes = [
   {
@@ -68,7 +72,8 @@ const routes: Routes = [
     MovementsComponent,
     MovementsToolbarComponent,
     AccountStatementComponent,
-    AccountStatementToolbarComponent],
+    AccountStatementToolbarComponent,
+    MovementDetailsComponent],
   imports: [
     CommonModule,
     CredixTabModule,
@@ -82,11 +87,14 @@ const routes: Routes = [
     CredixSwitchModule,
     CredixNumericBlockModule,
     CredixSelectModule,
+    CredixDividerModule,
+    CredixButtonModule,
   ],
   providers: [
     MovementsService,
     AccountStatementService,
-    GlobalApiService
+    GlobalApiService,
+    ModalService
   ]
 })
 export class MovementsAccountStatementModule {

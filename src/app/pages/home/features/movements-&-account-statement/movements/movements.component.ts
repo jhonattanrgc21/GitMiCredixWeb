@@ -4,6 +4,8 @@ import {Movement} from '../../../../../shared/models/movement';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
 import {NavigationService} from '../../../../../core/services/navigation.service';
+import {ModalService} from "../../../../../core/services/modal.service";
+import {MovementDetailsComponent} from "./movement-details/movement-details.component";
 
 @Component({
   selector: 'app-movements',
@@ -11,7 +13,7 @@ import {NavigationService} from '../../../../../core/services/navigation.service
   styleUrls: ['./movements.component.scss']
 })
 export class MovementsComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['date', 'commerce', 'amount', 'quotas', 'extend'];
+  displayedColumns: string[] = ['date', 'commerce', 'amount', 'quotas', 'extend', 'detail'];
   movementDataSource: Movement[] = [];
   p = 0;
   linkTag: string;
@@ -19,9 +21,11 @@ export class MovementsComponent implements OnInit, OnDestroy {
   columnTwoTag: string;
   columnThreeTag: string;
   columnFourTag: string;
+  height = 533;
 
   constructor(private movementsService: MovementsService,
               private navigationService: NavigationService,
+              private modalService: ModalService,
               private tagsService: TagsService) {
   }
 
@@ -41,6 +45,14 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.columnTwoTag = tags.find(tag => tag.description === 'movimientos.table.column2')?.value;
     this.columnThreeTag = tags.find(tag => tag.description === 'movimientos.table.column3')?.value;
     this.columnFourTag = tags.find(tag => tag.description === 'movimientos.table.column4')?.value;
+  }
+
+  openModalDetail(element) {
+    this.modalService.open({
+      component: MovementDetailsComponent,
+      data: element,
+      hideCloseButton: false
+    }, {panelClass: 'movement-details-panel', disableClose: false, width: 380, height: this.height}).afterClosed().subscribe();
   }
 
   ngOnDestroy(): void {

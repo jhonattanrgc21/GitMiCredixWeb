@@ -45,6 +45,16 @@
       </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="detail">
+      <mat-header-cell *matHeaderCellDef credixHeaderCell></mat-header-cell>
+      <mat-cell *matCellDef="let element" credixCell>
+        <credix-link-button (click)="openModalDetail(element)"
+                            *ngIf="element?.details">
+          Ver detalle
+        </credix-link-button>
+      </mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
   </mat-table>
