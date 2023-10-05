@@ -1,8 +1,14 @@
 .schedule-quotas-second-step{
-  width: 877px;
-  padding: 0 84px;
+  padding: 0 96px;
   box-sizing: border-box;
 
+  .info{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
 
   .content {
     box-sizing: border-box;
@@ -16,5 +22,13 @@
     &__form{
       width: 311px;
     }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .schedule-quotas-second-step {
+    height: 655px !important;
+    padding: 0 26px 0 25px;
+    box-sizing: border-box;
   }
 }

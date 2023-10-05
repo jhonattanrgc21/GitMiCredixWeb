@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { HttpService } from 'src/app/core/services/http.service';
+import { ModalService } from 'src/app/core/services/modal.service';
+import { TagsService } from 'src/app/core/services/tags.service';
+import { DateRangePopupComponent } from './date-range-popup/date-range-popup.component';
 
 @Component({
   selector: 'app-schedule-quotas-second-step',
@@ -15,9 +19,20 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
 
   comissionLabel: string;
   interestLabel: string;
+  colonesDateRange = {
+    initDate: null,
+    endDate: null
+  }
+
+  dollarsDateRange =  {
+    initDate: null,
+    endDate: null
+  }
 
 
-  constructor() {
+  constructor(private httpService: HttpService,
+    private modalService: ModalService,
+    private tagsService: TagsService) {
     this.colonesForm =  new FormGroup({
       minimumAmount: new FormControl(null, Validators.required),
       maximumAmount: new FormControl(null, Validators.required),
@@ -67,4 +82,22 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       form.get('endDate').clearValidators();
     }
   }
+
+  openDateRangeModal(form: FormGroup,  dateRange: any) {
+    this.modalService.open({
+      component: DateRangePopupComponent,
+      hideCloseButton: false,
+      title: 'Definir fechas',
+      data: {dateRange}
+    }, {width: 380, height: 361, disableClose: false, panelClass: 'schedule-quotas-dates-panel'})
+      .afterClosed().subscribe((range: any) => {
+      if (range) {
+        form.get('initDate').setValue(range.initDate);
+        form.get('endDate').setValue(range.endDate);
+        dateRange.initDate = range.initDate;
+        dateRange.endDate = range.endDate;
+      }
+    });
+  }
+
 }

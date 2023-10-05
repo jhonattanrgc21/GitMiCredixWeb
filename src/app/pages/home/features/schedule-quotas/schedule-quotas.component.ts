@@ -133,12 +133,12 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   next() {
     if (this.selectedIndex < 3) {
       this.stepper.next();
-      this.selectedIndex = this.stepper.selectedIndex;
+      this.selectedIndex++;
       this.disableButton = false;
     }
 
     if (this.selectedIndex === 3) {
-      //this.openConfirmationModal();
+      this.openConfirmationModal(1);
     }
 
     this.setEnableButton();

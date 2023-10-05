@@ -1,0 +1,17 @@
+<form [formGroup]="newDateRangeForm" class="date-range-popup " fxLayout="column">
+  <p >Seleccione el período de tiempo en que desea que aplique la regla:</p>
+
+  <div class="date-range-popup__input">
+    <credix-date-picker [startDate]="today" formControlName="initDate" label="Fecha inicial"></credix-date-picker>
+  </div>
+
+  <div class="date-range-popup__input">
+    <credix-date-picker [startDate]="today" formControlName="endDate" label="Fecha final"></credix-date-picker>
+  </div>
+
+  <div class="date-range-popup__button" fxLayout="row" fxLayoutAlign="center center">
+    <credix-button (click)="submit()"
+      [disabled]="newDateRangeForm.invalid || (newDateRangeForm.valid && !newDateRangeForm.dirty)">Definir fecha
+    </credix-button>
+  </div>
+</form>
