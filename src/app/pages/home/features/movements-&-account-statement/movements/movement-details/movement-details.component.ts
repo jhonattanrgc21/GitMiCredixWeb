@@ -19,7 +19,11 @@ export class MovementDetailsComponent implements OnInit {
     private renderer: Renderer2) {
     const arrayDateAux = this.data.data.originDate.split('/');
     const user = JSON.parse(localStorage.getItem('user'));
-    this.movementsService.getMovementDetails(+arrayDateAux.reverse().join(''), user.actId, this.data.data.originAmount, 0)
+    this.movementsService.getMovementDetails(
+      +arrayDateAux.reverse().join(''),
+      user.actId, 
+      this.data.data.originAmount,
+      this.data.data.quota)
       .subscribe(response => {
         console.log(response);
         this.movementDetail = response;
