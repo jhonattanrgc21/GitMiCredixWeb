@@ -1,4 +1,4 @@
-<div class='movement-details' fxLayout='column' fxLayoutAlign='space-between'>
+<div class='movement-details' fxLayout='column' fxLayoutGap='64px'>
   <div fxLayout='column'>
   <h1 class='movement-details__title mb-16px'>Detalle</h1>
 
@@ -64,13 +64,18 @@
                                 fontWeight="bold"></credix-numeric-block>
         </div>
 
-        <div fxLayout='row' fxLayoutAlign='start'>
-          <span>*Se difiere en el plazo.</span>
-        </div>
+
+          <div fxLayout='row' fxLayoutAlign='start'>
+            <span>*Se difiere en el plazo.</span>
+          </div>
+
       </div>
     </ng-container>
   </div>
-  <div class='movement-details__button mb-16px' fxLayout='row' fxLayoutAlign='center'>
-    <credix-button>Listo</credix-button>
+
+  <div fxLayout='column' fxLayoutAlign='start center'>
+    <div class='movement-details__button'>
+      <credix-button>Listo</credix-button>
+    </div>
   </div>
 </div>

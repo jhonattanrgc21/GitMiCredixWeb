@@ -51,7 +51,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
       component: MovementDetailsComponent,
       data: element,
       hideCloseButton: false
-    }, {panelClass: 'movement-details-panel', disableClose: false, width: 380, minHeight: 533}).afterClosed().subscribe();
+    }, {panelClass: 'movement-details-panel', disableClose: false, width: 380, height: 533}).afterClosed().subscribe();
   }
 
   ngOnDestroy(): void {
