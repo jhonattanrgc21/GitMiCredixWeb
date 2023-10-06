@@ -6,5 +6,5 @@ export class PreviousMovements {
     originDate: string;
     quota: number;
     productDisable?: boolean;
-    checked: boolean;
+    checked?: boolean;
 }

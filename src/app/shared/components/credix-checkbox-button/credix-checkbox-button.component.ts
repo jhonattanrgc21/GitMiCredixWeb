@@ -21,6 +21,7 @@ export class CredixCheckboxButtonComponent implements OnInit {
 
   isCheckedValue(event) {
     this.checked = event.checked;
+    console.log(event.checked);
     this.emitCheckBox.emit({checked: event.checked, value: event.source.value});
   }
 }

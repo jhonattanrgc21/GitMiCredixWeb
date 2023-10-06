@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AllowedMovement } from 'src/app/shared/models/allowed-movement';
@@ -10,13 +10,15 @@ import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
 import {ConvertNumberToStringAmount} from '../../../../../shared/utils/convert-number-to-string-amount';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {PopupPreviousInfoComponent} from "./popup-previous-info/popup-previous-info.component";
+import {LandingService} from "../../landing/landing.service";
+import {StorageService} from "../../../../../core/services/storage.service";
 
 @Component({
   selector: 'app-previous-purchases',
   templateUrl: './previous-purchases.component.html',
   styleUrls: ['./previous-purchases.component.scss']
 })
-export class PreviousPurchasesComponent implements OnInit {
+export class PreviousPurchasesComponent implements OnInit, OnDestroy {
 
   selection: number[] = [];
   displayedColumns: string[] = ['select', 'date', 'commerce', 'amount', 'quotas'];
@@ -30,9 +32,23 @@ export class PreviousPurchasesComponent implements OnInit {
   previousMovements: PreviousMovements[] = [];
   amountArray: {amount: number, movementId: number}[] = [];
   amountSummary = '0';
+  pagoContadoColones: string;
+  cardId: number;
 
   private consumed = {
     consumed: [
+      {
+        originAmount: '60.600,00',
+        pdqId: 186103964,
+        originCurrency: {
+          currencyDescription: 'Colones',
+          currency: '¢',
+          currencyId: 188
+        },
+        establishmentName: 'IMP MONGE TIENDA 36 CARTAGO-CIA COMERCIA',
+        totalPlanQuota: 2,
+        originDate: '01/02/2020'
+      },
       {
         originAmount: '60.600,00',
         pdqId: 186103963,
@@ -42,7 +58,19 @@ export class PreviousPurchasesComponent implements OnInit {
           currencyId: 188
         },
         establishmentName: 'IMP MONGE TIENDA 36 CARTAGO-CIA COMERCIA',
-        totalPlanQuota: 2,
+        totalPlanQuota: 0,
+        originDate: '01/02/2020'
+      },
+      {
+        originAmount: '60.600,00',
+        pdqId: 186103966,
+        originCurrency: {
+          currencyDescription: 'Colones',
+          currency: '¢',
+          currencyId: 188
+        },
+        establishmentName: 'IMP MONGE TIENDA 36 CARTAGO-CIA COMERCIA',
+        totalPlanQuota: 1,
         originDate: '01/02/2020'
       },
       {
@@ -80,11 +108,25 @@ export class PreviousPurchasesComponent implements OnInit {
   constructor(
     private route: Router,
     private extendTermService: ExtendTermService,
-    private modalService: ModalService
-  ) { }
+    private modalService: ModalService,
+    private landingService: LandingService,
+    private storageService: StorageService
+  ) {
+  }
 
   ngOnInit(): void {
     this.getAllowedMovements();
+    this.cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal')?.cardId;
+    this.landingService.getHomeContent(this.cardId).subscribe();
+    this.landingService.pagoContadoColones.subscribe((response) => {
+      console.log(response);
+      this.pagoContadoColones = response;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.extendTermService.unsubscribe();
+    this.landingService.unsubscribe();
   }
 
   calculateTotalAmountSelect(amount: string, movementId: number, checked: boolean) {
@@ -105,8 +147,6 @@ export class PreviousPurchasesComponent implements OnInit {
   }
 
   change(checked: boolean, movement: PreviousMovements) {
-    console.log(movement);
-    console.log(checked);
     this.calculateTotalAmountSelect(movement.originAmount, movement.pdqId, checked);
     if (checked) {
       this.selection.push(movement.pdqId);
@@ -118,8 +158,7 @@ export class PreviousPurchasesComponent implements OnInit {
             originAmount: obj.originAmount,
             originDate: obj.originDate,
             quota: obj.quota,
-            productDisable: (movement.pdqId !== obj.pdqId && (movement.quota < obj.quota || movement.quota > obj.quota)),
-            checked: (movement.pdqId === obj.pdqId)
+            productDisable: (movement.quota === 0 || movement.quota === 1 ) && obj.quota > movement.quota && obj.quota !== 1,
           };
       });
     } else {
@@ -141,7 +180,10 @@ export class PreviousPurchasesComponent implements OnInit {
   }
 
   next() {
-    this.modalService.open({title: 'Recordatorio', hideCloseButton: false, component: PopupPreviousInfoComponent},
+    this.modalService.open({title: 'Recordatorio', hideCloseButton: false, component: PopupPreviousInfoComponent, data: {
+          amountSummary: this.amountSummary,
+          pagoContado: this.pagoContadoColones
+        }},
       {disableClose: true, height: 324, width: 328, panelClass: 'info'}).afterClosed()
       .subscribe(() => {
         this.extendTermService.movementsSelected = [...this.selection];

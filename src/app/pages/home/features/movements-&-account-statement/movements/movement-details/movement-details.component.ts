@@ -15,13 +15,12 @@ export class MovementDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data,
     public modal: MatDialogRef<MovementDetailsComponent>,
     private movementsService: MovementsService,
-    private elementRef: ElementRef,
-    private renderer: Renderer2) {
+    ) {
     const arrayDateAux = this.data.data.originDate.split('/');
     const user = JSON.parse(localStorage.getItem('user'));
     this.movementsService.getMovementDetails(
       +arrayDateAux.reverse().join(''),
-      user.actId, 
+      user.actId,
       this.data.data.originAmount,
       this.data.data.quota)
       .subscribe(response => {

@@ -39,6 +39,8 @@ import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-che
 import { PreviousPurchasesComponent } from './previous-purchases.component';
 import {CredixAmountSummaryModule} from "../../../../../shared/components/credix-amount-summary/credix-amount-summary.module";
 import {PopupPreviousInfoComponent} from "./popup-previous-info/popup-previous-info.component";
+import {LandingService} from "../../landing/landing.service";
+import {StorageService} from "../../../../../core/services/storage.service";
 
 const routes: Routes = [{
   path: '',
@@ -89,7 +91,9 @@ const routes: Routes = [{
         CredixAmountSummaryModule,
     ],
   providers: [
-    ModalService
+    ModalService,
+    LandingService,
+    StorageService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

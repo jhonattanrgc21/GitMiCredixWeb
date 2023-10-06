@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from '../../../../core/services/http.service';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {AllowedMovement} from '../../../../shared/models/allowed-movement';
 import {StorageService} from '../../../../core/services/storage.service';
@@ -16,7 +16,6 @@ export class ExtendTermService {
   private readonly cutDateUri = 'channels/cutdateextermterm';
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
   private readonly saveNewQuotaPreviousMovementsUri = 'account/savepreviousconsumptions';
-
   // private readonly allowedMovementsUri = /channels/allowedmovements
 
   // tslint:disable-next-line:variable-name
