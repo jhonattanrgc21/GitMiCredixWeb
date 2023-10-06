@@ -4,7 +4,6 @@ import {StorageService} from '../../../../../core/services/storage.service';
 import {map} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {Movement} from '../../../../../shared/models/movement';
-import {MovementDetail} from "../../../../../shared/models/movement-detail";
 
 @Injectable()
 export class MovementsService {

@@ -1,9 +1,37 @@
 .movement-details{
+  margin-top: 24px;
   width: 100%;
   height: 100%;
   &__button{
     credix-button{
       width: 316px;
+    }
+  }
+
+  &__quotas{
+    span{
+      color: var(--gris-oscuro-3-e-3-e-3-e, #3E3E3E);
+      font-size: 20px;
+    }
+  }
+
+  &__info{
+    span{
+      color: var(--gris-oscuro-3-e-3-e-3-e, #3E3E3E);
+      font-size: 16px;
+    }
+  }
+
+  &__detail{
+    &--establishment{
+      color: var(--gris-oscuro-3-e-3-e-3-e, #3E3E3E);
+      font-size: 16px;
+    }
+
+    &--date{
+      color: var(--gris-696-d-6-f, #696D6F);
+      /* 14 pt Regular */
+      font-size: 14px;
     }
   }
 }

@@ -1,44 +1,76 @@
-<div class='movement-details' fxLayout='column'>
+<div class='movement-details' fxLayout='column' fxLayoutAlign='space-between'>
+  <div fxLayout='column'>
   <h1 class='movement-details__title mb-16px'>Detalle</h1>
 
     <div fxLayout='column' *ngFor='let detail of movementDetail?.movements; let index = i'>
       <div class='movement-details__detail mb-16px' fxLayout='row' fxLayoutAlign='space-between' >
         <div fxLayout='column'>
-          <span class='movement-details__detail--establishment'>{{detail.establishmentName}}</span>
-          <span class='movement-details__detail--date'>{{detail.originDate | dateFormatter: 'numeric' }}</span>
+          <span class='movement-details__detail--establishment'>{{detail?.establishmentName}}</span>
+          <span class='movement-details__detail--date'>{{detail?.originDate | dateFormatter: 'numeric' }}</span>
         </div>
 
-        <credix-numeric-block [prefix]="detail.originCurrency === 188 ? '₡' : '$'" [value]="detail.amount" class="tr" fontSize="24"
+        <credix-numeric-block [prefix]="detail?.originCurrency === 188 ? '₡' : '$'" [value]="detail?.amount" class="tr" fontSize="16"
                               fontWeight="bold"></credix-numeric-block>
       </div>
     </div>
 
   <div class='movement-details__info mb-16px' fxLayout='row' fxLayoutAlign='space-between'>
     <span>Interés total</span>
-    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail.feeAmount" class="tr" fontSize="24"
+    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail?.feeAmount" class="tr" fontSize="16"
                           fontWeight="bold"></credix-numeric-block>
   </div>
   <mat-divider credixDivider></mat-divider>
   <div class='movement-details__info mt-16px' fxLayout='row' fxLayoutAlign='space-between'>
     <span>Total</span>
-    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail.amount" class="tr" fontSize="24"
+    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail?.amount" class="tr" fontSize="16"
                           fontWeight="bold"></credix-numeric-block>
   </div>
 
   <div class='movement-details__quotas mb-16px' style='margin-top: 50px' fxLayout='row' fxLayoutAlign='space-between'>
-    <span>{{movementDetail.quota}} Cuotas de</span>
-    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail.amountPerQuota" class="tr" fontSize="24"
+    <span>{{movementDetail?.quota}} Cuotas de</span>
+    <credix-numeric-block [prefix]="'₡'" [value]="movementDetail?.amountPerQuota" class="tr" fontSize="20"
                           fontWeight="bold"></credix-numeric-block>
   </div>
 
   <div class='mb-24px' fxLayout='row' fxFlexAlign='end'>
 
-    <credix-link-button >
-      <mat-icon>keyboard_arrow_down</mat-icon>
-      Ver detalle
+    <credix-link-button (click)='showSubDetail(!hideSubDetail)'>
+      <div fxLayout='row' fxLayoutGap='8px'>
+        <mat-icon>{{(hideSubDetail) ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</mat-icon>
+        Ver detalle
+
+      </div>
     </credix-link-button>
   </div>
-  <div class='movement-details__button' fxLayout='row' fxLayoutAlign='center'>
+    <ng-container *ngIf='!hideSubDetail'>
+      <div fxLayout='column' class='movement-details__sub-detail' style='transition: 2s'>
+        <div class='mb-8px' fxLayout='row' fxLayoutAlign='space-between'>
+          <span class='movement-details__sub-detail__title'>Plazo nuevo</span>
+          <span><strong>{{movementDetail?.quota}} meses</strong></span>
+        </div>
+        <div class='mb-8px' fxLayout='row' fxLayoutAlign='space-between'>
+          <span class='movement-details__sub-detail__title'>Monto a ampliar</span>
+          <credix-numeric-block [prefix]="'₡'" [value]="movementDetail?.amount" class="tr" fontSize="16"
+                                fontWeight="bold"></credix-numeric-block>
+        </div>
+        <div class='mb-8px' fxLayout='row' fxLayoutAlign='space-between'>
+          <span class='movement-details__sub-detail__title'>Comisión ({{movementDetail?.commissionPercentage}}% mensual)*</span>
+          <credix-numeric-block [prefix]="'₡'" [value]="movementDetail?.commissionAmount" class="tr" fontSize="16"
+                                fontWeight="bold"></credix-numeric-block>
+        </div>
+        <div class='mb-16px' fxLayout='row' fxLayoutAlign='space-between'>
+          <span class='movement-details__sub-detail__title'>Interés ({{movementDetail?.feePercentage}}% mensual)*</span>
+          <credix-numeric-block [prefix]="'₡'" [value]="movementDetail?.feeAmount" class="tr" fontSize="16"
+                                fontWeight="bold"></credix-numeric-block>
+        </div>
+
+        <div fxLayout='row' fxLayoutAlign='start'>
+          <span>*Se difiere en el plazo.</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class='movement-details__button mb-16px' fxLayout='row' fxLayoutAlign='center'>
     <credix-button>Listo</credix-button>
   </div>
 </div>

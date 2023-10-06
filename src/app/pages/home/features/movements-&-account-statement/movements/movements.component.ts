@@ -4,8 +4,8 @@ import {Movement} from '../../../../../shared/models/movement';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {Tag} from '../../../../../shared/models/tag';
 import {NavigationService} from '../../../../../core/services/navigation.service';
-import {ModalService} from "../../../../../core/services/modal.service";
-import {MovementDetailsComponent} from "./movement-details/movement-details.component";
+import {ModalService} from '../../../../../core/services/modal.service';
+import {MovementDetailsComponent} from './movement-details/movement-details.component';
 
 @Component({
   selector: 'app-movements',
@@ -21,7 +21,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
   columnTwoTag: string;
   columnThreeTag: string;
   columnFourTag: string;
-  height = 533;
 
   constructor(private movementsService: MovementsService,
               private navigationService: NavigationService,
@@ -52,7 +51,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
       component: MovementDetailsComponent,
       data: element,
       hideCloseButton: false
-    }, {panelClass: 'movement-details-panel', disableClose: false, width: 380, height: this.height}).afterClosed().subscribe();
+    }, {panelClass: 'movement-details-panel', disableClose: false, width: 380, minHeight: 533}).afterClosed().subscribe();
   }
 
   ngOnDestroy(): void {
