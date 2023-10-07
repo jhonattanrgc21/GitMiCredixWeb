@@ -199,7 +199,9 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements(1005)
       .subscribe(response => {
-          const previousMovements = this.consumed.consumed.map(movement => {
+        let previousMovements;
+        if (response?.consumed && response?.consumed.length > 0) {
+          previousMovements = response.consumed.map(movement => {
             this.checkedListStates.push(false);
             return {
               pdqId: movement.pdqId,
@@ -213,6 +215,10 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
             };
           });
           this.previousMovements = [...previousMovements];
+        } else {
+          this.isEmpty = true;
+        }
+
       /*  if (response?.consumed && response?.consumed.length > 0) {
         } else {
           this.isEmpty = true;
