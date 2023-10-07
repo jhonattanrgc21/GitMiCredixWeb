@@ -34,6 +34,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   amountSummary = '0';
   pagoContadoColones: string;
   cardId: number;
+  checkedListStates: boolean[] = [];
 
   private consumed = {
     consumed: [
@@ -146,12 +147,14 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
     this.amountSummary = ConvertNumberToStringAmount(totalAmount);
   }
 
-  change(checked: boolean, movement: PreviousMovements) {
+  change(checked: boolean, movement: PreviousMovements, i: number) {
     this.calculateTotalAmountSelect(movement.originAmount, movement.pdqId, checked);
     if (checked) {
       this.selection.push(movement.pdqId);
-      this.previousMovements = this.previousMovements.map((obj) => {
-          return {
+      this.checkedListStates[i] = true;
+      this.previousMovements = this.previousMovements.map((obj, index) => {
+        console.log(this.checkedListStates[index]);
+        return {
             pdqId: obj.pdqId,
             currencySimbol: obj.currencySimbol,
             establishmentName: obj.establishmentName,
@@ -159,12 +162,14 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
             originDate: obj.originDate,
             quota: obj.quota,
             productDisable: (movement.quota === 0 || movement.quota === 1 ) && obj.quota > movement.quota && obj.quota !== 1,
+            checked: this.checkedListStates[index]
           };
       });
     } else {
       this.selection
         .splice(this.selection.findIndex(mov => mov === movement.pdqId), 1);
-      this.previousMovements = this.previousMovements.map((obj) => {
+      this.checkedListStates[i] = false;
+      this.previousMovements = this.previousMovements.map((obj, index) => {
         return {
           pdqId: obj.pdqId,
           currencySimbol: obj.currencySimbol,
@@ -173,7 +178,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
           originDate: obj.originDate,
           quota: obj.quota,
           productDisable: false,
-          checked: false
+          checked: this.checkedListStates[index]
         };
       });
     }
@@ -195,6 +200,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
     this.extendTermService.getAllowedMovements(1005)
       .subscribe(response => {
           const previousMovements = this.consumed.consumed.map(movement => {
+            this.checkedListStates.push(false);
             return {
               pdqId: movement.pdqId,
               currencySimbol: movement.originCurrency.currency,
