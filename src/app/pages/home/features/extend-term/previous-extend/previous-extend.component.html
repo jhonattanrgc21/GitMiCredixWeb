@@ -63,10 +63,10 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <span fxFlex>{{comissionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%)' }}
+            <span fxFlex>{{comissionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '%' + commissionMonthly + ')' }}
             </span>
             <credix-numeric-block
-              [value]="movementQuotaSummary?.commissionAmount"
+              [value]="movementQuotaSummary?.commissionAmountDilute"
               fontWeight="bold"
               prefix="₡"></credix-numeric-block>
           </div>
@@ -91,7 +91,7 @@
         </div>
 
         <p fxFlex class="summary-custom__info-iva">
-          * IVA y comisión se cargarán en el próximo estado de cuenta.
+          * Se cargará en el próximo estado de cuenta.
         </p>
 
         <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">

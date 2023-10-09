@@ -111,10 +111,10 @@
                 [value]="extendQuotaSummary?.commissionPercentage"
                 fontWeight=""
                 type="percentage"
-                prefix=""></credix-numeric-block>%)
+                prefix=""></credix-numeric-block>% {{commissionMonthly}})
             </span>
             <credix-numeric-block
-              [value]="extendQuotaSummary?.commissionAmount"
+              [value]="extendQuotaSummary?.commissionAmountDilute"
               fontWeight="bold"
               prefix="₡"></credix-numeric-block>
           </div>
@@ -144,7 +144,7 @@
         </div>
 
         <p fxFlex style="color: #707070; font-size: 14px !important; margin-bottom: 26px !important">
-          *Se cargará en el próximo estado de cuenta.
+          * Se cargará en el próximo estado de cuenta.
         </p>
 
         <div fxFlex fxFlexLayout="row" style="padding-top: 10px;" fxLayoutAlign="space-between">

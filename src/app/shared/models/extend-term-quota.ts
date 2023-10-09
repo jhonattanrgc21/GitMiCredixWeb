@@ -8,5 +8,7 @@ export interface ExtendTermQuota {
   purchaseAmount: string;
   IVA: string;
   commissionAmount: string,
+  commissionAmountDilute: string,
   commissionPercentage: string,
+  isCommissionMonthly: boolean
 }
