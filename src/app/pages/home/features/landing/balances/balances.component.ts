@@ -59,11 +59,22 @@ export class BalancesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.enablePersonalCreditSubscription = this.homeSidebarService.enableOptionPersonalCredit$.subscribe(isEnable => this.isEnablePersonalCredit = isEnable);
-    const personalcreditavailable = ConvertStringAmountToNumber(this.accountSummary.personalcreditavailable);
-    if(personalcreditavailable <= 100000){
-      this.disablelinkapplyforcredit = true;
-    }
+    this.enablePersonalCreditSubscription = this.homeSidebarService.enableOptionPersonalCredit$.subscribe(
+      isEnable => {
+        this.isEnablePersonalCredit = isEnable
+        if (!this.isEnablePersonalCredit) {
+          this.disablelinkapplyforcredit = true;
+          this.accountSummary.personalcreditavailable = '0';
+        }
+        else {
+          const personalcreditavailable = ConvertStringAmountToNumber(this.accountSummary.personalcreditavailable);
+          if (personalcreditavailable < this.accountSummary.lowerpersonalcreditlimit) {
+            this.disablelinkapplyforcredit = true;
+          }
+        }
+      }
+    )
+
 
     this.onCardChanged();
     this.getIbanAccounts();
