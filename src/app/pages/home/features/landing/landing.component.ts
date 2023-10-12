@@ -20,8 +20,8 @@ export class LandingComponent implements OnInit, OnDestroy {
     personalCreditAvailable: 'Disponible crédito personal',
     linkapplyforcredit: 'Solicitar crédito',
     creditLimitTag: 'Límite de crédito',
-    consumedTag: 'Consumido',
-    availableTag: 'Disponible',
+    consumedTag: 'Consumido*',
+    availableTag: 'Disponible*',
     increaseCreditLimitTag: 'Aumentar límite',
     ibanAccountsTag: 'Cuentas IBAN',
     colonesTag: 'Colones',
@@ -99,7 +99,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.landingService.getHomeTags().subscribe(response => {
       if (response.type === 'success' && response.tagsHome?.tags.length > 0) {
         this.balancesTags = {
-          personalCreditAvailable: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.disponiblecreditopersonal').value ?? '0',
+          personalCreditAvailable: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.disponiblecreditopersonal').value,
           linkapplyforcredit: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.solicitarcredito').value,
           creditLimitTag: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.limitecredito').value,
           consumedTag: response.tagsHome.tags.find(tag => tag.description === 'disponible.tag.consumido').value,
