@@ -22,7 +22,7 @@ export class MovementDetailsComponent implements OnInit {
       +arrayDateAux.reverse().join(''),
       user.actId,
       this.data.data.originAmount,
-      this.data.data.quota)
+      0)
       .subscribe(response => {
         console.log(response);
         this.movementDetail = response;
@@ -30,6 +30,10 @@ export class MovementDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  closeModal() {
+    this.modal.close();
   }
 
   showSubDetail(show: boolean) {
