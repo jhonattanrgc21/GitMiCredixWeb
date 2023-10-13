@@ -22,7 +22,7 @@ export class MovementDetailsComponent implements OnInit {
       +arrayDateAux.reverse().join(''),
       user.actId,
       this.data.data.originAmount,
-      0)
+      this.data.data.quota)
       .subscribe(response => {
         console.log(response);
         this.movementDetail = response;
