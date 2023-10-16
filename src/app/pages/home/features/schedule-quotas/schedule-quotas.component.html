@@ -1,47 +1,57 @@
 <mat-card class="schedule-quotas" *ngIf="!done  else scheduleQuotasTemplate" credixCard fxLayout="column" >
-  <div fxLayout="row" fxLayoutAlign="space-between">
-    <h1>
-      Programar cuotas
-      <ng-container *ngIf="!isActiveStepper">
-        <mat-icon [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
-      </ng-container>
-    </h1>
+  <ng-container *ngIf="existRules() && !isActiveStepper">
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="content-new-rule">
+      <h1>
+        Programar cuotas
+        <ng-container *ngIf="!isActiveStepper">
+          <mat-icon [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
+        </ng-container>
+      </h1>
 
-    <ng-container *ngIf="existRules() && !isActiveStepper">
       <credix-button (buttonClick)="activeStepper(true)" >Definir otra regla</credix-button>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
 
   <!-- Informacion para crear reglas Inicio-->
-  <ng-container *ngIf="!existRules() && !isActiveStepper else stepperTemplate">
-    <div fxLayout="row" class="container">
-      <div fxLayout="column" class="content" fxLayoutAlign="center center">
-        <div  fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="18px">
-          <p>Para ampliar el plazo de las compras de manera automática:</p>
-          <ol class="options">
-              <li>Seleccione la moneda de las compras.</li>
-              <li>Defina los montos y a cuál plazo quiere dividir sus compras para que se aplique cada vez que las realice.</li>
+  <ng-container *ngIf="!isActiveStepper else stepperTemplate">
+    <ng-container *ngIf="!existRules()">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>
+          Programar cuotas
+          <ng-container *ngIf="!isActiveStepper">
+            <mat-icon [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
+          </ng-container>
+        </h1>
+      </div>
+
+      <div fxLayout="row" class="container">
+        <div class="content">
+          <p class="item">{{ info1 || 'Para ampliar el plazo de las compras de manera automática:'}}</p>
+          <ol class="options item">
+              <li>{{ option1 || 'Seleccione la moneda de las compras.'}}</li>
+              <li>{{ option2 || 'Defina los montos y a cuál plazo quiere dividir sus compras para que se aplique cada vez que las realice.'}}</li>
           </ol>
-          <p>Al hacer esto, todo consumo que cumpla con las reglas establecidas se ampliará al plazo seleccionado sin gestiones adicionales.</p>
-          <p>Este producto aplica únicamente para los consumos de la red Visa.</p>
-        </div>
-        <div class="web-site" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
-          <mat-icon class="web-site__icon color-blue" >language</mat-icon>
-          <credix-link-button (click)="''">Blog Credix</credix-link-button>
+          <p class="item">{{ info2 || 'Al hacer esto, todo consumo que cumpla con las reglas establecidas se ampliará al plazo seleccionado sin gestiones adicionales.'}}</p>
+          <p>{{ info3 || 'Este producto aplica únicamente para los consumos de la red Visa.'}}</p>
         </div>
       </div>
-    </div>
 
-    <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button (buttonClick)="activeStepper(true)">
-        {{'Definir regla'}}
-      </credix-button>
-    </div>
+      <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end">
+        <credix-button (buttonClick)="activeStepper(true)">
+          {{'Definir regla'}}
+        </credix-button>
+      </div>
+    </ng-container>
   </ng-container>
     <!-- Informacion para crear reglas Fin -->
 
   <!-- Stepper Inicio-->
   <ng-template #stepperTemplate>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <h1>Programar cuotas</h1>
+    </div>
+
+
     <credix-stepper  #scheduleQuotasStepper class="schedule-quotas__stepper" fxFlex>
       <cdk-step  [stepControl]="currencyForm" fxLayout="column" label="{{step || 'Moneda'}}">
         <div class="schedule-quotas__container-step">

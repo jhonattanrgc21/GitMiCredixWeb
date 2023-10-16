@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { TagsService } from 'src/app/core/services/tags.service';
+import { Tag } from 'src/app/shared/models/tag';
 
 @Component({
   selector: 'app-schedule-quotas-first-step',
@@ -11,7 +13,8 @@ export class ScheduleQuotasFirstStepComponent implements OnInit {
   @Input() disableNextStepControl: FormControl;
   @Output() dollarsOption = new EventEmitter<boolean>()
   @Output() colonesOption = new EventEmitter<boolean>()
-  
+
+  info: string;
   currencyList: any[] = [
     {
       code: 188,
@@ -25,9 +28,11 @@ export class ScheduleQuotasFirstStepComponent implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(private tagsService: TagsService) { }
 
   ngOnInit(): void {
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
   }
 
   getValueCheckBoxes(isChecked: boolean, item: any) {
@@ -41,5 +46,9 @@ export class ScheduleQuotasFirstStepComponent implements OnInit {
     else{
       this.disableNextStepControl.setValue(false);
     }
+  }
+
+  getTags(tags: Tag[]) {
+    this.info = tags.find(tag => tag.description === 'programarcuotas.stepper1.tag')?.value;
   }
 }

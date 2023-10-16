@@ -3,8 +3,8 @@
     <ng-container *ngIf="isColones">
       <div fxLayout="row"  fxLayoutGap="32px" fxLayoutAlign="space-between">
         <div fxLayout="column"  fxLayoutGap="16px">
-          <p class="highlighted-info">Compra en colones</p>
-          <credix-link-button (click)="''">Editar</credix-link-button>
+          <p class="highlighted-info">{{tag1 || 'Compra en colones'}}</p>
+          <credix-link-button (click)="''">{{ tag2 || 'Editar'}}</credix-link-button>
         </div>
 
         <div fxLayout="column">
@@ -13,12 +13,12 @@
           </div>
 
           <div class="mb-px" fxLayout="row" fxLayoutAlign="space-between">
-            <p class="info">Comisión mensual*</p>
+            <p class="info">{{tag3 || 'Comisión mensual*'}}</p>
             <span class="highlighted-info">5,5%</span>
           </div>
 
           <div fxLayout="row"  fxLayoutAlign="space-between">
-            <p class="info">Interés mensual</p>
+            <p class="info">{{ tag4 || 'Interés mensual'}}</p>
             <span class="highlighted-info">0%</span>
           </div>
 
@@ -36,7 +36,7 @@
     <ng-container *ngIf="isDollars">
       <div fxLayout="row"  fxLayoutGap="32px" fxLayoutAlign="space-between">
         <div fxLayout="column"  fxLayoutGap="16px">
-          <p class="highlighted-info">Compra en d&oacute;lares</p>
+          <p class="highlighted-info">{{ tag5 || 'Compra en dólares'}}</p>
           <credix-link-button (click)="''">Editar</credix-link-button>
         </div>
 
@@ -46,12 +46,12 @@
           </div>
 
           <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
-            <p class="info">Comisión mensual*</p>
+            <p class="info">{{tag3 || 'Comisión mensual*'}}</p>
             <span class="highlighted-info">5,5%</span>
           </div>
 
           <div fxLayout="row"  fxLayoutAlign="space-between">
-            <p class="info">Interés mensual</p>
+            <p class="info">{{ tag4 || 'Interés mensual'}}</p>
             <span class="highlighted-info">0%</span>
           </div>
 
@@ -67,9 +67,7 @@
         <p class="summary__text"><span class="summary__highlighted-text">No aplica</span> para transacciones que queden en firme entre el 27 y el 29
           del mes.</p>
 
-        <p class="summary__text">*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el Banco
-          Central.
-        </p>
+        <p class="summary__text">{{tag6 || '*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el Banco Central.'}}</p>
       </div>
     </div>
   </div>

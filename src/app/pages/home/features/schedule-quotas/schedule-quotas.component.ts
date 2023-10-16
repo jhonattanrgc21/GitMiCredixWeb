@@ -7,6 +7,7 @@ import { CredixCodeErrorService } from 'src/app/core/services/credix-code-error.
 import { ModalService } from 'src/app/core/services/modal.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Tag } from 'src/app/shared/models/tag';
 
 @Component({
   selector: 'app-schedule-quotas',
@@ -43,6 +44,11 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   message: string;
   status: 'success' | 'error';
   title: string;
+  info1: string;
+  info2: string;
+  info3: string;
+  option1: string;
+  option2: string;
   step: string;
   step2: string;
   step3: string;
@@ -85,6 +91,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
   }
 
   ngAfterViewInit(): void {
@@ -197,6 +205,17 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
         });
       break;
     }
+  }
+
+  getTags(tags: Tag[]) {
+    this.info1 = tags.find(tag => tag.description === 'programarcuotas.info1')?.value;
+    this.option1 = tags.find(tag => tag.description === 'programarcuotas.option1')?.value;
+    this.option2 = tags.find(tag => tag.description === 'programarcuotas.option2')?.value;
+    this.info2 = tags.find(tag => tag.description === 'programarcuotas.info2')?.value;
+    this.info3 = tags.find(tag => tag.description === 'programarcuotas.info3')?.value;
+    this.step = tags.find(tag => tag.description === 'programarcuotas.stepper1')?.value;
+    this.step2 = tags.find(tag => tag.description === 'programarcuotas.stepper2')?.value;
+    this.step3 = tags.find(tag => tag.description === 'programarcuotas.stepper3')?.value;
   }
 
 }

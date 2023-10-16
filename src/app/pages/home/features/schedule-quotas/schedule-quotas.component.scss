@@ -1,6 +1,10 @@
 .schedule-quotas{
   position: relative;
 
+  .content-new-rule{
+    height: 47px;
+  }
+
   &__stepper{
     margin-top: 24px;
   }
@@ -21,27 +25,33 @@
   }
 
   .container{
-    margin: 32px auto 95px;
+    box-sizing: border-box;
+    margin: 32px auto 157px;
     max-width: 311px;
-    width: 311px;
   }
 
   .content{
-    width: 100%;
+    box-sizing: border-box;
+    width: 311px;
+    height: 360px;
     .options{
       padding-left: 24px;
     }
 
-    .web-site{
-      margin-top: 16px;
-
-      &__text{
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 21px;
-        letter-spacing: 0em;
-        text-align: left;
-      }
+    .item{
+      margin-bottom: 16px;
     }
   }
 }
+
+@media screen and (max-width: 1200px) {
+  .schedule-quotas {
+    height: 886px;
+    box-sizing: border-box;
+
+    .container{
+      margin: 32px auto auto;
+    }
+  }
+}
+

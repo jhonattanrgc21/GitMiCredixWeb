@@ -4,6 +4,7 @@ import { HttpService } from 'src/app/core/services/http.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { DateRangePopupComponent } from './date-range-popup/date-range-popup.component';
+import { Tag } from 'src/app/shared/models/tag';
 
 @Component({
   selector: 'app-schedule-quotas-second-step',
@@ -17,6 +18,14 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
   @Input() isDollars: boolean;
 
 
+  tag1: string;
+  tag2: string;
+  tag3: string;
+  tag4: string;
+  tag5: string;
+  tag6: string;
+  tag7: string;
+  tag8: string;
   comissionLabel: string;
   interestLabel: string;
   colonesDateRange = {
@@ -58,8 +67,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.comissionLabel = 'Comisión mensual';
-    this.interestLabel = 'Interés mensual';
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
   }
 
   addValidationToForm(form: FormGroup, isActive: boolean){
@@ -87,7 +96,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     this.modalService.open({
       component: DateRangePopupComponent,
       hideCloseButton: false,
-      title: 'Definir fechas',
+      title: this.tag6 || 'Definir fechas',
       data: {dateRange}
     }, {width: 380, height: 361, disableClose: false, panelClass: 'schedule-quotas-dates-panel'})
       .afterClosed().subscribe((range: any) => {
@@ -100,4 +109,14 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     });
   }
 
+  getTags(tags: Tag[]) {
+    this.tag1 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag1')?.value;
+    this.tag2 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag2')?.value;
+    this.tag3 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag3')?.value;
+    this.tag4 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag4')?.value;
+    this.tag5 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag5')?.value;
+    this.tag6 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag6')?.value;
+    this.tag7 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag7')?.value;
+    this.tag8 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag8')?.value;
+  }
 }
