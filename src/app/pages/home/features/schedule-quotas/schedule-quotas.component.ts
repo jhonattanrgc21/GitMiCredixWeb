@@ -8,6 +8,7 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tag } from 'src/app/shared/models/tag';
+import { InformationPopupComponent } from './information-popup/information-popup.component';
 
 @Component({
   selector: 'app-schedule-quotas',
@@ -205,6 +206,15 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
         });
       break;
     }
+  }
+
+  openInformationModal(){
+    this.modalService.open({
+      component: InformationPopupComponent,
+      hideCloseButton: true,
+      title: 'Programar cuotas',
+    }, {width: 343, height: 519, disableClose: false, panelClass: 'schedule-quotas-information-panel'})
+      .afterClosed().subscribe();
   }
 
   getTags(tags: Tag[]) {

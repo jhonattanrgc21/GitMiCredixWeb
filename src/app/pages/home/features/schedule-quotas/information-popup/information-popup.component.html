@@ -1,0 +1,16 @@
+<div class="information-popup">
+  <div class="container">
+    <p class="test">{{ info1 || 'Para ampliar el plazo de las compras de manera automática:'}}</p>
+    <ol class="options test">
+        <li>{{ option1 || 'Seleccione la moneda de las compras.'}}</li>
+        <li>{{ option2 || 'Defina los montos y a cuál plazo quiere dividir sus compras para que se aplique cada vez que las realice.'}}</li>
+    </ol>
+    <p class="test">{{ info2 || 'Al hacer esto, todo consumo que cumpla con las reglas establecidas se ampliará al plazo seleccionado sin gestiones adicionales.'}}</p>
+    <p>{{ info3 || 'Este producto aplica únicamente para los consumos de la red Visa.'}}</p>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="content">
+    <credix-button class="content__botton" (buttonClick)="submit()">{{ bottom || 'Listo'}}</credix-button>
+  </div>
+</div>
+

@@ -4,7 +4,7 @@
       <h1>
         Programar cuotas
         <ng-container *ngIf="!isActiveStepper">
-          <mat-icon [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
+          <mat-icon (click)="openInformationModal()" [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
         </ng-container>
       </h1>
 
@@ -19,7 +19,7 @@
         <h1>
           Programar cuotas
           <ng-container *ngIf="!isActiveStepper">
-            <mat-icon [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
+            <mat-icon (click)="openInformationModal()" [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
           </ng-container>
         </h1>
       </div>

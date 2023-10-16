@@ -38,6 +38,7 @@ import { ScheduleQuotasThirdStepComponent } from './schedule-quotas-third-step/s
 import { DateRangePopupComponent } from './schedule-quotas-second-step/date-range-popup/date-range-popup.component';
 import { CredixDatePickerModule } from 'src/app/shared/components/credix-date-picker/credix-date-picker.module';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler';
+import { InformationPopupComponent } from './information-popup/information-popup.component';
 
 
 const routes: Routes = [
@@ -48,7 +49,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ScheduleQuotasComponent, ScheduleQuotasFirstStepComponent, ScheduleQuotasSecondStepComponent, ScheduleQuotasThirdStepComponent, DateRangePopupComponent],
+  declarations: [ScheduleQuotasComponent, ScheduleQuotasFirstStepComponent, ScheduleQuotasSecondStepComponent, ScheduleQuotasThirdStepComponent, DateRangePopupComponent, InformationPopupComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

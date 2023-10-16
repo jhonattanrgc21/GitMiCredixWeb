@@ -33,13 +33,13 @@
   .content{
     box-sizing: border-box;
     width: 311px;
-    height: 360px;
+    height: auto;
     .options{
       padding-left: 24px;
     }
 
     .item{
-      margin-bottom: 16px;
+      margin-bottom: 24px;
     }
   }
 }
