@@ -9,20 +9,25 @@
 
         <div fxLayout="column">
           <div class="text-container mb-16px">
-            <span class="info">Toda compra entre <span class="highlighted-info">₡10.000 - ₡100.000</span> se ampliará a <span class="highlighted-info">3 cuotas.</span></span>
+            <span class="info">Toda compra entre <span class="highlighted-info">
+              ₡{{ formatNumberWithCommas(!colonesForm.value.minimumAmount ? 0 : colonesForm.value.minimumAmount) }} 
+              - ₡{{ formatNumberWithCommas(!colonesForm.value.maximumAmount ? 0 : colonesForm.value.maximumAmount) }}</span> se ampliará a 
+              <span class="highlighted-info">{{ colonesForm.value.quotas }} {{ colonesForm.value.quotas === 1 ? 'cuota' : 'cuotas' }}.</span></span>
           </div>
 
           <div class="mb-px" fxLayout="row" fxLayoutAlign="space-between">
             <p class="info">{{tag3 || 'Comisión mensual*'}}</p>
-            <span class="highlighted-info">5,5%</span>
+            <span class="highlighted-info">{{ colonesForm.value.commissions }}%</span>
           </div>
 
           <div fxLayout="row"  fxLayoutAlign="space-between">
             <p class="info">{{ tag4 || 'Interés mensual'}}</p>
-            <span class="highlighted-info">0%</span>
+            <span class="highlighted-info">{{ colonesForm.value.interest }}%</span>
           </div>
 
-          <!-- <p class="info mt-16px">Aplica del <span class="highlighted-info">04/11/2023</span> al <span class="highlighted-info">04/12/2023</span></p> -->
+          <p *ngIf="colonesForm.value.initDate && colonesForm.value.endDate" class="info mt-16px">
+            Aplica del <span class="highlighted-info">{{ formatDate(colonesForm.value.initDate) }}</span> 
+            al <span class="highlighted-info">{{ formatDate(colonesForm.value.endDate) }}</span></p>
         </div>
       </div>
     </ng-container>
@@ -42,20 +47,24 @@
 
         <div fxLayout="column">
           <div class="text-container mb-16px">
-            <span class="info">Toda compra entre <span class="highlighted-info">₡10.000 - ₡100.000</span> se ampliará a <span class="highlighted-info">3 cuotas.</span></span>
-          </div>
+            <span class="info">Toda compra entre <span class="highlighted-info">
+              ${{ formatNumberWithCommas(!dollarsForm.value.minimumAmount ? 0 : dollarsForm.value.minimumAmount) }} 
+              - ${{ formatNumberWithCommas(!dollarsForm.value.maximumAmount ? 0 : dollarsForm.value.maximumAmount) }}</span> se ampliará a 
+              <span class="highlighted-info">{{ dollarsForm.value.quotas }} {{ dollarsForm.value.quotas === 1 ? 'cuota' : 'cuotas' }}.</span></span>          </div>
 
           <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
             <p class="info">{{tag3 || 'Comisión mensual*'}}</p>
-            <span class="highlighted-info">5,5%</span>
+            <span class="highlighted-info">{{ dollarsForm.value.commissions }}%</span>
           </div>
 
           <div fxLayout="row"  fxLayoutAlign="space-between">
             <p class="info">{{ tag4 || 'Interés mensual'}}</p>
-            <span class="highlighted-info">0%</span>
+            <span class="highlighted-info">{{ dollarsForm.value.interest }}%</span>
           </div>
 
-          <!-- <p class="info mt-16px">Aplica del <span class="highlighted-info">04/11/2023</span> al <span class="highlighted-info">04/12/2023</span></p> -->
+          <p *ngIf="dollarsForm.value.initDate && dollarsForm.value.endDate" class="info mt-16px">
+            Aplica del <span class="highlighted-info">{{ formatDate(dollarsForm.value.initDate) }}</span> 
+            al <span class="highlighted-info">{{ formatDate(dollarsForm.value.endDate) }}</span></p>
         </div>
       </div>
     </ng-container>

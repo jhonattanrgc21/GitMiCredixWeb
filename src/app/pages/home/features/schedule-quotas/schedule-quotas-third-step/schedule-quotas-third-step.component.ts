@@ -1,7 +1,10 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { Tag } from 'src/app/shared/models/tag';
+import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
+import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
 
 @Component({
   selector: 'app-schedule-quotas-third-step',
@@ -21,11 +24,28 @@ export class ScheduleQuotasThirdStepComponent implements OnInit {
   tag5: string;
   tag6: string;
 
-  constructor(private tagsService: TagsService) { }
+  constructor(private tagsService: TagsService,
+              private datePipe: DatePipe
+              ) { }
 
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
+  }
+
+  formatNumberWithCommas(num: string): string {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
+  formatNumber(value: string): string {
+    value = value.replace(/,/g, '.');
+    const number = parseFloat(value);
+    const result = number === 0.0 ? number.toFixed(0) : number.toString();
+    return result.replace('.', ',');
+  }
+
+  formatDate(date: Date): string {
+    return this.datePipe.transform(date, 'dd/MM/yyyy');
   }
 
   getTags(tags: Tag[]) {

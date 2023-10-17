@@ -5,6 +5,9 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { DateRangePopupComponent } from './date-range-popup/date-range-popup.component';
 import { Tag } from 'src/app/shared/models/tag';
+import {ExtendTermRuleQuota} from '../../../../../shared/models/extend-term-rule-quota';
+import { ScheduleQuotasService } from '../schedule-quotas.service';
+
 
 @Component({
   selector: 'app-schedule-quotas-second-step',
@@ -38,8 +41,36 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     endDate: null
   }
 
+// Sliders values
+  colonesSlider = {
+    quotaSliderDisplayMax: 3,
+    quotaSliderDisplayMin: 1,
+    quotaSliderMax: 3,
+    quotaSliderMin: 1,
+    quotaSliderStep: 1,
+    quotaSliderDisplayValue: 1
+  }
+  dollarsSlider = {
+    quotaSliderDisplayMax: 3,
+    quotaSliderDisplayMin: 1,
+    quotaSliderMax: 3,
+    quotaSliderMin: 1,
+    quotaSliderStep: 1,
+    quotaSliderDisplayValue: 1
+  }
+  colonesQuotas: ExtendTermRuleQuota[];
+  colonesSelected: ExtendTermRuleQuota;
+  colonesCommission: string;
+  colonesFee: string;
 
-  constructor(private httpService: HttpService,
+  dollarsQuotas: ExtendTermRuleQuota[];
+  dollarsSelected: ExtendTermRuleQuota;
+  dollarsCommission: string;
+  dollarsFee: string;
+
+  error: boolean = false;
+
+  constructor(private scheduleQuotasService: ScheduleQuotasService,
     private modalService: ModalService,
     private tagsService: TagsService) {
     this.colonesForm =  new FormGroup({
@@ -69,6 +100,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
+    this.getRuleQuotas();
   }
 
   addValidationToForm(form: FormGroup, isActive: boolean){
@@ -107,6 +139,78 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
         dateRange.endDate = range.endDate;
       }
     });
+  }
+
+  getRuleQuotas(){
+    this.scheduleQuotasService.getRuleQuotaList()
+    .subscribe(res => {
+      if (res) {
+        this.error = false;
+        this.colonesQuotas = res?.colones;
+        this.dollarsQuotas = res?.dolares;
+        this.initSlider()
+      } else {
+        this.error = true;
+      }
+    });
+  }
+
+  initSlider() {
+
+
+      this.colonesSlider.quotaSliderStep = 1;
+      this.colonesSlider.quotaSliderDisplayMin = this.colonesQuotas[0].quotaTo;
+      this.colonesSlider.quotaSliderMin = 1;
+      this.colonesSlider.quotaSliderDisplayMax = this.colonesQuotas[this.colonesQuotas.length - 1].quotaTo;
+      this.colonesSlider.quotaSliderMax = this.colonesQuotas.length;
+      this.colonesSlider.quotaSliderDisplayValue = this.colonesSlider.quotaSliderDisplayMin;
+
+      this.getQuota(1,188)
+    
+
+   
+      this.dollarsSlider.quotaSliderStep = 1;
+      this.dollarsSlider.quotaSliderDisplayMin = this.dollarsQuotas[0].quotaTo;
+      this.dollarsSlider.quotaSliderMin = 1;
+      this.dollarsSlider.quotaSliderDisplayMax = this.dollarsQuotas[this.dollarsQuotas.length - 1].quotaTo;
+      this.dollarsSlider.quotaSliderMax = this.dollarsQuotas.length;
+      this.dollarsSlider.quotaSliderDisplayValue = this.dollarsSlider.quotaSliderDisplayMin;
+
+      this.getQuota(1,840)
+    
+    
+  }
+
+
+  getQuota(sliderValue, currency: number){
+    if(currency == 188){
+      this.colonesSlider.quotaSliderDisplayValue = this.colonesQuotas[sliderValue - 1].quotaTo;
+      this.colonesSelected = this.colonesQuotas[sliderValue - 1];
+      this.colonesFee = this.formatNumber(this.colonesSelected.feePercentage);
+      this.colonesCommission = this.formatNumber(this.colonesSelected.commissionRate)
+      this.colonesForm.get("quotas").setValue(this.colonesSelected.quotaTo)
+      this.colonesForm.get("commissions").setValue(this.colonesCommission)
+      this.colonesForm.get("interest").setValue(this.colonesFee)
+    }
+
+    if(currency == 840){
+      this.dollarsSlider.quotaSliderDisplayValue = this.dollarsQuotas[sliderValue - 1].quotaTo;
+      this.dollarsSelected = this.dollarsQuotas[sliderValue - 1];
+      this.dollarsFee = this.formatNumber(this.dollarsSelected.feePercentage);
+      this.dollarsCommission = this.formatNumber(this.dollarsSelected.commissionRate)
+      this.dollarsForm.get("quotas").setValue(this.dollarsSelected.quotaTo)
+      this.dollarsForm.get("commissions").setValue(this.dollarsCommission)
+      this.dollarsForm.get("interest").setValue(this.dollarsFee)
+    }
+    
+    
+  }
+
+  formatNumber(value: string): string {
+    value = value.replace(/,/g, '.');
+    const number = parseFloat(value);
+    const result = number === 0.0 ? number.toFixed(0) : number.toString();
+    return result.replace('.', ',');
   }
 
   getTags(tags: Tag[]) {

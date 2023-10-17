@@ -129,9 +129,22 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
         this.dollarsForm.reset();
         if(this.isColones || this.isDollars) this.disableButton = false;
         break;
-        case 1:
-          //this.disableButton = this.canNotAdvance();
-          this.disableButton = false;
+      case 1:
+          this.disableButton = true;
+          this.colonesForm.valueChanges.subscribe(()=>{
+            let min = this.colonesForm.value.minimumAmount;
+            let max = this.colonesForm.value.maximumAmount;
+            if(min || max){
+               this.disableButton = min > max;
+            }
+          })
+          this.dollarsForm.valueChanges.subscribe(()=>{
+            let min = this.dollarsForm.value.minimumAmount;
+            let max = this.dollarsForm.value.maximumAmount;
+            if(min || max){
+               this.disableButton = min > max;
+            }
+          })
         break;
       case 2:
         this.disableButton = false;
@@ -166,7 +179,14 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
         this.modalService.confirmationPopup('¿Desea establecer esta regla?')
         .subscribe(confirmation => {
           if (confirmation) {
-            console.log('Confirmado');
+            this.scheduleQuotasService.saveExtendTermRule(this.colonesForm,this.dollarsForm).subscribe({
+                next: (res) => {
+                  if(res.status === 200) {
+                    console.log("se logro")
+                    // who knows
+                  }
+                }
+              })
           } else {
             this.selectedIndex = 2;
           }
