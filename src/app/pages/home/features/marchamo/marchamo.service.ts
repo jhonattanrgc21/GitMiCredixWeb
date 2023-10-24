@@ -39,6 +39,8 @@ export class MarchamoService {
 
   iva = 0;
   commission = 0;
+  commissionDilute = 0;
+  commissionPorcentageDilute = '0';
   total = 0;
   deliveryAmount;
   private readonly getPromoApplyUri = 'pay/promoapply';
@@ -236,6 +238,13 @@ export class MarchamoService {
         requiredBill: '1',
         codeCredix
       });
+  }
+
+  formatNumber(value: string): string {
+    value = value.replace(',', '.');
+    const number = parseFloat(value);
+    const result = number === 0 ? number.toFixed(0) : number.toString();
+    return result.replace('.', ',');
   }
 
   unsubscribe() {
