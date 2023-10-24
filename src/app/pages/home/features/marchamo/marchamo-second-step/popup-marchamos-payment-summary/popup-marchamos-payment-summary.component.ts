@@ -12,6 +12,7 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   iva = 0;
   totalAmountItemsProducts = 0;
   commission: number;
+  commissionDilute: number
   comissionPorcentageDilute: string;
   marchamo: number;
   quotesToPay: { quotes: number, quotesAmount: number } = {quotes: 0, quotesAmount: 0};
@@ -33,6 +34,7 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
     this.data.data.forEach(values => {
       this.iva = (typeof values.iva === 'string') ? +values.iva : values.iva;
       this.commission = values.commission;
+      this.commissionDilute = values.commissionDilute;
       this.comissionPorcentageDilute = values.comissionPorcentageDilute ?? '0';
       this.marchamo = (typeof values.marchamos === 'string') ? +values.marchamos.replace('.', '') : values.marchamos;
       this.quotesToPay = values.quotesToPay;
