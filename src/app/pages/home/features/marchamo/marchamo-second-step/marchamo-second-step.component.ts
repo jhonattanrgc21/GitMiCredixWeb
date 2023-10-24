@@ -111,7 +111,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       data: [{
         marchamos: this.totalAmount,
         itemsProductsAmount: this.arrayOfAmountProducts,
-        commission: this.commissionDilute,
+        commission: this.commission,
+        commissionDilute: this.commissionDilute,
         comissionPorcentageDilute: this.commissionPorcentageDilute,
         iva: this.iva,
         quotesToPay: {
