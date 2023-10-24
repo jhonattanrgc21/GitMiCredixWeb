@@ -10,6 +10,7 @@ export class CredixAmountSummaryComponent implements OnInit {
 
   @Input() label: string;
   @Input() amount: string;
+  @Input() prefix: string = "₡";
   constructor() { }
 
   ngOnInit(): void {

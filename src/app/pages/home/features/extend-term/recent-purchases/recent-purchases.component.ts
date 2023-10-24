@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, Output, TemplateRef, ViewChild, EventEmitter} from '@angular/core';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
@@ -11,7 +11,7 @@ import {ExtendTermService} from '../extend-term.service';
 import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/credix-slider.component';
 import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
 import {PopupPromoComponent} from '../popup-promo/popup-promo.component';
-import {combineLatest} from "rxjs";
+import {Observable, combineLatest} from "rxjs";
 
 @Component({
   selector: 'app-recent-purchases',
@@ -45,10 +45,13 @@ export class RecentPurchasesComponent implements OnInit {
   title: string;
   amountArray: {amount: number, movementId: string}[] = [];
   amountSummary = '0';
+  summaryPrefix: string = "₡"
 
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
   @ViewChild(CredixSliderComponent) credixSlider: CredixSliderComponent;
+  selectedChanges: Observable<AllowedMovement[]> = new Observable();
+  
 
   constructor(private extendTermService: ExtendTermService,
               private tagsService: TagsService,
@@ -121,7 +124,7 @@ export class RecentPurchasesComponent implements OnInit {
         }
       })
     ).subscribe((res) => {
-      next: this.allowedMovements = res
+      this.allowedMovements = res
     });
   }
 
@@ -157,33 +160,33 @@ export class RecentPurchasesComponent implements OnInit {
 
 
 
-  calculateTotalAmountSelect(amount: string, movementId: string, checked: boolean) {
+  calculateTotalAmountSelect() {
     let totalAmount = 0;
-    if (checked) {
-      const amountToNumber = ConvertStringAmountToNumber(amount);
-      if (this.amountArray.findIndex((obj) => obj.movementId === movementId) === -1) {
-        this.amountArray.push({
-          amount: amountToNumber,
-          movementId
-        });
-      }
-    } else {
-      this.amountArray.splice(this.amountArray.findIndex((obj) => obj.movementId === movementId), 1);
-    }
-    totalAmount = this.amountArray.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
+    let dollar = this.allowedMovementSelected.length > 0 && this.allowedMovementSelected.every((el) => el.originCurrency.currencyId === 840);
+    interface amountObject { amount: number; movementId: string }
+    let mappedArray = this.allowedMovementSelected.map((movement)=> <amountObject>{
+          amount: ConvertStringAmountToNumber( dollar ? movement.originAmount : movement.amount),
+          movementId: movement.movementId
+    })
+    totalAmount = mappedArray.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
     this.amountSummary = ConvertNumberToStringAmount(totalAmount);
+    this.summaryPrefix = dollar ? "$" : "₡";
   }
 
 
-  change(checked: boolean, movement: AllowedMovement) {
-    if(checked){
+  change($event,movement) {
+    if($event){
       this.selection.push(movement.movementId)
       this.allowedMovementSelected.push(movement);
     }else{
       this.selection.splice(this.selection.findIndex(mov => mov === movement.movementId), 1);
       this.allowedMovementSelected.splice(this.allowedMovementSelected.findIndex(mov => mov.movementId == movement.movementId),1)
     }
-    this.calculateTotalAmountSelect(movement.amount, movement.movementId, checked);
+    this.calculateTotalAmountSelect();
+    this.selectedChanges = new Observable((obs)=>{
+      obs.next(this.allowedMovementSelected);
+    });
+    
   }
 
   

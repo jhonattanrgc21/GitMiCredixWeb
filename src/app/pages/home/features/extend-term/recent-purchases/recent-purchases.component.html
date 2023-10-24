@@ -1,9 +1,27 @@
 <div *ngIf="!done && !empty" class="extend-term" fxLayout="column">
 
-  <p class="title-space">Seleccione las compras que desea ampliar:</p>
-  <ngx-simplebar [options]="{autoHide: false}" class="extend-term__scrollbar" fxFlex>
+  <div class="title-space">
+    <p>Para ampliar varias compras a la vez, éstas deben tener las mismas condiciones:</p>
+    <ul>
+      <li>Compras con la misma promoción.</li>
+      <li>Compras sin promoción.</li>
+    </ul>
+  </div>
+  
+
+  
+ 
     <div class="extend-term__table-wrapper">
-      <mat-table [dataSource]="allowedMovements"
+      <credix-allowed-movement 
+        *ngFor="let movement of allowedMovements; let last = last" 
+        [movement]="movement" 
+        [selectedChanges]="selectedChanges"
+        [lastItem]="last"
+        (changeSelection)="change($event,movement)"
+        >
+        
+      </credix-allowed-movement>
+      <!-- <mat-table [dataSource]="allowedMovements"
                 class="extend-term__table">
 
         <ng-container matColumnDef="select">
@@ -49,33 +67,23 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
-      </mat-table>
+      </mat-table> -->
     </div>
-  </ngx-simplebar>
-  <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary'>
-    </credix-amount-summary>
-  </div>
-
+    <div class="amount-summary">
+      <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary' [prefix]="summaryPrefix">
+      </credix-amount-summary>
+    </div>
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button [disabled]="selection.length === 0" (buttonClick)="next()">Continuar</credix-button>
   </div>
   
+  
+
+  
+  
 
 </div>
 
-<!-- Por si acaso -->
-<!-- 
-
-  
-          <span *ngIf='allowedMovement.promoApply'
-                [class.extend-term__promo-apply__subtitle]='allowedMovement.promoApply'>
-              {{ allowedMovement.promoMessage }}
-            </span>
-
-
-
- -->
 
 <ng-template #disabledTemplate>
   <credix-result-notification
