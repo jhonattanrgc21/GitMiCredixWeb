@@ -24,6 +24,8 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   totalOfItemProduct = 0;
   total = 0;
   commission: number;
+  commissionAmountDIlute: number;
+  commissionPorcentageDIlute: string;
   step4TagIva: string;
   step4Subt1: string;
   step4TagCom: string;
@@ -33,6 +35,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   step4Subt3: string;
   step4TagMarch: string;
   step4TagDom: string;
+  step4Disclaimer: string;
 
   constructor(private tagsService: TagsService,
               private marchamosService: MarchamoService) {
@@ -51,6 +54,8 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
       this.iva = this.marchamosService.iva;
       this.deliveryAmount = localStorage.getItem("delivery2");
       this.commission = this.marchamosService.commission;
+      this.commissionAmountDIlute =  this.marchamosService.commissionDilute;
+      this.commissionPorcentageDIlute =  this.marchamosService.commissionPorcentageDilute;
       this.amountOfItemProduct = this.marchamosService.amountProducts;
       this.computeCalculate();
       this.getTotalSum();
@@ -79,5 +84,6 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
     this.step4Subt3 = tags.find(tag => tag.description === 'marchamos.stepper4.subtitle3')?.value;
     this.step4TagMarch = tags.find(tag => tag.description === 'marchamos.stepper4.tagMarchamo')?.value;
     this.step4TagDom = tags.find(tag => tag.description === 'marchamos.stepper4.tagDomicilio')?.value;
+    this.step4Disclaimer = tags.find(tag => tag.description === 'marchamos.stepper4.disclaimer')?.value;
   }
 }
