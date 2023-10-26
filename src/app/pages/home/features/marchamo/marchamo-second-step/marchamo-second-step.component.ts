@@ -226,7 +226,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         this.iva = ConvertStringAmountToNumber(response.iva);
         this.commissionDilute = ConvertStringAmountToNumber(response.comissionAmountDilute);
         this.commissionPorcentageDilute = this.marchamosService.formatNumber(response.commissionPercentageDilute);
-        this.marchamosService.iva = this.iva;
+        this.marchamosService.iva = this.iva ?? 0;
+        localStorage.setItem('iva', String(this.marchamosService.iva ))
         this.marchamosService.commission = this.commission;
         this.marchamosService.commissionDilute = this.commissionDilute;
         this.marchamosService.commissionPorcentageDilute = this.commissionPorcentageDilute;
