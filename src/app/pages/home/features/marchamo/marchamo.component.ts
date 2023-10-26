@@ -100,6 +100,9 @@ export class MarchamoComponent implements OnInit, OnDestroy {
     switch (this.stepperIndex) {
       case 0:
         this.disableButton = !this.marchamosService.consultVehicle && !this.marchamosService.billingHistories;
+        localStorage.removeItem('iva');
+        localStorage.removeItem('delivery');
+        localStorage.removeItem('delivery2');
         this.marchamosService.vehicleConsulted$
           .subscribe(() => this.disableButton = !this.marchamosService.consultVehicle && !this.marchamosService.billingHistories);
         break;
@@ -167,7 +170,7 @@ export class MarchamoComponent implements OnInit, OnDestroy {
             .subscribe((response) => {
               this.consultVehicle = response.header;
               this.marchamosService.consultVehicle = this.consultVehicle;
-            }); 
+            });
   }
 
   secureToPay() {
