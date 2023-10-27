@@ -202,7 +202,7 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
 
   computeAmountPerQuota(quota: number) {
     if (quota > 0) {
-      this.amountPerQuota = (this.totalAmount + this.commission + this.iva + this.getTotalAmountItemsProducts()) / quota;
+      this.amountPerQuota = (this.totalAmount + this.commission + this.getTotalAmountItemsProducts()) / quota;
     } else {
       this.amountPerQuota = this.totalAmount;
     }
