@@ -41,11 +41,16 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
       values.itemsProductsAmount.forEach(itemProduct => {
         this.totalAmountItemsProducts = this.totalAmountItemsProducts + itemProduct.amounts;
       });
-      this.totalAmount = this.totalAmount + this.commission + this.marchamo + this.iva + this.totalAmountItemsProducts;
+      this.totalAmount = this.roundToDecimalPlaces(this.totalAmount + this.commission + this.marchamo + this.iva + this.totalAmountItemsProducts, 2 );
     });
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+  }
+
+  roundToDecimalPlaces(val: number, places: number): number {
+    const mod: number = Math.pow(10, places);
+    return Number((val * mod).toFixed(0)) / mod;
   }
 
   getTags(tags: Tag[]) {
