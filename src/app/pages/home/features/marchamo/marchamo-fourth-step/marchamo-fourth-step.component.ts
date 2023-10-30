@@ -65,8 +65,14 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   getTotalSum() {
     let sum: number;
     sum = this.totalMarchamo + this.totalOfItemProduct + this.iva + this.commission + ConvertStringAmountToNumber(this.deliveryAmount);
-    this.total = sum;
+    this.total = this.roundToDecimalPlaces(sum, 2);
     this.marchamosService.total = this.total;
+  }
+
+
+  roundToDecimalPlaces(val: number, places: number): number {
+    const mod: number = Math.pow(10, places);
+    return Number((val * mod).toFixed(0)) / mod;
   }
 
   computeCalculate() {
