@@ -201,11 +201,18 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   computeAmountPerQuota(quota: number) {
+    let total: number;
     if (quota > 0) {
-      this.amountPerQuota = (this.totalAmount + this.commission + this.getTotalAmountItemsProducts()) / quota;
+      total = (this.totalAmount + this.commission + this.getTotalAmountItemsProducts()) / quota;
     } else {
-      this.amountPerQuota = this.totalAmount;
+      total = this.totalAmount;
     }
+    this.amountPerQuota = this.roundToDecimalPlaces(total, 2);
+  }
+
+  roundToDecimalPlaces(val: number, places: number): number {
+    const mod: number = Math.pow(10, places);
+    return Number((val * mod).toFixed(0)) / mod;
   }
 
   getTotalAmountItemsProducts(): number {
