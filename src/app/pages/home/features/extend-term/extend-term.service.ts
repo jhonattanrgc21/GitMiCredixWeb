@@ -16,7 +16,25 @@ export class ExtendTermService {
   private readonly cutDateUri = 'channels/cutdateextermterm';
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
   private readonly saveNewQuotaPreviousMovementsUri = 'account/savepreviousconsumptions';
-  // private readonly allowedMovementsUri = /channels/allowedmovements
+  // tslint:disable-next-line:variable-name
+  private _amountSummary = '0';
+  private _pagoContadoColones = '';
+
+  get amountSummary(): string {
+    return this._amountSummary;
+  }
+
+  set amountSummary(val: string) {
+    this._amountSummary = val;
+  }
+
+  get pagoContadoColones(): string {
+    return this._pagoContadoColones;
+  }
+
+  set pagoContadoColones(val: string ) {
+    this._pagoContadoColones = val;
+  }
 
   // tslint:disable-next-line:variable-name
   _movementsSelected: number[] = [];

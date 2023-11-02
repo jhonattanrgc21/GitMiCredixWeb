@@ -3,6 +3,10 @@
                         [status]="status"
                         [moduleTitle]="titleTag || 'Ampliar plazo de compra'"
                         [recordatoryForExtendTerm]='true'
+                        [data]='{
+          amountSummary: this.amountSummary,
+          pagoContado: this.pagoContadoColones
+        }'
                         buttonText="Listo"
                         routeTo="/home">
 

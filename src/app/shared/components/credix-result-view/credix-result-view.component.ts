@@ -12,6 +12,7 @@ export class CredixResultViewComponent implements OnInit {
   @Input() resultTile: string;
   @Input() resultMessage = '';
   @Input() recordatoryForExtendTerm: boolean;
+  @Input() data: any;
   @Input() status: 'success' | 'error' | 'warn' | 'info';
   @Input() buttonText: string;
   @Input() routeTo: string;
@@ -27,7 +28,7 @@ export class CredixResultViewComponent implements OnInit {
   clickButton() {
     this.buttonPressed.emit();
     if (this.recordatoryForExtendTerm) {
-      this.modalService.open({title: 'Recordatorio', hideCloseButton: false, component: PopupPreviousInfoComponent},
+      this.modalService.open({data: this.data , title: 'Recordatorio', hideCloseButton: false, component: PopupPreviousInfoComponent},
         {disableClose: true, height: 324, width: 328, panelClass: 'info'});
     }
   }

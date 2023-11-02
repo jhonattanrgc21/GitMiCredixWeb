@@ -152,7 +152,7 @@ export class PreviousExtendComponent implements OnInit {
       title: 'Resumen general',
     },
     {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'}
-    )
+    );
   }
 
   getTags(tags: Tag[]) {

@@ -192,6 +192,8 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
       {disableClose: true, height: 324, width: 328, panelClass: 'info'}).afterClosed()
       .subscribe(() => {
         this.extendTermService.movementsSelected = [...this.selection];
+        this.extendTermService.amountSummary = this.amountSummary;
+        this.extendTermService.pagoContadoColones = this.pagoContadoColones;
         this.route.navigate(['/home/extend-term/previous-extend']);
       });
   }
