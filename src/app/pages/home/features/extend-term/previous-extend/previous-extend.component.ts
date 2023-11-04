@@ -98,12 +98,13 @@ export class PreviousExtendComponent implements OnInit {
   selectMovementQuotaSummary() {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
     this.feedPercentage = this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage);
-
+    this.feedPercentage.toString().replace('.', ',');
     if ( !this.result ) {
       this.percentageCommission = '';
     } else {
       this.percentageCommission =  this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
     }
+    this.percentageCommission.toString().replace('.', ',');
   }
 
   convertAmountValue(value: any): any {
@@ -151,7 +152,7 @@ export class PreviousExtendComponent implements OnInit {
       template: this.summaryTemplate,
       title: 'Resumen general',
     },
-    {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'}
+    {width: 380, height: 371, disableClose: true, panelClass: 'summary-panel'}
     );
   }
 
