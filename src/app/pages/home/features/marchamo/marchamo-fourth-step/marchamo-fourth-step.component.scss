@@ -3,7 +3,21 @@
 
   &__content {
     width: 100%;
-    padding: 16px 0;
+    padding: 16px 0 8px 0;
+  }
+
+  &__container {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  &__legend {
+    color: #696D6F;
+    font-size: 14px;
+    margin-top: 8px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 
   ::ng-deep .credix-numeric-block {

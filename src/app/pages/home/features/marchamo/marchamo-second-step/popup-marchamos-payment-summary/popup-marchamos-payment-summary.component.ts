@@ -12,6 +12,8 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
   iva = 0;
   totalAmountItemsProducts = 0;
   commission: number;
+  commissionDilute: number
+  comissionPorcentageDilute: string;
   marchamo: number;
   quotesToPay: { quotes: number, quotesAmount: number } = {quotes: 0, quotesAmount: 0};
   totalAmount = 0;
@@ -32,16 +34,23 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
     this.data.data.forEach(values => {
       this.iva = (typeof values.iva === 'string') ? +values.iva : values.iva;
       this.commission = values.commission;
+      this.commissionDilute = values.commissionDilute;
+      this.comissionPorcentageDilute = values.comissionPorcentageDilute ?? '0';
       this.marchamo = (typeof values.marchamos === 'string') ? +values.marchamos.replace('.', '') : values.marchamos;
       this.quotesToPay = values.quotesToPay;
       values.itemsProductsAmount.forEach(itemProduct => {
         this.totalAmountItemsProducts = this.totalAmountItemsProducts + itemProduct.amounts;
       });
-      this.totalAmount = this.totalAmount + this.commission + this.marchamo + this.iva + this.totalAmountItemsProducts;
+      this.totalAmount = this.roundToDecimalPlaces(this.totalAmount + this.commission + this.marchamo + this.iva + this.totalAmountItemsProducts, 2 );
     });
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Marchamo').tags)
     );
+  }
+
+  roundToDecimalPlaces(val: number, places: number): number {
+    const mod: number = Math.pow(10, places);
+    return Number((val * mod).toFixed(0)) / mod;
   }
 
   getTags(tags: Tag[]) {
@@ -52,7 +61,7 @@ export class PopupMarchamosPaymentSummaryComponent implements OnInit {
     this.resumeTag5 = tags.find(tag => tag.description === 'marchamos.resumen.tag5')?.value;
     this.resumeTag6 = tags.find(tag => tag.description === 'marchamos.resumen.tag6')?.value;
     this.resumeDisclaimer = tags.find(tag => tag.description === 'marchamos.resumen.disclaimer')?.value;
-    
+
   }
 
 }

@@ -48,6 +48,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   quotaSliderDisplayValue = 0;
   amountPerQuota = 0;
   commission = 0;
+  commissionDilute = 0;
+  commissionPorcentageDilute = '0';
   iva = 0;
   payments: { promoStatus: number; paymentDate: string; }[] = [];
   itemProduct: Item[];
@@ -110,6 +112,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
         marchamos: this.totalAmount,
         itemsProductsAmount: this.arrayOfAmountProducts,
         commission: this.commission,
+        commissionDilute: this.commissionDilute,
+        comissionPorcentageDilute: this.commissionPorcentageDilute,
         iva: this.iva,
         quotesToPay: {
           quotes: !this.secureAndQuotesForm.controls.quota.value ? '' : this.secureAndQuotesForm.controls.quota.value,
@@ -197,11 +201,18 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
   }
 
   computeAmountPerQuota(quota: number) {
+    let total: number;
     if (quota > 0) {
-      this.amountPerQuota = (this.totalAmount + this.commission + this.getTotalAmountItemsProducts()) / quota;
+      total = (this.totalAmount + this.commission + this.getTotalAmountItemsProducts()) / quota;
     } else {
-      this.amountPerQuota = this.totalAmount;
+      total = this.totalAmount;
     }
+    this.amountPerQuota = this.roundToDecimalPlaces(total, 2);
+  }
+
+  roundToDecimalPlaces(val: number, places: number): number {
+    const mod: number = Math.pow(10, places);
+    return Number((val * mod).toFixed(0)) / mod;
   }
 
   getTotalAmountItemsProducts(): number {
@@ -220,8 +231,13 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       if (typeof response.result === 'string') {
         this.commission = ConvertStringAmountToNumber(response.result);
         this.iva = ConvertStringAmountToNumber(response.iva);
-        this.marchamosService.iva = this.iva;
+        this.commissionDilute = ConvertStringAmountToNumber(response.comissionAmountDilute);
+        this.commissionPorcentageDilute = this.marchamosService.formatNumber(response.commissionPercentageDilute);
+        this.marchamosService.iva = this.iva ?? 0;
+        localStorage.setItem('iva', String(this.marchamosService.iva ))
         this.marchamosService.commission = this.commission;
+        this.marchamosService.commissionDilute = this.commissionDilute;
+        this.marchamosService.commissionPorcentageDilute = this.commissionPorcentageDilute;
         localStorage.setItem("delivery", response.deliveryAmount);
         this.marchamoComponent.validaIVA = false;
       }

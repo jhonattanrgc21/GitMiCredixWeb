@@ -41,9 +41,9 @@
         </credix-numeric-block>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <span>{{step4TagCom || 'Comisión'}}</span>
+        <span>{{step4TagCom + ' (' + commissionPorcentageDIlute  + '%)'|| 'Comisión'}}</span>
         <credix-numeric-block
-          [value]="commission"
+          [value]="commissionAmountDIlute"
           fontWeight="bold"
           prefix="₡"></credix-numeric-block>
       </div>
@@ -71,12 +71,12 @@
           fontWeight="bold"
           prefix="₡"></credix-numeric-block>
       </div>
+      <span class="four-step-marchamo__legend">{{step4Disclaimer || '*Se cargará en el próximo estado de cuenta. '}}</span>
     </div>
   </div>
 
-  <mat-divider credixDivider></mat-divider>
 
-  <div class="four-step-marchamo__content" fxLayout="row" fxLayoutAlign="space-between">
+  <div class="four-step-marchamo__container" fxLayout="row" fxLayoutAlign="space-between">
     <credix-code-link></credix-code-link>
 
     <form [formGroup]="confirmForm" fxFlex="380px">

@@ -12,6 +12,7 @@ import {NewAddressPopupComponent} from './new-address-popup/new-address-popup.co
 import {ChannelsApiService} from '../../../../../core/services/channels-api.service';
 import {finalize} from 'rxjs/operators';
 import { MarchamoComponent } from '../marchamo.component';
+import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
 
 @Component({
   selector: 'app-marchamo-third-step',
@@ -45,7 +46,9 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   firstSubtitle: string;
   //new tags marchamos
   deliveryAmount: string;
+  totalDeliveryAmount: string;
   leyendTag: string;
+  deliveryAmountTag: string;
   totalAmount = 0;
   activateDeliveryOption = null;
   officeMessage= null;
@@ -88,8 +91,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       this.pickUpForm.controls.deliveryPlace.setValidators([Validators.required]);
       this.pickUpForm.controls.phoneNumber.clearValidators();
       this.pickUpForm.controls.person.clearValidators();
-      this.deliveryAmount = "0";
+      this.totalDeliveryAmount = '0';
+      this.deliveryPlaceAmount();
+      //this.deliveryAmount = "0";
     } else if(value === 2) {
+      this.totalDeliveryAmount = this.deliveryAmountTag;
       this.pickUpForm.controls.deliveryPlace.clearValidators();
       this.pickUpForm.controls.phoneNumber.setValidators([Validators.required]);
       this.pickUpForm.controls.person.setValidators([Validators.required]);
@@ -113,16 +119,15 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   deliveryPlaceAmount(){
-    this.deliveryAmount = localStorage.getItem("delivery");
-    localStorage.setItem("delivery2", this.deliveryAmount);
-    console.log(this.marchamoComponent.validaIVA);
-    if(!this.marchamoComponent.validaIVA){
-      console.log(this.marchamoService.iva);
-      this.marchamoService.iva += (Number(this.deliveryAmount) * 0.13);
+    const totalDeliveryAmount = Number(localStorage.getItem("delivery")) + Number(this.totalDeliveryAmount)
+    if(totalDeliveryAmount >= 0){
+      this.deliveryAmount = String(totalDeliveryAmount);
+      localStorage.setItem("delivery2", this.deliveryAmount);
+      let iva = Number(localStorage.getItem('iva'));
+      iva += (Number(this.deliveryAmount) * 0.13);
+      this.marchamoService.iva = iva;
       this.marchamoComponent.validaIVA = true;
     }
-    
-    //console.log(this.deliveryAmount);
   }
 
   domicileRadioButtonChanged(value: number) {
@@ -220,6 +225,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
     this.optionTwoTag = tags.find(tag => tag.description === 'marchamos.stepper3.option2')?.value;
     this.firstSubtitle = tags.find(tag => tag.description === 'marchamos.stepper3.subtitle1')?.value;
     this.leyendTag = tags.find(tag => tag.description === 'marchamos.deliveryAmount.leyend')?.value;
+    this.deliveryAmountTag = tags.find(tag => tag.description === 'marchamos.stepper3.domicilio.deliveryAmount')?.value;
   }
 
   ngOnDestroy(): void {
