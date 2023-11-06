@@ -20,9 +20,7 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>{{newQuotaTag || 'Cuota nueva'}}</span>
-          <credix-numeric-block [prefix]="currency"
-                                [value]="amount" fontWeight="bold">
-          </credix-numeric-block>
+          <span class='bold f-16px'>{{establishment}}</span>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
@@ -36,9 +34,33 @@
         </div>
 
       </div>
+
+      <mat-divider class="mb-24px" credixDivider></mat-divider>
+
     </div>
 
     <credix-share-button fxFlex="auto" fxFlexAlign="center"></credix-share-button>
+
+    <div *ngIf="status === 'success'" class="w-100" fxLayout="column" fxFlex="auto" >
+
+         <div fxLayout='row' fxLayoutAlign='space-between'>
+          <p class='consumed-title'>
+            Consumos
+          </p>
+           <div fxLayout='column'>
+             <ng-container *ngFor='let previous of previousMovementSelected'>
+               <div fxLayout='row' fxLayoutAlign='space-between'>
+                  <p>
+                    {{previous.establishmentName}}
+                  </p>
+                 <credix-numeric-block [prefix]="previous.currencySimbol"
+                                       [value]="previous.originAmount" fontWeight="bold">
+                 </credix-numeric-block>
+               </div>
+             </ng-container>
+           </div>
+         </div>
+    </div>
   </div>
 
 </app-credix-result-view>

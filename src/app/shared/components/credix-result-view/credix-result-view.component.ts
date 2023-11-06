@@ -27,7 +27,7 @@ export class CredixResultViewComponent implements OnInit {
 
   clickButton() {
     this.buttonPressed.emit();
-    if (this.recordatoryForExtendTerm) {
+    if (this.recordatoryForExtendTerm && this.status === 'success') {
       this.modalService.open({data: this.data , title: 'Recordatorio', hideCloseButton: false, component: PopupPreviousInfoComponent},
         {disableClose: true, height: 324, width: 328, panelClass: 'info'});
     }

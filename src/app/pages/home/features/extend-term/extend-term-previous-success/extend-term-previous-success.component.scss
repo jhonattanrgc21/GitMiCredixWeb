@@ -1,7 +1,7 @@
 :host{
   display: block;
   height: 662px;
-  
+
   ::ng-deep h1 {
     margin-bottom: 36px !important;
   }
@@ -18,8 +18,17 @@
   ::ng-deep .credix-result-notification__message {
       width: 477px !important;
   }
-  
+
   credix-share-button {
     margin-top: 118px !important;
   }
+}
+
+.consumed-title{
+  color: var(--gris-oscuro-3-e-3-e-3-e, #3E3E3E);
+  /* 16 pt Bold */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }

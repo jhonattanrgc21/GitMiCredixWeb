@@ -36,7 +36,7 @@ export class PreviousExtendComponent implements OnInit {
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
   termSliderDisplayValue = 0;
-  movementsSelected: number[];
+  movementsSelected: string[];
   quotas: PaymentQuota[];
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';

@@ -1,5 +1,6 @@
 export class PreviousMovements {
-    pdqId: number;
+    pdqId: string;
+    amount: string;
     currencySimbol: string;
     establishmentName: string;
     originAmount: string;

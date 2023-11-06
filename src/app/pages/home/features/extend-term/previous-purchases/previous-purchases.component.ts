@@ -20,7 +20,7 @@ import {StorageService} from "../../../../../core/services/storage.service";
 })
 export class PreviousPurchasesComponent implements OnInit, OnDestroy {
 
-  selection: number[] = [];
+  selection: string[] = [];
   displayedColumns: string[] = ['select', 'date', 'commerce', 'amount', 'quotas'];
   movementDataSource: Movement[] = [];
   linkTag: string;
@@ -30,7 +30,8 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   columnFourTag: string;
   isEmpty: boolean = false;
   previousMovements: PreviousMovements[] = [];
-  amountArray: {amount: number, movementId: number}[] = [];
+  previousMovementsSelected: PreviousMovements[] = [];
+  amountArray: {amount: number, movementId: string}[] = [];
   amountSummary = '0';
   pagoContadoColones: string;
   cardId: number;
@@ -130,7 +131,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
     this.landingService.unsubscribe();
   }
 
-  calculateTotalAmountSelect(amount: string, movementId: number, checked: boolean) {
+  calculateTotalAmountSelect(amount: string, movementId: string, checked: boolean) {
     let totalAmount = 0;
     if (checked) {
       const amountToNumber = ConvertStringAmountToNumber(amount);
@@ -148,15 +149,17 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   }
 
   change(checked: boolean, movement: PreviousMovements, i: number) {
-    this.calculateTotalAmountSelect(movement.originAmount, movement.pdqId, checked);
+    this.calculateTotalAmountSelect(movement.amount, movement.pdqId, checked);
     if (checked) {
       this.selection.push(movement.pdqId);
       this.checkedListStates[i] = true;
+      this.previousMovementsSelected.push(movement);
       this.previousMovements = this.previousMovements.map((obj, index) => {
         console.log(this.checkedListStates[index]);
         return {
             pdqId: obj.pdqId,
             currencySimbol: obj.currencySimbol,
+            amount: obj.amount,
             establishmentName: obj.establishmentName,
             originAmount: obj.originAmount,
             originDate: obj.originDate,
@@ -169,10 +172,12 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
       this.selection
         .splice(this.selection.findIndex(mov => mov === movement.pdqId), 1);
       this.checkedListStates[i] = false;
+      this.previousMovementsSelected.splice(this.previousMovementsSelected.findIndex((elem) => elem.pdqId === movement.pdqId), 1);
       this.previousMovements = this.previousMovements.map((obj, index) => {
         return {
           pdqId: obj.pdqId,
           currencySimbol: obj.currencySimbol,
+          amount: obj.amount,
           establishmentName: obj.establishmentName,
           originAmount: obj.originAmount,
           originDate: obj.originDate,
@@ -182,6 +187,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
         };
       });
     }
+    this.extendTermService.movementsSelectedArr = this.previousMovementsSelected;
   }
 
   next() {
@@ -207,6 +213,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
             this.checkedListStates.push(false);
             return {
               pdqId: movement.pdqId,
+              amount: movement.amount,
               currencySimbol: movement.originCurrency.currency,
               establishmentName: movement.establishmentName,
               originAmount: movement.originAmount,

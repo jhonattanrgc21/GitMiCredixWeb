@@ -7,6 +7,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 import {ExtendTermQuota} from '../../../../shared/models/extend-term-quota';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import {PreviousMovements} from "../../../../shared/models/previous-purchase";
 
 @Injectable()
 export class ExtendTermService {
@@ -19,6 +20,15 @@ export class ExtendTermService {
   // tslint:disable-next-line:variable-name
   private _amountSummary = '0';
   private _pagoContadoColones = '';
+  private _movementsSelectedArr: PreviousMovements[] = [];
+
+  get movementsSelectedArr() {
+    return this._movementsSelectedArr;
+  }
+
+  set movementsSelectedArr(val: PreviousMovements[]) {
+    this._movementsSelectedArr = val;
+  }
 
   get amountSummary(): string {
     return this._amountSummary;
@@ -37,13 +47,13 @@ export class ExtendTermService {
   }
 
   // tslint:disable-next-line:variable-name
-  _movementsSelected: number[] = [];
+  _movementsSelected: string[] = [];
 
-  get movementsSelected(): number[] {
+  get movementsSelected(): string[] {
     return this._movementsSelected;
   }
 
-  set movementsSelected(movementSelected: number[]) {
+  set movementsSelected(movementSelected: string[]) {
     this._movementsSelected = movementSelected;
   }
 
@@ -123,7 +133,7 @@ export class ExtendTermService {
 
   }
 
-  getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, listQuota: PaymentQuota[]}> {
+  getQuotasPreviousMovement(transaction: string[], productId: number): Observable<{purchaseAmount: string, listQuota: PaymentQuota[]}> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,
       transaction
@@ -150,7 +160,7 @@ export class ExtendTermService {
     });
   }
 
-  saveNewQuotaPreviousConsumptions( quota = 1, transaction: number[]): Observable<{title: string, message: string, type: string, status: 'success' | 'error'}> {
+  saveNewQuotaPreviousConsumptions( quota = 1, transaction: string[]): Observable<{title: string, message: string, type: string, status: 'success' | 'error'}> {
     return this.httpService.post('canales', this.saveNewQuotaPreviousMovementsUri, {
       accountId: this.storageService.getCurrentUser().actId,
       quota,
