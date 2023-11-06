@@ -100,13 +100,13 @@ export class MarchamoComponent implements OnInit, OnDestroy {
     switch (this.stepperIndex) {
       case 0:
         this.disableButton = !this.marchamosService.consultVehicle && !this.marchamosService.billingHistories;
-        localStorage.removeItem('iva');
-        localStorage.removeItem('delivery');
-        localStorage.removeItem('delivery2');
         this.marchamosService.vehicleConsulted$
           .subscribe(() => this.disableButton = !this.marchamosService.consultVehicle && !this.marchamosService.billingHistories);
         break;
       case 1:
+        localStorage.removeItem('iva');
+        localStorage.removeItem('delivery');
+        localStorage.removeItem('delivery2');
         this.plateNumber = this.marchamosService.consultVehicle.plateNumber;
         this.marchamoTotal = this.marchamosService.consultVehicle.amount;
         this.disableButton = this.secureAndQuotesForm.invalid;

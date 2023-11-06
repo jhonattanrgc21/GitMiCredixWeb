@@ -52,7 +52,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.isActive && this.isActive) {
       this.iva = this.marchamosService.iva;
-      this.deliveryAmount = localStorage.getItem("delivery2");
+      this.deliveryAmount = localStorage.getItem("delivery2") ?? '0';
       this.commission = this.marchamosService.commission;
       this.commissionAmountDIlute =  this.marchamosService.commissionDilute;
       this.commissionPorcentageDIlute =  this.marchamosService.commissionPorcentageDilute;
@@ -64,7 +64,7 @@ export class MarchamoFourthStepComponent implements OnInit, OnChanges {
 
   getTotalSum() {
     let sum: number;
-    sum = this.totalMarchamo + this.totalOfItemProduct + this.iva + this.commission + ConvertStringAmountToNumber(this.deliveryAmount);
+    sum = this.totalMarchamo + this.totalOfItemProduct + this.iva + this.commission + ConvertStringAmountToNumber(this.deliveryAmount ?? '0');
     this.total = this.roundToDecimalPlaces(sum, 2);
     this.marchamosService.total = this.total;
   }

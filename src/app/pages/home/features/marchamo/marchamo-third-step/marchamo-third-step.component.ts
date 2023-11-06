@@ -48,7 +48,6 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   deliveryAmount: string;
   totalDeliveryAmount: string;
   leyendTag: string;
-  deliveryAmountTag: string;
   totalAmount = 0;
   activateDeliveryOption = null;
   officeMessage= null;
@@ -91,11 +90,11 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
       this.pickUpForm.controls.deliveryPlace.setValidators([Validators.required]);
       this.pickUpForm.controls.phoneNumber.clearValidators();
       this.pickUpForm.controls.person.clearValidators();
-      this.totalDeliveryAmount = '0';
-      this.deliveryPlaceAmount();
-      //this.deliveryAmount = "0";
+      this.deliveryAmount = "0";
+      localStorage.setItem("delivery2", this.deliveryAmount);
+      let iva = Number(localStorage.getItem('iva'));
+      this.marchamoService.iva = iva;
     } else if(value === 2) {
-      this.totalDeliveryAmount = this.deliveryAmountTag;
       this.pickUpForm.controls.deliveryPlace.clearValidators();
       this.pickUpForm.controls.phoneNumber.setValidators([Validators.required]);
       this.pickUpForm.controls.person.setValidators([Validators.required]);
@@ -119,7 +118,7 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
   }
 
   deliveryPlaceAmount(){
-    const totalDeliveryAmount = Number(localStorage.getItem("delivery")) + Number(this.totalDeliveryAmount)
+    const totalDeliveryAmount = Number(localStorage.getItem("delivery"))
     if(totalDeliveryAmount >= 0){
       this.deliveryAmount = String(totalDeliveryAmount);
       localStorage.setItem("delivery2", this.deliveryAmount);
@@ -225,7 +224,6 @@ export class MarchamoThirdStepComponent implements OnInit, OnChanges {
     this.optionTwoTag = tags.find(tag => tag.description === 'marchamos.stepper3.option2')?.value;
     this.firstSubtitle = tags.find(tag => tag.description === 'marchamos.stepper3.subtitle1')?.value;
     this.leyendTag = tags.find(tag => tag.description === 'marchamos.deliveryAmount.leyend')?.value;
-    this.deliveryAmountTag = tags.find(tag => tag.description === 'marchamos.stepper3.domicilio.deliveryAmount')?.value;
   }
 
   ngOnDestroy(): void {
