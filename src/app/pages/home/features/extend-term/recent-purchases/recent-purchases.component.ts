@@ -45,7 +45,6 @@ export class RecentPurchasesComponent implements OnInit {
   title: string;
   amountArray: {amount: number, movementId: string}[] = [];
   amountSummary = '0';
-  summaryPrefix: string = "₡"
 
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
@@ -162,15 +161,13 @@ export class RecentPurchasesComponent implements OnInit {
 
   calculateTotalAmountSelect() {
     let totalAmount = 0;
-    let dollar = this.allowedMovementSelected.length > 0 && this.allowedMovementSelected.every((el) => el.originCurrency.currencyId === 840);
     interface amountObject { amount: number; movementId: string }
     let mappedArray = this.allowedMovementSelected.map((movement)=> <amountObject>{
-          amount: ConvertStringAmountToNumber( dollar ? movement.originAmount : movement.amount),
+          amount: ConvertStringAmountToNumber( movement.amount),
           movementId: movement.movementId
     })
     totalAmount = mappedArray.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
     this.amountSummary = ConvertNumberToStringAmount(totalAmount);
-    this.summaryPrefix = dollar ? "$" : "₡";
   }
 
 
