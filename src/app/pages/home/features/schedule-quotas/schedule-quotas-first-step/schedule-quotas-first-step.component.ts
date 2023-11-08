@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TagsService } from 'src/app/core/services/tags.service';
+import { Currency } from 'src/app/shared/models/programmed-rule';
 import { Tag } from 'src/app/shared/models/tag';
 
 @Component({
@@ -15,7 +16,7 @@ export class ScheduleQuotasFirstStepComponent implements OnInit {
   @Output() colonesOption = new EventEmitter<boolean>()
 
   info: string;
-  currencyList: any[] = [
+  currencyList: Currency[] = [
     {
       code: 188,
       description: 'Colones',

@@ -74,23 +74,23 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     private modalService: ModalService,
     private tagsService: TagsService) {
     this.colonesForm =  new FormGroup({
-      minimumAmount: new FormControl(null, Validators.required),
-      maximumAmount: new FormControl(null, Validators.required),
+      minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
+      maximumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
-      endDate: new FormControl(null, Validators.required),
+      endDate: new FormControl(null),
     })
 
     this.dollarsForm =  new FormGroup({
-      minimumAmount: new FormControl(null, Validators.required),
-      maximumAmount: new FormControl(null, Validators.required),
+      minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
+      maximumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
-      endDate: new FormControl(null, Validators.required),
+      endDate: new FormControl(null),
     })
 
     this.addValidationToForm(this.colonesForm, this.isColones);
@@ -103,15 +103,18 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     this.getRuleQuotas();
   }
 
+  isAmountsValid(form: FormGroup): boolean{
+    return !form.get('minimumAmount').hasError('required') && !form.get('minimumAmount').hasError('min') && !form.get('maximumAmount').hasError('required') &&  !form.get('maximumAmount').hasError('min')
+  }
+
   addValidationToForm(form: FormGroup, isActive: boolean){
     if(isActive){
-      form.get('minimumAmount').setValidators(Validators.required);
-      form.get('maximumAmount').setValidators(Validators.required);
+      form.get('minimumAmount').setValidators( [Validators.required, Validators.min(1)]);
+      form.get('maximumAmount').setValidators([Validators.required, Validators.min(1)]);
       form.get('quotas').setValidators(Validators.required);
       form.get('commissions').setValidators(Validators.required);
       form.get('interest').setValidators(Validators.required);
       form.get('initDate').setValidators(Validators.required);
-      form.get('endDate').setValidators(Validators.required);
     }
     else{
       form.get('minimumAmount').clearValidators();
@@ -120,7 +123,6 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       form.get('commissions').clearValidators();
       form.get('interest').clearValidators();
       form.get('initDate').clearValidators();
-      form.get('endDate').clearValidators();
     }
   }
 
@@ -166,9 +168,9 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       this.colonesSlider.quotaSliderDisplayValue = this.colonesSlider.quotaSliderDisplayMin;
 
       this.getQuota(1,188)
-    
 
-   
+
+
       this.dollarsSlider.quotaSliderStep = 1;
       this.dollarsSlider.quotaSliderDisplayMin = this.dollarsQuotas[0].quotaTo;
       this.dollarsSlider.quotaSliderMin = 1;
@@ -177,8 +179,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       this.dollarsSlider.quotaSliderDisplayValue = this.dollarsSlider.quotaSliderDisplayMin;
 
       this.getQuota(1,840)
-    
-    
+
+
   }
 
 
@@ -202,8 +204,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       this.dollarsForm.get("commissions").setValue(this.dollarsCommission)
       this.dollarsForm.get("interest").setValue(this.dollarsFee)
     }
-    
-    
+
+
   }
 
   formatNumber(value: string): string {

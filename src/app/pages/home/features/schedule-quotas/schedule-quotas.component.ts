@@ -1,3 +1,4 @@
+import { ProgrammedRule } from './../../../../shared/models/programmed-rule';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -54,7 +55,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   step2: string;
   step3: string;
   todayString: string;
-  rulesList: any[] = [];
+  rulesList: ProgrammedRule[] = [];
   isActiveStepper: boolean = false;
   @ViewChild('scheduleQuotasStepper') stepper: CdkStepper;
 
@@ -71,22 +72,22 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     });
 
     this.colonesForm =  new FormGroup({
-      minimumAmount: new FormControl(null, Validators.required),
-      maximumAmount: new FormControl(null, Validators.required),
+      minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
+      maximumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
-      endDate: new FormControl(null, Validators.required),
+      endDate: new FormControl(null),
     })
     this.dollarsForm =  new FormGroup({
-      minimumAmount: new FormControl(null, Validators.required),
-      maximumAmount: new FormControl(null, Validators.required),
+      minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
+      maximumAmount: new FormControl(null,[ Validators.required, Validators.min(1)]),
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
-      endDate: new FormControl(null, Validators.required),
+      endDate: new FormControl(null),
     })
   }
 
@@ -94,6 +95,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
+    this.scheduleQuotasService.getRuleList().subscribe((res: ProgrammedRule[]) => this.rulesList = res);
   }
 
   ngAfterViewInit(): void {
@@ -131,20 +133,36 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
         break;
       case 1:
           this.disableButton = true;
-          this.colonesForm.valueChanges.subscribe(()=>{
-            let min = this.colonesForm.value.minimumAmount;
-            let max = this.colonesForm.value.maximumAmount;
-            if(min || max){
-               this.disableButton = min > max;
-            }
-          })
-          this.dollarsForm.valueChanges.subscribe(()=>{
-            let min = this.dollarsForm.value.minimumAmount;
-            let max = this.dollarsForm.value.maximumAmount;
-            if(min || max){
-               this.disableButton = min > max;
-            }
-          })
+
+        if (this.isColones && this.isDollars) {
+          // En este caso, ambos isColones y isDollars son true, por lo que verificamos la condición en conjunto de ambos formularios.
+          this.colonesForm.valueChanges.subscribe(() => {
+            let minColones = this.colonesForm.value.minimumAmount ? Number(this.colonesForm.value.minimumAmount) : 0;
+            let maxColones = this.colonesForm.value.maximumAmount ? Number(this.colonesForm.value.maximumAmount) : 0;
+
+            let minDollars = this.dollarsForm.value.minimumAmount ? Number(this.dollarsForm.value.minimumAmount) : 0;
+            let maxDollars = this.dollarsForm.value.maximumAmount ? Number(this.dollarsForm.value.maximumAmount) : 0;
+
+            this.disableButton = (minColones > maxColones || this.colonesForm.invalid) && (minDollars > maxDollars || this.dollarsForm.invalid);
+          });
+        } else {
+          if (this.isColones) {
+            this.colonesForm.valueChanges.subscribe(() => {
+              let min = this.colonesForm.value.minimumAmount ? Number(this.colonesForm.value.minimumAmount) : 0;
+              let max = this.colonesForm.value.maximumAmount ? Number(this.colonesForm.value.maximumAmount) : 0;
+              this.disableButton = min > max || this.colonesForm.invalid;
+            });
+          }
+
+          if (this.isDollars) {
+            this.dollarsForm.valueChanges.subscribe(() => {
+              let min = this.dollarsForm.value.minimumAmount ? Number(this.dollarsForm.value.minimumAmount) : 0;
+              let max = this.dollarsForm.value.maximumAmount ? Number(this.dollarsForm.value.maximumAmount) : 0;
+              this.disableButton = min > max || this.dollarsForm.invalid;
+            });
+          }
+        }
+
         break;
       case 2:
         this.disableButton = false;

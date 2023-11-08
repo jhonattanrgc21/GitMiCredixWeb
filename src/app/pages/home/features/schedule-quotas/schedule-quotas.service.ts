@@ -11,6 +11,7 @@ import { formatyyyyMMdd } from 'src/app/shared/utils/date-formatters';
 export class ScheduleQuotasService {
 
   private readonly ruleQuotaListUri = 'channels/rulesquotalist';
+  private readonly ruleListUri = 'account/ruleslistbyaccount';
   private readonly saveExtendTermRuleUri = 'channels/saveextendtermrule';
 
 
@@ -20,6 +21,20 @@ export class ScheduleQuotasService {
 
   getRuleQuotaList(){
     return this.httpService.post('canales', this.ruleQuotaListUri)
+      .pipe(
+        map((response) => {
+            if ( response.status === 200 ) {
+              return response.result;
+            } else {
+              return {};
+            }
+          }
+        ));
+  }
+
+  getRuleList(){
+    const body = {accountId: this.storageService.getCurrentUser().actId}
+    return this.httpService.post('canales', this.ruleListUri, body)
       .pipe(
         map((response) => {
             if ( response.status === 200 ) {
@@ -52,13 +67,11 @@ export class ScheduleQuotasService {
           quotaTo: dolaresForm.value.quotas,
           amountRange: `${dolaresForm.value.minimumAmount}-${dolaresForm.value.maximumAmount}`,
           initDate: formatyyyyMMdd(dolaresForm.value.initDate),
-          endDate: formatyyyyMMdd(dolaresForm.value.endDate)
+          endDate: dolaresForm.value.endDate? formatyyyyMMdd(dolaresForm.value.endDate): null
         }
       }
     }
-    console.log(colonesForm)
-    console.log()
-    console.log(body)
+
     return this.httpService.post('canales',this.saveExtendTermRuleUri, body)
     .pipe(
       map(response => ({
