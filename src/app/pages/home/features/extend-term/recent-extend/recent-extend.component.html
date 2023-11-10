@@ -21,8 +21,8 @@
         <div class="previous-extend__content__option" fxLayout="row" fxLayoutAlign="space-between">
           <div fxLayout="column">
            <span><strong>{{ subtitleTag ||  'Modifique su plazo' }}</strong></span>
-            <ng-container *ngIf="singleMovement">
-              <p class="mt-16px" *ngIf='singleMovement.promoApply && (movementQuotaSummary.quotaTo === quotaPromoMax)' [class.extend-term__promo-apply__selected]='singleMovement.promoApply'><strong>{{singleMovement?.promoDiscountMessage}}</strong></p>
+            <ng-container *ngIf="promoApply">
+              <p class="mt-16px" *ngIf='movementQuotaSummary.quotaTo === quotaPromoMax' [class.extend-term__promo-apply__selected]='promoApply'><strong>{{promoMessage}}</strong></p>
             </ng-container>
           </div>
             

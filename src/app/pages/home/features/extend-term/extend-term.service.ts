@@ -166,24 +166,15 @@ export class ExtendTermService {
   }
 
   calculateQuotaByMovementUnified(movementList: AllowedMovement[], productId = 1): Observable<any> {
-    let transactions = "";
-    for (let index = 0; index < movementList.length; index++) {
-      if(index == 0){
-        transactions += "["
-      }
-      transactions += movementList[index].movementId
-      if(index + 1 !== movementList.length){
-        transactions += ","
-      }else{
-        transactions += "]"
-      }
-    }
+    let transactions = JSON.stringify(movementList.map((values) => values.movementId))
     return this.httpService.post('canales', this.calculateQuotaUri, {
       transaction: transactions,
       productId
     })
       .pipe(
         map(response => {
+          this.quotaPromoMin = response.quotaPromoMin;
+          this.quotaPromoMax = response.quotaPromoMax;
           if ( response?.listQuota ) {
             return response;
           } else {
@@ -221,18 +212,7 @@ export class ExtendTermService {
   }
 
   saveNewQuotaUnified(cardId: number, feeAmount: number, newQuota: number, movementList: AllowedMovement[]): Observable<any> {
-    let transactions = "";
-    for (let index = 0; index < movementList.length; index++) {
-      if(index == 0){
-        transactions += "["
-      }
-      transactions += movementList[index].movementId
-      if(index + 1 !== movementList.length){
-        transactions += ","
-      }else{
-        transactions += "]"
-      }
-    }
+    let transactions = JSON.stringify(movementList.map((values) => values.movementId))
     return this.httpService.post('canales', this.saveNewQuotaUnifiedMovementsUri, {
       cardId,
       feeAmount,

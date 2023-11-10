@@ -45,6 +45,8 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
   quotaPromoMin: number;
   quotaPromoMax: number;
   singleMovement: AllowedMovement;
+  promoApply: boolean;
+  promoMessage: string;
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -90,6 +92,9 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
               this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
+              this.quotaPromoMax = this.extendTermService.quotaPromoMax ? this.extendTermService.quotaPromoMax : undefined;
+              this.promoApply = this.quotaPromoMax ? true : false;
+              this.promoMessage = this.movementsSelected[0].promoDiscountMessage;
 
               const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
 
@@ -112,6 +117,8 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
           response => {
             if ( response.length > 0 ) {
               this.singleMovement = this.movementsSelected[0]
+              this.promoApply = this.singleMovement.promoApply;
+              this.promoMessage = this.singleMovement.promoDiscountMessage;
               this.quotas = response;
               this.quotaPromoMin = this.extendTermService.quotaPromoMin ? this.extendTermService.quotaPromoMin : undefined;
               this.quotaPromoMax = this.extendTermService.quotaPromoMax ? this.extendTermService.quotaPromoMax : undefined;
