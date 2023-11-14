@@ -39,14 +39,14 @@
       </div>
 
     </div>
-    <div class='mt-16px' style='padding: 0 22px' fxLayout='row' fxLayoutAlign='space-between'>
+    <div class='mt-16px' style='padding: 0 22px' fxLayout='row'>
       <p class='consumed-title'>
         Consumos
       </p>
-      <div fxLayout='column'>
+      <div fxLayout='column' style='width: 46%'>
         <ng-container *ngFor='let previous of previousMovementSelected'>
           <div fxLayout='row' fxLayoutAlign='space-between'>
-            <p style='width: 133px;'>
+            <p style='width: 50%;'>
               {{previous.establishmentName}}
             </p>
             <credix-numeric-block prefix="₡"
