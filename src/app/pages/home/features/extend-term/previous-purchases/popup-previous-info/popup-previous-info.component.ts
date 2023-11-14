@@ -11,10 +11,12 @@ export class PopupPreviousInfoComponent implements OnInit {
   amountSummary = '0,0';
   pagoContado = '0.0';
   subtraction = '0.0';
+  endDate: Date;
   constructor(@Inject(MAT_DIALOG_DATA) public data,
               public dialogRef: MatDialogRef<PopupPreviousInfoComponent>) {
     this.amountSummary = this.data.data.amountSummary;
     this.pagoContado = this.data.data.pagoContado;
+    this.endDate = this.data.data.endDate;
   }
 
   ngOnInit(): void {

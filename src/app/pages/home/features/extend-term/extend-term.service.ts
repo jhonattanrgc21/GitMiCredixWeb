@@ -7,7 +7,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 import {ExtendTermQuota} from '../../../../shared/models/extend-term-quota';
 import { PaymentQuota } from 'src/app/shared/models/payment-quota';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
-import {PreviousMovements} from "../../../../shared/models/previous-purchase";
+import {PreviousMovements} from '../../../../shared/models/previous-purchase';
 
 @Injectable()
 export class ExtendTermService {
@@ -21,6 +21,15 @@ export class ExtendTermService {
   private _amountSummary = '0';
   private _pagoContadoColones = '';
   private _movementsSelectedArr: PreviousMovements[] = [];
+  private _endDate: Date;
+
+  get endDate(): Date {
+    return this._endDate;
+  }
+
+  set endDate(value: Date) {
+    this._endDate = value;
+  }
 
   get movementsSelectedArr() {
     return this._movementsSelectedArr;

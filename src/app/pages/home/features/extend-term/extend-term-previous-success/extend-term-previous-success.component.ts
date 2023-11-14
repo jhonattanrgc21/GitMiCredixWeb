@@ -25,7 +25,7 @@ export class ExtendTermPreviousSuccessComponent implements OnInit {
   amountSummary = '0';
   pagoContadoColones: string;
   previousMovementSelected: PreviousMovements[] = [];
-
+  endDate: Date;
 
   constructor(private extendTermService: ExtendTermService,
               private tagsService: TagsService,
@@ -45,6 +45,7 @@ export class ExtendTermPreviousSuccessComponent implements OnInit {
     this.message = this.extendTermService.result.message;
     this.amountSummary = this.extendTermService.amountSummary;
     this.pagoContadoColones = this.extendTermService.pagoContadoColones
+    this.endDate = this.extendTermService.endDate;
     this.previousMovementSelected = this.extendTermService.movementsSelectedArr;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));

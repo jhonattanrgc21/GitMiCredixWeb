@@ -6,7 +6,7 @@ import { Cancellation } from 'src/app/shared/models/cancellation';
 import { Movement } from 'src/app/shared/models/movement';
 import { PreviousMovements } from 'src/app/shared/models/previous-purchase';
 import { ExtendTermService } from '../extend-term.service';
-import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
+import {ConvertStringAmountToNumber, ConvertStringDateToDate} from '../../../../../shared/utils';
 import {ConvertNumberToStringAmount} from '../../../../../shared/utils/convert-number-to-string-amount';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {PopupPreviousInfoComponent} from "./popup-previous-info/popup-previous-info.component";
@@ -36,6 +36,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   pagoContadoColones: string;
   cardId: number;
   checkedListStates: boolean[] = [];
+  endDate: Date;
 
   private consumed = {
     consumed: [
@@ -119,9 +120,9 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAllowedMovements();
     this.cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal')?.cardId;
-    this.landingService.getHomeContent(this.cardId).subscribe();
+    this.landingService
+      .getHomeContent(this.cardId).subscribe((response) => this.endDate = ConvertStringDateToDate(response.fechaProximaMaximaPago));
     this.landingService.pagoContadoColones.subscribe((response) => {
-      console.log(response);
       this.pagoContadoColones = response;
     });
   }
@@ -193,13 +194,15 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   next() {
     this.modalService.open({title: 'Recordatorio', hideCloseButton: false, component: PopupPreviousInfoComponent, data: {
           amountSummary: this.amountSummary,
-          pagoContado: this.pagoContadoColones
+          pagoContado: this.pagoContadoColones,
+          endDate: this.endDate
         }},
       {disableClose: true, height: 324, width: 328, panelClass: 'info'}).afterClosed()
       .subscribe(() => {
         this.extendTermService.movementsSelected = [...this.selection];
         this.extendTermService.amountSummary = this.amountSummary;
         this.extendTermService.pagoContadoColones = this.pagoContadoColones;
+        this.extendTermService.endDate = this.endDate;
         this.route.navigate(['/home/extend-term/previous-extend']);
       });
   }
