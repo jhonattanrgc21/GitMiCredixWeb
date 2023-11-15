@@ -10,6 +10,9 @@ import { Tag } from 'src/app/shared/models/tag';
 })
 export class InProgressPopupComponent implements OnInit {
 
+  info: string;
+  bottom: string;
+
   constructor(private tagsService: TagsService, public dialogRef: MatDialogRef<InProgressPopupComponent>) { }
 
   ngOnInit(): void {
@@ -18,11 +21,8 @@ export class InProgressPopupComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    // this.info1 = tags.find(tag => tag.description === 'programarcuotas.info1')?.value;
-    // this.option1 = tags.find(tag => tag.description === 'programarcuotas.option1')?.value;
-    // this.option2 = tags.find(tag => tag.description === 'programarcuotas.option2')?.value;
-    // this.info2 = tags.find(tag => tag.description === 'programarcuotas.info2')?.value;
-    // this.bottom = tags.find(tag => tag.description === 'programarcuotas.botton')?.value;
+    this.info = tags.find(tag => tag.description === 'programarcuotas.inprogress.text')?.value;
+    this.bottom = tags.find(tag => tag.description === 'programarcuotas.inprogress.botton')?.value;
   }
 
   submit() {

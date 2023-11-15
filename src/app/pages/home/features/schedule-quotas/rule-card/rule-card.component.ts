@@ -16,8 +16,8 @@ export class RuleCardComponent implements OnInit {
   @Input() rule: ProgrammedRule;
   @Output() ruleSelected = new EventEmitter<ProgrammedRule>();
 
-  tag3: string;
-  tag4: string;
+  tag1: string;
+  tag2: string;
   minimumAmount: string;
   maximumAmount: string;
   currencySimbol: string;
@@ -71,8 +71,8 @@ export class RuleCardComponent implements OnInit {
   }
 
   getTags(tags: Tag[]) {
-    this.tag3 = tags.find(tag => tag.description === 'programarcuotas.stepper3.tag3')?.value;
-    this.tag4 = tags.find(tag => tag.description === 'programarcuotas.stepper3.tag4')?.value;
+    this.tag1 = tags.find(tag => tag.description === 'programarcuotas.rulecard.comission')?.value;
+    this.tag2 = tags.find(tag => tag.description === 'programarcuotas.rulecard.interest')?.value;
   }
 
 }

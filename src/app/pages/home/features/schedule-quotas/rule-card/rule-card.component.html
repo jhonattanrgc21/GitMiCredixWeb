@@ -23,12 +23,12 @@
   </div>
 
   <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="text">{{tag3 || 'Comisión mensual*'}}</p>
+    <p class="text">{{tag1 || 'Comisión mensual'}}</p>
     <span class="text__bold">{{ formatNumber(rule.listQuota.commissionRate) }}%</span>
   </div>
 
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="text">{{ tag4 || 'Interés mensual'}}</p>
+    <p class="text">{{ tag2 || 'Interés mensual'}}</p>
     <span class="text__bold">{{  formatNumber(rule.listQuota.feePercentage) }}%</span>
   </div>
 

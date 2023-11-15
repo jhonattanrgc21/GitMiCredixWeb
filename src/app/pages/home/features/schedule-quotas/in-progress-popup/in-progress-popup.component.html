@@ -1,9 +1,9 @@
 <div class="in-progress-popup">
   <div class="container">
-    <p class="test" >{{ 'La regla se creó o modificó recientemente. Se reflejará a las 72 horas hábiles después del momento de su creación o edición. '}}</p>
+    <p class="test" >{{ info || 'La regla se creó o modificó recientemente. Se reflejará a las 72 horas hábiles después del momento de su creación o edición. '}}</p>
   </div>
 
   <div fxLayout="row" fxLayoutAlign="center center" class="content">
-    <credix-button class="content__botton" (buttonClick)="submit()">{{ 'Listo'}}</credix-button>
+    <credix-button class="content__botton" (buttonClick)="submit()">{{ bottom || 'Listo'}}</credix-button>
   </div>
 </div>
