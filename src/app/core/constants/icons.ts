@@ -75,5 +75,6 @@ export const icons: string[] = [
   'ministerio_de_salud',
   'municipalidades',
   'educacion',
-  'empresas_seguridad'
+  'empresas_seguridad',
+  'toggle_off'
 ];

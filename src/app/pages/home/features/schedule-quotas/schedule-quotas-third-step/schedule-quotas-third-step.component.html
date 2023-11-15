@@ -18,18 +18,18 @@
                 : 'cuotas' }}.</span></span>
           </div>
 
-          <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+          <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between center">
             <p class="info">{{tag3 || 'Comisión mensual*'}}</p>
             <span class="highlighted-info">{{ colonesForm.value.commissions }}%</span>
           </div>
 
-          <div fxLayout="row" fxLayoutAlign="space-between">
+          <div fxLayout="row" fxLayoutAlign="space-between center">
             <p class="info">{{ tag4 || 'Interés mensual'}}</p>
             <span class="highlighted-info">{{ colonesForm.value.interest }}%</span>
           </div>
 
           <ng-container *ngIf="colonesForm.value.initDate && colonesForm.value.endDate">
-            <p *ngIf="colonesForm.value.initDate && colonesForm.value.endDate" class="info mt-16px">
+            <p class="info mt-16px">
               Aplica del <span class="highlighted-info">{{ formatDate(colonesForm.value.initDate) }}</span>
               al <span class="highlighted-info">{{ formatDate(colonesForm.value.endDate) }}</span></p>
           </ng-container>
@@ -62,17 +62,17 @@
                 : 'cuotas' }}.</span></span>
             </div>
 
-          <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between">
+          <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between center">
             <p class="info">{{tag3 || 'Comisión mensual*'}}</p>
             <span class="highlighted-info">{{ dollarsForm.value.commissions }}%</span>
           </div>
 
-          <div fxLayout="row" fxLayoutAlign="space-between">
+          <div fxLayout="row" fxLayoutAlign="space-between center">
             <p class="info">{{ tag4 || 'Interés mensual'}}</p>
             <span class="highlighted-info">{{ dollarsForm.value.interest }}%</span>
           </div>
           <ng-container *ngIf="dollarsForm.value.initDate && dollarsForm.value.endDate">
-            <p *ngIf="dollarsForm.value.initDate && dollarsForm.value.endDate" class="info mt-16px">
+            <p class="info mt-16px">
               Aplica del <span class="highlighted-info">{{ formatDate(dollarsForm.value.initDate) }}</span>
               al <span class="highlighted-info">{{ formatDate(dollarsForm.value.endDate) }}</span></p>
           </ng-container>
@@ -89,8 +89,7 @@
           en firme entre el 27 y el 29
           del mes.</p>
 
-        <p class="summary__text">{{tag6 || '*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el
-          Banco Central.'}}</p>
+        <p class="summary__text">{{tag6 || '*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el Banco Central.'}}</p>
       </div>
     </div>
   </div>

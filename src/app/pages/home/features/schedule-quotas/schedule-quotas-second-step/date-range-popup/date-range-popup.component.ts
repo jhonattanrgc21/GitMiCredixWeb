@@ -41,7 +41,7 @@ export class DateRangePopupComponent implements OnInit {
     this.tag1 = tags.find(tag => tag.description === 'programarcuotas.stepper2.popup.tag1')?.value;
     this.tag2 = tags.find(tag => tag.description === 'programarcuotas.stepper2.popup.tag2')?.value;
     this.tag3 = tags.find(tag => tag.description === 'programarcuotas.stepper2.popup.tag3')?.value;
-    this.tag4 = tags.find(tag => tag.description === 'programarcuotas.stepper2.popup.tag3')?.value;
+    this.tag4 = tags.find(tag => tag.description === 'programarcuotas.stepper2.popup.tag4')?.value;
   }
 
   submit() {

@@ -97,9 +97,11 @@
 
 <!-- Lista de reglas Inicio -->
 <ng-container *ngIf="existRules() && !isActiveStepper">
-  <ng-container *ngFor="let rule of rulesList">
-    <!-- TODO: Crear el componente card para la regla y agregar el llamado para cada item -->
-  </ng-container>
+  <div fxLayout="row wrap" fxLayoutAlign="space-between">
+    <ng-container *ngFor="let rule of rulesList; let i = index">
+      <app-rule-card [title]="'Regla ' + (i + 1)" [rule]="rule"></app-rule-card>
+    </ng-container>
+  </div>
 </ng-container>
 <!-- Lista de reglas Fin -->
 

@@ -37,8 +37,9 @@ import { ScheduleQuotasSecondStepComponent } from './schedule-quotas-second-step
 import { ScheduleQuotasThirdStepComponent } from './schedule-quotas-third-step/schedule-quotas-third-step.component';
 import { DateRangePopupComponent } from './schedule-quotas-second-step/date-range-popup/date-range-popup.component';
 import { CredixDatePickerModule } from 'src/app/shared/components/credix-date-picker/credix-date-picker.module';
-import { NO_ERRORS_SCHEMA } from '@angular/compiler';
 import { InformationPopupComponent } from './information-popup/information-popup.component';
+import { RuleCardComponent } from './rule-card/rule-card.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 const routes: Routes = [
@@ -49,7 +50,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ScheduleQuotasComponent, ScheduleQuotasFirstStepComponent, ScheduleQuotasSecondStepComponent, ScheduleQuotasThirdStepComponent, DateRangePopupComponent, InformationPopupComponent],
+  declarations: [ScheduleQuotasComponent, ScheduleQuotasFirstStepComponent, ScheduleQuotasSecondStepComponent, ScheduleQuotasThirdStepComponent, DateRangePopupComponent, InformationPopupComponent, RuleCardComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -79,7 +80,8 @@ const routes: Routes = [
     DateFormatterModule,
     CredixTextareaFieldModule,
     CredixNumericBlockSpecificModule,
-    CredixDatePickerModule
+    CredixDatePickerModule,
+    MatIconModule
   ], providers: [
     ScheduleQuotasService,
     ModalService
