@@ -40,6 +40,7 @@ import { CredixDatePickerModule } from 'src/app/shared/components/credix-date-pi
 import { InformationPopupComponent } from './information-popup/information-popup.component';
 import { RuleCardComponent } from './rule-card/rule-card.component';
 import { MatIconModule } from '@angular/material/icon';
+import { InProgressPopupComponent } from './in-progress-popup/in-progress-popup.component';
 
 
 const routes: Routes = [
@@ -50,7 +51,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ScheduleQuotasComponent, ScheduleQuotasFirstStepComponent, ScheduleQuotasSecondStepComponent, ScheduleQuotasThirdStepComponent, DateRangePopupComponent, InformationPopupComponent, RuleCardComponent],
+  declarations: [ScheduleQuotasComponent, ScheduleQuotasFirstStepComponent, ScheduleQuotasSecondStepComponent, ScheduleQuotasThirdStepComponent, DateRangePopupComponent, InformationPopupComponent, RuleCardComponent, InProgressPopupComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

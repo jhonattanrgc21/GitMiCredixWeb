@@ -11,6 +11,7 @@ import { TagsService } from 'src/app/core/services/tags.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tag } from 'src/app/shared/models/tag';
 import { InformationPopupComponent } from './information-popup/information-popup.component';
+import { InProgressPopupComponent } from './in-progress-popup/in-progress-popup.component';
 
 @Component({
   selector: 'app-schedule-quotas',
@@ -246,6 +247,15 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       hideCloseButton: true,
       title: 'Programar cuotas',
     }, {width: 343, height: 519, disableClose: false, panelClass: 'schedule-quotas-information-panel'})
+      .afterClosed().subscribe();
+  }
+
+  openInProgressModal(){
+    this.modalService.open({
+      component: InProgressPopupComponent,
+      hideCloseButton: true,
+      title: 'En progreso...',
+    }, {width: 343, height: 252, disableClose: false, panelClass: 'schedule-quotas-in-progress-panel'})
       .afterClosed().subscribe();
   }
 
