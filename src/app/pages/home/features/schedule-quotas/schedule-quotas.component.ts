@@ -190,7 +190,11 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.setEnableButton();
   }
 
-  openConfirmationModal(typeModal: number) {
+  editRule(rule: ProgrammedRule){
+    this.openConfirmationModal(3, rule);
+  }
+
+  openConfirmationModal(typeModal: number, rule?: ProgrammedRule) {
 
     switch(typeModal){
       case 1:
@@ -201,7 +205,6 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
                 next: (res) => {
                   if(res.status === 200) {
                     console.log("se logro")
-                    // who knows
                   }
                 }
               })
@@ -221,22 +224,11 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
           }
         });
       break;
-
       case 3:
-        this.modalService.confirmationPopup('¿Desea activar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
-        .subscribe(confirmation => {
-          if (confirmation) {
-            console.log('Regla activada');
-          } else {
-            console.log('Cancelado');
-          }
-        });
-      break;
-
-      case 4:
         this.modalService.confirmationPopup('¿Desea editar esta regla?')
         .subscribe(confirmation => {
           if (confirmation) {
+            console.log(rule);
             console.log('Regla editada');
           } else {
             console.log('Cancelado');

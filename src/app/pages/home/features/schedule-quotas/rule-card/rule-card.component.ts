@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { ProgrammedRule } from 'src/app/shared/models/programmed-rule';
 import { Tag } from 'src/app/shared/models/tag';
@@ -13,6 +14,7 @@ export class RuleCardComponent implements OnInit {
 
   @Input() title: string;
   @Input() rule: ProgrammedRule;
+  @Output() ruleSelected = new EventEmitter<ProgrammedRule>();
 
   tag3: string;
   tag4: string;
@@ -21,15 +23,15 @@ export class RuleCardComponent implements OnInit {
   currencySimbol: string;
 
 
-  constructor(private tagsService: TagsService, private datePipe: DatePipe ) { }
+  constructor(private tagsService: TagsService, private datePipe: DatePipe, private modalService: ModalService) { }
 
   ngOnInit(): void {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
-      const amountRange: string[] = this.rule.amountRange.split('-');
-      this.minimumAmount = amountRange[0];
-      this.maximumAmount = amountRange[1];
-      this.currencySimbol = this.rule.currencyId == 188? '₡' : '$';
+    const amountRange: string[] = this.rule.amountRange.split('-');
+    this.minimumAmount = amountRange[0];
+    this.maximumAmount = amountRange[1];
+    this.currencySimbol = this.rule.currencyId == 188 ? '₡' : '$';
   }
 
   formatNumber(value: string): string {
@@ -47,8 +49,25 @@ export class RuleCardComponent implements OnInit {
     return this.datePipe.transform(date, 'dd/MM/yyyy');
   }
 
-  modifyState(){
-    this.rule.isActive = !this.rule.isActive;
+  editRule(){
+    this.ruleSelected.emit(this.rule);
+  }
+
+  modifyState() {
+    const value = !this.rule.isActive;
+
+    // Si value es false se desactiva la regla
+    if (!value) {
+      this.modalService.confirmationPopup('¿Desea desactivar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            console.log('Regla desactivada');
+            this.rule.isActive = value;
+          } else {
+            console.log('Cancelado');
+          }
+        });
+    }else this.rule.isActive = value;
   }
 
   getTags(tags: Tag[]) {
