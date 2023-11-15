@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/operators';
 import { ProgrammedRule } from './../../../../shared/models/programmed-rule';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Router } from '@angular/router';
@@ -199,13 +200,14 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     switch(typeModal){
       case 1:
         this.modalService.confirmationPopup('¿Desea establecer esta regla?')
+        .pipe(finalize(() => this.done = true))
         .subscribe(confirmation => {
           if (confirmation) {
             this.scheduleQuotasService.saveExtendTermRule(this.colonesForm,this.dollarsForm).subscribe({
                 next: (res) => {
-                  if(res.status === 200) {
-                    console.log("se logro")
-                  }
+                  this.title = res?.title;
+                  this.status = res.type;
+                  this.message = res?.message;
                 }
               })
           } else {

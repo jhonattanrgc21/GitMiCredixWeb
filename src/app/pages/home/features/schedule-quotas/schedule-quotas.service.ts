@@ -55,7 +55,7 @@ export class ScheduleQuotasService {
           quotaTo: colonesForm.value.quotas,
           amountRange: `${colonesForm.value.minimumAmount}-${colonesForm.value.maximumAmount}`,
           initDate: formatyyyyMMdd(colonesForm.value.initDate),
-          endDate: formatyyyyMMdd(colonesForm.value.endDate)
+          endDate: colonesForm.value.endDate? formatyyyyMMdd(colonesForm.value.endDate): null
         }
       }
     }
