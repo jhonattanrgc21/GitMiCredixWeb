@@ -13,7 +13,6 @@ export class CustomIconLoaderService {
 
   public registerIcons(): void {
     this.icons.forEach(key => {
-      console.log(key);
       this.matIconRegistry.addSvgIcon(key, this.domSanitizer.bypassSecurityTrustResourceUrl(`${this.iconUrl}/${key}.svg`));
     });
   }

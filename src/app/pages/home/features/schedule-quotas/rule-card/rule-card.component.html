@@ -4,12 +4,12 @@
       <mat-icon (click)="''" [svgIcon]="'edit'" class="icon-edit"></mat-icon>
     </span>
 
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-      <span class="text-icon">Inactiva</span>
-      <button type="button" class="icon-switch">
-        <img src="../../../../../../assets/images/toggle.png" alt="">
-      </button>
-      <!-- <mat-icon (click)="''" [svgIcon]="'toggle_off'" class="icon-edit"></mat-icon> -->
+    <div fxLayout="row"  fxLayoutGap="16px" fxLayoutAlign="space-between center">
+      <span [ngStyle]="{'color': rule.isActive ? '#0BC626' : '#3E3E3E'}" class="text-icon"> {{ rule.isActive ? 'Activa' : 'Inactiva' }}</span>
+      <label class="toggle" >
+        <input (change)="modifyState()" type="checkbox" id="toggle-input" [value]="rule.isActive">
+        <span class="slider"></span>
+      </label>
     </div>
   </div>
 

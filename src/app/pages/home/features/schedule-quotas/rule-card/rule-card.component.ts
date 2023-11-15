@@ -43,9 +43,12 @@ export class RuleCardComponent implements OnInit {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
-
   formatDate(date: String): string {
     return this.datePipe.transform(date, 'dd/MM/yyyy');
+  }
+
+  modifyState(){
+    this.rule.isActive = !this.rule.isActive;
   }
 
   getTags(tags: Tag[]) {
