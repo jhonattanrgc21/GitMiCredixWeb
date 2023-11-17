@@ -9,7 +9,7 @@ export interface ProgrammedRule{
   currencyId: number;
   isActive: boolean;
   canEdit: boolean;
-  statusName: string;
+  ruleStatus: RuleStatus;
   listQuota: ExtendTermRuleQuota
 }
 
@@ -17,4 +17,9 @@ export interface Currency {
   code: number;
   description: string;
   isSelected: boolean;
+}
+
+export interface RuleStatus{
+  id: number;
+  statusName: string;
 }
