@@ -14,7 +14,8 @@ export class RuleCardComponent implements OnInit {
 
   @Input() title: string;
   @Input() rule: ProgrammedRule;
-  @Output() ruleSelected = new EventEmitter<ProgrammedRule>();
+  @Output() editSelectedRule = new EventEmitter<ProgrammedRule>();
+  @Output() disableSelectedRule = new EventEmitter<ProgrammedRule>();
 
   tag1: string;
   tag2: string;
@@ -50,24 +51,28 @@ export class RuleCardComponent implements OnInit {
   }
 
   editRule(){
-    this.ruleSelected.emit(this.rule);
+    this.editSelectedRule.emit(this.rule);
   }
 
   modifyState() {
-    const value = !this.rule.isActive;
-
-    // Si value es false se desactiva la regla
-    if (!value) {
+    if (this.rule.isActive) {
       this.modalService.confirmationPopup('¿Desea desactivar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
         .subscribe(confirmation => {
           if (confirmation) {
-            console.log('Regla desactivada');
-            this.rule.isActive = value;
-          } else {
-            console.log('Cancelado');
+            this.rule.isActive = false;
+            this.disableSelectedRule.emit(this.rule);
           }
         });
-    }else this.rule.isActive = value;
+    }else {
+      this.rule.isActive = true;
+      this.modalService.confirmationPopup('¿Desea activar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
+        .subscribe(confirmation => {
+          if (confirmation) {
+            this.rule.isActive = true;
+            this.disableSelectedRule.emit(this.rule);
+          }
+        });
+    }
   }
 
   openInProgressModal(valueStatus: number){

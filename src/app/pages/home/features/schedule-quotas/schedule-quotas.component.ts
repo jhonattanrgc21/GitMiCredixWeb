@@ -1,4 +1,4 @@
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 import { Currency, ProgrammedRule } from './../../../../shared/models/programmed-rule';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Router } from '@angular/router';
@@ -87,6 +87,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     });
 
     this.colonesForm =  new FormGroup({
+      id: new FormControl(null),
       minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       maximumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       quotas: new FormControl(null, Validators.required),
@@ -94,8 +95,10 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null),
+      isActive: new FormControl(null),
     })
     this.dollarsForm =  new FormGroup({
+      id: new FormControl(null),
       minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       maximumAmount: new FormControl(null,[ Validators.required, Validators.min(1)]),
       quotas: new FormControl(null, Validators.required),
@@ -103,6 +106,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null),
+      isActive: new FormControl(null),
     })
   }
 
@@ -205,19 +209,56 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.setEnableButton();
   }
 
-  editRule(rule: ProgrammedRule){
-    this.openConfirmationModal(3, rule);
+  formatDate(date: Date): string {
+    return this.datePipe.transform(date, 'dd/MM/yyyy');
+  }
+
+  editRule(rule: ProgrammedRule, typeEvent: number){
+    if(typeEvent == 1) this.openConfirmationModal(2, rule);
+  }
+
+  disableRule(rule: ProgrammedRule, typeEvent: number){
+    if(typeEvent == 2){
+      if(rule.currencyId == 188){
+        this.colonesForm.get('id').setValue(rule.id)
+        this.colonesForm.get('minimumAmount').setValue(rule.amountRange.split('-')[0])
+        this.colonesForm.get('maximumAmount').setValue(rule.amountRange.split('-')[1])
+        this.colonesForm.get('quotas').setValue(rule.quota)
+        this.colonesForm.get('commissions').setValue(rule.listQuota.commissionRate)
+        this.colonesForm.get('interest').setValue(rule.listQuota.feePercentage)
+        this.colonesForm.get('initDate').setValue(new Date(rule.initDate))
+        this.colonesForm.get('endDate').setValue(rule.endDate ? new Date(rule.endDate): null)
+        this.colonesForm.get('isActive').setValue(rule.isActive)
+      }
+      else{
+        this.dollarsForm.get('id').setValue(rule.id)
+        this.dollarsForm.get('minimumAmount').setValue(rule.amountRange.split('-')[0])
+        this.dollarsForm.get('maximumAmount').setValue(rule.amountRange.split('-')[1])
+        this.dollarsForm.get('quotas').setValue(rule.quota)
+        this.dollarsForm.get('commissions').setValue(rule.listQuota.commissionRate)
+        this.dollarsForm.get('interest').setValue(rule.listQuota.feePercentage)
+        this.dollarsForm.get('initDate').setValue(new Date(rule.initDate))
+        this.dollarsForm.get('endDate').setValue(rule.endDate ? new Date(rule.endDate): null)
+        this.dollarsForm.get('isActive').setValue(rule.isActive)
+      }
+
+      this.scheduleQuotasService.saveExtendTermRule(this.colonesForm, this.dollarsForm).pipe(
+        switchMap(() => this.scheduleQuotasService.getRuleList())
+      ).subscribe((res: ProgrammedRule[]) => {
+        this.rulesList = res;
+        this.colonesForm.reset();
+        this.dollarsForm.reset();
+      });
+    };
   }
 
   openConfirmationModal(typeModal: number, rule?: ProgrammedRule) {
 
     switch(typeModal){
       case 1:
-        this.modalService.confirmationPopup('¿Desea establecer esta regla?')
-        .pipe(finalize(() => this.done = true))
-        .subscribe(confirmation => {
+        this.modalService.confirmationPopup('¿Desea establecer esta regla?').subscribe(confirmation => {
           if (confirmation) {
-            this.scheduleQuotasService.saveExtendTermRule(this.colonesForm,this.dollarsForm).subscribe({
+            this.scheduleQuotasService.saveExtendTermRule(this.colonesForm,this.dollarsForm).pipe(finalize(() => this.done = true)).subscribe({
                 next: (res) => {
                   this.title = res?.title;
                   this.status = res.type;
@@ -229,41 +270,34 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
           }
         });
       break;
-
       case 2:
-        this.modalService.confirmationPopup('¿Desea desactivar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
-        .subscribe(confirmation => {
-          if (confirmation) {
-            console.log('Regla desactivada');
-          } else {
-            console.log('Cancelado');
-          }
-        });
-      break;
-      case 3:
         this.modalService.confirmationPopup('¿Desea editar esta regla?')
         .subscribe(confirmation => {
           if (confirmation) {
             this.currencyForm.get('disableNextStep').setValue(false);
             if(rule.currencyId == 188){
+              this.colonesForm.get('id').setValue(rule.id)
               this.colonesForm.get('minimumAmount').setValue(rule.amountRange.split('-')[0])
               this.colonesForm.get('maximumAmount').setValue(rule.amountRange.split('-')[1])
               this.colonesForm.get('quotas').setValue(rule.quota)
               this.colonesForm.get('commissions').setValue(rule.listQuota.commissionRate)
               this.colonesForm.get('interest').setValue(rule.listQuota.feePercentage)
-              this.colonesForm.get('initDate').setValue(rule.initDate)
-              this.colonesForm.get('endDate').setValue(rule.endDate)
+              this.colonesForm.get('initDate').setValue(new Date(rule.initDate))
+              this.colonesForm.get('endDate').setValue(rule.endDate ? new Date(rule.endDate): null)
+              this.colonesForm.get('isActive').setValue(rule.isActive)
               this.isColones = true;
               this.currencyList[0].isSelected = true;
             }
             else{
+              this.dollarsForm.get('id').setValue(rule.id)
               this.dollarsForm.get('minimumAmount').setValue(rule.amountRange.split('-')[0])
               this.dollarsForm.get('maximumAmount').setValue(rule.amountRange.split('-')[1])
               this.dollarsForm.get('quotas').setValue(rule.quota)
               this.dollarsForm.get('commissions').setValue(rule.listQuota.commissionRate)
               this.dollarsForm.get('interest').setValue(rule.listQuota.feePercentage)
-              this.dollarsForm.get('initDate').setValue(rule.initDate)
-              this.dollarsForm.get('endDate').setValue(rule.endDate)
+              this.dollarsForm.get('initDate').setValue(new Date(rule.initDate))
+              this.dollarsForm.get('endDate').setValue(rule.endDate ? new Date(rule.endDate): null)
+              this.dollarsForm.get('isActive').setValue(rule.isActive)
               this.isDollars = true;
               this.currencyList[1].isSelected = true;
             }

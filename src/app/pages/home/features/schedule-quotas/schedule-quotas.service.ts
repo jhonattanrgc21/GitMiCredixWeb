@@ -1,3 +1,4 @@
+import { icons } from './../../../../core/constants/icons';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { map } from 'rxjs/operators';
@@ -51,11 +52,13 @@ export class ScheduleQuotasService {
     if(colonesForm.valid){
       body = {
         colones: {
+          id: colonesForm.value.id ?? null,
           accountId: this.storageService.getCurrentUser().actId,
           quotaTo: colonesForm.value.quotas,
           amountRange: `${colonesForm.value.minimumAmount}-${colonesForm.value.maximumAmount}`,
           initDate: formatyyyyMMdd(colonesForm.value.initDate),
-          endDate: colonesForm.value.endDate? formatyyyyMMdd(colonesForm.value.endDate): null
+          endDate: colonesForm.value.endDate? formatyyyyMMdd(colonesForm.value.endDate): null,
+          isActive: colonesForm.value.isActive ?? null
         }
       }
     }
@@ -63,11 +66,13 @@ export class ScheduleQuotasService {
       body = {
         ...body,
         dolares: {
+          id: dolaresForm.value.id ?? null,
           accountId: this.storageService.getCurrentUser().actId,
           quotaTo: dolaresForm.value.quotas,
           amountRange: `${dolaresForm.value.minimumAmount}-${dolaresForm.value.maximumAmount}`,
           initDate: formatyyyyMMdd(dolaresForm.value.initDate),
-          endDate: dolaresForm.value.endDate? formatyyyyMMdd(dolaresForm.value.endDate): null
+          endDate: dolaresForm.value.endDate? formatyyyyMMdd(dolaresForm.value.endDate): null,
+          isActive: dolaresForm.value.isActive ?? null
         }
       }
     }

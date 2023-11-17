@@ -76,6 +76,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     private modalService: ModalService,
     private tagsService: TagsService) {
     this.colonesForm =  new FormGroup({
+      id: new FormControl(null),
       minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       maximumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       quotas: new FormControl(null, Validators.required),
@@ -83,9 +84,11 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null),
+      isActive: new FormControl(null),
     })
 
     this.dollarsForm =  new FormGroup({
+      id: new FormControl(null),
       minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       maximumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
       quotas: new FormControl(null, Validators.required),
@@ -93,6 +96,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null),
+      isActive: new FormControl(null),
     })
 
     this.addValidationToForm(this.colonesForm, this.isColones);

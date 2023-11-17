@@ -100,7 +100,7 @@
 <ng-container *ngIf="existRules() && !isActiveStepper">
   <div fxLayout="row wrap" fxLayoutAlign="space-between">
     <ng-container *ngFor="let rule of rulesList; let i = index">
-      <app-rule-card [title]="'Regla ' + (i + 1)" [rule]="rule" (ruleSelected)="editRule($event)"></app-rule-card>
+      <app-rule-card [title]="'Regla ' + (i + 1)" [rule]="rule" (editSelectedRule)="editRule($event,1)" (disableSelectedRule)="disableRule($event, 2)"></app-rule-card>
     </ng-container>
   </div>
 </ng-container>
