@@ -18,8 +18,8 @@
 
     <ng-template #canNotEdit>
       <div fxLayout="row"  fxLayoutGap="8px" fxLayoutAlign="space-between center">
-        <mat-icon (click)="''" [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
-        <span class="in-progress-text">{{ rule.statusName }}</span>
+        <mat-icon (click)="openInProgressModal(rule.ruleStatus.id)" [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
+        <span class="in-progress-text">{{ rule.ruleStatus.statusName }}</span>
       </div>
     </ng-template>
   </div>

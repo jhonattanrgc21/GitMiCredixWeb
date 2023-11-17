@@ -287,15 +287,6 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       .afterClosed().subscribe();
   }
 
-  openInProgressModal(){
-    this.modalService.open({
-      component: InProgressPopupComponent,
-      hideCloseButton: true,
-      title: 'En progreso...',
-    }, {width: 343, height: 252, disableClose: false, panelClass: 'schedule-quotas-in-progress-panel'})
-      .afterClosed().subscribe();
-  }
-
   getTags(tags: Tag[]) {
     this.info1 = tags.find(tag => tag.description === 'programarcuotas.info1')?.value;
     this.option1 = tags.find(tag => tag.description === 'programarcuotas.option1')?.value;
