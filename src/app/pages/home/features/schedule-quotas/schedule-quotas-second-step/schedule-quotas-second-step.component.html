@@ -8,7 +8,7 @@
           <form [formGroup]="colonesForm" class="content__form">
             <div fxLayout="row" fxLayoutGap="17px">
               <credix-input-field  class="content__input" formControlName="minimumAmount"
-                [label]="tag7 || 'Monto mínimo'" mask="separator">
+                [label]="tag7 || 'Monto mínimo'" mask="separator" [prefix]="'₡'">
                 <div *ngIf="colonesForm.get('minimumAmount').hasError('required')" error>
                   {{'El campo es obligatorio.'}}
                 </div>
@@ -18,7 +18,7 @@
               </credix-input-field>
 
               <credix-input-field class="content__input" formControlName="maximumAmount"
-              [label]="tag8 || 'Monto máximo'" mask="separator">
+              [label]="tag8 || 'Monto máximo'" mask="separator" [prefix]="'₡'">
                 <div *ngIf="colonesForm.get('maximumAmount').hasError('required')" error>
                   {{'El campo es obligatorio'}}
                 </div>
@@ -36,6 +36,7 @@
                       [displayMin]="colonesSlider.quotaSliderDisplayMin"
                       [displayValue]="colonesSlider.quotaSliderDisplayValue"
                       instructions="{{tag3 || 'Se amplíen a'}}"
+                      [value]="colonesSlider.quotaSliderValue"
                       [max]="colonesSlider.quotaSliderMax"
                       [min]="colonesSlider.quotaSliderMin"
                       [step]="colonesSlider.quotaSliderStep" class="slider"
@@ -76,7 +77,7 @@
           <form [formGroup]="dollarsForm" class="content__form">
             <div fxLayout="row" fxLayoutGap="17px">
               <credix-input-field  class="content__input" formControlName="minimumAmount"
-              [label]="tag7 || 'Monto mínimo'" mask="separator">
+              [label]="tag7 || 'Monto mínimo'" mask="separator" [prefix]="'$'">
                 <div *ngIf="dollarsForm.get('minimumAmount').hasError('required')" error>
                   {{'El campo es obligatorio'}}
                 </div>
@@ -86,7 +87,7 @@
               </credix-input-field>
 
               <credix-input-field class="content__input" formControlName="maximumAmount"
-                [label]="tag8 || 'Monto máximo'" mask="separator">
+                [label]="tag8 || 'Monto máximo'" mask="separator" [prefix]="'$'">
                 <div *ngIf="dollarsForm.get('maximumAmount').hasError('required')" error>
                   {{'El campo es obligatorio'}}
                 </div>

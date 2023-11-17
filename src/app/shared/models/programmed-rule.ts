@@ -8,6 +8,8 @@ export interface ProgrammedRule{
   endDate: string;
   currencyId: number;
   isActive: boolean;
+  canEdit: boolean;
+  statusName: string;
   listQuota: ExtendTermRuleQuota
 }
 

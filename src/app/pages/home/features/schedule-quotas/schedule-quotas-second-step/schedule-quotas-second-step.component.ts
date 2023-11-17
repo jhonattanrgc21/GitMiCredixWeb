@@ -48,7 +48,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     quotaSliderMax: 3,
     quotaSliderMin: 1,
     quotaSliderStep: 1,
-    quotaSliderDisplayValue: 1
+    quotaSliderDisplayValue: 1,
+    quotaSliderValue: 0
   }
   dollarsSlider = {
     quotaSliderDisplayMax: 3,
@@ -56,7 +57,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     quotaSliderMax: 3,
     quotaSliderMin: 1,
     quotaSliderStep: 1,
-    quotaSliderDisplayValue: 1
+    quotaSliderDisplayValue: 1,
+    quotaSliderValue: 0
   }
   colonesQuotas: ExtendTermRuleQuota[];
   colonesSelected: ExtendTermRuleQuota;
@@ -127,6 +129,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
   }
 
   openDateRangeModal(form: FormGroup,  dateRange: any) {
+    dateRange.initDate = form.get('initDate').value ?? null;
+    dateRange.endDate = form.get('endDate').value ?? null;
     this.modalService.open({
       component: DateRangePopupComponent,
       hideCloseButton: false,
@@ -167,9 +171,12 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       this.colonesSlider.quotaSliderMax = this.colonesQuotas.length;
       this.colonesSlider.quotaSliderDisplayValue = this.colonesSlider.quotaSliderDisplayMin;
 
-      this.getQuota(1,188)
-
-
+      const colonesQuotaTo = this.colonesForm.get('quotas').value ?? null;
+      if(colonesQuotaTo){
+        const colonesQuotaToIndex = this.colonesQuotas.findIndex(e => e.quotaTo == colonesQuotaTo);
+        this.getQuota(colonesQuotaToIndex + 1,188);
+      }
+      else this.getQuota(1,188)
 
       this.dollarsSlider.quotaSliderStep = 1;
       this.dollarsSlider.quotaSliderDisplayMin = this.dollarsQuotas[0].quotaTo;
@@ -178,15 +185,19 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       this.dollarsSlider.quotaSliderMax = this.dollarsQuotas.length;
       this.dollarsSlider.quotaSliderDisplayValue = this.dollarsSlider.quotaSliderDisplayMin;
 
-      this.getQuota(1,840)
-
-
+      const dollarsQuotaTo = this.dollarsForm.get('quotas').value ?? null;
+      if(dollarsQuotaTo){
+        const dollarsQuotaToIndex = this.colonesQuotas.findIndex(e => e.quotaTo == dollarsQuotaTo);
+        this.getQuota(dollarsQuotaToIndex + 1,840);
+      }
+      else this.getQuota(1,840)
   }
 
 
   getQuota(sliderValue, currency: number){
     if(currency == 188){
       this.colonesSlider.quotaSliderDisplayValue = this.colonesQuotas[sliderValue - 1].quotaTo;
+      this.colonesSlider.quotaSliderValue = sliderValue;
       this.colonesSelected = this.colonesQuotas[sliderValue - 1];
       this.colonesFee = this.formatNumber(this.colonesSelected.feePercentage);
       this.colonesCommission = this.formatNumber(this.colonesSelected.commissionRate)
@@ -197,6 +208,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
 
     if(currency == 840){
       this.dollarsSlider.quotaSliderDisplayValue = this.dollarsQuotas[sliderValue - 1].quotaTo;
+      this.dollarsSlider.quotaSliderValue = sliderValue;
       this.dollarsSelected = this.dollarsQuotas[sliderValue - 1];
       this.dollarsFee = this.formatNumber(this.dollarsSelected.feePercentage);
       this.dollarsCommission = this.formatNumber(this.dollarsSelected.commissionRate)
@@ -204,8 +216,6 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
       this.dollarsForm.get("commissions").setValue(this.dollarsCommission)
       this.dollarsForm.get("interest").setValue(this.dollarsFee)
     }
-
-
   }
 
   formatNumber(value: string): string {

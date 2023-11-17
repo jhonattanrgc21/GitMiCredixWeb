@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { Currency } from 'src/app/shared/models/programmed-rule';
@@ -9,25 +9,14 @@ import { Tag } from 'src/app/shared/models/tag';
   templateUrl: './schedule-quotas-first-step.component.html',
   styleUrls: ['./schedule-quotas-first-step.component.scss']
 })
-export class ScheduleQuotasFirstStepComponent implements OnInit {
+export class ScheduleQuotasFirstStepComponent implements OnInit, OnChanges {
 
   @Input() disableNextStepControl: FormControl;
+  @Input() currencyList: Currency[] = [];
   @Output() dollarsOption = new EventEmitter<boolean>()
   @Output() colonesOption = new EventEmitter<boolean>()
 
   info: string;
-  currencyList: Currency[] = [
-    {
-      code: 188,
-      description: 'Colones',
-      isSelected: false,
-    },
-    {
-      code: 840,
-      description: 'Dólares',
-      isSelected: false,
-    }
-  ]
 
   constructor(private tagsService: TagsService) { }
 
@@ -35,6 +24,13 @@ export class ScheduleQuotasFirstStepComponent implements OnInit {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
   }
+
+  ngOnChanges(simple: SimpleChanges) {
+    if ( simple.displayValue?.currentValue) {
+        this.currencyList = simple.displayValue?.currentValue;
+    }
+  }
+
 
   getValueCheckBoxes(isChecked: boolean, item: any) {
     item.isSelected = isChecked;

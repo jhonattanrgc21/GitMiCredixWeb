@@ -1,5 +1,5 @@
 import { finalize } from 'rxjs/operators';
-import { ProgrammedRule } from './../../../../shared/models/programmed-rule';
+import { Currency, ProgrammedRule } from './../../../../shared/models/programmed-rule';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -39,6 +39,19 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     initDate: new FormControl(null, Validators.required),
     endDate: new FormControl(null, Validators.required),
   })
+
+  currencyList: Currency[] = [
+    {
+      code: 188,
+      description: 'Colones',
+      isSelected: false,
+    },
+    {
+      code: 840,
+      description: 'Dólares',
+      isSelected: false,
+    }
+  ]
 
   isColones: boolean = false;
   isDollars: boolean = false;
@@ -231,10 +244,34 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
         this.modalService.confirmationPopup('¿Desea editar esta regla?')
         .subscribe(confirmation => {
           if (confirmation) {
-            console.log(rule);
-            console.log('Regla editada');
-          } else {
-            console.log('Cancelado');
+            this.currencyForm.get('disableNextStep').setValue(false);
+            if(rule.currencyId == 188){
+              this.colonesForm.get('minimumAmount').setValue(rule.amountRange.split('-')[0])
+              this.colonesForm.get('maximumAmount').setValue(rule.amountRange.split('-')[1])
+              this.colonesForm.get('quotas').setValue(rule.quota)
+              this.colonesForm.get('commissions').setValue(rule.listQuota.commissionRate)
+              this.colonesForm.get('interest').setValue(rule.listQuota.feePercentage)
+              this.colonesForm.get('initDate').setValue(rule.initDate)
+              this.colonesForm.get('endDate').setValue(rule.endDate)
+              this.isColones = true;
+              this.currencyList[0].isSelected = true;
+            }
+            else{
+              this.dollarsForm.get('minimumAmount').setValue(rule.amountRange.split('-')[0])
+              this.dollarsForm.get('maximumAmount').setValue(rule.amountRange.split('-')[1])
+              this.dollarsForm.get('quotas').setValue(rule.quota)
+              this.dollarsForm.get('commissions').setValue(rule.listQuota.commissionRate)
+              this.dollarsForm.get('interest').setValue(rule.listQuota.feePercentage)
+              this.dollarsForm.get('initDate').setValue(rule.initDate)
+              this.dollarsForm.get('endDate').setValue(rule.endDate)
+              this.isDollars = true;
+              this.currencyList[1].isSelected = true;
+            }
+            this.activeStepper(true);
+            setTimeout(() => {
+              this.disableButton = false;
+              this.next();
+            }, 1000)
           }
         });
       break;

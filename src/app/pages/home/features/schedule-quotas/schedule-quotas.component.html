@@ -57,6 +57,7 @@
         <div class="schedule-quotas__container-step">
           <app-schedule-quotas-first-step
             [disableNextStepControl]="currencyForm.get('disableNextStep')"
+            [currencyList]="currencyList"
             (colonesOption)="setIsColones($event)"
             (dollarsOption)="setIsDollars($event)">
           </app-schedule-quotas-first-step>
