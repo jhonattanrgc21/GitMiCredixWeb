@@ -8,4 +8,6 @@ export interface PaymentQuota {
     quotaFrom: number,
     financedPlan: number,
     commissionAmount: string,
+    commissionAmountDilute: string,
+    isCommissionMonthly: boolean,
 };

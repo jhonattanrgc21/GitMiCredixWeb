@@ -61,12 +61,12 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
     if ( this.extendTermService.recentMovementsSelected.length <= 0 ) {
       this.router.navigate(['/home/extend-term']);
     }
-    
+
     this.movementsSelected = this.extendTermService.recentMovementsSelected;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
     this.getQuotas();
-    
+
   }
 
   getQuotas() {
@@ -76,7 +76,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
     }else{
       this.getQuotasSingleMovement();
     }
-    
+
   }
 
   getQuotasUnified(){
@@ -101,7 +101,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
               const aux = [...this.quotas];
 
               aux.shift();
-              
+
               this.result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmount ) !== commission);
             }
           }
@@ -149,7 +149,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
     this.feedPercentage = this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage);
     this.percentageCommission = this.movementQuotaSummary?.commissionPercentage === '' ? this.movementQuotaSummary?.commissionPercentage : this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage);
   }
-  
+
   convertAmountValue(value: any): any {
     let result: any = '';
 

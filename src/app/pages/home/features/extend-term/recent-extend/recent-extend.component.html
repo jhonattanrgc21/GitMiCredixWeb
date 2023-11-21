@@ -16,7 +16,7 @@
             </credix-numeric-block>
         </div>
 
-        
+
         <mat-divider></mat-divider>
         <div class="previous-extend__content__option" fxLayout="row" fxLayoutAlign="space-between">
           <div fxLayout="column">
@@ -25,7 +25,7 @@
               <p class="mt-16px" *ngIf='movementQuotaSummary.quotaTo === quotaPromoMax' [class.extend-term__promo-apply__selected]='promoApply'><strong>{{promoMessage}}</strong></p>
             </ng-container>
           </div>
-            
+
 
             <credix-slider fxFlex="400px" (inputChange)="getQuota($event)"
                    (valueChange)="getQuota($event)"
@@ -80,7 +80,7 @@
             <span fxFlex>{{comissionTag || 'Comisión'}} {{ percentageCommission === '' ? '' : '(' + percentageCommission + '% mensual)' }}
             </span>
             <credix-numeric-block
-              [value]="movementQuotaSummary?.commissionAmount"
+              [value]="movementQuotaSummary?.isCommissionMonthly ? movementQuotaSummary?.commissionAmountDilute :  movementQuotaSummary?.commissionAmount"
               fontWeight="bold"
               [prefix]="singleMovement ? singleMovement.originCurrency.currency : '₡'"></credix-numeric-block>
           </div>
