@@ -64,7 +64,6 @@ export class RuleCardComponent implements OnInit {
           }
         });
     }else {
-      this.rule.isActive = true;
       this.modalService.confirmationPopup('¿Desea activar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
         .subscribe(confirmation => {
           if (confirmation) {
