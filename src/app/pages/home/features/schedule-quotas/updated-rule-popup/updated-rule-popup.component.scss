@@ -1,0 +1,41 @@
+.updatedRule-popupo{
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+
+  .color-blue{
+    color: #5BC0DE;
+  }
+
+  .icon-info {
+    width: 100px;
+    height: 100px;
+  }
+
+  .title{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 29px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+
+  .text-content{
+    color: #3E3E3E;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+  }
+}
+
+
+::ng-deep .schedule-quotas-updatedRule-panel {
+  .mat-dialog-container {
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .mat-button, .mat-stroked-button, .mat-flat-button{
+    padding: 4px 16px;
+  }
+}

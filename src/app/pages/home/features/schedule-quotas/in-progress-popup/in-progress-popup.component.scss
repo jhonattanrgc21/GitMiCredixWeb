@@ -34,4 +34,8 @@
       height: 32px;
     }
   }
+
+  .mat-button, .mat-stroked-button, .mat-flat-button{
+    padding: 4px 16px;
+  }
 }

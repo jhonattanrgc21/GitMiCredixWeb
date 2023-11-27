@@ -13,7 +13,7 @@ export class InformationPopupComponent implements OnInit {
   info1: string;
   info2: string;
   info3: string;
-  bottom: string;
+  button: string;
   option1: string;
   option2: string;
 
@@ -29,7 +29,7 @@ export class InformationPopupComponent implements OnInit {
     this.option1 = tags.find(tag => tag.description === 'programarcuotas.option1')?.value;
     this.option2 = tags.find(tag => tag.description === 'programarcuotas.option2')?.value;
     this.info2 = tags.find(tag => tag.description === 'programarcuotas.info2')?.value;
-    this.bottom = tags.find(tag => tag.description === 'programarcuotas.botton')?.value;
+    this.button = tags.find(tag => tag.description === 'programarcuotas.botton')?.value;
   }
 
     submit() {

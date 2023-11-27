@@ -41,6 +41,7 @@ import { InformationPopupComponent } from './information-popup/information-popup
 import { RuleCardComponent } from './rule-card/rule-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { InProgressPopupComponent } from './in-progress-popup/in-progress-popup.component';
+import { UpdatedRulePopupComponent } from './updated-rule-popup/updated-rule-popup.component';
 
 
 const routes: Routes = [
@@ -51,7 +52,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ScheduleQuotasComponent, ScheduleQuotasFirstStepComponent, ScheduleQuotasSecondStepComponent, ScheduleQuotasThirdStepComponent, DateRangePopupComponent, InformationPopupComponent, RuleCardComponent, InProgressPopupComponent],
+  declarations: [ScheduleQuotasComponent, ScheduleQuotasFirstStepComponent, ScheduleQuotasSecondStepComponent, ScheduleQuotasThirdStepComponent, DateRangePopupComponent, InformationPopupComponent, RuleCardComponent, InProgressPopupComponent, UpdatedRulePopupComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

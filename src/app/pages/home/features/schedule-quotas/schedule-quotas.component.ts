@@ -11,7 +11,7 @@ import { TagsService } from 'src/app/core/services/tags.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tag } from 'src/app/shared/models/tag';
 import { InformationPopupComponent } from './information-popup/information-popup.component';
-import { InProgressPopupComponent } from './in-progress-popup/in-progress-popup.component';
+import { UpdatedRulePopupComponent } from './updated-rule-popup/updated-rule-popup.component';
 
 @Component({
   selector: 'app-schedule-quotas',
@@ -62,6 +62,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   status: 'success' | 'error';
   title: string;
   info1: string;
+  button: string;
   info2: string;
   info3: string;
   option1: string;
@@ -75,10 +76,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   @ViewChild('scheduleQuotasStepper') stepper: CdkStepper;
 
   constructor(private scheduleQuotasService: ScheduleQuotasService,
-    private credixCodeErrorService: CredixCodeErrorService,
     private modalService: ModalService,
     private tagsService: TagsService,
-    private router: Router,
     private datePipe: DatePipe) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 
@@ -321,8 +320,19 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       .afterClosed().subscribe();
   }
 
+  openUpdatedRuleModal(){
+    this.modalService.open({
+      component: UpdatedRulePopupComponent,
+      hideCloseButton: false,
+      title: null,
+    }, {width: 343, height: 400, disableClose: false, panelClass: 'schedule-quotas-updatedRule-panel'})
+      .afterClosed().subscribe();
+  }
+
+
   getTags(tags: Tag[]) {
     this.info1 = tags.find(tag => tag.description === 'programarcuotas.info1')?.value;
+    this.button = tags.find(tag => tag.description === 'programarcuotas.button')?.value;
     this.option1 = tags.find(tag => tag.description === 'programarcuotas.option1')?.value;
     this.option2 = tags.find(tag => tag.description === 'programarcuotas.option2')?.value;
     this.info2 = tags.find(tag => tag.description === 'programarcuotas.info2')?.value;

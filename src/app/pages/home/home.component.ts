@@ -11,6 +11,7 @@ import {ModalService} from 'src/app/core/services/modal.service';
 import {RenewTokenService} from '../../core/services/renew-token.service';
 import {HttpRequestsResponseInterceptor} from '../../core/interceptors/http.interceptor';
 import {CredixToastService} from '../../core/services/credix-toast.service';
+import { UpdatedRulePopupComponent } from './features/schedule-quotas/updated-rule-popup/updated-rule-popup.component';
 
 @Component({
   selector: 'app-home',
@@ -66,11 +67,21 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.tagsService.getAllFunctionalitiesAndTags().subscribe();
     this.checkScreenBreakpoint();
+    this.openUpdatedRuleModal();
   }
 
   ngAfterViewInit(): void {
     this.scrollBar.SimpleBar.getScrollElement().addEventListener('scroll', (event) =>
       this.scrollService.emitScroll(this.scrollBar.SimpleBar.getScrollElement().scrollTop));
+  }
+
+  openUpdatedRuleModal(){
+    this.modalService.open({
+      component: UpdatedRulePopupComponent,
+      hideCloseButton: false,
+      title: null,
+    }, {width: 343, height: 400, disableClose: false, panelClass: 'schedule-quotas-updatedRule-panel'})
+      .afterClosed().subscribe();
   }
 
   checkScreenBreakpoint() {
