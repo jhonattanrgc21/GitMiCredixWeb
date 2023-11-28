@@ -67,7 +67,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.tagsService.getAllFunctionalitiesAndTags().subscribe();
     this.checkScreenBreakpoint();
-    this.openUpdatedRuleModal();
+    this.homeService.getIsShowPopUp().subscribe(res => {
+      if(res.isShowPopUp) this.openUpdatedRuleModal();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -81,7 +83,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       hideCloseButton: false,
       title: null,
     }, {width: 343, height: 400, disableClose: false, panelClass: 'schedule-quotas-updatedRule-panel'})
-      .afterClosed().subscribe();
+      .afterClosed().subscribe((ready: any) => {
+        if(ready) this.homeService.setLastReadyButtonClick().subscribe();
+      });
   }
 
   checkScreenBreakpoint() {

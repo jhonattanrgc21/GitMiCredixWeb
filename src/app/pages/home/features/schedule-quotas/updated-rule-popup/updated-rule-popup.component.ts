@@ -36,6 +36,10 @@ export class UpdatedRulePopupComponent implements OnInit {
   }
 
   submit() {
-    this.dialogRef.close();
+    this.dialogRef.close(
+      {
+        isReady: true
+      } as any
+    );
   }
 }
