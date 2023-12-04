@@ -20,7 +20,10 @@ export class MenuOptionComponent implements OnInit {
   activeMenu = 1;
   preActiveMenu = 0;
   activeSubmenu = 0;
+  isSchedulaExtendTermAvailable: boolean;
   questionTag: string;
+
+
 
   constructor(private router: Router,
               private navigationService: NavigationService,
@@ -31,6 +34,7 @@ export class MenuOptionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
     this.getMenus();
     this.goHomeEvents();
     this.subscribeToTags();
@@ -74,6 +78,8 @@ export class MenuOptionComponent implements OnInit {
             if ( func.description === 'Cambiar PIN') {
               func.link = '/home/current-pin';
             }
+
+            if(func.link == '/home/schedule-quotas' && !this.isSchedulaExtendTermAvailable) return
 
             this.submenus.push({
               id: func.id,
