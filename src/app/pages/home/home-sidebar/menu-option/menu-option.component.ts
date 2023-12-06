@@ -31,7 +31,6 @@ export class MenuOptionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.enableIncreaseCreditLimit = this.tagsService.enableIncreaseCreditLimit
     this.getMenus();
     this.goHomeEvents();
     this.subscribeToTags();
@@ -66,6 +65,7 @@ export class MenuOptionComponent implements OnInit {
 
   getMenus() {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionalities => {
+      this.enableIncreaseCreditLimit = this.tagsService.enableIncreaseCreditLimit
       if (functionalities.length > 0) {
 
         this.submenus = [];
