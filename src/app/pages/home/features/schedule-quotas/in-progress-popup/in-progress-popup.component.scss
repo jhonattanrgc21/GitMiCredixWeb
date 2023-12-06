@@ -1,0 +1,41 @@
+.in-progress-popup{
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+
+  .container{
+    width: 311px;
+    height: auto;
+    .test{
+      margin-bottom: 24px;
+      text-align: justify;
+    }
+  }
+
+  .content{
+    margin-top: 24px;
+
+    &__botton {
+      width: 100%;
+      margin-bottom: auto;
+    }
+  }
+}
+
+::ng-deep .schedule-quotas-in-progress-panel {
+  .mat-dialog-container {
+    padding: 32px 16px 16px 16px;
+    box-sizing: border-box;
+
+    .credix-popup__title{
+      margin-top: 0;
+      margin-bottom: 32px;
+      width: 311px;
+      height: 32px;
+    }
+  }
+
+  .mat-button, .mat-stroked-button, .mat-flat-button{
+    padding: 4px 16px;
+  }
+}

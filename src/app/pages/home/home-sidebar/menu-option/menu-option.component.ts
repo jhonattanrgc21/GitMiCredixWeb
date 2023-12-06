@@ -20,7 +20,10 @@ export class MenuOptionComponent implements OnInit {
   activeMenu = 1;
   preActiveMenu = 0;
   activeSubmenu = 0;
+  isSchedulaExtendTermAvailable: boolean;
   questionTag: string;
+
+
 
   constructor(private router: Router,
               private navigationService: NavigationService,
@@ -63,6 +66,7 @@ export class MenuOptionComponent implements OnInit {
 
   getMenus() {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionalities => {
+      this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
       if (functionalities.length > 0) {
 
         console.log("funcionalities: ", functionalities);
@@ -78,6 +82,7 @@ export class MenuOptionComponent implements OnInit {
             if(func.link == '/home/personal-credit'){
               this.homeNavigationMenuService.setEnableOptionPersonalCredit(true);
             }
+            if(func.link == '/home/schedule-quotas' && !this.isSchedulaExtendTermAvailable) return
 
             this.submenus.push({
               id: func.id,
@@ -188,7 +193,7 @@ export class MenuOptionComponent implements OnInit {
 
 }
 
-const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar plazo de compra', 'Plan liquidez', 'Cancelación anticipada'];
+const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar plazo de compra','Programar cuotas' ,'Plan liquidez', 'Cancelación anticipada'];
 const payOrdering = ['Servicios', 'Pagar tarjeta', 'Marchamo', 'Enviar dinero', 'Reportar transferencia', 'Lugares de pago'];
 
 export const menus: Menu[] = [
@@ -215,7 +220,8 @@ export const submenus = [
   {id: 14, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password', parentId: 'Mi Cuenta'},
   {id: 15, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta'},
   {id: 16, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta'},
-  {id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'}
+  {id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'},
+  {id: 18, name: 'Programar cuotas', route: '/home/schedule-quotas', icon: 'calendar', parentId: 'Productos'}
 ];
 
 export interface Menu {

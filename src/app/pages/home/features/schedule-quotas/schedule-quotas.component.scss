@@ -1,0 +1,60 @@
+.schedule-quotas{
+  position: relative;
+
+  .content-new-rule{
+    height: 47px;
+  }
+
+  &__stepper{
+    margin-top: 24px;
+  }
+
+  &__container-step{
+    margin-top: 32px;
+  }
+
+  .color-blue{
+    color: #239DF7;
+  }
+
+  .icon-info {
+    cursor: pointer;
+    margin-left: 16px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .container{
+    box-sizing: border-box;
+    margin: 32px auto 157px;
+    max-width: 311px;
+  }
+
+  .content{
+    box-sizing: border-box;
+    width: 311px;
+    height: auto;
+    .options{
+      padding-left: 24px;
+    }
+
+    .item{
+      margin-bottom: 24px;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .schedule-quotas {
+    box-sizing: border-box;
+
+    .actions-footer.step-zero {
+      margin-top: 302px;
+    }
+
+    .container{
+      margin: 32px auto auto;
+    }
+  }
+}
+
