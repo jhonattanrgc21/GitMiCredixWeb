@@ -34,7 +34,6 @@ export class MenuOptionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
     this.getMenus();
     this.goHomeEvents();
     this.subscribeToTags();
@@ -67,6 +66,7 @@ export class MenuOptionComponent implements OnInit {
 
   getMenus() {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionalities => {
+      this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
       if (functionalities.length > 0) {
 
         console.log("funcionalities: ", functionalities);

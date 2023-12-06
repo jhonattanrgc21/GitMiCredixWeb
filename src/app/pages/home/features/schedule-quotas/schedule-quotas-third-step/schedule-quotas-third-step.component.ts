@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { Tag } from 'src/app/shared/models/tag';
 import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
+import { ScheduleQuotasComponent } from '../schedule-quotas.component';
 
 @Component({
   selector: 'app-schedule-quotas-third-step',
@@ -16,6 +17,7 @@ export class ScheduleQuotasThirdStepComponent implements OnInit {
   @Input() dollarsForm: FormGroup;
   @Input() isColones: boolean;
   @Input() isDollars: boolean;
+  @Output() goBack = new EventEmitter<void>();
 
   tag1: string;
   tag2: string;
@@ -46,6 +48,10 @@ export class ScheduleQuotasThirdStepComponent implements OnInit {
 
   formatDate(date: Date): string {
     return this.datePipe.transform(date, 'dd/MM/yyyy');
+  }
+
+  back(){
+    this.goBack.emit();
   }
 
   getTags(tags: Tag[]) {

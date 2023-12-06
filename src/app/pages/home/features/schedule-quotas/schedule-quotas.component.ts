@@ -330,6 +330,10 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   }
 
 
+  editBack(){
+    this.back();
+  }
+
   getTags(tags: Tag[]) {
     this.info1 = tags.find(tag => tag.description === 'programarcuotas.info1')?.value;
     this.button = tags.find(tag => tag.description === 'programarcuotas.button')?.value;

@@ -78,7 +78,7 @@
       <cdk-step  fxLayout="column" label="{{step3 || 'Resumen'}}">
         <div class="schedule-quotas__container-step">
           <app-schedule-quotas-third-step [colonesForm]="colonesForm" [dollarsForm]="dollarsForm" [isColones]="isColones"
-            [isDollars]="isDollars">>
+            [isDollars]="isDollars" (goBack)="editBack()">
 
           </app-schedule-quotas-third-step>
         </div>
