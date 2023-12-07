@@ -101,6 +101,7 @@
 
              <div fxLayout="row" >
                     <credix-slider (inputChange)="getQuota($event,840)" (valueChange)="getQuota($event,840)"
+                      [value]="dollarsSlider.quotaSliderValue"
                       [displayMax]="dollarsSlider.quotaSliderDisplayMax"
                       [displayMin]="dollarsSlider.quotaSliderDisplayMin"
                       [displayValue]="dollarsSlider.quotaSliderDisplayValue"

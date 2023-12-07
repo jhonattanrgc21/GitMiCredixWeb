@@ -14,6 +14,7 @@ export class ScheduleQuotasService {
   private readonly ruleQuotaListUri = 'channels/rulesquotalist';
   private readonly ruleListUri = 'account/ruleslistbyaccount';
   private readonly saveExtendTermRuleUri = 'channels/saveextendtermrule';
+  private readonly getDateRangeByAccountCycleUrl = 'account/getDateRangeByAccountCycle';
 
 
   constructor(private httpService: HttpService,
@@ -88,4 +89,22 @@ export class ScheduleQuotasService {
     )
 
   }
+
+  getDateRangeByAccountCycle(){
+    const body = {accountId: this.storageService.getCurrentUser().actId}
+    return this.httpService.post('canales', this.getDateRangeByAccountCycleUrl, body)
+      .pipe(
+        map((response) => {
+            if ( response.status === 200 ) {
+              return {
+                rangeApply: response.rangeApply,
+                rangeDoesNotApply: response.rangeDoesNotApply
+              }
+            } else {
+              return {};
+            }
+          }
+        ));
+  }
+
 }
