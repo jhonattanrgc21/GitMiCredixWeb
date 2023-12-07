@@ -36,13 +36,13 @@
       <span class="balances-card__tag">{{balancesTag.consumedTag}}</span>
       <credix-numeric-block [prefix]="prefix" [value]="accountSummary?.consumed" fontSize="24"></credix-numeric-block>
     </div>
-    <ng-container *ngIf="enableIncreaseCreditLimit">
-      <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-end">
-        <span class="balances-card__tag">{{balancesTag.creditLimitTag}}</span>
-        <credix-numeric-block [prefix]="prefix" [value]="accountSummary?.limit" fontSize="24"></credix-numeric-block>
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-end">
+      <span class="balances-card__tag">{{balancesTag.creditLimitTag}}</span>
+      <credix-numeric-block [prefix]="prefix" [value]="accountSummary?.limit" fontSize="24"></credix-numeric-block>
+      <ng-container *ngIf="enableIncreaseCreditLimit">
         <credix-link-button (click)="openIncreaseLimitModal()">{{balancesTag.increaseCreditLimitTag}}</credix-link-button>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
   </div>
 
   <div class="w-100" fxLayout="row">
