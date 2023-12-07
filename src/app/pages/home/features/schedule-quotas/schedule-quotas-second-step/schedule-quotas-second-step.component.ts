@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ModalService } from 'src/app/core/services/modal.service';
@@ -14,7 +14,7 @@ import { ScheduleQuotasService } from '../schedule-quotas.service';
   templateUrl: './schedule-quotas-second-step.component.html',
   styleUrls: ['./schedule-quotas-second-step.component.scss']
 })
-export class ScheduleQuotasSecondStepComponent implements OnInit {
+export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
   @Input() colonesForm: FormGroup;
   @Input() dollarsForm: FormGroup;
   @Input() isColones: boolean;
@@ -109,6 +109,14 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
     this.getRuleQuotas();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.isColones && changes.isColones.currentValue) this.addValidationToForm(this.colonesForm, this.isColones);
+    if(changes.isDollars && changes.isDollars.currentValue) this.addValidationToForm(this.dollarsForm, this.isDollars);
+
+
+    this.getRuleQuotas();
+  }
+
   isAmountsValid(form: FormGroup): boolean{
     return !form.get('minimumAmount').hasError('required') && !form.get('minimumAmount').hasError('min') && !form.get('maximumAmount').hasError('required') &&  !form.get('maximumAmount').hasError('min')
   }
@@ -166,8 +174,6 @@ export class ScheduleQuotasSecondStepComponent implements OnInit {
   }
 
   initSlider() {
-
-
       this.colonesSlider.quotaSliderStep = 1;
       this.colonesSlider.quotaSliderDisplayMin = this.colonesQuotas[0].quotaTo;
       this.colonesSlider.quotaSliderMin = 1;

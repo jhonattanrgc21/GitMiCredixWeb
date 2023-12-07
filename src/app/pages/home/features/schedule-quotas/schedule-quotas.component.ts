@@ -40,18 +40,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     endDate: new FormControl(null, Validators.required),
   })
 
-  currencyList: Currency[] = [
-    {
-      code: 188,
-      description: 'Colones',
-      isSelected: false,
-    },
-    {
-      code: 840,
-      description: 'Dólares',
-      isSelected: false,
-    }
-  ]
+  currencyList: Currency[];
 
   isColones: boolean = false;
   isDollars: boolean = false;
@@ -80,11 +69,24 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     private tagsService: TagsService,
     private datePipe: DatePipe) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.initForms();
+  }
 
+
+  ngOnInit(): void {
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
+      this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
+    this.scheduleQuotasService.getRuleList().subscribe((res: ProgrammedRule[]) => this.rulesList = res);
+  }
+
+  ngAfterViewInit(): void {
+    this.setEnableButton();
+  }
+
+  initForms(){
     this.currencyForm = new FormGroup({
       disableNextStep: new FormControl(false, Validators.required),
     });
-
     this.colonesForm =  new FormGroup({
       id: new FormControl(null),
       minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
@@ -109,17 +111,6 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     })
   }
 
-
-  ngOnInit(): void {
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
-    this.scheduleQuotasService.getRuleList().subscribe((res: ProgrammedRule[]) => this.rulesList = res);
-  }
-
-  ngAfterViewInit(): void {
-    this.setEnableButton();
-  }
-
   setIsColones(value: boolean){
     this.isColones = value;
   }
@@ -142,29 +133,45 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   setEnableButton() {
     switch (this.selectedIndex) {
       case 0:
+        this.currencyList = [
+          {
+            code: 188,
+            description: 'Colones',
+            isSelected: false,
+          },
+          {
+            code: 840,
+            description: 'Dólares',
+            isSelected: false,
+          }
+        ]
+        this.initForms();
+        this.isColones = false;
+        this.isDollars = false;
         this.currencyForm.valueChanges.subscribe((obj) => {
           this.disableButton = this.currencyForm.get('disableNextStep').value;
         });
-        this.colonesForm.reset();
-        this.dollarsForm.reset();
         if(this.isColones || this.isDollars) this.disableButton = false;
         break;
       case 1:
-          this.disableButton = true;
-
+        let minColones = 0, maxColones = 0, minDollars = 0,  maxDollars = 0
         if (this.isColones && this.isDollars) {
+          this.disableButton = this.colonesForm.invalid || this.dollarsForm.invalid;
           // En este caso, ambos isColones y isDollars son true, por lo que verificamos la condición en conjunto de ambos formularios.
           this.colonesForm.valueChanges.subscribe(() => {
-            let minColones = this.colonesForm.value.minimumAmount ? Number(this.colonesForm.value.minimumAmount) : 0;
-            let maxColones = this.colonesForm.value.maximumAmount ? Number(this.colonesForm.value.maximumAmount) : 0;
+            minColones = this.colonesForm.value.minimumAmount ? Number(this.colonesForm.value.minimumAmount) : 0;
+            maxColones = this.colonesForm.value.maximumAmount ? Number(this.colonesForm.value.maximumAmount) : 0;
+            this.disableButton = (minColones > maxColones || this.colonesForm.invalid) || (minDollars > maxDollars || this.dollarsForm.invalid);
+          });
 
-            let minDollars = this.dollarsForm.value.minimumAmount ? Number(this.dollarsForm.value.minimumAmount) : 0;
-            let maxDollars = this.dollarsForm.value.maximumAmount ? Number(this.dollarsForm.value.maximumAmount) : 0;
-
-            this.disableButton = (minColones > maxColones || this.colonesForm.invalid) && (minDollars > maxDollars || this.dollarsForm.invalid);
+          this.dollarsForm.valueChanges.subscribe(() => {
+            minDollars = this.dollarsForm.value.minimumAmount ? Number(this.dollarsForm.value.minimumAmount) : 0;
+            maxDollars = this.dollarsForm.value.maximumAmount ? Number(this.dollarsForm.value.maximumAmount) : 0;
+            this.disableButton = (minColones > maxColones || this.colonesForm.invalid) || (minDollars > maxDollars || this.dollarsForm.invalid);
           });
         } else {
           if (this.isColones) {
+            this.disableButton = this.colonesForm.invalid;
             this.colonesForm.valueChanges.subscribe(() => {
               let min = this.colonesForm.value.minimumAmount ? Number(this.colonesForm.value.minimumAmount) : 0;
               let max = this.colonesForm.value.maximumAmount ? Number(this.colonesForm.value.maximumAmount) : 0;
@@ -173,6 +180,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
           }
 
           if (this.isDollars) {
+            this.disableButton = this.dollarsForm.invalid;
             this.dollarsForm.valueChanges.subscribe(() => {
               let min = this.dollarsForm.value.minimumAmount ? Number(this.dollarsForm.value.minimumAmount) : 0;
               let max = this.dollarsForm.value.maximumAmount ? Number(this.dollarsForm.value.maximumAmount) : 0;
