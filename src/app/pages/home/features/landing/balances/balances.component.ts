@@ -46,6 +46,7 @@ export class BalancesComponent implements OnInit {
   disablelinkapplyforcredit: boolean = false;
   isEnablePersonalCredit: boolean;
   enablePersonalCreditSubscription: Subscription;
+  enableIncreaseCreditLimit: boolean;
 
   constructor(private storageService: StorageService,
               private toastService: CredixToastService,
@@ -59,6 +60,7 @@ export class BalancesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.enableIncreaseCreditLimit = this.tagsService.enableIncreaseCreditLimit;
     this.enablePersonalCreditSubscription = this.homeSidebarService.enableOptionPersonalCredit$.subscribe(
       isEnable => {
         this.isEnablePersonalCredit = isEnable
@@ -78,8 +80,10 @@ export class BalancesComponent implements OnInit {
 
     this.onCardChanged();
     this.getIbanAccounts();
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags));
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality => {
+      if(this.enableIncreaseCreditLimit) this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags)
+      else this.questionTag = '';
+    });
   }
 
   onCardChanged() {

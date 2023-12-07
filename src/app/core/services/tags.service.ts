@@ -10,6 +10,7 @@ export class TagsService {
   private readonly allTagsUri = 'tags/allfunctionalitylabels';
 
   isSchedulaExtendTermAvailable: boolean;
+  enableIncreaseCreditLimit: boolean;
 
   constructor(private httpService: HttpService) {
   }
@@ -21,6 +22,7 @@ export class TagsService {
         map(response => {
           if (response.type === 'success') {
             this.isSchedulaExtendTermAvailable = response.isSchedulaExtendTermAvailable;
+            this.enableIncreaseCreditLimit = response.enableIncreaseCreditLimit;
             return (response.tagsByFunctionality as Functionality[]).filter(func => func.status === 1);
           }
           return [];

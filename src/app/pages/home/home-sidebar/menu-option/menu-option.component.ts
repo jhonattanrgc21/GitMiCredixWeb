@@ -22,9 +22,7 @@ export class MenuOptionComponent implements OnInit {
   activeSubmenu = 0;
   isSchedulaExtendTermAvailable: boolean;
   questionTag: string;
-
-
-
+  enableIncreaseCreditLimit: boolean;
   constructor(private router: Router,
               private navigationService: NavigationService,
               private tagsService: TagsService,
@@ -60,20 +58,23 @@ export class MenuOptionComponent implements OnInit {
   }
 
   subscribeToTags() {
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags));
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>{
+      if(this.enableIncreaseCreditLimit) this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags)
+      else this.questionTag = '';
+    });
   }
 
   getMenus() {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionalities => {
       this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
+      this.enableIncreaseCreditLimit = this.tagsService.enableIncreaseCreditLimit;
       if (functionalities.length > 0) {
-
-        console.log("funcionalities: ", functionalities);
 
         this.submenus = [];
         functionalities.forEach(func => {
           if (func.level === 2) {
+
+            if(func.link == '/home/increase-limit' && !this.enableIncreaseCreditLimit) return;
 
             if ( func.description === 'Cambiar PIN') {
               func.link = '/home/current-pin';
@@ -107,7 +108,6 @@ export class MenuOptionComponent implements OnInit {
     });
   }
   validateWord(submenu){
-    console.log(submenu)
     if(submenu == 'Plan liquidez'){
       let aux = submenu.split(" ")
       let newWord = 'prueba'+ '\n' + 'holi'
