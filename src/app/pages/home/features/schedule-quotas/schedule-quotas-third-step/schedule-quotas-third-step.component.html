@@ -83,10 +83,10 @@
     <div fxLayout="row" fxLayoutAlign="flex-end">
       <div fxLayout="column" fxLayoutGap="8px" class="summary text-container">
         <p class="summary__text"><span class="summary__highlighted-text">Aplica</span> para transacciones en firme (no
-          flotantes) entre el 30 y el 26
+          flotantes) entre el {{rangeApply}}
           de cada mes. </p>
         <p class="summary__text"><span class="summary__highlighted-text">No aplica</span> para transacciones que queden
-          en firme entre el 27 y el 29
+          en firme entre el {{rangeDoesNotApply}}
           del mes.</p>
 
         <p class="summary__text">{{tag6 || '*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el Banco Central.'}}</p>

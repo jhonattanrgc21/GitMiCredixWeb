@@ -1,3 +1,4 @@
+import { ScheduleQuotasService } from './../schedule-quotas.service';
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -25,12 +26,20 @@ export class ScheduleQuotasThirdStepComponent implements OnInit {
   tag4: string;
   tag5: string;
   tag6: string;
+  rangeApply: string;
+  rangeDoesNotApply: string;
 
   constructor(private tagsService: TagsService,
-              private datePipe: DatePipe
+              private datePipe: DatePipe,
+              private scheduleQuotasService: ScheduleQuotasService
               ) { }
 
   ngOnInit(): void {
+    this.scheduleQuotasService.getDateRangeByAccountCycle().subscribe(res => {
+      this.rangeDoesNotApply = res.rangeDoesNotApply;
+      this.rangeApply = res.rangeApply;
+    })
+
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
   }
