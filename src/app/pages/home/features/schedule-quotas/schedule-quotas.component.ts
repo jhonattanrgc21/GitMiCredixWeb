@@ -63,6 +63,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   rulesList: ProgrammedRule[] = [];
   isActiveStepper: boolean = false;
   @ViewChild('scheduleQuotasStepper') stepper: CdkStepper;
+  scheduleQuotasTitle: string;
 
   constructor(private scheduleQuotasService: ScheduleQuotasService,
     private modalService: ModalService,
@@ -352,6 +353,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.step = tags.find(tag => tag.description === 'programarcuotas.stepper1')?.value;
     this.step2 = tags.find(tag => tag.description === 'programarcuotas.stepper2')?.value;
     this.step3 = tags.find(tag => tag.description === 'programarcuotas.stepper3')?.value;
+    this.scheduleQuotasTitle = tags.find(tag => tag.description === 'programarcuotas.title')?.value;
   }
 
 }

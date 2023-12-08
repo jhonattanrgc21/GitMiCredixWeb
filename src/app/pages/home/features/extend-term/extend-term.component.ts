@@ -67,6 +67,8 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   title: string;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
+  isSchedulaExtendTermAvailable: boolean;
+  scheduleQuotasTitle: string;
 
   constructor(private extendTermService: ExtendTermService,
               private storageService: StorageService,
@@ -78,6 +80,11 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality => {
+      this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags);
+      this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
+    })
   }
 
   ngOnDestroy(): void {
@@ -92,5 +99,13 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
       this.activeTabIndex = 2;
       this.router.navigate(['home/extend-term/previous']);
     }
+  }
+
+  redirectScheduleQuotas(){
+    this.router.navigate(['home/schedule-quotas'])
+  }
+
+  getTags(tags: Tag[]) {
+    this.scheduleQuotasTitle = tags.find(tag => tag.description === 'programarcuotas.title')?.value;
   }
 }

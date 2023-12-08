@@ -4,7 +4,12 @@
 
   <p class="mb-16px">Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
 
-  <credix-tab [ngClass]="{'mb-16px': activeTabIndex === 2 ? true : false}" (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex -1]" [tabs]="tabs"></credix-tab>
+  <div fxLayout="row" fxLayoutAlign="space-between center" >
+    <credix-tab [ngClass]="{'mb-16px': activeTabIndex === 2 ? true : false}" (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex -1]" [tabs]="tabs"></credix-tab>
+  <ng-container *ngIf="isSchedulaExtendTermAvailable">
+    <credix-link-button (click)="redirectScheduleQuotas()">{{scheduleQuotasTitle || 'Programar cuotas'}}</credix-link-button>
+  </ng-container>
+  </div>
 
   <router-outlet></router-outlet>
 
