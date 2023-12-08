@@ -69,6 +69,8 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   disableCheckBox: boolean;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
+  isSchedulaExtendTermAvailable: boolean;
+  scheduleQuotasTitle: string;
 
   constructor(private extendTermService: ExtendTermService,
               private storageService: StorageService,
@@ -82,6 +84,11 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getHidePromoFilter();
     this.getDisabledCheckBox();
+    this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality => {
+      this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags);
+      this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
+    })
   }
 
   ngOnDestroy(): void {
@@ -116,5 +123,12 @@ export class ExtendTermComponent implements OnInit, OnDestroy {
       console.log(response);
       this.disableCheckBox = response;
     });
+  }
+  redirectScheduleQuotas(){
+    this.router.navigate(['home/schedule-quotas'])
+  }
+
+  getTags(tags: Tag[]) {
+    this.scheduleQuotasTitle = tags.find(tag => tag.description === 'programarcuotas.title')?.value;
   }
 }

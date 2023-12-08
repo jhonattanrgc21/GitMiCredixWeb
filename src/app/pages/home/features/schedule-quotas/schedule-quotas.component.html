@@ -2,7 +2,7 @@
   <ng-container *ngIf="existRules() && !isActiveStepper">
     <div fxLayout="row" fxLayoutAlign="space-between center" class="content-new-rule">
       <h1>
-        Programar cuotas
+        {{scheduleQuotasTitle || 'Programar cuotas'}}
         <ng-container *ngIf="!isActiveStepper">
           <mat-icon (click)="openInformationModal()" [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
         </ng-container>
@@ -48,7 +48,7 @@
   <!-- Stepper Inicio-->
   <ng-template #stepperTemplate>
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <h1>Programar cuotas</h1>
+      <h1>{{scheduleQuotasTitle || 'Programar cuotas'}}</h1>
     </div>
 
 
