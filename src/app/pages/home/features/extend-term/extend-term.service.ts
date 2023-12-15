@@ -19,6 +19,14 @@ export class ExtendTermService {
     this._movementsSelected = movementSelected;
   }
 
+  get recentMovementsSelected(): AllowedMovement[] {
+    return this._recentMovementsSelected;
+  }
+
+  set recentMovementsSelected(movementSelected: AllowedMovement[]) {
+    this._recentMovementsSelected = movementSelected;
+  }
+
   get result(): { status: 'success' | 'error'; message: string } {
     return this._result;
   }
@@ -43,12 +51,14 @@ export class ExtendTermService {
   private readonly saveNewQuotaUri = 'channels/savequotification';
   private readonly cutDateUri = 'channels/cutdateextermterm';
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
+  private readonly saveNewQuotaUnifiedMovementsUri = 'channels/savequotificationunified';
   private readonly saveNewQuotaPreviousMovementsUri = 'account/savepreviousconsumptions';
 
   // private readonly allowedMovementsUri = /channels/allowedmovements
 
   // tslint:disable-next-line:variable-name
   _movementsSelected: number[] = [];
+  _recentMovementsSelected: AllowedMovement[] = [];
   private $allowedMovementsState: Subject<AllowedMovement[]> = new Subject<AllowedMovement[]>();
   private $filterPromo: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private $hideButtonPromoFilter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -129,7 +139,6 @@ export class ExtendTermService {
             }
 
             if ( response.type === 'success' ) {
-              this.setAllowedMovements(response.result);
               return response;
             } else {
               return [];
@@ -148,23 +157,29 @@ export class ExtendTermService {
           this.quotaPromoMin = response.quotaPromoMin;
           this.quotaPromoMax = response.quotaPromoMax;
           if ( response?.listQuota ) {
-              return [{
-                feeAmount: '0,00',
-                feePercentage: 0,
-                quotaTo: (response.listQuota as ExtendTermQuota[])[0].quotaFrom,
-                amountPerQuota: '0,00',
-                quotaFrom: 0,
-                financedPlan: 0,
-                purchaseAmount: '0,00',
-                IVA: '0,00',
-                commissionAmount: '0,00',
-                commissionAmountDilute: '0,00',
-                commissionPercentage: '0,00',
-                isCommissionMonthly: response.listQuota[0].isCommissionMonthly
-              }, ...response.listQuota];
+              return response.listQuota;
             } else {
               return [];
             }
+          }
+        ));
+  }
+
+  calculateQuotaByMovementUnified(movementList: AllowedMovement[], productId = 1): Observable<any> {
+    let transactions = JSON.stringify(movementList.map((values) => values.movementId))
+    return this.httpService.post('canales', this.calculateQuotaUri, {
+      transaction: transactions,
+      productId
+    })
+      .pipe(
+        map(response => {
+          this.quotaPromoMin = response.quotaPromoMin;
+          this.quotaPromoMax = response.quotaPromoMax;
+          if ( response?.listQuota ) {
+            return response;
+          } else {
+            return [];
+          }
           }
         ));
   }
@@ -191,6 +206,18 @@ export class ExtendTermService {
       feeAmount,
       newQuota,
       movementId,
+      statusId: 1,
+      userIdCreate: this.storageService.getCurrentUser().userId,
+    });
+  }
+
+  saveNewQuotaUnified(cardId: number, feeAmount: number, newQuota: number, movementList: AllowedMovement[]): Observable<any> {
+    let transactions = JSON.stringify(movementList.map((values) => values.movementId))
+    return this.httpService.post('canales', this.saveNewQuotaUnifiedMovementsUri, {
+      cardId,
+      feeAmount,
+      newQuota,
+      movementList: transactions,
       statusId: 1,
       userIdCreate: this.storageService.getCurrentUser().userId,
     });
