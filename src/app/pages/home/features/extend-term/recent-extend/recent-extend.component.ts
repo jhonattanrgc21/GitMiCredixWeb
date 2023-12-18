@@ -93,7 +93,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
               this.termSliderMax = this.quotas.length;
               this.termSliderDisplayValue = this.termSliderDisplayMin;
               this.quotaPromoMax = this.extendTermService.quotaPromoMax ? this.extendTermService.quotaPromoMax : undefined;
-              this.promoApply = this.quotaPromoMax ? true : false;
+              this.promoApply = !!this.quotaPromoMax;
               this.promoMessage = this.movementsSelected[0].promoDiscountMessage;
 
               const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmount );
@@ -122,7 +122,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
               this.quotas = response;
               this.quotaPromoMin = this.extendTermService.quotaPromoMin ? this.extendTermService.quotaPromoMin : undefined;
               this.quotaPromoMax = this.extendTermService.quotaPromoMax ? this.extendTermService.quotaPromoMax : undefined;
-              this.initSlider()
+              this.initSlider();
             }
           }
         );
@@ -136,7 +136,6 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
     this.termSliderDisplayValue = this.termSliderDisplayMin;
 
   }
-
 
 
   getQuota(sliderValue) {

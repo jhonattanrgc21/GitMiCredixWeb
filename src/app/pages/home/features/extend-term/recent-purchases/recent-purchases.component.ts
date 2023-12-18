@@ -50,7 +50,7 @@ export class RecentPurchasesComponent implements OnInit {
   template: TemplateRef<any>;
   @ViewChild(CredixSliderComponent) credixSlider: CredixSliderComponent;
   selectedChanges: Observable<AllowedMovement[]> = new Observable();
-  
+
 
   constructor(private extendTermService: ExtendTermService,
               private tagsService: TagsService,
@@ -180,13 +180,13 @@ export class RecentPurchasesComponent implements OnInit {
       this.allowedMovementSelected.splice(this.allowedMovementSelected.findIndex(mov => mov.movementId == movement.movementId),1)
     }
     this.calculateTotalAmountSelect();
-    this.selectedChanges = new Observable((obs)=>{
+    this.selectedChanges = new Observable((obs) => {
       obs.next(this.allowedMovementSelected);
     });
-    
+
   }
 
-  
+
 
   next() {
     this.extendTermService.recentMovementsSelected = [...this.allowedMovementSelected];

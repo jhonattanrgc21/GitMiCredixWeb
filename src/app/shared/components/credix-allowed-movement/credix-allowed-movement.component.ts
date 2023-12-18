@@ -19,15 +19,14 @@ export class CredixAllowedMovementComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  checkChanges(selected: AllowedMovement[]): void{
-    if(selected.length > 0){
-      this.disabled = selected[0].promoApply 
-                          ? selected[0].promoDiscountMessage !== this.movement.promoDiscountMessage 
-                          : this.movement.promoApply;
+  checkChanges(selected: AllowedMovement[]): void {
+    if (selected.length > 0) {
+      this.disabled =  (selected[0].promoDiscountMessage !== this.movement.promoDiscountMessage) ||
+        (selected[0]?.originCurrency?.currencyId !== this.movement?.originCurrency?.currencyId);
     }else{
       this.disabled = false;
     }
-    
+
   }
 
   ngOnChanges(): void {
