@@ -9,6 +9,8 @@ import {Cacheable} from 'ngx-cacheable';
 export class TagsService {
   private readonly allTagsUri = 'tags/allfunctionalitylabels';
 
+  enableIncreaseCreditLimit: boolean;
+
   constructor(private httpService: HttpService) {
   }
 
@@ -18,6 +20,7 @@ export class TagsService {
       .pipe(
         map(response => {
           if (response.type === 'success') {
+            this.enableIncreaseCreditLimit = response.enableIncreaseCreditLimit;
             return (response.tagsByFunctionality as Functionality[]).filter(func => func.status === 1);
           }
           return [];
