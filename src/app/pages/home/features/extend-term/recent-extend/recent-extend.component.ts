@@ -47,6 +47,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
   singleMovement: AllowedMovement;
   promoApply: boolean;
   promoMessage: string;
+  summaryPrefix = '₡';
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -76,7 +77,8 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
     }else{
       this.getQuotasSingleMovement();
     }
-
+    let dollar = this.movementsSelected.length > 0 && this.movementsSelected.every((el) => el.originCurrency.currencyId === 840);
+    this.summaryPrefix = dollar ? "$" : "₡";
   }
 
   getQuotasUnified(){

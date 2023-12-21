@@ -12,7 +12,7 @@
                 fontSize="24"
                 fontWeight="bold"
                 fxFlex="25"
-                [prefix]="singleMovement ? singleMovement.originCurrency.currency : '₡'">
+                [prefix]="summaryPrefix">
             </credix-numeric-block>
         </div>
 
@@ -42,7 +42,7 @@
                     fontSize="24"
                     fontWeight="bold"
                     fxFlex="25"
-                    [prefix]="singleMovement ? singleMovement.originCurrency.currency : '₡'">
+                    [prefix]="summaryPrefix">
                 </credix-numeric-block>
                 <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
             </div>
@@ -68,7 +68,7 @@
             <credix-numeric-block
               [value]="singleMovement ? singleMovement.originAmount : purchaseAmount"
               fontWeight="bold"
-              [prefix]="singleMovement ? singleMovement.originCurrency.currency : '₡'"></credix-numeric-block>
+              [prefix]="summaryPrefix"></credix-numeric-block>
           </div>
 
           <div *ngIf="!singleMovement" fxLayout="row" fxLayoutAlign="space-between">
@@ -82,7 +82,7 @@
             <credix-numeric-block
               [value]="movementQuotaSummary?.isCommissionMonthly ? movementQuotaSummary?.commissionAmountDilute :  movementQuotaSummary?.commissionAmount"
               fontWeight="bold"
-              [prefix]="singleMovement ? singleMovement.originCurrency.currency : '₡'"></credix-numeric-block>
+              [prefix]="summaryPrefix"></credix-numeric-block>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
@@ -91,7 +91,7 @@
             <credix-numeric-block
               [value]="movementQuotaSummary?.feeAmount"
               fontWeight="bold"
-              [prefix]="singleMovement ? singleMovement.originCurrency.currency : '₡'"></credix-numeric-block>
+              [prefix]="summaryPrefix"></credix-numeric-block>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="space-between">
@@ -99,7 +99,7 @@
             <credix-numeric-block
             [value]="movementQuotaSummary?.IVA"
             fontWeight="bold"
-            [prefix]="singleMovement ? singleMovement.originCurrency.currency : '₡'"></credix-numeric-block>
+            [prefix]="summaryPrefix"></credix-numeric-block>
           </div>
         </div>
 
@@ -116,7 +116,7 @@
             [value]="movementQuotaSummary?.amountPerQuota"
             fontSize="24"
             fontWeight="bold"
-            [prefix]="singleMovement ? singleMovement.originCurrency.currency : '₡'"></credix-numeric-block>
+            [prefix]="summaryPrefix"></credix-numeric-block>
         </div>
     </div>
 </ng-template>

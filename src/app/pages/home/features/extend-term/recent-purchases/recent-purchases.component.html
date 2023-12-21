@@ -7,19 +7,19 @@
       <li>Compras sin promoción.</li>
     </ul>
   </div>
-  
 
-  
- 
+
+
+
     <div class="extend-term__table-wrapper">
-      <credix-allowed-movement 
-        *ngFor="let movement of allowedMovements; let last = last" 
-        [movement]="movement" 
+      <credix-allowed-movement
+        *ngFor="let movement of allowedMovements; let last = last"
+        [movement]="movement"
         [selectedChanges]="selectedChanges"
         [lastItem]="last"
         (changeSelection)="change($event,movement)"
         >
-        
+
       </credix-allowed-movement>
       <!-- <mat-table [dataSource]="allowedMovements"
                 class="extend-term__table">
@@ -63,24 +63,24 @@
           </mat-cell>
         </ng-container>
 
-        
+
 
         <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
       </mat-table> -->
     </div>
     <div class="amount-summary">
-      <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary'>
+      <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary' [prefix]="summaryPrefix">
       </credix-amount-summary>
     </div>
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
     <credix-button [disabled]="selection.length === 0" (buttonClick)="next()">Continuar</credix-button>
   </div>
-  
-  
 
-  
-  
+
+
+
+
 
 </div>
 
