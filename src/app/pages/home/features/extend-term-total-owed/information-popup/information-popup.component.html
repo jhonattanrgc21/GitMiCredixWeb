@@ -1,0 +1,15 @@
+<div class="information-popupo">
+  <div style="margin-top: 38px;" fxLayout="row" fxLayoutAlign="center">
+    <mat-icon [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
+  </div>
+
+  <div style="margin-top: 24px;" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="16px">
+    <p class="title">{{ title || 'Importante' }}</p>
+    <p class="text-content">{{ info || 'Al solicitar el plan con el plazo seleccionado, temporalmente no podrá usar su tarjeta. Si lo desea, realice los pagos necesarios para liberar su disponible y disfrutar de sus beneficios.' }}</p>
+
+    <div fxLayout="column" fxLayoutGap="16px" class="w-100">
+      <credix-button class="customer-button w-100" (buttonClick)="''">{{ button1 || 'Solicitar plan'}}</credix-button>
+      <credix-button class="customer-button w-100" (buttonClick)="''" type="secondary">{{ button2 ||  'Modificar plazo'}}</credix-button>
+    </div>
+  </div>
+</div>

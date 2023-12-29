@@ -2,7 +2,7 @@
     max-height: 662px;
     height: 662px;
     position: relative;
-    
+
     p {
         margin-top: -3px;
         color: #3E3E3E;
@@ -73,7 +73,7 @@
         padding: 16px;
         border-top: 1px solid #E9E9E9;
         width: 100%;
-      } 
+      }
 }
 
 .mt-4 {
@@ -88,28 +88,72 @@
     margin-bottom: 13.5px !important;
 }
 
-::ng-deep  .summary-panel .mat-dialog-container {
+::ng-deep  .summary-panel{
+  .mat-dialog-container{
     padding: 36px !important;
     padding-bottom: 51px !important;
     padding-right: 42px !important;
-    
+
     .credix-popup__content {
         padding-left: 6px !important;
     }
-    
+
     .credix-popup__title {
         margin: 22px 0 16px 0 !important;
         padding-right: 50px !important;
         font-size: 30px !important;
     }
+  }
+}
+
+::ng-deep .accounts-panel{
+  .mat-dialog-container{
+    padding: 36px 24px;
+    .credix-popup__title {
+      margin: 22px 0 16px 0;
+      font-size: 30px ;
+      text-align: center;
+    }
+  }
 }
 
 .summary-custom {
     height: 273px !important;
-  
+
     ::ng-deep .credix-numeric-block__decimal {
       font-size: 14px !important;
     }
+}
+
+.ibanAccounts-custom{
+  &__wrapper {
+    height: 24px;
+
+    span:first-of-type {
+      font-weight: bold;
+    }
+
+    a {
+      width: auto;
+      height: 20px;
+      line-height: 1 !important;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      mat-icon {
+        color: #E42313;
+        width: 17px;
+        height: 20px;
+        vertical-align: baseline;
+
+        &.is-green {
+          color: #19D27E;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1199px) {
@@ -121,10 +165,10 @@
         }
     }
   }
-  
+
   @media screen and (max-width: 1199px) {
     .personal-credit {
       max-height: 886px;
     }
   }
-  
+

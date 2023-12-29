@@ -36,6 +36,7 @@ import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-che
 
 import { ExtendTermTotalOwedComponent } from './extend-term-total-owed.component';
 import { ExtendTermTotalNotificationComponent } from './extend-term-total-notification/extend-term-total-notification.component';
+import { InformationPopupComponent } from './information-popup/information-popup.component';
 
 const routes: Routes = [{
   path: '',
@@ -47,7 +48,7 @@ const routes: Routes = [{
 
 
 @NgModule({
-  declarations: [ExtendTermTotalOwedComponent, ExtendTermTotalNotificationComponent],
+  declarations: [ExtendTermTotalOwedComponent, ExtendTermTotalNotificationComponent, InformationPopupComponent],
   imports: [
     CommonModule,
     FlexModule,

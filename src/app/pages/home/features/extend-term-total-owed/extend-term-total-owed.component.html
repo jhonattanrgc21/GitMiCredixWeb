@@ -5,49 +5,20 @@
     <mat-divider credixDivider></mat-divider>
 
     <div *ngIf="!isEmpty" class="extend-term__content" fxLayout="column" fxLayoutGap="10px" fxFlex>
-      <div fxLayout="column" fxLayoutAlign="" fxLayoutGap="8px">
-        <div [ngClass]="['extend-term__content__pending', hasMinimumPayment  ? '' : 'mb-13']" fxLayout="row" fxLayoutAlign="space-between" >
-          <div fxFlex="350px">
-            <span><strong>Total adeudado</strong></span>
-            <p class="mt-4">Si tiene productos financiados, el total adeudado incluye intereses a hoy.</p>
-          </div>
-          <credix-numeric-block [value]="purchaseAmount" class="tr"
-              fontSize="24"
-              fontWeight="bold"
-              fxFlex="25"
-              prefix="₡">
-          </credix-numeric-block>
-        </div>
-        <ng-container *ngIf="hasMinimumPayment">
-          <div class="extend-term__content__pending" fxLayout="row" fxLayoutAlign="space-between">
-              <div fxFlex="373px">
-                <span><strong>Pago mínimo requerido</strong></span>
-                <p class="mt-4">Este pago es requerido antes de poder ampliar el plazo de su total adeudado. Lo puede pagar usando el medio de su preferencia.</p>
-              </div>
-
-              <div fxLayout="column" fxLayoutGap="11.5px" fxLayoutAlign="flex-start flex-end">
-                <div>
-                  <credix-numeric-block [value]="minimumPayment" class="tr"
-                      fontSize="24"
-                      fontWeight="bold"
-                      fxFlex="25"
-                      prefix="₡">
-                  </credix-numeric-block>
-                </div>
-              </div>
-          </div>
-          <div class="extend-term__content__pending" style="padding-bottom: 26.5px;" fxLayout="row" fxLayoutAlign="space-between">
+      <ng-container *ngIf="typePayer == 2; else minimumPayer">
+        <div fxLayout="column" fxLayoutAlign="" fxLayoutGap="8px">
+          <div [ngClass]="['extend-term__content__pending', hasMinimumPayment  ? '' : 'mb-13']" fxLayout="row" fxLayoutAlign="space-between" >
             <div fxFlex="350px">
-              <span><strong>Total adeudado restante</strong></span>
+              <span><strong>Total adeudado</strong></span>
+              <p class="mt-4">Si tiene productos financiados, el total adeudado incluye intereses a hoy.</p>
             </div>
-            <credix-numeric-block [value]="pendingPayment" class="tr"
+            <credix-numeric-block [value]="purchaseAmount" class="tr"
                 fontSize="24"
                 fontWeight="bold"
                 fxFlex="25"
                 prefix="₡">
             </credix-numeric-block>
           </div>
-        </ng-container>
       </div>
       <mat-divider></mat-divider>
       <div class="extend-term__content__option" fxLayout="row" fxLayoutAlign="space-between">
@@ -73,6 +44,73 @@
             <credix-link-button (click)="openSummary()">Ver detalle</credix-link-button>
         </div>
       </div>
+      </ng-container>
+
+      <ng-template #minimumPayer>
+        <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxFlex="600px">
+              <span><strong>Pago mínimo requerido</strong></span>
+              <p class="mt-4">Para solicitar el plan cancele al menos su pago mínimo en colones y dólares.</p>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="center">
+            <div fxFlex="350px">
+              <div fxLayout="column" fxLayoutAlign="flex-start" fxLayoutGap="8px">
+                <div class="extend-term__content__pending" fxLayout="row" fxLayoutAlign="space-between">
+                  <p>Colones</p>
+                  <credix-numeric-block [value]="'50000'" class="tr" fontSize="18" fontWeight="bold" fxFlex="25" prefix="₡">
+                  </credix-numeric-block>
+                </div>
+
+                <div class="extend-term__content__pending" fxLayout="row" fxLayoutAlign="space-between center">
+                  <p>D&oacute;lares</p>
+                  <credix-numeric-block [value]="'200'" class="tr" fontSize="18" fontWeight="bold" fxFlex="25" prefix="$">
+                  </credix-numeric-block>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div style="margin-top: 6px;" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxFlex="600px">
+              <span><strong>¿Cómo pagar?</strong></span>
+              <p class="mt-4">Pague por SINPE Móvil o transfiera a sus cuentas IBAN. Luego de realizar el pago, regrese aquí y solicite el plan.</p>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="center">
+            <div fxFlex="350px">
+              <div fxLayout="column" fxLayoutAlign="flex-start" fxLayoutGap="8px">
+                <div class="extend-term__content__pending" fxLayout="row" fxLayoutAlign="space-between">
+                  <credix-link-button (click)="openAccounts()">Cuentas IBAN</credix-link-button>
+                  <credix-link-button (click)="openInformationPopUp()">SINPE Móvil</credix-link-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div style="margin-top: 6px;" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxFlex="600px">
+              <span><strong>¿Cuánto pagar?</strong></span>
+              <ul class="mt-4">
+                <li>Si realiza el pago mínimo, se cargarán intereses corrientes en el próximo estado de cuenta.</li>
+                <li>Si realiza el pago contado o más, antes de la fecha y hora máxima de pago, no se cargarán intereses corrientes.</li>
+                <li>Recuerde que entre mayor sea el pago, menor será su total adeudado restante y pagará menos intereses.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+
     </div>
 
     <credix-result-notification
@@ -83,9 +121,12 @@
       message="Este producto queda inhabilitado 3 días antes de su fecha de corte. Favor regrese después de su fecha de corte.">
     </credix-result-notification>
 
-    <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-      <credix-button [disabled]="hasMinimumPayment" (click)="isEmpty ? redirect() : saveQuota()">{{ isEmpty ? 'Listo' : 'Ampliar plazo' }}</credix-button>
-    </div>
+    <ng-container *ngIf="isEmpty || typePayer != 2">
+      <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+        <credix-button [disabled]="hasMinimumPayment" (click)="isEmpty ? redirect() : saveQuota()">{{ isEmpty ? 'Listo' : 'Ampliar plazo' }}</credix-button>
+      </div>
+    </ng-container>
+
 </mat-card>
 
 <ng-template #summaryTemplate>
@@ -111,7 +152,7 @@
                 [value]="extendQuotaSummary?.commissionPercentage"
                 fontWeight=""
                 type="percentage"
-                prefix=""></credix-numeric-block>% {{commissionMonthly}})
+                prefix=""></credix-numeric-block>%{{commissionMonthly}})
             </span>
             <credix-numeric-block
               [value]="extendQuotaSummary?.commissionAmountDilute"
@@ -156,6 +197,29 @@
             prefix="₡"></credix-numeric-block>
         </div>
     </div>
+</ng-template>
+
+<ng-template #ibanAccountTemplate>
+  <div class="w-100" fxLayout="column" fxLayoutGap="12px">
+    <div *ngIf="colonesIbanAccount" class="ibanAccounts-custom__wrapper" fxLayout="row"
+         fxLayoutAlign="space-between">
+      <span>{{'Colones'}}</span>
+      <span>{{colonesIbanAccount.ibanAccountNumber}}</span>
+      <a (click)="copyIbanAccount(188)"
+         [cdkCopyToClipboard]="colonesIbanAccount.ibanAccountNumber">
+        <mat-icon [class.is-green]="isCopyingColonesIban" svgIcon="content-copy"></mat-icon>
+      </a>
+    </div>
+    <div *ngIf="dollarsIbanAccount" class="ibanAccounts-custom__wrapper" fxLayout="row"
+         fxLayoutAlign="space-between">
+      <span>{{'Dolares'}}</span>
+      <span>{{dollarsIbanAccount.ibanAccountNumber}}</span>
+      <a (click)="copyIbanAccount(840)"
+         [cdkCopyToClipboard]="dollarsIbanAccount.ibanAccountNumber">
+        <mat-icon [class.is-green]="isCopyingDollarsIban" svgIcon="content-copy"></mat-icon>
+      </a>
+    </div>
+  </div>
 </ng-template>
 
 <!-- <ng-template #disabledTemplate>
