@@ -5,7 +5,7 @@
     <mat-divider credixDivider></mat-divider>
 
     <div *ngIf="!isEmpty" class="extend-term__content" fxLayout="column" fxLayoutGap="10px" fxFlex>
-      <ng-container *ngIf="typePayer == 2; else minimumPayer">
+      <ng-container *ngIf="typePayer == 1; else minimumPayer">
         <div fxLayout="column" fxLayoutAlign="" fxLayoutGap="8px">
           <div [ngClass]="['extend-term__content__pending', hasMinimumPayment  ? '' : 'mb-13']" fxLayout="row" fxLayoutAlign="space-between" >
             <div fxFlex="350px">
