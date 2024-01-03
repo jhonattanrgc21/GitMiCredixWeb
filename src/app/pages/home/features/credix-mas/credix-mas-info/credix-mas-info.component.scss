@@ -1,0 +1,41 @@
+.info-container {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.subtitle {
+  margin: 1.5rem 0;
+  font-weight: 700;
+}
+
+.benefits {
+  max-width: 50%;
+  margin-left: 2rem;
+  margin-bottom: 52px;
+  .item {
+    max-width: 95%;
+    display: flex;
+    margin: 1.5rem 0;
+    p {
+      margin-left: 1rem;
+      width: fit-content;
+      font-size: 14px;
+    }
+  }
+  span {
+    font-weight: 700;
+  }
+  a {
+    color: #239DF7;
+    text-decoration: none;
+    font-weight: 700;
+    float: right;
+  }
+}
+
+.actions-footer {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}

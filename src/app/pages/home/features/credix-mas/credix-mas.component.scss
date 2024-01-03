@@ -1,0 +1,16 @@
+.credix-mas {
+  min-height: calc(100vh - 170px);
+
+  position: relative;
+}
+
+.mb-16px {
+  margin-bottom: 16px !important;
+}
+
+@media screen and (max-width: 1199px) {
+  .credix-mas {
+    max-height: 886px;
+  }
+
+}

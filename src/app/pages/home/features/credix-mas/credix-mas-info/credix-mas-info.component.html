@@ -1,0 +1,35 @@
+<div class="info-container">
+  <p class="subtitle"> {{ subscription ? 'Beneficios activos' : 'Le ofrecemos'}}</p>
+  <div class="benefits">
+    <div class="item">
+      <img src="./assets/images/ampliar-plazo.svg" />
+      <p>0% de comisión al extender el plazo de pago a 3 o 6 cuotas sin interés. ¡Sin límites!</p>
+    </div>
+    <div class="item">
+      <img src="./assets/images/establishments.svg" />
+      <p>Compras a 6 cuotas cero interés en Hoteles Aerolíneas, Rent Car, Tecnología, Electrodomésticos y Mueblerías.</p>
+    </div>
+    <div class="item">
+      <img src="./assets/images/favorite-call.svg" />
+      <p>Una mejor experiencia con nuestro servicio telefónico exclusivo, asegurándole una atención expedita.</p>
+    </div>
+    <div class="item">
+      <img src="./assets/images/favorite.svg" />
+      <p>Una asistencia médica gratuita al tener nuestro seguro de Robo, Fraude y Extravío.</p>
+    </div>
+    <div class="item">
+      <img src="./assets/images/marchamo.svg" />
+      <p>Envío de marchamo a domicilio sin costo adicional.</p>
+    </div>
+    <div class="item">
+      <img src="./assets/images/error-window.svg" />
+      <p>¡No se preocupe! Cancele su suscripción sin ningún costo en cualquier momento.</p>
+    </div>
+    <p *ngIf="!subscription">¡Aproveche todos los beneficios por solo <span>₡5.000 más IVA al mes</span>!</p>
+    <a *ngIf="subscription" href="">Gestionar suscripción</a>
+  </div>
+</div>
+
+<div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+  <credix-button (buttonClick)="next()">Continuar</credix-button>
+</div>
