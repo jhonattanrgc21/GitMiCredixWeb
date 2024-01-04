@@ -6,29 +6,34 @@
 
       <div fxFlex="50%" class="content" fxLayout="column" fxLayoutGap="17px">
           <form [formGroup]="colonesForm" class="content__form">
-            <div fxLayout="row" fxLayoutGap="17px">
-              <credix-input-field  class="content__input" formControlName="minimumAmount"
-                [label]="tag7 || 'Monto mínimo'" mask="separator" [prefix]="'₡'">
-                <div *ngIf="colonesForm.get('minimumAmount').hasError('required')" error>
-                  {{'El campo es obligatorio.'}}
-                </div>
-                <div *ngIf="colonesForm.get('minimumAmount').hasError('min')" error>
-                  {{'Debe ser mayor a 0.'}}
-                </div>
-              </credix-input-field>
+            <div fxLayout="column" fxLayoutGap="4px">
+              <div fxLayout="row" fxLayoutGap="17px">
+                <credix-input-field  class="content__input" formControlName="minimumAmount"
+                  [label]="tag7 || 'Monto mínimo'" mask="separator" [prefix]="'₡'">
+                  <div *ngIf="colonesForm.get('minimumAmount').hasError('required')" error>
+                    {{'El campo es obligatorio.'}}
+                  </div>
+                  <div *ngIf="colonesForm.get('minimumAmount').hasError('min')" error>
+                    {{'Debe ser mayor a 0.'}}
+                  </div>
+                  <div *ngIf="colonesForm.get('minimumAmount').hasError('duplicate')" error style="width: max-content;">
+                    {{'Ya tiene una regla con estos montos.'}}
+                  </div>
+                </credix-input-field>
 
-              <credix-input-field class="content__input" formControlName="maximumAmount"
-              [label]="tag8 || 'Monto máximo'" mask="separator" [prefix]="'₡'">
-                <div *ngIf="colonesForm.get('maximumAmount').hasError('required')" error>
-                  {{'El campo es obligatorio'}}
-                </div>
-                <div *ngIf="colonesForm.get('maximumAmount').hasError('min')" error>
-                  {{'Debe ser mayor a 0.'}}
-                </div>
-              </credix-input-field>
+                <credix-input-field class="content__input" formControlName="maximumAmount"
+                [label]="tag8 || 'Monto máximo'" mask="separator" [prefix]="'₡'">
+                  <div *ngIf="colonesForm.get('maximumAmount').hasError('required')" error>
+                    {{'El campo es obligatorio'}}
+                  </div>
+                  <div *ngIf="colonesForm.get('maximumAmount').hasError('min')" error>
+                    {{'Debe ser mayor a 0.'}}
+                  </div>
+                </credix-input-field>
+              </div>
             </div>
 
-            <ng-container *ngIf="isAmountsValid(colonesForm)">
+            <ng-container *ngIf="isAmountsValid(colonesForm, 188)">
 
              <div fxLayout="row" >
                     <credix-slider (inputChange)="getQuota($event,188)" (valueChange)="getQuota($event,188)"
@@ -84,6 +89,9 @@
                 <div *ngIf="dollarsForm.get('minimumAmount').hasError('min')" error>
                   {{'Debe ser mayor a 0.'}}
                 </div>
+                <div *ngIf="dollarsForm.get('minimumAmount').hasError('duplicate')" error style="width: max-content;">
+                  {{'Ya tiene una regla con estos montos.'}}
+                </div>
               </credix-input-field>
 
               <credix-input-field class="content__input" formControlName="maximumAmount"
@@ -97,7 +105,7 @@
               </credix-input-field>
             </div>
 
-            <ng-container *ngIf="isAmountsValid(dollarsForm)">
+            <ng-container *ngIf="isAmountsValid(dollarsForm, 840)">
 
              <div fxLayout="row" >
                     <credix-slider (inputChange)="getQuota($event,840)" (valueChange)="getQuota($event,840)"

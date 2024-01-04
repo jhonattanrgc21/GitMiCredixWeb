@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { HttpService } from 'src/app/core/services/http.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { DateRangePopupComponent } from './date-range-popup/date-range-popup.component';
 import { Tag } from 'src/app/shared/models/tag';
 import {ExtendTermRuleQuota} from '../../../../../shared/models/extend-term-rule-quota';
 import { ScheduleQuotasService } from '../schedule-quotas.service';
+import { ProgrammedRule } from 'src/app/shared/models/programmed-rule';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
   @Input() dollarsForm: FormGroup;
   @Input() isColones: boolean;
   @Input() isDollars: boolean;
-
+  @Input() rulesList: ProgrammedRule[]
 
   tag1: string;
   tag2: string;
@@ -117,8 +117,43 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     this.getRuleQuotas();
   }
 
-  isAmountsValid(form: FormGroup): boolean{
-    return !form.get('minimumAmount').hasError('required') && !form.get('minimumAmount').hasError('min') && !form.get('maximumAmount').hasError('required') &&  !form.get('maximumAmount').hasError('min')
+  isAmountsValid(form: FormGroup, currencyId: Number){
+    setTimeout(()=> {
+      const minimumAmountControl = form.get('minimumAmount');
+      const maximumAmountControl = form.get('maximumAmount');
+
+      if (
+        minimumAmountControl.hasError('required') ||
+        minimumAmountControl.hasError('min') ||
+        maximumAmountControl.hasError('required') ||
+        maximumAmountControl.hasError('min')
+      ) return false;
+
+
+      const minimumAmountCurrent = Number(minimumAmountControl.value);
+      const maximumAmountCurrent = Number(maximumAmountControl.value);
+
+      let isvalid = true;
+
+      const ruleListFilter = this.rulesList.filter(rule => rule.currencyId == currencyId)
+      for (const rule of ruleListFilter) {
+        const [ruleMin, ruleMax] = rule.amountRange.split('-').map(Number);
+        if (minimumAmountCurrent >= ruleMin || minimumAmountCurrent >= ruleMax || maximumAmountCurrent >= ruleMin || maximumAmountCurrent >= ruleMax ) {
+          isvalid = false;
+          break;
+        }
+      }
+
+      if (!isvalid) {
+        minimumAmountControl.setErrors({ duplicate: true });
+        maximumAmountControl.setErrors({ duplicate: true });
+      } else {
+        minimumAmountControl.setErrors(null);
+        maximumAmountControl.setErrors(null);
+      }
+
+      return isvalid;
+    }, 500)
   }
 
   addValidationToForm(form: FormGroup, isActive: boolean){
