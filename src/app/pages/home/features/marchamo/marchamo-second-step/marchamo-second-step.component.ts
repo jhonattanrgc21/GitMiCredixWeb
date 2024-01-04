@@ -208,6 +208,8 @@ export class MarchamoSecondStepComponent implements OnInit, OnChanges {
       total = this.totalAmount;
     }
     this.amountPerQuota = this.roundToDecimalPlaces(total, 2);
+    this.marchamosService.amountPerQuota = this.amountPerQuota;
+    console.log("Mnto por cuotas de marchamos: ",  this.marchamosService.amountPerQuota )
   }
 
   roundToDecimalPlaces(val: number, places: number): number {
