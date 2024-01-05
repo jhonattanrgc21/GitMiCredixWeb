@@ -1,0 +1,70 @@
+<div class="info-container">
+  <div class="field">
+    <p class="subtitle">
+      Datos del subscriptor
+    </p>
+    <div class="info">
+      <div class="info-item">
+        <p class="info-title">Nombre</p>
+        <p class="info-desc">Anabella Zambrano Oliver</p>
+      </div>
+      <div class="info-item">
+        <p class="info-title">Correo</p>
+        <p class="info-desc">anabellazambrano@:gmail.com</p>
+      </div>
+      <div class="info-item">
+        <p class="info-title">Teléfono</p>
+        <p class="info-desc">8709-0998</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="field">
+    <p class="subtitle">
+      Cobro mensual
+    </p>
+    <div class="info">
+      <div class="info-item">
+        <p class="info-title">Cobro</p>
+        <credix-numeric-block
+              [value]="5000"
+              fontWeight="bold"
+              prefix="₡"></credix-numeric-block>
+      </div>
+      <div class="info-item">
+        <p class="info-title">IVA</p>
+        <credix-numeric-block
+              [value]="650"
+              fontWeight="bold"
+              prefix="₡"></credix-numeric-block>
+      </div>
+
+    </div>
+  </div>
+  <div class="field">
+    <p class="subtitle">
+      Fechas
+    </p>
+    <div class="info">
+      <div class="info-item">
+        <p class="info-title">Fecha de solicitud</p>
+        <p class="info-desc">25/08/2023</p>
+      </div>
+      <div class="info-item">
+        <p class="info-title">Día de cobro</p>
+        <p class="info-desc">27 de cada mes</p>
+      </div>
+      <div class="info-item" *ngIf="subscription">
+        <p class="info-title">Suscripción activa desde</p>
+        <p class="info-desc">27/08/2023</p>
+      </div>
+      <a *ngIf="subscription" (click)="subscribe()">Cancelar suscripción</a>
+
+    </div>
+  </div>
+</div>
+
+<div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+  <credix-button type="secondary" [ngClass]="{'button-large': subscription}" [routerLink]="'/home/credix-mas/info'">Atrás</credix-button>
+  <credix-button *ngIf="!subscription" (buttonClick)="subscribe()">Suscribirme</credix-button>
+</div>

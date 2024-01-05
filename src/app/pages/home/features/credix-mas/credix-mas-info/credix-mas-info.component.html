@@ -26,10 +26,11 @@
       <p>¡No se preocupe! Cancele su suscripción sin ningún costo en cualquier momento.</p>
     </div>
     <p *ngIf="!subscription">¡Aproveche todos los beneficios por solo <span>₡5.000 más IVA al mes</span>!</p>
-    <a *ngIf="subscription" href="">Gestionar suscripción</a>
+    <a *ngIf="subscription" routerLink="/home/credix-mas/account-info">Gestionar suscripción</a>
   </div>
 </div>
 
 <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-  <credix-button (buttonClick)="next()">Continuar</credix-button>
+  <credix-button type="secondary" [ngClass]="{'button-large': subscription}" [routerLink]="'/home'">{{ subscription ? 'Atrás' : 'Salir'}}</credix-button>
+  <credix-button *ngIf="!subscription" routerLink="/home/credix-mas/account-info">Me interesa</credix-button>
 </div>
