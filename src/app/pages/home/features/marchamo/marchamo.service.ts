@@ -31,7 +31,7 @@ export class MarchamoService {
   }[] = [];
   itemProduct: Item[];
   hasAdditionalProducts: boolean;
-  amountPerQuota: number = 0;
+  totalAmount: number = 0;
 
   constructor(private httpService: HttpService,
               private toastService: CredixToastService,
@@ -215,7 +215,7 @@ export class MarchamoService {
     return this.httpService.post('marchamos', this.paySoapayUri,
       {
         aditionalProducts,
-        amount: this.amountPerQuota,
+        amount: this.totalAmount,
         cardNumber: this.storageService.getCurrentCards().find(card => card.category === 'Principal').cardId,
         deliveryPlaceId,
         authenticationNumberCommission: '0000',
