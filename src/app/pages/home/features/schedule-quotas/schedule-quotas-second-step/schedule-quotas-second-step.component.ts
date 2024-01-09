@@ -118,42 +118,41 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
   }
 
   isAmountsValid(form: FormGroup, currencyId: Number){
-    setTimeout(()=> {
-      const minimumAmountControl = form.get('minimumAmount');
-      const maximumAmountControl = form.get('maximumAmount');
+    const minimumAmountControl = form.get('minimumAmount');
+    const maximumAmountControl = form.get('maximumAmount');
 
-      if (
-        minimumAmountControl.hasError('required') ||
-        minimumAmountControl.hasError('min') ||
-        maximumAmountControl.hasError('required') ||
-        maximumAmountControl.hasError('min')
-      ) return false;
+    if (
+      minimumAmountControl.hasError('required') ||
+      minimumAmountControl.hasError('min') ||
+      maximumAmountControl.hasError('required') ||
+      maximumAmountControl.hasError('min')
+    ) return false;
 
 
-      const minimumAmountCurrent = Number(minimumAmountControl.value);
-      const maximumAmountCurrent = Number(maximumAmountControl.value);
+    const minimumAmountCurrent = Number(minimumAmountControl.value);
+    const maximumAmountCurrent = Number(maximumAmountControl.value);
 
-      let isvalid = true;
+    let isValid = true;
 
+    if(this.rulesList && this.rulesList.length > 0){
       const ruleListFilter = this.rulesList.filter(rule => rule.currencyId == currencyId)
       for (const rule of ruleListFilter) {
         const [ruleMin, ruleMax] = rule.amountRange.split('-').map(Number);
-        if (minimumAmountCurrent >= ruleMin || minimumAmountCurrent >= ruleMax || maximumAmountCurrent >= ruleMin || maximumAmountCurrent >= ruleMax ) {
-          isvalid = false;
+        if ((minimumAmountCurrent >= ruleMin && minimumAmountCurrent <= ruleMax) || (maximumAmountCurrent >= ruleMin && maximumAmountCurrent <= ruleMax) ) {
+          isValid = false;
           break;
         }
       }
+    }
 
-      if (!isvalid) {
-        minimumAmountControl.setErrors({ duplicate: true });
-        maximumAmountControl.setErrors({ duplicate: true });
-      } else {
-        minimumAmountControl.setErrors(null);
-        maximumAmountControl.setErrors(null);
-      }
-
-      return isvalid;
-    }, 500)
+    if (!isValid) {
+      minimumAmountControl.setErrors({ duplicate: true });
+      maximumAmountControl.setErrors({ duplicate: true });
+    } else {
+      minimumAmountControl.setErrors(null);
+      maximumAmountControl.setErrors(null);
+    }
+    return isValid;
   }
 
   addValidationToForm(form: FormGroup, isActive: boolean){
