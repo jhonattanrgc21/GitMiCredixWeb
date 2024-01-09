@@ -37,6 +37,19 @@ export class DateRangePopupComponent implements OnInit {
     }
   }
 
+  validarDate(inicio, finalq) {
+    let isInvalid = false;
+    if(inicio) inicio = new Date(inicio);
+    if(finalq) finalq = new Date(finalq)
+
+    if(inicio && finalq){
+      inicio = new Date(inicio);
+      finalq = new Date(finalq);
+      isInvalid = finalq <= inicio;
+    }
+    return isInvalid;
+}
+
   getTags(tags: Tag[]) {
     this.tag1 = tags.find(tag => tag.description === 'programarcuotas.stepper2.popup.tag1')?.value;
     this.tag2 = tags.find(tag => tag.description === 'programarcuotas.stepper2.popup.tag2')?.value;

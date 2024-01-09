@@ -6,12 +6,18 @@
   </div>
 
   <div class="date-range-popup__input">
-    <credix-date-picker [startDate]="today" formControlName="endDate" [label]="tag3 || 'Fecha final'"></credix-date-picker>
+    <credix-date-picker [startDate]="today" formControlName="endDate" [label]="tag3 || 'Fecha final'">
+    </credix-date-picker>
+    <mat-error  *ngIf="this.validarDate(this.newDateRangeForm.get('initDate').value, this.newDateRangeForm.get('endDate').value);" error>
+      {{'La fecha final debe ser mayor a la fecha inicial.'}}
+    </mat-error>
   </div>
 
-  <div class="date-range-popup__button" fxLayout="row" fxLayoutAlign="center center">
-    <credix-button (click)="submit()"
-      [disabled]="newDateRangeForm.invalid">{{tag4 || 'Definir fecha'}}
-    </credix-button>
-  </div>
+  <ng-container *ngIf=" !this.validarDate(this.newDateRangeForm.get('initDate').value, this.newDateRangeForm.get('endDate').value)">
+    <div class="date-range-popup__button" ngStyle="" fxLayout="row" fxLayoutAlign="center center">
+      <credix-button (click)="submit()"
+        [disabled]="newDateRangeForm.invalid">{{tag4 || 'Definir fecha'}}
+      </credix-button>
+    </div>
+  </ng-container>
 </form>
