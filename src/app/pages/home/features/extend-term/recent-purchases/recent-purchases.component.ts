@@ -13,6 +13,7 @@ import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/c
 import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
 import {PopupPromoComponent} from '../popup-promo/popup-promo.component';
 import {combineLatest, forkJoin} from "rxjs";
+import { CredixMasPopupComponent } from '../credix-mas-popup/credix-mas-popup.component';
 
 @Component({
   selector: 'app-recent-purchases',
@@ -169,7 +170,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       else{
         this.commissionMonthly = '';
       }
-      this.percentageCommission = String(this.convertAmountValue(this.quotaSelected?.commissionPercentage)); 
+      this.percentageCommission = String(this.convertAmountValue(this.quotaSelected?.commissionPercentage));
       this.percentageCommission = this.percentageCommission.replace('.', ',');
     }
 
@@ -181,7 +182,12 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         console.log(response);
         if ( response?.result ) {
-          if (response.promo) {
+          // if(response.credixMas && response.promo){
+          if(true){
+            // MODAL SLIDER
+          }else if(response.credixMas){
+            this.openModalCredixMas(response.credixMasText);
+          }else if (response.promo) {
             this.openModalPromo(response.promoDescription, response.promoMessage);
           }
           this.empty = false;
@@ -314,6 +320,16 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
             promoDescription,
             promoMessage
           }, hideCloseButton: true, component: PopupPromoComponent},
+        {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'}, 1);
+  }
+
+  openModalCredixMas(text: string){
+    console.log(screen.height);
+    this.modalService
+      .open(
+        { data: {
+            text
+          }, hideCloseButton: true, component: CredixMasPopupComponent},
         {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'}, 1);
   }
 }
