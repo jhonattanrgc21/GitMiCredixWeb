@@ -1,1 +1,46 @@
-<p>slider-popup works!</p>
+<div class="track" #scrollContent>
+  <div class="scrollable">
+    <div class="slide">
+      <!-- icono  -->
+      <h2>
+        Traslade una compra a 3 cuotas cero inter&eacute;s sin comisi&oacute;n
+      </h2>
+      <p>
+        ¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un
+        consumo a 3 cuotas cero inter&eacute;s sin ning&uacute;n costo
+      </p>
+
+      <credix-button> Listo </credix-button>
+    </div>
+    <div class="slide">
+      <img src="https://placekitten.com/400/200" />
+      <h3>Extienda el plazo de sus cuotas sin pagar comisi&oacute;n</h3>
+      <p>
+        Con Credix M&aacute;s, disfrute de 0% de comisi&oacute;n al ampliar el
+        plazo de sus compras a 3 o 6 cuotas cero inter&eacute;s. Y lo mejor, ¡no
+        hay l&iacute;mites!. Suscribase y aproveche esta incre&iacute;ble
+        ventaja ahora
+      </p>
+      <credix-button [type]="'secondary'"> Omitir </credix-button>
+      <credix-button> Ver mas beneficios </credix-button>
+    </div>
+  </div>
+</div>
+
+<div class="controls" #controls>
+  <button
+    class="control"
+    (click)="scrollLeft()"
+    [class.selected]="selectedSlide == 1"
+  >
+    <span></span>
+  </button>
+
+  <button
+    class="control"
+    (click)="scrollRight()"
+    [class.selected]="selectedSlide == 2"
+  >
+    <span></span>
+  </button>
+</div>

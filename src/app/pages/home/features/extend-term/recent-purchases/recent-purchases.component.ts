@@ -1,30 +1,36 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {ModalService} from '../../../../../core/services/modal.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {StorageService} from '../../../../../core/services/storage.service';
-import {ConvertStringAmountToNumber} from '../../../../../shared/utils';
-import {TagsService} from '../../../../../core/services/tags.service';
-import {Tag} from '../../../../../shared/models/tag';
-import {filter, finalize, map, takeUntil} from 'rxjs/operators';
-import {ExtendTermQuota} from '../../../../../shared/models/extend-term-quota';
-import {AllowedMovement} from '../../../../../shared/models/allowed-movement';
-import {ExtendTermService} from '../extend-term.service';
-import { CredixSliderComponent } from 'src/app/shared/components/credix-slider/credix-slider.component';
-import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
-import {PopupPromoComponent} from '../popup-promo/popup-promo.component';
-import {combineLatest, forkJoin} from "rxjs";
-import { CredixMasPopupComponent } from '../credix-mas-popup/credix-mas-popup.component';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
+import { ModalService } from "../../../../../core/services/modal.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { StorageService } from "../../../../../core/services/storage.service";
+import { ConvertStringAmountToNumber } from "../../../../../shared/utils";
+import { TagsService } from "../../../../../core/services/tags.service";
+import { Tag } from "../../../../../shared/models/tag";
+import { filter, finalize, map, takeUntil } from "rxjs/operators";
+import { ExtendTermQuota } from "../../../../../shared/models/extend-term-quota";
+import { AllowedMovement } from "../../../../../shared/models/allowed-movement";
+import { ExtendTermService } from "../extend-term.service";
+import { CredixSliderComponent } from "src/app/shared/components/credix-slider/credix-slider.component";
+import { ConvertNumberToStringAmount } from "src/app/shared/utils/convert-number-to-string-amount";
+import { PopupPromoComponent } from "../popup-promo/popup-promo.component";
+import { combineLatest, forkJoin } from "rxjs";
+import { CredixMasPopupComponent } from "../credix-mas-popup/credix-mas-popup.component";
+import { SliderPopupComponent } from "../slider-popup/slider-popup.component";
 
 @Component({
-  selector: 'app-recent-purchases',
-  templateUrl: './recent-purchases.component.html',
-  styleUrls: ['./recent-purchases.component.scss']
+  selector: "app-recent-purchases",
+  templateUrl: "./recent-purchases.component.html",
+  styleUrls: ["./recent-purchases.component.scss"],
 })
 export class RecentPurchasesComponent implements OnInit, OnDestroy {
-
   tableHeaders = [
-    {label: 'Consumos', width: '282px'},
-    {label: 'Ampliación', width: 'auto'}
+    { label: "Consumos", width: "282px" },
+    { label: "Ampliación", width: "auto" },
   ];
   allowedMovementSelected: AllowedMovement;
   allowedMovements: AllowedMovement[] = [];
@@ -32,8 +38,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   movementIdParam: string;
   quotas: ExtendTermQuota[];
   quotaSelected: ExtendTermQuota;
-  message = 'El plazo de su compra ha sido extendido correctamente.';
-  status: 'success' | 'error';
+  message = "El plazo de su compra ha sido extendido correctamente.";
+  status: "success" | "error";
   done = false;
   empty = false;
   quotaSliderStep = 1;
@@ -58,23 +64,25 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   title: string;
   iva: number;
   percentageCommission: string;
-  commissionMonthly: string = '';
+  commissionMonthly: string = "";
   feedPercentage: string;
   comissionUnique: boolean = false;
   quotaPromoMin = 0;
   quotaPromoMax = 0;
   private counterPromo = 0;
 
-  @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
+  @ViewChild("disabledTemplate") disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
   @ViewChild(CredixSliderComponent) credixSlider: CredixSliderComponent;
 
-  constructor(private extendTermService: ExtendTermService,
-              private storageService: StorageService,
-              private tagsService: TagsService,
-              private modalService: ModalService,
-              private router: Router,
-              private route: ActivatedRoute) {
+  constructor(
+    private extendTermService: ExtendTermService,
+    private storageService: StorageService,
+    private tagsService: TagsService,
+    private modalService: ModalService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.today = new Date();
   }
 
@@ -82,14 +90,20 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.checkCutDate();
     this.movementIdParam = this.route.snapshot.params?.movementId;
     this.getAllowedMovements();
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
+    this.tagsService
+      .getAllFunctionalitiesAndTags()
+      .subscribe((functionality) =>
+        this.getTags(
+          functionality.find(
+            (fun) => fun.description === "Ampliar plazo de compra"
+          ).tags
+        )
+      );
     this.allowedMovementState();
-
   }
 
   checkCutDate() {
-    this.extendTermService.checkCutDate().subscribe(response => {
+    this.extendTermService.checkCutDate().subscribe((response) => {
       if (!response.status) {
         this.message = response.descriptionOne;
         this.title = response.titleOne;
@@ -101,51 +115,64 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
   getAllowedMovementDetail(movement: AllowedMovement) {
     this.allowedMovementSelected = movement;
-    this.quotaAmountFromSelected = ConvertStringAmountToNumber(movement.originAmount) / movement.totalPlanQuota;
+    this.quotaAmountFromSelected =
+      ConvertStringAmountToNumber(movement.originAmount) /
+      movement.totalPlanQuota;
     this.calculateQuota(movement.movementId);
   }
 
   allowedMovementState() {
-    combineLatest(this.extendTermService.$allowedMovement, this.extendTermService.$promoFilter)
-      .pipe(map(([allowedMovementState, filterPromoState]) => {
-        const allowedMovementAux: AllowedMovement[] = allowedMovementState.map((values, index) => {
-          return {
-            originAmount: values.originAmount,
-            originCurrency: values.originCurrency,
-            establishmentName: values.establishmentName,
-            cardId: values.cardId,
-            totalPlanQuota: values.totalPlanQuota,
-            accountNumber: values.accountNumber,
-            movementId: values.movementId,
-            originDate: values.originDate,
-            promoApply: (values.promoApply) ? values.promoApply : false,
-            promoMessage: (values.promoMessage) ? values.promoMessage : '',
-            promoDiscountMessage: (values.promoDiscountMessage) ? values.promoDiscountMessage : ''
-          };
-        });
+    combineLatest(
+      this.extendTermService.$allowedMovement,
+      this.extendTermService.$promoFilter
+    )
+      .pipe(
+        map(([allowedMovementState, filterPromoState]) => {
+          const allowedMovementAux: AllowedMovement[] =
+            allowedMovementState.map((values, index) => {
+              return {
+                originAmount: values.originAmount,
+                originCurrency: values.originCurrency,
+                establishmentName: values.establishmentName,
+                cardId: values.cardId,
+                totalPlanQuota: values.totalPlanQuota,
+                accountNumber: values.accountNumber,
+                movementId: values.movementId,
+                originDate: values.originDate,
+                promoApply: values.promoApply ? values.promoApply : false,
+                promoMessage: values.promoMessage ? values.promoMessage : "",
+                promoDiscountMessage: values.promoDiscountMessage
+                  ? values.promoDiscountMessage
+                  : "",
+              };
+            });
 
-        const promoFilterAuxArr = allowedMovementAux.filter(( obj) => (obj.promoApply));
-        if (promoFilterAuxArr.length === allowedMovementAux.length) {
-          this.extendTermService.setDisabledCheckBox(true);
-        }
+          const promoFilterAuxArr = allowedMovementAux.filter(
+            (obj) => obj.promoApply
+          );
+          if (promoFilterAuxArr.length === allowedMovementAux.length) {
+            this.extendTermService.setDisabledCheckBox(true);
+          }
 
-        if (filterPromoState) {
-          console.log('filtrando');
-          return allowedMovementAux.filter( obj => (obj.promoApply));
-        } else {
-          console.log('sin filtrar');
-          return allowedMovementAux;
-        }
-      })).subscribe( (response) => {
-      this.allowedMovements  = response;
-    });
+          if (filterPromoState) {
+            console.log("filtrando");
+            return allowedMovementAux.filter((obj) => obj.promoApply);
+          } else {
+            console.log("sin filtrar");
+            return allowedMovementAux;
+          }
+        })
+      )
+      .subscribe((response) => {
+        this.allowedMovements = response;
+      });
   }
 
   convertAmountValue(value: any): any {
-    let result: any = '';
+    let result: any = "";
 
-    if ( typeof value === "number" )  {
-      result =  ConvertNumberToStringAmount(value);
+    if (typeof value === "number") {
+      result = ConvertNumberToStringAmount(value);
     } else {
       result = ConvertStringAmountToNumber(value);
     }
@@ -157,38 +184,48 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
     this.quotaSelected = this.quotas[sliderValue - 1];
     console.log("quota: ", this.quotaSelected);
-    this.feedPercentage = String(this.quotaSelected?.feePercentage === 0 ?
-      this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage));
-    this.feedPercentage =     this.feedPercentage.replace('.', ',');
+    this.feedPercentage = String(
+      this.quotaSelected?.feePercentage === 0
+        ? this.quotaSelected?.feePercentage
+        : this.convertAmountValue(this.quotaSelected?.feePercentage)
+    );
+    this.feedPercentage = this.feedPercentage.replace(".", ",");
 
-    this.iva = this.quotaSelected.quotaTo === 1 ?
-      ConvertStringAmountToNumber(this.quotas[1].commissionAmount) * 0.13 : ConvertStringAmountToNumber(this.quotaSelected.IVA);
+    this.iva =
+      this.quotaSelected.quotaTo === 1
+        ? ConvertStringAmountToNumber(this.quotas[1].commissionAmount) * 0.13
+        : ConvertStringAmountToNumber(this.quotaSelected.IVA);
     if (!this.comissionUnique) {
-      if(this.quotaSelected?.isCommissionMonthly){
-        this.commissionMonthly = ' mensual';
+      if (this.quotaSelected?.isCommissionMonthly) {
+        this.commissionMonthly = " mensual";
+      } else {
+        this.commissionMonthly = "";
       }
-      else{
-        this.commissionMonthly = '';
-      }
-      this.percentageCommission = String(this.convertAmountValue(this.quotaSelected?.commissionPercentage));
-      this.percentageCommission = this.percentageCommission.replace('.', ',');
+      this.percentageCommission = String(
+        this.convertAmountValue(this.quotaSelected?.commissionPercentage)
+      );
+      this.percentageCommission = this.percentageCommission.replace(".", ",");
     }
-
   }
 
   getAllowedMovements() {
-    this.extendTermService.getAllowedMovements( 1004 )
+    this.extendTermService
+      .getAllowedMovements(1004)
       .pipe(finalize(() => this.checkMovementParam()))
-      .subscribe(response => {
+      .subscribe((response) => {
         console.log(response);
-        if ( response?.result ) {
+        if (response?.result) {
           // if(response.credixMas && response.promo){
-          if(true){
+          if (true) {
             // MODAL SLIDER
-          }else if(response.credixMas){
+            this.openSliderModal(response.credixMasText);
+          } else if (response.credixMas) {
             this.openModalCredixMas(response.credixMasText);
-          }else if (response.promo) {
-            this.openModalPromo(response.promoDescription, response.promoMessage);
+          } else if (response.promo) {
+            this.openModalPromo(
+              response.promoDescription,
+              response.promoMessage
+            );
           }
           this.empty = false;
         } else {
@@ -199,18 +236,25 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
   checkMovementParam() {
     if (this.movementIdParam) {
-      this.getAllowedMovementDetail(this.allowedMovements
-        .find(allowedMovement => allowedMovement.movementId === this.movementIdParam));
+      this.getAllowedMovementDetail(
+        this.allowedMovements.find(
+          (allowedMovement) =>
+            allowedMovement.movementId === this.movementIdParam
+        )
+      );
     }
   }
 
   calculateQuota(movementId: string) {
-    this.extendTermService.calculateQuotaByMovement(movementId, 1004)
-      .pipe(finalize(() => {
-        this.initSlider();
-        this.quotaPromoMax = this.extendTermService.quotaPromoMax;
-      }))
-      .subscribe(extendTermQuotas => {
+    this.extendTermService
+      .calculateQuotaByMovement(movementId, 1004)
+      .pipe(
+        finalize(() => {
+          this.initSlider();
+          this.quotaPromoMax = this.extendTermService.quotaPromoMax;
+        })
+      )
+      .subscribe((extendTermQuotas) => {
         this.quotas = extendTermQuotas;
       });
   }
@@ -224,33 +268,45 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.quotaSliderMax = this.quotas.length;
     this.quotaSliderDisplayValue = this.quotaSliderDisplayMin;
 
-    const quota = this.quotas.find(q => q.quotaTo === this.allowedMovementSelected.totalPlanQuota);
+    const quota = this.quotas.find(
+      (q) => q.quotaTo === this.allowedMovementSelected.totalPlanQuota
+    );
 
     this.quotaSelected = quota || this.quotas[0];
 
-    const commission = ConvertStringAmountToNumber( this.quotas[1].commissionAmountDilute );
+    const commission = ConvertStringAmountToNumber(
+      this.quotas[1].commissionAmountDilute
+    );
 
     const aux = [...this.quotas];
 
     aux.shift();
 
-    const result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmountDilute ) !== commission);
+    const result = aux.find(
+      (quota) =>
+        ConvertStringAmountToNumber(quota.commissionAmountDilute) !== commission
+    );
 
-    this.feedPercentage = String(this.quotaSelected?.feePercentage === 0 ? this.quotaSelected?.feePercentage : this.convertAmountValue(this.quotaSelected?.feePercentage));
-    this.feedPercentage =  this.feedPercentage.replace('.', ',');
+    this.feedPercentage = String(
+      this.quotaSelected?.feePercentage === 0
+        ? this.quotaSelected?.feePercentage
+        : this.convertAmountValue(this.quotaSelected?.feePercentage)
+    );
+    this.feedPercentage = this.feedPercentage.replace(".", ",");
 
-    if ( !result ) {
+    if (!result) {
       this.comissionUnique = true;
-      this.percentageCommission = '';
+      this.percentageCommission = "";
     } else {
-      if(this.quotaSelected?.isCommissionMonthly){
-        this.commissionMonthly = ' mensual';
+      if (this.quotaSelected?.isCommissionMonthly) {
+        this.commissionMonthly = " mensual";
+      } else {
+        this.commissionMonthly = "";
       }
-      else{
-        this.commissionMonthly = '';
-      }
-      this.percentageCommission = String(this.convertAmountValue(this.quotaSelected?.commissionPercentage)) ;
-      this.percentageCommission.replace('.', ',');
+      this.percentageCommission = String(
+        this.convertAmountValue(this.quotaSelected?.commissionPercentage)
+      );
+      this.percentageCommission.replace(".", ",");
     }
 
     this.iva = commission * 0.13;
@@ -258,8 +314,11 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
 
   openConfirmationModal() {
     if (this.quotaSelected) {
-      this.modalService.confirmationPopup(this.question || '¿Desea ampliar el plazo de este consumo?')
-        .subscribe(confirmation => {
+      this.modalService
+        .confirmationPopup(
+          this.question || "¿Desea ampliar el plazo de este consumo?"
+        )
+        .subscribe((confirmation) => {
           if (confirmation) {
             this.saveQuota();
           }
@@ -268,42 +327,72 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   }
 
   saveQuota() {
-    this.extendTermService.saveNewQuota(
-      this.allowedMovementSelected.cardId,
-      ConvertStringAmountToNumber(this.quotaSelected.commissionAmount),
-      this.quotaSelected.quotaTo,
-      this.allowedMovementSelected.movementId)
-      .pipe(finalize(() => this.router.navigate(
-        [`/home/extend-term/establishment/${this.allowedMovementSelected.establishmentName.trim()}/success`])))
-      .subscribe(response => {
+    this.extendTermService
+      .saveNewQuota(
+        this.allowedMovementSelected.cardId,
+        ConvertStringAmountToNumber(this.quotaSelected.commissionAmount),
+        this.quotaSelected.quotaTo,
+        this.allowedMovementSelected.movementId
+      )
+      .pipe(
+        finalize(() =>
+          this.router.navigate([
+            `/home/extend-term/establishment/${this.allowedMovementSelected.establishmentName.trim()}/success`,
+          ])
+        )
+      )
+      .subscribe((response) => {
         this.extendTermService.result = {
           status: response.type,
-          message: response.message
+          message: response.message,
         };
 
         this.extendTermService.newQuota = {
           establishment: this.allowedMovementSelected.establishmentName.trim(),
           currency: this.allowedMovementSelected.originCurrency.currency,
           amount: this.quotaSelected.amountPerQuota,
-          quota: this.quotaSelected.quotaTo
+          quota: this.quotaSelected.quotaTo,
         };
       });
   }
 
   getTags(tags: Tag[]) {
-
-    this.comisionTag = tags.find(tag => tag.description === 'ampliar.tag.comision')?.value;
-    this.subtitle = tags.find(tag => tag.description === 'ampliar.subtitle')?.value;
-    this.question = tags.find(tag => tag.description === 'ampliar.question')?.value;
-    this.titleTag = tags.find(tag => tag.description === 'ampliar.title')?.value;
-    this.disclaTag = tags.find(tag => tag.description === 'ampliar.disclaimer')?.value;
-    this.monthTag = tags.find(tag => tag.description === 'ampliar.tag.meses')?.value;
-    this.warningTag = tags.find(tag => tag.description === 'ampliar.message.warning')?.value;
-    this.dateTag = tags.find(tag => tag.description === 'ampliar.result.fecha')?.value;
-    this.quotaTag = tags.find(tag => tag.description === 'ampliar.tag.cuota')?.value;
-    this.deseoTag = tags.find(tag => tag.description === 'ampliar.tag.deseo')?.value;
-    this.newQuota = tags.find(tag => tag.description === 'ampliar.tag.nuevacuota')?.value;
-    this.resultNew = tags.find(tag => tag.description === 'ampliar.result.nuevoplazo')?.value;
+    this.comisionTag = tags.find(
+      (tag) => tag.description === "ampliar.tag.comision"
+    )?.value;
+    this.subtitle = tags.find(
+      (tag) => tag.description === "ampliar.subtitle"
+    )?.value;
+    this.question = tags.find(
+      (tag) => tag.description === "ampliar.question"
+    )?.value;
+    this.titleTag = tags.find(
+      (tag) => tag.description === "ampliar.title"
+    )?.value;
+    this.disclaTag = tags.find(
+      (tag) => tag.description === "ampliar.disclaimer"
+    )?.value;
+    this.monthTag = tags.find(
+      (tag) => tag.description === "ampliar.tag.meses"
+    )?.value;
+    this.warningTag = tags.find(
+      (tag) => tag.description === "ampliar.message.warning"
+    )?.value;
+    this.dateTag = tags.find(
+      (tag) => tag.description === "ampliar.result.fecha"
+    )?.value;
+    this.quotaTag = tags.find(
+      (tag) => tag.description === "ampliar.tag.cuota"
+    )?.value;
+    this.deseoTag = tags.find(
+      (tag) => tag.description === "ampliar.tag.deseo"
+    )?.value;
+    this.newQuota = tags.find(
+      (tag) => tag.description === "ampliar.tag.nuevacuota"
+    )?.value;
+    this.resultNew = tags.find(
+      (tag) => tag.description === "ampliar.result.nuevoplazo"
+    )?.value;
   }
 
   ngOnDestroy(): void {
@@ -311,25 +400,64 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     this.counterPromo = 0;
   }
 
-
   openModalPromo(promoDescription: string, promoMessage: string) {
     console.log(screen.height);
-    this.modalService
-      .open(
-        { data: {
-            promoDescription,
-            promoMessage
-          }, hideCloseButton: true, component: PopupPromoComponent},
-        {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'}, 1);
+    this.modalService.open(
+      {
+        data: {
+          promoDescription,
+          promoMessage,
+        },
+        hideCloseButton: true,
+        component: PopupPromoComponent,
+      },
+      {
+        width: 343,
+        height: 390,
+        disableClose: false,
+        panelClass: "promo-popup",
+      },
+      1
+    );
   }
 
-  openModalCredixMas(text: string){
+  openModalCredixMas(text: string) {
     console.log(screen.height);
-    this.modalService
-      .open(
-        { data: {
-            text
-          }, hideCloseButton: true, component: CredixMasPopupComponent},
-        {width: 343, height: 390, disableClose: false, panelClass: 'promo-popup'}, 1);
+    this.modalService.open(
+      {
+        data: {
+          text,
+        },
+        hideCloseButton: true,
+        component: CredixMasPopupComponent,
+      },
+      {
+        width: 343,
+        height: 390,
+        disableClose: false,
+        panelClass: "promo-popup",
+      },
+      1
+    );
+  }
+
+  openSliderModal(text: string) {
+    console.log(screen.height);
+    this.modalService.open(
+      {
+        // data: {
+        //   text,
+        // },
+        hideCloseButton: true,
+        component: SliderPopupComponent,
+      },
+      {
+        width: 343,
+        // height: 390,
+        disableClose: false,
+        panelClass: "promo-popup-panel",
+      },
+      1
+    );
   }
 }

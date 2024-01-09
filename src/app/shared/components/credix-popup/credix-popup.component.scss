@@ -1,6 +1,7 @@
 .credix-popup {
   display: flex;
   flex-direction: column;
+  position: relative;
   width: 100%;
   height: 100%;
 
@@ -8,7 +9,7 @@
     position: absolute;
     right: 16px;
     top: 16px;
-    background: #E9E9E9;
+    background: #e9e9e9;
     border: none;
     width: 34px;
     height: 34px;
@@ -42,3 +43,8 @@
   box-shadow: 0 3px 6px #00000029;
   padding: 40px 40px 40px 40px;
 }
+
+// .controls {
+//   position: absolute;
+//   bottom: -20px;
+// }
