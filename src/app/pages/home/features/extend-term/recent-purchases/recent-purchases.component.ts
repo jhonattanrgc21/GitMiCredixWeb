@@ -215,13 +215,13 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         console.log(response);
         if (response?.result) {
-          // if(response.credixMas && response.promo){
-          if (true) {
-            // MODAL SLIDER
-            this.openSliderModal(response.credixMasText);
-          } else if (response.credixMas) {
-            this.openModalCredixMas(response.credixMasText);
-          } else if (response.promo) {
+          const credixMas = true;
+          const promo = false;
+          if (credixMas && promo) {
+            this.openSliderModal(response.credixMasTitle,response.credixMasText,response.promoMessage, response.promoDescription);
+          } else if (credixMas) {
+            this.openModalCredixMas(response.credixMasTitle,response.credixMasText);
+          } else if (promo) {
             this.openModalPromo(
               response.promoDescription,
               response.promoMessage
@@ -421,12 +421,15 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     );
   }
 
-  openModalCredixMas(text: string) {
+  openModalCredixMas(credixMasTitle: string, credixMasText: string) {
     console.log(screen.height);
+    credixMasTitle = "Extienda el plazo de sus compras sin pagar comisión";
+    credixMasText = "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora"
     this.modalService.open(
       {
         data: {
-          text,
+          credixMasTitle,
+          credixMasText
         },
         hideCloseButton: true,
         component: CredixMasPopupComponent,
@@ -441,13 +444,20 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     );
   }
 
-  openSliderModal(text: string) {
+  openSliderModal(credixMasTitle: string, credixMasText: string, promoMessage: string, promoDescription) {
     console.log(screen.height);
+    credixMasTitle = "Extienda el plazo de sus compras sin pagar comisión";
+    credixMasText = "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora"
+    promoMessage = "Traslade una compra a 3 cuotas cero interes sin comision";
+    promoDescription = "¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un consumo a 3 cuotas cero interes sin ningun costo";
     this.modalService.open(
       {
-        // data: {
-        //   text,
-        // },
+        data: {
+          credixMasTitle,
+          credixMasText,
+          promoMessage,
+          promoDescription
+         },
         hideCloseButton: true,
         component: SliderPopupComponent,
       },

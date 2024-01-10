@@ -1,28 +1,22 @@
 <div class="track" #scrollContent>
   <div class="scrollable">
-    <div class="slide">
-      <!-- icono  -->
-      <h2>
-        Traslade una compra a 3 cuotas cero inter&eacute;s sin comisi&oacute;n
-      </h2>
-      <p>
-        ¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un
-        consumo a 3 cuotas cero inter&eacute;s sin ning&uacute;n costo
-      </p>
-
-      <credix-button> Listo </credix-button>
+    <div class="slide promo-popup">
+      <div class="promo-popup__img-background" fxLayout="column" fxLayoutAlign="center center">
+        <div class="promo-popup__icon mb-24px">
+        </div>
+        <p class="promo-popup__description mb-16px"><strong>{{promoMessage!}}</strong></p>
+        <p class="promo-popup__message mb-16px">{{promoDescription!}}</p>
+        <credix-button (buttonClick)="close()" class="promo-popup__button">Listo</credix-button>
+      </div>
     </div>
     <div class="slide">
-      <img src="https://placekitten.com/400/200" />
-      <h3>Extienda el plazo de sus cuotas sin pagar comisi&oacute;n</h3>
+      <img src="./assets/images/credix-mas.png" />
+      <h3>{{ credixMasTitle }}</h3>
       <p>
-        Con Credix M&aacute;s, disfrute de 0% de comisi&oacute;n al ampliar el
-        plazo de sus compras a 3 o 6 cuotas cero inter&eacute;s. Y lo mejor, ¡no
-        hay l&iacute;mites!. Suscribase y aproveche esta incre&iacute;ble
-        ventaja ahora
+        {{ credixMasText }}
       </p>
-      <credix-button [type]="'secondary'"> Omitir </credix-button>
-      <credix-button> Ver mas beneficios </credix-button>
+      <credix-button [type]="'secondary'" (buttonClick)="close()"> Omitir </credix-button>
+      <credix-button routerLink="home/credix-mas/info" (buttonClick)="close()"> Ver mas beneficios </credix-button>
     </div>
   </div>
 </div>

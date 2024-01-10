@@ -1,1 +1,10 @@
-<p>credix-mas-popup works!</p>
+<div class="slide credix-mas-popup">
+  <img src="./assets/images/credix-mas.png" />
+  <h3>{{ credixMasTitle }}</h3>
+  <p>
+    {{ credixMasText }}
+  </p>
+  <credix-button [type]="'secondary'" (buttonClick)="close()"> Omitir </credix-button>
+  <credix-button routerLink="home/credix-mas/info" (buttonClick)="close()"> Ver mas beneficios </credix-button>
+</div>
+

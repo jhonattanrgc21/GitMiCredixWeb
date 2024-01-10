@@ -8,17 +8,19 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class CredixMasPopupComponent implements OnInit {
 
-  text: string;
+  credixMasTitle: string;
+  credixMasText: string;
   constructor(public dialogRef: MatDialogRef<CredixMasPopupComponent>, @Inject(MAT_DIALOG_DATA) public dataModal) {
     const { data } = dataModal;
-    const {text} = data;
-    this.text = text;
+    const { credixMasTitle, credixMasText } = data;
+    this.credixMasTitle = credixMasTitle;
+    this.credixMasText = credixMasText;
   }
 
   ngOnInit(): void {
   }
 
-  closeDialog() {
+  close() {
     this.dialogRef.close();
   }
 

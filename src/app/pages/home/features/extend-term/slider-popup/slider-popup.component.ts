@@ -3,9 +3,11 @@ import {
   AfterViewChecked,
   Component,
   ElementRef,
+  Inject,
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: "app-slider-popup",
@@ -13,7 +15,20 @@ import {
   styleUrls: ["./slider-popup.component.scss"],
 })
 export class SliderPopupComponent implements OnInit {
-  constructor() {}
+
+  credixMasTitle: string;
+  credixMasText: string;
+  promoMessage: string;
+  promoDescription: string;
+
+  constructor(public dialogRef: MatDialogRef<SliderPopupComponent>, @Inject(MAT_DIALOG_DATA) public dataModal) {
+    const { data } = dataModal;
+    const {credixMasTitle, credixMasText, promoMessage, promoDescription} = data;
+    this.credixMasTitle = credixMasTitle;
+    this.credixMasText = credixMasText;
+    this.promoDescription = promoDescription;
+    this.promoMessage = promoMessage;
+  }
 
   ngOnInit(): void {}
 
@@ -36,5 +51,9 @@ export class SliderPopupComponent implements OnInit {
       behavior: "smooth",
     });
     this.selectedSlide = 2;
+  }
+
+  close(){
+    this.dialogRef.close();
   }
 }
