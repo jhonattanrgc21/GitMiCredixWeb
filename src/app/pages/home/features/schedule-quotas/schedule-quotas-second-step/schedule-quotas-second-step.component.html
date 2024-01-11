@@ -8,8 +8,8 @@
           <form [formGroup]="colonesForm" class="content__form">
             <div fxLayout="column" fxLayoutGap="4px">
               <div fxLayout="row" fxLayoutGap="17px">
-                <credix-input-field  class="content__input" formControlName="minimumAmount"
-                  [label]="tag7 || 'Monto mínimo'" mask="separator" [prefix]="'₡'">
+                <credix-input-field  mask="separator.0-9" class="content__input" formControlName="minimumAmount"
+                  [label]="tag7 || 'Monto mínimo'"  [prefix]="'₡'">
                   <div *ngIf="colonesForm.get('minimumAmount').hasError('required')" error>
                     {{'El campo es obligatorio.'}}
                   </div>
@@ -22,7 +22,7 @@
                 </credix-input-field>
 
                 <credix-input-field class="content__input" formControlName="maximumAmount"
-                [label]="tag8 || 'Monto máximo'" mask="separator" [prefix]="'₡'">
+                [label]="tag8 || 'Monto máximo'" mask="separator.0-9" [prefix]="'₡'">
                   <div *ngIf="colonesForm.get('maximumAmount').hasError('required')" error>
                     {{'El campo es obligatorio'}}
                   </div>
@@ -82,7 +82,7 @@
           <form [formGroup]="dollarsForm" class="content__form">
             <div fxLayout="row" fxLayoutGap="17px">
               <credix-input-field  class="content__input" formControlName="minimumAmount"
-              [label]="tag7 || 'Monto mínimo'" mask="separator" [prefix]="'$'">
+              [label]="tag7 || 'Monto mínimo'" mask="separator.0-9" [prefix]="'$'">
                 <div *ngIf="dollarsForm.get('minimumAmount').hasError('required')" error>
                   {{'El campo es obligatorio'}}
                 </div>
@@ -95,7 +95,7 @@
               </credix-input-field>
 
               <credix-input-field class="content__input" formControlName="maximumAmount"
-                [label]="tag8 || 'Monto máximo'" mask="separator" [prefix]="'$'">
+                [label]="tag8 || 'Monto máximo'" mask="separator.0-9" [prefix]="'$'">
                 <div *ngIf="dollarsForm.get('maximumAmount').hasError('required')" error>
                   {{'El campo es obligatorio'}}
                 </div>
