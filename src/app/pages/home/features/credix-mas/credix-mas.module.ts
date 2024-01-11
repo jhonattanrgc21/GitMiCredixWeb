@@ -11,6 +11,7 @@ import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numer
 import { CredixMasSuccessScreenComponent } from './credix-mas-success-screen/credix-mas-success-screen.component';
 import { CredixResultViewModule } from 'src/app/shared/components/credix-result-view/credix-result-view.module';
 import { CredixShareButtonModule } from 'src/app/shared/components/credix-share-button/credix-share-button.module';
+import { RuleInfoPopupComponent } from './rule-info-popup/rule-info-popup.component';
 
 
 const routes: Routes = [
@@ -41,7 +42,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [CredixMasComponent, CredixMasInfoComponent, CredixMasAccountInfoComponent, SubscribePopupComponent, CredixMasSuccessScreenComponent],
+  declarations: [CredixMasComponent, CredixMasInfoComponent, CredixMasAccountInfoComponent, SubscribePopupComponent, CredixMasSuccessScreenComponent, RuleInfoPopupComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

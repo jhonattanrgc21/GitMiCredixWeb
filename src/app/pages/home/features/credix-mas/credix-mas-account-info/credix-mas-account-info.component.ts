@@ -3,6 +3,7 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { SubscribePopupComponent } from './subscribe-popup/subscribe-popup.component';
 import { SlowBuffer } from 'buffer';
 import { Router } from '@angular/router';
+import { CredixMasService } from '../credix-mas.service';
 
 @Component({
   selector: 'app-credix-mas-account-info',
@@ -13,7 +14,9 @@ export class CredixMasAccountInfoComponent implements OnInit {
 
   subscription = false;
 
-  constructor(private modalService: ModalService, private router: Router) { }
+  constructor(private modalService: ModalService,
+    private router: Router,
+    private credixMasService: CredixMasService) { }
 
   ngOnInit(): void {
   }
@@ -29,6 +32,7 @@ export class CredixMasAccountInfoComponent implements OnInit {
         .afterClosed().subscribe((value) => {
           if(value){
             this.router.navigate(['/home/credix-mas/success'])
+            this.credixMasService.toggleSubscription(this.subscription);
           }
         });
   }

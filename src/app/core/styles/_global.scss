@@ -89,6 +89,9 @@ span {
   &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-popup-promo>.confeti) {
     background-image: url("src/assets/images/confetti_3.png");
   }
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-rule-info-popup>.rule-info-popup) {
+    padding: 24px;
+  }
 }
 .credix-popup {
   position: static !important;

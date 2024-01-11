@@ -3,7 +3,8 @@
                         [status]="status"
                         moduleTitle=""
                         buttonText="Listo"
-                        routeTo="/home">
+                        routeTo="/home"
+                        (buttonPressed)="showRuleInfo()">
 
   <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
     <mat-divider class="mb-24px" credixDivider></mat-divider>
