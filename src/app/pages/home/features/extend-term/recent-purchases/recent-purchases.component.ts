@@ -216,7 +216,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
         console.log(response);
         if (response?.result) {
           const credixMas = true;
-          const promo = false;
+          const promo = true;
           if (credixMas && promo) {
             this.openSliderModal(response.credixMasTitle,response.credixMasText,response.promoMessage, response.promoDescription);
           } else if (credixMas) {
@@ -436,7 +436,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       },
       {
         width: 343,
-        height: 390,
         disableClose: false,
         panelClass: "promo-popup",
       },

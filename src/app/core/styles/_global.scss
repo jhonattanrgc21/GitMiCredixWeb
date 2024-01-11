@@ -78,3 +78,17 @@ span {
     background: #696d6f;
   }
 }
+
+::ng-deep {
+  .mat-dialog-container {
+    overflow: visible;
+    &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-slider-popup>.track),
+    &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-credix-mas-popup>.credix-mas-popup),
+    &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-home-popup>.credix-mas-popup) {
+      padding: 0 !important;
+    }
+  }
+  .credix-popup {
+    position: static !important;
+  }
+}
