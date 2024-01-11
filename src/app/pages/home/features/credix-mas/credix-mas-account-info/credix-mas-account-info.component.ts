@@ -27,7 +27,9 @@ export class CredixMasAccountInfoComponent implements OnInit {
           }, hideCloseButton: true, component: SubscribePopupComponent},
         {width: 400, height: 229, disableClose: false, panelClass: 'promo-popup'}, 1)
         .afterClosed().subscribe((value) => {
-          this.router.navigate(['/home/credix-mas/success'])
+          if(value){
+            this.router.navigate(['/home/credix-mas/success'])
+          }
         });
   }
 
