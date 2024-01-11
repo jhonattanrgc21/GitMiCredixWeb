@@ -19,14 +19,17 @@
                   <div *ngIf="colonesForm.get('minimumAmount').hasError('duplicate')" error style="width: max-content;">
                     {{'Ya tiene una regla con estos montos.'}}
                   </div>
+                  <div *ngIf="colonesForm.get('minimumAmount').hasError('minValue')" error style="width: max-content;">
+                    {{'El monto mínimo debe ser menor al monto máximo.'}}
+                  </div>
                 </credix-input-field>
 
                 <credix-input-field class="content__input" formControlName="maximumAmount"
                 [label]="tag8 || 'Monto máximo'" mask="separator.0-9" [prefix]="'₡'">
-                  <div *ngIf="colonesForm.get('maximumAmount').hasError('required')" error>
+                  <div *ngIf="colonesForm.get('maximumAmount').hasError('required') && !colonesForm.get('minimumAmount').hasError('duplicate') && !colonesForm.get('minimumAmount').hasError('minValue')" error>
                     {{'El campo es obligatorio'}}
                   </div>
-                  <div *ngIf="colonesForm.get('maximumAmount').hasError('min')" error>
+                  <div *ngIf="colonesForm.get('maximumAmount').hasError('min') && !colonesForm.get('minimumAmount').hasError('duplicate') && !colonesForm.get('minimumAmount').hasError('minValue')" error>
                     {{'Debe ser mayor a 0.'}}
                   </div>
                 </credix-input-field>
@@ -92,14 +95,17 @@
                 <div *ngIf="dollarsForm.get('minimumAmount').hasError('duplicate')" error style="width: max-content;">
                   {{'Ya tiene una regla con estos montos.'}}
                 </div>
+                <div *ngIf="dollarsForm.get('minimumAmount').hasError('minValue')" error style="width: max-content;">
+                  {{'El monto mínimo debe ser menor al monto máximo.'}}
+                </div>
               </credix-input-field>
 
               <credix-input-field class="content__input" formControlName="maximumAmount"
                 [label]="tag8 || 'Monto máximo'" mask="separator.0-9" [prefix]="'$'">
-                <div *ngIf="dollarsForm.get('maximumAmount').hasError('required')" error>
+                <div *ngIf="dollarsForm.get('maximumAmount').hasError('required') && !dollarsForm.get('minimumAmount').hasError('duplicate') && !dollarsForm.get('minimumAmount').hasError('minValue')" error>
                   {{'El campo es obligatorio'}}
                 </div>
-                <div *ngIf="dollarsForm.get('maximumAmount').hasError('min')" error>
+                <div *ngIf="dollarsForm.get('maximumAmount').hasError('min') && !dollarsForm.get('minimumAmount').hasError('duplicate') && !dollarsForm.get('minimumAmount').hasError('minValue')" error>
                   {{'Debe ser mayor a 0.'}}
                 </div>
               </credix-input-field>
