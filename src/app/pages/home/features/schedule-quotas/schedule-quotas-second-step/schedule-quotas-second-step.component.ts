@@ -132,6 +132,15 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     const minimumAmountCurrent = Number(minimumAmountControl.value);
     const maximumAmountCurrent = Number(maximumAmountControl.value);
 
+    if(minimumAmountCurrent >= maximumAmountCurrent){
+      minimumAmountControl.setErrors({ minValue: true });
+      maximumAmountControl.setErrors({ minValue: true });
+      return false;
+    }else{
+      minimumAmountControl.setErrors(null);
+      maximumAmountControl.setErrors(null);
+    }
+
     let isValid = true;
 
     if(this.rulesList && this.rulesList.length > 0){
