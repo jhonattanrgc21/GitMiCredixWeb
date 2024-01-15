@@ -53,6 +53,8 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   isEmpty: boolean = false;
   commissionMonthly: string = '';
   typePayer: number = 0;
+  minimumPaymentCol: number = 0;
+  minimumPaymentUSD: number = 0;
   colonesIbanAccount: IbanAccount;
   dollarsIbanAccount: IbanAccount;
   colonesIbanCopiedTag: string  =  'Cuenta IBAN en colones copiada';
@@ -106,6 +108,8 @@ export class ExtendTermTotalOwedComponent implements OnInit {
               this.minimumPayment = response.minimumPayment;
               this.pendingPayment = response.purchaseAmount;
               this.typePayer = response.typePayer;
+              this.minimumPaymentCol = response.minimumPaymentCol;
+              this.minimumPaymentUSD = response.minimumPaymentUSD;
               this.hasMinimumPayment = ConvertStringAmountToNumber( this.minimumPayment ) <= 0 ? false: true;
               this.pendingPayment =  ConvertNumberToStringAmount( ( ConvertStringAmountToNumber( this.purchaseAmount ) - ConvertStringAmountToNumber( this.minimumPayment ) ) );
               this.quotas = response.listQuota.sort((a, b) => a.quotaTo - b.quotaTo);

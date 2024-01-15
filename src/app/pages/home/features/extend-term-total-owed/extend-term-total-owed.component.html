@@ -60,13 +60,13 @@
               <div fxLayout="column" fxLayoutAlign="flex-start" fxLayoutGap="8px">
                 <div class="extend-term__content__pending" fxLayout="row" fxLayoutAlign="space-between">
                   <p>Colones</p>
-                  <credix-numeric-block [value]="'50000'" class="tr" fontSize="18" fontWeight="bold" fxFlex="25" prefix="₡">
+                  <credix-numeric-block [value]="minimumPaymentCol" class="tr" fontSize="18" fontWeight="bold" fxFlex="25" prefix="₡">
                   </credix-numeric-block>
                 </div>
 
                 <div class="extend-term__content__pending" fxLayout="row" fxLayoutAlign="space-between center">
                   <p>D&oacute;lares</p>
-                  <credix-numeric-block [value]="'200'" class="tr" fontSize="18" fontWeight="bold" fxFlex="25" prefix="$">
+                  <credix-numeric-block [value]="minimumPaymentUSD" class="tr" fontSize="18" fontWeight="bold" fxFlex="25" prefix="$">
                   </credix-numeric-block>
                 </div>
               </div>
