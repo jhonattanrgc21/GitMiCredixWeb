@@ -1,4 +1,110 @@
 .extend-term {
+  max-height: 662px;
+  height: 100%;
+  width: 877px !important;
+  margin-left: -16px !important;
+
+  &__table-wrapper {
+    height: 262px !important;
+    width: 580px !important;
+    margin: auto;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+
+  &__scrollbar {
+    height: 400px !important;
+  }
+
+  &__empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+
+  .actions-footer {
+    width: 877px !important;
+    margin-left: 0px !important;
+  }
+
+}
+
+.title-space {
+  margin: 16px 0 16px 16px !important
+}
+
+:host {
+  ::ng-deep credix-result-notification {
+    transform: translate(-50%, -50%) !important;
+    padding-top: 85px !important;
+
+    .credix-result-notification__title {
+      width: 310px !important;
+    }
+  }
+
+  .amount-summary {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem !important;
+    ::ng-deep credix-amount-summary .credix-amount-summary {
+      width: 630px !important;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+}
+::ng-deep.info {
+  .mat-dialog-container{
+    padding: 16px;
+  }
+  .credix-popup{
+      &__title {
+      margin-top: 0 !important;
+      margin-bottom: 20px !important;
+    }
+    &__close-button{
+      top: 24px !important;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .extend-term {
+    //max-height: 886px;
+    //width: 100% !important;
+    width: 736px !important;
+    margin-left: -16px !important;
+
+    &__scrollbar {
+      height: auto !important;
+    }
+
+    &__table-wrapper {
+      height: 578px;
+    }
+
+    &__table {
+
+      ::ng-deep.mat-header-row {
+        width: 100% !important;
+      }
+    }
+
+    .actions-footer {
+      width: 100% !important;
+      margin-left: 0px !important;
+      background-color: #fff !important;
+    }
+  }
+}
+
+/*.extend-term {
     max-height: 662px;
     height: 100%;
     position: relative;
@@ -182,3 +288,4 @@
       }
     }
   }
+*/
