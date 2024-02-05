@@ -1,6 +1,8 @@
-<mat-card class="credix-mas" credixCard fxLayout="column">
+<mat-card class="credix-mas" credixCard fxLayout="column" *ngIf="!loading">
 
-  <h1 class="mb-16px">{{'Credix Más'}}</h1>
+  <h1 class="mb-16px">Credix Más</h1>
+
   <router-outlet></router-outlet>
+
 
 </mat-card>

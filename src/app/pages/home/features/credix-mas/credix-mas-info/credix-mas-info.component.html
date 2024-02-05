@@ -1,29 +1,10 @@
+<ng-container *ngIf="!notification; else notificationTemplate">
 <div class="info-container">
   <p class="subtitle"> {{ subscription ? 'Beneficios activos' : 'Le ofrecemos'}}</p>
   <div class="benefits">
-    <div class="item">
-      <img src="./assets/images/ampliar-plazo.svg" />
-      <p>0% de comisión al extender el plazo de pago a 3 o 6 cuotas sin interés. ¡Sin límites!</p>
-    </div>
-    <div class="item">
-      <img src="./assets/images/establishments.svg" />
-      <p>Compras a 6 cuotas cero interés en Hoteles Aerolíneas, Rent Car, Tecnología, Electrodomésticos y Mueblerías.</p>
-    </div>
-    <div class="item">
-      <img src="./assets/images/favorite-call.svg" />
-      <p>Una mejor experiencia con nuestro servicio telefónico exclusivo, asegurándole una atención expedita.</p>
-    </div>
-    <div class="item">
-      <img src="./assets/images/favorite.svg" />
-      <p>Una asistencia médica gratuita al tener nuestro seguro de Robo, Fraude y Extravío.</p>
-    </div>
-    <div class="item">
-      <img src="./assets/images/marchamo.svg" />
-      <p>Envío de marchamo a domicilio sin costo adicional.</p>
-    </div>
-    <div class="item">
-      <img src="./assets/images/error-window.svg" />
-      <p>¡No se preocupe! Cancele su suscripción sin ningún costo en cualquier momento.</p>
+    <div class="item" *ngFor="let item of benefits">
+      <img src='{{ "./assets/images/" + item.icon + ".svg" }}' />
+      <p>{{item.description}}</p>
     </div>
     <p *ngIf="!subscription">¡Aproveche todos los beneficios por solo <span>₡5.000 más IVA al mes</span>!</p>
     <a *ngIf="subscription" routerLink="/home/credix-mas/account-info">Gestionar suscripción</a>
@@ -34,3 +15,14 @@
   <credix-button type="secondary" [ngClass]="{'button-large': subscription}" [routerLink]="'/home'">{{ subscription ? 'Atrás' : 'Salir'}}</credix-button>
   <credix-button *ngIf="!subscription" routerLink="/home/credix-mas/account-info">Me interesa</credix-button>
 </div>
+</ng-container>
+
+<ng-template #notificationTemplate>
+  <credix-result-notification
+    class="notif__empty"
+    [status]="notification.type"
+    [message]="notification.message"
+    [title]="notification.title">
+  </credix-result-notification>
+</ng-template>
+

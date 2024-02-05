@@ -16,16 +16,17 @@ export class CredixMasSuccessScreenComponent implements OnInit {
   constructor(private modalService: ModalService, private router: Router, private credixMasService: CredixMasService) { }
 
   ngOnInit(): void {
-    // console.log(this.credixMasService.subscription)
+    this.status = this.credixMasService.response.type;
+    this.result = { title: this.credixMasService.response.title, message: this.credixMasService.response.message }
   }
 
   showRuleInfo(){
-    this.modalService
+    if(this.credixMasService._info.rules > 0){
+      this.modalService
       .open(
-        { data: {
-            // no
-          }, hideCloseButton: true, component: RuleInfoPopupComponent},
+        { data: {}, hideCloseButton: true, component: RuleInfoPopupComponent},
         {width: 343, disableClose: false}, 1);
+    }
   }
 
 }

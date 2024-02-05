@@ -90,7 +90,12 @@ export class LandingComponent implements OnInit, OnDestroy {
             });
           });
         }
-        this.openModalCredixMas('','');
+        this.landingService.showModalInfo().subscribe((value) => {
+          if(value){
+             this.openModalCredixMas('','');
+          }
+        })
+
       }
     });
   }

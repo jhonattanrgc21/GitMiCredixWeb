@@ -12,6 +12,7 @@ import { CredixMasSuccessScreenComponent } from './credix-mas-success-screen/cre
 import { CredixResultViewModule } from 'src/app/shared/components/credix-result-view/credix-result-view.module';
 import { CredixShareButtonModule } from 'src/app/shared/components/credix-share-button/credix-share-button.module';
 import { RuleInfoPopupComponent } from './rule-info-popup/rule-info-popup.component';
+import { CredixResultNotificationModule } from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 
 
 const routes: Routes = [
@@ -50,7 +51,8 @@ const routes: Routes = [
     CredixButtonModule,
     CredixNumericBlockModule,
     CredixResultViewModule,
-    CredixShareButtonModule
+    CredixShareButtonModule,
+    CredixResultNotificationModule
   ]
 })
 export class CredixMasModule { }

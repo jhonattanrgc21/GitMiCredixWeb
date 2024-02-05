@@ -217,7 +217,8 @@ export const submenus = [
   {id: 14, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password', parentId: 'Mi Cuenta'},
   {id: 15, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta'},
   {id: 16, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta'},
-  {id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'}
+  {id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'},
+  {id: 18, name: 'Suscripción Credix Más', route: '/home/credix-mas', icon: 'tabs', parentId: 'Mi Cuenta'}
 ];
 
 export interface Menu {
