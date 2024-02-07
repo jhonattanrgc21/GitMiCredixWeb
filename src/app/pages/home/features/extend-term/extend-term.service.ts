@@ -35,11 +35,11 @@ export class ExtendTermService {
     this._result = result;
   }
 
-  get newQuota(): { establishment: string; currency: string; amount: string; quota: number } {
+  get newQuota(): { establishment: string; currency: string; amount: string; quota: number, movements: AllowedMovement[] } {
     return this._newQuota;
   }
 
-  set newQuota(newQuota: { establishment: string; currency: string; amount: string; quota: number }) {
+  set newQuota(newQuota: { establishment: string; currency: string; amount: string; quota: number, movements: AllowedMovement[] }) {
     this._newQuota = newQuota;
   }
 
@@ -106,7 +106,7 @@ export class ExtendTermService {
   _result: { status: 'success' | 'error'; message: string };
 
   // tslint:disable-next-line:variable-name
-  _newQuota: { establishment: string; currency: string; amount: string; quota: number };
+  _newQuota: { establishment: string; currency: string; amount: string; quota: number, movements: AllowedMovement[] };
 
   setFilterPromo(checked: boolean) {
     this.$filterPromo.next(checked);
