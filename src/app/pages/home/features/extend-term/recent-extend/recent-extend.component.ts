@@ -194,7 +194,8 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
           establishment: this.singleMovement.establishmentName.trim(),
           currency: this.singleMovement.originCurrency.currency,
           amount: this.movementQuotaSummary.amountPerQuota,
-          quota: this.movementQuotaSummary.quotaTo
+          quota: this.movementQuotaSummary.quotaTo,
+          movements: this.movementsSelected
         };
       });
   }
@@ -215,9 +216,10 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
 
           this.extendTermService.newQuota = {
             establishment: this.movementsSelected[0].establishmentName.trim(),
-            currency: this.movementsSelected.length > 1 ? '₡' : this.singleMovement.originCurrency.currency,
+            currency: this.movementsSelected.every((mov) => mov.originCurrency.currencyId == 840) ? "$" : "₡",
             amount: this.movementQuotaSummary.amountPerQuota,
-            quota: this.movementQuotaSummary.quotaTo
+            quota: this.movementQuotaSummary.quotaTo,
+            movements: this.movementsSelected
           };
           this.extendTermService.recentMovementsSelected = [];
         });
