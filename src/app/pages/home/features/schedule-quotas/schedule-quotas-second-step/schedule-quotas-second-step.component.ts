@@ -1,25 +1,31 @@
-import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalService } from 'src/app/core/services/modal.service';
-import { TagsService } from 'src/app/core/services/tags.service';
-import { DateRangePopupComponent } from './date-range-popup/date-range-popup.component';
-import { Tag } from 'src/app/shared/models/tag';
-import {ExtendTermRuleQuota} from '../../../../../shared/models/extend-term-rule-quota';
-import { ScheduleQuotasService } from '../schedule-quotas.service';
-import { ProgrammedRule } from 'src/app/shared/models/programmed-rule';
-
+import {
+  Component,
+  Input,
+  OnInit,
+  SimpleChanges,
+  OnChanges,
+} from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ModalService } from "src/app/core/services/modal.service";
+import { TagsService } from "src/app/core/services/tags.service";
+import { DateRangePopupComponent } from "./date-range-popup/date-range-popup.component";
+import { Tag } from "src/app/shared/models/tag";
+import { ExtendTermRuleQuota } from "../../../../../shared/models/extend-term-rule-quota";
+import { ScheduleQuotasService } from "../schedule-quotas.service";
+import { ProgrammedRule } from "src/app/shared/models/programmed-rule";
+import { ConvertStringAmountToNumber } from "src/app/shared/utils";
 
 @Component({
-  selector: 'app-schedule-quotas-second-step',
-  templateUrl: './schedule-quotas-second-step.component.html',
-  styleUrls: ['./schedule-quotas-second-step.component.scss']
+  selector: "app-schedule-quotas-second-step",
+  templateUrl: "./schedule-quotas-second-step.component.html",
+  styleUrls: ["./schedule-quotas-second-step.component.scss"],
 })
 export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
   @Input() colonesForm: FormGroup;
   @Input() dollarsForm: FormGroup;
   @Input() isColones: boolean;
   @Input() isDollars: boolean;
-  @Input() rulesList: ProgrammedRule[]
+  @Input() rulesList: ProgrammedRule[];
 
   tag1: string;
   tag2: string;
@@ -33,15 +39,15 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
   interestLabel: string;
   colonesDateRange = {
     initDate: null,
-    endDate: null
-  }
+    endDate: null,
+  };
 
-  dollarsDateRange =  {
+  dollarsDateRange = {
     initDate: null,
-    endDate: null
-  }
+    endDate: null,
+  };
 
-// Sliders values
+  // Sliders values
   colonesSlider = {
     quotaSliderDisplayMax: 3,
     quotaSliderDisplayMin: 1,
@@ -49,8 +55,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     quotaSliderMin: 1,
     quotaSliderStep: 1,
     quotaSliderDisplayValue: 1,
-    quotaSliderValue: 0
-  }
+    quotaSliderValue: 0,
+  };
   dollarsSlider = {
     quotaSliderDisplayMax: 3,
     quotaSliderDisplayMin: 1,
@@ -58,8 +64,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     quotaSliderMin: 1,
     quotaSliderStep: 1,
     quotaSliderDisplayValue: 1,
-    quotaSliderValue: 0
-  }
+    quotaSliderValue: 0,
+  };
   colonesQuotas: ExtendTermRuleQuota[];
   colonesSelected: ExtendTermRuleQuota;
   colonesCommission: string;
@@ -72,82 +78,160 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
 
   error: boolean = false;
 
-  constructor(private scheduleQuotasService: ScheduleQuotasService,
+  minimumAmountDollars = 1;
+  minimumAmountColones = 1;
+  maximumAmountDollars = 10000;
+  maximumAmountColones = 10000000;
+
+  constructor(
+    private scheduleQuotasService: ScheduleQuotasService,
     private modalService: ModalService,
-    private tagsService: TagsService) {
-    this.colonesForm =  new FormGroup({
+    private tagsService: TagsService
+  ) {
+    this.colonesForm = new FormGroup({
       id: new FormControl(null),
-      minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
-      maximumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
+      minimumAmount: new FormControl(null, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      maximumAmount: new FormControl(null, [
+        Validators.required,
+        Validators.min(1),
+      ]),
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null),
       isActive: new FormControl(null),
-    })
+    });
 
-    this.dollarsForm =  new FormGroup({
+    this.dollarsForm = new FormGroup({
       id: new FormControl(null),
-      minimumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
-      maximumAmount: new FormControl(null, [Validators.required, Validators.min(1)]),
+      minimumAmount: new FormControl(null, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      maximumAmount: new FormControl(null, [
+        Validators.required,
+        Validators.min(1),
+      ]),
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
       initDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null),
       isActive: new FormControl(null),
-    })
+    });
 
-    this.addValidationToForm(this.colonesForm, this.isColones);
-    this.addValidationToForm(this.dollarsForm, this.isDollars);
+    this.addValidationToForm(this.colonesForm, this.isColones, false);
+    this.addValidationToForm(this.dollarsForm, this.isDollars, true);
   }
 
   ngOnInit(): void {
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
-      this.getTags(functionality.find(fun => fun.description === 'Programar cuotas').tags));
-    this.getRuleQuotas();
+    this.tagsService
+      .getAllFunctionalitiesAndTags()
+      .subscribe((functionality) =>
+        this.getTags(
+          functionality.find((fun) => fun.description === "Programar cuotas")
+            .tags
+        )
+      );
+    this.scheduleQuotasService.ruleQuotaList.subscribe((value) => {
+      this.colonesQuotas = value.colonesQuotas;
+      this.dollarsQuotas = value.dollarsQuotas;
+      this.minimumAmountColones = value.minimumAmountColones;
+      this.minimumAmountDollars = value.minimumAmountDollars;
+      this.maximumAmountColones = value.maximumAmountColones;
+      this.maximumAmountDollars = value.maximumAmountDollars;
+      this.initSlider();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.isColones && changes.isColones.currentValue) this.addValidationToForm(this.colonesForm, this.isColones);
-    if(changes.isDollars && changes.isDollars.currentValue) this.addValidationToForm(this.dollarsForm, this.isDollars);
-
-
-    this.getRuleQuotas();
+    if (changes.isColones && changes.isColones.currentValue)
+      this.addValidationToForm(this.colonesForm, this.isColones, false);
+    if (changes.isDollars && changes.isDollars.currentValue)
+      this.addValidationToForm(this.dollarsForm, this.isDollars, true);
   }
 
-  isAmountsValid(form: FormGroup, currencyId: Number){
-    const minimumAmountControl = form.get('minimumAmount');
-    const maximumAmountControl = form.get('maximumAmount');
+  isAmountsValid(form: FormGroup, currencyId: Number) {
+    const minimumAmountControl = form.get("minimumAmount");
+    const maximumAmountControl = form.get("maximumAmount");
 
     if (
-      minimumAmountControl.hasError('required') ||
-      minimumAmountControl.hasError('min') ||
-      maximumAmountControl.hasError('required') ||
-      maximumAmountControl.hasError('min')
-    ) return false;
-
+      minimumAmountControl.hasError("required") ||
+      minimumAmountControl.hasError("min") ||
+      maximumAmountControl.hasError("required") ||
+      maximumAmountControl.hasError("min")
+    )
+      return false;
 
     const minimumAmountCurrent = Number(minimumAmountControl.value);
     const maximumAmountCurrent = Number(maximumAmountControl.value);
 
-    if(minimumAmountCurrent >= maximumAmountCurrent){
+    if (minimumAmountCurrent >= maximumAmountCurrent) {
       minimumAmountControl.setErrors({ minValue: true });
       maximumAmountControl.setErrors({ minValue: true });
       return false;
-    }else{
+    } else {
       minimumAmountControl.setErrors(null);
       maximumAmountControl.setErrors(null);
     }
 
+    if (
+      minimumAmountCurrent <
+      (currencyId == 840
+        ? this.minimumAmountDollars
+        : this.minimumAmountColones)
+    ) {
+      minimumAmountControl.setErrors({ minAmount: true });
+    } else {
+      minimumAmountControl.setErrors(null);
+    }
+
+    if (
+      maximumAmountCurrent >
+      (currencyId == 840
+        ? this.maximumAmountDollars
+        : this.maximumAmountColones)
+    ) {
+      maximumAmountControl.setErrors({ maxAmount: true });
+    } else {
+      maximumAmountControl.setErrors(null);
+    }
+
+    if (currencyId == 840) {
+      if (
+        minimumAmountCurrent < this.minimumAmountDollars ||
+        maximumAmountCurrent > this.maximumAmountDollars
+      ) {
+        return false;
+      }
+    }
+
+    if (currencyId == 188) {
+      if (
+        minimumAmountCurrent < this.minimumAmountColones ||
+        maximumAmountCurrent > this.maximumAmountColones
+      ) {
+        return false;
+      }
+    }
+
     let isValid = true;
 
-    if(this.rulesList && this.rulesList.length > 0){
-      const ruleListFilter = this.rulesList.filter(rule => rule.currencyId == currencyId)
+    if (this.rulesList && this.rulesList.length > 0) {
+      const ruleListFilter = this.rulesList.filter(
+        (rule) => rule.currencyId == currencyId
+      );
       for (const rule of ruleListFilter) {
-        const [ruleMin, ruleMax] = rule.amountRange.split('-').map(Number);
-        if ((minimumAmountCurrent >= ruleMin && minimumAmountCurrent <= ruleMax) || (maximumAmountCurrent >= ruleMin && maximumAmountCurrent <= ruleMax) ) {
+        const [ruleMin, ruleMax] = rule.amountRange.split("-").map(Number);
+        if (
+          (minimumAmountCurrent >= ruleMin &&
+            minimumAmountCurrent <= ruleMax) ||
+          (maximumAmountCurrent >= ruleMin && maximumAmountCurrent <= ruleMax)
+        ) {
           isValid = false;
           break;
         }
@@ -164,128 +248,165 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     return isValid;
   }
 
-  addValidationToForm(form: FormGroup, isActive: boolean){
-    if(isActive){
-      form.get('minimumAmount').setValidators( [Validators.required, Validators.min(1)]);
-      form.get('maximumAmount').setValidators([Validators.required, Validators.min(1)]);
-      form.get('quotas').setValidators(Validators.required);
-      form.get('commissions').setValidators(Validators.required);
-      form.get('interest').setValidators(Validators.required);
-      form.get('initDate').setValidators(Validators.required);
-    }
-    else{
-      form.get('minimumAmount').clearValidators();
-      form.get('maximumAmount').clearValidators();
-      form.get('quotas').clearValidators();
-      form.get('commissions').clearValidators();
-      form.get('interest').clearValidators();
-      form.get('initDate').clearValidators();
+  addValidationToForm(form: FormGroup, isActive: boolean, dollar: boolean) {
+    if (isActive) {
+      form
+        .get("minimumAmount")
+        .setValidators([
+          Validators.required,
+          Validators.min(
+            dollar ? this.minimumAmountDollars : this.minimumAmountColones
+          ),
+        ]);
+      form
+        .get("maximumAmount")
+        .setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(
+            dollar ? this.maximumAmountDollars : this.maximumAmountColones
+          ),
+        ]);
+      form.get("quotas").setValidators(Validators.required);
+      form.get("commissions").setValidators(Validators.required);
+      form.get("interest").setValidators(Validators.required);
+      form.get("initDate").setValidators(Validators.required);
+    } else {
+      form.get("minimumAmount").clearValidators();
+      form.get("maximumAmount").clearValidators();
+      form.get("quotas").clearValidators();
+      form.get("commissions").clearValidators();
+      form.get("interest").clearValidators();
+      form.get("initDate").clearValidators();
     }
   }
 
-  openDateRangeModal(form: FormGroup,  dateRange: any) {
-    dateRange.initDate = form.get('initDate').value ?? null;
-    dateRange.endDate = form.get('endDate').value ?? null;
-    this.modalService.open({
-      component: DateRangePopupComponent,
-      hideCloseButton: false,
-      title: this.tag6 || 'Definir fechas',
-      data: {dateRange}
-    }, {width: 380, height: 361, disableClose: false, panelClass: 'schedule-quotas-dates-panel'})
-      .afterClosed().subscribe((range: any) => {
-      if (range) {
-        form.get('initDate').setValue(range.initDate);
-        form.get('endDate').setValue(range.endDate);
-        dateRange.initDate = range.initDate;
-        dateRange.endDate = range.endDate;
-      }
-    });
-  }
-
-  getRuleQuotas(){
-    this.scheduleQuotasService.getRuleQuotaList()
-    .subscribe(res => {
-      if (res) {
-        this.error = false;
-        this.colonesQuotas = res?.colones;
-        this.dollarsQuotas = res?.dolares;
-        this.initSlider()
-      } else {
-        this.error = true;
-      }
-    });
+  openDateRangeModal(form: FormGroup, dateRange: any) {
+    dateRange.initDate = form.get("initDate").value ?? null;
+    dateRange.endDate = form.get("endDate").value ?? null;
+    this.modalService
+      .open(
+        {
+          component: DateRangePopupComponent,
+          hideCloseButton: false,
+          title: this.tag6 || "Definir fechas",
+          data: { dateRange },
+        },
+        {
+          width: 380,
+          height: 361,
+          disableClose: false,
+          panelClass: "schedule-quotas-dates-panel",
+        }
+      )
+      .afterClosed()
+      .subscribe((range: any) => {
+        if (range) {
+          form.get("initDate").setValue(range.initDate);
+          form.get("endDate").setValue(range.endDate);
+          dateRange.initDate = range.initDate;
+          dateRange.endDate = range.endDate;
+        }
+      });
   }
 
   initSlider() {
-      this.colonesSlider.quotaSliderStep = 1;
-      this.colonesSlider.quotaSliderDisplayMin = this.colonesQuotas[0].quotaTo;
-      this.colonesSlider.quotaSliderMin = 1;
-      this.colonesSlider.quotaSliderDisplayMax = this.colonesQuotas[this.colonesQuotas.length - 1].quotaTo;
-      this.colonesSlider.quotaSliderMax = this.colonesQuotas.length;
-      this.colonesSlider.quotaSliderDisplayValue = this.colonesSlider.quotaSliderDisplayMin;
+    this.colonesSlider.quotaSliderStep = 1;
+    this.colonesSlider.quotaSliderDisplayMin = this.colonesQuotas[0].quotaTo;
+    this.colonesSlider.quotaSliderMin = 1;
+    this.colonesSlider.quotaSliderDisplayMax =
+      this.colonesQuotas[this.colonesQuotas.length - 1].quotaTo;
+    this.colonesSlider.quotaSliderMax = this.colonesQuotas.length;
+    this.colonesSlider.quotaSliderDisplayValue =
+      this.colonesSlider.quotaSliderDisplayMin;
 
-      const colonesQuotaTo = this.colonesForm.get('quotas').value ?? null;
-      if(colonesQuotaTo){
-        const colonesQuotaToIndex = this.colonesQuotas.findIndex(e => e.quotaTo == colonesQuotaTo);
-        this.getQuota(colonesQuotaToIndex + 1,188);
-      }
-      else this.getQuota(1,188)
+    const colonesQuotaTo = this.colonesForm.get("quotas").value ?? null;
+    if (colonesQuotaTo) {
+      const colonesQuotaToIndex = this.colonesQuotas.findIndex(
+        (e) => e.quotaTo == colonesQuotaTo
+      );
+      this.getQuota(colonesQuotaToIndex + 1, 188);
+    } else this.getQuota(1, 188);
 
-      this.dollarsSlider.quotaSliderStep = 1;
-      this.dollarsSlider.quotaSliderDisplayMin = this.dollarsQuotas[0].quotaTo;
-      this.dollarsSlider.quotaSliderMin = 1;
-      this.dollarsSlider.quotaSliderDisplayMax = this.dollarsQuotas[this.dollarsQuotas.length - 1].quotaTo;
-      this.dollarsSlider.quotaSliderMax = this.dollarsQuotas.length;
-      this.dollarsSlider.quotaSliderDisplayValue = this.dollarsSlider.quotaSliderDisplayMin;
+    this.dollarsSlider.quotaSliderStep = 1;
+    this.dollarsSlider.quotaSliderDisplayMin = this.dollarsQuotas[0].quotaTo;
+    this.dollarsSlider.quotaSliderMin = 1;
+    this.dollarsSlider.quotaSliderDisplayMax =
+      this.dollarsQuotas[this.dollarsQuotas.length - 1].quotaTo;
+    this.dollarsSlider.quotaSliderMax = this.dollarsQuotas.length;
+    this.dollarsSlider.quotaSliderDisplayValue =
+      this.dollarsSlider.quotaSliderDisplayMin;
 
-      const dollarsQuotaTo = this.dollarsForm.get('quotas').value ?? null;
-      if(dollarsQuotaTo){
-        const dollarsQuotaToIndex = this.colonesQuotas.findIndex(e => e.quotaTo == dollarsQuotaTo);
-        this.getQuota(dollarsQuotaToIndex + 1,840);
-      }
-      else this.getQuota(1,840)
+    const dollarsQuotaTo = this.dollarsForm.get("quotas").value ?? null;
+    if (dollarsQuotaTo) {
+      const dollarsQuotaToIndex = this.dollarsQuotas.findIndex(
+        (e) => e.quotaTo == dollarsQuotaTo
+      );
+      this.getQuota(dollarsQuotaToIndex + 1, 840);
+    } else this.getQuota(1, 840);
   }
 
-
-  getQuota(sliderValue, currency: number){
-    if(currency == 188){
-      this.colonesSlider.quotaSliderDisplayValue = this.colonesQuotas[sliderValue - 1].quotaTo;
+  getQuota(sliderValue, currency: number) {
+    if (currency == 188) {
+      this.colonesSlider.quotaSliderDisplayValue =
+        this.colonesQuotas[sliderValue - 1].quotaTo;
       this.colonesSlider.quotaSliderValue = sliderValue;
       this.colonesSelected = this.colonesQuotas[sliderValue - 1];
       this.colonesFee = this.formatNumber(this.colonesSelected.feePercentage);
-      this.colonesCommission = this.formatNumber(this.colonesSelected.commissionRate)
-      this.colonesForm.get("quotas").setValue(this.colonesSelected.quotaTo)
-      this.colonesForm.get("commissions").setValue(this.colonesCommission)
-      this.colonesForm.get("interest").setValue(this.colonesFee)
+      this.colonesCommission = this.formatNumber(
+        this.colonesSelected.commissionRate
+      );
+      this.colonesForm.get("quotas").setValue(this.colonesSelected.quotaTo);
+      this.colonesForm.get("commissions").setValue(this.colonesCommission);
+      this.colonesForm.get("interest").setValue(this.colonesFee);
     }
 
-    if(currency == 840){
-      this.dollarsSlider.quotaSliderDisplayValue = this.dollarsQuotas[sliderValue - 1].quotaTo;
+    if (currency == 840) {
+      this.dollarsSlider.quotaSliderDisplayValue =
+        this.dollarsQuotas[sliderValue - 1].quotaTo;
       this.dollarsSlider.quotaSliderValue = sliderValue;
       this.dollarsSelected = this.dollarsQuotas[sliderValue - 1];
       this.dollarsFee = this.formatNumber(this.dollarsSelected.feePercentage);
-      this.dollarsCommission = this.formatNumber(this.dollarsSelected.commissionRate)
-      this.dollarsForm.get("quotas").setValue(this.dollarsSelected.quotaTo)
-      this.dollarsForm.get("commissions").setValue(this.dollarsCommission)
-      this.dollarsForm.get("interest").setValue(this.dollarsFee)
+      this.dollarsCommission = this.formatNumber(
+        this.dollarsSelected.commissionRate
+      );
+      this.dollarsForm.get("quotas").setValue(this.dollarsSelected.quotaTo);
+      this.dollarsForm.get("commissions").setValue(this.dollarsCommission);
+      this.dollarsForm.get("interest").setValue(this.dollarsFee);
     }
   }
 
   formatNumber(value: string): string {
-    value = value.replace(/,/g, '.');
+    value = value.replace(/,/g, ".");
     const number = parseFloat(value);
     const result = number === 0.0 ? number.toFixed(0) : number.toString();
-    return result.replace('.', ',');
+    return result.replace(".", ",");
   }
 
   getTags(tags: Tag[]) {
-    this.tag1 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag1')?.value;
-    this.tag2 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag2')?.value;
-    this.tag3 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag3')?.value;
-    this.tag4 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag4')?.value;
-    this.tag5 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag5')?.value;
-    this.tag6 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag6')?.value;
-    this.tag7 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag7')?.value;
-    this.tag8 = tags.find(tag => tag.description === 'programarcuotas.stepper2.tag8')?.value;
+    this.tag1 = tags.find(
+      (tag) => tag.description === "programarcuotas.stepper2.tag1"
+    )?.value;
+    this.tag2 = tags.find(
+      (tag) => tag.description === "programarcuotas.stepper2.tag2"
+    )?.value;
+    this.tag3 = tags.find(
+      (tag) => tag.description === "programarcuotas.stepper2.tag3"
+    )?.value;
+    this.tag4 = tags.find(
+      (tag) => tag.description === "programarcuotas.stepper2.tag4"
+    )?.value;
+    this.tag5 = tags.find(
+      (tag) => tag.description === "programarcuotas.stepper2.tag5"
+    )?.value;
+    this.tag6 = tags.find(
+      (tag) => tag.description === "programarcuotas.stepper2.tag6"
+    )?.value;
+    this.tag7 = tags.find(
+      (tag) => tag.description === "programarcuotas.stepper2.tag7"
+    )?.value;
+    this.tag8 = tags.find(
+      (tag) => tag.description === "programarcuotas.stepper2.tag8"
+    )?.value;
   }
 }
