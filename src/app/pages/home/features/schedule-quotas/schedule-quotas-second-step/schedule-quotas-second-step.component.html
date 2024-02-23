@@ -17,7 +17,7 @@
                 class="content__input"
                 formControlName="minimumAmount"
                 [label]="tag7 || 'Monto mínimo'"
-                [prefix]="'₡'"
+                [prefix]=""
               >
                 <div
                   *ngIf="colonesForm.get('minimumAmount').hasError('required')"
@@ -59,7 +59,7 @@
                 formControlName="maximumAmount"
                 [label]="tag8 || 'Monto máximo'"
                 mask="separator.0-9"
-                [prefix]="'₡'"
+                [prefix]=""
               >
                 <div
                   *ngIf="
@@ -169,7 +169,7 @@
               formControlName="minimumAmount"
               [label]="tag7 || 'Monto mínimo'"
               mask="separator.0-9"
-              [prefix]="'$'"
+              [prefix]=""
             >
               <div
                 *ngIf="dollarsForm.get('minimumAmount').hasError('required')"
@@ -212,7 +212,7 @@
               formControlName="maximumAmount"
               [label]="tag8 || 'Monto máximo'"
               mask="separator.0-9"
-              [prefix]="'$'"
+              [prefix]=""
             >
               <div
                 *ngIf="
