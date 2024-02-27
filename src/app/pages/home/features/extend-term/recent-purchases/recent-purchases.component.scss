@@ -25,16 +25,15 @@
     transform: translate(-50%, -50%);
   }
 
-
   .actions-footer {
     width: 877px !important;
     margin-left: 0px !important;
+    padding-top: 6px !important;
   }
-
 }
 
 .title-space {
-  margin: 16px 0 16px 16px !important
+  margin: 16px 0 0 16px !important;
 }
 
 :host {
@@ -57,18 +56,17 @@
       justify-content: space-between;
     }
   }
-
 }
 ::ng-deep.info {
-  .mat-dialog-container{
+  .mat-dialog-container {
     padding: 16px;
   }
-  .credix-popup{
-      &__title {
+  .credix-popup {
+    &__title {
       margin-top: 0 !important;
       margin-bottom: 20px !important;
     }
-    &__close-button{
+    &__close-button {
       top: 24px !important;
     }
   }
@@ -90,7 +88,6 @@
     }
 
     &__table {
-
       ::ng-deep.mat-header-row {
         width: 100% !important;
       }
