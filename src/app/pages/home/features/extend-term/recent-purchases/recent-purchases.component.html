@@ -1,101 +1,64 @@
 <div *ngIf="!done && !empty" class="extend-term" fxLayout="column">
-
   <div class="title-space">
-    <p>Para ampliar varias compras a la vez, éstas deben tener las mismas condiciones:</p>
+    <p>
+      Para ampliar varias compras a la vez, éstas deben tener las mismas
+      condiciones:
+    </p>
     <ul>
       <li>Compras con la misma promoción.</li>
       <li>Compras sin promoción.</li>
+      <li>Compras de la misma moneda.</li>
     </ul>
   </div>
 
-
-
-
-    <div class="extend-term__table-wrapper">
-      <credix-allowed-movement
-        *ngFor="let movement of allowedMovements; let last = last"
-        [movement]="movement"
-        [selectedChanges]="selectedChanges"
-        [lastItem]="last"
-        (changeSelection)="change($event,movement)"
-        >
-
-      </credix-allowed-movement>
-      <!-- <mat-table [dataSource]="allowedMovements"
-                class="extend-term__table">
-
-        <ng-container matColumnDef="select">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell>
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell>
-            <credix-checkbox-button class="checkbox-dimension" (emitCheckBox)="change($event.checked, element)"
-                                    [value]="element">
-            </credix-checkbox-button>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="date">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell >{{'Fecha'}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"
-                    credixCell> {{element.originDate | dateFormatter: "shortAlphanumeric"}}  </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="commerce">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Comercio'}}</mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell>
-            {{element.establishmentName}}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="quotas">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Cuotas pendientes'}} </mat-header-cell>
-          <mat-cell *matCellDef="let element"
-                    credixCell>
-                    <span>{{ element.totalPlanQuota }}</span>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="amount">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Monto a ampliar'}}</mat-header-cell>
-          <mat-cell *matCellDef="let element"
-                    credixCell>
-            <credix-numeric-block fontWeight="bold" [prefix]="element.originCurrency.currency" [value]="element.originAmount"
-                                  ></credix-numeric-block>
-          </mat-cell>
-        </ng-container>
-
-
-
-        <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
-      </mat-table> -->
-    </div>
-    <div class="amount-summary">
-      <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary' [prefix]="summaryPrefix">
-      </credix-amount-summary>
-    </div>
-  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
-    <credix-button [disabled]="selection.length === 0" (buttonClick)="next()">Continuar</credix-button>
+  <div class="extend-term__table-wrapper">
+    <credix-allowed-movement
+      *ngFor="let movement of allowedMovements; let last = last"
+      [movement]="movement"
+      [selectedChanges]="selectedChanges"
+      [lastItem]="last"
+      (changeSelection)="change($event, movement)"
+    >
+    </credix-allowed-movement>
   </div>
-
-
-
-
-
-
+  <div class="amount-summary">
+    <credix-amount-summary
+      label="Monto a ampliar"
+      [amount]="amountSummary"
+      [prefix]="summaryPrefix"
+    >
+    </credix-amount-summary>
+  </div>
+  <div
+    class="actions-footer"
+    fxLayout="row"
+    fxLayoutAlign="flex-end"
+    fxLayoutGap="16px"
+  >
+    <credix-button
+      [disabled]="selection.length === 0 || buttonDisable"
+      (buttonClick)="next()"
+      >Continuar</credix-button
+    >
+  </div>
 </div>
-
 
 <ng-template #disabledTemplate>
   <credix-result-notification
     class="extend-term__empty"
     status="error"
     [message]="message"
-    [title]="title">
+    [title]="title"
+  >
   </credix-result-notification>
 </ng-template>
 
-<credix-result-notification *ngIf="!title && empty" class="extend-term__empty" status="info"
-title="{{warningTag || 'No tiene consumos para ampliar en este momento.'}}">
+<credix-result-notification
+  *ngIf="!title && empty"
+  class="extend-term__empty"
+  status="info"
+  title="{{ warningTag || 'No tiene consumos para ampliar en este momento.' }}"
+>
 </credix-result-notification>
 
 <ng-container [ngTemplateOutlet]="template"></ng-container>
