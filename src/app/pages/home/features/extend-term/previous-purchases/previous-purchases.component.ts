@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import {finalize, take} from 'rxjs/operators';
 import { AllowedMovement } from 'src/app/shared/models/allowed-movement';
 import { Cancellation } from 'src/app/shared/models/cancellation';
 import { Movement } from 'src/app/shared/models/movement';
@@ -150,7 +150,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   }
 
   change(checked: boolean, movement: PreviousMovements, i: number) {
-    this.calculateTotalAmountSelect(movement.amount, movement.pdqId, checked);
+    this.calculateTotalAmountSelect(movement.originAmount, movement.pdqId, checked);
     if (checked) {
       this.selection.push(movement.pdqId);
       this.checkedListStates[i] = true;
@@ -161,11 +161,16 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
             pdqId: obj.pdqId,
             currencySimbol: obj.currencySimbol,
             amount: obj.amount,
+            originCurrency : obj.originCurrency,
             establishmentName: obj.establishmentName,
             originAmount: obj.originAmount,
             originDate: obj.originDate,
             quota: obj.quota,
-            productDisable: (movement.quota === 0 || movement.quota === 1 ) && obj.quota > movement.quota && obj.quota !== 1,
+            productDisable:
+              (movement.quota === 0 || movement.quota === 1 ) &&
+              obj.quota > movement.quota && obj.quota !== 1  ||
+              this.previousMovementsSelected
+                .findIndex(value => value.originCurrency.currencyId === obj.originCurrency.currencyId) < 0,
             checked: this.checkedListStates[index]
           };
       });
@@ -179,11 +184,13 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
           pdqId: obj.pdqId,
           currencySimbol: obj.currencySimbol,
           amount: obj.amount,
+          originCurrency : obj.originCurrency,
           establishmentName: obj.establishmentName,
           originAmount: obj.originAmount,
           originDate: obj.originDate,
           quota: obj.quota,
-          productDisable: false,
+          productDisable:(this.previousMovementsSelected.length > 0) ? this.previousMovementsSelected
+            .findIndex(value => value.originCurrency.currencyId === obj.originCurrency.currencyId) < 0 : false,
           checked: this.checkedListStates[index]
         };
       });
@@ -208,7 +215,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   }
 
   getAllowedMovements() {
-    this.extendTermService.getAllowedMovements(1005)
+    this.extendTermService.getAllowedMovements(1005).pipe(take(1))
       .subscribe(response => {
         let previousMovements;
         if (response?.consumed && response?.consumed.length > 0) {
@@ -221,6 +228,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
               establishmentName: movement.establishmentName,
               originAmount: movement.originAmount,
               originDate: movement.originDate,
+              originCurrency: movement.originCurrency,
               quota: movement.totalPlanQuota,
               productDisable: false,
               checked: false

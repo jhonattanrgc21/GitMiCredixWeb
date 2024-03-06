@@ -1,5 +1,10 @@
 <div *ngIf="!isEmpty" class="extend-term" fxLayout="column">
-  <p class="title-space">Para ampliar varias compras de 1 cuota a la vez, seleccione solo las que tienen este plazo.</p>
+  <div fxLayout='column' class='title'>
+    <p class="title__space">Para ampliar varias compras de 1 cuota a la vez, seleccione solo las que tienen este plazo:</p>
+    <p class='title__subtitle'>• Puede realizarlo de manera intercalada, es decir, un mes sí y otro no.</p>
+    <p class='title__subtitle'>• Deben ser compras de la misma moneda.</p>
+    <p class='title__subtitle'>• Estas compras se mostrarán si ha pagado de contado en los últimos 3 meses.</p>
+  </div>
   <ngx-simplebar [options]="{autoHide: false}" class="extend-term__scrollbar" fxFlex>
     <div class="extend-term__table-wrapper">
       <mat-table [dataSource]="previousMovements"
@@ -56,7 +61,7 @@
       </mat-table>
     </div>
   </ngx-simplebar>
-    <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary'>
+    <credix-amount-summary label='Monto a ampliar' [amount]='amountSummary' [prefix]='previousMovementsSelected.length > 0 ? previousMovementsSelected[0].originCurrency.currencyId : 188'>
     </credix-amount-summary>
 
   <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
