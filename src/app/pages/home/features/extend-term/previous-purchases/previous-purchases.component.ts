@@ -37,6 +37,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   cardId: number;
   checkedListStates: boolean[] = [];
   endDate: Date;
+  info: string;
 
   private consumed = {
     consumed: [
@@ -199,12 +200,13 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   }
 
   next() {
-    this.modalService.open({title: 'Recordatorio', hideCloseButton: false, component: PopupPreviousInfoComponent, data: {
+    this.modalService.open({title: 'Recuerde que', hideCloseButton: false, component: PopupPreviousInfoComponent, data: {
           amountSummary: this.amountSummary,
           pagoContado: this.pagoContadoColones,
-          endDate: this.endDate
+          endDate: this.endDate,
+          info: this.info
         }},
-      {disableClose: true, height: 324, width: 328, panelClass: 'info'}).afterClosed()
+      {disableClose: true, height: 260, width: 343, panelClass: 'info'}).afterClosed()
       .subscribe(() => {
         this.extendTermService.movementsSelected = [...this.selection];
         this.extendTermService.amountSummary = this.amountSummary;
@@ -218,6 +220,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
     this.extendTermService.getAllowedMovements(1005).pipe(take(1))
       .subscribe(response => {
         let previousMovements;
+        this.info = response.info;
         if (response?.consumed && response?.consumed.length > 0) {
           previousMovements = response.consumed.map(movement => {
             this.checkedListStates.push(false);

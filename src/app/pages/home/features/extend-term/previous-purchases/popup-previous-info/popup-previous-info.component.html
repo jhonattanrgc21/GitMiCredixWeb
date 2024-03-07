@@ -1,17 +1,5 @@
-<div class='popup-info-previous' fxLayout='column'>
-  <div class='popup-info-previous__data mb-16px' fxLayout='row' fxLayoutAlign='space-between'>
-    <div fxLayout='column' class='popup-info-previous__data__title' fxLayoutGap='8px'>
-      <p>Pago contado</p>
-      <p>Monto a ampliar</p>
-    </div>
-    <div fxLayout='column' class='popup-info-previous__data__amount' fxLayoutGap='8px'>
-      <credix-numeric-block [value]='pagoContado!' [prefix]='"₡"'  fontSize='16' fontWeight='bold'></credix-numeric-block>
-      <credix-numeric-block [value]='"-" + amountSummary!' [prefix]='"₡"'  fontSize='16' fontWeight='bold'></credix-numeric-block>
-    </div>
-  </div>
-  <span class='popup-info-previous__message mb-16px'>
-      Para no asumir intereses corrientes, pague mínimo  <credix-numeric-block [value]='subtraction' [prefix]='"₡"'  fontSize='16' fontWeight='bold'></credix-numeric-block> antes de su fecha máxima de pago <strong>{{endDate! | dateFormatter: 'alphanumeric2'}} (hora: 9:00 pm)</strong> .
-  </span>
+<div class='popup-info-previous' fxLayout='column' fxLayoutAlign='space-between'>
+  <p class='popup-info-previous__message' [innerHTML]='info | quotaStrong:"1 cuota"' ></p>
 
   <credix-button (buttonClick)='closeDialog()'>
     Continuar

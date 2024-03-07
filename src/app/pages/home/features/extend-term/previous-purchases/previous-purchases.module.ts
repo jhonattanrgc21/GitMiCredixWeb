@@ -41,6 +41,7 @@ import {CredixAmountSummaryModule} from "../../../../../shared/components/credix
 import {PopupPreviousInfoComponent} from "./popup-previous-info/popup-previous-info.component";
 import {LandingService} from "../../landing/landing.service";
 import {StorageService} from "../../../../../core/services/storage.service";
+import { QuotaStrongPipe } from './quota-strong.pipe';
 
 const routes: Routes = [{
   path: '',
@@ -51,6 +52,7 @@ const routes: Routes = [{
   declarations: [
     PreviousPurchasesComponent,
     PopupPreviousInfoComponent,
+    QuotaStrongPipe,
   ],
     imports: [
         CommonModule,

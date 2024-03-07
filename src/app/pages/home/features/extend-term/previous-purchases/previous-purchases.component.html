@@ -68,10 +68,11 @@
     <credix-button [disabled]="selection.length === 0" (buttonClick)="next()">Continuar</credix-button>
   </div>
 </div>
-
-<credix-result-notification
-  *ngIf="isEmpty"
-  class="extend-term__empty"
-  status="info"
-  title="{{'No tiene consumos para ampliar en este momento.'}}">
-</credix-result-notification>
+<div style='height: 662px'>
+  <credix-result-notification
+    *ngIf="isEmpty"
+    class="extend-term__empty"
+    status="info"
+    title="{{'No tiene consumos para ampliar en este momento.'}}">
+  </credix-result-notification>
+</div>
