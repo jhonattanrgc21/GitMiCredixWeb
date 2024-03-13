@@ -46,6 +46,7 @@ export const icons: string[] = [
   'noon',
   'pay',
   'personal_credit',
+  'tabs',
   'personal_data',
   'phone',
   'products',

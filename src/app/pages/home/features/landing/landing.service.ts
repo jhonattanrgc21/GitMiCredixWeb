@@ -10,6 +10,7 @@ import {Cacheable} from 'ngx-cacheable';
 export class LandingService {
   private readonly tagsHomeUri = 'tags/funcionalitytagshome';
   private readonly tagsHomePageUri = 'homepage/tagshomepage';
+  private readonly SHOW_MODAL_INFO_URI = 'account/getinfotoshowmodal';
 
   constructor(private httpService: HttpService,
               private storageService: StorageService) {
@@ -42,6 +43,16 @@ export class LandingService {
           return of();
         })
       );
+  }
+
+  showModalInfo(){
+    return this.httpService.post('canales', this.SHOW_MODAL_INFO_URI, {
+      modal: 'credixmas',
+      dispositive: this.storageService.deviceIdentifier,
+      hasSeen: true
+    })
+      .pipe(
+        map(response => { return response.showModal }))
   }
 
   unsubscribe() {

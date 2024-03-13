@@ -5,6 +5,8 @@ import {StorageService} from '../../../../core/services/storage.service';
 import {AccountSummary} from '../../../../shared/models/account-summary';
 import {NavigationService} from '../../../../core/services/navigation.service';
 import {ChannelsApiService} from '../../../../core/services/channels-api.service';
+import { HomePopupComponent } from '../credix-mas/home-popup/home-popup.component';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-landing',
@@ -47,7 +49,8 @@ export class LandingComponent implements OnInit, OnDestroy {
   constructor(private landingService: LandingService,
               private goHomeService: NavigationService,
               private channelsApiService: ChannelsApiService,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private modalService: ModalService) {
     this.goHomeService.goHome();
     this.cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal')?.cardId;
   }
@@ -87,6 +90,12 @@ export class LandingComponent implements OnInit, OnDestroy {
             });
           });
         }
+        this.landingService.showModalInfo().subscribe((value) => {
+          if(value){
+             this.openModalCredixMas('','');
+          }
+        })
+
       }
     });
   }
@@ -142,6 +151,28 @@ export class LandingComponent implements OnInit, OnDestroy {
       this.getHomeContent();
       this.getAccountsSummary();
     }
+  }
+
+  openModalCredixMas(credixMasTitle: string, credixMasText: string) {
+    console.log(screen.height);
+    credixMasTitle = "Descubra un mundo de beneficios. ¡Únase a Credix Más!";
+    credixMasText = "Con Credix Más podrá: Extender el plazo de pago de sus compras de manera gratuita e ilimitada. Compras a 6 cuotas cero interés en tiendas seleccionadas."
+    this.modalService.open(
+      {
+        data: {
+          credixMasTitle,
+          credixMasText
+        },
+        hideCloseButton: true,
+        component: HomePopupComponent,
+      },
+      {
+        width: 343,
+        disableClose: false,
+        panelClass: "promo-popup",
+      },
+      1
+    );
   }
 
   ngOnDestroy(): void {

@@ -1,0 +1,25 @@
+img {
+  width: 100%;
+}
+
+.credix-mas-popup {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+  > *:not(img){
+    padding: 0 1rem;
+  }
+  ul {
+    margin-left: 1rem;
+  }
+  .button-row {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 1rem;
+    .button-large {
+      ::ng-deep button {
+        padding: 0 2rem !important;
+      }
+    }
+  }
+}

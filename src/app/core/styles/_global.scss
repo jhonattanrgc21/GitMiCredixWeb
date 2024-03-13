@@ -78,3 +78,21 @@ span {
     background: #696d6f;
   }
 }
+.mat-dialog-container {
+  overflow: visible !important;
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-slider-popup>.track),
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-credix-mas-popup>.credix-mas-popup),
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-home-popup>.credix-mas-popup) {
+    padding: 0 !important;
+  }
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-slider-popup>.confeti),
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-popup-promo>.confeti) {
+    background-image: url("src/assets/images/confetti_3.png");
+  }
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-rule-info-popup>.rule-info-popup) {
+    padding: 24px;
+  }
+}
+.credix-popup {
+  position: static !important;
+}

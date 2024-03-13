@@ -2,24 +2,25 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
   ViewChild,
-  EventEmitter,
 } from "@angular/core";
 import { ModalService } from "../../../../../core/services/modal.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { StorageService } from "../../../../../core/services/storage.service";
 import { ConvertStringAmountToNumber } from "../../../../../shared/utils";
 import { TagsService } from "../../../../../core/services/tags.service";
 import { Tag } from "../../../../../shared/models/tag";
-import { filter, finalize, map } from "rxjs/operators";
+import { filter, finalize, map, takeUntil } from "rxjs/operators";
 import { ExtendTermQuota } from "../../../../../shared/models/extend-term-quota";
 import { AllowedMovement } from "../../../../../shared/models/allowed-movement";
 import { ExtendTermService } from "../extend-term.service";
 import { CredixSliderComponent } from "src/app/shared/components/credix-slider/credix-slider.component";
 import { ConvertNumberToStringAmount } from "src/app/shared/utils/convert-number-to-string-amount";
 import { PopupPromoComponent } from "../popup-promo/popup-promo.component";
-import { Observable, combineLatest } from "rxjs";
+import { Observable, combineLatest, forkJoin  } from "rxjs";
+import { CredixMasPopupComponent } from "../credix-mas-popup/credix-mas-popup.component";
+import { SliderPopupComponent } from "../slider-popup/slider-popup.component";
 
 @Component({
   selector: "app-recent-purchases",
@@ -62,6 +63,14 @@ export class RecentPurchasesComponent implements OnInit {
   minAmountDollars = 0;
   minAmountColones = 0;
   buttonDisable = true;
+  iva: number;
+  percentageCommission: string;
+  commissionMonthly: string = "";
+  feedPercentage: string;
+  comissionUnique: boolean = false;
+  quotaPromoMin = 0;
+  quotaPromoMax = 0;
+  private counterPromo = 0;
 
   @ViewChild("disabledTemplate") disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
@@ -70,11 +79,14 @@ export class RecentPurchasesComponent implements OnInit {
 
   constructor(
     private extendTermService: ExtendTermService,
+    private storageService: StorageService,
     private tagsService: TagsService,
     private modalService: ModalService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.today = new Date();
+  }
 
   ngOnInit(): void {
     this.checkCutDate();
@@ -115,11 +127,19 @@ export class RecentPurchasesComponent implements OnInit {
     });
   }
 
+  getAllowedMovementDetail(movement: AllowedMovement) {
+    this.allowedMovementSelected = movement;
+    this.quotaAmountFromSelected =
+      ConvertStringAmountToNumber(movement.originAmount) /
+      movement.totalPlanQuota;
+    this.calculateQuota(movement.movementId);
+  }
+
   allowedMovementState() {
-    combineLatest([
+    combineLatest(
       this.extendTermService.$allowedMovement,
-      this.extendTermService.$promoFilter,
-    ])
+      this.extendTermService.$promoFilter
+    )
       .pipe(
         map(([allowedMovementState, filterPromoState]) => {
           const allowedMovementAux: AllowedMovement[] =
@@ -141,6 +161,7 @@ export class RecentPurchasesComponent implements OnInit {
                   : "",
               };
             });
+
           const promoFilterAuxArr = allowedMovementAux.filter(
             (obj) => obj.promoApply
           );
@@ -157,8 +178,8 @@ export class RecentPurchasesComponent implements OnInit {
           }
         })
       )
-      .subscribe((res) => {
-        this.allowedMovements = res;
+      .subscribe((response) => {
+        this.allowedMovements = response;
       });
   }
 
@@ -174,23 +195,54 @@ export class RecentPurchasesComponent implements OnInit {
     return result;
   }
 
+  getQuota(sliderValue) {
+    this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
+    this.quotaSelected = this.quotas[sliderValue - 1];
+    console.log("quota: ", this.quotaSelected);
+    this.feedPercentage = String(
+      this.quotaSelected?.feePercentage === 0
+        ? this.quotaSelected?.feePercentage
+        : this.convertAmountValue(this.quotaSelected?.feePercentage)
+    );
+    this.feedPercentage = this.feedPercentage.replace(".", ",");
+
+    this.iva =
+      this.quotaSelected.quotaTo === 1
+        ? ConvertStringAmountToNumber(this.quotas[1].commissionAmount) * 0.13
+        : ConvertStringAmountToNumber(this.quotaSelected.IVA);
+    if (!this.comissionUnique) {
+      if (this.quotaSelected?.isCommissionMonthly) {
+        this.commissionMonthly = " mensual";
+      } else {
+        this.commissionMonthly = "";
+      }
+      this.percentageCommission = String(
+        this.convertAmountValue(this.quotaSelected?.commissionPercentage)
+      );
+      this.percentageCommission = this.percentageCommission.replace(".", ",");
+    }
+  }
+
   getAllowedMovements() {
     this.extendTermService
       .getAllowedMovements(1004)
-      .pipe(
-        finalize(() =>
-          this.checkMovementParam(this.route.snapshot.params?.movementId)
-        )
-      )
+      .pipe(finalize(() => this.checkMovementParam()))
       .subscribe((response) => {
         console.log(response);
         if (response?.result) {
+          const credixMas = true;
+          const promo = true;
           this.extendTermService.setAllowedMovements(response.result);
           this.minAmountColones = response.minAmountColones;
           this.minAmountDollars = response.minAmountDollars
             .replace(".", "")
             .replace(",", ".");
-          if (response.promo) {
+
+          if (credixMas && promo) {
+            this.openSliderModal(response.credixMasTitle,response.credixMasText,response.promoMessage, response.promoDescription);
+          } else if (credixMas) {
+            this.openModalCredixMas(response.credixMasTitle,response.credixMasText);
+          } else if (promo) {
             this.openModalPromo(
               response.promoDescription,
               response.promoMessage
@@ -302,6 +354,11 @@ export class RecentPurchasesComponent implements OnInit {
     )?.value;
   }
 
+  ngOnDestroy(): void {
+    this.extendTermService.unsubscribe();
+    this.counterPromo = 0;
+  }
+
   openModalPromo(promoDescription: string, promoMessage: string) {
     console.log(screen.height);
     this.modalService.open(
@@ -318,6 +375,55 @@ export class RecentPurchasesComponent implements OnInit {
         height: 390,
         disableClose: false,
         panelClass: "promo-popup",
+      },
+      1
+    );
+  }
+
+  openModalCredixMas(credixMasTitle: string, credixMasText: string) {
+    console.log(screen.height);
+    credixMasTitle = "Extienda el plazo de sus compras sin pagar comisión";
+    credixMasText = "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora"
+    this.modalService.open(
+      {
+        data: {
+          credixMasTitle,
+          credixMasText
+        },
+        hideCloseButton: true,
+        component: CredixMasPopupComponent,
+      },
+      {
+        width: 343,
+        disableClose: false,
+        panelClass: "promo-popup",
+      },
+      1
+    );
+  }
+
+  openSliderModal(credixMasTitle: string, credixMasText: string, promoMessage: string, promoDescription) {
+    console.log(screen.height);
+    credixMasTitle = "Extienda el plazo de sus compras sin pagar comisión";
+    credixMasText = "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora"
+    promoMessage = "Traslade una compra a 3 cuotas cero interes sin comision";
+    promoDescription = "¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un consumo a 3 cuotas cero interes sin ningun costo";
+    this.modalService.open(
+      {
+        data: {
+          credixMasTitle,
+          credixMasText,
+          promoMessage,
+          promoDescription
+         },
+        hideCloseButton: true,
+        component: SliderPopupComponent,
+      },
+      {
+        width: 343,
+        // height: 390,
+        disableClose: false,
+        panelClass: "promo-popup-panel",
       },
       1
     );

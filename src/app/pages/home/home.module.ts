@@ -28,7 +28,7 @@ import { HttpRequestsResponseInterceptor } from 'src/app/core/interceptors/http.
     MenuMessagesComponent,
     ModalMessagesComponent,
     HomeToolbarComponent,
-    HomeFooterComponent,
+    HomeFooterComponent
   ],
   imports: [
     CommonModule,
