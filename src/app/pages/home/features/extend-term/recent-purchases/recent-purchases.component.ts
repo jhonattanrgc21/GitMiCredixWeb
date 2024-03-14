@@ -213,20 +213,10 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       .getAllowedMovements(1004)
       .pipe(finalize(() => this.checkMovementParam()))
       .subscribe((response) => {
-        console.log(response);
         if (response?.result) {
-          const credixMas = true;
-          const promo = true;
-          if (credixMas && promo) {
-            this.openSliderModal(response.credixMasTitle,response.credixMasText,response.promoMessage, response.promoDescription);
-          } else if (credixMas) {
-            this.openModalCredixMas(response.credixMasTitle,response.credixMasText);
-          } else if (promo) {
-            this.openModalPromo(
-              response.promoDescription,
-              response.promoMessage
-            );
-          }
+          const credixMas = response.credixMas;
+          const promo = response.promo;
+          this.showModals(promo, credixMas, response);
           this.empty = false;
         } else {
           this.empty = true;
@@ -424,12 +414,13 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   openModalCredixMas(credixMasTitle: string, credixMasText: string) {
     console.log(screen.height);
     credixMasTitle = "Extienda el plazo de sus compras sin pagar comisión";
-    credixMasText = "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora"
+    credixMasText =
+      "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora";
     this.modalService.open(
       {
         data: {
           credixMasTitle,
-          credixMasText
+          credixMasText,
         },
         hideCloseButton: true,
         component: CredixMasPopupComponent,
@@ -443,20 +434,27 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     );
   }
 
-  openSliderModal(credixMasTitle: string, credixMasText: string, promoMessage: string, promoDescription) {
+  openSliderModal(
+    credixMasTitle: string,
+    credixMasText: string,
+    promoMessage: string,
+    promoDescription
+  ) {
     console.log(screen.height);
     credixMasTitle = "Extienda el plazo de sus compras sin pagar comisión";
-    credixMasText = "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora"
+    credixMasText =
+      "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora";
     promoMessage = "Traslade una compra a 3 cuotas cero interes sin comision";
-    promoDescription = "¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un consumo a 3 cuotas cero interes sin ningun costo";
+    promoDescription =
+      "¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un consumo a 3 cuotas cero interes sin ningun costo";
     this.modalService.open(
       {
         data: {
           credixMasTitle,
           credixMasText,
           promoMessage,
-          promoDescription
-         },
+          promoDescription,
+        },
         hideCloseButton: true,
         component: SliderPopupComponent,
       },
@@ -468,5 +466,30 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       },
       1
     );
+  }
+
+  showModals(promo: boolean, credixMas: boolean, response: any) {
+    if (!credixMas) {
+      this.modalService.showModalInfo("credixmas-extend").subscribe((value) => {
+        credixMas = value;
+        if (credixMas && promo) {
+          this.openSliderModal(
+            response.credixMasTitle,
+            response.credixMasText,
+            response.promoMessage,
+            response.promoDescription
+          );
+        } else if (credixMas) {
+          this.openModalCredixMas(
+            response.credixMasTitle,
+            response.credixMasText
+          );
+        } else if (promo) {
+          this.openModalPromo(response.promoDescription, response.promoMessage);
+        }
+      });
+    } else if (promo) {
+      this.openModalPromo(response.promoDescription, response.promoMessage);
+    }
   }
 }
