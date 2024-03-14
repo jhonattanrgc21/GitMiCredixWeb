@@ -18,7 +18,7 @@ import { ExtendTermService } from "../extend-term.service";
 import { CredixSliderComponent } from "src/app/shared/components/credix-slider/credix-slider.component";
 import { ConvertNumberToStringAmount } from "src/app/shared/utils/convert-number-to-string-amount";
 import { PopupPromoComponent } from "../popup-promo/popup-promo.component";
-import { Observable, combineLatest, forkJoin  } from "rxjs";
+import { Observable, combineLatest, forkJoin } from "rxjs";
 import { CredixMasPopupComponent } from "../credix-mas-popup/credix-mas-popup.component";
 import { SliderPopupComponent } from "../slider-popup/slider-popup.component";
 
@@ -70,6 +70,7 @@ export class RecentPurchasesComponent implements OnInit {
   comissionUnique: boolean = false;
   quotaPromoMin = 0;
   quotaPromoMax = 0;
+  today: Date;
   private counterPromo = 0;
 
   @ViewChild("disabledTemplate") disabledTemplate: TemplateRef<any>;
@@ -125,14 +126,6 @@ export class RecentPurchasesComponent implements OnInit {
         this.template = this.disabledTemplate;
       }
     });
-  }
-
-  getAllowedMovementDetail(movement: AllowedMovement) {
-    this.allowedMovementSelected = movement;
-    this.quotaAmountFromSelected =
-      ConvertStringAmountToNumber(movement.originAmount) /
-      movement.totalPlanQuota;
-    this.calculateQuota(movement.movementId);
   }
 
   allowedMovementState() {
@@ -195,38 +188,10 @@ export class RecentPurchasesComponent implements OnInit {
     return result;
   }
 
-  getQuota(sliderValue) {
-    this.quotaSliderDisplayValue = this.quotas[sliderValue - 1].quotaTo;
-    this.quotaSelected = this.quotas[sliderValue - 1];
-    console.log("quota: ", this.quotaSelected);
-    this.feedPercentage = String(
-      this.quotaSelected?.feePercentage === 0
-        ? this.quotaSelected?.feePercentage
-        : this.convertAmountValue(this.quotaSelected?.feePercentage)
-    );
-    this.feedPercentage = this.feedPercentage.replace(".", ",");
-
-    this.iva =
-      this.quotaSelected.quotaTo === 1
-        ? ConvertStringAmountToNumber(this.quotas[1].commissionAmount) * 0.13
-        : ConvertStringAmountToNumber(this.quotaSelected.IVA);
-    if (!this.comissionUnique) {
-      if (this.quotaSelected?.isCommissionMonthly) {
-        this.commissionMonthly = " mensual";
-      } else {
-        this.commissionMonthly = "";
-      }
-      this.percentageCommission = String(
-        this.convertAmountValue(this.quotaSelected?.commissionPercentage)
-      );
-      this.percentageCommission = this.percentageCommission.replace(".", ",");
-    }
-  }
-
   getAllowedMovements() {
     this.extendTermService
       .getAllowedMovements(1004)
-      .pipe(finalize(() => this.checkMovementParam()))
+      .pipe()
       .subscribe((response) => {
         console.log(response);
         if (response?.result) {
@@ -239,9 +204,17 @@ export class RecentPurchasesComponent implements OnInit {
             .replace(",", ".");
 
           if (credixMas && promo) {
-            this.openSliderModal(response.credixMasTitle,response.credixMasText,response.promoMessage, response.promoDescription);
+            this.openSliderModal(
+              response.credixMasTitle,
+              response.credixMasText,
+              response.promoMessage,
+              response.promoDescription
+            );
           } else if (credixMas) {
-            this.openModalCredixMas(response.credixMasTitle,response.credixMasText);
+            this.openModalCredixMas(
+              response.credixMasTitle,
+              response.credixMasText
+            );
           } else if (promo) {
             this.openModalPromo(
               response.promoDescription,
@@ -383,12 +356,13 @@ export class RecentPurchasesComponent implements OnInit {
   openModalCredixMas(credixMasTitle: string, credixMasText: string) {
     console.log(screen.height);
     credixMasTitle = "Extienda el plazo de sus compras sin pagar comisión";
-    credixMasText = "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora"
+    credixMasText =
+      "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora";
     this.modalService.open(
       {
         data: {
           credixMasTitle,
-          credixMasText
+          credixMasText,
         },
         hideCloseButton: true,
         component: CredixMasPopupComponent,
@@ -402,20 +376,27 @@ export class RecentPurchasesComponent implements OnInit {
     );
   }
 
-  openSliderModal(credixMasTitle: string, credixMasText: string, promoMessage: string, promoDescription) {
+  openSliderModal(
+    credixMasTitle: string,
+    credixMasText: string,
+    promoMessage: string,
+    promoDescription
+  ) {
     console.log(screen.height);
     credixMasTitle = "Extienda el plazo de sus compras sin pagar comisión";
-    credixMasText = "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora"
+    credixMasText =
+      "Con Credix Más, disfrute de 0% de comisión al ampliar el plazo de sus compras a 3 o 6 cuotas cero interés. Y lo mejor, ¡no hay límites!. Suscríbase y aproveche esta increíble ventaja ahora";
     promoMessage = "Traslade una compra a 3 cuotas cero interes sin comision";
-    promoDescription = "¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un consumo a 3 cuotas cero interes sin ningun costo";
+    promoDescription =
+      "¡Aproveche! Del 02/06/23 al 08/07/23 puede cambiar el plazo de un consumo a 3 cuotas cero interes sin ningun costo";
     this.modalService.open(
       {
         data: {
           credixMasTitle,
           credixMasText,
           promoMessage,
-          promoDescription
-         },
+          promoDescription,
+        },
         hideCloseButton: true,
         component: SliderPopupComponent,
       },
