@@ -193,34 +193,10 @@ export class RecentPurchasesComponent implements OnInit {
       .getAllowedMovements(1004)
       .pipe()
       .subscribe((response) => {
-        console.log(response);
         if (response?.result) {
-          const credixMas = true;
-          const promo = true;
-          this.extendTermService.setAllowedMovements(response.result);
-          this.minAmountColones = response.minAmountColones;
-          this.minAmountDollars = response.minAmountDollars
-            .replace(".", "")
-            .replace(",", ".");
-
-          if (credixMas && promo) {
-            this.openSliderModal(
-              response.credixMasTitle,
-              response.credixMasText,
-              response.promoMessage,
-              response.promoDescription
-            );
-          } else if (credixMas) {
-            this.openModalCredixMas(
-              response.credixMasTitle,
-              response.credixMasText
-            );
-          } else if (promo) {
-            this.openModalPromo(
-              response.promoDescription,
-              response.promoMessage
-            );
-          }
+          const credixMas = response.credixMas;
+          const promo = response.promo;
+          this.showModals(promo, credixMas, response);
           this.empty = false;
         } else {
           this.empty = true;
@@ -408,5 +384,30 @@ export class RecentPurchasesComponent implements OnInit {
       },
       1
     );
+  }
+
+  showModals(promo: boolean, credixMas: boolean, response: any) {
+    if (!credixMas) {
+      this.modalService.showModalInfo("credixmas-extend").subscribe((value) => {
+        credixMas = value;
+        if (credixMas && promo) {
+          this.openSliderModal(
+            response.credixMasTitle,
+            response.credixMasText,
+            response.promoMessage,
+            response.promoDescription
+          );
+        } else if (credixMas) {
+          this.openModalCredixMas(
+            response.credixMasTitle,
+            response.credixMasText
+          );
+        } else if (promo) {
+          this.openModalPromo(response.promoDescription, response.promoMessage);
+        }
+      });
+    } else if (promo) {
+      this.openModalPromo(response.promoDescription, response.promoMessage);
+    }
   }
 }

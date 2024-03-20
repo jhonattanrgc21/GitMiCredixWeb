@@ -1,37 +1,64 @@
-import {Injectable, TemplateRef} from '@angular/core';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {CredixPopupComponent} from '../../shared/components/credix-popup/credix-popup.component';
-import {Observable} from 'rxjs';
-import {CredixConfirmationPopupComponent} from '../../shared/components/credix-confirmation-popup/credix-confirmation-popup.component';
-import {CredixPopupAlternativeComponent} from '../../shared/components/credix-popup-alternative/credix-popup-alternative.component';
-import {CredixCalendarComponent} from '../../shared/components/credix-calendar/credix-calendar.component';
+import { Injectable, TemplateRef } from "@angular/core";
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from "@angular/material/dialog";
+import { CredixPopupComponent } from "../../shared/components/credix-popup/credix-popup.component";
+import { Observable } from "rxjs";
+import { CredixConfirmationPopupComponent } from "../../shared/components/credix-confirmation-popup/credix-confirmation-popup.component";
+import { CredixPopupAlternativeComponent } from "../../shared/components/credix-popup-alternative/credix-popup-alternative.component";
+import { CredixCalendarComponent } from "../../shared/components/credix-calendar/credix-calendar.component";
+import { HttpService } from "./http.service";
+import { StorageService } from "./storage.service";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class ModalService {
+  private readonly SHOW_MODAL_INFO_URI = "account/getinfotoshowmodal";
 
-  constructor(private dialog: MatDialog) {
-  }
+  constructor(
+    private dialog: MatDialog,
+    private http: HttpService,
+    private storage: StorageService
+  ) {}
 
-  private static fetchOptions({width, minHeight, height, disableClose, panelClass}: DialogOptions, option: 1 | 2):
-    Pick<MatDialogConfig<DialogData>, 'width' | 'minHeight' | 'height' | 'disableClose' | 'panelClass'> {
+  private static fetchOptions(
+    { width, minHeight, height, disableClose, panelClass }: DialogOptions,
+    option: 1 | 2
+  ): Pick<
+    MatDialogConfig<DialogData>,
+    "width" | "minHeight" | "height" | "disableClose" | "panelClass"
+  > {
     return {
       width: `${width}px`,
       minHeight: `${minHeight}px`,
       height: `${height}px`,
       disableClose,
-      panelClass: [panelClass, option === 1 ? 'credix-popup-panel' : 'credix-popup-alternative-panel']
+      panelClass: [
+        panelClass,
+        option === 1 ? "credix-popup-panel" : "credix-popup-alternative-panel",
+      ],
     };
   }
 
-  public open(data: DialogData, options: DialogOptions = {width: 800, minHeight: 0, height: 200, disableClose: true},
-              modalType: 1 | 2 = 1): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
+  public open(
+    data: DialogData,
+    options: DialogOptions = {
+      width: 800,
+      minHeight: 0,
+      height: 200,
+      disableClose: true,
+    },
+    modalType: 1 | 2 = 1
+  ): MatDialogRef<CredixPopupComponent | CredixPopupAlternativeComponent> {
     switch (modalType) {
       case 1:
         return this.dialog.open<CredixPopupComponent, DialogData>(
           CredixPopupComponent,
           {
             ...ModalService.fetchOptions(options, 1),
-            data
+            data,
           }
         );
       case 2:
@@ -39,26 +66,35 @@ export class ModalService {
           CredixPopupAlternativeComponent,
           {
             ...ModalService.fetchOptions(options, 2),
-            data
+            data,
           }
         );
     }
   }
 
-  public confirmationPopup(title: string, message?: string, width: number | 'auto' = 420, height: number | 'auto' = 200, autoclose?: Boolean | false, timeAutoClose?: number | 0, onlyOkButton?: Boolean | false ):
-    Observable<boolean> {
+  public confirmationPopup(
+    title: string,
+    message?: string,
+    width: number | "auto" = 420,
+    height: number | "auto" = 200,
+    autoclose?: Boolean | false,
+    timeAutoClose?: number | 0,
+    onlyOkButton?: Boolean | false
+  ): Observable<boolean> {
     let dialogRef: MatDialogRef<CredixConfirmationPopupComponent>;
     dialogRef = this.dialog.open(CredixConfirmationPopupComponent, {
       disableClose: true,
-      width: width === 'auto' ? width : `${width}px`,
-      height: height === 'auto' ? height : `${height}px`,
-      autoFocus: false
+      width: width === "auto" ? width : `${width}px`,
+      height: height === "auto" ? height : `${height}px`,
+      autoFocus: false,
     });
     dialogRef.componentInstance.title = title;
     dialogRef.componentInstance.message = message && message;
     dialogRef.componentInstance.okButton = onlyOkButton;
-    if(autoclose){
-      setTimeout(() => {if(dialogRef) this.dialog.closeAll()} , timeAutoClose);
+    if (autoclose) {
+      setTimeout(() => {
+        if (dialogRef) this.dialog.closeAll();
+      }, timeAutoClose);
     }
     return dialogRef.afterClosed();
   }
@@ -71,26 +107,44 @@ export class ModalService {
     let dialogRef: MatDialogRef<CredixCalendarComponent>;
     dialogRef = this.dialog.open(CredixCalendarComponent, {
       disableClose: true,
-      width: '328px',
-      height: '507px',
+      width: "328px",
+      height: "507px",
       autoFocus: false,
-      panelClass: 'calendar-panel',
+      panelClass: "calendar-panel",
     });
     dialogRef.componentInstance.endDate = endDate;
     dialogRef.componentInstance.startDate = startDate;
     return dialogRef.afterClosed();
   }
 
-  public openModalContainer(component: any, width: number | 'auto', height: number | 'auto', data: any):
-    Observable<boolean> {
+  public openModalContainer(
+    component: any,
+    width: number | "auto",
+    height: number | "auto",
+    data: any
+  ): Observable<boolean> {
     const dialogRef = this.dialog.open(component, {
       disableClose: true,
-      width: width === 'auto' ? width : `${width}px`,
-      height: height === 'auto' ? height : `${height}px`,
+      width: width === "auto" ? width : `${width}px`,
+      height: height === "auto" ? height : `${height}px`,
       autoFocus: false,
-      data
+      data,
     });
     return dialogRef.afterClosed();
+  }
+
+  showModalInfo(modal: string) {
+    return this.http
+      .post("canales", this.SHOW_MODAL_INFO_URI, {
+        modal: modal,
+        dispositive: this.storage.deviceIdentifier,
+        hasSeen: true,
+      })
+      .pipe(
+        map((response) => {
+          return response.showModal;
+        })
+      );
   }
 }
 
