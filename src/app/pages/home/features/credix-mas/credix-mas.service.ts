@@ -91,7 +91,7 @@ export class CredixMasService {
       .pipe(
         map((response) => {
           console.log("subscribe", response);
-          if (!response.type) {
+          if (!response.type || response.type === "error") {
             this._subscribeResponse = {
               type: "error",
               title: "Error",
