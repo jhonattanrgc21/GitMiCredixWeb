@@ -100,8 +100,8 @@ export class CredixMasService {
           } else {
             this._subscribeResponse = {
               type: "success",
-              title: "Exito",
-              message: response.message,
+              title: response.json.titleOne,
+              message: response.json.descriptionOne,
             };
           }
         })
