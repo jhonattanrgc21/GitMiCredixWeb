@@ -69,7 +69,7 @@ export class CredixMasService {
           console.log("account", response);
           if (response.type == "success") {
             this._info = response.json;
-            if (response.json.requestDate) {
+            if (response.json.activationDate) {
               this.toggleSubscription(true);
             }
           } else {
