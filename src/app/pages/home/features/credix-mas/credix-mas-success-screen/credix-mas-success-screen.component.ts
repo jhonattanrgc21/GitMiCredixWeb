@@ -11,6 +11,7 @@ import { CredixMasService } from "../credix-mas.service";
 })
 export class CredixMasSuccessScreenComponent implements OnInit {
   status: "success" | "info" | "error" = "success";
+  view: "success" | "warning" | "error" = "success";
   result = {
     title: "¡Exito!",
     message:
@@ -28,6 +29,12 @@ export class CredixMasSuccessScreenComponent implements OnInit {
       title: this.credixMasService.response.title,
       message: this.credixMasService.response.message,
     };
+    this.view =
+      this.status === "success"
+        ? this.result.title === "¡Lo sentimos!"
+          ? "warning"
+          : this.status
+        : this.status;
   }
 
   showRuleInfo() {

@@ -1,56 +1,119 @@
 <div class="credix-result-notification">
-
   <ng-container [ngSwitch]="status">
-    <svg *ngSwitchCase="'success'" height="100" viewBox="0 0 100 100" width="100"
-         class="credix-result-notification__icon" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      *ngSwitchCase="'success'"
+      height="100"
+      viewBox="0 0 100 100"
+      width="100"
+      class="credix-result-notification__icon"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <defs>
-        <style>.result-notification-success-check {
-          fill: #19D27E;
-        }</style>
+        <style>
+          .result-notification-success-check {
+            fill: #19d27e;
+          }
+        </style>
       </defs>
-      <path class="result-notification-success-check"
-            d="M-127.53,1139.872a50,50,0,0,1,50,50,50,50,0,0,1-50,50,50,50,0,0,1-50-50A50,50,0,0,1-127.53,1139.872Zm0,10a40,40,0,0,0-40,40,40,40,0,0,0,40,40,40,40,0,0,0,40-40A40,40,0,0,0-127.53,1149.872Zm-5,62.509-22.5-22.5,7.069-7.071,15.431,15.431,27.929-27.929,7.071,7.069Z"
-            transform="translate(177.53 -1139.872)"/>
+      <path
+        class="result-notification-success-check"
+        d="M-127.53,1139.872a50,50,0,0,1,50,50,50,50,0,0,1-50,50,50,50,0,0,1-50-50A50,50,0,0,1-127.53,1139.872Zm0,10a40,40,0,0,0-40,40,40,40,0,0,0,40,40,40,40,0,0,0,40-40A40,40,0,0,0-127.53,1149.872Zm-5,62.509-22.5-22.5,7.069-7.071,15.431,15.431,27.929-27.929,7.071,7.069Z"
+        transform="translate(177.53 -1139.872)"
+      />
     </svg>
 
-    <svg *ngSwitchCase="'warn'" height="100" viewBox="0 0 100 100" width="100"
-         class="credix-result-notification__icon" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      *ngSwitchCase="'warn'"
+      height="100"
+      viewBox="0 0 100 100"
+      width="100"
+      class="credix-result-notification__icon"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <defs>
-        <style>.result-notification-alert-check {
-          fill: #ffdc49;
-        }</style>
+        <style>
+          .result-notification-alert-check {
+            fill: #ffdc49;
+          }
+        </style>
       </defs>
-      <path class="result-notification-alert-check"
-            d="M-127.53,1139.872a50,50,0,0,1,50,50,50,50,0,0,1-50,50,50,50,0,0,1-50-50A50,50,0,0,1-127.53,1139.872Zm0,10a40,40,0,0,0-40,40,40,40,0,0,0,40,40,40,40,0,0,0,40-40A40,40,0,0,0-127.53,1149.872Zm-5,62.509-22.5-22.5,7.069-7.071,15.431,15.431,27.929-27.929,7.071,7.069Z"
-            transform="translate(177.53 -1139.872)"/>
+      <path
+        class="result-notification-alert-check"
+        d="M-127.53,1139.872a50,50,0,0,1,50,50,50,50,0,0,1-50,50,50,50,0,0,1-50-50A50,50,0,0,1-127.53,1139.872Zm0,10a40,40,0,0,0-40,40,40,40,0,0,0,40,40,40,40,0,0,0,40-40A40,40,0,0,0-127.53,1149.872Zm-5,62.509-22.5-22.5,7.069-7.071,15.431,15.431,27.929-27.929,7.071,7.069Z"
+        transform="translate(177.53 -1139.872)"
+      />
     </svg>
 
-    <svg *ngSwitchCase="'error'" height="100" viewBox="0 0 100 100" width="100"
-         class="credix-result-notification__icon" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      *ngSwitchCase="'error'"
+      height="100"
+      viewBox="0 0 100 100"
+      width="100"
+      class="credix-result-notification__icon"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <defs>
-        <style>.result-notification-exclamation-red {
-          fill: #ff4965;
-        }</style>
+        <style>
+          .result-notification-exclamation-red {
+            fill: #ff4965;
+          }
+        </style>
       </defs>
-      <path class="result-notification-exclamation-red"
-            d="M45,35H55V25H45m5,65A40,40,0,1,1,90,50,40.046,40.046,0,0,1,50,90ZM50,0a50,50,0,1,0,50,50A50,50,0,0,0,50,0ZM45,75H55V45H45Z"
-            transform="translate(100 100) rotate(180)"/>
+      <path
+        class="result-notification-exclamation-red"
+        d="M45,35H55V25H45m5,65A40,40,0,1,1,90,50,40.046,40.046,0,0,1,50,90ZM50,0a50,50,0,1,0,50,50A50,50,0,0,0,50,0ZM45,75H55V45H45Z"
+        transform="translate(100 100) rotate(180)"
+      />
     </svg>
 
-    <svg *ngSwitchCase="'info'" height="100" viewBox="0 0 100 100" width="100"
-         class="credix-result-notification__icon" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      *ngSwitchCase="'info'"
+      height="100"
+      viewBox="0 0 100 100"
+      width="100"
+      class="credix-result-notification__icon"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <defs>
-        <style>.result-notification-information {
-          fill: #5bc0de;
-        }</style>
+        <style>
+          .result-notification-information {
+            fill: #5bc0de;
+          }
+        </style>
       </defs>
-      <path class="result-notification-information"
-            d="M47,37H57V27H47m5,65A40,40,0,1,1,92,52,40.046,40.046,0,0,1,52,92ZM52,2a50,50,0,1,0,50,50A50,50,0,0,0,52,2ZM47,77H57V47H47Z"
-            transform="translate(-1.999 -1.998)"/>
+      <path
+        class="result-notification-information"
+        d="M47,37H57V27H47m5,65A40,40,0,1,1,92,52,40.046,40.046,0,0,1,52,92ZM52,2a50,50,0,1,0,50,50A50,50,0,0,0,52,2ZM47,77H57V47H47Z"
+        transform="translate(-1.999 -1.998)"
+      />
+    </svg>
+
+    <svg
+      *ngSwitchCase="'warning'"
+      height="100"
+      viewBox="0 0 100 100"
+      width="100"
+      class="credix-result-notification__icon"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <style>
+          .result-notification-information {
+            fill: #ffdc49;
+          }
+        </style>
+      </defs>
+      <path
+        class="result-notification-information"
+        d="M47,37H57V27H47m5,65A40,40,0,1,1,92,52,40.046,40.046,0,0,1,52,92ZM52,2a50,50,0,1,0,50,50A50,50,0,0,0,52,2ZM47,77H57V47H47Z"
+        transform="translate(-1.999 -1.998)"
+      />
     </svg>
   </ng-container>
 
-  <h2 *ngIf="title" class="credix-result-notification__title">{{title}}</h2>
+  <h2 *ngIf="title" class="credix-result-notification__title">{{ title }}</h2>
 
-  <span *ngIf="message" class="credix-result-notification__message">{{message}}</span>
+  <span *ngIf="message" class="credix-result-notification__message">{{
+    message
+  }}</span>
 </div>
