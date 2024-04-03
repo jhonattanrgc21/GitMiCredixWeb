@@ -71,6 +71,8 @@ export class CredixMasService {
             this._info = response.json;
             if (response.json.activationDate) {
               this.toggleSubscription(true);
+            } else {
+              this.toggleSubscription(false);
             }
           } else {
             this._notification = {
