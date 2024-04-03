@@ -17,7 +17,7 @@
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>Cobro mensual</span>
           <credix-numeric-block
-            [value]="5000"
+            [value]="info.feeAmount"
             fontWeight="bold"
             prefix="₡"
           ></credix-numeric-block>
@@ -26,7 +26,7 @@
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>IVA</span>
           <credix-numeric-block
-            [value]="650"
+            [value]="info.IVA"
             fontWeight="bold"
             prefix="₡"
           ></credix-numeric-block>
@@ -34,12 +34,16 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>Fecha de solicitud</span>
-          <span><strong>27/08/2023</strong></span>
+          <span
+            ><strong>{{ today | date : "dd/MM/yyyy" }}</strong></span
+          >
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>Día de cobro</span>
-          <span><strong>27 de cada mes</strong></span>
+          <span
+            ><strong>{{ chargeDate }} de cada mes</strong></span
+          >
         </div>
       </div>
     </div>
