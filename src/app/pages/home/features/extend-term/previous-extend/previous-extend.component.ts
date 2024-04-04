@@ -57,7 +57,7 @@ export class PreviousExtendComponent implements OnInit {
     if ( this.extendTermService.movementsSelected.length <= 0 ) {
       this.router.navigate(['/home/extend-term']);
     }
-    
+
     this.movementsSelected = this.extendTermService.movementsSelected;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
@@ -83,7 +83,7 @@ export class PreviousExtendComponent implements OnInit {
               const aux = [...this.quotas];
 
               aux.shift();
-              
+
               this.result = aux.find(quota => ConvertStringAmountToNumber ( quota.commissionAmountDilute ) !== commission);
             }
           }
@@ -99,7 +99,7 @@ export class PreviousExtendComponent implements OnInit {
     this.movementQuotaSummary = this.quotas.find(value => value.quotaTo === this.termSliderDisplayValue);
     this.feedPercentage = String(this.movementQuotaSummary?.feePercentage === 0 ? this.movementQuotaSummary?.feePercentage : this.convertAmountValue(this.movementQuotaSummary?.feePercentage));
     this.feedPercentage = this.feedPercentage .replace('.', ',');
-    
+
     if ( !this.result ) {
       this.percentageCommission = '';
     } else {
@@ -113,7 +113,7 @@ export class PreviousExtendComponent implements OnInit {
       this.percentageCommission = this.percentageCommission .replace('.', ',');
     }
   }
-  
+
   convertAmountValue(value: any): any {
     let result: any = '';
 
@@ -149,7 +149,8 @@ export class PreviousExtendComponent implements OnInit {
             establishment: '',
             currency: '₡',
             amount: this.movementQuotaSummary.amountPerQuota,
-            quota: this.movementQuotaSummary.quotaTo
+            quota: this.movementQuotaSummary.quotaTo,
+            movements: []
           };
         });
   }

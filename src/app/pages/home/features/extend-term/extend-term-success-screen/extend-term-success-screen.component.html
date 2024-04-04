@@ -1,45 +1,117 @@
-<app-credix-result-view [resultMessage]="message"
-                        [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
-                        [status]="status"
-                        [moduleTitle]="titleTag || 'Ampliar plazo de compra'"
-                        buttonText="Listo"
-                        routeTo="/home/extend-term">
-
+<app-credix-result-view
+  [resultMessage]="message"
+  [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
+  [status]="status"
+  [moduleTitle]="titleTag || 'Ampliar plazo de compra'"
+  buttonText="Listo"
+  routeTo="/home/extend-term"
+>
   <div *ngIf="status === 'success'" class="w-100" fxLayout="column">
     <mat-divider class="mb-24px" credixDivider></mat-divider>
 
-    <div fxLayout="row" fxLayoutAlign="space-between">
-      <span fxFlex="175px"><strong>Datos de la ampliación</strong></span>
+    <ng-container *ngIf="movements.length == 1; else unified">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="175px"><strong>Datos de la ampliación</strong></span>
 
-      <div fxLayout="column" fxLayoutGap="8px" fxFlex="208px">
+        <div fxLayout="column" fxLayoutGap="8px" fxFlex="208px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex="90px">{{ commerceTag || "Comercio" }}</span>
+            <span class="truncate tr" fxFlex="auto">
+              <strong>{{ establishment }}</strong></span
+            >
+          </div>
 
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex="90px">{{commerceTag || 'Comercio'}}</span>
-          <span class="truncate tr" fxFlex="auto">
-              <strong>{{establishment}}</strong></span>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{ newQuotaTag || "Cuota nueva" }}</span>
+            <credix-numeric-block
+              [prefix]="currency"
+              [value]="amount"
+              fontWeight="bold"
+            >
+            </credix-numeric-block>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Plazo nuevo</span>
+            <span
+              ><strong
+                >{{ quota }}
+                <p>{{ quota > 1 ? "Cuotas" : "Cuota" }}</p></strong
+              ></span
+            >
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{ dateTag || "Fecha" }}</span>
+            <span
+              ><strong>{{
+                today | dateFormatter : "alphanumeric"
+              }}</strong></span
+            >
+          </div>
         </div>
-
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex>{{newQuotaTag || 'Cuota nueva'}}</span>
-          <credix-numeric-block [prefix]="currency"
-                                [value]="amount" fontWeight="bold">
-          </credix-numeric-block>
-        </div>
-
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex>Plazo nuevo</span>
-          <span><strong>{{ quota }} <p>{{quota > 1 ? 'Cuotas' : 'Cuota'}}</p></strong></span>
-        </div>
-
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex>{{dateTag || 'Fecha'}}</span>
-          <span><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
-        </div>
-
       </div>
-    </div>
+    </ng-container>
 
-    <credix-share-button fxFlexAlign="center" style="margin-top: 90px"></credix-share-button>
+    <ng-template #unified>
+      <div fxLayout="row" class="mb-24px" fxLayoutAlign="space-between">
+        <span fxFlex="175px"><strong>Datos de la ampliación</strong></span>
+
+        <div fxLayout="column" fxLayoutGap="8px" fxFlex="208px">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Nueva cuota</span>
+            <credix-numeric-block
+              [prefix]="currency"
+              [value]="amount"
+              fontWeight="bold"
+            >
+            </credix-numeric-block>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>Plazo nuevo</span>
+            <span
+              ><strong
+                >{{ quota }} {{ quota > 1 ? "cuotas" : "cuota" }}</strong
+              ></span
+            >
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <span fxFlex>{{ dateTag || "Fecha" }}</span>
+            <span
+              ><strong>{{
+                today | dateFormatter : "alphanumeric"
+              }}</strong></span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <span fxFlex="175px"><strong>Consumos</strong></span>
+
+        <div fxLayout="column" fxLayoutGap="8px" fxFlex="208px">
+          <div
+            *ngFor="let item of movements"
+            fxLayout="row"
+            fxLayoutAlign="space-between"
+          >
+            <span fxFlex>{{ item.establishmentName.trim() }}</span>
+            <credix-numeric-block
+              [prefix]="item.originCurrency.currency"
+              [value]="convertAmountValue(item.originAmount)"
+              fontWeight="bold"
+            >
+            </credix-numeric-block>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <credix-share-button
+      fxFlexAlign="center"
+      style="margin-top: 40px"
+    ></credix-share-button>
   </div>
-
 </app-credix-result-view>
