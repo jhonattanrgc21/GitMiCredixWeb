@@ -1,0 +1,97 @@
+<div class="schedule-quotas-third-step">
+  <div fxLayout="column" class="content" fxLayoutGap="16px">
+    <!-- Resumen de la regla en colones -->
+    <ng-container *ngIf="isColones">
+      <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="space-between">
+        <div fxLayout="column" fxLayoutGap="16px">
+          <p class="highlighted-info">{{tag1 || 'Compra en colones'}}</p>
+          <credix-link-button (click)="back()">{{ tag2 || 'Editar'}}</credix-link-button>
+        </div>
+
+        <div fxLayout="column">
+          <div class="text-container mb-16px">
+            <span class="info">Toda compra entre <span class="highlighted-info">
+                ₡{{ formatNumberWithCommas(!colonesForm.value.minimumAmount ? 0 : colonesForm.value.minimumAmount) }}
+                - ₡{{ formatNumberWithCommas(!colonesForm.value.maximumAmount ? 0 : colonesForm.value.maximumAmount)
+                }}</span> se ampliará a
+              <span class="highlighted-info">{{ colonesForm.value.quotas }} {{ colonesForm.value.quotas === 1 ? 'cuota'
+                : 'cuotas' }}.</span></span>
+          </div>
+
+          <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between center">
+            <p class="info">{{tag3 || 'Comisión mensual*'}}</p>
+            <span class="highlighted-info">{{ colonesForm.value.commissions }}%</span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <p class="info">{{ tag4 || 'Interés mensual'}}</p>
+            <span class="highlighted-info">{{ colonesForm.value.interest }}%</span>
+          </div>
+
+          <ng-container *ngIf="colonesForm.value.initDate && colonesForm.value.endDate">
+            <p class="info mt-16px">
+              Aplica del <span class="highlighted-info">{{ formatDate(colonesForm.value.initDate) }}</span>
+              al <span class="highlighted-info">{{ formatDate(colonesForm.value.endDate) }}</span></p>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Divider -->
+    <ng-container *ngIf="isColones && isDollars">
+      <div fxLayout="row">
+        <mat-divider credixDivider></mat-divider>
+      </div>
+    </ng-container>
+
+    <!-- Resumen de la regla en dolares -->
+    <ng-container *ngIf="isDollars">
+      <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="space-between">
+        <div fxLayout="column" fxLayoutGap="16px">
+          <p class="highlighted-info">{{ tag5 || 'Compra en dólares'}}</p>
+          <credix-link-button (click)="back()">{{ tag2 || 'Editar'}}</credix-link-button>
+        </div>
+
+        <div fxLayout="column">
+          <div class="text-container mb-16px">
+            <span class="info">Toda compra entre <span class="highlighted-info">
+                ${{ formatNumberWithCommas(!dollarsForm.value.minimumAmount ? 0 : dollarsForm.value.minimumAmount) }}
+                - ${{ formatNumberWithCommas(!dollarsForm.value.maximumAmount ? 0 : dollarsForm.value.maximumAmount)
+                }}</span> se ampliará a
+              <span class="highlighted-info">{{ dollarsForm.value.quotas }} {{ dollarsForm.value.quotas === 1 ? 'cuota'
+                : 'cuotas' }}.</span></span>
+            </div>
+
+          <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between center">
+            <p class="info">{{tag3 || 'Comisión mensual*'}}</p>
+            <span class="highlighted-info">{{ dollarsForm.value.commissions }}%</span>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <p class="info">{{ tag4 || 'Interés mensual'}}</p>
+            <span class="highlighted-info">{{ dollarsForm.value.interest }}%</span>
+          </div>
+          <ng-container *ngIf="dollarsForm.value.initDate && dollarsForm.value.endDate">
+            <p class="info mt-16px">
+              Aplica del <span class="highlighted-info">{{ formatDate(dollarsForm.value.initDate) }}</span>
+              al <span class="highlighted-info">{{ formatDate(dollarsForm.value.endDate) }}</span></p>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+
+    <div fxLayout="row" fxLayoutAlign="flex-end">
+      <div fxLayout="column" fxLayoutGap="8px" class="summary text-container">
+        <p class="summary__text"><span class="summary__highlighted-text">Aplica</span> para transacciones en firme (no
+          flotantes) entre el {{rangeApply}}
+          de cada mes. </p>
+        <p class="summary__text"><span class="summary__highlighted-text">No aplica</span> para transacciones que queden
+          en firme entre el {{rangeDoesNotApply}}
+          del mes.</p>
+
+        <p class="summary__text">{{tag6 || '*La tasa cambia cada 6 meses (en enero y julio), según lo comunicado por el Banco Central.'}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,308 @@
+<div
+  class="schedule-quotas-second-step"
+  [ngStyle]="{ 'height.px': isColones && isDollars ? '570' : '431' }"
+>
+  <ng-container *ngIf="isColones">
+    <div fxLayout="row" fxLayoutGap="17px">
+      <p class="info">
+        {{ tag1 || "Quiero que mis compras en colones entre:" }}
+      </p>
+
+      <div fxFlex="50%" class="content" fxLayout="column" fxLayoutGap="17px">
+        <form [formGroup]="colonesForm" class="content__form">
+          <div fxLayout="column" fxLayoutGap="4px">
+            <div fxLayout="row" fxLayoutGap="17px">
+              <credix-input-field
+                mask="separator.0-9"
+                class="content__input"
+                formControlName="minimumAmount"
+                [label]="tag7 || 'Monto mínimo'"
+                [prefix]=""
+              >
+                <div
+                  *ngIf="colonesForm.get('minimumAmount').hasError('required')"
+                  error
+                >
+                  {{ "El campo es obligatorio." }}
+                </div>
+                <div
+                  *ngIf="colonesForm.get('minimumAmount').hasError('min')"
+                  error
+                >
+                  {{ "Debe ser mayor a 0." }}
+                </div>
+                <div
+                  *ngIf="colonesForm.get('minimumAmount').hasError('duplicate')"
+                  error
+                  style="width: max-content"
+                >
+                  {{ "Ya tiene una regla con estos montos." }}
+                </div>
+                <div
+                  *ngIf="colonesForm.get('minimumAmount').hasError('minValue')"
+                  error
+                  style="width: max-content"
+                >
+                  {{ "El monto mínimo debe ser menor al monto máximo." }}
+                </div>
+                <div
+                  *ngIf="colonesForm.get('minimumAmount').hasError('minAmount')"
+                  error
+                  style="width: max-content"
+                >
+                  {{ "Valor es menor al minimo: ₡" + minimumAmountDollars }}
+                </div>
+              </credix-input-field>
+
+              <credix-input-field
+                class="content__input"
+                formControlName="maximumAmount"
+                [label]="tag8 || 'Monto máximo'"
+                mask="separator.0-9"
+                [prefix]=""
+              >
+                <div
+                  *ngIf="
+                    colonesForm.get('maximumAmount').hasError('required') &&
+                    !colonesForm.get('minimumAmount').hasError('duplicate') &&
+                    !colonesForm.get('minimumAmount').hasError('minValue')
+                  "
+                  error
+                >
+                  {{ "El campo es obligatorio" }}
+                </div>
+                <div
+                  *ngIf="
+                    colonesForm.get('maximumAmount').hasError('min') &&
+                    !colonesForm.get('minimumAmount').hasError('duplicate') &&
+                    !colonesForm.get('minimumAmount').hasError('minValue')
+                  "
+                  error
+                >
+                  {{ "Debe ser mayor a 0." }}
+                </div>
+                <div
+                  *ngIf="colonesForm.get('maximumAmount').hasError('maxAmount')"
+                  error
+                  style="width: max-content"
+                >
+                  {{ "Valor excede el máximo: ₡" + maximumAmountDollars }}
+                </div>
+              </credix-input-field>
+            </div>
+          </div>
+
+          <ng-container *ngIf="isAmountsValid(colonesForm, 188)">
+            <div fxLayout="row">
+              <credix-slider
+                (inputChange)="getQuota($event, 188)"
+                (valueChange)="getQuota($event, 188)"
+                [displayMax]="colonesSlider.quotaSliderDisplayMax"
+                [displayMin]="colonesSlider.quotaSliderDisplayMin"
+                [displayValue]="colonesSlider.quotaSliderDisplayValue"
+                instructions="{{ tag3 || 'Se amplíen a' }}"
+                [value]="colonesSlider.quotaSliderValue"
+                [max]="colonesSlider.quotaSliderMax"
+                [min]="colonesSlider.quotaSliderMin"
+                [step]="colonesSlider.quotaSliderStep"
+                class="slider"
+                [units]="
+                  colonesSlider.quotaSliderDisplayValue === 1
+                    ? 'Cuota'
+                    : 'Cuotas'
+                "
+              ></credix-slider>
+            </div>
+            <div
+              *ngIf="colonesCommission"
+              fxLayout="row"
+              class="mt-16px"
+              fxLayoutAlign="space-between center"
+            >
+              <span fxFlex="133px"> {{ tag4 || "Comisión mensual" }}</span>
+              <span class="tr"
+                ><strong>{{ colonesCommission }}%</strong></span
+              >
+            </div>
+
+            <div
+              *ngIf="colonesFee"
+              fxLayout="row"
+              class="mt-8px"
+              fxLayoutAlign="space-between center"
+            >
+              <span fxFlex="115px">{{ tag5 || "Interés mensual" }}</span>
+              <span class="tr"
+                ><strong>{{ colonesFee }}%</strong></span
+              >
+            </div>
+
+            <div fxLayout="row" class="mt-16px" fxLayoutAlign="flex-end">
+              <credix-link-button
+                (click)="openDateRangeModal(colonesForm, colonesDateRange)"
+                >{{ tag6 || "Definir fechas" }}</credix-link-button
+              >
+            </div>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isColones && isDollars">
+    <div fxLayout="row" class="schedule-quotas__divider">
+      <mat-divider class="mb-16px" credixDivider></mat-divider>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isDollars">
+    <div fxLayout="row" fxLayoutGap="17px">
+      <p class="info">
+        {{ tag2 || "Quiero que mis dólares en colones entre:" }}
+      </p>
+
+      <div fxFlex="50%" class="content" fxLayout="column" fxLayoutGap="17px">
+        <form [formGroup]="dollarsForm" class="content__form">
+          <div fxLayout="row" fxLayoutGap="17px">
+            <credix-input-field
+              class="content__input"
+              formControlName="minimumAmount"
+              [label]="tag7 || 'Monto mínimo'"
+              mask="separator.0-9"
+              [prefix]=""
+            >
+              <div
+                *ngIf="dollarsForm.get('minimumAmount').hasError('required')"
+                error
+              >
+                {{ "El campo es obligatorio" }}
+              </div>
+              <div
+                *ngIf="dollarsForm.get('minimumAmount').hasError('min')"
+                error
+              >
+                {{ "Debe ser mayor a 0." }}
+              </div>
+              <div
+                *ngIf="dollarsForm.get('minimumAmount').hasError('duplicate')"
+                error
+                style="width: max-content"
+              >
+                {{ "Ya tiene una regla con estos montos." }}
+              </div>
+              <div
+                *ngIf="dollarsForm.get('minimumAmount').hasError('minValue')"
+                error
+                style="width: max-content"
+              >
+                {{ "El monto mínimo debe ser menor al monto máximo." }}
+              </div>
+
+              <div
+                *ngIf="dollarsForm.get('minimumAmount').hasError('minAmount')"
+                error
+                style="width: max-content"
+              >
+                {{ "Valor es menor al minimo: $" + minimumAmountDollars }}
+              </div>
+            </credix-input-field>
+
+            <credix-input-field
+              class="content__input"
+              formControlName="maximumAmount"
+              [label]="tag8 || 'Monto máximo'"
+              mask="separator.0-9"
+              [prefix]=""
+            >
+              <div
+                *ngIf="
+                  dollarsForm.get('maximumAmount').hasError('required') &&
+                  !dollarsForm.get('minimumAmount').hasError('duplicate') &&
+                  !dollarsForm.get('minimumAmount').hasError('minValue')
+                "
+                error
+              >
+                {{ "El campo es obligatorio" }}
+              </div>
+              <div
+                *ngIf="
+                  dollarsForm.get('maximumAmount').hasError('min') &&
+                  !dollarsForm.get('minimumAmount').hasError('duplicate') &&
+                  !dollarsForm.get('minimumAmount').hasError('minValue')
+                "
+                error
+              >
+                {{ "Debe ser mayor a 0." }}
+              </div>
+              <div
+                *ngIf="dollarsForm.get('maximumAmount').hasError('maxAmount')"
+                error
+                style="width: max-content"
+              >
+                {{ "Valor excede el máximo: $" + maximumAmountDollars }}
+              </div>
+            </credix-input-field>
+          </div>
+
+          <ng-container *ngIf="isAmountsValid(dollarsForm, 840)">
+            <div fxLayout="row">
+              <credix-slider
+                (inputChange)="getQuota($event, 840)"
+                (valueChange)="getQuota($event, 840)"
+                [value]="dollarsSlider.quotaSliderValue"
+                [displayMax]="dollarsSlider.quotaSliderDisplayMax"
+                [displayMin]="dollarsSlider.quotaSliderDisplayMin"
+                [displayValue]="dollarsSlider.quotaSliderDisplayValue"
+                instructions="{{ tag3 || 'Se amplíen a' }}"
+                [max]="dollarsSlider.quotaSliderMax"
+                [min]="dollarsSlider.quotaSliderMin"
+                [step]="dollarsSlider.quotaSliderStep"
+                class="slider"
+                [units]="
+                  dollarsSlider.quotaSliderDisplayValue === 1
+                    ? 'Cuota'
+                    : 'Cuotas'
+                "
+              ></credix-slider>
+            </div>
+            <div
+              *ngIf="dollarsCommission"
+              fxLayout="row"
+              class="mt-16px"
+              fxLayoutAlign="space-between center"
+            >
+              <span fxFlex="133px"> {{ tag4 || "Comisión mensual" }}</span>
+              <span class="tr"
+                ><strong>{{ dollarsCommission }}%</strong></span
+              >
+            </div>
+
+            <div
+              *ngIf="dollarsFee"
+              fxLayout="row"
+              class="mt-8px"
+              fxLayoutAlign="space-between center"
+            >
+              <span fxFlex="115px">{{ tag5 || "Interés mensual" }}</span>
+              <span class="tr"
+                ><strong>{{ dollarsFee }}%</strong></span
+              >
+            </div>
+
+            <div
+              fxLayout="row"
+              class="mt-16px"
+              [ngClass]="{ 'mb-16px': isColones && isDollars }"
+              fxLayoutAlign="flex-end"
+            >
+              <credix-link-button
+                (click)="openDateRangeModal(dollarsForm, dollarsDateRange)"
+                >{{ tag6 || "Definir fechas" }}</credix-link-button
+              >
+            </div>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+</div>
