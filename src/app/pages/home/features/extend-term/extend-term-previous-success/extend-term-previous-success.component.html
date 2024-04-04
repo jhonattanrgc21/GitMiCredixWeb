@@ -2,8 +2,14 @@
                         [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
                         [status]="status"
                         [moduleTitle]="titleTag || 'Ampliar plazo de compra'"
+                        [recordatoryForExtendTerm]='true'
+                        [data]='{
+                          amountSummary: this.amountSummary,
+                          pagoContado: this.pagoContadoColones,
+                          endDate: this.endDate
+                        }'
                         buttonText="Listo"
-                        routeTo="/home/extend-term">
+                        routeTo="/home">
 
   <div *ngIf="status === 'success'" class="w-100" fxLayout="column" fxFlex="auto">
     <mat-divider class="mb-24px" credixDivider></mat-divider>
@@ -31,8 +37,25 @@
         </div>
 
       </div>
-    </div>
 
+    </div>
+    <div class='mt-16px' style='padding: 0 22px' fxLayout='row'>
+      <p class='consumed-title'>
+        Consumos
+      </p>
+      <div fxLayout='column' style='width: 46%'>
+        <ng-container *ngFor='let previous of previousMovementSelected'>
+          <div fxLayout='row' fxLayoutAlign='space-between'>
+            <p style='width: 50%;'>
+              {{previous.establishmentName}}
+            </p>
+            <credix-numeric-block prefix="₡"
+                                  [value]="previous.amount" fontWeight="bold">
+            </credix-numeric-block>
+          </div>
+        </ng-container>
+      </div>
+    </div>
     <credix-share-button fxFlex="auto" fxFlexAlign="center"></credix-share-button>
   </div>
 
