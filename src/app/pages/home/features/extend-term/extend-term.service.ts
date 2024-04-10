@@ -263,7 +263,7 @@ export class ExtendTermService {
     });
   }
 
-  saveNewQuotaPreviousConsumptions( quota = 1, transaction: number[]): Observable<{title: string, message: string, type: string, status: 'success' | 'error'}> {
+  saveNewQuotaPreviousConsumptions( quota = 1, transaction: string[]): Observable<{title: string, message: string, type: string, status: 'success' | 'error'}> {
     return this.httpService.post('canales', this.saveNewQuotaPreviousMovementsUri, {
       accountId: this.storageService.getCurrentUser().actId,
       quota,

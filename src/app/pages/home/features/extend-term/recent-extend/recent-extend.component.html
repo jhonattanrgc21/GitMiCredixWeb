@@ -144,7 +144,7 @@
           {{
             percentageCommission === ""
               ? ""
-              : "(" + percentageCommission + "% mensual)"
+              : "(" + percentageCommission.toString().replace('.',',') + "% mensual)"
           }}
         </span>
         <credix-numeric-block
@@ -160,7 +160,7 @@
 
       <div fxLayout="row" fxLayoutAlign="space-between">
         <span fxFlex
-          >{{ "Interés" }} {{ "(" + feedPercentage + "% mensual)" }}
+          >{{ "Interés" }} {{ "(" + feedPercentage.toString().replace('.',',') + "% mensual)" }}
         </span>
         <credix-numeric-block
           [value]="movementQuotaSummary?.feeAmount"
