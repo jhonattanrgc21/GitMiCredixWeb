@@ -58,7 +58,7 @@ export class RecentPurchasesComponent implements OnInit {
   title: string;
   amountArray: { amount: number; movementId: string }[] = [];
   amountSummary = "0";
-  summaryPrefix = "₡";
+  summaryPrefix = 188;
   minAmountDollars = 0;
   minAmountColones = 0;
   buttonDisable = true;
@@ -228,7 +228,8 @@ export class RecentPurchasesComponent implements OnInit {
       0
     );
     this.amountSummary = ConvertNumberToStringAmount(totalAmount);
-    this.summaryPrefix = dollar ? "$" : "₡";
+    this.summaryPrefix =
+      this.allowedMovementSelected[0]?.originCurrency?.currencyId ?? 188;
     this.buttonDisable = dollar
       ? totalAmount < this.minAmountDollars
       : totalAmount < this.minAmountColones;

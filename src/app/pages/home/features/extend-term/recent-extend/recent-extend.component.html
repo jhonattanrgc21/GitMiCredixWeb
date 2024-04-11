@@ -129,7 +129,7 @@
       </div>
 
       <div *ngIf="!singleMovement" fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ "Plazo promedio*" }}</span>
+        <span fxFlex>{{ "Período promedio*" }}</span>
         <span
           ><strong
             >{{ movementQuotaSummary?.quotaFrom }}
@@ -183,10 +183,10 @@
       </div>
     </div>
 
-    <p *ngIf="singleMovement" fxFlex class="summary-custom__info-iva">
+    <p *ngIf="singleMovement" fxFlex class="summary-custom__info-sub iva">
       * IVA y comisión se cargarán en el próximo estado de cuenta.
     </p>
-    <p *ngIf="!singleMovement" fxFlex class="summary-custom__info-iva">
+    <p *ngIf="!singleMovement" fxFlex class="summary-custom__info-sub">
       * Tiempo promedio al que se aplica la comisión.
     </p>
 
