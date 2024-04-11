@@ -30,30 +30,29 @@
       }
 
       &.mat-flat-button {
-
         ::ng-deep.mat-button-wrapper {
           color: #ffffff;
         }
       }
 
       &.mat-stroked-button {
-        border: 1px solid #E42313;
+        border: 1px solid #e42313;
 
         ::ng-deep.mat-button-wrapper {
-          color: #DD2218;
+          color: #dd2218;
         }
 
         &[disabled] {
-          border: 1px solid #D2D2D2;
+          border: 1px solid #d2d2d2;
 
           ::ng-deep.mat-button-wrapper {
-            color: #D2D2D2;
+            color: #d2d2d2;
           }
         }
       }
 
       &:hover:enabled {
-        background-color: #AF1306;
+        background-color: #e42313;
 
         &.mat-stroked-button {
           ::ng-deep.mat-button-wrapper {
