@@ -177,15 +177,13 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
       (value) => value.quotaTo === this.termSliderDisplayValue
     );
     this.feedPercentage =
-      this.movementQuotaSummary?.feePercentage === 0
-        ? this.movementQuotaSummary?.feePercentage
-        : this.convertAmountValue(this.movementQuotaSummary?.feePercentage);
+      this.convertAmountValue(this.movementQuotaSummary.feePercentage) == 0
+        ? "0"
+        : this.movementQuotaSummary?.feePercentage;
     this.percentageCommission =
-      this.movementQuotaSummary?.commissionPercentage === ""
-        ? this.movementQuotaSummary?.commissionPercentage
-        : this.convertAmountValue(
-            this.movementQuotaSummary?.commissionPercentage
-          );
+      this.movementQuotaSummary?.commissionPercentage === "0,00"
+        ? "0"
+        : this.movementQuotaSummary?.commissionPercentage;
   }
 
   convertAmountValue(value: any): any {
@@ -201,17 +199,16 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
   }
 
   openConfirmationModal() {
-    this.modalService
-      .confirmationPopup("¿Desea ampliar el plazo?")
-      .subscribe((confirmation) => {
-        if (confirmation) {
-          if (this.movementsSelected.length > 1) {
-            this.saveQuotaUnified();
-          } else {
-            this.saveQuota();
-          }
+    const text = `¿Desea ampliar el plazo a ${this.movementQuotaSummary.quotaTo} cuotas de ${this.summaryPrefix}${this.movementQuotaSummary.amountPerQuota}?`;
+    this.modalService.confirmationPopup(text).subscribe((confirmation) => {
+      if (confirmation) {
+        if (this.movementsSelected.length > 1) {
+          this.saveQuotaUnified();
+        } else {
+          this.saveQuota();
         }
-      });
+      }
+    });
   }
 
   saveQuota() {
@@ -289,10 +286,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
       },
       {
         width: 380,
-        height:
-          this.movementQuotaSummary.IVA !== "0,00" && !this.singleMovement
-            ? 483
-            : 443,
+        height: 395,
         disableClose: true,
         panelClass: "summary-panel",
       }
