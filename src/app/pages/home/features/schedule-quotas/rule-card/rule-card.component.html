@@ -1,27 +1,16 @@
 <mat-card class="rule-card">
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <span class="container-title title">{{ title }}
-      <ng-container *ngIf="rule.canEdit">
-        <mat-icon (click)="editRule()" [svgIcon]="'edit'" class="icon-edit"></mat-icon>
-      </ng-container>
+      <mat-icon (click)="editRule()" [svgIcon]="'edit'" class="icon-edit"></mat-icon>
     </span>
 
-    <ng-container *ngIf="rule.canEdit; else canNotEdit">
-      <div fxLayout="row"  fxLayoutGap="16px" fxLayoutAlign="space-between center">
-        <span [ngStyle]="{'color': rule.isActive ? '#0BC626' : '#3E3E3E'}" class="text-icon"> {{ rule.isActive ? 'Activa' : 'Inactiva' }}</span>
-        <label class="toggle" >
-          <input (change)="modifyState()" type="checkbox" id="toggle-input" [value]="rule.isActive">
-          <span class="slider"></span>
-        </label>
-      </div>
-    </ng-container>
-
-    <ng-template #canNotEdit>
-      <div fxLayout="row"  fxLayoutGap="8px" fxLayoutAlign="space-between center">
-        <mat-icon (click)="openInProgressModal(rule.ruleStatus.id)" [svgIcon]="'information-outline'" class="icon-info color-blue"></mat-icon>
-        <span class="in-progress-text">{{ rule.ruleStatus.statusName }}</span>
-      </div>
-    </ng-template>
+    <div fxLayout="row"  fxLayoutGap="16px" fxLayoutAlign="space-between center">
+      <span [ngStyle]="{'color': rule.isActive ? '#0BC626' : '#3E3E3E'}" class="text-icon"> {{ rule.isActive ? 'Activa' : 'Inactiva' }}</span>
+      <label class="toggle" >
+        <input (change)="modifyState()" type="checkbox" id="toggle-input" [value]="rule.isActive">
+        <span class="slider"></span>
+      </label>
+    </div>
   </div>
 
   <div class="mt-16px mb-16px">
