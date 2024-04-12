@@ -4,18 +4,16 @@ import {
   ProgrammedRule,
 } from "./../../../../shared/models/programmed-rule";
 import { CdkStepper } from "@angular/cdk/stepper";
-import { Router } from "@angular/router";
 import { DatePipe } from "@angular/common";
 import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { ScheduleQuotasService } from "./schedule-quotas.service";
-import { CredixCodeErrorService } from "src/app/core/services/credix-code-error.service";
 import { ModalService } from "src/app/core/services/modal.service";
 import { TagsService } from "src/app/core/services/tags.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Tag } from "src/app/shared/models/tag";
 import { InformationPopupComponent } from "./information-popup/information-popup.component";
 import { UpdatedRulePopupComponent } from "./updated-rule-popup/updated-rule-popup.component";
-import { ExtendTermRuleQuota } from "src/app/shared/models/extend-term-rule-quota";
+
 
 @Component({
   selector: "app-schedule-quotas",

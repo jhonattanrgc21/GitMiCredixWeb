@@ -4,7 +4,7 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { TagsService } from 'src/app/core/services/tags.service';
 import { ProgrammedRule } from 'src/app/shared/models/programmed-rule';
 import { Tag } from 'src/app/shared/models/tag';
-import { InProgressPopupComponent } from '../in-progress-popup/in-progress-popup.component';
+
 @Component({
   selector: 'app-rule-card',
   templateUrl: './rule-card.component.html',
@@ -56,7 +56,7 @@ export class RuleCardComponent implements OnInit {
 
   modifyState() {
     if (this.rule.isActive) {
-      this.modalService.confirmationPopup('¿Desea desactivar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
+      this.modalService.confirmationPopup('¿Desea desactivar esta regla?')
         .subscribe(confirmation => {
           if (confirmation) {
             this.rule.isActive = false;
@@ -64,7 +64,7 @@ export class RuleCardComponent implements OnInit {
           }
         });
     }else {
-      this.modalService.confirmationPopup('¿Desea activar esta regla?', 'Se aplicará en máximo 24 horas hábiles.')
+      this.modalService.confirmationPopup('¿Desea activar esta regla?')
         .subscribe(confirmation => {
           if (confirmation) {
             this.rule.isActive = true;
@@ -72,16 +72,6 @@ export class RuleCardComponent implements OnInit {
           }
         });
     }
-  }
-
-  openInProgressModal(valueStatus: number){
-    this.modalService.open({
-      component: InProgressPopupComponent,
-      hideCloseButton: true,
-      data: {valueStatus},
-      title: 'En progreso...',
-    }, {width: 343, height: 252, disableClose: false, panelClass: 'schedule-quotas-in-progress-panel'})
-      .afterClosed().subscribe();
   }
 
   getTags(tags: Tag[]) {
