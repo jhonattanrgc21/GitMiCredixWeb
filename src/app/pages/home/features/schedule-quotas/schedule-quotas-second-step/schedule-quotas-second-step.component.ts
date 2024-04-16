@@ -158,6 +158,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
   isAmountsValid(form: FormGroup, currencyId: Number) {
     const minimumAmountControl = form.get("minimumAmount");
     const maximumAmountControl = form.get("maximumAmount");
+    const ruleId: number = form.get("id").value;
 
     if (
       minimumAmountControl.hasError("required") ||
@@ -182,8 +183,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     if (
       minimumAmountCurrent <
       (currencyId == 840
-        ? this.minimumAmountDollars
-        : this.minimumAmountColones)
+        ? Number(this.minimumAmountDollars)
+        : Number(this.minimumAmountColones))
     ) {
       minimumAmountControl.setErrors({ minAmount: true });
     } else {
@@ -193,8 +194,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     if (
       maximumAmountCurrent >
       (currencyId == 840
-        ? this.maximumAmountDollars
-        : this.maximumAmountColones)
+        ? Number(this.maximumAmountDollars)
+        : Number(this.maximumAmountColones))
     ) {
       maximumAmountControl.setErrors({ maxAmount: true });
     } else {
@@ -203,8 +204,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
 
     if (currencyId == 840) {
       if (
-        minimumAmountCurrent < this.minimumAmountDollars ||
-        maximumAmountCurrent > this.maximumAmountDollars
+        minimumAmountCurrent < Number(this.minimumAmountDollars) ||
+        maximumAmountCurrent > Number(this.maximumAmountDollars)
       ) {
         return false;
       }
@@ -212,8 +213,8 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
 
     if (currencyId == 188) {
       if (
-        minimumAmountCurrent < this.minimumAmountColones ||
-        maximumAmountCurrent > this.maximumAmountColones
+        minimumAmountCurrent < Number(this.minimumAmountColones) ||
+        maximumAmountCurrent > Number(this.maximumAmountColones)
       ) {
         return false;
       }
@@ -223,7 +224,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
 
     if (this.rulesList && this.rulesList.length > 0) {
       const ruleListFilter = this.rulesList.filter(
-        (rule) => rule.currencyId == currencyId
+        (rule) => rule.currencyId == currencyId && rule.id != ruleId
       );
       for (const rule of ruleListFilter) {
         const [ruleMin, ruleMax] = rule.amountRange.split("-").map(Number);
