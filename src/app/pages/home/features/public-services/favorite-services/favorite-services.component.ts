@@ -73,7 +73,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
   popupCommissionTag: string;
   popupDisclaimerTag: string;
   popupTotalTag: string;
-  
+
   @ViewChild(CredixSliderComponent) sliderInstance: CredixSliderComponent;
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
 
@@ -123,7 +123,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
       this.selectedPublicService.publicServiceAccessKeyType)
       .subscribe((response) => {
         this.pendingReceipt = response;
-        
+
         this.hasReceipts = this.pendingReceipt?.receipts !== null && this.pendingReceipt?.receipts.length > 0;
         this.status = this.pendingReceipt ? 'info' : 'error';
         this.message = this.status === 'error' ? 'Oops...' : this.pendingReceipt?.responseDescription;
@@ -142,7 +142,7 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
           this.paymentQuotaSummary = null;
           this.termSliderDisplayValue = 0;
           this.quotas = [];
-          
+
           if ( this.typeService === 'recharge' ) {
             this.amounts = [];
             this.pendingReceipt.amounts.map((value, index) => {
@@ -162,11 +162,11 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
             //this.getQuotas(this.amountOfPay);
             //this.confirmFormGroup.controls.amount.setValue(this.pendingReceipt.receipts[0].totalAmount);
           }
-        
+
           // this.amounts = this.pendingReceipt.amounts;
           this.month = getMontByMonthNumber(months.getMonth());
           this.expirationDate = new Date(this.pendingReceipt.receipts[0].expirationDate);
-          
+
         }
       });
   }
@@ -196,8 +196,8 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
         this.pendingReceipt.receipts[0].expirationDate,
         this.pendingReceipt.receipts[0].billNumber,
         undefined,
-        this.pendingReceipt.receipts[0].selfCode
-        +this.paymentQuotaSummary.quotaTo,)
+        this.pendingReceipt.receipts[0].selfCode,
+        +this.paymentQuotaSummary.quotaTo)
         .pipe(finalize(() => this.router.navigate(['/home/public-services/success'])))
         .subscribe((response) => {
           this.publicServicesService.result = {
@@ -255,12 +255,10 @@ export class FavoriteServicesComponent implements OnInit, OnDestroy {
 
     this.termSliderDisplayMin = this.quotas[0].quotaTo;
     this.termSliderDisplayMax = this.quotas[this.quotas.length - 1].quotaTo;
-      
 
     this.termSliderMin = 1;
     this.termSliderMax = this.quotas.length;
     this.sliderInstance.value = 0;
-    
     //this.termSliderDisplayValue = this.termSliderDisplayMin;
   }
 
