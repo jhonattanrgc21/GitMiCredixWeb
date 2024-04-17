@@ -10,7 +10,8 @@ export class CredixAmountSummaryComponent implements OnInit {
   @Input() label: string;
   @Input() amount: string;
   @Input() prefix = 188;
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

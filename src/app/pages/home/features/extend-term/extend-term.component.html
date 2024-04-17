@@ -4,7 +4,7 @@
 
   <p class="mb-16px">Haga su cuota más pequeña, ampliando el plazo de su compra.</p>
 
-  <div fxLayout='row' fxLayoutGap='40px' fxLayoutAlign="space-between center">
+  <div fxLayout='row' fxLayoutAlign="space-between center" >
     <credix-tab [ngClass]="{'mb-16px': activeTabIndex === 2 ? true : false}" (selectionEvent)="tabSelected($event)" [active]="tabs[this.activeTabIndex -1]" [tabs]="tabs"></credix-tab>
     <credix-checkbox-button [checked]='disableCheckBox' [disable]='disableCheckBox' *ngIf='!hideButtonPromoFilter' label='Ver promos' (emitCheckBox)='filterRecentPromo($event)'></credix-checkbox-button>
     <ng-container *ngIf="isSchedulaExtendTermAvailable">

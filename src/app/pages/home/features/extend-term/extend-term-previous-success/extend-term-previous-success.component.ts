@@ -3,6 +3,7 @@ import {Tag} from '../../../../../shared/models/tag';
 import {TagsService} from '../../../../../core/services/tags.service';
 import {ExtendTermService} from '../extend-term.service';
 import { Router } from '@angular/router';
+import {PreviousMovements} from "../../../../../shared/models/previous-purchase";
 
 @Component({
   selector: 'app-extend-term-previous-success',
@@ -21,10 +22,14 @@ export class ExtendTermPreviousSuccessComponent implements OnInit {
   newQuotaTag: string;
   dateTag: string;
   today = new Date();
+  amountSummary = '0';
+  pagoContadoColones: string;
+  previousMovementSelected: PreviousMovements[] = [];
+  endDate: Date;
 
   constructor(private extendTermService: ExtendTermService,
               private tagsService: TagsService,
-              private router: Router,) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -38,6 +43,10 @@ export class ExtendTermPreviousSuccessComponent implements OnInit {
     this.quota = this.extendTermService.newQuota?.quota;
     this.status = this.extendTermService.result.status;
     this.message = this.extendTermService.result.message;
+    this.amountSummary = this.extendTermService.amountSummary;
+    this.pagoContadoColones = this.extendTermService.pagoContadoColones
+    this.endDate = this.extendTermService.endDate;
+    this.previousMovementSelected = this.extendTermService.movementsSelectedArr;
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
   }

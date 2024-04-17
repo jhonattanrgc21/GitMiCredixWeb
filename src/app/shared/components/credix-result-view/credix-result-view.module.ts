@@ -7,6 +7,7 @@ import {CredixCardsModule} from '../../directives/credix-cards/credix-cards.modu
 import {FlexModule} from '@angular/flex-layout';
 import {CredixButtonModule} from '../credix-button/credix-button.module';
 import {RouterModule} from '@angular/router';
+import {ModalService} from "../../../core/services/modal.service";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {RouterModule} from '@angular/router';
     FlexModule,
     CredixButtonModule,
     RouterModule
-  ]
+  ],
+  providers: [ModalService]
 })
 export class CredixResultViewModule {
 }

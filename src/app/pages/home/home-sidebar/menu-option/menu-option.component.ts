@@ -66,8 +66,8 @@ export class MenuOptionComponent implements OnInit {
 
   getMenus() {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionalities => {
+      this.enableIncreaseCreditLimit = this.tagsService.enableIncreaseCreditLimit
       this.isSchedulaExtendTermAvailable = this.tagsService.isSchedulaExtendTermAvailable;
-      this.enableIncreaseCreditLimit = this.tagsService.enableIncreaseCreditLimit;
       if (functionalities.length > 0) {
 
         this.submenus = [];
@@ -83,7 +83,7 @@ export class MenuOptionComponent implements OnInit {
             if(func.link == '/home/personal-credit'){
               this.homeNavigationMenuService.setEnableOptionPersonalCredit(true);
             }
-            if(func.link == '/home/schedule-quotas' && !this.isSchedulaExtendTermAvailable) return
+            if(func.link == '/home/schedule-quotas' && !this.isSchedulaExtendTermAvailable) return;
 
             this.submenus.push({
               id: func.id,

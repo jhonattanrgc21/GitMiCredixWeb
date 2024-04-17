@@ -21,6 +21,7 @@ export class CredixCheckboxButtonComponent implements OnInit {
   @Input() value;
   @Input() disable: boolean;
   @Output() emitCheckBox = new EventEmitter();
+  @ViewChild('checkbox', {read: ElementRef, static: true}) elementRef: ElementRef<any>;
   @ViewChild(MatCheckbox) checkbox!: MatCheckbox;
 
   constructor() {}

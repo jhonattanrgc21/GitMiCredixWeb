@@ -206,11 +206,10 @@ export class RecentPurchasesComponent implements OnInit {
 
   calculateTotalAmountSelect() {
     let totalAmount = 0;
-    let dollar =
+    const dollar =
       this.allowedMovementSelected.length > 0 &&
-      this.allowedMovementSelected.every(
-        (el) => el.originCurrency.currencyId === 840
-      );
+      this.allowedMovementSelected[0].originCurrency.currencyId === 840;
+    console.log(dollar);
     interface amountObject {
       amount: number;
       movementId: string;
@@ -229,8 +228,8 @@ export class RecentPurchasesComponent implements OnInit {
       0
     );
     this.amountSummary = ConvertNumberToStringAmount(totalAmount);
-    this.summaryPrefix =
-      this.allowedMovementSelected[0]?.originCurrency?.currencyId ?? 188;
+    //dollar ? "$" : "₡";
+    this.summaryPrefix =  (this.allowedMovementSelected[0]?.originCurrency?.currencyId ?? 188);
     this.buttonDisable = dollar
       ? totalAmount < this.minAmountDollars
       : totalAmount < this.minAmountColones;

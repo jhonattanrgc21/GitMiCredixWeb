@@ -9,6 +9,7 @@ import { Tag } from 'src/app/shared/models/tag';
 import { ConvertStringAmountToNumber } from 'src/app/shared/utils';
 import { ExtendTermService } from '../extend-term.service';
 import { ConvertNumberToStringAmount } from 'src/app/shared/utils/convert-number-to-string-amount';
+import {PopupPreviousInfoComponent} from "../previous-purchases/popup-previous-info/popup-previous-info.component";
 @Component({
   selector: 'app-previous-extend',
   templateUrl: './previous-extend.component.html',
@@ -35,7 +36,7 @@ export class PreviousExtendComponent implements OnInit {
   termSliderDisplayMin = 1;
   termSliderDisplayMax = 12;
   termSliderDisplayValue = 0;
-  movementsSelected: number[];
+  movementsSelected: string[];
   quotas: PaymentQuota[];
   movementQuotaSummary: PaymentQuota = null;
   purchaseAmount: string = '';
@@ -112,6 +113,7 @@ export class PreviousExtendComponent implements OnInit {
       this.percentageCommission =  String(this.convertAmountValue(this.movementQuotaSummary?.commissionPercentage));
       this.percentageCommission = this.percentageCommission .replace('.', ',');
     }
+    this.percentageCommission.toString().replace('.', ',');
   }
 
   convertAmountValue(value: any): any {
@@ -160,8 +162,8 @@ export class PreviousExtendComponent implements OnInit {
       template: this.summaryTemplate,
       title: 'Resumen general',
     },
-    {width: 380, height: 443, disableClose: true, panelClass: 'summary-panel'}
-    )
+    {width: 380, height: 371, disableClose: true, panelClass: 'summary-panel'}
+    );
   }
 
   getTags(tags: Tag[]) {

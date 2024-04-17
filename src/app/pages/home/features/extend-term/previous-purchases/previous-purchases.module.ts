@@ -37,55 +37,65 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 
 import { PreviousPurchasesComponent } from './previous-purchases.component';
+import {CredixAmountSummaryModule} from "../../../../../shared/components/credix-amount-summary/credix-amount-summary.module";
+import {PopupPreviousInfoComponent} from "./popup-previous-info/popup-previous-info.component";
+import {LandingService} from "../../landing/landing.service";
+import {StorageService} from "../../../../../core/services/storage.service";
+import { QuotaStrongPipe } from './quota-strong.pipe';
 
 const routes: Routes = [{
   path: '',
-  component: PreviousPurchasesComponent, 
+  component: PreviousPurchasesComponent,
 }]
 
 @NgModule({
   declarations: [
-    PreviousPurchasesComponent
+    PreviousPurchasesComponent,
+    PopupPreviousInfoComponent,
+    QuotaStrongPipe,
   ],
-  imports: [
-    CommonModule,
-    FlexModule,
-    RouterModule.forChild(routes),
-    CredixPopupModule,
-    CredixConfirmationPopupModule,
-    CredixButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatSliderModule,
-    MatIconModule,
-    CredixShareButtonModule,
-    CredixProgressBarModule,
-    CredixCardsModule,
-    CredixTabModule,
-    CredixNavigationTableModule,
-    CredixLinkButtonModule,
-    ClipboardModule,
-    MatTooltipModule,
-    MatButtonModule,
-    CredixNumericBlockModule,
-    CredixResultNotificationModule,
-    MatDividerModule,
-    CredixSliderModule,
-    DateFormatterModule,
-    SimplebarAngularModule,
-    CredixDividerModule,
-    CredixResultViewModule,
-    TablesDirectivesModule,
-    NgxPaginationModule,
-    CredixPaginatorModule,
-    CredixNumericBlockModule,
-    SharedModule,
-    MatCheckboxModule,
-    CredixCheckboxButtonModule,
-    SimplebarAngularModule,
-  ],
+    imports: [
+        CommonModule,
+        FlexModule,
+        RouterModule.forChild(routes),
+        CredixPopupModule,
+        CredixConfirmationPopupModule,
+        CredixButtonModule,
+        MatCardModule,
+        MatDialogModule,
+        MatSliderModule,
+        MatIconModule,
+        CredixShareButtonModule,
+        CredixProgressBarModule,
+        CredixCardsModule,
+        CredixTabModule,
+        CredixNavigationTableModule,
+        CredixLinkButtonModule,
+        ClipboardModule,
+        MatTooltipModule,
+        MatButtonModule,
+        CredixNumericBlockModule,
+        CredixResultNotificationModule,
+        MatDividerModule,
+        CredixSliderModule,
+        DateFormatterModule,
+        SimplebarAngularModule,
+        CredixDividerModule,
+        CredixResultViewModule,
+        TablesDirectivesModule,
+        NgxPaginationModule,
+        CredixPaginatorModule,
+        CredixNumericBlockModule,
+        SharedModule,
+        MatCheckboxModule,
+        CredixCheckboxButtonModule,
+        SimplebarAngularModule,
+        CredixAmountSummaryModule,
+    ],
   providers: [
-    ModalService
+    ModalService,
+    LandingService,
+    StorageService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
