@@ -222,6 +222,7 @@ export const submenus = [
   {id: 16, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta'},
   {id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'},
   {id: 18, name: 'Programar cuotas', route: '/home/schedule-quotas', icon: 'calendar', parentId: 'Productos'}
+  {id: 19, name: 'Suscripción Credix Más', route: '/home/credix-mas', icon: 'tabs', parentId: 'Mi Cuenta'}
 ];
 
 export interface Menu {

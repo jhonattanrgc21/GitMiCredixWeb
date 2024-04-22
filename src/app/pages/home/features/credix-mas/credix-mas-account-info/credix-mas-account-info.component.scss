@@ -1,0 +1,65 @@
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+  margin-bottom: 96px;
+  a {
+    color: #239DF7;
+    text-decoration: none;
+    font-weight: 700;
+    display: flex;
+    justify-content: right;
+    cursor: pointer;
+  }
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  min-width: 70%;
+  margin-left: 2rem;
+  .subtitle {
+    margin: 1rem 0;
+    font-weight: 700;
+  }
+  .info {
+    min-width: 55%;
+    margin: 0 2rem;
+  }
+  .info-item {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    .info-desc {
+      font-weight: 700;
+    }
+  }
+}
+
+
+.actions-footer {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.button-large {
+  ::ng-deep .mat-stroked-button {
+    padding: 0 3rem !important;
+  }
+}
+
+.summary-custom {
+  height: 273px !important;
+
+  &__info-iva {
+      color: #707070;
+      font-size: 14px !important;
+      margin-bottom: 26px !important
+  }
+
+  ::ng-deep .credix-numeric-block__decimal {
+    font-size: 14px !important;
+  }
+}

@@ -19,35 +19,37 @@ export class LandingService {
     this.$pagoContadoColones.next(val);
   }
 
-  constructor(private httpService: HttpService,
-              private storageService: StorageService) {
-  }
+  constructor(
+    private httpService: HttpService,
+    private storageService: StorageService
+  ) {}
 
   @Cacheable()
   getHomeTags(): Observable<any> {
-    return this.httpService.post('canales', this.tagsHomeUri);
+    return this.httpService.post("canales", this.tagsHomeUri);
   }
 
   @Cacheable({
-    maxCacheCount: 3
+    maxCacheCount: 3,
   })
   getHomeContent(cardId: number) {
-    return this.httpService.post('canales', this.tagsHomePageUri, {
-      cardId,
-      userId: this.storageService.getCurrentUser().userId,
-      hour: new DatePipe('es').transform(new Date(), 'HH:MM')
-    })
+    return this.httpService
+      .post("canales", this.tagsHomePageUri, {
+        cardId,
+        userId: this.storageService.getCurrentUser().userId,
+        hour: new DatePipe("es").transform(new Date(), "HH:MM"),
+      })
       .pipe(
         map(response => {
           if (response.type !== 'error') {
             this.setPagoContadoColones(response.json.pagoContadoColones);
             return response.json;
           } else {
-            throw new Error('Ocurrió un error');
+            throw new Error("Ocurrió un error");
           }
         }),
-        catchError(err => {
-          console.log('Error: ', err);
+        catchError((err) => {
+          console.log("Error: ", err);
           return of();
         })
       );

@@ -93,6 +93,10 @@ const routes: Routes = [
         path: 'extend-term-total-debt',
         loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule)
       },
+      {
+        path: 'credix-mas',
+        loadChildren: () => import('./features/credix-mas/credix-mas.module').then(m => m.CredixMasModule)
+      }
     ]
   }
 ];
