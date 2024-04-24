@@ -19,7 +19,7 @@ import { ExtendTermService } from "../extend-term.service";
 import { CredixSliderComponent } from "src/app/shared/components/credix-slider/credix-slider.component";
 import { ConvertNumberToStringAmount } from "src/app/shared/utils/convert-number-to-string-amount";
 import { PopupPromoComponent } from "../popup-promo/popup-promo.component";
-import {  Observable, combineLatest, forkJoin } from "rxjs";
+import { Observable, combineLatest, forkJoin } from "rxjs";
 import { CredixMasPopupComponent } from "../credix-mas-popup/credix-mas-popup.component";
 import { SliderPopupComponent } from "../slider-popup/slider-popup.component";
 
@@ -89,9 +89,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private router: Router,
     private route: ActivatedRoute
-  ) {
-    this.today = new Date();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.checkCutDate();
@@ -118,7 +116,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   allowedMovementState() {
     combineLatest(
@@ -211,7 +208,6 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     interface amountObject {
       amount: number;
       movementId: string;
-      
     }
     let mappedArray = this.allowedMovementSelected.map(
       (movement) =>
@@ -228,7 +224,8 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
     );
     this.amountSummary = ConvertNumberToStringAmount(totalAmount);
     //dollar ? "$" : "₡";
-    this.summaryPrefix =  (this.allowedMovementSelected[0]?.originCurrency?.currencyId ?? 188);
+    this.summaryPrefix =
+      this.allowedMovementSelected[0]?.originCurrency?.currencyId ?? 188;
     this.buttonDisable = dollar
       ? totalAmount < this.minAmountDollars
       : totalAmount < this.minAmountColones;

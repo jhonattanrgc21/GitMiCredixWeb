@@ -16,7 +16,7 @@ img {
   display: flex;
   flex-direction: column;
   row-gap: 1em;
-  > *:not(img){
+  > *:not(img) {
     padding: 0 1rem;
   }
   .button-row {

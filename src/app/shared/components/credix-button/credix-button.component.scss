@@ -37,3 +37,10 @@
     }
   }
 }
+
+::ng-deep {
+  button.credix-button.mat-stroked-button.cdk-focused.cdk-keyboard-focused.mat-focus-indicator {
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+  }
+}
