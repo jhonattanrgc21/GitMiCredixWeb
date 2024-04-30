@@ -278,21 +278,6 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
       });
   }
 
-  openSummary() {
-    this.modalService.open(
-      {
-        template: this.summaryTemplate,
-        title: "Resumen general",
-      },
-      {
-        width: 380,
-        height: 395,
-        disableClose: true,
-        panelClass: "summary-panel",
-      }
-    );
-  }
-
   getTags(tags: Tag[]) {
     this.comissionTag = tags.find(
       (tag) => tag.description === "ampliar.tag.comision"

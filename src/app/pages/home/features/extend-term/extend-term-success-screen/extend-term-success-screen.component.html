@@ -97,7 +97,7 @@
             fxLayout="row"
             fxLayoutAlign="space-between"
           >
-            <span fxFlex>{{ item.establishmentName.trim() }}</span>
+            <span fxFlex>{{ item.establishmentName.trim() | capitalize }}</span>
             <credix-numeric-block
               [prefix]="item.originCurrency.currency"
               [value]="convertAmountValue(item.originAmount)"
