@@ -14,7 +14,6 @@ import { Tag } from "src/app/shared/models/tag";
 import { InformationPopupComponent } from "./information-popup/information-popup.component";
 import { UpdatedRulePopupComponent } from "./updated-rule-popup/updated-rule-popup.component";
 
-
 @Component({
   selector: "app-schedule-quotas",
   templateUrl: "./schedule-quotas.component.html",
@@ -498,5 +497,10 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.scheduleQuotasTitle = tags.find(
       (tag) => tag.description === "programarcuotas.title"
     )?.value;
+  }
+
+  reload() {
+    this.done = false;
+    this.activeStepper(false);
   }
 }
