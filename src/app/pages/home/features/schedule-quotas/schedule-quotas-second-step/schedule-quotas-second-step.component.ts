@@ -253,12 +253,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     if (isActive) {
       form
         .get("minimumAmount")
-        .setValidators([
-          Validators.required,
-          Validators.min(
-            dollar ? this.minimumAmountDollars : this.minimumAmountColones
-          ),
-        ]);
+        .setValidators([Validators.required, Validators.min(1)]);
       form
         .get("maximumAmount")
         .setValidators([

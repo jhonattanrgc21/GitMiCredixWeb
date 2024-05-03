@@ -42,47 +42,57 @@ import {PopupPromoComponent} from './popup-promo/popup-promo.component';
 import { RecentExtendComponent } from './recent-extend/recent-extend.component';
 import { CredixMasPopupComponent } from './credix-mas-popup/credix-mas-popup.component';
 import { SliderPopupComponent } from './slider-popup/slider-popup.component';
+import { CapitalizeModule } from "src/app/shared/pipes/capitalize/capitalize.module";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: ExtendTermComponent,
-    children: [{
-        path: '',
-        redirectTo: 'recent',
-        pathMatch: 'full',
+    children: [
+      {
+        path: "",
+        redirectTo: "recent",
+        pathMatch: "full",
       },
       {
-        path: 'recent',
-        loadChildren: () => import('./recent-purchases/recent-purchases.module').then(m => m.RecentPurchasesModule)
+        path: "recent",
+        loadChildren: () =>
+          import("./recent-purchases/recent-purchases.module").then(
+            (m) => m.RecentPurchasesModule
+          ),
       },
       {
-        path: 'recent/:movementId',
-        loadChildren: () => import('./recent-purchases/recent-purchases.module').then(m => m.RecentPurchasesModule)
+        path: "recent/:movementId",
+        loadChildren: () =>
+          import("./recent-purchases/recent-purchases.module").then(
+            (m) => m.RecentPurchasesModule
+          ),
       },
       {
-        path: 'previous',
-        loadChildren: () => import('./previous-purchases/previous-purchases.module').then(m => m.PreviousPurchasesModule)
+        path: "previous",
+        loadChildren: () =>
+          import("./previous-purchases/previous-purchases.module").then(
+            (m) => m.PreviousPurchasesModule
+          ),
       },
-    ]
+    ],
   },
   {
-    path: 'establishment/:establishment?/success',
-    component: ExtendTermSuccessScreenComponent
+    path: "establishment/:establishment?/success",
+    component: ExtendTermSuccessScreenComponent,
   },
   {
-    path: 'previous-extend',
-    component: PreviousExtendComponent
+    path: "previous-extend",
+    component: PreviousExtendComponent,
   },
   {
-    path: 'previous-extend-success',
+    path: "previous-extend-success",
     component: ExtendTermPreviousSuccessComponent,
   },
   {
-    path: 'recent-extend',
-    component: RecentExtendComponent
+    path: "recent-extend",
+    component: RecentExtendComponent,
   },
-
 ];
 
 @NgModule({
@@ -131,14 +141,9 @@ const routes: Routes = [
     SharedModule,
     MatCheckboxModule,
     CredixCheckboxButtonModule,
+    CapitalizeModule,
   ],
-  providers: [
-    ExtendTermService,
-    ModalService
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA,
-  ]
+  providers: [ExtendTermService, ModalService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ExtendTermModule {
-}
+export class ExtendTermModule {}
