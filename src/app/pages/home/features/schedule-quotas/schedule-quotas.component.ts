@@ -65,6 +65,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   isActiveStepper: boolean = false;
   @ViewChild("scheduleQuotasStepper") stepper: CdkStepper;
   scheduleQuotasTitle: string;
+  loading = true;
 
   constructor(
     private scheduleQuotasService: ScheduleQuotasService,
@@ -87,7 +88,10 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       );
     this.scheduleQuotasService
       .getRuleList()
-      .subscribe((res: ProgrammedRule[]) => (this.rulesList = res));
+      .subscribe((res: ProgrammedRule[]) => {
+        this.rulesList = res;
+        this.loading = false;
+      });
     this.scheduleQuotasService.getRuleQuotaList().subscribe((value) => {
       this.scheduleQuotasService.ruleQuotaList.next({
         colonesQuotas: value?.colones,
