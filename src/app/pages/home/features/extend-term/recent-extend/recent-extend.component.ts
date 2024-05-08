@@ -228,6 +228,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
       )
       .subscribe((response) => {
         this.extendTermService.result = {
+          title: response.title,
           status: response.type,
           message: response.message,
         };
@@ -260,6 +261,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.extendTermService.result = {
           status: response.type === "success" ? "success" : "error",
+          title: response.title,
           message: response.message,
         };
 

@@ -41,6 +41,7 @@ import { ExtendTermPreviousSuccessComponent } from "./extend-term-previous-succe
 import { PopupPromoComponent } from "./popup-promo/popup-promo.component";
 import { RecentExtendComponent } from "./recent-extend/recent-extend.component";
 import { CapitalizeModule } from "src/app/shared/pipes/capitalize/capitalize.module";
+import { ReminderPopupComponent } from "./extend-term-previous-success/reminder-popup/reminder-popup.component";
 
 const routes: Routes = [
   {
@@ -99,6 +100,7 @@ const routes: Routes = [
     ExtendTermSuccessScreenComponent,
     PreviousExtendComponent,
     ExtendTermPreviousSuccessComponent,
+    ReminderPopupComponent,
     PopupPromoComponent,
     RecentExtendComponent,
   ],

@@ -42,7 +42,6 @@ import { PopupPreviousInfoComponent } from "./popup-previous-info/popup-previous
 import { LandingService } from "../../landing/landing.service";
 import { StorageService } from "../../../../../core/services/storage.service";
 import { QuotaStrongPipe } from "./quota-strong.pipe";
-import { CredixPopupReadyModule } from "src/app/shared/components/credix-popup-ready/credix-popup-ready.module";
 
 const routes: Routes = [
   {
@@ -94,7 +93,6 @@ const routes: Routes = [
     CredixCheckboxButtonModule,
     SimplebarAngularModule,
     CredixAmountSummaryModule,
-    CredixPopupReadyModule,
   ],
   providers: [ModalService, LandingService, StorageService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -177,8 +177,10 @@ export class PreviousExtendComponent implements OnInit {
         )
       )
       .subscribe((response) => {
+        console.log(response);
         this.extendTermService.result = {
           status: response.type === "success" ? "success" : "error",
+          title: response.title,
           message: response.message,
         };
 

@@ -264,7 +264,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
           },
         },
         { disableClose: true, height: 260, width: 343, panelClass: "info" },
-        3
+        1
       )
       .afterClosed()
       .subscribe(() => {

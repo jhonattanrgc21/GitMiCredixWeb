@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CredixPopupReadyComponent } from './credix-popup-ready.component';
+import { ReminderPopupComponent } from './reminder-popup.component';
 
-describe('CredixPopupReadyComponent', () => {
-  let component: CredixPopupReadyComponent;
-  let fixture: ComponentFixture<CredixPopupReadyComponent>;
+describe('ReminderPopupComponent', () => {
+  let component: ReminderPopupComponent;
+  let fixture: ComponentFixture<ReminderPopupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CredixPopupReadyComponent ]
+      declarations: [ ReminderPopupComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CredixPopupReadyComponent);
+    fixture = TestBed.createComponent(ReminderPopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
