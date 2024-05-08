@@ -1,12 +1,15 @@
-.popup-info-previous{
+.popup-info-previous {
   height: 100%;
-  &__message{
+  &__title {
+    font-size: 1.5rem;
+  }
+  &__message {
     font-size: 16px;
-    text-align: justify;
+    text-align: start;
   }
 }
 
-credix-button{
+credix-button {
   height: 44px;
   width: 100%;
 }

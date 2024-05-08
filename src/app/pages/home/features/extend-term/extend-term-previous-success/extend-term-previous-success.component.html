@@ -1,62 +1,79 @@
-<app-credix-result-view [resultMessage]="message"
-                        [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
-                        [status]="status"
-                        [moduleTitle]="titleTag || 'Ampliar plazo de compra'"
-                        [recordatoryForExtendTerm]='true'
-                        [data]='{
-                          amountSummary: this.amountSummary,
-                          pagoContado: this.pagoContadoColones,
-                          endDate: this.endDate
-                        }'
-                        buttonText="Listo"
-                        routeTo="/home">
-
-  <div *ngIf="status === 'success'" class="w-100" fxLayout="column" fxFlex="auto">
+<app-credix-result-view
+  [resultMessage]="message"
+  [resultTile]="status === 'success' ? '¡Éxito!' : 'Oops...'"
+  [status]="status"
+  [moduleTitle]="titleTag || 'Ampliar plazo de compra'"
+  [recordatoryForExtendTerm]="true"
+  [data]="{
+    amountSummary: this.amountSummary,
+    pagoContado: this.pagoContadoColones,
+    endDate: this.endDate
+  }"
+  buttonText="Listo"
+  routeTo="/home"
+>
+  <div
+    *ngIf="status === 'success'"
+    class="w-100"
+    fxLayout="column"
+    fxFlex="auto"
+  >
     <mat-divider class="mb-24px" credixDivider></mat-divider>
 
-    <div fxLayout="row" style="padding: 0 22px;" fxLayoutAlign="space-between">
+    <div fxLayout="row" style="padding: 0 22px" fxLayoutAlign="space-between">
       <span fxFlex="200px"><strong>Datos de la ampliación</strong></span>
 
       <div fxFlex="200px" fxLayout="column" fxLayoutGap="8px">
-
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex>{{newQuotaTag || 'Cuota nueva'}}</span>
-          <credix-numeric-block [prefix]="currency"
-                                [value]="amount" fontWeight="bold">
+          <span fxFlex>{{ newQuotaTag || "Cuota nueva" }}</span>
+          <credix-numeric-block
+            [prefix]="currency"
+            [value]="amount"
+            fontWeight="bold"
+          >
           </credix-numeric-block>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
           <span fxFlex>Plazo nuevo</span>
-          <span><strong>{{ quota }} {{ quota > 1 ? 'Cuotas' : 'Cuota'  }}</strong></span>
+          <span
+            ><strong
+              >{{ quota }} {{ quota > 1 ? "cuotas" : "cuota" }}</strong
+            ></span
+          >
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <span fxFlex>{{dateTag || 'Fecha'}}</span>
-          <span><strong>{{today | dateFormatter: 'alphanumeric'}}</strong></span>
+          <span fxFlex>{{ dateTag || "Fecha" }}</span>
+          <span
+            ><strong>{{
+              today | dateFormatter : "shortAlphanumeric"
+            }}</strong></span
+          >
         </div>
-
       </div>
-
     </div>
-    <div class='mt-16px' style='padding: 0 22px' fxLayout='row'>
-      <p class='consumed-title'>
-        Consumos
-      </p>
-      <div fxLayout='column' style='width: 46%'>
-        <ng-container *ngFor='let previous of previousMovementSelected'>
-          <div fxLayout='row' fxLayoutAlign='space-between'>
-            <p style='width: 50%;'>
-              {{previous.establishmentName}}
+    <div class="mt-16px" style="padding: 0 22px" fxLayout="row">
+      <p class="consumed-title">Consumos</p>
+      <div fxLayout="column" style="width: 46%">
+        <ng-container *ngFor="let previous of previousMovementSelected">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <p style="width: 50%">
+              {{ previous.establishmentName | capitalize }}
             </p>
-            <credix-numeric-block prefix="₡"
-                                  [value]="previous.amount" fontWeight="bold">
+            <credix-numeric-block
+              [prefix]="previous.currencySimbol"
+              [value]="previous.originAmount"
+              fontWeight="bold"
+            >
             </credix-numeric-block>
           </div>
         </ng-container>
       </div>
     </div>
-    <credix-share-button fxFlex="auto" fxFlexAlign="center"></credix-share-button>
+    <credix-share-button
+      fxFlex="auto"
+      fxFlexAlign="center"
+    ></credix-share-button>
   </div>
-
 </app-credix-result-view>
