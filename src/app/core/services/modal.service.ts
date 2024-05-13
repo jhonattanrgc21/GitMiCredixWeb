@@ -99,6 +99,37 @@ export class ModalService {
     return dialogRef.afterClosed();
   }
 
+  public confirmationCustomPopup(
+    title: string,
+    message?: string,
+    confirmText?: string,
+    cancelText?: string,
+    width: number | "auto" = 420,
+    height: number | "auto" = 200,
+    autoclose?: Boolean | false,
+    timeAutoClose?: number | 0,
+    onlyOkButton?: Boolean | false
+  ): Observable<boolean> {
+    let dialogRef: MatDialogRef<CredixConfirmationPopupComponent>;
+    dialogRef = this.dialog.open(CredixConfirmationPopupComponent, {
+      disableClose: true,
+      width: width === "auto" ? width : `${width}px`,
+      height: height === "auto" ? height : `${height}px`,
+      autoFocus: false,
+    });
+    dialogRef.componentInstance.title = title;
+    dialogRef.componentInstance.message = message && message;
+    dialogRef.componentInstance.okButton = onlyOkButton;
+    dialogRef.componentInstance.cancelText = cancelText;
+    dialogRef.componentInstance.confirmText = confirmText;
+    if (autoclose) {
+      setTimeout(() => {
+        if (dialogRef) this.dialog.closeAll();
+      }, timeAutoClose);
+    }
+    return dialogRef.afterClosed();
+  }
+
   public closeConfirmationPopUp() {
     this.dialog.closeAll();
   }

@@ -43,6 +43,7 @@ import { RecentExtendComponent } from './recent-extend/recent-extend.component';
 import { CredixMasPopupComponent } from './credix-mas-popup/credix-mas-popup.component';
 import { SliderPopupComponent } from './slider-popup/slider-popup.component';
 import { CapitalizeModule } from "src/app/shared/pipes/capitalize/capitalize.module";
+import { ReminderPopupComponent } from "./extend-term-previous-success/reminder-popup/reminder-popup.component";
 
 const routes: Routes = [
   {
@@ -101,6 +102,7 @@ const routes: Routes = [
     ExtendTermSuccessScreenComponent,
     PreviousExtendComponent,
     ExtendTermPreviousSuccessComponent,
+    ReminderPopupComponent,
     PopupPromoComponent,
     RecentExtendComponent,
     CredixMasPopupComponent,

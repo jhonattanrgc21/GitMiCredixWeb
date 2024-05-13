@@ -1,19 +1,19 @@
-import {Injectable} from '@angular/core';
-import {HttpService} from '../../../../core/services/http.service';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {AllowedMovement} from '../../../../shared/models/allowed-movement';
-import {StorageService} from '../../../../core/services/storage.service';
-import {ExtendTermQuota} from '../../../../shared/models/extend-term-quota';
-import { PaymentQuota } from 'src/app/shared/models/payment-quota';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
-import {PreviousMovements} from '../../../../shared/models/previous-purchase';
+import { Injectable } from "@angular/core";
+import { HttpService } from "../../../../core/services/http.service";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { map } from "rxjs/operators";
+import { AllowedMovement } from "../../../../shared/models/allowed-movement";
+import { StorageService } from "../../../../core/services/storage.service";
+import { ExtendTermQuota } from "../../../../shared/models/extend-term-quota";
+import { PaymentQuota } from "src/app/shared/models/payment-quota";
+import { Message } from "@angular/compiler/src/i18n/i18n_ast";
+import { PreviousMovements } from "../../../../shared/models/previous-purchase";
 
 @Injectable()
 export class ExtendTermService {
   // tslint:disable-next-line:variable-name
-  private _amountSummary = '0';
-  private _pagoContadoColones = '';
+  private _amountSummary = "0";
+  private _pagoContadoColones = "";
   private _movementsSelectedArr: PreviousMovements[] = [];
   private _endDate: Date;
 
@@ -45,7 +45,7 @@ export class ExtendTermService {
     return this._pagoContadoColones;
   }
 
-  set pagoContadoColones(val: string ) {
+  set pagoContadoColones(val: string) {
     this._pagoContadoColones = val;
   }
 
@@ -68,11 +68,19 @@ export class ExtendTermService {
     this._recentMovementsSelected = movementSelected;
   }
 
-  get result(): { status: "success" | "error"; message: string } {
+  get result(): {
+    status: "success" | "error";
+    title: string;
+    message: string;
+  } {
     return this._result;
   }
 
-  set result(result: { status: "success" | "error"; message: string }) {
+  set result(result: {
+    status: "success" | "error";
+    title: string;
+    message: string;
+  }) {
     this._result = result;
   }
 
@@ -164,7 +172,7 @@ export class ExtendTermService {
   }
 
   // tslint:disable-next-line:variable-name
-  _result: { status: "success" | "error"; message: string };
+  _result: { status: "success" | "error"; message: string; title: string };
 
   // tslint:disable-next-line:variable-name
   _newQuota: {
@@ -227,34 +235,19 @@ export class ExtendTermService {
     return this.httpService
       .post("canales", this.calculateQuotaUri, {
         transaction: movementId,
-        productId,})
-        .pipe(
-          map((response) => {
-            this.quotaPromoMin = response.quotaPromoMin;
-            this.quotaPromoMax = response.quotaPromoMax;
-            if (response?.listQuota) {
-              return response.listQuota;
-            } else {
-              return [];
-            }
-          })
-        );
-    }
-    
-  getQuotasPreviousMovement(transaction: string[], productId: number): Observable<{purchaseAmount: string, listQuota: PaymentQuota[]}> {
-    return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
-      productId,
-      transaction
-    })
-    .pipe(
-      map((response) => {
-        if (response?.listQuota) {
-          return response;
-        } else {
-          return [];
-        }
+        productId,
       })
-    );
+      .pipe(
+        map((response) => {
+          this.quotaPromoMin = response.quotaPromoMin;
+          this.quotaPromoMax = response.quotaPromoMax;
+          if (response?.listQuota) {
+            return response.listQuota;
+          } else {
+            return [];
+          }
+        })
+      );
   }
 
   calculateQuotaByMovementUnified(
@@ -282,6 +275,25 @@ export class ExtendTermService {
       );
   }
 
+  getQuotasPreviousMovement(
+    transaction: string[],
+    productId: number
+  ): Observable<{ purchaseAmount: string; listQuota: PaymentQuota[] }> {
+    return this.httpService
+      .post("canales", this.quotasPreviousMovementsUri, {
+        productId,
+        transaction,
+      })
+      .pipe(
+        map((response) => {
+          if (response?.listQuota) {
+            return response;
+          } else {
+            return [];
+          }
+        })
+      );
+  }
 
   saveNewQuota(
     cardId: number,
@@ -322,18 +334,27 @@ export class ExtendTermService {
     );
   }
 
-  saveNewQuotaPreviousConsumptions( quota = 1, transaction: string[]): Observable<{title: string, message: string, type: string, status: 'success' | 'error'}> {
-    return this.httpService.post('canales', this.saveNewQuotaPreviousMovementsUri, {
-      accountId: this.storageService.getCurrentUser().actId,
-      quota,
-      transaction
-    })
-    .pipe(
-      map(response => ({
+  saveNewQuotaPreviousConsumptions(
+    quota = 1,
+    transaction: string[]
+  ): Observable<{
+    title: string;
+    message: string;
+    type: string;
+    status: "success" | "error";
+  }> {
+    return this.httpService
+      .post("canales", this.saveNewQuotaPreviousMovementsUri, {
+        accountId: this.storageService.getCurrentUser().actId,
+        quota,
+        transaction,
+      })
+      .pipe(
+        map((response) => ({
           title: response.titleOne,
           message: response.message,
           type: response.type,
-          status: response.titleOne,
+          status: response.type,
         }))
       );
   }

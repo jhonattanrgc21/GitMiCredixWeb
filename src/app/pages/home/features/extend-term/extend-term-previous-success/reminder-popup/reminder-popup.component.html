@@ -3,10 +3,7 @@
   fxLayout="column"
   fxLayoutAlign="space-between"
 >
-  <p
-    class="popup-info-previous__message"
-    [innerHTML]="info | quotaStrong : '1 cuota'"
-  ></p>
+  <p class="popup-info-previous__message" [innerHTML]="info"></p>
 
   <credix-button (buttonClick)="closeDialog()"> Listo </credix-button>
 </div>
