@@ -125,7 +125,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
-      initDate: new FormControl(null, Validators.required),
+      initDate: new FormControl(null),
       endDate: new FormControl(null),
       isActive: new FormControl(null),
     });
@@ -142,7 +142,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
-      initDate: new FormControl(null, Validators.required),
+      initDate: new FormControl(null),
       endDate: new FormControl(null),
       isActive: new FormControl(null),
     });
@@ -506,5 +506,6 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   reload() {
     this.done = false;
     this.activeStepper(false);
+    this.ngOnInit();
   }
 }

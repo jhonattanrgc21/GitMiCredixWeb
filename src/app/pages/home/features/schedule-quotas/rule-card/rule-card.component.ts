@@ -22,6 +22,7 @@ export class RuleCardComponent implements OnInit {
   minimumAmount: string;
   maximumAmount: string;
   currencySimbol: string;
+  currency: string;
 
 
   constructor(private tagsService: TagsService, private datePipe: DatePipe, private modalService: ModalService) { }
@@ -33,6 +34,7 @@ export class RuleCardComponent implements OnInit {
     this.minimumAmount = amountRange[0];
     this.maximumAmount = amountRange[1];
     this.currencySimbol = this.rule.currencyId == 188 ? '₡' : '$';
+    this.currency = this.rule.currencyId == 188 ? 'colones' : 'dólares';
   }
 
   formatNumber(value: string): string {

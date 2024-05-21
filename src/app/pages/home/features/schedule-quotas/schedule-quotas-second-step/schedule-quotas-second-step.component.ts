@@ -266,14 +266,12 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
       form.get("quotas").setValidators(Validators.required);
       form.get("commissions").setValidators(Validators.required);
       form.get("interest").setValidators(Validators.required);
-      form.get("initDate").setValidators(Validators.required);
     } else {
       form.get("minimumAmount").clearValidators();
       form.get("maximumAmount").clearValidators();
       form.get("quotas").clearValidators();
       form.get("commissions").clearValidators();
       form.get("interest").clearValidators();
-      form.get("initDate").clearValidators();
     }
   }
 

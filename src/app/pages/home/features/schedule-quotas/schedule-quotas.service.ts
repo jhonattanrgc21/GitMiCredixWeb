@@ -69,7 +69,9 @@ export class ScheduleQuotasService {
           accountId: this.storageService.getCurrentUser().actId,
           quotaTo: colonesForm.value.quotas,
           amountRange: `${colonesForm.value.minimumAmount}-${colonesForm.value.maximumAmount}`,
-          initDate: formatyyyyMMdd(colonesForm.value.initDate),
+          initDate: colonesForm.value.initDate
+            ? formatyyyyMMdd(colonesForm.value.initDate)
+            : null,
           endDate: colonesForm.value.endDate
             ? formatyyyyMMdd(colonesForm.value.endDate)
             : null,
@@ -85,7 +87,9 @@ export class ScheduleQuotasService {
           accountId: this.storageService.getCurrentUser().actId,
           quotaTo: dolaresForm.value.quotas,
           amountRange: `${dolaresForm.value.minimumAmount}-${dolaresForm.value.maximumAmount}`,
-          initDate: formatyyyyMMdd(dolaresForm.value.initDate),
+          initDate: dolaresForm.value.initDate
+            ? formatyyyyMMdd(dolaresForm.value.initDate)
+            : null,
           endDate: dolaresForm.value.endDate
             ? formatyyyyMMdd(dolaresForm.value.endDate)
             : null,
