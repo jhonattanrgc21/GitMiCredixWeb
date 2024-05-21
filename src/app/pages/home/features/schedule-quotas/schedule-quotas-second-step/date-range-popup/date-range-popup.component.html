@@ -16,7 +16,7 @@
   <ng-container *ngIf=" !this.validarDate(this.newDateRangeForm.get('initDate').value, this.newDateRangeForm.get('endDate').value)">
     <div class="date-range-popup__button" ngStyle="" fxLayout="row" fxLayoutAlign="center center">
       <credix-button (click)="submit()"
-        [disabled]="newDateRangeForm.invalid">{{tag4 || 'Definir fecha'}}
+        [disabled]="newDateRangeForm.invalid">{{tag4 || 'Definir fechas'}}
       </credix-button>
     </div>
   </ng-container>

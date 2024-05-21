@@ -199,8 +199,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
   }
 
   openConfirmationModal() {
-    const text = `¿Desea ampliar el plazo a ${this.movementQuotaSummary.quotaTo} cuotas de ${this.summaryPrefix}${this.movementQuotaSummary.amountPerQuota}?`;
-    this.modalService.confirmationPopup(text).subscribe((confirmation) => {
+    this.modalService.confirmationPopup("¿Desea ampliar el plazo?").subscribe((confirmation) => {
       if (confirmation) {
         if (this.movementsSelected.length > 1) {
           this.saveQuotaUnified();

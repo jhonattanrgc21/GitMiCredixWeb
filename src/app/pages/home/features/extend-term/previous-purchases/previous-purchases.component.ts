@@ -250,30 +250,41 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   }
 
   next() {
-    this.modalService
-      .open(
-        {
-          title: "Recuerde que",
-          hideCloseButton: false,
-          component: PopupPreviousInfoComponent,
-          data: {
-            amountSummary: this.amountSummary,
-            pagoContado: this.pagoContadoColones,
-            endDate: this.endDate,
-            info: this.info,
+    if (
+      this.previousMovementsSelected.length > 0 &&
+      this.previousMovementsSelected[0].quota < 1
+    ) {
+      this.modalService
+        .open(
+          {
+            title: "Recuerde que",
+            hideCloseButton: false,
+            component: PopupPreviousInfoComponent,
+            data: {
+              amountSummary: this.amountSummary,
+              pagoContado: this.pagoContadoColones,
+              endDate: this.endDate,
+              info: this.info,
+            },
           },
-        },
-        { disableClose: true, height: 260, width: 343, panelClass: "info" },
-        1
-      )
-      .afterClosed()
-      .subscribe(() => {
-        this.extendTermService.movementsSelected = [...this.selection];
-        this.extendTermService.amountSummary = this.amountSummary;
-        this.extendTermService.pagoContadoColones = this.pagoContadoColones;
-        this.extendTermService.endDate = this.endDate;
-        this.route.navigate(["/home/extend-term/previous-extend"]);
-      });
+          { disableClose: true, height: 260, width: 343, panelClass: "info" },
+          1
+        )
+        .afterClosed()
+        .subscribe(() => {
+          this.extendTermService.movementsSelected = [...this.selection];
+          this.extendTermService.amountSummary = this.amountSummary;
+          this.extendTermService.pagoContadoColones = this.pagoContadoColones;
+          this.extendTermService.endDate = this.endDate;
+          this.route.navigate(["/home/extend-term/previous-extend"]);
+        });
+    } else {
+      this.extendTermService.movementsSelected = [...this.selection];
+      this.extendTermService.amountSummary = this.amountSummary;
+      this.extendTermService.pagoContadoColones = this.pagoContadoColones;
+      this.extendTermService.endDate = this.endDate;
+      this.route.navigate(["/home/extend-term/previous-extend"]);
+    }
   }
 
   getAllowedMovements() {
