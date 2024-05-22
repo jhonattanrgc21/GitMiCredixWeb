@@ -1,41 +1,41 @@
-.schedule-quotas-third-step{
+.schedule-quotas-third-step {
   padding: 0 177px 0 176px;
   box-sizing: border-box;
   //height: 431px;
   height: 505px;
 
-  .info{
+  .info {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
   }
 
-  .highlighted-info{
+  .highlighted-info {
     font-size: 16px;
     font-weight: 700;
     line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
-
   }
 
-  .text-container{
+  .text-container {
     width: 311px;
   }
 
-  .content{
+  .content {
     width: 492px;
     height: auto;
     box-sizing: border-box;
-    .width-info{
+    .width-info {
       width: 311px;
     }
 
-    .summary{
+    .summary {
       box-sizing: border-box;
 
-      &__text{
+      &__text {
+        color: #696d6f !important;
         font-size: 12px;
         font-weight: 400;
         line-height: 18px;
@@ -43,7 +43,8 @@
         text-align: left;
       }
 
-      &__highlighted-text{
+      &__highlighted-text {
+        color: #696d6f !important;
         font-size: 12px;
         font-weight: 700;
         line-height: 18px;
@@ -51,7 +52,6 @@
         text-align: left;
       }
     }
-
   }
 }
 

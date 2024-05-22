@@ -149,13 +149,13 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="isColones && isDollars">
+  <ng-container *ngIf="isColones && isDollars && colonesForm.valid">
     <div fxLayout="row" class="schedule-quotas__divider">
       <mat-divider class="mb-16px" credixDivider></mat-divider>
     </div>
   </ng-container>
 
-  <ng-container *ngIf="isDollars">
+  <ng-container *ngIf="isDollars && (!isColones || colonesForm.valid)">
     <div fxLayout="row" fxLayoutGap="17px">
       <p class="info">
         {{ tag2 || "Quiero que mis dólares en colones entre:" }}
