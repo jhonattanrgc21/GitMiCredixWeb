@@ -5,9 +5,15 @@
     {{ credixMasText }}
   </p>
   <div class="button-row">
-    <credix-button [type]="'secondary'" (buttonClick)="close()"> Omitir </credix-button>
-    <credix-button class="button-large" routerLink="home/credix-mas/info" (buttonClick)="close()"> Ver mas beneficios </credix-button>
+    <credix-button type="secondary" (buttonClick)="close()">
+      Omitir
+    </credix-button>
+    <credix-button
+      class="button-large"
+      routerLink="home/credix-mas/info"
+      (buttonClick)="close()"
+    >
+      Ver mas beneficios
+    </credix-button>
   </div>
-
 </div>
-

@@ -4,6 +4,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  Output,
 } from "@angular/core";
 import { ModalService } from "../../../../../core/services/modal.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -27,7 +28,7 @@ import { SliderPopupComponent } from "../slider-popup/slider-popup.component";
   templateUrl: "./recent-purchases.component.html",
   styleUrls: ["./recent-purchases.component.scss"],
 })
-export class RecentPurchasesComponent implements OnInit {
+export class RecentPurchasesComponent implements OnInit, OnDestroy{
   selection: string[] = [];
   displayedColumns: string[] = [
     "select",
@@ -193,7 +194,13 @@ export class RecentPurchasesComponent implements OnInit {
       .getAllowedMovements(1004)
       .pipe()
       .subscribe((response) => {
+        console.log(response);
         if (response?.result) {
+          this.extendTermService.setAllowedMovements(response.result);
+          this.minAmountColones = response.minAmountColones;
+          this.minAmountDollars = response.minAmountDollars
+            .replace(".", "")
+            .replace(",", ".");
           const credixMas = response.credixMas;
           const promo = response.promo;
           this.showModals(promo, credixMas, response);
@@ -229,7 +236,8 @@ export class RecentPurchasesComponent implements OnInit {
     );
     this.amountSummary = ConvertNumberToStringAmount(totalAmount);
     //dollar ? "$" : "₡";
-    this.summaryPrefix =  (this.allowedMovementSelected[0]?.originCurrency?.currencyId ?? 188);
+    this.summaryPrefix =
+      this.allowedMovementSelected[0]?.originCurrency?.currencyId ?? 188;
     this.buttonDisable = dollar
       ? totalAmount < this.minAmountDollars
       : totalAmount < this.minAmountColones;
