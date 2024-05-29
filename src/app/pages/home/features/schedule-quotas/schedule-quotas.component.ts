@@ -21,15 +21,17 @@ import { UpdatedRulePopupComponent } from "./updated-rule-popup/updated-rule-pop
   providers: [DatePipe],
 })
 export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
-  currencyForm: FormGroup;
+  currencyForm: FormGroup =  new FormGroup({
+    disableNextStep: new FormControl(false, Validators.required),
+  });
   colonesForm: FormGroup = new FormGroup({
     minimumAmount: new FormControl(null, Validators.required),
     maximumAmount: new FormControl(null, Validators.required),
     quotas: new FormControl(null, Validators.required),
     commissions: new FormControl(null, Validators.required),
     interest: new FormControl(null, Validators.required),
-    initDate: new FormControl(null, Validators.required),
-    endDate: new FormControl(null, Validators.required),
+    initDate: new FormControl(null),
+    endDate: new FormControl(null),
   });
   dollarsForm: FormGroup = new FormGroup({
     minimumAmount: new FormControl(null, Validators.required),
@@ -37,8 +39,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     quotas: new FormControl(null, Validators.required),
     commissions: new FormControl(null, Validators.required),
     interest: new FormControl(null, Validators.required),
-    initDate: new FormControl(null, Validators.required),
-    endDate: new FormControl(null, Validators.required),
+    initDate: new FormControl(null),
+    endDate: new FormControl(null),
   });
 
   currencyList: Currency[];
@@ -185,7 +187,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
         this.initForms();
         this.isColones = false;
         this.isDollars = false;
-        this.currencyForm.valueChanges.subscribe((obj) => {
+        this.currencyForm.valueChanges.subscribe(() => {
           this.disableButton = this.currencyForm.get("disableNextStep").value;
         });
         if (this.isColones || this.isDollars) this.disableButton = false;
@@ -506,6 +508,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   reload() {
     this.done = false;
     this.activeStepper(false);
+    this.selectedIndex = 0;
+    this.setEnableButton();
     this.ngOnInit();
   }
 }
