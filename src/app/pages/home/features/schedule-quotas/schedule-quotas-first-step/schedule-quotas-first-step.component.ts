@@ -50,7 +50,7 @@ export class ScheduleQuotasFirstStepComponent implements OnInit, OnChanges {
     else this.dollarsOption.emit(item.isSelected);
 
     if (
-      this.currencyList.filter((item) => item.isSelected == false).length == 2
+      this.currencyList.filter((item) => item.isSelected === false).length === 2
     ) {
       this.disableNextStepControl.setValue(true);
     } else {
