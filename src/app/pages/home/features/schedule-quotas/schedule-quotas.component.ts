@@ -238,7 +238,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
               let max = this.colonesForm.value.maximumAmount
                 ? Number(this.colonesForm.value.maximumAmount)
                 : 0;
-              this.disableButton = min > max || this.colonesForm.invalid;
+              this.disableButton = min > max || min == max || this.colonesForm.invalid;
             });
           }
 
@@ -251,7 +251,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
               let max = this.dollarsForm.value.maximumAmount
                 ? Number(this.dollarsForm.value.maximumAmount)
                 : 0;
-              this.disableButton = min > max || this.dollarsForm.invalid;
+              this.disableButton = min > max || min == max || this.dollarsForm.invalid;
             });
           }
         }

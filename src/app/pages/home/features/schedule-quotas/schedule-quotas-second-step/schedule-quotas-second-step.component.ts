@@ -227,7 +227,11 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
         (rule) => rule.currencyId == currencyId && rule.id != ruleId
       );
       // Rule list validation
-      isValid = this.validateNewRule(ruleListFilter,minimumAmountCurrent,maximumAmountCurrent)
+      isValid = this.validateNewRule(
+        ruleListFilter,
+        minimumAmountCurrent,
+        maximumAmountCurrent
+      );
     }
 
     if (!isValid) {
@@ -368,23 +372,27 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     return result.replace(".", ",");
   }
 
-
-  validateNewRule(existingRules: ProgrammedRule[], currentMin: number, currentMax: number): boolean {
+  validateNewRule(
+    existingRules: ProgrammedRule[],
+    currentMin: number,
+    currentMax: number
+  ): boolean {
     for (let rule of existingRules) {
       const [ruleMin, ruleMax] = rule.amountRange.split("-").map(Number);
 
-      if ((currentMin >= ruleMin && currentMin <= ruleMax) ||
-          (currentMax >= ruleMin && currentMax <= ruleMax)) {
+      if (
+        (currentMin >= ruleMin && currentMin <= ruleMax) ||
+        (currentMax >= ruleMin && currentMax <= ruleMax)
+      ) {
         return false;
       }
 
-      if ((currentMin <= ruleMin && currentMax >= ruleMax)) {
+      if (currentMin <= ruleMin && currentMax >= ruleMax) {
         return false;
       }
     }
     return true;
   }
-
 
   getTags(tags: Tag[]) {
     this.tag1 = tags.find(
