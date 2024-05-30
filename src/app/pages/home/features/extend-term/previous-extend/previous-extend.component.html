@@ -24,7 +24,7 @@
       fxLayoutAlign="space-between"
       fxFlex="64px"
     >
-      <span><strong>Saldo pendiente</strong></span>
+      <span><strong>{{ isAfterCut() ? 'Monto a ampliar' : 'Saldo pendiente'}}</strong></span>
       <credix-numeric-block
         [value]="purchaseAmount"
         class="tr"
