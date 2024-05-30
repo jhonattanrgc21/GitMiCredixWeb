@@ -21,7 +21,7 @@ import { UpdatedRulePopupComponent } from "./updated-rule-popup/updated-rule-pop
   providers: [DatePipe],
 })
 export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
-  currencyForm: FormGroup =  new FormGroup({
+  currencyForm: FormGroup = new FormGroup({
     disableNextStep: new FormControl(false, Validators.required),
   });
   colonesForm: FormGroup = new FormGroup({
@@ -172,21 +172,24 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   setEnableButton() {
     switch (this.selectedIndex) {
       case 0:
-        this.currencyList = [
-          {
-            code: 188,
-            description: "Colones",
-            isSelected: false,
-          },
-          {
-            code: 840,
-            description: "Dólares",
-            isSelected: false,
-          },
-        ];
-        this.initForms();
-        this.isColones = false;
-        this.isDollars = false;
+        if (!this.isColones && !this.isDollars) {
+          this.currencyList = [
+            {
+              code: 188,
+              description: "Colones",
+              isSelected: false,
+            },
+            {
+              code: 840,
+              description: "Dólares",
+              isSelected: false,
+            },
+          ];
+          this.initForms();
+          this.isColones = false;
+          this.isDollars = false;
+        }
+
         this.currencyForm.valueChanges.subscribe(() => {
           this.disableButton = this.currencyForm.get("disableNextStep").value;
         });
@@ -238,7 +241,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
               let max = this.colonesForm.value.maximumAmount
                 ? Number(this.colonesForm.value.maximumAmount)
                 : 0;
-              this.disableButton = min > max || min == max || this.colonesForm.invalid;
+              this.disableButton =
+                min > max || min == max || this.colonesForm.invalid;
             });
           }
 
@@ -251,7 +255,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
               let max = this.dollarsForm.value.maximumAmount
                 ? Number(this.dollarsForm.value.maximumAmount)
                 : 0;
-              this.disableButton = min > max || min == max || this.dollarsForm.invalid;
+              this.disableButton =
+                min > max || min == max || this.dollarsForm.invalid;
             });
           }
         }
@@ -509,6 +514,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.done = false;
     this.activeStepper(false);
     this.selectedIndex = 0;
+    this.setIsColones(false)
+    this.setIsDollars(false)
     this.setEnableButton();
     this.ngOnInit();
   }

@@ -113,6 +113,10 @@ export class PreviousExtendComponent implements OnInit {
     this.selectMovementQuotaSummary();
   }
 
+  isAfterCut(){
+    return this.movementQuotaSummary.quotaFrom === 1 ||this.movementQuotaSummary.quotaFrom === 0
+  }
+
   selectMovementQuotaSummary() {
     this.movementQuotaSummary = this.quotas.find(
       (value) => value.quotaTo === this.termSliderDisplayValue
