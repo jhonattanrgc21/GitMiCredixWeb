@@ -114,7 +114,7 @@ export class PreviousExtendComponent implements OnInit {
   }
 
   isAfterCut(){
-    return this.movementQuotaSummary.quotaFrom === 1 ||this.movementQuotaSummary.quotaFrom === 0
+    return this.movementQuotaSummary != null && this.movementQuotaSummary.quotaFrom === 1 ||this.movementQuotaSummary.quotaFrom === 0
   }
 
   selectMovementQuotaSummary() {
