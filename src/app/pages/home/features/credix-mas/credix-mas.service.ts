@@ -66,15 +66,17 @@ export class CredixMasService {
       })
       .pipe(
         map((response) => {
-          console.log("account", response);
           if (response.type == "success") {
             this._info = response.json;
+            this._notification = undefined;
             if (response.json.activationDate) {
               this.toggleSubscription(true);
             } else {
               this.toggleSubscription(false);
             }
           } else {
+            this._info = undefined;
+            this.toggleSubscription(false);
             this._notification = {
               type: response.type,
               title: response.json.titleOne,
