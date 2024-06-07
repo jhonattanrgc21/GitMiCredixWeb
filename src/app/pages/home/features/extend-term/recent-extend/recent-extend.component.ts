@@ -9,7 +9,7 @@ import { ModalService } from "src/app/core/services/modal.service";
 import { PaymentQuota } from "src/app/shared/models/payment-quota";
 import { ExtendTermService } from "../extend-term.service";
 import { TagsService } from "src/app/core/services/tags.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { finalize } from "rxjs/operators";
 import { ConvertStringAmountToNumber } from "src/app/shared/utils";
 import { ConvertNumberToStringAmount } from "src/app/shared/utils/convert-number-to-string-amount";
@@ -60,15 +60,30 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private extendTermService: ExtendTermService,
     private tagsService: TagsService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    if (this.extendTermService.recentMovementsSelected.length <= 0) {
+    const id = this.route.snapshot.paramMap.get("id");
+    if (this.extendTermService.recentMovementsSelected.length > 0) {
+      this.movementsSelected = this.extendTermService.recentMovementsSelected;
+      this.getQuotas();
+    } else if (id) {
+      this.extendTermService.getAllowedMovements(1004).subscribe((value) => {
+        const movement = value.result.find(
+          (allowed) => allowed.movementId === id
+        );
+        if (movement) {
+          this.extendTermService.recentMovementsSelected = [movement];
+          this.movementsSelected = [movement];
+          this.getQuotas();
+        }
+      });
+    } else {
       this.router.navigate(["/home/extend-term"]);
     }
 
-    this.movementsSelected = this.extendTermService.recentMovementsSelected;
     this.tagsService
       .getAllFunctionalitiesAndTags()
       .subscribe((functionality) =>
@@ -78,7 +93,6 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
           ).tags
         )
       );
-    this.getQuotas();
   }
 
   getQuotas() {
@@ -199,15 +213,17 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
   }
 
   openConfirmationModal() {
-    this.modalService.confirmationPopup("¿Desea ampliar el plazo?").subscribe((confirmation) => {
-      if (confirmation) {
-        if (this.movementsSelected.length > 1) {
-          this.saveQuotaUnified();
-        } else {
-          this.saveQuota();
+    this.modalService
+      .confirmationPopup("¿Desea ampliar el plazo?")
+      .subscribe((confirmation) => {
+        if (confirmation) {
+          if (this.movementsSelected.length > 1) {
+            this.saveQuotaUnified();
+          } else {
+            this.saveQuota();
+          }
         }
-      }
-    });
+      });
   }
 
   saveQuota() {
