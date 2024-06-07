@@ -13,6 +13,7 @@
   <mat-divider credixDivider></mat-divider>
 
   <div
+    *ngIf="movementQuotaSummary"
     class="previous-extend__content"
     fxLayout="column"
     fxLayoutGap="10px"
@@ -169,6 +170,7 @@
   </div>
 
   <div
+    *ngIf="movementQuotaSummary"
     class="actions-footer"
     fxLayout="row"
     fxLayoutAlign="flex-end"
