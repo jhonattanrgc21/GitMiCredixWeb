@@ -14,7 +14,6 @@ import { Tag } from "src/app/shared/models/tag";
 import { InformationPopupComponent } from "./information-popup/information-popup.component";
 import { UpdatedRulePopupComponent } from "./updated-rule-popup/updated-rule-popup.component";
 
-
 @Component({
   selector: "app-schedule-quotas",
   templateUrl: "./schedule-quotas.component.html",
@@ -22,15 +21,17 @@ import { UpdatedRulePopupComponent } from "./updated-rule-popup/updated-rule-pop
   providers: [DatePipe],
 })
 export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
-  currencyForm: FormGroup;
+  currencyForm: FormGroup = new FormGroup({
+    disableNextStep: new FormControl(false, Validators.required),
+  });
   colonesForm: FormGroup = new FormGroup({
     minimumAmount: new FormControl(null, Validators.required),
     maximumAmount: new FormControl(null, Validators.required),
     quotas: new FormControl(null, Validators.required),
     commissions: new FormControl(null, Validators.required),
     interest: new FormControl(null, Validators.required),
-    initDate: new FormControl(null, Validators.required),
-    endDate: new FormControl(null, Validators.required),
+    initDate: new FormControl(null),
+    endDate: new FormControl(null),
   });
   dollarsForm: FormGroup = new FormGroup({
     minimumAmount: new FormControl(null, Validators.required),
@@ -38,8 +39,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     quotas: new FormControl(null, Validators.required),
     commissions: new FormControl(null, Validators.required),
     interest: new FormControl(null, Validators.required),
-    initDate: new FormControl(null, Validators.required),
-    endDate: new FormControl(null, Validators.required),
+    initDate: new FormControl(null),
+    endDate: new FormControl(null),
   });
 
   currencyList: Currency[];
@@ -66,6 +67,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   isActiveStepper: boolean = false;
   @ViewChild("scheduleQuotasStepper") stepper: CdkStepper;
   scheduleQuotasTitle: string;
+  loading = true;
 
   constructor(
     private scheduleQuotasService: ScheduleQuotasService,
@@ -88,7 +90,10 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       );
     this.scheduleQuotasService
       .getRuleList()
-      .subscribe((res: ProgrammedRule[]) => (this.rulesList = res));
+      .subscribe((res: ProgrammedRule[]) => {
+        this.rulesList = res;
+        this.loading = false;
+      });
     this.scheduleQuotasService.getRuleQuotaList().subscribe((value) => {
       this.scheduleQuotasService.ruleQuotaList.next({
         colonesQuotas: value?.colones,
@@ -122,7 +127,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
-      initDate: new FormControl(null, Validators.required),
+      initDate: new FormControl(null),
       endDate: new FormControl(null),
       isActive: new FormControl(null),
     });
@@ -139,7 +144,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
       quotas: new FormControl(null, Validators.required),
       commissions: new FormControl(null, Validators.required),
       interest: new FormControl(null, Validators.required),
-      initDate: new FormControl(null, Validators.required),
+      initDate: new FormControl(null),
       endDate: new FormControl(null),
       isActive: new FormControl(null),
     });
@@ -167,22 +172,25 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   setEnableButton() {
     switch (this.selectedIndex) {
       case 0:
-        this.currencyList = [
-          {
-            code: 188,
-            description: "Colones",
-            isSelected: false,
-          },
-          {
-            code: 840,
-            description: "Dólares",
-            isSelected: false,
-          },
-        ];
-        this.initForms();
-        this.isColones = false;
-        this.isDollars = false;
-        this.currencyForm.valueChanges.subscribe((obj) => {
+        if (!this.isColones && !this.isDollars) {
+          this.currencyList = [
+            {
+              code: 188,
+              description: "Colones",
+              isSelected: false,
+            },
+            {
+              code: 840,
+              description: "Dólares",
+              isSelected: false,
+            },
+          ];
+          this.initForms();
+          this.isColones = false;
+          this.isDollars = false;
+        }
+
+        this.currencyForm.valueChanges.subscribe(() => {
           this.disableButton = this.currencyForm.get("disableNextStep").value;
         });
         if (this.isColones || this.isDollars) this.disableButton = false;
@@ -233,7 +241,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
               let max = this.colonesForm.value.maximumAmount
                 ? Number(this.colonesForm.value.maximumAmount)
                 : 0;
-              this.disableButton = min > max || this.colonesForm.invalid;
+              this.disableButton =
+                min > max || min == max || this.colonesForm.invalid;
             });
           }
 
@@ -246,7 +255,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
               let max = this.dollarsForm.value.maximumAmount
                 ? Number(this.dollarsForm.value.maximumAmount)
                 : 0;
-              this.disableButton = min > max || this.dollarsForm.invalid;
+              this.disableButton =
+                min > max || min == max || this.dollarsForm.invalid;
             });
           }
         }
@@ -498,5 +508,15 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.scheduleQuotasTitle = tags.find(
       (tag) => tag.description === "programarcuotas.title"
     )?.value;
+  }
+
+  reload() {
+    this.done = false;
+    this.activeStepper(false);
+    this.selectedIndex = 0;
+    this.setIsColones(false)
+    this.setIsDollars(false)
+    this.setEnableButton();
+    this.ngOnInit();
   }
 }

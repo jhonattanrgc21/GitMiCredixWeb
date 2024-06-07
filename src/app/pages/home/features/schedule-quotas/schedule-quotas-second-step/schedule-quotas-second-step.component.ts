@@ -226,17 +226,12 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
       const ruleListFilter = this.rulesList.filter(
         (rule) => rule.currencyId == currencyId && rule.id != ruleId
       );
-      for (const rule of ruleListFilter) {
-        const [ruleMin, ruleMax] = rule.amountRange.split("-").map(Number);
-        if (
-          (minimumAmountCurrent >= ruleMin &&
-            minimumAmountCurrent <= ruleMax) ||
-          (maximumAmountCurrent >= ruleMin && maximumAmountCurrent <= ruleMax)
-        ) {
-          isValid = false;
-          break;
-        }
-      }
+      // Rule list validation
+      isValid = this.validateNewRule(
+        ruleListFilter,
+        minimumAmountCurrent,
+        maximumAmountCurrent
+      );
     }
 
     if (!isValid) {
@@ -253,12 +248,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     if (isActive) {
       form
         .get("minimumAmount")
-        .setValidators([
-          Validators.required,
-          Validators.min(
-            dollar ? this.minimumAmountDollars : this.minimumAmountColones
-          ),
-        ]);
+        .setValidators([Validators.required, Validators.min(1)]);
       form
         .get("maximumAmount")
         .setValidators([
@@ -271,14 +261,12 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
       form.get("quotas").setValidators(Validators.required);
       form.get("commissions").setValidators(Validators.required);
       form.get("interest").setValidators(Validators.required);
-      form.get("initDate").setValidators(Validators.required);
     } else {
       form.get("minimumAmount").clearValidators();
       form.get("maximumAmount").clearValidators();
       form.get("quotas").clearValidators();
       form.get("commissions").clearValidators();
       form.get("interest").clearValidators();
-      form.get("initDate").clearValidators();
     }
   }
 
@@ -382,6 +370,28 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
     const number = parseFloat(value);
     const result = number === 0.0 ? number.toFixed(0) : number.toString();
     return result.replace(".", ",");
+  }
+
+  validateNewRule(
+    existingRules: ProgrammedRule[],
+    currentMin: number,
+    currentMax: number
+  ): boolean {
+    for (let rule of existingRules) {
+      const [ruleMin, ruleMax] = rule.amountRange.split("-").map(Number);
+
+      if (
+        (currentMin >= ruleMin && currentMin <= ruleMax) ||
+        (currentMax >= ruleMin && currentMax <= ruleMax)
+      ) {
+        return false;
+      }
+
+      if (currentMin <= ruleMin && currentMax >= ruleMax) {
+        return false;
+      }
+    }
+    return true;
   }
 
   getTags(tags: Tag[]) {

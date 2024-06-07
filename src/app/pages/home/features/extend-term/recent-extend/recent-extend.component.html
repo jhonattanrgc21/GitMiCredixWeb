@@ -85,11 +85,87 @@
           [prefix]="summaryPrefix"
         >
         </credix-numeric-block>
-        <credix-link-button (click)="openSummary()"
-          >Ver detalle</credix-link-button
-        >
       </div>
     </div>
+
+    <ng-container *ngIf="movementQuotaSummary?.amountPerQuota">
+      <div fxLayout="column" fxLayoutGap="8px">
+        <span class="general-resume"><strong>Resumen general</strong></span>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex>{{ resultNew || "Plazo nuevo" }}</span>
+          <span
+            ><strong
+              >{{ movementQuotaSummary?.quotaTo }}
+              {{ movementQuotaSummary?.quotaTo > 1 ? "meses" : "mes" }}
+            </strong></span
+          >
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex>{{ "Monto a ampliar" }}</span>
+          <credix-numeric-block
+            [value]="
+              singleMovement ? singleMovement.originAmount : purchaseAmount
+            "
+            fontWeight="bold"
+            [prefix]="summaryPrefix"
+          ></credix-numeric-block>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex
+            >{{ comissionTag || "Comisión" }}
+            {{
+              percentageCommission === ""
+                ? ""
+                : "(" +
+                  percentageCommission.toString().replace(".", ",") +
+                  "% mensual)" +
+                  (!singleMovement ? "*" : "")
+            }}
+          </span>
+          <credix-numeric-block
+            [value]="
+              movementQuotaSummary?.isCommissionMonthly
+                ? movementQuotaSummary?.commissionAmountDilute
+                : movementQuotaSummary?.commissionAmount
+            "
+            fontWeight="bold"
+            [prefix]="summaryPrefix"
+          ></credix-numeric-block>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex
+            >{{ "Interés" }}
+            {{
+              "(" + feedPercentage.toString().replace(".", ",") + "% mensual)"
+            }}
+          </span>
+          <credix-numeric-block
+            [value]="movementQuotaSummary?.feeAmount"
+            fontWeight="bold"
+            [prefix]="summaryPrefix"
+          ></credix-numeric-block>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayoutAlign="space-between"
+          *ngIf="movementQuotaSummary.IVA !== '0,00'"
+        >
+          <span fxFlex>{{ "IVA" }}</span>
+          <credix-numeric-block
+            [value]="movementQuotaSummary?.IVA"
+            fontWeight="bold"
+            [prefix]="summaryPrefix"
+          ></credix-numeric-block>
+        </div>
+      </div>
+      <p *ngIf="!singleMovement" fxFlex class="summary-custom__info-sub">
+        * Se calcula tomando el periodo promedio ponderado.
+      </p>
+    </ng-container>
   </div>
 
   <div
@@ -103,109 +179,3 @@
     >
   </div>
 </mat-card>
-
-<ng-template #summaryTemplate>
-  <div class="h-100 summary-custom" fxLayout="column" fxLayoutGap="16px">
-    <div fxLayout="column" fxLayoutGap="8px">
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ resultNew || "Plazo nuevo" }}</span>
-        <span
-          ><strong
-            >{{ movementQuotaSummary?.quotaTo }}
-            {{ movementQuotaSummary?.quotaTo > 1 ? "meses" : "mes" }}
-          </strong></span
-        >
-      </div>
-
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ "Monto a ampliar" }}</span>
-        <credix-numeric-block
-          [value]="
-            singleMovement ? singleMovement.originAmount : purchaseAmount
-          "
-          fontWeight="bold"
-          [prefix]="summaryPrefix"
-        ></credix-numeric-block>
-      </div>
-
-      <div *ngIf="!singleMovement" fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex>{{ "Período promedio*" }}</span>
-        <span
-          ><strong
-            >{{ movementQuotaSummary?.quotaFrom }}
-            {{ movementQuotaSummary?.quotaFrom > 1 ? "meses" : "mes" }}
-          </strong></span
-        >
-      </div>
-
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex
-          >{{ comissionTag || "Comisión" }}
-          {{
-            percentageCommission === ""
-              ? ""
-              : "(" + percentageCommission.toString().replace('.',',') + "% mensual)"
-          }}
-        </span>
-        <credix-numeric-block
-          [value]="
-            movementQuotaSummary?.isCommissionMonthly
-              ? movementQuotaSummary?.commissionAmountDilute
-              : movementQuotaSummary?.commissionAmount
-          "
-          fontWeight="bold"
-          [prefix]="summaryPrefix"
-        ></credix-numeric-block>
-      </div>
-
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <span fxFlex
-          >{{ "Interés" }} {{ "(" + feedPercentage.toString().replace('.',',') + "% mensual)" }}
-        </span>
-        <credix-numeric-block
-          [value]="movementQuotaSummary?.feeAmount"
-          fontWeight="bold"
-          [prefix]="summaryPrefix"
-        ></credix-numeric-block>
-      </div>
-
-      <div
-        fxLayout="row"
-        fxLayoutAlign="space-between"
-        *ngIf="movementQuotaSummary.IVA !== '0,00'"
-      >
-        <span fxFlex>{{ "IVA*" }}</span>
-        <credix-numeric-block
-          [value]="movementQuotaSummary?.IVA"
-          fontWeight="bold"
-          [prefix]="summaryPrefix"
-        ></credix-numeric-block>
-      </div>
-    </div>
-
-    <p *ngIf="singleMovement" fxFlex class="summary-custom__info-sub iva">
-      * IVA y comisión se cargarán en el próximo estado de cuenta.
-    </p>
-    <p *ngIf="!singleMovement" fxFlex class="summary-custom__info-sub">
-      * Tiempo promedio al que se aplica la comisión.
-    </p>
-
-    <div
-      fxFlex
-      fxFlexLayout="row"
-      style="padding-top: 10px"
-      fxLayoutAlign="space-between"
-    >
-      <span fxFlex style="font-size: 20px !important"
-        >{{ movementQuotaSummary.quotaTo }}
-        {{ movementQuotaSummary.quotaTo > 1 ? "Cuotas" : "Cuota" }} de</span
-      >
-      <credix-numeric-block
-        [value]="movementQuotaSummary?.amountPerQuota"
-        fontSize="24"
-        fontWeight="bold"
-        [prefix]="summaryPrefix"
-      ></credix-numeric-block>
-    </div>
-  </div>
-</ng-template>

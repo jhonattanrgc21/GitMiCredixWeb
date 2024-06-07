@@ -1,41 +1,75 @@
 <mat-card class="rule-card">
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <span class="container-title title">{{ title }}
-      <mat-icon (click)="editRule()" [svgIcon]="'edit'" class="icon-edit"></mat-icon>
+    <span class="container-title title"
+      >{{ title }}
+      <mat-icon
+        (click)="editRule()"
+        [svgIcon]="'edit'"
+        class="icon-edit"
+      ></mat-icon>
     </span>
 
-    <div fxLayout="row"  fxLayoutGap="16px" fxLayoutAlign="space-between center">
-      <span [ngStyle]="{'color': rule.isActive ? '#0BC626' : '#3E3E3E'}" class="text-icon"> {{ rule.isActive ? 'Activa' : 'Inactiva' }}</span>
-      <label class="toggle" >
-        <input (change)="modifyState()" type="checkbox" id="toggle-input" [value]="rule.isActive">
+    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
+      <span
+        [ngStyle]="{ color: rule.isActive ? '#0BC626' : '#3E3E3E' }"
+        class="text-icon"
+      >
+        {{ rule.isActive ? "Activa" : "Inactiva" }}</span
+      >
+      <label class="toggle">
+        <input
+          (change)="modifyState()"
+          type="checkbox"
+          id="toggle-input"
+          [value]="rule.isActive"
+        />
         <span class="slider"></span>
       </label>
     </div>
   </div>
 
   <div class="mt-16px mb-16px">
-    <span class="text">Toda compra entre <span class="text__bold">
-        {{ this.currencySimbol + formatNumberWithCommas(!minimumAmount ? '0' : minimumAmount) }}
-        - {{ this.currencySimbol + formatNumberWithCommas(!maximumAmount ? '0' : maximumAmount)
-        }}</span> se ampliará a
-      <span class="text__bold">{{ rule.listQuota.quotaTo }} {{ rule.listQuota.quotaTo === 1 ? 'cuota'
-        : 'cuotas' }}.</span></span>
+    <span class="text"
+      >Toda compra en {{ currency }} entre
+      <span class="text__bold">
+        {{
+          this.currencySimbol +
+            formatNumberWithCommas(!minimumAmount ? "0" : minimumAmount)
+        }}
+        -
+        {{
+          this.currencySimbol +
+            formatNumberWithCommas(!maximumAmount ? "0" : maximumAmount)
+        }}</span
+      >
+      se ampliará a
+      <span class="text__bold"
+        >{{ rule.listQuota.quotaTo }}
+        {{ rule.listQuota.quotaTo === 1 ? "cuota" : "cuotas" }}.</span
+      ></span
+    >
   </div>
 
   <div class="mb-8px" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="text">{{tag1 || 'Comisión mensual'}}</p>
-    <span class="text__bold">{{ formatNumber(rule.listQuota.commissionRate) }}%</span>
+    <p class="text">{{ tag1 || "Comisión mensual" }}</p>
+    <span class="text__bold"
+      >{{ formatNumber(rule.listQuota.commissionRate) }}%</span
+    >
   </div>
 
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="text">{{ tag2 || 'Interés mensual'}}</p>
-    <span class="text__bold">{{  formatNumber(rule.listQuota.feePercentage) }}%</span>
+    <p class="text">{{ tag2 || "Interés mensual" }}</p>
+    <span class="text__bold"
+      >{{ formatNumber(rule.listQuota.feePercentage) }}%</span
+    >
   </div>
 
-  <ng-container *ngIf="rule.initDate && rule.endDate">
+  <ng-container>
     <p class="text mt-16px">
       Aplica del <span class="text__bold">{{ formatDate(rule.initDate) }}</span>
-      al <span class="text__bold">{{ formatDate(rule.endDate) }}</span></p>
+      <ng-container *ngIf="rule.endDate">
+        al <span class="text__bold">{{ formatDate(rule.endDate) }}</span>
+      </ng-container>
+    </p>
   </ng-container>
-
 </mat-card>

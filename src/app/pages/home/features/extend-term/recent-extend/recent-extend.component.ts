@@ -199,8 +199,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
   }
 
   openConfirmationModal() {
-    const text = `¿Desea ampliar el plazo a ${this.movementQuotaSummary.quotaTo} cuotas de ${this.summaryPrefix}${this.movementQuotaSummary.amountPerQuota}?`;
-    this.modalService.confirmationPopup(text).subscribe((confirmation) => {
+    this.modalService.confirmationPopup("¿Desea ampliar el plazo?").subscribe((confirmation) => {
       if (confirmation) {
         if (this.movementsSelected.length > 1) {
           this.saveQuotaUnified();
@@ -228,6 +227,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
       )
       .subscribe((response) => {
         this.extendTermService.result = {
+          title: response.title,
           status: response.type,
           message: response.message,
         };
@@ -260,6 +260,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.extendTermService.result = {
           status: response.type === "success" ? "success" : "error",
+          title: response.title,
           message: response.message,
         };
 
@@ -276,21 +277,6 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
         };
         this.extendTermService.recentMovementsSelected = [];
       });
-  }
-
-  openSummary() {
-    this.modalService.open(
-      {
-        template: this.summaryTemplate,
-        title: "Resumen general",
-      },
-      {
-        width: 380,
-        height: 395,
-        disableClose: true,
-        panelClass: "summary-panel",
-      }
-    );
   }
 
   getTags(tags: Tag[]) {

@@ -50,7 +50,7 @@
                   error
                   style="width: max-content"
                 >
-                  {{ "Valor es menor al minimo: ₡" + minimumAmountDollars }}
+                  {{ "Valor es menor al minimo: ₡" + minimumAmountColones }}
                 </div>
               </credix-input-field>
 
@@ -140,7 +140,7 @@
             <div fxLayout="row" class="mt-16px" fxLayoutAlign="flex-end">
               <credix-link-button
                 (click)="openDateRangeModal(colonesForm, colonesDateRange)"
-                >{{ tag6 || "Definir fechas" }}</credix-link-button
+                >{{ tag6 || "Definir fecha" }}</credix-link-button
               >
             </div>
           </ng-container>
@@ -149,13 +149,13 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="isColones && isDollars">
+  <ng-container *ngIf="isColones && isDollars && colonesForm.valid">
     <div fxLayout="row" class="schedule-quotas__divider">
       <mat-divider class="mb-16px" credixDivider></mat-divider>
     </div>
   </ng-container>
 
-  <ng-container *ngIf="isDollars">
+  <ng-container *ngIf="isDollars && (!isColones || colonesForm.valid)">
     <div fxLayout="row" fxLayoutGap="17px">
       <p class="info">
         {{ tag2 || "Quiero que mis dólares en colones entre:" }}
@@ -297,7 +297,7 @@
             >
               <credix-link-button
                 (click)="openDateRangeModal(dollarsForm, dollarsDateRange)"
-                >{{ tag6 || "Definir fechas" }}</credix-link-button
+                >{{ tag6 || "Definir fecha" }}</credix-link-button
               >
             </div>
           </ng-container>
