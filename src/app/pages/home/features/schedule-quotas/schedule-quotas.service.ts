@@ -36,15 +36,19 @@ export class ScheduleQuotasService {
   );
 
   getRuleQuotaList() {
-    return this.httpService.post("canales", this.ruleQuotaListUri).pipe(
-      map((response) => {
-        if (response.status === 200) {
-          return response.result;
-        } else {
-          return {};
-        }
+    return this.httpService
+      .post("canales", this.ruleQuotaListUri, {
+        accountId: this.storageService.getCurrentUser().actId,
       })
-    );
+      .pipe(
+        map((response) => {
+          if (response.status === 200) {
+            return response.result;
+          } else {
+            return {};
+          }
+        })
+      );
   }
 
   getRuleList() {
