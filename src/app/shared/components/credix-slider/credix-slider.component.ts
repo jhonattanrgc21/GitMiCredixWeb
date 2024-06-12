@@ -30,6 +30,7 @@ export class CredixSliderComponent implements OnInit, OnChanges {
   @Input() displayValue;
   @Input() displayMin;
   @Input() displayMax;
+  @Input() firstTime?;
   @Output() inputChange = new EventEmitter<number>();
   @Output() valueChange = new EventEmitter<number>();
   @ViewChild(MatSlider) slider: MatSlider;
@@ -51,8 +52,10 @@ export class CredixSliderComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.showMinWrapper = !!this.minWrapper.nativeElement.innerHTML;
     this.showMaxWrapper = !!this.maxWrapper.nativeElement.innerHTML;
-    this.valueChange.emit(1);
-    this.inputChange.emit(1);
+    if (this.firstTime) {
+      this.valueChange.emit(1);
+      this.inputChange.emit(1);
+    }
   }
 
   valueChangeEvent(event) {

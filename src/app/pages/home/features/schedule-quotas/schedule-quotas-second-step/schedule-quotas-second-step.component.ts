@@ -26,6 +26,7 @@ export class ScheduleQuotasSecondStepComponent implements OnInit, OnChanges {
   @Input() isColones: boolean;
   @Input() isDollars: boolean;
   @Input() rulesList: ProgrammedRule[];
+  @Input() sliderFlag;
 
   tag1: string;
   tag2: string;
