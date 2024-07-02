@@ -63,6 +63,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
   step2: string;
   step3: string;
   todayString: string;
+  initSlider = false;
   rulesList: ProgrammedRule[] = [];
   isActiveStepper: boolean = false;
   @ViewChild("scheduleQuotasStepper") stepper: CdkStepper;
@@ -188,6 +189,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
           this.initForms();
           this.isColones = false;
           this.isDollars = false;
+          this.initSlider = true;
         }
 
         this.currencyForm.valueChanges.subscribe(() => {
@@ -424,6 +426,7 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
                 this.isDollars = true;
                 this.currencyList[1].isSelected = true;
               }
+              this.initSlider = false;
               this.activeStepper(true);
               setTimeout(() => {
                 this.disableButton = false;
@@ -514,8 +517,8 @@ export class ScheduleQuotasComponent implements OnInit, AfterViewInit {
     this.done = false;
     this.activeStepper(false);
     this.selectedIndex = 0;
-    this.setIsColones(false)
-    this.setIsDollars(false)
+    this.setIsColones(false);
+    this.setIsDollars(false);
     this.setEnableButton();
     this.ngOnInit();
   }

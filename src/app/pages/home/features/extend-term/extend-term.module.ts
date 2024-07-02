@@ -94,6 +94,10 @@ const routes: Routes = [
     path: "recent-extend",
     component: RecentExtendComponent,
   },
+  {
+    path: "recent-extend/:id",
+    component: RecentExtendComponent,
+  },
 ];
 
 @NgModule({
