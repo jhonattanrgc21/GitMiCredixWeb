@@ -64,7 +64,7 @@
     >
   </div>
 
-  <ng-container>
+  <ng-container *ngIf="rule.endDate">
     <p class="text mt-16px">
       Aplica del <span class="text__bold">{{ formatDate(rule.initDate) }}</span>
       <ng-container *ngIf="rule.endDate">
