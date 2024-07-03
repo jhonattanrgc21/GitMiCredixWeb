@@ -43,4 +43,14 @@
     background-color: #ffffff !important;
     box-shadow: none !important;
   }
+  .mat-stroked-button {
+    &.cdk-program-focused,
+    .cdk-focused {
+      background: #fff !important;
+      box-shadow: none !important;
+    }
+    .mat-button-focus-overlay {
+      background-color: transparent !important;
+      }
+  }
 }
