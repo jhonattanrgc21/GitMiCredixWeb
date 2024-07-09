@@ -235,10 +235,12 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
         this.singleMovement.movementId
       )
       .pipe(
-        finalize(() =>
-          this.router.navigate([
-            `/home/extend-term/establishment/${this.singleMovement.establishmentName.trim()}/success`,
-          ])
+        finalize(() => {
+            const establishmentName: string = this.singleMovement.establishmentName.replace('/', '-');
+            this.router.navigate([
+              `/home/extend-term/establishment/${establishmentName.trim()}/success`,
+            ])
+          }
         )
       )
       .subscribe((response) => {
@@ -267,10 +269,12 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
         this.movementsSelected
       )
       .pipe(
-        finalize(() =>
-          this.router.navigate([
-            `/home/extend-term/establishment/${this.movementsSelected[0].establishmentName.trim()}/success`,
-          ])
+        finalize(() => {
+          const establishmentName: string = this.movementsSelected[0].establishmentName.replace('/', '-');
+            this.router.navigate([
+              `/home/extend-term/establishment/${establishmentName.trim()}/success`,
+            ])
+          }
         )
       )
       .subscribe((response) => {
