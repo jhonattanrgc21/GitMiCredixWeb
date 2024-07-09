@@ -112,7 +112,7 @@ export class RecentExtendComponent implements OnInit, OnDestroy {
 
   getQuotasUnified() {
     this.extendTermService
-      .calculateQuotaByMovementUnified(this.movementsSelected, 4007)
+      .calculateQuotaByMovementUnified(this.movementsSelected, 2009)
       .pipe(finalize(() => this.selectMovementQuotaSummary()))
       .subscribe((response) => {
         if (response.listQuota.length > 0) {
