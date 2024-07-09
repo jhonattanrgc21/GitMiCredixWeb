@@ -55,3 +55,25 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+:host {
+  display: block;
+  height: 662px;
+
+  ::ng-deep h1 {
+    margin-bottom: 36px !important;
+  }
+
+  ::ng-deep .credix-result-notification {
+    justify-content: flex-start !important;
+  }
+
+  ::ng-deep svg.credix-result-notification__icon {
+    width: 82px;
+    height: 82px;
+  }
+
+  ::ng-deep .credix-result-notification__message {
+    width: 477px !important;
+  }
+}
