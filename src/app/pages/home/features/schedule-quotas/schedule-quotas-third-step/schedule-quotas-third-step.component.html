@@ -4,7 +4,7 @@
     <ng-container *ngIf="isColones">
       <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="space-between">
         <div fxLayout="column" fxLayoutGap="16px">
-          <p class="highlighted-info">{{tag1 || 'Compra en colones'}}</p>
+          <p class="highlighted-info">{{tag1 || 'Compras en colones'}}</p>
           <credix-link-button (click)="back()">{{ tag2 || 'Editar'}}</credix-link-button>
         </div>
 
@@ -48,7 +48,7 @@
     <ng-container *ngIf="isDollars">
       <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="space-between">
         <div fxLayout="column" fxLayoutGap="16px">
-          <p class="highlighted-info">{{ tag5 || 'Compra en dólares'}}</p>
+          <p class="highlighted-info">{{ tag5 || 'Compras en dólares'}}</p>
           <credix-link-button (click)="back()">{{ tag2 || 'Editar'}}</credix-link-button>
         </div>
 

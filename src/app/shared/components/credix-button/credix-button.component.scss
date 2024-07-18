@@ -9,6 +9,9 @@
     ::ng-deep.mat-button-wrapper {
       color: #ffffff;
     }
+    &[disabled] {
+      background-color: #d2d2d2;
+    }
   }
 
   &.mat-stroked-button {
