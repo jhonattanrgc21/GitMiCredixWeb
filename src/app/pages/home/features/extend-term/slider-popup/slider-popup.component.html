@@ -1,0 +1,49 @@
+<div class="track" #scrollContent>
+  <div class="scrollable">
+    <div class="slide promo-popup confetti" #slide1>
+      <div
+        class="promo-popup__img-background"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+      >
+        <div class="promo-popup__icon mb-24px"></div>
+        <p class="promo-popup__description mb-16px">
+          <strong>{{ promoMessage! }}</strong>
+        </p>
+        <p class="promo-popup__message mb-16px">{{ promoDescription! }}</p>
+        <credix-button (buttonClick)="close()" class="promo-popup__button"
+          >Listo</credix-button
+        >
+      </div>
+    </div>
+    <div class="slide" #slide2>
+      <img src="./assets/images/credix-mas.png" />
+      <h3>{{ credixMasTitle }}</h3>
+      <p>
+        {{ credixMasText }}
+      </p>
+      <div class="button-row">
+        <credix-button [type]="'secondary'" (buttonClick)="close()"> Omitir </credix-button>
+        <credix-button class="button-large" routerLink="home/credix-mas/info" (buttonClick)="close()"> Ver mas beneficios </credix-button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="controls" #controls>
+  <button
+    class="control"
+    (click)="scrollLeft()"
+    [class.selected]="selectedSlide == 1"
+  >
+    <span></span>
+  </button>
+
+  <button
+    class="control"
+    (click)="scrollRight()"
+    [class.selected]="selectedSlide == 2"
+  >
+    <span></span>
+  </button>
+</div>

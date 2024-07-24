@@ -7,11 +7,17 @@
 
   &__title {
     text-align: center;
+    &.custom {
+      margin-bottom: 0.5rem;
+    }
   }
 
   &__message {
     text-align: center;
     margin-bottom: 8px;
+    &.custom {
+      margin-bottom: 0.5rem;
+    }
   }
 
   &__actions {
@@ -25,35 +31,37 @@
       font-family: Hebbo, sans-serif;
       font-weight: bold;
 
+      &.custom {
+        width: fit-content;
+      }
       &:first-child {
         margin-right: 20px;
       }
 
       &.mat-flat-button {
-
         ::ng-deep.mat-button-wrapper {
           color: #ffffff;
         }
       }
 
       &.mat-stroked-button {
-        border: 1px solid #E42313;
+        border: 1px solid #e42313;
 
         ::ng-deep.mat-button-wrapper {
-          color: #DD2218;
+          color: #dd2218;
         }
 
         &[disabled] {
-          border: 1px solid #D2D2D2;
+          border: 1px solid #d2d2d2;
 
           ::ng-deep.mat-button-wrapper {
-            color: #D2D2D2;
+            color: #d2d2d2;
           }
         }
       }
 
       &:hover:enabled {
-        background-color: #AF1306;
+        background-color: #e42313;
 
         &.mat-stroked-button {
           ::ng-deep.mat-button-wrapper {

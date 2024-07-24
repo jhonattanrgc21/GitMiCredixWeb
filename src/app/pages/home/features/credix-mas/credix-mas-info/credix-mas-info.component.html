@@ -1,0 +1,50 @@
+<ng-container *ngIf="!notification; else notificationTemplate">
+  <div class="info-container">
+    <p class="subtitle">
+      {{ subscription ? "Beneficios activos" : "Le ofrecemos" }}
+    </p>
+    <div class="benefits">
+      <div class="item" *ngFor="let item of benefits">
+        <img src="{{ './assets/images/' + item.icon + '.svg' }}" />
+        <p>{{ item.description }}</p>
+      </div>
+      <p *ngIf="!subscription">
+        ¡Aproveche todos los beneficios por solo
+        <span>₡5.000 más IVA al mes</span>!
+      </p>
+      <a *ngIf="subscription" routerLink="/home/credix-mas/account-info"
+        >Gestionar suscripción</a
+      >
+    </div>
+  </div>
+
+  <div
+    class="actions-footer"
+    fxLayout="row"
+    fxLayoutAlign="flex-end"
+    fxLayoutGap="16px"
+  >
+    <credix-button
+      type="secondary"
+      [ngClass]="{ 'button-large': subscription }"
+      [routerLink]="'/home'"
+      >{{ subscription ? "Atrás" : "Salir" }}</credix-button
+    >
+    <credix-button
+      *ngIf="!subscription"
+      routerLink="/home/credix-mas/account-info"
+      >Me interesa</credix-button
+    >
+  </div>
+</ng-container>
+
+<ng-template #notificationTemplate>
+  <app-credix-result-view
+    [resultMessage]="notification.message"
+    [resultTile]="notification.title"
+    status="warning"
+    moduleTitle=""
+    buttonText="Listo"
+    routeTo="/home"
+  ></app-credix-result-view>
+</ng-template>

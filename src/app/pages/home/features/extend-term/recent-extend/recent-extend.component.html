@@ -1,0 +1,183 @@
+<mat-card
+  class="previous-extend"
+  credixCard
+  fxLayout="column"
+  fxLayoutGap="16px"
+>
+  <h1>Ampliar plazo de compra</h1>
+  <p>
+    Haga su cuota más pequeña, ampliando el plazo de su total adeudado o compras
+    individuales.
+  </p>
+
+  <mat-divider credixDivider></mat-divider>
+
+  <div
+    *ngIf="movementQuotaSummary"
+    class="previous-extend__content"
+    fxLayout="column"
+    fxLayoutGap="10px"
+    fxFlex
+  >
+    <div
+      class="previous-extend__content__pending"
+      fxLayout="row"
+      fxLayoutAlign="space-between"
+      fxFlex="64px"
+    >
+      <span><strong>Monto a ampliar</strong></span>
+      <credix-numeric-block
+        [value]="singleMovement ? singleMovement.originAmount : purchaseAmount"
+        class="tr"
+        fontSize="24"
+        fontWeight="bold"
+        fxFlex="25"
+        [prefix]="summaryPrefix"
+      >
+      </credix-numeric-block>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div
+      class="previous-extend__content__option"
+      fxLayout="row"
+      fxLayoutAlign="space-between"
+    >
+      <div fxLayout="column">
+        <span
+          ><strong>{{ subtitleTag || "Modifique su plazo" }}</strong></span
+        >
+        <ng-container *ngIf="promoApply">
+          <p
+            class="mt-16px"
+            *ngIf="movementQuotaSummary.quotaTo === quotaPromoMax"
+            [class.extend-term__promo-apply__selected]="promoApply"
+          >
+            <strong>{{ promoMessage }}</strong>
+          </p>
+        </ng-container>
+      </div>
+
+      <credix-slider
+        fxFlex="400px"
+        (inputChange)="getQuota($event)"
+        (valueChange)="getQuota($event)"
+        [displayMax]="termSliderDisplayMax"
+        [displayMin]="termSliderDisplayMin"
+        [displayValue]="termSliderDisplayValue"
+        [max]="termSliderMax"
+        [min]="termSliderMin"
+        instructions="{{ deseoTag || 'Deseo ampliar este plazo a' }}"
+        [units]="movementQuotaSummary?.quotaTo > 1 ? 'meses' : 'mes'"
+      ></credix-slider>
+      <div
+        fxFlex="110px"
+        fxLayout="column"
+        fxLayoutAlign="flex-start flex-end"
+        fxLayoutGap="4px"
+      >
+        <span>Cuotas de:</span>
+        <credix-numeric-block
+          [value]="movementQuotaSummary?.amountPerQuota"
+          class="tr"
+          fontSize="24"
+          fontWeight="bold"
+          fxFlex="25"
+          [prefix]="summaryPrefix"
+        >
+        </credix-numeric-block>
+      </div>
+    </div>
+
+    <ng-container *ngIf="movementQuotaSummary?.amountPerQuota">
+      <div fxLayout="column" fxLayoutGap="8px">
+        <span class="general-resume"><strong>Resumen general</strong></span>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex>{{ resultNew || "Plazo nuevo" }}</span>
+          <span
+            ><strong
+              >{{ movementQuotaSummary?.quotaTo }}
+              {{ movementQuotaSummary?.quotaTo > 1 ? "meses" : "mes" }}
+            </strong></span
+          >
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex>{{ "Monto a ampliar" }}</span>
+          <credix-numeric-block
+            [value]="
+              singleMovement ? singleMovement.originAmount : purchaseAmount
+            "
+            fontWeight="bold"
+            [prefix]="summaryPrefix"
+          ></credix-numeric-block>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex
+            >{{ comissionTag || "Comisión" }}
+            {{
+              percentageCommission === ""
+                ? ""
+                : "(" +
+                  percentageCommission.toString().replace(".", ",") +
+                  "% mensual)" +
+                  (!singleMovement ? "*" : "")
+            }}
+          </span>
+          <credix-numeric-block
+            [value]="
+              movementQuotaSummary?.isCommissionMonthly
+                ? movementQuotaSummary?.commissionAmountDilute
+                : movementQuotaSummary?.commissionAmount
+            "
+            fontWeight="bold"
+            [prefix]="summaryPrefix"
+          ></credix-numeric-block>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <span fxFlex
+            >{{ "Interés" }}
+            {{
+              "(" + feedPercentage.toString().replace(".", ",") + "% mensual)"
+            }}
+          </span>
+          <credix-numeric-block
+            [value]="movementQuotaSummary?.feeAmount"
+            fontWeight="bold"
+            [prefix]="summaryPrefix"
+          ></credix-numeric-block>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayoutAlign="space-between"
+          *ngIf="movementQuotaSummary.IVA !== '0,00'"
+        >
+          <span fxFlex>{{ "IVA" }}</span>
+          <credix-numeric-block
+            [value]="movementQuotaSummary?.IVA"
+            fontWeight="bold"
+            [prefix]="summaryPrefix"
+          ></credix-numeric-block>
+        </div>
+      </div>
+      <p *ngIf="!singleMovement" fxFlex class="summary-custom__info-sub">
+        * Se calcula tomando el periodo promedio ponderado.
+      </p>
+    </ng-container>
+  </div>
+
+  <div
+    *ngIf="movementQuotaSummary"
+    class="actions-footer"
+    fxLayout="row"
+    fxLayoutAlign="flex-end"
+    fxLayoutGap="16px"
+  >
+    <credix-button (buttonClick)="openConfirmationModal()"
+      >Ampliar plazo</credix-button
+    >
+  </div>
+</mat-card>

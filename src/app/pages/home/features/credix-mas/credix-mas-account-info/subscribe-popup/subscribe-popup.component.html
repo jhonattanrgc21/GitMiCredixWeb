@@ -1,0 +1,9 @@
+<div class="subscribe-popup">
+  <h3>{{ subscription ? '¿Cancelar suscripción?' : '¿Desea suscribirse?'}}</h3>
+  <p *ngIf="!subscription">Se activarán los beneficios en máximo 48 horas hábiles posterior a suscribirse.</p>
+  <p *ngIf="subscription">Al cancelarla, a partir del {{ date }} perderá los beneficios disponibles.</p>
+  <div class="button-row">
+    <credix-button type="secondary" (buttonClick)="confirm(false)">{{ subscription ? 'Mantener' : 'Ahora no'}}</credix-button>
+    <credix-button (buttonClick)="confirm(true)">{{ subscription ? 'Cancelar' : 'Suscribirme'}}</credix-button>
+  </div>
+</div>

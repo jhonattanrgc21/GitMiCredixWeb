@@ -37,6 +37,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 
 import { RecentPurchasesComponent } from './recent-purchases.component';
+import { CredixAmountSummaryModule } from 'src/app/shared/components/credix-amount-summary/credix-amount-summary.module';
+import { CredixAllowedMovementModule } from 'src/app/shared/components/credix-allowed-movement/credix-allowed-movement.module';
+import { RecentExtendComponent } from '../recent-extend/recent-extend.component';
 
 const routes: Routes = [
   {
@@ -44,8 +47,8 @@ const routes: Routes = [
     component: RecentPurchasesComponent
   },
   {
-    path: ':movementId',
-    component: RecentPurchasesComponent
+    path: ':id',
+    component: RecentExtendComponent
   },
   {
     path: 'establishment/:establishment/success',
@@ -62,6 +65,7 @@ const routes: Routes = [
     CredixPopupModule,
     CredixConfirmationPopupModule,
     CredixButtonModule,
+    CredixAmountSummaryModule,
     MatCardModule,
     MatDialogModule,
     MatSliderModule,
@@ -90,6 +94,7 @@ const routes: Routes = [
     SharedModule,
     MatCheckboxModule,
     CredixCheckboxButtonModule,
+    CredixAllowedMovementModule
   ],
   providers: [
     ModalService

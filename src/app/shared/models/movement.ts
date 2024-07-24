@@ -10,5 +10,6 @@ export class Movement {
   originCurrency: string;
   originDate: string;
   quantifiableMovement: boolean;
+  details?: boolean;
   quota: number;
 }

@@ -26,6 +26,8 @@ import {CredixDividerModule} from '../../../../shared/directives/credix-divider/
 import {LandingService} from './landing.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {CastToNumberModule} from '../../../../shared/pipes/cast-to-number/cast-to-number.module';
+import { HomePopupComponent } from '../credix-mas/home-popup/home-popup.component';
+import { CredixButtonModule } from 'src/app/shared/components/credix-button/credix-button.module';
 
 const routes: Routes = [
   {
@@ -35,7 +37,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent],
+  declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent, HomePopupComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -56,7 +58,8 @@ const routes: Routes = [
     TablesDirectivesModule,
     DateFormatterModule,
     CredixDividerModule,
-    CastToNumberModule
+    CastToNumberModule,
+    CredixButtonModule
   ],
   providers: [
     LandingService,

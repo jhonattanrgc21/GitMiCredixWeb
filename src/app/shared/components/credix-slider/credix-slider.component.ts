@@ -1,11 +1,22 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild} from '@angular/core';
-import {MatSlider} from '@angular/material/slider';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+  ViewChild,
+} from "@angular/core";
+import { MatSlider } from "@angular/material/slider";
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'credix-slider',
-  templateUrl: './credix-slider.component.html',
-  styleUrls: ['./credix-slider.component.scss']
+  selector: "credix-slider",
+  templateUrl: "./credix-slider.component.html",
+  styleUrls: ["./credix-slider.component.scss"],
 })
 export class CredixSliderComponent implements OnInit, OnChanges {
   @Input() disabled = false;
@@ -13,25 +24,27 @@ export class CredixSliderComponent implements OnInit, OnChanges {
   @Input() min = 0;
   @Input() step = 1;
   @Input() defaultValue = 1;
-  @Input() instructions = 'Instrucciones';
-  @Input() units = '';
+  @Input() instructions = "Instrucciones";
+  @Input() units = "";
   @Input() value = 0;
   @Input() displayValue;
   @Input() displayMin;
   @Input() displayMax;
+  @Input() firstTime?;
   @Output() inputChange = new EventEmitter<number>();
   @Output() valueChange = new EventEmitter<number>();
   @ViewChild(MatSlider) slider: MatSlider;
-  @ViewChild('minWrapper', {read: ElementRef, static: true}) minWrapper: ElementRef;
-  @ViewChild('maxWrapper', {read: ElementRef, static: true}) maxWrapper: ElementRef;
+  @ViewChild("minWrapper", { read: ElementRef, static: true })
+  minWrapper: ElementRef;
+  @ViewChild("maxWrapper", { read: ElementRef, static: true })
+  maxWrapper: ElementRef;
   showMinWrapper = false;
   showMaxWrapper = false;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnChanges(simple: SimpleChanges) {
-    if ( simple.displayValue?.currentValue === 1 ) {
+    if (simple.displayValue?.currentValue === 1) {
       this.value = 1;
     }
   }
@@ -39,17 +52,19 @@ export class CredixSliderComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.showMinWrapper = !!this.minWrapper.nativeElement.innerHTML;
     this.showMaxWrapper = !!this.maxWrapper.nativeElement.innerHTML;
+    if (this.firstTime) {
+      this.valueChange.emit(1);
+      this.inputChange.emit(1);
+    }
   }
 
   valueChangeEvent(event) {
     this.value = event.value;
     this.valueChange.emit(this.value);
-
   }
 
   inputChangeEvent(event) {
     this.value = event.value;
     this.inputChange.emit(this.value);
   }
-
 }

@@ -1,17 +1,70 @@
 <div class="credix-confirmation-popup">
-  <h2 class="credix-confirmation-popup__title">{{title}}</h2>
+  <h2
+    class="credix-confirmation-popup__title"
+    [ngClass]="cancelText || confirmText ? 'custom' : ''"
+  >
+    {{ title }}
+  </h2>
 
-  <p *ngIf="message" class="credix-confirmation-popup__message">{{message}}</p>
+  <p
+    *ngIf="message"
+    class="credix-confirmation-popup__message"
+    [ngClass]="cancelText || confirmText ? 'custom' : ''"
+  >
+    {{ message }}
+  </p>
 
   <div class="credix-confirmation-popup__actions">
-    <button *ngIf="!okButton"(click)="modal.close(false)"
-            class="credix-confirmation-popup__actions__button" color="primary" mat-stroked-button>No
+    <button
+      *ngIf="cancelText; else noButton"
+      (click)="modal.close(false)"
+      class="credix-confirmation-popup__actions__button custom"
+      color="primary"
+      mat-stroked-button
+    >
+      {{ cancelText }}
     </button>
-    <button *ngIf="!okButton"(click)="modal.close(true)"
-            class="credix-confirmation-popup__actions__button" color="primary" mat-flat-button>Sí
+    <ng-template #noButton>
+      <button
+        *ngIf="!okButton"
+        (click)="modal.close(false)"
+        class="credix-confirmation-popup__actions__button"
+        color="primary"
+        mat-stroked-button
+      >
+        No
+      </button>
+    </ng-template>
+
+    <button
+      *ngIf="confirmText; else confirmButton"
+      (click)="modal.close(true)"
+      class="credix-confirmation-popup__actions__button custom"
+      color="primary"
+      mat-flat-button
+    >
+      {{ confirmText }}
     </button>
-    <button *ngIf="okButton"(click)="modal.close(true)"
-      class="credix-confirmation-popup__actions__button" color="primary" mat-flat-button>Ok
-  </button>
+
+    <ng-template #confirmButton>
+      <button
+        *ngIf="!okButton"
+        (click)="modal.close(true)"
+        class="credix-confirmation-popup__actions__button"
+        color="primary"
+        mat-flat-button
+      >
+        Sí
+      </button>
+      <button
+        *ngIf="okButton"
+        (click)="modal.close(true)"
+        class="credix-confirmation-popup__actions__button"
+        color="primary"
+        mat-flat-button
+      >
+        Ok
+      </button>
+    </ng-template>
   </div>
 </div>

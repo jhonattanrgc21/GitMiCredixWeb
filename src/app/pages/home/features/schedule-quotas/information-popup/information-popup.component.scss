@@ -1,0 +1,43 @@
+.information-popup{
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+
+  .container{
+    width: 311px;
+    height: auto;
+    .test{
+      margin-bottom: 24px;
+    }
+    .options{
+      padding-left: 24px;
+    }
+  }
+
+  .content{
+    margin-top: 24px;
+
+    &__botton {
+      width: 100%;
+      margin-bottom: auto;
+    }
+  }
+}
+
+::ng-deep .schedule-quotas-information-panel {
+  .mat-dialog-container {
+    padding: 24px 16px 16px 16px;
+    box-sizing: border-box;
+
+    .credix-popup__title{
+      margin-top: 0;
+      margin-bottom: 16px;
+      width: 311px;
+      height: 35px;
+    }
+  }
+
+  .mat-button, .mat-stroked-button, .mat-flat-button{
+    padding: 4px 16px;
+  }
+}

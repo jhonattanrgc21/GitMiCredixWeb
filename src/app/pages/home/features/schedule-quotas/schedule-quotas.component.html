@@ -1,0 +1,198 @@
+<mat-card
+  class="schedule-quotas"
+  *ngIf="!done; else scheduleQuotasTemplate"
+  credixCard
+  fxLayout="column"
+>
+  <ng-container *ngIf="!loading">
+    <ng-container *ngIf="existRules() && !isActiveStepper">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        class="content-new-rule"
+      >
+        <h1>
+          {{ scheduleQuotasTitle || "Programar cuotas" }}
+          <ng-container *ngIf="!isActiveStepper">
+            <mat-icon
+              (click)="openInformationModal()"
+              [svgIcon]="'information-outline'"
+              class="icon-info color-blue"
+            ></mat-icon>
+          </ng-container>
+        </h1>
+
+        <credix-button (buttonClick)="activeStepper(true)">{{
+          button || "Definir otra regla"
+        }}</credix-button>
+      </div>
+    </ng-container>
+
+    <!-- Informacion para crear reglas Inicio-->
+    <ng-container *ngIf="!isActiveStepper; else stepperTemplate">
+      <ng-container *ngIf="!existRules()">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <h1>
+            Programar cuotas
+            <ng-container *ngIf="!isActiveStepper">
+              <mat-icon
+                (click)="openInformationModal()"
+                [svgIcon]="'information-outline'"
+                class="icon-info color-blue"
+              ></mat-icon>
+            </ng-container>
+          </h1>
+        </div>
+
+        <div fxLayout="row" class="container">
+          <div class="content">
+            <p class="item">
+              {{
+                info1 ||
+                  "Para ampliar el plazo de las compras de manera automática:"
+              }}
+            </p>
+            <ol class="options item">
+              <li>{{ option1 || "Seleccione la moneda de las compras." }}</li>
+              <li>
+                {{
+                  option2 ||
+                    "Defina los montos y a cuál plazo quiere dividir sus compras para que se aplique cada vez que las realice."
+                }}
+              </li>
+            </ol>
+            <p class="item">
+              {{
+                info2 ||
+                  "Al hacer esto, todo consumo que cumpla con las reglas establecidas se ampliará al plazo seleccionado sin gestiones adicionales."
+              }}
+            </p>
+            <p>
+              {{
+                info3 ||
+                  "Este producto aplica únicamente para los consumos de la red Visa."
+              }}
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="actions-footer step-zero"
+          fxLayout="row"
+          fxLayoutAlign="flex-end"
+        >
+          <credix-button (buttonClick)="activeStepper(true)">
+            {{ "Definir regla" }}
+          </credix-button>
+        </div>
+      </ng-container>
+    </ng-container>
+    <!-- Informacion para crear reglas Fin -->
+  </ng-container>
+
+  <!-- Stepper Inicio-->
+  <ng-template #stepperTemplate>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <h1>{{ scheduleQuotasTitle || "Programar cuotas" }}</h1>
+    </div>
+
+    <credix-stepper
+      #scheduleQuotasStepper
+      class="schedule-quotas__stepper"
+      fxFlex
+    >
+      <cdk-step
+        [stepControl]="currencyForm"
+        fxLayout="column"
+        label="{{ step || 'Moneda' }}"
+      >
+        <div class="schedule-quotas__container-step">
+          <app-schedule-quotas-first-step
+            [disableNextStepControl]="currencyForm.get('disableNextStep')"
+            [currencyList]="currencyList"
+            (colonesOption)="setIsColones($event)"
+            (dollarsOption)="setIsDollars($event)"
+          >
+          </app-schedule-quotas-first-step>
+        </div>
+      </cdk-step>
+
+      <cdk-step
+        fxLayout="column"
+        fxLayoutAlign="start center"
+        label="{{ step2 || 'Regla' }}"
+      >
+        <div class="schedule-quotas__container-step">
+          <app-schedule-quotas-second-step
+            [colonesForm]="colonesForm"
+            [dollarsForm]="dollarsForm"
+            [isColones]="isColones"
+            [isDollars]="isDollars"
+            [rulesList]="rulesList"
+            [sliderFlag]="initSlider"
+          >
+          </app-schedule-quotas-second-step>
+        </div>
+      </cdk-step>
+
+      <cdk-step fxLayout="column" label="{{ step3 || 'Resumen' }}">
+        <div class="schedule-quotas__container-step">
+          <app-schedule-quotas-third-step
+            [colonesForm]="colonesForm"
+            [dollarsForm]="dollarsForm"
+            [isColones]="isColones"
+            [isDollars]="isDollars"
+            (goBack)="editBack()"
+          >
+          </app-schedule-quotas-third-step>
+        </div>
+      </cdk-step>
+    </credix-stepper>
+
+    <div
+      class="actions-footer"
+      fxLayout="row"
+      fxLayoutAlign="flex-end"
+      fxLayoutGap="16px"
+    >
+      <credix-button
+        (buttonClick)="back()"
+        *ngIf="selectedIndex > 0"
+        type="secondary"
+        >Atrás</credix-button
+      >
+      <credix-button (buttonClick)="next()" [disabled]="disableButton">
+        {{ selectedIndex >= 2 ? "Definir regla" : "Continuar" }}
+      </credix-button>
+    </div>
+  </ng-template>
+  <!-- Stepper Fin -->
+</mat-card>
+
+<!-- Lista de reglas Inicio -->
+<ng-container *ngIf="existRules() && !isActiveStepper">
+  <div fxLayout="row wrap" fxLayoutAlign="space-between">
+    <ng-container *ngFor="let rule of rulesList; let i = index">
+      <app-rule-card
+        [title]="'Regla ' + (i + 1)"
+        [rule]="rule"
+        (editSelectedRule)="editRule($event, 1)"
+        (disableSelectedRule)="disableRule($event, 2)"
+      ></app-rule-card>
+    </ng-container>
+  </div>
+</ng-container>
+<!-- Lista de reglas Fin -->
+
+<ng-template #scheduleQuotasTemplate>
+  <app-credix-result-view
+    [resultMessage]="message"
+    [resultTile]="title"
+    [status]="status"
+    [moduleTitle]="'Programar cuotas'"
+    buttonText="Listo"
+    routeTo="/home/schedule-quotas/"
+    (click)="reload()"
+  >
+  </app-credix-result-view>
+</ng-template>
