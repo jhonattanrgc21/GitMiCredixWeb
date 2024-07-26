@@ -1,0 +1,42 @@
+<div class="update-account-info-popup">
+  <h2>Actualizar Datos</h2>
+
+  <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
+
+
+    <cdk-step [label]="'Personales'" [stepControl]="personalInfoFormGroup">
+      <div class="update-account-info-step">
+        <h3>Datos Personales</h3>
+        <personal-info-step-component [personalInfoFormGroup]="personalInfoFormGroup"></personal-info-step-component>
+      </div>
+    </cdk-step>
+
+    <cdk-step [label]="'Domicilio'" [stepControl]="adressFormGroup">
+      <div class="update-account-info-step">
+        <h3>Domicilio</h3>
+        <adress-step-component [AdressStepFormGroup]="adressFormGroup"></adress-step-component>
+      </div>
+    </cdk-step>
+
+    <cdk-step [label]="'Ingresos'" [stepControl]="incomeFormGroup">
+      <div class="update-account-info-step">
+        <h3>Ingresos</h3>
+        <income-step-component [IncomeStepFormGroup]="incomeFormGroup"></income-step-component>
+      </div>
+    </cdk-step>
+
+  </credix-stepper-sign-up>
+
+  <div class="stepper-action-buttons">
+    <credix-button *ngIf="stepperIndex > 0" class="back-button" [type]="'secondary'" (click)="back()">
+      Atras
+    </credix-button>
+    <credix-button *ngIf="stepperIndex < 2" class="continue-button" (click)="nextStep()">
+      Continuar
+    </credix-button>
+    <credix-button *ngIf="stepperIndex === 2" class="continue-button" (click)="submitUpdateAccountInfoForm()">
+      Confirmar
+    </credix-button>
+  </div>
+
+</div>

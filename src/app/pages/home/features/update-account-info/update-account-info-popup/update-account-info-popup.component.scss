@@ -1,0 +1,30 @@
+.update-account-info-popup{
+  credix-stepper-sign-up {
+    display: block;
+    margin-top: 60px;
+  }
+
+  .update-account-info-step{
+    max-height: 48vh;
+    overflow: auto;
+  }
+
+  .stepper-action-buttons{
+    display: flex;
+    margin-top: 16px;
+    gap: 16px;
+    height: 44px;
+    .back-button {
+      width: 78px;
+    }
+    .continue-button{
+      flex-grow: 1;
+    }
+    ::ng-deep button{
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+
+}

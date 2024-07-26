@@ -12,6 +12,7 @@ import {RenewTokenService} from '../../core/services/renew-token.service';
 import {HttpRequestsResponseInterceptor} from '../../core/interceptors/http.interceptor';
 import {CredixToastService} from '../../core/services/credix-toast.service';
 import { UpdatedRulePopupComponent } from './features/schedule-quotas/updated-rule-popup/updated-rule-popup.component';
+import { UpdateAccountInfoReminderPopUp } from './features/update-account-info/update-account-info-reminder-popup/update-account-info-reminder-popup.component';
 
 @Component({
   selector: 'app-home',
@@ -70,6 +71,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.homeService.getIsShowPopUp().subscribe(res => {
       if(res.isShowPopUp) this.openUpdatedRuleModal();
     });
+
+    //TODO: CRE2024-20 Check if Reminder PopUp have to be shown
+
+    this.openUpdateAccountInfoReminderPopUp()
+
+  }
+
+  openUpdateAccountInfoReminderPopUp(){
+    this.modalService.open({
+      component: UpdateAccountInfoReminderPopUp,
+      hideCloseButton: true,
+      title: null,
+    }, {width: 343, disableClose: true, panelClass: 'update-account-info-reminder-popup'})
+
   }
 
   ngAfterViewInit(): void {
@@ -84,7 +99,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       title: null,
     }, {width: 343, height: 400, disableClose: false, panelClass: 'schedule-quotas-updatedRule-panel'})
       .afterClosed().subscribe((ready: any) => {
-        if(ready) this.homeService.setLastReadyButtonClick().subscribe();
+        // if(ready) this.homeService.setLastReadyButtonClick().subscribe();
       });
   }
 

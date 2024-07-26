@@ -92,6 +92,14 @@ span {
   &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-rule-info-popup>.rule-info-popup) {
     padding: 24px;
   }
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>update-account-info-reminder-popup) {
+    padding: 16px;
+    update-account-info-reminder-popup{
+      display: block;
+      height: 100%;
+    }
+
+  }
 }
 .credix-popup {
   position: static !important;
