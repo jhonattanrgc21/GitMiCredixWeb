@@ -38,8 +38,7 @@ import { UpdateAccountInfoModule } from './features/update-account-info/update-a
     CredixShareButtonModule,
     CredixResultNotificationModule,
     CredixPopupAlternativeModule,
-    SimplebarAngularModule,
-    UpdateAccountInfoModule
+    SimplebarAngularModule
   ],
   providers: [
     HomeService,

@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       title: null,
     }, {width: 343, height: 400, disableClose: false, panelClass: 'schedule-quotas-updatedRule-panel'})
       .afterClosed().subscribe((ready: any) => {
-        // if(ready) this.homeService.setLastReadyButtonClick().subscribe();
+        if(ready) this.homeService.setLastReadyButtonClick().subscribe();
       });
   }
 

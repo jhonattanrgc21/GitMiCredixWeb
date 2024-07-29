@@ -20,7 +20,13 @@ import { PersonalInfoStepComponent } from './personal-info-step/personal-info-st
     IncomeStepComponent,
     AdressStepComponent
   ],
-  imports: [ CommonModule, SharedModule, CredixButtonModule, MatButtonModule, CdkStepperModule, CredixStepperSignUpModule ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    CredixButtonModule,
+     MatButtonModule,
+     CdkStepperModule,
+     CredixStepperSignUpModule ],
   providers: [ModalService]
 })
 export class UpdateAccountInfoModule {}
