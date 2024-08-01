@@ -7,6 +7,7 @@ import {Directive, ElementRef} from '@angular/core';
 export class CredixCellDirective {
 
   constructor(el: ElementRef) {
+    el.nativeElement.style.color = '#3E3E3E';
     el.nativeElement.style.margin = '0 16px';
     el.nativeElement.style.fontSize = '16px';
     el.nativeElement.style.display = 'inline';
