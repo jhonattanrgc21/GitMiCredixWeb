@@ -11,6 +11,11 @@ import { CredixStepperSignUpModule } from 'src/app/shared/components/credix-step
 import { IncomeStepComponent } from './income-step/income-step.component';
 import { AdressStepComponent } from './address-step/adress-step.component';
 import { PersonalInfoStepComponent } from './personal-info-step/personal-info-step.component';
+import { CredixInputFieldModule } from 'src/app/shared/components/credix-input-field/credix-input-field.module';
+import { CredixSelectModule } from 'src/app/shared/components/credix-select/credix-select.module';
+import { GlobalApiService } from 'src/app/core/services/global-api.service';
+import { CredixDatePickerModule } from 'src/app/shared/components/credix-date-picker/credix-date-picker.module';
+import { CredixLinkButtonModule } from 'src/app/shared/components/credix-link-button/credix-link-button.module';
 
 @NgModule({
   declarations: [
@@ -24,9 +29,17 @@ import { PersonalInfoStepComponent } from './personal-info-step/personal-info-st
     CommonModule,
     SharedModule,
     CredixButtonModule,
-     MatButtonModule,
-     CdkStepperModule,
-     CredixStepperSignUpModule ],
-  providers: [ModalService]
+    MatButtonModule,
+    CdkStepperModule,
+    CredixStepperSignUpModule,
+    CredixInputFieldModule,
+    CredixSelectModule,
+    CredixDatePickerModule,
+    CredixLinkButtonModule
+  ],
+  providers: [
+    ModalService,
+    GlobalApiService
+  ]
 })
-export class UpdateAccountInfoModule {}
+export class UpdateAccountInfoModule { }
