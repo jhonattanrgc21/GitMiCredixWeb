@@ -10,6 +10,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class UpdateAccountInfoPopUp implements OnInit {
   @ViewChild('stepper') stepper: CdkStepper;
   stepperIndex: number = 0
+  personalInfoSwitch: 'idUpload' | 'form' = 'form'
+
+  idValid = false
 
   personalInfoFormGroup = this.fb.group({
     fullName: ['Randy Josue', Validators.required],
@@ -35,13 +38,32 @@ export class UpdateAccountInfoPopUp implements OnInit {
   ngOnInit(): void { }
 
   back() {
+    if(this.stepperIndex === 0 && this.personalInfoSwitch === 'idUpload'){
+        this.personalInfoSwitch = 'form'
+        this.idValid = false
+      return
+    }
+    if(this.stepperIndex === 1){
+      this.idValid = false
+    }
     this.stepper.previous();
     this.stepperIndex = this.stepper.selectedIndex
   }
 
   nextStep() {
+    if(!this.idValid){
+      //TODO: VALIDAR SI LA CEDULA ESTA VENCIDA
+        this.personalInfoSwitch = 'idUpload'
+      return
+    }
+
     this.stepper.next();
     this.stepperIndex = this.stepper.selectedIndex
+  }
+
+  validateId(){
+    this.idValid = true
+    this.nextStep()
   }
 
   submitUpdateAccountInfoForm(){
