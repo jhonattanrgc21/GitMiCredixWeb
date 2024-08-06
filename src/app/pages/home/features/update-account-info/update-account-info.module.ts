@@ -16,6 +16,7 @@ import { CredixSelectModule } from 'src/app/shared/components/credix-select/cred
 import { GlobalApiService } from 'src/app/core/services/global-api.service';
 import { CredixDatePickerModule } from 'src/app/shared/components/credix-date-picker/credix-date-picker.module';
 import { CredixLinkButtonModule } from 'src/app/shared/components/credix-link-button/credix-link-button.module';
+import { IdPhotoUploadComponent } from './id-photo-upload/id-photo-upload.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CredixLinkButtonModule } from 'src/app/shared/components/credix-link-bu
     UpdateAccountInfoPopUp,
     PersonalInfoStepComponent,
     IncomeStepComponent,
-    AdressStepComponent
+    AdressStepComponent,
+    IdPhotoUploadComponent
   ],
   imports: [
     CommonModule,
