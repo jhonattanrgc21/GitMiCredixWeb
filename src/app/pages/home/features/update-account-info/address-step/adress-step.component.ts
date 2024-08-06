@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {GlobalApiService} from '../../../../../core/services/global-api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -12,7 +12,7 @@ import {Address} from '../../../../../shared/models/address';
     styleUrls: ['./adress-step.component.scss']
   })
   export class AdressStepComponent implements OnInit {
-    newAddressFormGroup: FormGroup = new FormGroup({
+    @Input() newAddressFormGroup: FormGroup = new FormGroup({
       province: new FormControl(null, [Validators.required]),
       canton: new FormControl(null, [Validators.required]),
       district: new FormControl(null, [Validators.required]),
