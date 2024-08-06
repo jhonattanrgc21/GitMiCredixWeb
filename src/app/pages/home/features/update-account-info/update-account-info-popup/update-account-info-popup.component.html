@@ -6,7 +6,11 @@
 
     <cdk-step [label]="'Personales'" [stepControl]="personalInfoFormGroup">
       <div class="update-account-info-step">
-        <personal-info-step-component [personalInfoFormGroup]="personalInfoFormGroup"></personal-info-step-component>
+        <ng-container [ngSwitch]="personalInfoSwitch">
+          <personal-info-step-component *ngSwitchCase="'form'" [personalInfoFormGroup]="personalInfoFormGroup"></personal-info-step-component>
+
+          <id-photo-upload-component *ngSwitchCase="'idUpload'" (goBack)="back()" (validateId)="validateId()"></id-photo-upload-component>
+        </ng-container>
       </div>
     </cdk-step>
 
@@ -26,7 +30,7 @@
 
   </credix-stepper-sign-up>
 
-  <div class="stepper-action-buttons">
+  <div class="stepper-action-buttons" *ngIf="personalInfoSwitch === 'form' || idValid">
     <credix-button *ngIf="stepperIndex > 0" class="back-button" [type]="'secondary'" (click)="back()">
       Atras
     </credix-button>

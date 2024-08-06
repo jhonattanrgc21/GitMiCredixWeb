@@ -1,0 +1,78 @@
+
+
+.id-photo-upload-container{
+  .photo-upload-title{
+    margin-bottom: 32px;
+  }
+
+  .image-preview-container{
+    height: 273px;
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .image-icon{
+      font-size: 40px;
+    }
+    .image-preview{
+      height: 163px;
+      width: 263px;
+    }
+  }
+
+  .upload-photo-actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 48px;
+    .delete-photo-button{
+      .delete-photo-icon{
+        color: #E42313;
+        height: 40px;
+        width: 40px;
+      }
+    }
+    .upload-photo-button{
+      height: 44px;
+      svg{
+        fill: rgb(228, 35, 19);
+      }
+      &:hover svg{
+        fill: white;
+      }
+    }
+  }
+
+  .instructions-paragraph{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 60px;
+    p{
+      width: 280px;
+    }
+  }
+
+  .image-input{
+    display: none;
+  }
+
+  .stepper-action-buttons{
+    display: flex;
+    margin-top: 16px;
+    gap: 16px;
+    height: 44px;
+    .back-button {
+      width: 78px;
+    }
+    .continue-button{
+      flex-grow: 1;
+    }
+    ::ng-deep button{
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+

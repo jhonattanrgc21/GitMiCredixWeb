@@ -1,0 +1,44 @@
+<div class="id-photo-upload-container">
+
+  <h4 class="photo-upload-title">Foto de la cara {{ this.idSideStep === 'front' ? 'frontal' : 'trasera' }} de la cédula
+  </h4>
+
+  <div class="image-preview-container">
+    <svg *ngIf="!previewUrls[idSideStep]" width="73" height="62" viewBox="0 0 73 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M66.2407 9.53846H54.75L52.0125 1.8055C51.8234 1.27635 51.4768 0.81896 51.0201 0.495809C50.5634 0.172658 50.0189 -0.000496186 49.4609 1.06799e-06H23.5391C22.3985 1.06799e-06 21.3762 0.723902 20.9959 1.8055L18.25 9.53846H6.75926C3.02477 9.53846 0 12.5874 0 16.3517V55.1868C0 58.9511 3.02477 62 6.75926 62H66.2407C69.9752 62 73 58.9511 73 55.1868V16.3517C73 12.5874 69.9752 9.53846 66.2407 9.53846ZM66.9167 55.1868C66.9167 55.5615 66.6125 55.8681 66.2407 55.8681H6.75926C6.3875 55.8681 6.08333 55.5615 6.08333 55.1868V16.3517C6.08333 15.9769 6.3875 15.6703 6.75926 15.6703H22.5337L23.9785 11.5995L25.9133 6.13187H47.0782L49.0131 11.5995L50.4579 15.6703H66.2407C66.6125 15.6703 66.9167 15.9769 66.9167 16.3517V55.1868ZM36.5 21.1209C29.031 21.1209 22.9815 27.2187 22.9815 34.7473C22.9815 42.2758 29.031 48.3736 36.5 48.3736C43.969 48.3736 50.0185 42.2758 50.0185 34.7473C50.0185 27.2187 43.969 21.1209 36.5 21.1209ZM36.5 42.9231C32.022 42.9231 28.3889 39.261 28.3889 34.7473C28.3889 30.2335 32.022 26.5714 36.5 26.5714C40.978 26.5714 44.6111 30.2335 44.6111 34.7473C44.6111 39.261 40.978 42.9231 36.5 42.9231Z"
+        fill="#FAFAFA" />
+    </svg>
+    <img class="image-preview" *ngIf="previewUrls[idSideStep]" [src]="previewUrls[idSideStep]" alt="Image preview">
+  </div>
+
+  <div class="upload-photo-actions">
+    <button class="delete-photo-button" *ngIf="previewUrls[idSideStep]" mat-icon-button (click)="deletePhoto()">
+      <mat-icon class="delete-photo-icon" svgIcon="delete"></mat-icon>
+    </button>
+    <credix-button class="upload-photo-button" *ngIf="!previewUrls[idSideStep]" [type]="'secondary'" (buttonClick)="uploadFile()">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M7.875 13.5V4.33125L4.95 7.25625L3.375 5.625L9 0L14.625 5.625L13.05 7.25625L10.125 4.33125V13.5H7.875ZM2.25 18C1.63125 18 1.10175 17.7799 0.6615 17.3396C0.22125 16.8994 0.00075 16.3695 0 15.75V12.375H2.25V15.75H15.75V12.375H18V15.75C18 16.3687 17.7799 16.8986 17.3396 17.3396C16.8994 17.7806 16.3695 18.0007 15.75 18H2.25Z"
+        />
+      </svg>
+      Subir Foto
+    </credix-button>
+    <input #imageInput (change)="processPhoto(imageInput)" accept="image/*" class="image-input" type="file">
+  </div>
+
+  <div class="instructions-paragraph">
+    <p>
+      Suba una fotografía de la <strong>cara {{ this.idSideStep === 'front' ? 'frontal' : 'trasera' }}</strong> de su identificación.
+    </p>
+  </div>
+
+  <div class="stepper-action-buttons">
+    <credix-button class="back-button" [type]="'secondary'" (buttonClick)="back()">
+      Atras
+    </credix-button>
+    <credix-button class="continue-button" (buttonClick)="continue()" [disabled]="!idPhotos[idSideStep]">
+      Continuar
+    </credix-button>
+  </div>
+</div>
