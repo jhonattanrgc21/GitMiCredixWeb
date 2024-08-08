@@ -1,130 +1,63 @@
 <div *ngIf="!isEmpty" class="extend-term" fxLayout="column">
-  <div fxLayout="column" class="title">
-    <p class="title__space">
-      Para ampliar varias compras de 1 cuota a la vez, seleccione solo las que
-      tienen este plazo:
-    </p>
-    <p class="title__subtitle">
-      • Puede realizarlo de manera intercalada, es decir, un mes sí y otro no.
-    </p>
-    <p class="title__subtitle">• Deben ser compras de la misma moneda.</p>
-    <p class="title__subtitle">
-      • Estas compras se mostrarán si ha pagado de contado en los últimos 3
-      meses.
-    </p>
-  </div>
-  <ngx-simplebar
-    [options]="{ autoHide: false }"
-    class="extend-term__scrollbar"
-    fxFlex
-  >
+  <p class="title-space">Seleccione los consumos que desea ampliar.</p>
+  <ngx-simplebar [options]="{autoHide: false}" class="extend-term__scrollbar" fxFlex>
     <div class="extend-term__table-wrapper">
-      <mat-table [dataSource]="previousMovements" class="extend-term__table">
+      <mat-table [dataSource]="previousMovements"
+                class="extend-term__table">
+
         <ng-container matColumnDef="select">
           <mat-header-cell *matHeaderCellDef credixHeaderCell>
           </mat-header-cell>
-          <mat-cell *matCellDef="let element; let i = index" credixCell>
-            <credix-checkbox-button
-              class="checkbox-dimension"
-              (emitCheckBox)="change($event.checked, element, i)"
-              [checked]="element?.checked"
-              [disable]="element?.productDisable"
-              [value]="element"
-            >
+          <mat-cell *matCellDef="let element" credixCell>
+            <credix-checkbox-button class="checkbox-dimension" (emitCheckBox)="change($event.checked, element)"
+                                    [value]="element">
             </credix-checkbox-button>
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="date">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{
-            "Fecha"
-          }}</mat-header-cell>
-          <mat-cell
-            *matCellDef="let element"
-            [class.disabled-color]="element.productDisable"
-            credixCell
-          >
-            {{ element.originDate | dateFormatter : "shortAlphanumeric" }}
-          </mat-cell>
+          <mat-header-cell *matHeaderCellDef credixHeaderCell >{{'Fecha'}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"
+                    credixCell> {{element.originDate}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="commerce">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{
-            "Comercio"
-          }}</mat-header-cell>
-          <mat-cell
-            *matCellDef="let element"
-            [class.disabled-color]="element.productDisable"
-            credixCell
-          >
-            {{ element.establishmentName }}</mat-cell
-          >
+          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Comercio'}}</mat-header-cell>
+          <mat-cell *matCellDef="let element" credixCell>
+            {{element.establishmentName}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="amount">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{
-            "Saldo pendiente"
-          }}</mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell>
-            <credix-numeric-block
-              [prefix]="element.currencySimbol"
-              [disabled]="element.productDisable"
-              [value]="element.originAmount"
-              fontWeight="bold"
-            ></credix-numeric-block>
+          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Saldo pendiente'}}</mat-header-cell>
+          <mat-cell *matCellDef="let element"
+                    credixCell>
+            <credix-numeric-block [prefix]="element.currencySimbol" [value]="element.originAmount"
+                                  ></credix-numeric-block>
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="quotas">
-          <mat-header-cell *matHeaderCellDef credixHeaderCell
-            >{{ "Cuotas pendientes" }}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element" credixCell>
-            <span [class.disabled-color]="element.productDisable">{{
-              element.quota
-            }}</span>
+          <mat-header-cell *matHeaderCellDef credixHeaderCell>{{'Cuotas pendientes'}} </mat-header-cell>
+          <mat-cell *matCellDef="let element"
+                    credixCell>
+                    <span>{{ element.quota }}</span>
           </mat-cell>
         </ng-container>
 
-        <mat-header-row
-          *matHeaderRowDef="displayedColumns; sticky: true"
-          credixHeaderRow
-        ></mat-header-row>
-        <mat-row
-          *matRowDef="let row; columns: displayedColumns"
-          credixRow
-        ></mat-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
       </mat-table>
     </div>
   </ngx-simplebar>
-  <credix-amount-summary
-    label="Monto a ampliar"
-    [amount]="amountSummary"
-    [prefix]="
-      previousMovementsSelected.length > 0
-        ? previousMovementsSelected[0].originCurrency.currencyId
-        : 188
-    "
-  >
-  </credix-amount-summary>
 
-  <div
-    class="actions-footer"
-    fxLayout="row"
-    fxLayoutAlign="flex-end"
-    fxLayoutGap="16px"
-  >
-    <credix-button [disabled]="selection.length === 0" (buttonClick)="next()"
-      >Continuar</credix-button
-    >
+  <div class="actions-footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
+    <credix-button [disabled]="selection.length === 0" (buttonClick)="next()">Continuar</credix-button>
   </div>
 </div>
-<div style="height: 662px">
-  <credix-result-notification
-    *ngIf="isEmpty"
-    class="extend-term__empty"
-    status="info"
-    title="{{ 'No tiene consumos para ampliar en este momento.' }}"
-  >
-  </credix-result-notification>
-</div>
+
+<credix-result-notification
+  *ngIf="isEmpty"
+  class="extend-term__empty"
+  status="info"
+  title="{{'No tiene consumos para ampliar en este momento.'}}">
+</credix-result-notification>

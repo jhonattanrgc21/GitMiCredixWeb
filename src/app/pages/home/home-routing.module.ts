@@ -61,10 +61,6 @@ const routes: Routes = [
         loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule)
       },
       {
-        path: 'schedule-quotas',
-        loadChildren: () => import('./features/schedule-quotas/schedule-quotas.module.js').then(m => m.ScheduleQuotasModule)
-      },
-      {
         path: 'change-password',
         loadChildren: () => import('./features/change-password/change-password.module.js').then(m => m.ChangePasswordModule)
       },
@@ -93,10 +89,6 @@ const routes: Routes = [
         path: 'extend-term-total-debt',
         loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule)
       },
-      {
-        path: 'credix-mas',
-        loadChildren: () => import('./features/credix-mas/credix-mas.module').then(m => m.CredixMasModule)
-      }
     ]
   }
 ];

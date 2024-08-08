@@ -9,51 +9,31 @@
     ::ng-deep.mat-button-wrapper {
       color: #ffffff;
     }
-    &[disabled] {
-      background-color: #d2d2d2;
-    }
   }
 
   &.mat-stroked-button {
-    border: 1px solid #e42313;
+    border: 1px solid #E42313;
 
     ::ng-deep.mat-button-wrapper {
-      color: #dd2218;
+      color: #DD2218;
     }
 
     &[disabled] {
-      border: 1px solid #d2d2d2;
+      border: 1px solid #D2D2D2;
 
       ::ng-deep.mat-button-wrapper {
-        color: #d2d2d2;
+        color: #D2D2D2;
       }
     }
   }
 
   &:hover:enabled {
-    background-color: #e42313;
+    background-color: #AF1306;
 
     &.mat-stroked-button {
       ::ng-deep.mat-button-wrapper {
         color: #ffffff;
       }
     }
-  }
-}
-
-::ng-deep {
-  button.credix-button.mat-stroked-button.cdk-focused.cdk-keyboard-focused.mat-focus-indicator {
-    background-color: #ffffff !important;
-    box-shadow: none !important;
-  }
-  .mat-stroked-button {
-    &.cdk-program-focused,
-    .cdk-focused {
-      background: #fff !important;
-      box-shadow: none !important;
-    }
-    .mat-button-focus-overlay {
-      background-color: transparent !important;
-      }
   }
 }

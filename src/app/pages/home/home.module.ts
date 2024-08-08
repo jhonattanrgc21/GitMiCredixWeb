@@ -29,7 +29,7 @@ import { UpdateAccountInfoModule } from './features/update-account-info/update-a
     MenuMessagesComponent,
     ModalMessagesComponent,
     HomeToolbarComponent,
-    HomeFooterComponent
+    HomeFooterComponent,
   ],
   imports: [
     CommonModule,
