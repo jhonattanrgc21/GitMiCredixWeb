@@ -6,7 +6,9 @@
 
   .update-account-info-step{
     max-height: 48vh;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
   }
 
   .stepper-action-buttons{

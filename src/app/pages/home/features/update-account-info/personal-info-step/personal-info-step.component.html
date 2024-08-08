@@ -1,1 +1,43 @@
-<p>Personal Info Component Works</p>
+<form [formGroup]="personalInfoFormGroup" class="personal-info-step-container">
+  <h4>Revise y edite los datos que sean necesarios:</h4>
+  <credix-input-field formControlName="fullName" label="Nombre Completo"></credix-input-field>
+  <credix-input-field formControlName="lastName" label="Apellidos"></credix-input-field>
+  <credix-select formControlName="idType" label="Tipo de identificación">
+    <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+      {{ identificationType.description }}
+    </mat-option>
+  </credix-select>
+  <credix-input-field formControlName="id" label="Identificación" mask="000000000000"></credix-input-field>
+  <credix-input-field class="disabledForms" formControlName="idExpirationDate" label="Fecha de vencimiento de la identificación"></credix-input-field>
+  <credix-select formControlName="civilState" label="Estado Civil"> <!-- FALTA API DE ESTADO CIVIL -->
+    <!-- <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+      {{ identificationType.description }}
+    </mat-option> -->
+  </credix-select>
+  <credix-select formControlName="sex" label="Sexo"> <!-- FALTA API DE SEXO -->
+    <!-- <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
+      {{ identificationType.description }}
+    </mat-option> -->
+  </credix-select>
+  <credix-date-picker formControlName="bornDate" label="Fecha de Nacimiento"></credix-date-picker>
+  <credix-input-field formControlName="celphone" label="Celular" mask="0000-0000" class="celphoneInput disabledForms">
+    <button mat-icon-button suffix (click)="openCelphonePopUp()">
+      <mat-icon>info_outlined</mat-icon>
+    </button>
+  </credix-input-field>
+  <credix-input-field formControlName="roomPhone" label="Teléfono de habitación" mask="0000-0000"></credix-input-field>
+  <credix-input-field formControlName="workPhone" label="Teléfono del trabajo" mask="0000-0000"></credix-input-field>
+  <credix-input-field formControlName="referencePhone" label="Teléfono de referencia" mask="0000-0000"></credix-input-field>
+  <credix-input-field formControlName="otherPhone" label="Otro teléfono" mask="0000-0000"></credix-input-field>
+
+</form>
+
+<ng-template #changeCelphonePopUp>
+  <div class="change-celphone-popup-content">
+    <p class="change-celphone-popup-content__title">Para editar su número celular llame al 2227-3349 o dirijase a una sucursal.</p>
+    <credix-button (buttonClick)="openPhoneCall()">
+      Llamar
+    </credix-button>
+    <credix-button [type]="'secondary'" (buttonClick)="goToLocationsWebsite()"> Ver Sucursales </credix-button>
+  </div>
+</ng-template>

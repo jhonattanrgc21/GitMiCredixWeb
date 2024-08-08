@@ -1,1 +1,43 @@
-<p>Adress Step Component Works</p>
+<form [formGroup]="newAddressFormGroup" class="personal-info-step-container" fxLayout="column"
+      fxLayoutGap="16px">
+
+      <h4>Revise y edite los datos que sean necesarios:</h4>
+
+  <credix-select class="additional-card-new-address__input" formControlName="province"
+                 label="Provincia">
+    <mat-option *ngFor="let province of provinces" [value]="province">
+      {{province.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-select class="additional-card-new-address__input" formControlName="canton"
+                 label="Cantón">
+    <mat-option *ngFor="let canton of cantons" [value]="canton">
+      {{canton.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-select class="additional-card-new-address__input" formControlName="district"
+                 label="Distrito">
+    <mat-option *ngFor="let district of districts" [value]="district">
+      {{district.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-input-field formControlName="DireccionExacta" label="Dirección Exacta"></credix-input-field>
+
+
+  <h4>Información de facturación</h4>
+
+  <credix-input-field formControlName="DireccionFac" label="Dirección"></credix-input-field>
+
+  <credix-input-field formControlName="CiudadFac" label="Ciudad"></credix-input-field>
+
+  <credix-input-field formControlName="EstadoFAC" label="Estado"></credix-input-field>
+
+  <credix-input-field formControlName="CodigoPostalFac" label="Código Postal"></credix-input-field>
+
+  <credix-input-field formControlName="PaisFac" label="País"></credix-input-field>
+  
+  
+</form>
