@@ -5,6 +5,7 @@ import {StorageService} from '../../../../core/services/storage.service';
 import {AccountSummary} from '../../../../shared/models/account-summary';
 import {NavigationService} from '../../../../core/services/navigation.service';
 import {ChannelsApiService} from '../../../../core/services/channels-api.service';
+import { TagsService } from '../../../../core/services/tags.service';
 
 @Component({
   selector: 'app-landing',
@@ -43,8 +44,10 @@ export class LandingComponent implements OnInit, OnDestroy {
     titleTag: 'Movimientos'
   };
   cardId: number;
+  titularCardNotActive = false
 
   constructor(private landingService: LandingService,
+              private tagsService: TagsService,
               private goHomeService: NavigationService,
               private channelsApiService: ChannelsApiService,
               private storageService: StorageService) {
@@ -60,7 +63,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   }
 
   getHomeContent() {
-    this.landingService.getHomeContent(this.cardId).subscribe(response => {
+    this.tagsService.getHomeContent(this.cardId).subscribe(response => {
       if (response) {
         this.paymentDetails = {
           currentDate: response.fechaActual,
@@ -87,6 +90,7 @@ export class LandingComponent implements OnInit, OnDestroy {
             });
           });
         }
+        this.titularCardNotActive = this.tagsService.titularCardNotActive
       }
     });
   }

@@ -10,9 +10,10 @@ import { ChangePinService } from '../../pin-code.service';
 })
 export class CardDetailsComponent implements OnInit {
 
+  @Input() isNotActive: boolean;
   @Input() icon: String;
   @Input('card') card: any;
-  
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,

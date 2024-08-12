@@ -26,6 +26,8 @@ import {CredixDividerModule} from '../../../../shared/directives/credix-divider/
 import {LandingService} from './landing.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {CastToNumberModule} from '../../../../shared/pipes/cast-to-number/cast-to-number.module';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ContentComponentsModule } from 'src/app/shared/components/content/content-components.module';
 
 const routes: Routes = [
   {
@@ -38,6 +40,8 @@ const routes: Routes = [
   declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent],
   imports: [
     CommonModule,
+    MatExpansionModule,
+    ContentComponentsModule,
     RouterModule.forChild(routes),
     FlexModule,
     CredixCardsModule,

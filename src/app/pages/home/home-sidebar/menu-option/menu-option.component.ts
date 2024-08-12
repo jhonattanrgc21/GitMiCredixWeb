@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {HomeSidebarService} from '../home-sidebar.service';
-import {HomeService} from '../../home.service';
-import {NavigationService} from '../../../../core/services/navigation.service';
-import {ModalService} from '../../../../core/services/modal.service';
-import {TagsService} from '../../../../core/services/tags.service';
-import {Tag} from '../../../../shared/models/tag';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { HomeSidebarService } from '../home-sidebar.service';
+import { HomeService } from '../../home.service';
+import { NavigationService } from '../../../../core/services/navigation.service';
+import { ModalService } from '../../../../core/services/modal.service';
+import { TagsService } from '../../../../core/services/tags.service';
+import { Tag } from '../../../../shared/models/tag';
 
 @Component({
   selector: 'app-menu-option',
@@ -15,7 +15,7 @@ import {Tag} from '../../../../shared/models/tag';
 export class MenuOptionComponent implements OnInit {
   menus: Menu[] = menus;
   submenus: Submenu[] = submenus;
-  options = {autoHide: false, scrollbarMinSize: 100};
+  options = { autoHide: false, scrollbarMinSize: 100 };
   openSubmenu = false;
   activeMenu = 1;
   preActiveMenu = 0;
@@ -23,11 +23,10 @@ export class MenuOptionComponent implements OnInit {
   questionTag: string;
   enableIncreaseCreditLimit: boolean;
   constructor(private router: Router,
-              private navigationService: NavigationService,
-              private tagsService: TagsService,
-              private homeService: HomeService,
-              private modalService: ModalService,
-              private homeNavigationMenuService: HomeSidebarService) {
+    private navigationService: NavigationService,
+    private tagsService: TagsService,
+    private modalService: ModalService,
+    private homeNavigationMenuService: HomeSidebarService) {
   }
 
   ngOnInit(): void {
@@ -57,8 +56,8 @@ export class MenuOptionComponent implements OnInit {
   }
 
   subscribeToTags() {
-    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>{
-      if(this.enableIncreaseCreditLimit) this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags)
+    this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality => {
+      if (this.enableIncreaseCreditLimit) this.getTags(functionality.find(fun => fun.description === 'Aumentar límite de crédito').tags)
       else this.questionTag = '';
     });
   }
@@ -72,13 +71,13 @@ export class MenuOptionComponent implements OnInit {
         functionalities.forEach(func => {
           if (func.level === 2) {
 
-            if(func.link == '/home/increase-limit' && !this.enableIncreaseCreditLimit) return;
+            if (func.link == '/home/increase-limit' && !this.enableIncreaseCreditLimit) return;
 
-            if ( func.description === 'Cambiar PIN') {
+            if (func.description === 'Cambiar PIN') {
               func.link = '/home/current-pin';
             }
 
-            if(func.link == '/home/personal-credit'){
+            if (func.link == '/home/personal-credit') {
               this.homeNavigationMenuService.setEnableOptionPersonalCredit(true);
             }
 
@@ -104,10 +103,10 @@ export class MenuOptionComponent implements OnInit {
       this.orderingMenu();
     });
   }
-  validateWord(submenu){
-    if(submenu == 'Plan liquidez'){
+  validateWord(submenu) {
+    if (submenu == 'Plan liquidez') {
       let aux = submenu.split(" ")
-      let newWord = 'prueba'+ '\n' + 'holi'
+      let newWord = 'prueba' + '\n' + 'holi'
       submenu = newWord
       console.log(submenu.split(""))
     }
@@ -131,18 +130,29 @@ export class MenuOptionComponent implements OnInit {
 
   submenuChanged(menuId: number, submenuId: number, route: string, navigate = true) {
     if (this.activeSubmenu !== submenuId) {
-      this.activeMenu = menuId;
-      this.activeSubmenu = submenuId;
-
+      if (!navigate) {
+        this.activeMenu = menuId;
+        this.activeSubmenu = submenuId;
+      }
       if (route !== '/home/increase-limit' && navigate) {
-        this.router.navigate([route]);
+        this.router.navigate([route]).then((onfulfilled) => {
+          if (!!onfulfilled) {
+            this.activeMenu = menuId;
+            this.activeSubmenu = submenuId;
+          }
+        });
       }
 
       if (route === '/home/increase-limit') {
         this.modalService.confirmationPopup(this.questionTag || '¿Desea solicitar el aumento de límite de crédito?')
           .subscribe(confirmation => {
             if (confirmation) {
-              this.router.navigate([route]);
+              this.router.navigate([route]).then((onfulfilled) => {
+                if (!!onfulfilled) {
+                  this.activeMenu = menuId;
+                  this.activeSubmenu = submenuId;
+                }
+              });
             }
           });
       }
@@ -194,30 +204,30 @@ const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar pla
 const payOrdering = ['Servicios', 'Pagar tarjeta', 'Marchamo', 'Enviar dinero', 'Reportar transferencia', 'Lugares de pago'];
 
 export const menus: Menu[] = [
-  {id: 1, name: 'Inicio', route: '/home'},
-  {id: 2, name: 'Pagar'},
-  {id: 3, name: 'Productos'},
-  {id: 4, name: 'Mi Cuenta'}
+  { id: 1, name: 'Inicio', route: '/home' },
+  { id: 2, name: 'Pagar' },
+  { id: 3, name: 'Productos' },
+  { id: 4, name: 'Mi Cuenta' }
 ];
 
 export const submenus = [
-  {id: 1, name: 'Servicios', route: '/home/public-services', icon: 'public_services', parentId: 'Pagar'},
-  {id: 2, name: 'Pagar tarjeta', route: '/home', icon: 'pay', parentId: 'Pagar'},
-  {id: 3, name: 'Marchamo', route: '/home/marchamos', icon: 'car', parentId: 'Pagar'},
-  {id: 4, name: 'Enviar dinero', route: '/home/send-money', icon: 'transfer', parentId: 'Pagar'},
-  {id: 5, name: 'Reportar transferencia', route: '/home/report-transference', icon: 'transfer_report', parentId: 'Pagar'},
-  {id: 6, name: 'Lugares de pago', route: '/home/payment-places', icon: 'map-marker', parentId: 'Pagar'},
-  {id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit', parentId: 'Productos'},
-  {id: 8, name: 'Compra sin tarjeta', route: '/home/buy-without-card', icon: 'code', parentId: 'Productos'},
-  {id: 9, name: 'Ampliar plazo de compra', route: '/home/extend-term', icon: 'anticipated_canc', parentId: 'Productos'},
-  {id: 10, name: 'Plan liquidez', route: '/home/extend-term-total-debt', icon: 'anticipated_canc', parentId: 'Productos'},
-  {id: 11, name: 'Cancelación anticipada', route: '/home/anticipated-cancellation', icon: 'anticipated_canc', parentId: 'Productos'},
-  {id: 12, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data', parentId: 'Mi Cuenta'},
-  {id: 13, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites', parentId: 'Mi Cuenta'},
-  {id: 14, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password', parentId: 'Mi Cuenta'},
-  {id: 15, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta'},
-  {id: 16, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta'},
-  {id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta'}
+  { id: 1, name: 'Servicios', route: '/home/public-services', icon: 'public_services', parentId: 'Pagar' },
+  { id: 2, name: 'Pagar tarjeta', route: '/home', icon: 'pay', parentId: 'Pagar' },
+  { id: 3, name: 'Marchamo', route: '/home/marchamos', icon: 'car', parentId: 'Pagar' },
+  { id: 4, name: 'Enviar dinero', route: '/home/send-money', icon: 'transfer', parentId: 'Pagar' },
+  { id: 5, name: 'Reportar transferencia', route: '/home/report-transference', icon: 'transfer_report', parentId: 'Pagar' },
+  { id: 6, name: 'Lugares de pago', route: '/home/payment-places', icon: 'map-marker', parentId: 'Pagar' },
+  { id: 7, name: 'Crédito personal', route: '/home/personal-credit', icon: 'personal_credit', parentId: 'Productos' },
+  { id: 8, name: 'Compra sin tarjeta', route: '/home/buy-without-card', icon: 'code', parentId: 'Productos' },
+  { id: 9, name: 'Ampliar plazo de compra', route: '/home/extend-term', icon: 'anticipated_canc', parentId: 'Productos' },
+  { id: 10, name: 'Plan liquidez', route: '/home/extend-term-total-debt', icon: 'anticipated_canc', parentId: 'Productos' },
+  { id: 11, name: 'Cancelación anticipada', route: '/home/anticipated-cancellation', icon: 'anticipated_canc', parentId: 'Productos' },
+  { id: 12, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data', parentId: 'Mi Cuenta' },
+  { id: 13, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites', parentId: 'Mi Cuenta' },
+  { id: 14, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password', parentId: 'Mi Cuenta' },
+  { id: 15, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta' },
+  { id: 16, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta' },
+  { id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta' }
 ];
 
 export interface Menu {

@@ -24,6 +24,7 @@ import { ModalService } from './services/modal.service';
 import { SharedModule } from '../shared/shared.module';
 import { HomeService } from '../pages/home/home.service';
 import { SignInService } from '../pages/sign/features/sign-in/sign-in.service';
+import { titleCardGuard } from './guards/title-card.guard';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -57,6 +58,7 @@ const maskConfig: Partial<IConfig> = {
     StorageService,
     ScrollService,
     AuthorizationGuard,
+    titleCardGuard,
     ExtendTermTotalOwedApiService,
     ModalService,
     HomeService,
