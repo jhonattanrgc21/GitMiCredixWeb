@@ -26,7 +26,7 @@ export class titleCardGuard implements CanActivate {
     return of(this.tagsService.titularCardNotActive).pipe(
       switchMap(cardNotActive => {
         if(cardNotActive === null){
-          return this.tagsService.getHomeContent(cardId).pipe(map(() => this.tagsService.titularCardNotActive))
+          return this.tagsService.getHomeContent(cardId).pipe(map(() => !this.tagsService.titularCardNotActive))// if titularCardNotActive = true NOT PASS
         }
         return of(!cardNotActive) // if titularCardNotActive = true NOT PASS
       }),
