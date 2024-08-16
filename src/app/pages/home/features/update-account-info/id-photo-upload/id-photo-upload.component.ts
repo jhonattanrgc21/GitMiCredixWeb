@@ -1,5 +1,16 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
+export interface idPhotos {
+  front: {
+    base64: string | ArrayBuffer,
+    type: string
+  },
+  back: {
+    base64: string | ArrayBuffer,
+    type: string
+  }
+}
+
 @Component({
   selector: 'id-photo-upload-component',
   templateUrl: './id-photo-upload.component.html',
@@ -7,13 +18,13 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 })
 export class IdPhotoUploadComponent implements OnInit {
   @Output() goBack = new EventEmitter<void>()
-  @Output() validateId = new EventEmitter<void>()
+  @Output() validateId = new EventEmitter<idPhotos>()
   @ViewChild('imageInput') imageInput: ElementRef;
 
   idSideStep: 'front' | 'back' = 'front'
   previewUrls: {front: string | ArrayBuffer | null, back: string | ArrayBuffer | null} = { front: null, back: null };
 
-  idPhotos: { front: File, back: File } = { front: null, back: null }
+  idPhotos: idPhotos = {front: null, back: null}
 
   constructor() { }
 
@@ -38,7 +49,7 @@ export class IdPhotoUploadComponent implements OnInit {
         this.idSideStep = 'back'
         break;
       case 'back':
-        this.validateId.emit()
+        this.validateId.emit(this.idPhotos)
         break;
     }
   }
@@ -52,12 +63,13 @@ export class IdPhotoUploadComponent implements OnInit {
       const file: File = imageInput.files[0];
       const reader = new FileReader();
       reader.onload = () => {
+        this.idPhotos[this.idSideStep].base64 = reader.result
+        this.idPhotos[this.idSideStep].type = file.type
         this.previewUrls[this.idSideStep] = reader.result
         this.imageInput.nativeElement.value = '';
       }
       reader.readAsDataURL(file);
 
-      this.idPhotos[this.idSideStep] = file
     }
   }
 
