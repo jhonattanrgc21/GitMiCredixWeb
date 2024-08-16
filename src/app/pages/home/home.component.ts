@@ -11,6 +11,7 @@ import {ModalService} from 'src/app/core/services/modal.service';
 import {RenewTokenService} from '../../core/services/renew-token.service';
 import {CredixToastService} from '../../core/services/credix-toast.service';
 import { UpdateAccountInfoReminderPopUp } from './features/update-account-info/update-account-info-reminder-popup/update-account-info-reminder-popup.component';
+import { InfoToShowModalService } from '../../core/services/infoToShowModal.service';
 
 @Component({
   selector: 'app-home',
@@ -38,7 +39,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
               private renderer: Renderer2,
               private modalService: ModalService,
               private renewTokenService: RenewTokenService,
-              private toastService: CredixToastService) {
+              private toastService: CredixToastService,
+              private infoToShowModalService: InfoToShowModalService
+            ) {
   }
 
   ngOnInit() {
@@ -67,14 +70,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tagsService.getAllFunctionalitiesAndTags().subscribe();
     this.checkScreenBreakpoint();
 
-    //TODO: CRE2024-20 Check if Reminder PopUp have to be shown
-
-    this.openUpdateAccountInfoReminderPopUp()
+    this.infoToShowModalService.getInfoToShowModal('updatedata').subscribe(response => {
+      if(response.showModal){
+        this.openUpdateAccountInfoReminderPopUp(response.omitModal)
+      }
+    })
 
   }
 
-  openUpdateAccountInfoReminderPopUp(){
+  openUpdateAccountInfoReminderPopUp(omitModal: boolean){
     this.modalService.open({
+      data:{
+        omitModal
+      },
       component: UpdateAccountInfoReminderPopUp,
       hideCloseButton: true,
       title: null,

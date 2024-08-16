@@ -6,5 +6,5 @@
   </p>
 
   <credix-button (buttonClick)="updateAccount()">Actualizar datos</credix-button>
-  <credix-button (buttonClick)="skipUpdate()" [type]="'secondary'">Omitir por esta vez</credix-button>
+  <credix-button *ngIf="omitModal" (buttonClick)="skipUpdate()" [type]="'secondary'">Omitir por esta vez</credix-button>
 </div>

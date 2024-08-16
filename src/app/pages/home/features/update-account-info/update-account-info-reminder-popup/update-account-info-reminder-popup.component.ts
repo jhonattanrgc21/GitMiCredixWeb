@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { UpdateAccountInfoPopUp } from '../update-account-info-popup/update-account-info-popup.component';
 
@@ -9,7 +9,15 @@ import { UpdateAccountInfoPopUp } from '../update-account-info-popup/update-acco
   styleUrls: ['./update-account-info-reminder-popup.component.scss']
 })
 export class UpdateAccountInfoReminderPopUp implements OnInit {
-  constructor(private modalService: ModalService,public dialogRef: MatDialogRef<UpdateAccountInfoReminderPopUp>) { }
+  omitModal: boolean
+
+  constructor(
+    private modalService: ModalService,
+    public dialogRef: MatDialogRef<UpdateAccountInfoReminderPopUp>,
+    @Inject(MAT_DIALOG_DATA) public dataModal
+  ) {
+    this.omitModal = this.dataModal.data.omitModal
+  }
 
   ngOnInit(): void { }
 
