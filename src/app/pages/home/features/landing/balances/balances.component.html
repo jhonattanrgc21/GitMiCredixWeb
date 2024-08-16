@@ -35,6 +35,9 @@
     <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-start">
       <span class="balances-card__tag">{{balancesTag.consumedTag}}</span>
       <credix-numeric-block [prefix]="prefix" [value]="accountSummary?.consumed" fontSize="24"></credix-numeric-block>
+      <ng-container *ngIf="enablePIN">
+        <credix-link-button (click)="openPIN()">PIN de Compras</credix-link-button>
+      </ng-container>
     </div>
     <div fxFlex="50" fxLayout="column" fxLayoutAlign="flex-start flex-end">
       <span class="balances-card__tag">{{balancesTag.creditLimitTag}}</span>
