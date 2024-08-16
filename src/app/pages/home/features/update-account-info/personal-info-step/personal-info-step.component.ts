@@ -4,6 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { GlobalApiService } from 'src/app/core/services/global-api.service';
 import { IdentificationType } from '../../../../../shared/models/identification-type';
 import { ModalService } from '../../../../../core/services/modal.service';
+import { CivilStatus } from 'src/app/shared/models/civil-status';
 
 @Component({
   selector: 'personal-info-step-component',
@@ -16,6 +17,8 @@ export class PersonalInfoStepComponent implements OnInit {
   @ViewChild('changeCelphonePopUp') changeCelphonePopUp: TemplateRef<any>
 
   identificationTypes: IdentificationType[]
+  civilStatuses: CivilStatus[]
+  genders: any[]
 
   formControl = new FormControl('test')
   formControl2 = new FormControl(12345678)
@@ -23,27 +26,39 @@ export class PersonalInfoStepComponent implements OnInit {
   constructor(private globalApiService: GlobalApiService, private modalService: ModalService) { }
 
   ngOnInit(): void {
-    this.getIdentificationTypes()
-  }
 
-  getIdentificationTypes() {
     this.globalApiService.getIdentificationTypes()
       .subscribe(identificationTypes =>
         this.identificationTypes = identificationTypes.filter((idt) => idt.id > 0));
+    this.globalApiService.getCivilStatuses()
+      .subscribe(civilStatuses => {
+        this.civilStatuses = civilStatuses
+      })
+
+    this.genders = [
+      {
+        id: "F",
+        description: "Femenino"
+      },
+      {
+        id: "M",
+        description: "Masculino"
+      }
+    ]
   }
 
-  openCelphonePopUp(){
+  openCelphonePopUp() {
     this.modalService.open({
       template: this.changeCelphonePopUp,
       title: null,
-    }, {width: 343, disableClose: false, panelClass: 'change-celphone-popup'})
+    }, { width: 343, disableClose: false, panelClass: 'change-celphone-popup' })
   }
 
-  openPhoneCall(){
-    window.location.href = 'tel:+1234567890'
+  openPhoneCall() {
+    window.location.href = 'tel:+50622273349'
   }
 
-  goToLocationsWebsite(){
+  goToLocationsWebsite() {
     window.open('https://www.credix.com/sucursales/', '_blank')
   }
 }

@@ -1,11 +1,9 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Component, Input, OnInit} from '@angular/core';
 import {GlobalApiService} from '../../../../../core/services/global-api.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import {Canton} from '../../../../../shared/models/canton';
 import {District} from '../../../../../shared/models/district';
 import {Province} from '../../../../../shared/models/province';
-import {Address} from '../../../../../shared/models/address';
   @Component({
     selector: 'adress-step-component',
     templateUrl: './adress-step.component.html',

@@ -1,8 +1,11 @@
 .personal-info-step-container{
+  width: 311px;
   h4 {
     margin-bottom: 16px;
   }
   credix-input-field {
+    display: block;
+    width: 100%;
     &.disabledForms ::ng-deep .mat-form-field-label{
       color: rgb(62, 62, 62) !important;
     }
@@ -13,11 +16,11 @@
         color: #239DF7;
       }
     }
-    display: block;
-    width: 60%;
   }
 
   credix-select{
+    display: block;
+    width: 100%;
     ::ng-deep {
       .mat-form-field-wrapper > .mat-form-field-flex{
         padding: 0;

@@ -2,11 +2,16 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ApplicantApiService } from '../../../../../core/services/applicant-api.service';
+import { ApplicantData } from 'src/app/shared/models/applicant-data';
+import { idPhotos } from '../id-photo-upload/id-photo-upload.component';
+import { UpdateAccountInfoService } from '../update-account-info.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'update-account-info-popup',
   templateUrl: './update-account-info-popup.component.html',
-  styleUrls: ['./update-account-info-popup.component.scss']
+  styleUrls: ['./update-account-info-popup.component.scss'],
+  providers: [UpdateAccountInfoService]
 })
 export class UpdateAccountInfoPopUp implements OnInit {
   @ViewChild('stepper') stepper: CdkStepper;
@@ -14,18 +19,19 @@ export class UpdateAccountInfoPopUp implements OnInit {
   personalInfoSwitch: 'idUpload' | 'form' = 'form'
 
   idValid = false
+  idPhotos: idPhotos;
 
   personalInfoFormGroup = this.fb.group({
-    fullName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    idType: [1, [Validators.required, Validators.min(1), Validators.max(4)]],
-    id: ['',[Validators.required]],
-    idExpirationDate: [{value: new Date(), disabled: true}, [Validators.required]],
-    civilState: [1, [Validators.required]],
-    sex: [1, [Validators.required]],
-    bornDate: [new Date(), Validators.required],
-    celphone: [{value: '', disabled: true}, [Validators.minLength(8), Validators.maxLength(8)]],
-    roomPhone: ['', [Validators.minLength(8), Validators.maxLength(8)]],
+    firstName: ['', Validators.required],
+    lastNames: ['', Validators.required],
+    typeIdentificacionId: [1, [Validators.required, Validators.min(1), Validators.max(4)]],
+    identification: ['', [Validators.required]],
+    documentExpirationDate: [{ value: '', disabled: true }, [Validators.required]],
+    civilStatus: [0, [Validators.required]],
+    gender: ['', [Validators.required]],
+    birthdate: ['', Validators.required],
+    cellPhone: [{ value: '', disabled: true }, [Validators.minLength(8), Validators.maxLength(8)]],
+    homePhone: ['', [Validators.minLength(8), Validators.maxLength(8)]],
     workPhone: ['', [Validators.minLength(8), Validators.maxLength(8)]],
     referencePhone: ['', [Validators.minLength(8), Validators.maxLength(8)]],
     otherPhone: ['', [Validators.minLength(8), Validators.maxLength(8)]]
@@ -41,24 +47,47 @@ export class UpdateAccountInfoPopUp implements OnInit {
   incomeFormGroup = this.fb.group({})
 
 
-  constructor(private fb: FormBuilder, private applicantApiService: ApplicantApiService) { }
+  constructor(private fb: FormBuilder, private applicantApiService: ApplicantApiService, private updateAccountInfoService: UpdateAccountInfoService) { }
 
   ngOnInit(): void {
 
     //LoadFormData
     this.applicantApiService.getApplicantData().subscribe(data => {
-      console.log(data)
+
+      this.idValid = !data.documentExpirationDate || data.documentExpirationDate === "null" ? false : !(new Date(data.documentExpirationDate) <= new Date())
+
+      this.loadPersonalInfoFormData(data)
+    })
+
+  }
+
+  loadPersonalInfoFormData(data: ApplicantData) {
+
+    this.personalInfoFormGroup.setValue({
+      firstName: data.firstName,
+      lastNames: data.lastNames,
+      typeIdentificacionId: data.typeIdentificacionId,
+      identification: data.identification,
+      documentExpirationDate: data.documentExpirationDate,
+      civilStatus: data.civilStatus,
+      gender: data.gender,
+      birthdate: data.birthdate,
+      cellPhone: data.cellPhone,
+      homePhone: data.homePhone,
+      workPhone: data.workPhone,
+      referencePhone: data.referencePhone,
+      otherPhone: data.otherPhone
     })
 
   }
 
   back() {
-    if(this.stepperIndex === 0 && this.personalInfoSwitch === 'idUpload'){
-        this.personalInfoSwitch = 'form'
-        this.idValid = false
+    if (this.stepperIndex === 0 && this.personalInfoSwitch === 'idUpload') {
+      this.personalInfoSwitch = 'form'
+      this.idValid = false
       return
     }
-    if(this.stepperIndex === 1){
+    if (this.stepperIndex === 1) {
       this.idValid = false
     }
     this.stepper.previous();
@@ -66,9 +95,8 @@ export class UpdateAccountInfoPopUp implements OnInit {
   }
 
   nextStep() {
-    if(!this.idValid){
-      //TODO: VALIDAR SI LA CEDULA ESTA VENCIDA
-        this.personalInfoSwitch = 'idUpload'
+    if (!this.idValid) {
+      this.personalInfoSwitch = 'idUpload'
       return
     }
 
@@ -76,12 +104,48 @@ export class UpdateAccountInfoPopUp implements OnInit {
     this.stepperIndex = this.stepper.selectedIndex
   }
 
-  validateId(){
+  validateId(idPhotos: idPhotos) {
+    this.idPhotos = idPhotos
     this.idValid = true
     this.nextStep()
   }
 
-  submitUpdateAccountInfoForm(){
+  submitUpdateAccountInfoForm() {
+    const personalInfo = this.personalInfoFormGroup.value
 
+    const requests = []
+
+    if (!this.idPhotos) {
+
+      requests.push(this.updateAccountInfoService.saveIdentificationPhoto({
+        identification: personalInfo.identification,
+        expirationDateIdentification: personalInfo.documentExpirationDate,
+        face: 'frontFace',
+        imagebase64: this.idPhotos['front'].base64,
+        formatImage: this.idPhotos['front'].type
+      }))
+      requests.push(this.updateAccountInfoService.saveIdentificationPhoto({
+        identification: personalInfo.identification,
+        expirationDateIdentification: personalInfo.documentExpirationDate,
+        face: 'backFace',
+        imagebase64: this.idPhotos['back'].base64,
+        formatImage: this.idPhotos['back'].type
+      }))
+
+    }
+
+    // requests.push(
+    //   this.updateAccountInfoService.updateApplicantData({
+    //     ...personalInfo,
+    //     // mailAddress
+    //     // income
+    //   })
+    // )
+
+
+    // TODO SUBCRIBE OBSERVERS
+    // forkJoin(requests).subscribe((x) => {})
   }
+
 }
+

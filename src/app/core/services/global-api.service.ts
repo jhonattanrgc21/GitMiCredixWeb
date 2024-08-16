@@ -24,6 +24,7 @@ export class GlobalApiService {
   private readonly occupationsUri = 'global/findalloccupation';
   private readonly incomeTypesUri = 'global/getTypeIncome';
   private readonly deliveryPlaceUri = 'global/deliveryplace';
+  private readonly civilStatusesUri = 'global/civilstatus';
 
   constructor(private httpService: HttpService) {
   }
@@ -98,6 +99,16 @@ export class GlobalApiService {
           }
         })
       );
+  }
+
+  @Cacheable()
+  getCivilStatuses(){
+    return this.httpService.post('canales', this.civilStatusesUri)
+    .pipe(
+      map((response) => {
+        return response.type === 'success' ? response.result : []
+      })
+    )
   }
 
 

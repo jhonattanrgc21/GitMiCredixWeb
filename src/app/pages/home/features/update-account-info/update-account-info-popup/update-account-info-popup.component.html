@@ -7,9 +7,11 @@
     <cdk-step [label]="'Personales'" [stepControl]="personalInfoFormGroup">
       <div class="update-account-info-step">
         <ng-container [ngSwitch]="personalInfoSwitch">
-          <personal-info-step-component *ngSwitchCase="'form'" [personalInfoFormGroup]="personalInfoFormGroup"></personal-info-step-component>
+          <personal-info-step-component *ngSwitchCase="'form'"
+            [personalInfoFormGroup]="personalInfoFormGroup"></personal-info-step-component>
 
-          <id-photo-upload-component *ngSwitchCase="'idUpload'" (goBack)="back()" (validateId)="validateId()"></id-photo-upload-component>
+          <id-photo-upload-component *ngSwitchCase="'idUpload'" (goBack)="back()"
+            (validateId)="validateId($event)"></id-photo-upload-component>
         </ng-container>
       </div>
     </cdk-step>
@@ -32,10 +34,13 @@
     <credix-button *ngIf="stepperIndex > 0" class="back-button" [type]="'secondary'" (click)="back()">
       Atras
     </credix-button>
-    <credix-button *ngIf="stepperIndex < 2" class="continue-button" (click)="nextStep()">
+    <credix-button *ngIf="stepperIndex < 2" [disabled]="
+      stepperIndex === 0 ? personalInfoFormGroup.invalid :
+      stepperIndex === 1 ? adressFormGroup.invalid : false
+    " class="continue-button" (click)="nextStep()">
       Continuar
     </credix-button>
-    <credix-button *ngIf="stepperIndex === 2" class="continue-button" (click)="submitUpdateAccountInfoForm()">
+    <credix-button *ngIf="stepperIndex === 2" [disabled]="incomeFormGroup.invalid" class="continue-button" (click)="submitUpdateAccountInfoForm()">
       Confirmar
     </credix-button>
   </div>
