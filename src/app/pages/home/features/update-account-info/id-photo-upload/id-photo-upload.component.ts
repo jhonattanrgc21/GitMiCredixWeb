@@ -24,7 +24,7 @@ export class IdPhotoUploadComponent implements OnInit {
   idSideStep: 'front' | 'back' = 'front'
   previewUrls: {front: string | ArrayBuffer | null, back: string | ArrayBuffer | null} = { front: null, back: null };
 
-  idPhotos: idPhotos = {front: null, back: null}
+  idPhotos: idPhotos = {front: { base64: null, type: null }, back: { base64: null, type: null }}
 
   constructor() { }
 
