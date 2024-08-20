@@ -40,12 +40,21 @@ export class UpdateAccountInfoPopUp implements OnInit {
     province: ['', [Validators.required]],
     canton: ['', [Validators.required]],
     district: ['', [Validators.required]],
-    detail: ['', [Validators.required]],
-    name: ['', [Validators.required]],
-    phoneNumber: ['', [Validators.required]]
+    exactAddress: ['', [Validators.required]],
+    billingAddress: ['', [Validators.required]],
+    billingCity: ['', [Validators.required]],
+    billingState: ['', [Validators.required]],
+    billingPostalCode: ['', [Validators.required]],
+    billingCountry: ['', [Validators.required]],
   })
-  incomeFormGroup = this.fb.group({})
-
+  incomeFormGroup = this.fb.group({
+    incomeSource: ['', [Validators.required]],
+    employerFullName: ['', [Validators.required]],
+    netSalary: ['', [Validators.required]],
+    profession: ['', [Validators.required]],
+    jobTitle: ['', [Validators.required]],
+    employmentDuration: ['', [Validators.required]],
+  })
 
   constructor(private fb: FormBuilder, private applicantApiService: ApplicantApiService, private updateAccountInfoService: UpdateAccountInfoService) { }
 

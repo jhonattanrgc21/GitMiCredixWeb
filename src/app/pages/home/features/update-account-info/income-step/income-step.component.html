@@ -1,40 +1,36 @@
-<form [formGroup]="IncomeStepFormGroup" class="personal-info-step-container">
-    <h4>Revise y edite los datos que sean necesarios:</h4>
-   
-    <credix-select formControlName="OrigenIngresos" label="Origen de sus Ingresos"> <!-- FALTA API L -->
-        <!-- <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
-          {{ identificationType.description }}
-        </mat-option> -->
-      </credix-select>
-      <credix-input-field formControlName="NombreCompletoPatrono" label="Nombre del patrono"></credix-input-field>
-      <credix-input-field formControlName="SalarioNeto" label="Salario Neto"></credix-input-field>
+<form [formGroup]="incomeStepFormGroup" class="personal-info-step-container">
+  <h4>Revise y edite los datos que sean necesarios:</h4>
   
-<h4 class="textIngresos">
+  <credix-select formControlName="incomeSource" label="Origen de sus Ingresos">
+    <!-- <mat-option *ngFor="let incomeSource of incomeSources" [value]="incomeSource.id">
+      {{ incomeSource.description }}
+    </mat-option> -->
+  </credix-select>
+  
+  <credix-input-field formControlName="employerFullName" label="Nombre del patrono"></credix-input-field>
+  <credix-input-field formControlName="netSalary" label="Salario Neto"></credix-input-field>
+
+  <h4 class="textIngresos">
     Adjuntar evidencia de ingresos
     <span class="icon-circle">¡</span>
   </h4>
-  
-      <credix-select formControlName="Profesion" label="Profesión"> <!-- FALTA API  -->
-        <!-- <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
-          {{ identificationType.description }}
-        </mat-option> -->
-      </credix-select>
 
-      <credix-select formControlName="Puesto" label="Puesto que desempeña"> <!-- FALTA API  -->
-        <!-- <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
-          {{ identificationType.description }}
-        </mat-option> -->
-      </credix-select>
+  <credix-select formControlName="profession" label="Profesión">
+    <!-- <mat-option *ngFor="let profession of professions" [value]="profession.id">
+      {{ profession.description }}
+    </mat-option> -->
+  </credix-select>
 
-      <credix-select formControlName="TiempoTrabajo" label="Tiempo en su trabajo actual"> <!-- FALTA API  -->
-        <!-- <mat-option *ngFor="let identificationType of identificationTypes" [value]="identificationType.id">
-          {{ identificationType.description }}
-        </mat-option> -->
-      </credix-select>
+  <credix-select formControlName="jobTitle" label="Puesto que desempeña">
+    <!-- <mat-option *ngFor="let jobTitle of jobTitles" [value]="jobTitle.id">
+      {{ jobTitle.description }}
+    </mat-option> -->
+  </credix-select>
 
-      
+  <credix-select formControlName="employmentDuration" label="Tiempo en su trabajo actual">
+    <!-- <mat-option *ngFor="let employmentDuration of employmentDurations" [value]="employmentDuration.id">
+      {{ employmentDuration.description }}
+    </mat-option> -->
+  </credix-select>
 
-  </form>
-  
-  
-  
+</form>
