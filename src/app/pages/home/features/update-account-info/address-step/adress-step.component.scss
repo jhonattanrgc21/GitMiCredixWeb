@@ -41,3 +41,18 @@
     }
   }
 }
+
+.icon-circle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px; /* Ancho del círculo */
+  height: 24px; /* Altura del círculo */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  background-color: white; /* Color de fondo del círculo */
+  color: #239DF7; /* Color del texto del signo de exclamación */
+  border: 2px solid #239DF7; /* Borde del círculo en azul */
+  font-weight: bold;
+  margin-left: 8px; /* Espacio entre el texto y el icono */
+  font-size: 16px; /* Tamaño del signo de exclamación */
+}
