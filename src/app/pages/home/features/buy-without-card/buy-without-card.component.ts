@@ -1,13 +1,17 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
-import {CdkStepper} from '@angular/cdk/stepper';
-import {BuyWithoutCardService} from './buy-without-card.service';
-import {TagsService} from '../../../../core/services/tags.service';
-import {Tag} from '../../../../shared/models/tag';
-import {Router} from '@angular/router';
-import {Card} from '../../../../shared/models/card';
-import {StorageService} from '../../../../core/services/storage.service';
-import {CredixCodeErrorService} from '../../../../core/services/credix-code-error.service';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { CdkStepper } from '@angular/cdk/stepper';
+import { BuyWithoutCardService } from './buy-without-card.service';
+import { TagsService } from '../../../../core/services/tags.service';
+import { Tag } from '../../../../shared/models/tag';
+import { Router } from '@angular/router';
+import { Card } from '../../../../shared/models/card';
+import { StorageService } from '../../../../core/services/storage.service';
+import { CredixCodeErrorService } from '../../../../core/services/credix-code-error.service';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { TitleCardNotActiveComponent } from 'src/app/shared/components/content/title-card-not-active-content/title-card-not-active-content.component';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-buy-without-card',
@@ -28,22 +32,27 @@ export class BuyWithoutCardComponent implements OnInit, OnDestroy {
   step2: string;
   step1: string;
   errorResponse = false;
+  principalCardId: number;
   @ViewChild('buyWithOutCard') stepper: CdkStepper;
 
   constructor(private buyWithOutCardService: BuyWithoutCardService,
-              private credixCodeErrorService: CredixCodeErrorService,
-              private tagsService: TagsService,
-              private storageService: StorageService,
-              private router: Router) {
+    private credixCodeErrorService: CredixCodeErrorService,
+    private tagsService: TagsService,
+    private storageService: StorageService,
+    private router: Router,
+    private modalService: ModalService
+  ) {
   }
 
   ngOnInit(): void {
+    this.cards = this.storageService.getCurrentCards();
+    this.principalCardId = this.cards.find(element => element.category === 'Principal').cardId
+
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Compra sin tarjeta').tags));
-    this.cards = this.storageService.getCurrentCards();
-    this.cardControl.setValue(this.cards.find(element => element.category === 'Principal').cardId);
+    this.cardControl.setValue(this.principalCardId);
     this.credixCodeErrorService.credixCodeError$.subscribe(() => {
-      this.credixCode.setErrors({invalid: true});
+      this.credixCode.setErrors({ invalid: true });
     });
   }
 
@@ -77,12 +86,29 @@ export class BuyWithoutCardComponent implements OnInit, OnDestroy {
   }
 
   checkCredixCode() {
-    this.buyWithOutCardService.checkCredixCode(this.credixCode.value).subscribe(result => {
-        if (result.type === 'success') {
-          this.generatePin();
-          this.onCardChanged();
-          this.continue();
-        }
+    this.buyWithOutCardService.checkCredixCode(this.credixCode.value)
+      .pipe(
+        filter(result => result.type === 'success'),
+        switchMap(() => {
+          if (this.tagsService.titularCardNotActive === null) {
+            return this.tagsService.getHomeContent(this.principalCardId).pipe(map(() => this.tagsService.titularCardNotActive))
+          }
+          return of(this.tagsService.titularCardNotActive)
+        }),
+        tap((titularCardNotActive) => {
+          if (titularCardNotActive) {
+            this.modalService.open({
+              component: TitleCardNotActiveComponent,
+            }, { width: 343, height: 339, disableClose: true, panelClass: 'titular-card-not-active-alert' })
+            this.router.navigate(['/home'])
+          }
+        }),
+        filter(titularCardNotActive => !titularCardNotActive)
+      )
+      .subscribe(() => {
+        this.generatePin();
+        this.onCardChanged();
+        this.continue();
       }
     );
   }
