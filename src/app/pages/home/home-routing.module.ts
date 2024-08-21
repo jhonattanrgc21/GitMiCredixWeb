@@ -89,6 +89,10 @@ const routes: Routes = [
         path: 'extend-term-total-debt',
         loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule)
       },
+      {
+        path: 'gestiones',
+        loadChildren: () => import('./features/gestiones/gestiones.module').then(m => m.MisGestionesModule)
+      }
     ]
   }
 ];
