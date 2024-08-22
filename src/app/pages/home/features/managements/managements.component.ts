@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'gestiones-page-component',
+  selector: 'managements-page-component',
   template: `
-    <div class="gestiones-container">
+    <div class="managements-container">
       <router-outlet></router-outlet>
     </div>
   `,
   styles: [`
-    .gestiones-container {
+    .managements-container {
       background-color: white;
       height: 100%;
       border-radius: 8px;
     }
   `]
 })
-export class GestionesMainPageComponent implements OnInit {
+export class ManagementsMainPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { }

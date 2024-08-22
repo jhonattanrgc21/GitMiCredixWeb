@@ -91,7 +91,7 @@ export class MenuOptionComponent implements OnInit {
             });
           }
         });
-        this.submenus.push({id: 15, name: 'Mis gestiones', route: '/home/gestiones', icon: 'credit-card', parentId: 'Mi Cuenta'})
+        this.submenus.push({id: 15, name: 'Mis gestiones', route: '/home/managements', icon: 'credit-card', parentId: 'Mi Cuenta'})
       }
 
 
