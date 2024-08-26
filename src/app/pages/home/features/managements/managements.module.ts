@@ -13,6 +13,7 @@ import { MyManagementsPageComponent } from './pages/my-managements/my-management
 import { CredixNavigationTableModule } from 'src/app/shared/components/credix-navigation-table/credix-navigation-table.module';
 import { CredixLinkButtonModule } from 'src/app/shared/components/credix-link-button/credix-link-button.module';
 import { MatIconModule } from '@angular/material/icon';
+import { CredixResultNotificationModule } from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 
 const routes: Routes = [
   {
@@ -73,7 +74,8 @@ const routes: Routes = [
     CredixButtonModule,
     CredixNavigationTableModule,
     CredixLinkButtonModule,
-    MatIconModule
+    MatIconModule,
+    CredixResultNotificationModule
   ],
   exports: [],
   providers: [],

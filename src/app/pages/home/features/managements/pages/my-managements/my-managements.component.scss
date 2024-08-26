@@ -18,6 +18,13 @@ $border-color: #E9E9E9;
       padding-bottom: 32px;
     }
 
+    .warn-notification{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .managements-table{
       flex: 1;
       display: flex;
