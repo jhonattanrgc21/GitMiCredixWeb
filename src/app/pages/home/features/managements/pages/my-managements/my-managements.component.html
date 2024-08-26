@@ -1,6 +1,68 @@
 <div class="mis-gestiones-container">
   <div class="mis-gestiones-container__main">
-    <h1>Mis gestiones</h1>
+    <h1 class="title">Mis gestiones</h1>
+
+    <div class="managements-table">
+      <div class="management-list">
+        <div class="headers">
+          <h4 class="first-column">
+            Gestion
+          </h4>
+          <h4 class="second-column">
+            Estado
+          </h4>
+          <h4 class="third-column">
+            Finalizacion
+          </h4>
+        </div>
+        <div class="management-row" [ngClass]="{'active': !!managementToDisplay && managementToDisplay.id === management.id}" *ngFor="let management of managements; let ind = index" (click)="displayDetails(ind)">
+          <div class="first-column">
+            {{ MANAGEMENT_TYPES[management.type] }}
+          </div>
+          <div class="second-column">
+            {{ STATUSES[management.status] }}
+          </div>
+          <div class="third-column">
+            {{ management.endDate }}
+          </div>
+          <div class="chevron">
+            <mat-icon svgIcon="chevron_right"></mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="management-details">
+        <div class="headers">
+          <h4 *ngIf="managementToDisplay">
+            Detalles
+          </h4>
+        </div>
+        <div class="details-container" *ngIf="managementToDisplay as management">
+          <div class="details-content">
+            <div>
+              <span>Estado</span>
+              <span>{{ STATUSES[management.status] }}</span> <!--{{ Status }}-->
+            </div>
+            <div>
+              <span>Fecha de Solicitud</span>
+              <span>{{ management.requestedDate }}</span> <!--{{ RequestDate }}-->
+            </div>
+            <div *ngIf="management.endDate as endDate">
+              <span>Finalizacion</span>
+              <span>{{ endDate }}</span> <!--{{ EndDate }}-->
+            </div>
+            <div>
+              <span>Numero de gestion</span>
+              <span>{{ management.id }}</span> <!--{{ ManagementNumber }}-->
+            </div>
+          </div>
+
+          <p>
+            Gestion {{ STATUSES[management.status] | lowercase }}. Si desea mas informacion comuniquese con nosotros al <credix-link-button [route]="'tel:+50622273349'">2227-3349</credix-link-button>
+          </p>
+        </div>
+      </div>
+    </div>
+
 
 
   </div>

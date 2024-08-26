@@ -1,10 +1,13 @@
-<h1>Mis gestiones</h1>
-<a routerLink="/home/managements/rob-or-loss">Robo o Extravio</a>
-<br>
-<a routerLink="/home/managements/renew-cards">Renovar tarjetas</a>
-<br>
-<a routerLink="/home/managements/damaged-card">Tarjeta danada</a>
-<br>
-<a routerLink="/home/managements/card-pin-codes">pin de tarjeta</a>
-<br>
-<a routerLink="/home/managements/increase-limit">aumentar limite</a>
+<div class="add-management-container">
+  <h1 class="title">Mis gestiones</h1>
+
+  <div class="management-option" (click)="navigateTo(management.route)" *ngFor="let management of managementOptions">
+    <p>
+      {{ management.name }}
+    </p>
+    <div class="chevron">
+      <mat-icon svgIcon="chevron_right"></mat-icon>
+    </div>
+  </div>
+
+</div>
