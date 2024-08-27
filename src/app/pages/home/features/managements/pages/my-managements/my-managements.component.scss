@@ -1,3 +1,8 @@
+@import '../../../../../../core/styles/credix-theme.scss';
+
+$color-primary-300: map-get($primary-palette, 300);
+$border-color: #E9E9E9;
+
 .mis-gestiones-container {
   height: 100%;
   display: flex;
@@ -5,13 +10,112 @@
 
   &__main{
     flex: 1;
-    padding: 16px;
+    display: flex;
+    flex-direction: column;
+
+    .title{
+      padding: 16px;
+      padding-bottom: 32px;
+    }
+
+    .warn-notification{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .managements-table{
+      flex: 1;
+      display: flex;
+
+      .headers{
+        height: 40px;
+        display: flex;
+        padding: 8px 16px;
+        text-align: start;
+        background-color: $border-color;
+        h4{
+          font-weight: unset;
+        }
+      }
+
+      .management-list{
+        width: 60%;
+
+        .management-row{
+          display: flex;
+          align-items: center;
+          margin-left: 16px;
+          padding-right: 16px;
+          height: 56px;
+          border-bottom: 1px solid $border-color;
+          cursor: pointer;
+          &:hover, &.active{
+            font-weight: bold;
+          }
+        }
+        $first-column: 45%;
+        $second-column: 25%;
+        $third-column: 30%;
+        .headers, .management-row{
+          position: relative;
+          .first-column{
+            width: $first-column;
+          }
+          .second-column{
+            width: $second-column;
+          }
+          .third-column{
+            width: $third-column;
+          }
+
+          .chevron {
+            position: absolute;
+            top: 18px;
+            right: 16px;
+            mat-icon{
+              color: $color-primary-300;
+              height: 16px !important;
+            }
+          }
+        }
+
+      }
+      .management-details{
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        .headers{
+          padding-left: 32px;
+        }
+
+        .details-container{
+          padding: 19px 32px;
+          flex: 1;
+          border-left: 1px solid $border-color;
+        }
+
+        .details-content{
+          & > div {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            span:nth-child(2){
+              font-weight: bold;
+            }
+          }
+        }
+      }
+
+    }
+
   }
 
   &__footer {
     display: flex;
     flex-direction: row-reverse;
     padding: 16px;
-    border-top: 1px solid #E9E9E9;
+    border-top: 1px solid $border-color;
   }
 }

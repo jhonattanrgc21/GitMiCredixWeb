@@ -11,6 +11,9 @@ import { AddManagementPageComponent } from './pages/add-management/add-managemen
 import { CredixButtonModule } from 'src/app/shared/components/credix-button/credix-button.module';
 import { MyManagementsPageComponent } from './pages/my-managements/my-managements.component';
 import { CredixNavigationTableModule } from 'src/app/shared/components/credix-navigation-table/credix-navigation-table.module';
+import { CredixLinkButtonModule } from 'src/app/shared/components/credix-link-button/credix-link-button.module';
+import { MatIconModule } from '@angular/material/icon';
+import { CredixResultNotificationModule } from 'src/app/shared/components/credix-result-notification/credix-result-notification.module';
 
 const routes: Routes = [
   {
@@ -69,7 +72,10 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     CredixButtonModule,
-    CredixNavigationTableModule
+    CredixNavigationTableModule,
+    CredixLinkButtonModule,
+    MatIconModule,
+    CredixResultNotificationModule
   ],
   exports: [],
   providers: [],
