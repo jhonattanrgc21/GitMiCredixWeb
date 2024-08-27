@@ -11,6 +11,7 @@ import {
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 const INIT_OFFSET = 0;
 
@@ -28,11 +29,20 @@ export class CredixTabComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChildren('element') tabElements: QueryList<ElementRef>;
   currentOffset = 0;
   displacement = 0;
+  stateTab: boolean = false;
+  TabSelectStatement: boolean | null = null;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.TabSelectStatement = params['TabSelectStatement'] === 'true'; 
+      if (this.TabSelectStatement) {
+        this.active = this.tabs[1];
+
+      }
+    });
   }
 
   ngAfterViewInit() {

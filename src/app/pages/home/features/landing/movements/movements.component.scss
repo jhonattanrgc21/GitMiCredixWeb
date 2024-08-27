@@ -48,3 +48,46 @@
     width: 360px;
   }
 }
+
+.awards-card {
+
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__content {
+    padding: 16px;
+  }
+
+  &__btn {
+    margin-right: 8px;
+
+    mat-icon {
+      color: #E42313;
+      width: 470px;
+      height: 12px;
+      vertical-align: baseline;
+    }
+  }
+
+}
+
+@media screen and (max-width: 1199px) {
+  .awards-card {
+    &__btn {
+    margin-right: 8px;
+
+    mat-icon {
+      color: #E42313;
+      width: 230px;
+      height: 12px;
+      vertical-align: baseline;
+    }
+  }
+    
+  }
+
+ 
+}
+

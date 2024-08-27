@@ -26,4 +26,10 @@ export class MovementsComponent implements OnInit {
   goToMovements() {
     this.router.navigate(['/home/movements-&-account-statement']);
   }
+
+  goToStatement() {
+    this.router.navigate(['/home/movements-&-account-statement/account-statement'], {
+      queryParams: { TabSelectStatement: true }
+    });
+  }
 }
