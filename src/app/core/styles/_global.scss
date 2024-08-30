@@ -78,3 +78,14 @@ span {
     background: #696d6f;
   }
 }
+
+.mat-dialog-container {
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>renew-card-new-address-popup) {
+    padding: 16px;
+    .credix-popup__title{
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+  }
+}
+

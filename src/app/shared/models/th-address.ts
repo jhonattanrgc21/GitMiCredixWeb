@@ -6,3 +6,10 @@ export interface ThAddress {
   canton: string;
   detail: string;
 }
+
+export interface ApplicantAddressInfo{
+  addresses: ThAddress[];
+  phone: number;
+  email: string;
+}
+

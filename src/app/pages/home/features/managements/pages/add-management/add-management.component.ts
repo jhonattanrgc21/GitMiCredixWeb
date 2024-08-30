@@ -10,7 +10,7 @@ export class AddManagementPageComponent implements OnInit {
   managementOptions = [
     {
       name: 'Aumentar limite de credito',
-      route: '/home/managements/increase-limit'
+      route: '/home/increase-limit'
     },
     {
       name: 'Renovar Tarjeta',
@@ -26,7 +26,7 @@ export class AddManagementPageComponent implements OnInit {
     },
     {
       name: 'Solicitar tarjeta adicional',
-      route: ''
+      route: '/home/additional-cards-management'
     },
     {
       name: 'Tarjeta danada',
@@ -34,7 +34,7 @@ export class AddManagementPageComponent implements OnInit {
     },
     {
       name: 'Ver o cambiar PIN de tarjeta',
-      route: '/home/managements/card-pin-codes'
+      route: '/home/current-pin'
     },
   ]
 

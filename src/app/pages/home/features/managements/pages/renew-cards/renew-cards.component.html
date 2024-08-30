@@ -1,1 +1,11 @@
-<p>Renovacion works</p>
+<div class="renew-card-container">
+  <h1 class="title">Renovación</h1>
+  <credix-delivery-options-component *ngIf="!showSubmitSuccessNotification; else successNotification">
+  </credix-delivery-options-component>
+  <ng-template #successNotification>
+
+  </ng-template>
+  <div class="footer">
+    <credix-button [disabled]="invalidAddress" (buttonClick)="submitRenovation()">Renovar tarjeta</credix-button>
+  </div>
+</div>
