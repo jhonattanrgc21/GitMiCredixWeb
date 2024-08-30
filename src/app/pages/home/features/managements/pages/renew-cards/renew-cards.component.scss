@@ -1,0 +1,30 @@
+$border-color: #E9E9E9;
+
+.renew-card-container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .title{
+    padding: 16px;
+    padding-bottom: 32px;
+  }
+
+  credix-delivery-options-component {
+    flex: 1;
+  }
+
+  // .success-notification-container{
+  //   flex: 1;
+  //   credix-result-notification{
+  //     width: 477px;
+  //   }
+  // }
+
+  .footer {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 16px;
+    border-top: 1px solid $border-color;
+  }
+}

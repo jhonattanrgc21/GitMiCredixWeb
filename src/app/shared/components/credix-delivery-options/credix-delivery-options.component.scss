@@ -1,0 +1,41 @@
+$border-color: #E9E9E9;
+
+.delivery-options-container{
+  .main{
+    h4{
+      color: #3E3E3E;
+    }
+    flex: 1;
+    display: flex;
+    gap: 56px;
+    padding: 0 124px;
+    .radio-groups{
+      flex: 1;
+      .radio-button-content {
+        & p {
+          line-height: 16px;
+          font-size: 12px;
+        }
+        padding-left: 29px;
+        padding-top: 8px;
+        padding-bottom: 16px;
+      }
+      .newAdressContainer {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+
+      .places{
+        padding-bottom: 16px;
+        .radio-button-content p{
+          color: #696D6F;
+        }
+      }
+      .directions{
+        position: relative;
+        left: 29px;
+      }
+    }
+  }
+}

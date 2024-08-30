@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class PhoneMaskPipe implements PipeTransform {
 
-  transform(phone: string | number): string {
+  transform(phone: string | number, hide = true): string {
 
     if (!phone) {
       return '';
@@ -22,7 +22,7 @@ export class PhoneMaskPipe implements PipeTransform {
     const prefix = phone.toString().substring(0, 4);
     const suffix = phone.toString().substring(4, 8);
 
-    return `${prefix.charAt(0)}${prefix.charAt(1)}**-**${suffix.charAt(2)}${suffix.charAt(3)}`;
+    return hide ? `${prefix.charAt(0)}${prefix.charAt(1)}**-**${suffix.charAt(2)}${suffix.charAt(3)}` : `${prefix}-${suffix}`;
   }
 
 }

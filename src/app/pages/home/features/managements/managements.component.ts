@@ -13,6 +13,12 @@ import { Component, OnInit } from '@angular/core';
       height: 100%;
       border-radius: 8px;
     }
+
+    router-outlet + ::ng-deep * {
+      display: block;
+      height: 100%
+    }
+
   `]
 })
 export class ManagementsMainPageComponent implements OnInit {

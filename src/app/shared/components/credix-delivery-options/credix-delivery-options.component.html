@@ -1,0 +1,70 @@
+
+<div class="delivery-options-container">
+
+    <div class="main">
+      <h4>
+        ¿Dónde desea retirarla?
+      </h4>
+
+      <div class="radio-groups">
+        <mat-radio-group class="places" [formControl]="deliveryOptionControl">
+          <!-- Sucursales -->
+          <credix-radio-button [label]="'Sucursales Credix'" [value]="1"></credix-radio-button>
+          <div class="radio-button-content">
+            <p *ngIf="deliveryOptionControl.value !== 1; else displayPlacesSelect">
+              Puede pasar a retirar su tarjeta en cualquier sucursal en nuestro horario de atención.
+            </p>
+            <ng-template #displayPlacesSelect>
+              <credix-select [label]="'Seleccione la más cercana'" [required]="true" *ngIf="!!deliveryPlaces"
+                [formControl]="deliveryPlaceSelectionControl">
+                <mat-option [value]="place.description" *ngFor="let place of deliveryPlaces">
+                  {{ place.displayName }}
+                </mat-option>
+              </credix-select>
+            </ng-template>
+          </div>
+
+          <!-- Domicilio -->
+          <credix-radio-button [label]="'Domicilio'" [value]="2"></credix-radio-button>
+          <div class="radio-button-content">
+            <p>Entregaremos la tarjeta hasta en 5 días hábiles dentro del GAM y hasta 8 días hábiles fuera del GAM.</p>
+          </div>
+        </mat-radio-group>
+        <mat-radio-group *ngIf="deliveryOptionControl.value === 2" class="directions"
+          [formControl]="homeDeliveryOptionControl">
+          <!-- Existing Address -->
+          <credix-radio-button [label]="'Dirección registrada en Credix'" [value]="1"></credix-radio-button>
+          <div class="radio-button-content">
+            <p>
+              <span *ngIf="homeDeliveryOptionControl.value === 1 && !!applicantAdressInfo && applicantAdressInfo.addresses[0] as MainAdress; else noAdressFound">
+                <strong>{{ applicantName }}</strong> <br>
+                <strong>{{ applicantAdressInfo.phone | phoneMask: false }}</strong> <br>
+                {{ MainAdress.detail }}, {{MainAdress.district}}, {{ MainAdress.canton }}, {{ MainAdress.province }}.
+              </span>
+              <ng-template #noAdressFound>
+                <span *ngIf="addressFetchingError">No se encontro una direccion registrada</span>
+              </ng-template>
+            </p>
+          </div>
+
+          <!-- New Address -->
+          <div class="newAdressContainer">
+            <credix-radio-button [label]="'Usar otra dirección'" [value]="2"></credix-radio-button>
+            <credix-link-button (click)="this.editNewAdress()"
+              *ngIf="homeDeliveryOptionControl.value === 2">Editar</credix-link-button>
+          </div>
+          <div *ngIf="homeDeliveryOptionControl.value === 2 && newAdressData as addressInfo" class="radio-button-content">
+            <p>
+              <strong>{{ addressInfo.name }}</strong> <br>
+              <strong>{{ addressInfo.phoneNumber | phoneMask: false}}</strong> <br>
+              {{ addressInfo.detail }}, {{addressInfo.district.description}}, {{ addressInfo.canton.description }},
+              {{ addressInfo.province.description }}.
+            </p>
+          </div>
+        </mat-radio-group>
+      </div>
+    </div>
+</div>
+
+
+

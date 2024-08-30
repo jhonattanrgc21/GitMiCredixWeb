@@ -1,0 +1,33 @@
+<form [formGroup]="newAddressFormGroup">
+
+  <credix-select formControlName="province" label="Provincia">
+    <mat-option *ngFor="let province of provinces" [value]="province">
+      {{province.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-select class="additional-card-new-address__input" formControlName="canton"
+                 label="Cantón">
+    <mat-option *ngFor="let canton of cantons" [value]="canton">
+      {{canton.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-select class="additional-card-new-address__input" formControlName="district"
+                 label="Distrito">
+    <mat-option *ngFor="let district of districts" [value]="district">
+      {{district.description}}
+    </mat-option>
+  </credix-select>
+
+  <credix-input-field formControlName="detail" label="Dirección exacta"></credix-input-field>
+
+  <credix-input-field formControlName="name" label="Persona que recibe"></credix-input-field>
+
+  <credix-input-field formControlName="phoneNumber" label="Teléfono de quien recibe" mask="0000-0000"></credix-input-field>
+
+  <div class="actions">
+    <credix-button (buttonClick)="saveNewAddress()" [disabled]="newAddressFormGroup.invalid">Agregar</credix-button>
+  </div>
+
+</form>
