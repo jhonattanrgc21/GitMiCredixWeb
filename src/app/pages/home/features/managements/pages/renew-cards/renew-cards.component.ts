@@ -21,11 +21,14 @@ export class RenewCardsPageComponent implements OnInit, AfterViewInit{
 
   ngAfterViewInit(): void {
     this.deliveryOptionsComponent.DeliveryDetailsData$.subscribe((deliveryData) => {
+      console.log(deliveryData)
       this.invalidAddress = !deliveryData.isValid
     })
   }
 
   submitRenovation(){
+    if(this.invalidAddress) return
 
+    this.showSubmitSuccessNotification = true
   }
 }
