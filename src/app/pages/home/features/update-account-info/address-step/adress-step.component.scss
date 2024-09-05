@@ -1,22 +1,17 @@
-.personal-info-step-container{
-  h4 {
+.address-step-container{
+  .title{
     margin-bottom: 16px;
+  }
+
+  credix-input-field, credix-select{
+    display: block;
+    width: 311px;
   }
   credix-input-field {
     &.disabledForms ::ng-deep .mat-form-field-label{
       color: rgb(62, 62, 62) !important;
     }
-    &.celphoneInput ::ng-deep .mat-form-field-suffix{
-      top: -6px;
-      left: 40px;
-      mat-icon{
-        color: #239DF7;
-      }
-    }
-    display: block;
-    width: 60%;
   }
-
   credix-select{
     ::ng-deep {
       .mat-form-field-wrapper > .mat-form-field-flex{
@@ -24,35 +19,31 @@
       }
     }
   }
-}
-.change-celphone-popup-content{
-  display: flex;
-  gap: 16px;
-  flex-direction: column;
-  &__title{
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 10px;
-  }
-  credix-button {
-    width: 100%;
-    & ::ng-deep button {
-      height: 40px;
+
+  .info-title{
+    display: flex;
+    align-items: center;
+    .info-button{
+      width: 25px;
+      mat-icon{
+        color: #239DF7;
+      }
     }
   }
 }
-
-.icon-circle {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 24px; /* Ancho del círculo */
-  height: 24px; /* Altura del círculo */
-  border-radius: 50%; /* Hace que el contenedor sea circular */
-  background-color: white; /* Color de fondo del círculo */
-  color: #239DF7; /* Color del texto del signo de exclamación */
-  border: 2px solid #239DF7; /* Borde del círculo en azul */
-  font-weight: bold;
-  margin-left: 8px; /* Espacio entre el texto y el icono */
-  font-size: 16px; /* Tamaño del signo de exclamación */
-}
+// .change-celphone-popup-content{
+//   display: flex;
+//   gap: 16px;
+//   flex-direction: column;
+//   &__title{
+//     text-align: center;
+//     margin-top: 40px;
+//     margin-bottom: 10px;
+//   }
+//   credix-button {
+//     width: 100%;
+//     & ::ng-deep button {
+//       height: 40px;
+//     }
+//   }
+// }

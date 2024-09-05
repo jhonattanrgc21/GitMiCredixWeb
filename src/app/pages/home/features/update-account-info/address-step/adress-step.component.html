@@ -1,23 +1,22 @@
-<form [formGroup]="newAddressFormGroup" class="personal-info-step-container" fxLayout="column"
-      fxLayoutGap="16px">
+<form [formGroup]="newAddressFormGroup" class="address-step-container">
 
-      <h4>Revise y edite los datos que sean necesarios:</h4>
+  <h4 class="title">Revise y edite los datos que sean necesarios:</h4>
 
-  <credix-select class="additional-card-new-address__input" formControlName="province"
+  <credix-select formControlName="province"
                  label="Provincia">
     <mat-option *ngFor="let province of provinces" [value]="province">
       {{province.description}}
     </mat-option>
   </credix-select>
 
-  <credix-select class="additional-card-new-address__input" formControlName="canton"
+  <credix-select formControlName="canton"
                  label="Cantón">
     <mat-option *ngFor="let canton of cantons" [value]="canton">
       {{canton.description}}
     </mat-option>
   </credix-select>
 
-  <credix-select class="additional-card-new-address__input" formControlName="district"
+  <credix-select formControlName="district"
                  label="Distrito">
     <mat-option *ngFor="let district of districts" [value]="district">
       {{district.description}}
@@ -27,22 +26,24 @@
   <credix-input-field formControlName="exactAddress" label="Dirección Exacta"></credix-input-field>
 
 
-  <h4>
+  <h4 class="info-title">
     Información de facturación
-    <span class="icon-circle">¡</span>
+    <button class="info-button" mat-icon-button suffix>
+      <mat-icon>info_outlined</mat-icon>
+    </button>
   </h4>
 
-  
+
   <credix-input-field formControlName="billingAddress" label="Dirección"></credix-input-field>
-  
+
   <credix-input-field formControlName="billingCity" label="Ciudad"></credix-input-field>
-  
+
   <credix-input-field formControlName="billingState" label="Estado"></credix-input-field>
-  
+
   <credix-input-field formControlName="billingPostalCode" label="Código Postal"></credix-input-field>
-  
+
   <credix-input-field formControlName="billingCountry" label="País"></credix-input-field>
-  
-  
-  
+
+
+
 </form>
