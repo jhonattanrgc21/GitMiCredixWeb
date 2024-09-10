@@ -6,7 +6,7 @@ export interface ApplicantDataResponse {
 }
 
 export interface ApplicantData {
-  income: ApplicantSalaryIncome | ApplicantIndependentIncome | null;
+  income: ApplicantIncome;
   birthdate: string;
   gender: string;
   mailAddress: ApplicantMailAddress | null;
@@ -24,6 +24,8 @@ export interface ApplicantData {
   otherPhone: number | null;
   homeAddress: ApplicantHomeAddress;
 }
+
+export type ApplicantIncome = ApplicantSalaryIncome | ApplicantIndependentIncome | ApplicantPensionerIncome | null
 
 export interface ApplicantSalaryIncome {
   incomeOriginId: 1;
@@ -46,6 +48,11 @@ export interface ApplicantIndependentIncome {
   address: string;
 }
 
+export interface ApplicantPensionerIncome {
+  incomeOriginId: 3;
+  netIncome: string;
+}
+
 export interface ApplicantHomeAddress {
   cantonId: number;
   districtId: number;
@@ -61,3 +68,4 @@ export interface ApplicantMailAddress {
   state: number;
   countryId: number;
 }
+

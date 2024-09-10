@@ -17,6 +17,7 @@ import { GlobalApiService } from 'src/app/core/services/global-api.service';
 import { CredixDatePickerModule } from 'src/app/shared/components/credix-date-picker/credix-date-picker.module';
 import { CredixLinkButtonModule } from 'src/app/shared/components/credix-link-button/credix-link-button.module';
 import { IdPhotoUploadComponent } from './id-photo-upload/id-photo-upload.component';
+import { CredixImageUploadModule } from 'src/app/shared/components/credix-image-upload/credix-image-upload.module';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { IdPhotoUploadComponent } from './id-photo-upload/id-photo-upload.compon
     CredixInputFieldModule,
     CredixSelectModule,
     CredixDatePickerModule,
-    CredixLinkButtonModule
+    CredixLinkButtonModule,
+    CredixImageUploadModule
   ],
   providers: [
     ModalService,

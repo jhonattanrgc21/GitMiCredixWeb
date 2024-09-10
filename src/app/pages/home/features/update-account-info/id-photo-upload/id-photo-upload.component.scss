@@ -1,6 +1,7 @@
 
 
 .id-photo-upload-container{
+  position: relative;
   .photo-upload-title{
     margin-bottom: 32px;
   }
@@ -59,8 +60,12 @@
   }
 
   .stepper-action-buttons{
+    position: sticky;
+    background-color: white;
+    bottom: 0;
+    padding-top: 8px;
     display: flex;
-    margin-top: 16px;
+    margin-top: 8px;
     gap: 16px;
     height: 44px;
     .back-button {

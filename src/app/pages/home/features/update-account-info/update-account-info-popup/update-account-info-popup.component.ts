@@ -1,11 +1,13 @@
 import { CdkStepper } from '@angular/cdk/stepper';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ApplicantApiService } from '../../../../../core/services/applicant-api.service';
-import { ApplicantData } from 'src/app/shared/models/applicant-data';
+import { ApplicantData, ApplicantIncome } from 'src/app/shared/models/applicant-data';
 import { idPhotos } from '../id-photo-upload/id-photo-upload.component';
 import { UpdateAccountInfoService } from '../update-account-info.service';
-import { forkJoin } from 'rxjs';
+import { combineLatest } from 'rxjs';
+import { GlobalApiService } from '../../../../../core/services/global-api.service';
+import { DynamicFormData } from 'src/app/shared/models/dynamic-form';
 
 @Component({
   selector: 'update-account-info-popup',
@@ -13,7 +15,7 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./update-account-info-popup.component.scss'],
   providers: [UpdateAccountInfoService]
 })
-export class UpdateAccountInfoPopUp implements OnInit {
+export class UpdateAccountInfoPopUp implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper: CdkStepper;
   stepperIndex: number = 0
   personalInfoSwitch: 'idUpload' | 'form' = 'form'
@@ -36,6 +38,7 @@ export class UpdateAccountInfoPopUp implements OnInit {
     referencePhone: ['', [Validators.minLength(8), Validators.maxLength(8)]],
     otherPhone: ['', [Validators.minLength(8), Validators.maxLength(8)]]
   })
+
   adressFormGroup = this.fb.group({
     province: ['', [Validators.required]],
     canton: ['', [Validators.required]],
@@ -48,29 +51,37 @@ export class UpdateAccountInfoPopUp implements OnInit {
     billingCountry: ['', [Validators.required]],
   })
   incomeFormGroup = this.fb.group({
-    incomeSource: ['', [Validators.required]],
-    employerFullName: ['', [Validators.required]],
-    netSalary: ['', [Validators.required]],
-    profession: ['', [Validators.required]],
-    jobTitle: ['', [Validators.required]],
-    employmentDuration: ['', [Validators.required]],
+    incomeType: [1, [Validators.required]]
   })
+  incomeData: ApplicantIncome;
 
-  constructor(private fb: FormBuilder, private applicantApiService: ApplicantApiService, private updateAccountInfoService: UpdateAccountInfoService) { }
+  constructor(
+    private fb: FormBuilder,
+    private applicantApiService: ApplicantApiService,
+    private updateAccountInfoService: UpdateAccountInfoService,
+    private globalApiService: GlobalApiService
+  ) { }
 
   ngOnInit(): void {
 
-    //LoadFormData
-    this.applicantApiService.getApplicantData().subscribe(data => {
-
-      this.idValid = !data.documentExpirationDate || data.documentExpirationDate === "null" ? false : !(new Date(data.documentExpirationDate) <= new Date())
-
-      this.loadPersonalInfoFormData(data)
-    })
-
+    combineLatest([this.applicantApiService.getApplicantData(), this.globalApiService.getDynamicForm("updatedata")])
+      .subscribe(([applicantData, dynamicFormData]) => {
+        this.loadFormData(applicantData)
+        this.checkDynamicFormSetting(dynamicFormData)
+      })
   }
 
-  loadPersonalInfoFormData(data: ApplicantData) {
+  ngAfterViewInit(): void {
+    this.nextStep()
+    this.nextStep()
+  }
+
+  checkDynamicFormSetting(dynamicFormData: DynamicFormData[]) {
+  }
+
+  loadFormData(data: ApplicantData) {
+
+    this.idValid = !data.documentExpirationDate || data.documentExpirationDate === "null" ? false : (new Date() >= new Date(data.documentExpirationDate))
 
     this.personalInfoFormGroup.setValue({
       firstName: data.firstName,
@@ -87,6 +98,29 @@ export class UpdateAccountInfoPopUp implements OnInit {
       referencePhone: data.referencePhone,
       otherPhone: data.otherPhone
     })
+
+    if (data.mailAddress) {
+      this.adressFormGroup.setValue({
+        province: data.homeAddress.provinceId,
+        canton: data.homeAddress.cantonId,
+        district: data.homeAddress.districtId,
+        exactAddress: data.homeAddress.detail,
+        billingAddress: data.mailAddress.detail,
+        billingCity: data.mailAddress.city,
+        billingState: data.mailAddress.state,
+        billingPostalCode: data.mailAddress.postalCode,
+        billingCountry: data.mailAddress.countryId
+      })
+    }
+
+    if (data.income) {
+      this.incomeFormGroup.setValue({
+        incomeType: data.income.incomeOriginId
+      })
+
+      this.incomeData = data.income
+    }
+
 
   }
 

@@ -37,7 +37,7 @@
     <credix-button class="back-button" [type]="'secondary'" (buttonClick)="back()">
       Atras
     </credix-button>
-    <credix-button class="continue-button" (buttonClick)="continue()" [disabled]="!idPhotos[idSideStep]">
+    <credix-button class="continue-button" (buttonClick)="continue()" [disabled]="!idPhotos[idSideStep]?.base64">
       Continuar
     </credix-button>
   </div>

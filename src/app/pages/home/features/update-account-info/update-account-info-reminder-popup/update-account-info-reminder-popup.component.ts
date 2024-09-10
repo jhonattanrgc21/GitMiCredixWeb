@@ -25,7 +25,7 @@ export class UpdateAccountInfoReminderPopUp implements OnInit {
     this.modalService.open({
       component: UpdateAccountInfoPopUp,
       title: null,
-    }, {width: 608, disableClose: true, panelClass: 'update-account-info-reminder-popup'})
+    }, {width: 608, disableClose: true, panelClass: 'update-account-info-popup'})
 
   }
 

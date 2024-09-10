@@ -34,7 +34,7 @@ import {Province} from '../../../../../shared/models/province';
         this.cantons = [];
         this.newAddressFormGroup.controls.district.reset(null, {onlySelf: true, emitEvent: false});
         this.newAddressFormGroup.controls.canton.reset(null, {onlySelf: true, emitEvent: false});
-        this.getCantons(value.id);
+        this.getCantons(value);
       });
     }
 
@@ -47,7 +47,7 @@ import {Province} from '../../../../../shared/models/province';
       this.newAddressFormGroup.controls.canton.valueChanges.subscribe(value => {
         this.districts = [];
         this.newAddressFormGroup.controls.district.reset(null, {onlySelf: true, emitEvent: false});
-        this.getDistricts(value.id);
+        this.getDistricts(value);
       });
     }
 

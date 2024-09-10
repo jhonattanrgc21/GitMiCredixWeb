@@ -4,21 +4,21 @@
 
   <credix-select formControlName="province"
                  label="Provincia">
-    <mat-option *ngFor="let province of provinces" [value]="province">
+    <mat-option *ngFor="let province of provinces" [value]="province.id">
       {{province.description}}
     </mat-option>
   </credix-select>
 
   <credix-select formControlName="canton"
                  label="Cantón">
-    <mat-option *ngFor="let canton of cantons" [value]="canton">
+    <mat-option *ngFor="let canton of cantons" [value]="canton.id">
       {{canton.description}}
     </mat-option>
   </credix-select>
 
   <credix-select formControlName="district"
                  label="Distrito">
-    <mat-option *ngFor="let district of districts" [value]="district">
+    <mat-option *ngFor="let district of districts" [value]="district.id">
       {{district.description}}
     </mat-option>
   </credix-select>

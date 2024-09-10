@@ -12,6 +12,7 @@ import {Occupation} from '../../shared/models/occupation';
 import {IncomeType} from '../../shared/models/income-type';
 import {DeliveryPlace} from '../../shared/models/delivery-place';
 import {IdentificationType} from '../../shared/models/identification-type';
+import { DynamicFormData } from 'src/app/shared/models/dynamic-form';
 
 @Injectable()
 export class GlobalApiService {
@@ -25,6 +26,7 @@ export class GlobalApiService {
   private readonly incomeTypesUri = 'global/getTypeIncome';
   private readonly deliveryPlaceUri = 'global/deliveryplace';
   private readonly civilStatusesUri = 'global/civilstatus';
+  private readonly dynamicFormUri = 'global/dynamicform';
 
   constructor(private httpService: HttpService) {
   }
@@ -84,7 +86,7 @@ export class GlobalApiService {
 
   @Cacheable()
   getIncomeTypes(): Observable<IncomeType[]> {
-    return this.httpService.post('canales', this.incomeTypesUri);
+    return this.httpService.post('canales', this.incomeTypesUri).pipe(map( (value) =>  value.typeIncome));
   }
 
   @Cacheable()
@@ -109,6 +111,11 @@ export class GlobalApiService {
         return response.type === 'success' ? response.result : []
       })
     )
+  }
+
+  @Cacheable()
+  getDynamicForm(formName: string): Observable<DynamicFormData[]>{
+    return this.httpService.post('canales', this.dynamicFormUri, {form: formName})
   }
 
 

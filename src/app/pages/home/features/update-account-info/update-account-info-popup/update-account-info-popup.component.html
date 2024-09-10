@@ -1,4 +1,4 @@
-<div class="update-account-info-popup">
+<div class="update-account-info-popup-container">
   <h2>Actualizar Datos</h2>
 
   <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
@@ -24,7 +24,7 @@
 
     <cdk-step [label]="'Ingresos'" [stepControl]="incomeFormGroup">
       <div class="update-account-info-step">
-        <income-step-component [IncomeStepFormGroup]="incomeFormGroup"></income-step-component>
+        <income-step-component [currentIncomeData]="incomeData" [IncomeStepFormGroup]="incomeFormGroup"></income-step-component>
       </div>
     </cdk-step>
 

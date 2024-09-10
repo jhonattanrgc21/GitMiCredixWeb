@@ -55,14 +55,7 @@ export class ApplicantApiService {
 
   @Cacheable()
   getApplicantData(): Observable<ApplicantData>{
-    // return this.httpService.post('canales', this.getApplicantDataUri)
-    return this.HttpClient.post('https://6b2aab92-24f1-4ab5-9d72-c220120e3cb5.mock.pstmn.io/api/canalesbe/applicant/getapplicantdata',
-      {},
-      {
-        headers: {
-          exampleNumber: '1'
-        }
-      })
+    return this.httpService.post('canales', this.getApplicantDataUri)
     .pipe(
       map((response: ApplicantDataResponse) => {
         if(response.type === 'success'){

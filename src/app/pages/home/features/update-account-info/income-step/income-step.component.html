@@ -1,36 +1,61 @@
-<form [formGroup]="IncomeStepFormGroup" class="personal-info-step-container">
+<form [formGroup]="IncomeStepFormGroup" class="income-step-container">
   <h4>Revise y edite los datos que sean necesarios:</h4>
-  
-  <credix-select formControlName="incomeSource" label="Origen de sus Ingresos">
-    <!-- <mat-option *ngFor="let incomeSource of incomeSources" [value]="incomeSource.id">
-      {{ incomeSource.description }}
-    </mat-option> -->
-  </credix-select>
-  
-  <credix-input-field formControlName="employerFullName" label="Nombre del patrono"></credix-input-field>
-  <credix-input-field formControlName="netSalary" label="Salario Neto"></credix-input-field>
 
-  <h4 class="textIngresos">
-    Adjuntar evidencia de ingresos
-    <span class="icon-circle">¡</span>
-  </h4>
-
-  <credix-select formControlName="profession" label="Profesión">
-    <!-- <mat-option *ngFor="let profession of professions" [value]="profession.id">
-      {{ profession.description }}
-    </mat-option> -->
+  <credix-select formControlName="incomeType" label="Origen de sus Ingresos">
+    <mat-option *ngFor="let incomeType of incomeTypes" [value]="incomeType.id">
+      {{ incomeType.description }}
+    </mat-option>
   </credix-select>
 
-  <credix-select formControlName="jobTitle" label="Puesto que desempeña">
-    <!-- <mat-option *ngFor="let jobTitle of jobTitles" [value]="jobTitle.id">
-      {{ jobTitle.description }}
-    </mat-option> -->
-  </credix-select>
+  <ng-container [ngSwitch]="incomeTypeSelected">
+    <!-- Asalariado -->
+    <div *ngSwitchCase="1" [formGroup]="salariedIncomeFormGroup">
+      <credix-input-field formControlName="employerName" label="Nombre del patrono"></credix-input-field>
+      <credix-input-field formControlName="netIncome" label="Salario Neto" mask="separator.2" thousandSeparator="." decimalMarker=","></credix-input-field>
 
-  <credix-select formControlName="employmentDuration" label="Tiempo en su trabajo actual">
-    <!-- <mat-option *ngFor="let employmentDuration of employmentDurations" [value]="employmentDuration.id">
-      {{ employmentDuration.description }}
-    </mat-option> -->
-  </credix-select>
+      <ng-container *ngTemplateOutlet="imageUploader"></ng-container>
+
+      <credix-select formControlName="profession" label="Profesión">
+        <mat-option *ngFor="let profession of professions" [value]="profession.id">
+          {{ profession.description }}
+        </mat-option>
+      </credix-select>
+      <credix-select formControlName="jobPosition" label="Puesto que desempeña"></credix-select>
+      <credix-select formControlName="laborYears" label="Tiempo en su trabajo actual"></credix-select>
+    </div>
+
+    <!-- Independiente -->
+    <div *ngSwitchCase="2" [formGroup]="independentIncomeFormGroup">
+
+      <credix-select formControlName="profession" label="Profesión">
+        <mat-option *ngFor="let profession of professions" [value]="profession.id">
+          {{ profession.description }}
+        </mat-option>
+      </credix-select>
+      <credix-select formControlName="incomeSource" label="Origen de los recursos"></credix-select>
+      <credix-select formControlName="economicActivity" label="Actividad Económica"></credix-select>
+
+      <credix-select formControlName="provinceId" label="Provincia"></credix-select>
+      <credix-select formControlName="cantonId" label="Cantón"></credix-select>
+      <credix-select formControlName="districtId" label="Distrito"></credix-select>
+
+      <credix-input-field formControlName="address" label="Dirección exacta"></credix-input-field>
+      <credix-input-field formControlName="monthlyIncome" label="Ingreso mensual" mask="separator.2" thousandSeparator="." decimalMarker=","></credix-input-field>
+
+      <credix-select formControlName="laborYears" label="Tiempo en su trabajo actual"></credix-select>
+    </div>
+
+    <!-- Pensionado -->
+    <div *ngSwitchCase="3" [formGroup]="pensionerIncomeFormGroup">
+      <credix-input-field formControlName="netIncome" label="Salario Neto" mask="separator.2" thousandSeparator="." decimalMarker=","></credix-input-field>
+    </div>
+  </ng-container>
+
+  <ng-template #imageUploader>
+    <credix-image-upload (imageChanged)="imageUploaded($event)" [label]="'Adjuntar evidencia de ingresos'"></credix-image-upload>
+    <div class="documents-uploaded-list">
+      <span *ngFor="let document of incomeDocumentsUploaded">{{ document.name }} <button mat-icon-button> <mat-icon>close</mat-icon> </button> </span>
+    </div>
+  </ng-template>
 
 </form>
