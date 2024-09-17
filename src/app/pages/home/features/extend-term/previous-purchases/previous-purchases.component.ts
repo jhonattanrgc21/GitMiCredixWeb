@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AllowedMovement } from 'src/app/shared/models/allowed-movement';
@@ -24,6 +24,12 @@ export class PreviousPurchasesComponent implements OnInit {
   columnFourTag: string;
   isEmpty: boolean = false;
   previousMovements: PreviousMovements[] = [];
+  message = "El plazo de su compra ha sido extendido correctamente.";
+  done = false;
+  title: string;
+  @ViewChild("disabledTemplate") disabledTemplate: TemplateRef<any>;
+  template: TemplateRef<any>;
+  private operationId = 2;
 
   constructor(
     private route: Router,
@@ -31,6 +37,7 @@ export class PreviousPurchasesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.checkCutDate();
     this.getAllowedMovements();
   }
 
@@ -44,11 +51,26 @@ export class PreviousPurchasesComponent implements OnInit {
     this.route.navigate(['/home/extend-term/previous-extend']);
   }
 
+  checkCutDate() {
+    this.extendTermService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (!productInfo.status) {
+        console.log(productInfo);
+        this.message = productInfo.descriptionOne;
+        this.title = productInfo.titleOne;
+        this.done = true;
+        this.template = this.disabledTemplate;
+      }
+    });
+  }
+
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements(1005)
       .subscribe(response => {
         if (response?.consumed && response?.consumed.length > 0) {
-          let previousMovements = [];
+          const previousMovements = [];
           response.consumed.forEach(movement => {
             previousMovements.push({
               pdqId: movement.pdqId,
