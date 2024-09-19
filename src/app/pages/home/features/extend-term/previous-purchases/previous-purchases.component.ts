@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from "@angular/core";
 import { Router } from "@angular/router";
 import { finalize, take } from "rxjs/operators";
 import { AllowedMovement } from "src/app/shared/models/allowed-movement";
@@ -46,6 +46,12 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   checkedListStates: boolean[] = [];
   endDate: Date;
   info: string;
+  message = "El plazo de su compra ha sido extendido correctamente.";
+  done = false;
+  title: string;
+  @ViewChild("disabledTemplate") disabledTemplate: TemplateRef<any>;
+  template: TemplateRef<any>;
+  private operationId = 2;
 
   private consumed = {
     consumed: [
@@ -116,6 +122,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
     type: "success",
     status: 200,
   };
+  
 
   constructor(
     private route: Router,
@@ -126,6 +133,7 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.checkCutDate();
     this.getAllowedMovements();
     this.cardId = this.storageService
       .getCurrentCards()
@@ -285,6 +293,36 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
       this.extendTermService.endDate = this.endDate;
       this.route.navigate(["/home/extend-term/previous-extend"]);
     }
+  }
+ 
+  checkCutDate() {
+    this.extendTermService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (!productInfo.status) {
+        console.log(productInfo);
+        this.message = productInfo.descriptionOne;
+        this.title = productInfo.titleOne;
+        this.done = true;
+        this.template = this.disabledTemplate;
+      }
+    });
+  }
+
+  checkCutDate() {
+    this.extendTermService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (!productInfo.status) {
+        console.log(productInfo);
+        this.message = productInfo.descriptionOne;
+        this.title = productInfo.titleOne;
+        this.done = true;
+        this.template = this.disabledTemplate;
+      }
+    });
   }
 
   getAllowedMovements() {

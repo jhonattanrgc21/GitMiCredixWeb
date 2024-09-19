@@ -73,6 +73,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy{
   quotaPromoMax = 0;
   today: Date;
   private counterPromo = 0;
+  private operationId = 1;
 
   @ViewChild("disabledTemplate") disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
@@ -119,10 +120,13 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy{
   }
 
   checkCutDate() {
-    this.extendTermService.checkCutDate().subscribe((response) => {
-      if (!response.status) {
-        this.message = response.descriptionOne;
-        this.title = response.titleOne;
+    this.extendTermService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (!productInfo.status) {
+        this.message = productInfo.descriptionOne;
+        this.title = productInfo.titleOne;
         this.done = true;
         this.template = this.disabledTemplate;
       }

@@ -47,6 +47,7 @@ export class AnticipatedCancellationComponent implements OnInit, OnDestroy {
   @ViewChild('doneCancellationTemplate') doneCancellationTemplate: TemplateRef<any>;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
+  private operationId = 5;
 
   constructor(private anticipatedCancellationService: AnticipatedCancellationService,
               private modalService: ModalService,
@@ -75,12 +76,13 @@ export class AnticipatedCancellationComponent implements OnInit, OnDestroy {
   }
 
   checkCutDate() {
-    this.anticipatedCancellationService.checkCutDate().subscribe(response => {
-      if (response.status) {
-        this.getOptionsToCancel();
-      } else {
-        this.message = response.descriptionOne;
-        this.title = response.titleOne;
+    this.anticipatedCancellationService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (!productInfo.status) {
+        this.message = productInfo.descriptionOne;
+        this.title = productInfo.titleOne;
         this.done = true;
         this.template = this.disabledTemplate;
       }

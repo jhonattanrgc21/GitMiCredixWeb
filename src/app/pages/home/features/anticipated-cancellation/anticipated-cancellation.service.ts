@@ -14,7 +14,9 @@ export class AnticipatedCancellationService {
   }
 
   checkCutDate() {
-    return this.httpService.post('canales', this.cutDateUri);
+    return this.httpService.post('canales', this.cutDateUri, {
+      deactivation: 1,
+    });
   }
 
   getPendingQuotas(): Observable<{
