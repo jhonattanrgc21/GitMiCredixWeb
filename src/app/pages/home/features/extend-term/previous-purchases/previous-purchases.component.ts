@@ -316,7 +316,6 @@ export class PreviousPurchasesComponent implements OnInit, OnDestroy {
         (deactivation) => deactivation.PSD_Id === this.operationId
       );
       if (!productInfo.status) {
-        console.log(productInfo);
         this.message = productInfo.descriptionOne;
         this.title = productInfo.titleOne;
         this.done = true;
