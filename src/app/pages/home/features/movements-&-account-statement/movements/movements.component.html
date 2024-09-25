@@ -37,8 +37,7 @@
     <ng-container matColumnDef="extend">
       <mat-header-cell *matHeaderCellDef credixHeaderCell></mat-header-cell>
       <mat-cell *matCellDef="let element" credixCell>
-        <credix-link-button (click)="onSubmenuChanged()"
-                            [routerLink]="['/home/extend-term/recent', element.movementId]"
+        <credix-link-button (click)="onSubmenuChanged(element.movementId)"
                             *ngIf="element.quantifiableMovement">
           {{linkTag || 'Ampliar plazo'}}
         </credix-link-button>
@@ -51,3 +50,23 @@
 
   <credix-paginator (pageChange)="p = $event" [autoHide]="true" [maxSize]="8"></credix-paginator>
 </div>
+
+<ng-template #modalTemplate>
+    <div class="movements-modal">
+      <svg height="100" viewBox="0 0 100 100" width="100"
+           class="movements-modal__icon" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <style>.movements-modal-exclamation-red {
+            fill: #ff4965;
+          }</style>
+        </defs>
+        <path class="movements-modal-exclamation-red"
+              d="M45,35H55V25H45m5,65A40,40,0,1,1,90,50,40.046,40.046,0,0,1,50,90ZM50,0a50,50,0,1,0,50,50A50,50,0,0,0,50,0ZM45,75H55V45H45Z"
+              transform="translate(100 100) rotate(180)"/>
+      </svg>
+
+      <h2 class="movements-modal__title">{{title}}</h2>
+
+      <span class="movements-modal__message">{{message}}</span>
+    </div>
+</ng-template>
