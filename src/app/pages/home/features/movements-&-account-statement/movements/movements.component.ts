@@ -60,7 +60,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
         (deactivation) => deactivation.PSD_Id === this.operationId
       );
       if (productInfo.status) {
-        this.router.navigate(['/home/extend-term/recent', movementId]);
+        this.router.navigate(['/home/extend-term/recent-extend', movementId]);
         this.navigationService.submenuChanged('extend-term');
       } else {
         this.title = productInfo.titleOne;
