@@ -33,7 +33,7 @@ export class ModalService {
     return {
       width: `${width}px`,
       minHeight: `${minHeight}px`,
-      height: `${height}px`,
+      height: height ? 'auto' : `${height}px`,
       disableClose,
       panelClass: [
         panelClass,

@@ -9,6 +9,7 @@ import {Movement} from '../../../../../shared/models/movement';
 export class MovementsService {
   private getMovementsUri = 'account/movements';
   private getMovementDetailsUri = 'account/movementdetails';
+  private readonly cutDateUri = 'channels/cutdate';
   private dataSourceSub: Subject<Movement[]> = new Subject();
   dataSourceObs = this.dataSourceSub.asObservable();
 
@@ -44,6 +45,12 @@ export class MovementsService {
     }).pipe( map((response) => {
       return response.json;
     }));
+  }
+
+  checkCutDate() {
+    return this.httpService.post("canales", this.cutDateUri, {
+      deactivation: 1,
+    });
   }
 
   unsubscribe() {

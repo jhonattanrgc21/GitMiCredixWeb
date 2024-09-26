@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MovementsService } from "./movements.service";
 import { Movement } from "../../../../../shared/models/movement";
 import { TagsService } from "../../../../../core/services/tags.service";
@@ -29,13 +29,17 @@ export class MovementsComponent implements OnInit, OnDestroy {
   columnTwoTag: string;
   columnThreeTag: string;
   columnFourTag: string;
+  private operationId = 1;
+  message = '';
+  title = '';
+  @ViewChild('modalTemplate') modalTemplate: TemplateRef<any>;
 
-  constructor(
-    private movementsService: MovementsService,
-    private modalService: ModalService,
-    private tagsService: TagsService,
-    private router: Router
-  ) {}
+  constructor(private router: Router,
+              private movementsService: MovementsService,
+              private navigationService: NavigationService,
+              private tagsService: TagsService,
+              private modalService: ModalService) {
+  }
 
   ngOnInit(): void {
     this.movementsService.dataSourceObs.subscribe(
@@ -50,8 +54,22 @@ export class MovementsComponent implements OnInit, OnDestroy {
       );
   }
 
-  extendTerm(movementId: string) {
-    this.router.navigate(["/home/extend-term/recent-extend/" + movementId]);
+  onSubmenuChanged(movementId: number) {
+    this.movementsService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (productInfo.status) {
+        this.router.navigate(['/home/extend-term/recent', movementId]);
+        this.navigationService.submenuChanged('extend-term');
+      } else {
+        this.title = productInfo.titleOne;
+        this.message = productInfo.descriptionOne;
+        this.modalService.open({
+          template: this.modalTemplate,
+        }, { width: 380, disableClose: false, panelClass: 'credix-popup-panel'});
+      }
+    });
   }
 
   getTags(tags: Tag[]) {
