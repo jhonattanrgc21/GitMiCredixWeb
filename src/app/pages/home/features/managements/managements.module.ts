@@ -23,6 +23,12 @@ import { CredixSelectModule } from 'src/app/shared/components/credix-select/cred
 import { CredixInputFieldModule } from 'src/app/shared/components/credix-input-field/credix-input-field.module';
 import { CredixNumericBlockModule } from 'src/app/shared/components/credix-numeric-block/credix-numeric-block.module';
 import { CredixDeliveryOptionsModule } from 'src/app/shared/components/credix-delivery-options/credix-delivery-options.module';
+import { ManagementsService } from './managements.service';
+import { HttpService } from 'src/app/core/services/http.service';
+import { CredixStepperModule } from 'src/app/shared/components/credix-stepper/credix-stepper.module';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
+import { CredixCardsListSelectionModule } from 'src/app/shared/components/credix-cards-list-selection/credix-cards-list-selection.module';
 
 const routes: Routes = [
   {
@@ -80,6 +86,10 @@ const routes: Routes = [
     MatIconModule,
     CredixResultNotificationModule,
     CredixRadioButtonModule,
+    CredixStepperModule,
+    CredixCheckboxButtonModule,
+    CredixCardsListSelectionModule,
+    CdkStepperModule,
     MatRadioModule,
     PhoneMaskModule
   ],
@@ -88,7 +98,9 @@ const routes: Routes = [
     GlobalApiService,
     ChannelsApiService,
     StorageService,
-    ModalService
+    ModalService,
+    ManagementsService,
+    HttpService
   ],
 })
 export class ManagementsModule {}

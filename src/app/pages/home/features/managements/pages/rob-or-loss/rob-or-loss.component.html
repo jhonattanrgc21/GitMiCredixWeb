@@ -1,1 +1,101 @@
-<p> robo o extravio works </p>
+<div class="rob-or-loss-container">
+  <h1 class="title">
+    Robo o extravío
+  </h1>
+
+  <credix-stepper *ngIf="!managementDone; else successNotification" class="stepper" #stepper>
+
+    <cdk-step [label]="'Razón'" [stepControl]="reasonFormGroup">
+      <form [formGroup]="reasonFormGroup" class="stepper-step reason-step">
+        <mat-radio-group class="radio-group" formControlName="replaceReason">
+          <h4>Razón del reemplazo</h4>
+          <credix-radio-button [label]="'Robo'" [value]="'robo'">
+          </credix-radio-button>
+          <credix-radio-button [label]="'Extravío'" [value]="'extravio'">
+          </credix-radio-button>
+        </mat-radio-group>
+        <mat-radio-group *ngIf="reasonFormGroup.controls['replaceReason'].value" class="radio-group" formControlName="documentsWereRob">
+          <h4>¿Le robaron sus documentos?</h4>
+          <credix-radio-button [label]="'Si'" [value]="true">
+          </credix-radio-button>
+          <credix-radio-button [label]="'No'" [value]="false">
+          </credix-radio-button>
+        </mat-radio-group>
+      </form>
+    </cdk-step>
+
+    <cdk-step *ngIf="!hideCardStep" [label]="'Tarjeta'" [stepControl]="selectedCardsControl">
+      <div class="stepper-step">
+        <credix-cards-list-selection (selectedCardsChanged)="selectedCardsChanged($event)"></credix-cards-list-selection>
+      </div>
+    </cdk-step>
+
+    <cdk-step [label]="'Lugar de retiro'" [stepControl]="deliveryOptionControl">
+      <div class="stepper-step">
+        <credix-delivery-options-component class="stepper-step"></credix-delivery-options-component>
+      </div>
+    </cdk-step>
+
+  </credix-stepper>
+  <ng-template #successNotification>
+    <div class="success-notification-container">
+      <credix-result-notification [status]="'success'" [title]="'¡Éxito!'"
+        [message]="'Procesamos satisfactoriamente su solicitud para renovar su tarjeta. Ya puede retirarla en cualquiera de nuestras sucursales.'">
+      </credix-result-notification>
+      <div class="result-details">
+        <div class="left">
+          <h4>Datos de la gestión</h4>
+        </div>
+        <div class="right">
+          <div class="row-detail">
+            <span>Reeimpresión</span>
+            <span>
+              <credix-numeric-block [prefix]="prefixDolares" [value]="12"></credix-numeric-block>
+            </span>
+          </div>
+          <div class="row-detail">
+            <span>IVA reeimpresión</span>
+            <span>
+              <credix-numeric-block [prefix]="prefixDolares" [value]="1.56"></credix-numeric-block>
+            </span>
+          </div>
+          <div class="row-detail">
+            <span>Tipo de envio</span>
+            <span> En sucursales </span>
+          </div>
+          <div class="row-detail">
+            <span>Envío</span>
+            <span>
+              <credix-numeric-block [prefix]="prefixDolares" [value]="0"></credix-numeric-block>
+            </span>
+          </div>
+          <div class="row-detail">
+            <span>IVA envío</span>
+            <span>
+              <credix-numeric-block [prefix]="prefixDolares" [value]="0"></credix-numeric-block>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="footer" *ngIf="!managementDone; else successFooter">
+    <credix-button *ngIf="stepperIndex > 0" (buttonClick)="back()" [type]="'secondary'">
+      Atrás
+    </credix-button>
+    <credix-button (buttonClick)="stepperIndex < 2 ? continue() : submit()" [disabled]="
+      stepperIndex === 0 ? reasonFormGroup.invalid :
+      stepperIndex === 1 ? selectedCardsControl.invalid :
+      stepperIndex === 2 ? deliveryOptionControl.invalid : true
+    ">
+      {{stepperIndex < 2 ? 'Continuar' : 'Bloquear y reemplazar' }} </credix-button>
+  </div>
+  <ng-template #successFooter>
+    <div class="footer">
+      <credix-button (buttonClick)="goToManagementsList()">
+        Listo
+      </credix-button>
+    </div>
+ </ng-template>
+</div>
