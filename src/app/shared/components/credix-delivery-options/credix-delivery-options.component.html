@@ -53,7 +53,7 @@
             <credix-link-button (click)="this.editNewAdress()"
               *ngIf="homeDeliveryOptionControl.value === 2">Editar</credix-link-button>
           </div>
-          <div *ngIf="homeDeliveryOptionControl.value === 2 && newAdressData as addressInfo" class="radio-button-content">
+          <div *ngIf="homeDeliveryOptionControl.value === 2 && newAdressData as addressInfo" class="radio-button-content new-address">
             <p>
               <strong>{{ addressInfo.name }}</strong> <br>
               <strong>{{ addressInfo.phoneNumber | phoneMask: false}}</strong> <br>

@@ -1,0 +1,123 @@
+$border-color: #E9E9E9;
+
+.rob-or-loss-container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .title{
+    padding: 16px;
+  }
+
+  .stepper{
+    padding: 0 16px;
+    flex: 1;
+    &-step{
+      padding-top: 18px;
+    }
+
+    .reason-step{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 124px;
+      gap: 32px;
+      .radio-group{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        > *:nth-child(1) {
+          width: 50%;
+        }
+        > *:nth-child(2) {
+          width: 25%;
+        }
+        > *:nth-child(3) {
+          width: 25%;
+        }
+      }
+    }
+    .cards-step{
+      display: flex;
+      justify-content: space-between;
+      padding: 32px 124px;
+      .cards-list{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        credix-checkbox-button ::ng-deep{
+          .mat-checkbox-layout{
+            align-items: start;
+          }
+          .mat-checkbox-inner-container{
+            margin-top: 6px;
+          }
+        }
+
+        .card-info{
+          display: flex;
+          gap: 16px;
+        }
+        .card-info-icon mat-icon{
+          width: 32px;
+          height: 32px;
+        }
+        .card-info-text{
+          padding-top: 4px;
+          .name{
+            font-weight: bold;
+          }
+          display: flex;
+          flex-direction: column;
+        }
+      }
+    }
+  }
+
+  .success-notification-container{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    credix-result-notification, .result-details{
+      display: block;
+      width: 477px;
+    }
+    .result-details{
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid $border-color;
+      display: flex;
+      justify-content: space-between;
+      .right{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .right .row-detail{
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        span:nth-child(2), credix-numeric-block ::ng-deep span{
+          font-weight: 700 !important;
+        }
+      }
+    }
+  }
+
+  .footer{
+    display: flex;
+    justify-content: end;
+    gap: 16px;
+    padding: 16px;
+    border-top: 1px solid #E9E9E9;
+
+  }
+
+  h4{
+    color: #3E3E3E;
+  }
+
+}

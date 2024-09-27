@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ManagementsService } from '../../managements.service';
 
 @Component({
   selector: 'my-managements-component',
@@ -60,9 +61,25 @@ export class MyManagementsPageComponent implements OnInit {
 
   managementToDisplay: any;
 
-  constructor() { }
+  constructor(private managementsService: ManagementsService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+    this.managementsService.getManagementList().subscribe((x) => {
+      console.log(x)
+    })
+    this.managementsService.getManagementStatusChange().subscribe((x) => {
+      console.log(x)
+    })
+    this.managementsService.getManagementTypeManagement().subscribe((x) => {
+      console.log(x)
+    })
+
+    this.managementsService.getManagementCosts().subscribe((x) => {
+      console.log(x)
+    })
+
+  }
 
   displayDetails(index: number) {
     this.managementToDisplay = this.managements[index]
