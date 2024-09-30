@@ -1,0 +1,39 @@
+<mat-card class="balances-card" credixCard fxLayout="column" fxLayoutAlign="flex-start center">
+    <h2 class="w-100">¡Su cuenta está en atraso!</h2>
+  <br>
+    <span>Nos preocupamos por su historial crediticio. Póngase al día cancelando por lo menos el pago mínimo.</span>
+
+    <credix-button (click)="OpenWhatsApp()" class="w-100 mt-16px">
+      <fa-icon [icon]="faWhatsapp" size="2x"></fa-icon> Soporte vía WhatsApp
+    </credix-button>
+    
+</mat-card>
+  
+ <br>   
+
+  <mat-card class="balances-card" credixCard fxLayout="column" fxLayoutAlign="flex-start center">
+    <h2 class="w-100">{{balancesTag.ibanAccountsTag}}</h2>
+  
+    <div class="w-100" fxLayout="column" fxLayoutGap="4px">
+      <div *ngIf="colonesIbanAccount" class="balances-card__iban-account-wrapper" fxLayout="row"
+           fxLayoutAlign="space-between">
+        <span>{{balancesTag.colonesTag}}</span>
+        <span>{{colonesIbanAccount.ibanAccountNumber}}</span>
+        <a (click)="copyIbanAccount(balancesTag.colonesIbanCopiedTag, 188)"
+           [cdkCopyToClipboard]="colonesIbanAccount.ibanAccountNumber">
+          <mat-icon [class.is-green]="isCopyingColonesIban" svgIcon="content-copy"></mat-icon>
+        </a>
+      </div>
+      <div *ngIf="dollarsIbanAccount" class="balances-card__iban-account-wrapper" fxLayout="row"
+           fxLayoutAlign="space-between">
+        <span>{{balancesTag.dollarsTag}}</span>
+        <span>{{dollarsIbanAccount.ibanAccountNumber}}</span>
+        <a (click)="copyIbanAccount(balancesTag.dollarsIbanCopiedTag, 840)"
+           [cdkCopyToClipboard]="dollarsIbanAccount.ibanAccountNumber">
+          <mat-icon [class.is-green]="isCopyingDollarsIban" svgIcon="content-copy"></mat-icon>
+        </a>
+      </div>
+    </div>
+  
+  </mat-card>
+  

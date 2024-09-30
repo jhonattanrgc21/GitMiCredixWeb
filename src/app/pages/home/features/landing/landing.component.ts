@@ -44,6 +44,8 @@ export class LandingComponent implements OnInit, OnDestroy {
   };
   cardId: number;
 
+  delinquentCustomersActive = false;
+
   constructor(private landingService: LandingService,
               private goHomeService: NavigationService,
               private channelsApiService: ChannelsApiService,
@@ -142,6 +144,11 @@ export class LandingComponent implements OnInit, OnDestroy {
       this.getHomeContent();
       this.getAccountsSummary();
     }
+  }
+
+  checkIfDelinquentCustomersActive(): boolean {
+
+    return false; // Ejemplo de valor predeterminado
   }
 
   ngOnDestroy(): void {

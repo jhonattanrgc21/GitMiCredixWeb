@@ -40,7 +40,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent],
   declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent, DelinquentCustomersComponent, LandingSkeletonLoaderComponent],
   imports: [
     CommonModule,
