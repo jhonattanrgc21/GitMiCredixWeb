@@ -26,6 +26,9 @@ import {CredixDividerModule} from '../../../../shared/directives/credix-divider/
 import {LandingService} from './landing.service';
 import {ModalService} from '../../../../core/services/modal.service';
 import {CastToNumberModule} from '../../../../shared/pipes/cast-to-number/cast-to-number.module';
+import { DelinquentCustomersComponent } from './delinquent-customers/delinquent-customers.component';
+import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const routes: Routes = [
   {
@@ -35,7 +38,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent],
+  declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent, DelinquentCustomersComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -56,7 +59,9 @@ const routes: Routes = [
     TablesDirectivesModule,
     DateFormatterModule,
     CredixDividerModule,
-    CastToNumberModule
+    CastToNumberModule,
+    CredixButtonModule,
+    FontAwesomeModule
   ],
   providers: [
     LandingService,

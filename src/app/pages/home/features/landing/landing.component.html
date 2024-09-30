@@ -1,11 +1,16 @@
 <div fxLayout="column" fxLayoutGap="16px">
 
   <div fxLayout="row" fxLayoutGap="16px">
-    <app-balances *ngIf="accountSummary && paymentDetails && movements"
-                  [balancesTag]="balancesTags"
-                  (cardChanged)="onCardChanged($event)"
-                  [accountSummary]="accountSummary">
+
+    <app-balances *ngIf="!delinquentCustomersActive && accountSummary && paymentDetails && movements"
+    [balancesTag]="balancesTags"
+    (cardChanged)="onCardChanged($event)"
+    [accountSummary]="accountSummary">
     </app-balances>
+
+    <app-delinquent-customers *ngIf="delinquentCustomersActive && accountSummary && paymentDetails && movements"
+                    [accountSummary]="accountSummary">
+    </app-delinquent-customers>
 
     <div fxLayout="column" fxLayoutGap="16px">
       <app-payment-details *ngIf="accountSummary && paymentDetails && movements"
