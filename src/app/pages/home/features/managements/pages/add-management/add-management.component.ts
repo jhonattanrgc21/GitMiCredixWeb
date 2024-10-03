@@ -22,7 +22,7 @@ export class AddManagementPageComponent implements OnInit {
     },
     {
       name: 'Trasladar Saldo',
-      route: ''
+      route: '/home/managements/transfer-amounts'
     },
     {
       name: 'Solicitar tarjeta adicional',

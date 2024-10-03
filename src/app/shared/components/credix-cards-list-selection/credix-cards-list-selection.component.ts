@@ -19,8 +19,8 @@ export class CredixCardsListSelectionComponent implements OnInit {
     this.cards = this.storageService.getCurrentCards()
   }
 
-  pushOrRemoveCard(event:{ checked: boolean, value: Card}){
-    if(event.checked){
+  pushOrRemoveCard(event: { checked: boolean, value: Card }) {
+    if (event.checked) {
       this.selectedCards.push(event.value)
     } else {
       this.selectedCards = this.selectedCards.filter(card => card.cardId !== event.value.cardId)

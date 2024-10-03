@@ -3,7 +3,36 @@
     Robo o extravío
   </h1>
 
-  <credix-stepper *ngIf="!managementDone; else successNotification" class="stepper" #stepper>
+  <div class="cost-info-container" *ngIf="!showStepper">
+    <div class="first-line">
+      <h4>Bloqueo y reemplazo</h4>
+      <p>
+        ¿Su tarjeta fue robada o extraviada? Bloquéela y solicite un reemplazo inmediatamente para seguir disfrutando de
+        sus beneficios.
+      </p>
+    </div>
+    <div class="second-line">
+      <h4>
+        Costo
+      </h4>
+      <div class="costs">
+        <div class="cost-line">
+          <span>Reimpresión por tarjeta</span>
+          <span><credix-numeric-block [prefix]="prefixDolares" [value]="managementCosts ? managementCosts.managementCost : 0"></credix-numeric-block></span>
+        </div>
+        <div class="cost-line">
+          <span>IVA</span>
+          <span><credix-numeric-block [prefix]="prefixDolares" [value]="managementCosts ? managementCosts.managementIva : 0"></credix-numeric-block></span>
+        </div>
+        <div class="cost-line">
+          <span>Si tiene consumos no reconocidos, llame al</span>
+          <credix-link-button [route]="'tel:+50622273349'">2227-3349</credix-link-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <credix-stepper *ngIf="!managementDone && showStepper" class="stepper" #stepper>
 
     <cdk-step [label]="'Razón'" [stepControl]="reasonFormGroup">
       <form [formGroup]="reasonFormGroup" class="stepper-step reason-step">
@@ -14,7 +43,8 @@
           <credix-radio-button [label]="'Extravío'" [value]="'extravio'">
           </credix-radio-button>
         </mat-radio-group>
-        <mat-radio-group *ngIf="reasonFormGroup.controls['replaceReason'].value" class="radio-group" formControlName="documentsWereRob">
+        <mat-radio-group *ngIf="reasonFormGroup.controls['replaceReason'].value" class="radio-group"
+          formControlName="documentsWereRob">
           <h4>¿Le robaron sus documentos?</h4>
           <credix-radio-button [label]="'Si'" [value]="true">
           </credix-radio-button>
@@ -26,7 +56,8 @@
 
     <cdk-step *ngIf="!hideCardStep" [label]="'Tarjeta'" [stepControl]="selectedCardsControl">
       <div class="stepper-step">
-        <credix-cards-list-selection (selectedCardsChanged)="selectedCardsChanged($event)"></credix-cards-list-selection>
+        <credix-cards-list-selection
+          (selectedCardsChanged)="selectedCardsChanged($event)"></credix-cards-list-selection>
       </div>
     </cdk-step>
 
@@ -37,59 +68,60 @@
     </cdk-step>
 
   </credix-stepper>
-  <ng-template #successNotification>
-    <div class="success-notification-container">
-      <credix-result-notification [status]="'success'" [title]="'¡Éxito!'"
-        [message]="'Procesamos satisfactoriamente su solicitud para renovar su tarjeta. Ya puede retirarla en cualquiera de nuestras sucursales.'">
-      </credix-result-notification>
-      <div class="result-details">
-        <div class="left">
-          <h4>Datos de la gestión</h4>
+  <div *ngIf="managementDone && showStepper" class="success-notification-container">
+    <credix-result-notification [status]="'success'" [title]="'¡Éxito!'"
+      [message]="'Procesamos satisfactoriamente su solicitud para renovar su tarjeta. Ya puede retirarla en cualquiera de nuestras sucursales.'">
+    </credix-result-notification>
+    <div class="result-details">
+      <div class="left">
+        <h4>Datos de la gestión</h4>
+      </div>
+      <div class="right">
+        <div class="row-detail">
+          <span>Reeimpresión</span>
+          <span>
+            <credix-numeric-block [prefix]="prefixDolares" [value]="12"></credix-numeric-block>
+          </span>
         </div>
-        <div class="right">
-          <div class="row-detail">
-            <span>Reeimpresión</span>
-            <span>
-              <credix-numeric-block [prefix]="prefixDolares" [value]="12"></credix-numeric-block>
-            </span>
-          </div>
-          <div class="row-detail">
-            <span>IVA reeimpresión</span>
-            <span>
-              <credix-numeric-block [prefix]="prefixDolares" [value]="1.56"></credix-numeric-block>
-            </span>
-          </div>
-          <div class="row-detail">
-            <span>Tipo de envio</span>
-            <span> En sucursales </span>
-          </div>
-          <div class="row-detail">
-            <span>Envío</span>
-            <span>
-              <credix-numeric-block [prefix]="prefixDolares" [value]="0"></credix-numeric-block>
-            </span>
-          </div>
-          <div class="row-detail">
-            <span>IVA envío</span>
-            <span>
-              <credix-numeric-block [prefix]="prefixDolares" [value]="0"></credix-numeric-block>
-            </span>
-          </div>
+        <div class="row-detail">
+          <span>IVA reeimpresión</span>
+          <span>
+            <credix-numeric-block [prefix]="prefixDolares" [value]="1.56"></credix-numeric-block>
+          </span>
+        </div>
+        <div class="row-detail">
+          <span>Tipo de envio</span>
+          <span> En sucursales </span>
+        </div>
+        <div class="row-detail">
+          <span>Envío</span>
+          <span>
+            <credix-numeric-block [prefix]="prefixDolares" [value]="0"></credix-numeric-block>
+          </span>
+        </div>
+        <div class="row-detail">
+          <span>IVA envío</span>
+          <span>
+            <credix-numeric-block [prefix]="prefixDolares" [value]="0"></credix-numeric-block>
+          </span>
         </div>
       </div>
     </div>
-  </ng-template>
+  </div>
 
   <div class="footer" *ngIf="!managementDone; else successFooter">
     <credix-button *ngIf="stepperIndex > 0" (buttonClick)="back()" [type]="'secondary'">
       Atrás
     </credix-button>
-    <credix-button (buttonClick)="stepperIndex < 2 ? continue() : submit()" [disabled]="
+    <credix-button *ngIf="!showStepper" (buttonClick)="showStepperFunc()">
+      Bloquear y reemplazar
+    </credix-button>
+    <credix-button *ngIf="showStepper" (buttonClick)="stepperIndex < (!!hideCardStep ? 1 : 2) ? continue() : submit()" [disabled]="
       stepperIndex === 0 ? reasonFormGroup.invalid :
-      stepperIndex === 1 ? selectedCardsControl.invalid :
+      stepperIndex === 1 ? (!!hideCardStep ? deliveryOptionControl.invalid : selectedCardsControl.invalid) :
       stepperIndex === 2 ? deliveryOptionControl.invalid : true
     ">
-      {{stepperIndex < 2 ? 'Continuar' : 'Bloquear y reemplazar' }} </credix-button>
+      {{stepperIndex < (!!hideCardStep ? 1 : 2) ? 'Continuar' : 'Bloquear y reemplazar' }} </credix-button>
   </div>
   <ng-template #successFooter>
     <div class="footer">
@@ -97,5 +129,5 @@
         Listo
       </credix-button>
     </div>
- </ng-template>
+  </ng-template>
 </div>
