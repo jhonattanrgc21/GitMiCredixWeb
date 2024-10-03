@@ -10,7 +10,7 @@ import { DeliveryPlace } from '../../models/delivery-place';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { GlobalApiService } from 'src/app/core/services/global-api.service';
 import { combineLatest, Observable } from 'rxjs';
-import { DeliveryInfo, DeliveryOptionsData } from './interfaces/delivery-options.interface';
+import { AddressInfo, DeliveryInfo, DeliveryOptionsData } from './interfaces/delivery-options.interface';
 
  @Component({
   selector: 'credix-delivery-options-component',
@@ -160,11 +160,7 @@ export class CredixDeliveryOptionsComponent implements OnInit, AfterViewInit {
       case 2:
         const homeDeliveryOption = this.homeDeliveryOptionControl.value
 
-        let addressInfo: {
-          phone: number;
-          name: string;
-          address: string;
-        } = {phone: 0, name: '', address: ''}
+        let addressInfo: AddressInfo = {phone: 0, name: '', address: ''}
 
         switch(homeDeliveryOption){
           //Existing Address
@@ -174,17 +170,21 @@ export class CredixDeliveryOptionsComponent implements OnInit, AfterViewInit {
             addressInfo.name = this.applicantName
             addressInfo.phone = this.applicantAdressInfo.phone
             addressInfo.address = `${applicantAddress.detail}, ${applicantAddress.district}, ${applicantAddress.canton}, ${applicantAddress.province}`
+            addressInfo.addressId = applicantAddress.tadId
           break;
           //New Address
           case 2:
-            let province = this.newAdressData.province.description
-            let canton = this.newAdressData.canton.description
-            let district = this.newAdressData.district.description
+            let province = this.newAdressData.province
+            let canton = this.newAdressData.canton
+            let district = this.newAdressData.district
             let detail = this.newAdressData.detail
 
             addressInfo.name = this.newAdressData.name
             addressInfo.phone = this.newAdressData.phoneNumber
-            addressInfo.address = `${detail}, ${district}, ${canton}, ${province}`
+            addressInfo.address = `${province.description}, ${canton.description}, ${district.description}, ${detail}`
+            addressInfo.province = province.id
+            addressInfo.canton = canton.id
+            addressInfo.district = district.id
           break;
         }
 

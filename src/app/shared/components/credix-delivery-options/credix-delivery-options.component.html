@@ -17,7 +17,7 @@
             <ng-template #displayPlacesSelect>
               <credix-select [label]="'Seleccione la más cercana'" [required]="true" *ngIf="!!deliveryPlaces"
                 [formControl]="deliveryPlaceSelectionControl">
-                <mat-option [value]="place.description" *ngFor="let place of deliveryPlaces">
+                <mat-option [value]="place" *ngFor="let place of deliveryPlaces">
                   {{ place.displayName }}
                 </mat-option>
               </credix-select>

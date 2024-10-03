@@ -8,11 +8,17 @@ export interface PlaceDeliveryOptionData {
 export interface HomeDeliveryOptionData {
   type: 2;
   homeDeliveryOption: 1 | 2,
-  addressInfo: {
-    phone: number;
-    name: string;
-    address: string
-  }
+  addressInfo: AddressInfo
+}
+
+export interface AddressInfo{
+  phone: number;
+  name: string;
+  address: string;
+  addressId?: number;
+  province?: number;
+  canton?: number;
+  district?: number
 }
 
 export interface DeliveryOptionsData {

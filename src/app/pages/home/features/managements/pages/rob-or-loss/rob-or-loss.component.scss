@@ -9,6 +9,43 @@ $border-color: #E9E9E9;
     padding: 16px;
   }
 
+  .cost-info-container{
+    padding: 32px 153px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    .first-line, .second-line{
+      display: flex;
+      gap: 68px;
+      * {
+        flex-shrink: unset;
+      }
+      h4{
+        flex-shrink: 0;
+        width: 152px;
+      }
+    }
+    .second-line .costs{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      .cost-line:nth-child(3){
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+      }
+      .cost-line:nth-child(1), .cost-line:nth-child(2){
+        display: flex;
+        justify-content: space-between;
+        credix-numeric-block ::ng-deep span{
+          font-weight: 700 !important;
+        }
+      }
+    }
+  }
+
   .stepper{
     padding: 0 16px;
     flex: 1;
@@ -109,7 +146,7 @@ $border-color: #E9E9E9;
 
   .footer{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 16px;
     padding: 16px;
     border-top: 1px solid #E9E9E9;

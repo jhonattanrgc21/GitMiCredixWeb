@@ -29,6 +29,8 @@ import { CredixStepperModule } from 'src/app/shared/components/credix-stepper/cr
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CredixCheckboxButtonModule } from 'src/app/shared/components/credix-checkbox-button/credix-checkbox-button.module';
 import { CredixCardsListSelectionModule } from 'src/app/shared/components/credix-cards-list-selection/credix-cards-list-selection.module';
+import { CardService } from 'src/app/core/services/card.service';
+import { PhoneMaskPipe } from 'src/app/shared/pipes/phone-mask/phone-mask.pipe';
 
 const routes: Routes = [
   {
@@ -95,12 +97,14 @@ const routes: Routes = [
   ],
   exports: [],
   providers: [
+    CardService,
     GlobalApiService,
     ChannelsApiService,
     StorageService,
     ModalService,
     ManagementsService,
-    HttpService
+    HttpService,
+    PhoneMaskPipe
   ],
 })
 export class ManagementsModule {}
