@@ -63,6 +63,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   quotaPromoMin = 0;
   quotaPromoMax = 0;
   private counterPromo = 0;
+  private operationId = 1;
 
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
   template: TemplateRef<any>;
@@ -88,10 +89,13 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
   }
 
   checkCutDate() {
-    this.extendTermService.checkCutDate().subscribe(response => {
-      if (!response.status) {
-        this.message = response.descriptionOne;
-        this.title = response.titleOne;
+    this.extendTermService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (!productInfo.status) {
+        this.message = productInfo.descriptionOne;
+        this.title = productInfo.titleOne;
         this.done = true;
         this.template = this.disabledTemplate;
       }
@@ -169,7 +173,7 @@ export class RecentPurchasesComponent implements OnInit, OnDestroy {
       else{
         this.commissionMonthly = '';
       }
-      this.percentageCommission = String(this.convertAmountValue(this.quotaSelected?.commissionPercentage)); 
+      this.percentageCommission = String(this.convertAmountValue(this.quotaSelected?.commissionPercentage));
       this.percentageCommission = this.percentageCommission.replace('.', ',');
     }
 

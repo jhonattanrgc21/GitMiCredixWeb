@@ -8,7 +8,7 @@ import { StorageService } from './storage.service';
 export class ExtendTermTotalOwedApiService {
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
   private readonly saveExtendTotalDebitUri = 'account/saveextendtotaldebit';
-  private readonly cutDateUri = 'channels/cutdateextermterm';
+  private readonly cutDateUri = 'channels/cutdate';
 
   // public result: {title: string, message: string, status: string} = null;
 
@@ -31,9 +31,11 @@ export class ExtendTermTotalOwedApiService {
   ) { }
 
   checkCutDate() {
-    return this.httpService.post('canales', this.cutDateUri);
+    return this.httpService.post('canales', this.cutDateUri, {
+      deactivation: 1,
+    });
   }
-  
+
   // getQuotasPreviousMovement(transaction: number[], productId: number): Observable<{purchaseAmount: string, minimumPayment: string, listQuota: any}> {
   //   return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
   //     productId,
@@ -50,7 +52,7 @@ export class ExtendTermTotalOwedApiService {
   //     })
   //   );
   // }
-  
+
   getQuotasPreviousMovement(transaction: number[], productId: number): Observable<any> {
     return this.httpService.post('canales', this.quotasPreviousMovementsUri, {
       productId,

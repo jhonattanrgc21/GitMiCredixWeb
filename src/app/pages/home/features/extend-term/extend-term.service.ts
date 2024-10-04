@@ -41,7 +41,7 @@ export class ExtendTermService {
   private readonly getAllowedMovementsUri = 'channels/allowedmovements';
   private readonly calculateQuotaUri = 'channels/quotacalculator';
   private readonly saveNewQuotaUri = 'channels/savequotification';
-  private readonly cutDateUri = 'channels/cutdateextermterm';
+  private readonly cutDateUri = 'channels/cutdate';
   private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
   private readonly saveNewQuotaPreviousMovementsUri = 'account/savepreviousconsumptions';
 
@@ -110,8 +110,11 @@ export class ExtendTermService {
     this.$hideButtonPromoFilter.next(hide);
   }
 
+
   checkCutDate() {
-    return this.httpService.post('canales', this.cutDateUri);
+    return this.httpService.post("canales", this.cutDateUri, {
+      deactivation: 1,
+    });
   }
 
   getAllowedMovements(productId: number): Observable<any> {
@@ -193,6 +196,7 @@ export class ExtendTermService {
       movementId,
       statusId: 1,
       userIdCreate: this.storageService.getCurrentUser().userId,
+      deactivation: 1,
     });
   }
 

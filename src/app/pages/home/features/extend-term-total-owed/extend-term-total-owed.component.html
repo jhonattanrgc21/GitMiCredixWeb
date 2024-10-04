@@ -4,7 +4,7 @@
 
     <mat-divider credixDivider></mat-divider>
 
-    <div *ngIf="!isEmpty" class="extend-term__content" fxLayout="column" fxLayoutGap="10px" fxFlex>
+    <div *ngIf="!isEmpty && !done" class="extend-term__content" fxLayout="column" fxLayoutGap="10px" fxFlex>
       <div fxLayout="column" fxLayoutAlign="" fxLayoutGap="8px">
         <div [ngClass]="['extend-term__content__pending', hasMinimumPayment  ? '' : 'mb-13']" fxLayout="row" fxLayoutAlign="space-between" >
           <div fxFlex="350px">
@@ -76,11 +76,11 @@
     </div>
 
     <credix-result-notification
-      *ngIf="isEmpty"
+      *ngIf="done"
       class="extend-term__empty"
       status="error"
-      title="Oops..."
-      message="Este producto queda inhabilitado 3 días antes de su fecha de corte. Favor regrese después de su fecha de corte.">
+      title="{{ title }}"
+      message="{{ message }}">
     </credix-result-notification>
 
     <div class="extend-term__footer" fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="16px">
