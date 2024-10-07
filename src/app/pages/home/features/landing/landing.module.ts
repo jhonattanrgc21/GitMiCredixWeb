@@ -29,6 +29,8 @@ import {CastToNumberModule} from '../../../../shared/pipes/cast-to-number/cast-t
 import { DelinquentCustomersComponent } from './delinquent-customers/delinquent-customers.component';
 import {CredixButtonModule} from '../../../../shared/components/credix-button/credix-button.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LandingSkeletonLoaderComponent } from './landing-skeleton-loader/landing-skeleton-loader.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 const routes: Routes = [
   {
@@ -38,7 +40,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent, DelinquentCustomersComponent],
+  declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent, DelinquentCustomersComponent, LandingSkeletonLoaderComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -61,7 +63,8 @@ const routes: Routes = [
     CredixDividerModule,
     CastToNumberModule,
     CredixButtonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxSkeletonLoaderModule
   ],
   providers: [
     LandingService,

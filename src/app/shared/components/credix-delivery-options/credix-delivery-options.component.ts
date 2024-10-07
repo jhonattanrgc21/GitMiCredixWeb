@@ -170,7 +170,7 @@ export class CredixDeliveryOptionsComponent implements OnInit, AfterViewInit {
             addressInfo.name = this.applicantName
             addressInfo.phone = this.applicantAdressInfo.phone
             addressInfo.address = `${applicantAddress.detail}, ${applicantAddress.district}, ${applicantAddress.canton}, ${applicantAddress.province}`
-            addressInfo.addressId = applicantAddress.tadId
+            addressInfo.addressId = applicantAddress.addressId
           break;
           //New Address
           case 2:

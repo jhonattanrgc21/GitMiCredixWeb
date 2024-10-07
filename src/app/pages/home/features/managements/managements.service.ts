@@ -20,7 +20,7 @@ export class ManagementsService {
 
   constructor(private httpService: HttpService, private storageService: StorageService, private phoneMaskPipe: PhoneMaskPipe, private cardService: CardService) {}
 
-  getManagementList(page: number = 0) {
+  getManagementList(page: number = 1) {
     return this.httpService.post('canales', this.userManagementAll, {
       accountNumber: this.storageService.getCurrentUser().accountNumber,
       page

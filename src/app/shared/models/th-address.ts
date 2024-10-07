@@ -1,4 +1,5 @@
 export interface ThAddress {
+  addressId: number,
   tadId: number;
   country: string;
   province: string;

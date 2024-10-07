@@ -1,0 +1,182 @@
+<div class="landing-skeleton-loader-container" *ngIf="mainColor">
+
+  <div class="main-loaders">
+
+    <div class="left-column-loaders account-summary-loaders"
+      style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+      <ngx-skeleton-loader style="align-self: self-start; width: 25%;" [count]="1"
+        [theme]="{ height: '20px', display: 'block', 'background-color': mainColor, 'border-radius': '0'}"></ngx-skeleton-loader>
+
+      <ngx-skeleton-loader [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0'}" [count]="1"
+        style="width: 70%;"></ngx-skeleton-loader>
+
+      <div class="circle-loader">
+        <ngx-skeleton-loader [theme]="{ width: '150px', height: '150px', margin: 0, 'background-color': mainColor}"
+          appearance="circle">
+        </ngx-skeleton-loader>
+        <div class="content" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+          <ngx-skeleton-loader style="width: 60%;" [theme]="{height: '14px', margin: 0, 'background-color': mainColor, 'border-radius': '0'}" [count]="1"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="width: 80%;" [theme]="{height: '20px', margin: 0, 'background-color': mainColor, 'border-radius': '0'}" [count]="1"></ngx-skeleton-loader>
+        </div>
+      </div>
+
+      <div style="width: 100%;">
+        <div style="display: flex; justify-content: space-between;">
+          <ngx-skeleton-loader
+            [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}" [count]="1"
+            style="width: 33%;"></ngx-skeleton-loader>
+          <ngx-skeleton-loader
+            [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}" [count]="1"
+            style="width: 33%;"></ngx-skeleton-loader>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <ngx-skeleton-loader [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0'}" [count]="1"
+            style="width: 33%;"></ngx-skeleton-loader>
+          <ngx-skeleton-loader [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0'}" [count]="1"
+            style="width: 33%;"></ngx-skeleton-loader>
+        </div>
+        <div style="display: flex; justify-content: end; margin-top: 10px;">
+          <ngx-skeleton-loader
+            [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}" [count]="1"
+            style="width: 33%;"></ngx-skeleton-loader>
+        </div>
+      </div>
+
+      <ngx-skeleton-loader [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}"
+        style="width: 80%; align-self: self-start;" [count]="1"></ngx-skeleton-loader>
+
+      <div style="width: 100%; display: flex; gap: 24px; border-top: 1px solid #E9E9E9; padding-top: 12px;">
+        <div style="width: 25%;">
+          <ngx-skeleton-loader
+            [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}"
+            [count]="1"></ngx-skeleton-loader>
+          <ngx-skeleton-loader
+            [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}"
+            [count]="1"></ngx-skeleton-loader>
+          <ngx-skeleton-loader
+            [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}"
+            [count]="1"></ngx-skeleton-loader>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column-reverse;">
+          <ngx-skeleton-loader
+            [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}"
+            [count]="1"></ngx-skeleton-loader>
+          <ngx-skeleton-loader
+            [theme]="{margin: 0, 'background-color': mainColor, 'border-radius': '0', 'height': '15px'}"
+            [count]="1"></ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-column-loaders">
+      <div style="display: flex; flex-direction: column; justify-content: space-between;"
+        class="payment-details-loaders">
+
+        <ngx-skeleton-loader style="display: block; align-self: self-start; width: 33%;" [count]="1"
+          [theme]="{ height: '20px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+
+        <ngx-skeleton-loader style="display: block" [count]="1"
+          [theme]="{ height: '8px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+
+        <div style="display: flex; justify-content: space-between;">
+          <ngx-skeleton-loader style="display: block; width: 20%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="display: block; width: 20%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid; border-color: #E9E9E9;">
+          <ngx-skeleton-loader style="display: block; width: 20%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="display: block; width: 20%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+        </div>
+
+        <div style="display: flex; align-items: flex-end; gap: 24px; padding-top: 13px;">
+          <div style="flex: 1; margin-bottom: 2px;">
+            <ngx-skeleton-loader [count]="1"
+              [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          </div>
+          <div style="width: 28%;">
+            <ngx-skeleton-loader style="display: flex; justify-content: flex-end; margin-bottom: 10px;" [count]="1"
+              [theme]="{ height: '14px', 'align-self': 'flex-end' , width: '45%', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+            <ngx-skeleton-loader [count]="1"
+              [theme]="{ height: '20px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          </div>
+          <div style="width: 28%;">
+            <ngx-skeleton-loader style="display: flex; justify-content: flex-end; margin-bottom: 10px;" [count]="1"
+              [theme]="{ height: '14px', width: '45%', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+            <ngx-skeleton-loader [count]="1"
+              [theme]="{ height: '20px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 24px;">
+          <ngx-skeleton-loader style="flex: 1;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="display: flex; justify-content: flex-end; width: 28%;" [count]="1"
+            [theme]="{ height: '20px', width: '70%', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="display: flex; justify-content: flex-end; width: 28%;" [count]="1"
+            [theme]="{ height: '20px', width: '70%', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+        </div>
+
+        <ngx-skeleton-loader style="display: block; margin-top: 12px;" [count]="1"
+          [theme]="{ height: '14px', width: 'calc( 44% + 28% - 24px)', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+
+      </div>
+      <div class="movements-loaders" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <ngx-skeleton-loader style="display: block; margin-bottom: 16px;" [count]="1"
+          [theme]="{ height: '20px', width: '40%', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+        <div style="display: flex; gap: 28px;">
+          <ngx-skeleton-loader style="width: 16%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="flex: 1;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="width: 20%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+        </div>
+        <div style="display: flex; gap: 28px;">
+          <ngx-skeleton-loader style="width: 16%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="flex: 1;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="width: 20%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+        </div>
+        <div style="display: flex; gap: 28px;">
+          <ngx-skeleton-loader style="width: 16%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="flex: 1;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="width: 20%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+        </div>
+        <div style="display: flex; gap: 28px;">
+          <ngx-skeleton-loader style="width: 16%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="flex: 1;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+          <ngx-skeleton-loader style="width: 20%;" [count]="1"
+            [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+        </div>
+        <ngx-skeleton-loader style="display: flex; justify-content: flex-end; margin-top: 16px;" [count]="1"
+            [theme]="{ height: '14px', width: '20%', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="awards-loaders" style="display: flex;">
+    <ngx-skeleton-loader style="width: 60%; display: flex;" [count]="1"
+          [theme]="{ height: '101%', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+    <div style="display: flex; justify-content: center; flex-direction: column; flex: 1; padding: 16px;">
+      <ngx-skeleton-loader style="width: 50%;" [count]="1"
+          [theme]="{ height: '20px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+      <ngx-skeleton-loader style="width: 70%;" [count]="1"
+          [theme]="{ height: '14px', 'background-color': mainColor, 'border-radius': '0', margin: '0'}"></ngx-skeleton-loader>
+    </div>
+    <div style="align-self: center;">
+      <mat-icon svgIcon="chevron_right" style="height: 14px; color: #E9E9E9;"></mat-icon>
+    </div>
+  </div>
+
+</div>
