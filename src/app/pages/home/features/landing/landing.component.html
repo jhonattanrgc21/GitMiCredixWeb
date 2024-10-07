@@ -1,18 +1,23 @@
-<div fxLayout="column" fxLayoutGap="16px">
+<div fxLayout="column" fxLayoutGap="16px" *ngIf="accountSummary && paymentDetails && movements; else landingSkeletonLoader">
 
   <div fxLayout="row" fxLayoutGap="16px">
-    <app-balances *ngIf="accountSummary && paymentDetails && movements"
-                  [balancesTag]="balancesTags"
-                  (cardChanged)="onCardChanged($event)"
-                  [accountSummary]="accountSummary">
+
+    <app-balances *ngIf="!delinquentCustomersActive"
+    [balancesTag]="balancesTags"
+    (cardChanged)="onCardChanged($event)"
+    [accountSummary]="accountSummary">
     </app-balances>
 
+    <app-delinquent-customers *ngIf="delinquentCustomersActive"
+                    [accountSummary]="accountSummary">
+    </app-delinquent-customers>
+
     <div fxLayout="column" fxLayoutGap="16px">
-      <app-payment-details *ngIf="accountSummary && paymentDetails && movements"
+      <app-payment-details
                            [paymentDetailsTags]="paymentDetailsTags"
                            [paymentDetails]="paymentDetails">
       </app-payment-details>
-      <app-movements *ngIf="accountSummary && paymentDetails && movements"
+      <app-movements
                      [movementsTags]="movementsTags"
                      [movements]="movements">
       </app-movements>
@@ -20,6 +25,10 @@
 
   </div>
 
-  <app-awards *ngIf="accountSummary && paymentDetails && movements && awards.length > 0" [awards]="awards"></app-awards>
+  <app-awards *ngIf="awards.length > 0" [awards]="awards"></app-awards>
 
 </div>
+
+<ng-template #landingSkeletonLoader>
+  <landing-skeleton-loader></landing-skeleton-loader>
+</ng-template>
