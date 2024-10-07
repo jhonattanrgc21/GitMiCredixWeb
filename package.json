@@ -37,6 +37,7 @@
     "ngx-mask": "^9.1.2",
     "ngx-pagination": "^5.0.0",
     "ngx-sharebuttons": "^8.0.0",
+    "ngx-skeleton-loader": "^4.0.0",
     "ngx-spinner": "^10.0.1",
     "rxjs": "~6.5.4",
     "simplebar-angular": "^2.2.1",
