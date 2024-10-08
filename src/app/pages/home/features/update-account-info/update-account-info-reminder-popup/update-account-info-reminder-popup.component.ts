@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { UpdateAccountInfoPopUp } from '../update-account-info-popup/update-account-info-popup.component';
@@ -8,7 +8,7 @@ import { UpdateAccountInfoPopUp } from '../update-account-info-popup/update-acco
   templateUrl: './update-account-info-reminder-popup.component.html',
   styleUrls: ['./update-account-info-reminder-popup.component.scss']
 })
-export class UpdateAccountInfoReminderPopUp implements OnInit {
+export class UpdateAccountInfoReminderPopUp {
   omitModal: boolean
 
   constructor(
@@ -19,8 +19,6 @@ export class UpdateAccountInfoReminderPopUp implements OnInit {
     this.omitModal = this.dataModal.data.omitModal
   }
 
-  ngOnInit(): void { }
-
   updateAccount(){
     this.modalService.open({
       component: UpdateAccountInfoPopUp,
@@ -30,9 +28,6 @@ export class UpdateAccountInfoReminderPopUp implements OnInit {
   }
 
   skipUpdate(){
-
-    // TODO: Notificar al Backend que el usuario rechazo actualizar sus datos
-
     this.dialogRef.close()
   }
 }

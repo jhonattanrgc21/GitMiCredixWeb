@@ -11,7 +11,8 @@
     <!-- Asalariado -->
     <div *ngSwitchCase="1" [formGroup]="salariedIncomeFormGroup">
       <credix-input-field formControlName="employerName" label="Nombre del patrono"></credix-input-field>
-      <credix-input-field formControlName="netIncome" label="Salario Neto" mask="separator.2" thousandSeparator="." decimalMarker=","></credix-input-field>
+      <credix-input-field formControlName="netIncome" label="Salario Neto" mask="separator.2" thousandSeparator="."
+        decimalMarker=","></credix-input-field>
 
       <ng-container *ngTemplateOutlet="imageUploader"></ng-container>
 
@@ -20,8 +21,9 @@
           {{ profession.description }}
         </mat-option>
       </credix-select>
-      <credix-select formControlName="jobPosition" label="Puesto que desempeña"></credix-select>
-      <credix-select formControlName="laborYears" label="Tiempo en su trabajo actual"></credix-select>
+      <credix-input-field formControlName="jobPosition" label="Puesto que desempeña"></credix-input-field>
+      <credix-input-field mask="000" formControlName="laborYears"
+        label="Tiempo en su trabajo actual en meses"></credix-input-field>
     </div>
 
     <!-- Independiente -->
@@ -35,27 +37,70 @@
       <credix-select formControlName="incomeSource" label="Origen de los recursos"></credix-select>
       <credix-select formControlName="economicActivity" label="Actividad Económica"></credix-select>
 
-      <credix-select formControlName="provinceId" label="Provincia"></credix-select>
-      <credix-select formControlName="cantonId" label="Cantón"></credix-select>
-      <credix-select formControlName="districtId" label="Distrito"></credix-select>
+      <credix-select formControlName="provinceId" label="Provincia">
+        <mat-option *ngFor="let province of provinces" [value]="province.id">
+          {{ province.description }}
+        </mat-option>
+      </credix-select>
+      <credix-select formControlName="cantonId" label="Cantón">
+        <mat-option *ngFor="let canton of cantons" [value]="canton.id">
+          {{ canton.description }}
+        </mat-option>
+      </credix-select>
+      <credix-select formControlName="districtId" label="Distrito">
+        <mat-option *ngFor="let district of districts" [value]="district.id">
+          {{ district.description }}
+        </mat-option>
+      </credix-select>
 
       <credix-input-field formControlName="address" label="Dirección exacta"></credix-input-field>
-      <credix-input-field formControlName="monthlyIncome" label="Ingreso mensual" mask="separator.2" thousandSeparator="." decimalMarker=","></credix-input-field>
+      <credix-input-field formControlName="monthlyIncome" label="Ingreso mensual" mask="separator.2"
+        thousandSeparator="." decimalMarker=","></credix-input-field>
 
-      <credix-select formControlName="laborYears" label="Tiempo en su trabajo actual"></credix-select>
+      <div style="margin-bottom: 16px;">
+        <ng-container *ngTemplateOutlet="imageUploader"></ng-container>
+      </div>
+
+      <credix-input-field mask="000" formControlName="laborYears"
+        label="Tiempo en su trabajo actual en meses"></credix-input-field>
     </div>
 
     <!-- Pensionado -->
     <div *ngSwitchCase="3" [formGroup]="pensionerIncomeFormGroup">
-      <credix-input-field formControlName="netIncome" label="Salario Neto" mask="separator.2" thousandSeparator="." decimalMarker=","></credix-input-field>
+      <credix-input-field formControlName="netIncome" label="Ingreso Neto" mask="separator.2" thousandSeparator="."
+        decimalMarker=","></credix-input-field>
+      <ng-container *ngTemplateOutlet="imageUploader"></ng-container>
     </div>
   </ng-container>
 
   <ng-template #imageUploader>
-    <credix-image-upload (imageChanged)="imageUploaded($event)" [label]="'Adjuntar evidencia de ingresos'"></credix-image-upload>
+    <div class="document-image-upload-link">
+      <credix-image-upload (imageChanged)="imageUploaded($event)"
+        [label]="'Adjuntar evidencia de ingresos'"></credix-image-upload>
+      <button (click)="showDocumentUploadInfoModal()" class="info-button" mat-icon-button suffix>
+        <mat-icon>info_outlined</mat-icon>
+      </button>
+    </div>
     <div class="documents-uploaded-list">
-      <span *ngFor="let document of incomeDocumentsUploaded">{{ document.name }} <button mat-icon-button> <mat-icon>close</mat-icon> </button> </span>
+      <span *ngFor="let document of incomeDocumentsUploaded; let i = index">{{ document.name }} <button
+          (click)="removeDocumentFromList(i)" mat-icon-button> <mat-icon>close</mat-icon> </button> </span>
+      <span *ngIf="!incomeDocumentsUploaded.length">No se ha elegido ningún archivo</span>
     </div>
   </ng-template>
 
 </form>
+
+<ng-template #documentUploadInfoModal>
+
+  <div class="document-upload-info-modal-container">
+    <h2>Evidencia de ingresos</h2>
+    <p>Debe adjuntar alguno de los siguientes documentos:</p>
+    <ol>
+      <li>Órden patronal</li>
+      <li>Estado de cuenta de los últimos X meses</li>
+      <li>Constancia de pensión</li>
+    </ol>
+    <credix-button (buttonClick)="closeDocumentUploadInfoModal()"> Listo </credix-button>
+  </div>
+
+</ng-template>

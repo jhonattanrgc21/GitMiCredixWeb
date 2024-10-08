@@ -86,15 +86,37 @@ span {
       display: block;
       height: 100%;
     }
-
   }
 }
 .update-account-info-popup{
   height: 90%;
+  update-account-info-popup, .update-account-info-popup-container{
+    height: 100%;
+  }
 }
 
-.change-celphone-popup .mat-dialog-container{
-  padding: 16px !important;
+.address-info-popup .mat-dialog-container{
+  padding: 16px;
+
+  .credix-confirmation-popup{
+
+    &__message{
+      margin: 28px 0;
+    }
+
+    &__actions button{
+      margin: 0;
+      width: 100%;
+    }
+
+  }
+
+}
+
+.change-celphone-popup, .document-upload-info-modal {
+  .mat-dialog-container{
+    padding: 16px !important
+  }
 }
 .credix-popup {
   position: static !important;

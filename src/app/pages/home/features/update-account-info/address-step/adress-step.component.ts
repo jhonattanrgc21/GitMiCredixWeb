@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import {Canton} from '../../../../../shared/models/canton';
 import {District} from '../../../../../shared/models/district';
 import {Province} from '../../../../../shared/models/province';
+import { ModalService } from 'src/app/core/services/modal.service';
   @Component({
     selector: 'adress-step-component',
     templateUrl: './adress-step.component.html',
@@ -15,7 +16,7 @@ import {Province} from '../../../../../shared/models/province';
     cantons: Canton[] = [];
     districts: District[] = [];
 
-    constructor(private globalApiService: GlobalApiService) {
+    constructor(private globalApiService: GlobalApiService, private modalService: ModalService) {
     }
 
     ngOnInit(): void {
@@ -55,5 +56,17 @@ import {Province} from '../../../../../shared/models/province';
       this.globalApiService.getDistricts(cantonId).subscribe(districts => this.districts = districts);
     }
 
+    showInfoModal(){
+      this.modalService.confirmationPopup(
+        null, // title
+        'La información de esta sección es exclusiva para compras en línea.', // message
+        343, // width
+        'auto', // height
+        false, //autoclose
+        0, //timeAutoClose
+        true, //onlyOkButton
+        'address-info-popup'
+      )
+    }
 
   }

@@ -1,9 +1,14 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { GlobalApiService } from 'src/app/core/services/global-api.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { ApplicantIncome } from 'src/app/shared/models/applicant-data';
+import { Canton } from 'src/app/shared/models/canton';
+import { District } from 'src/app/shared/models/district';
 import { IncomeType } from 'src/app/shared/models/income-type';
 import { Occupation } from 'src/app/shared/models/occupation';
+import { Province } from 'src/app/shared/models/province';
 
 @Component({
   selector: 'income-step-component',
@@ -11,16 +16,23 @@ import { Occupation } from 'src/app/shared/models/occupation';
   styleUrls: ['./income-step.component.scss']
 })
 export class IncomeStepComponent implements OnInit, OnChanges {
+  @ViewChild('documentUploadInfoModal') documentUploadInfoModal: TemplateRef<any>
+  documentUploadInfoDialogRef: MatDialogRef<any>
+
   @Input() currentIncomeData: ApplicantIncome;
   @Input() IncomeStepFormGroup: FormGroup = this.fb.group({
     incomeType: [1, Validators.required]
   })
 
+  provinces: Province[] = [];
+  cantons: Canton[] = [];
+  districts: District[] = [];
+
   salariedIncomeFormGroup = this.fb.group({
     employerName: ['', [Validators.required]],
     netIncome: ['', [Validators.required]],
     profession: [0, [Validators.required]],
-    jobPosition: [0, [Validators.required]],
+    jobPosition: ['', [Validators.required]],
     laborYears: [0, Validators.required]
   })
 
@@ -50,7 +62,7 @@ export class IncomeStepComponent implements OnInit, OnChanges {
 
   incomeDocumentsUploaded = []
 
-  constructor(private globalApiService: GlobalApiService, private fb: FormBuilder) { }
+  constructor(private globalApiService: GlobalApiService, private fb: FormBuilder, private modalService: ModalService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
 
@@ -61,6 +73,9 @@ export class IncomeStepComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.getProvinces();
+    this.onProvinceChanged();
+    this.onCantonChanged();
 
     this.getProffesions()
 
@@ -120,8 +135,57 @@ export class IncomeStepComponent implements OnInit, OnChanges {
     })
   }
 
-  imageUploaded(imageData){
+  getProvinces() {
+    this.globalApiService.getProvinces().subscribe(provinces => this.provinces = provinces);
+  }
+
+  onProvinceChanged() {
+    this.independentIncomeFormGroup.controls.provinceId.valueChanges.subscribe(value => {
+      this.districts = [];
+      this.cantons = [];
+      this.independentIncomeFormGroup.controls.districtId.reset(null, { onlySelf: true, emitEvent: false });
+      this.independentIncomeFormGroup.controls.cantonId.reset(null, { onlySelf: true, emitEvent: false });
+      this.getCantons(value);
+    });
+  }
+
+  getCantons(provinceId: number) {
+    this.globalApiService.getCantons(provinceId)
+      .subscribe(cantons => this.cantons = cantons);
+  }
+
+  onCantonChanged() {
+    this.independentIncomeFormGroup.controls.cantonId.valueChanges.subscribe(value => {
+      this.districts = [];
+      this.independentIncomeFormGroup.controls.districtId.reset(null, { onlySelf: true, emitEvent: false });
+      this.getDistricts(value);
+    });
+  }
+
+  getDistricts(cantonId: number) {
+    this.globalApiService.getDistricts(cantonId).subscribe(districts => this.districts = districts);
+  }
+
+  imageUploaded(imageData) {
     this.incomeDocumentsUploaded.push(imageData)
+  }
+
+  removeDocumentFromList(index: number) {
+    this.incomeDocumentsUploaded.splice(index, 1)
+  }
+
+  showDocumentUploadInfoModal() {
+    this.documentUploadInfoDialogRef = this.modalService.open({
+      template: this.documentUploadInfoModal,
+      title: null,
+      hideCloseButton: true
+    }, { width: 343, disableClose: false, panelClass: 'document-upload-info-modal' })
+  }
+
+  closeDocumentUploadInfoModal() {
+    if (!this.documentUploadInfoDialogRef) return
+
+    this.documentUploadInfoDialogRef.close()
   }
 
 }

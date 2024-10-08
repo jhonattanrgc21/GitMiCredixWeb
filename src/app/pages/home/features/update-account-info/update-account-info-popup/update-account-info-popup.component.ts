@@ -15,7 +15,7 @@ import { DynamicFormData } from 'src/app/shared/models/dynamic-form';
   styleUrls: ['./update-account-info-popup.component.scss'],
   providers: [UpdateAccountInfoService]
 })
-export class UpdateAccountInfoPopUp implements OnInit, AfterViewInit {
+export class UpdateAccountInfoPopUp implements OnInit {
   @ViewChild('stepper') stepper: CdkStepper;
   stepperIndex: number = 0
   personalInfoSwitch: 'idUpload' | 'form' = 'form'
@@ -71,17 +71,15 @@ export class UpdateAccountInfoPopUp implements OnInit, AfterViewInit {
       })
   }
 
-  ngAfterViewInit(): void {
-    this.nextStep()
-    this.nextStep()
-  }
-
   checkDynamicFormSetting(dynamicFormData: DynamicFormData[]) {
   }
 
   loadFormData(data: ApplicantData) {
 
-    this.idValid = !data.documentExpirationDate || data.documentExpirationDate === "null" ? false : (new Date() >= new Date(data.documentExpirationDate))
+    this.idValid =
+      (!data.documentExpirationDate || data.documentExpirationDate === "null")
+        ? false
+        : (new Date() >= new Date(data.documentExpirationDate))
 
     this.personalInfoFormGroup.setValue({
       firstName: data.firstName,
@@ -110,6 +108,18 @@ export class UpdateAccountInfoPopUp implements OnInit, AfterViewInit {
         billingState: data.mailAddress.state,
         billingPostalCode: data.mailAddress.postalCode,
         billingCountry: data.mailAddress.countryId
+      })
+    } else if(data.homeAddress) {
+      this.adressFormGroup.setValue({
+        province: data.homeAddress.provinceId,
+        canton: data.homeAddress.cantonId,
+        district: data.homeAddress.districtId,
+        exactAddress: data.homeAddress.detail,
+        billingAddress: '',
+        billingCity: '',
+        billingState: '',
+        billingPostalCode: '',
+        billingCountry: ''
       })
     }
 

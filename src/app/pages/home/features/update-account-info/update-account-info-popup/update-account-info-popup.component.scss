@@ -1,11 +1,19 @@
 .update-account-info-popup-container{
+  display: flex;
+  flex-direction: column;
   credix-stepper-sign-up {
+    flex: 1;
     display: block;
     margin-top: 60px;
   }
 
   .update-account-info-step{
-    max-height: 48vh;
+    max-height: calc(100vh - 370px);
+
+    &.id-step-active{
+      max-height: calc(100vh - 310px);
+    }
+
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 10px;
