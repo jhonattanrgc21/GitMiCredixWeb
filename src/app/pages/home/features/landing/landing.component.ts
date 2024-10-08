@@ -80,6 +80,10 @@ export class LandingComponent implements OnInit, OnDestroy {
         console.log(this.paymentDetails);
         this.movements = response.movements;
 
+        if (response.lateDaysLocal || response.lateDaysDollar) {
+          this.delinquentCustomersActive = true;
+        }
+
         if (response.listBanner) {
           response.listBanner.forEach(banner => {
             this.awards.push({
