@@ -243,7 +243,7 @@ export class ExtendTermService {
         transaction,
       })
       .pipe(
-        map((response) => ({
+        map((response) => ({ 
           title: response.titleOne,
           message: response.message,
           type: response.type,

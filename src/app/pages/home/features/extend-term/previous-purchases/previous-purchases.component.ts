@@ -106,6 +106,7 @@ export class PreviousPurchasesComponent implements OnInit {
     type: "success",
     status: 200,
   };
+  
 
   constructor(
     private route: Router,
@@ -127,6 +128,20 @@ export class PreviousPurchasesComponent implements OnInit {
     this.route.navigate(['/home/extend-term/previous-extend']);
   }
 
+  checkCutDate() {
+    this.extendTermService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (!productInfo.status) {
+        this.message = productInfo.descriptionOne;
+        this.title = productInfo.titleOne;
+        this.done = true;
+        this.template = this.disabledTemplate;
+      }
+    });
+  }
+ 
   checkCutDate() {
     this.extendTermService.checkCutDate().subscribe(({ json }) => {
       const productInfo = json.deactivationList.find(
