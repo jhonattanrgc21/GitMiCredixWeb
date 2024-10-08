@@ -18,7 +18,6 @@ import {CredixPopupAlternativeModule} from '../../shared/components/credix-popup
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {HomeSidebarService} from './home-sidebar/home-sidebar.service';
 import { HttpRequestsResponseInterceptor } from 'src/app/core/interceptors/http.interceptor';
-import { UpdateAccountInfoModule } from './features/update-account-info/update-account-info.module';
 
 @NgModule({
   declarations: [

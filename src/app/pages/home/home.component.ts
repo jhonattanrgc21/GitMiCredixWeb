@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Compiler, Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {HomeService} from './home.service';
 import {Router} from '@angular/router';
@@ -10,7 +10,6 @@ import {UserIdleService} from 'angular-user-idle';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {RenewTokenService} from '../../core/services/renew-token.service';
 import {CredixToastService} from '../../core/services/credix-toast.service';
-import { UpdateAccountInfoReminderPopUp } from './features/update-account-info/update-account-info-reminder-popup/update-account-info-reminder-popup.component';
 import { InfoToShowModalService } from '../../core/services/infoToShowModal.service';
 
 @Component({
@@ -40,7 +39,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
               private modalService: ModalService,
               private renewTokenService: RenewTokenService,
               private toastService: CredixToastService,
-              private infoToShowModalService: InfoToShowModalService
+              private infoToShowModalService: InfoToShowModalService,
+              private compiler: Compiler,
             ) {
   }
 
@@ -78,7 +78,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  openUpdateAccountInfoReminderPopUp(omitModal: boolean){
+  async openUpdateAccountInfoReminderPopUp(omitModal: boolean){
+    const { UpdateAccountInfoModule } = await import('./features/update-account-info/update-account-info.module')
+    await this.compiler.compileModuleAsync( UpdateAccountInfoModule )
+
+    const { UpdateAccountInfoReminderPopUp } = await import('./features/update-account-info/update-account-info-reminder-popup/update-account-info-reminder-popup.component')
+
     this.modalService.open({
       data:{
         omitModal

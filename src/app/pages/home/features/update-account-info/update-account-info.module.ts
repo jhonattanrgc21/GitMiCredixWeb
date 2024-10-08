@@ -31,9 +31,9 @@ import { CredixImageUploadModule } from 'src/app/shared/components/credix-image-
   imports: [
     CommonModule,
     SharedModule,
-    CredixButtonModule,
     MatButtonModule,
     CdkStepperModule,
+    CredixButtonModule,
     CredixStepperSignUpModule,
     CredixInputFieldModule,
     CredixSelectModule,
