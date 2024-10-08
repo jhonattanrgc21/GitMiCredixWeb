@@ -31,6 +31,8 @@ import {CredixButtonModule} from '../../../../shared/components/credix-button/cr
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LandingSkeletonLoaderComponent } from './landing-skeleton-loader/landing-skeleton-loader.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ContentComponentsModule } from 'src/app/shared/components/content/content-components.module';
 
 const routes: Routes = [
   {
@@ -43,6 +45,8 @@ const routes: Routes = [
   declarations: [LandingComponent, BalancesComponent, PaymentDetailsComponent, MovementsComponent, AwardsComponent, DelinquentCustomersComponent, LandingSkeletonLoaderComponent],
   imports: [
     CommonModule,
+    MatExpansionModule,
+    ContentComponentsModule,
     RouterModule.forChild(routes),
     FlexModule,
     CredixCardsModule,

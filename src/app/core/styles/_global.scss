@@ -78,6 +78,7 @@ span {
     background: #696d6f;
   }
 }
+
 .mat-dialog-container {
   overflow: visible !important;
   &:has(app-credix-popup>.credix-popup>.credix-popup__content>update-account-info-reminder-popup) {
@@ -86,6 +87,9 @@ span {
       display: block;
       height: 100%;
     }
+  }
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>title-card-not-active-component){
+    padding: 16px;
   }
 }
 .update-account-info-popup{

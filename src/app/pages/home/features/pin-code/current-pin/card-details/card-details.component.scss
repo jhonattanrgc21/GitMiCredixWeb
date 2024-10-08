@@ -3,6 +3,14 @@
     height: auto;
     background-color: white;
     margin-bottom: 16px;
+    height: 100%;
+}
+
+.pin-container{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
 }
 
 .logo-icon {
@@ -28,4 +36,8 @@
     .card-details{
       width: 360px;
     }
+}
+
+title-card-not-active-component ::ng-deep p{
+  margin-bottom: 32px !important;
 }

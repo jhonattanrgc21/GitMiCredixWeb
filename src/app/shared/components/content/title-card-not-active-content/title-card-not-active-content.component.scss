@@ -1,0 +1,26 @@
+.title-card-not-active-popup{
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  credix-button{
+    width: 100%;
+    ::ng-deep button{
+      height: 44px;
+    }
+  }
+}
+
+.title-card-not-active-dropdown{
+  p{
+    margin-bottom: 16px;
+  }
+  .callButton{
+    width: 120px;
+    margin-right: 16px;
+  }
+  .locationsButton{
+    width: 140px;
+  }
+}

@@ -9,3 +9,11 @@
 .text-info-req {
     margin-top: 8px;
 }
+
+app-card-details{
+  display: flex;
+  flex-direction: column;
+  & ::ng-deep mat-card{
+    flex: 1;
+  }
+}

@@ -1,3 +1,16 @@
+
+<div *ngIf="!!titularCardNotActive" class="titleCardNotActive-container">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>info_outlined</mat-icon>
+        Tarjeta pendiente de activar
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <title-card-not-active-component [type]="'dropdown'">
+    </title-card-not-active-component>
+  </mat-expansion-panel>
+</div>
 <div fxLayout="column" fxLayoutGap="16px" *ngIf="accountSummary && paymentDetails && movements; else landingSkeletonLoader">
 
   <div fxLayout="row" fxLayoutGap="16px">
