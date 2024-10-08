@@ -52,7 +52,8 @@ const routes: Routes = [
       },
       {
         path: 'buy-without-card',
-        loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule)
+        loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule),
+        canActivate: [titleCardGuard]
       },
       {
         path: 'anticipated-cancellation',
