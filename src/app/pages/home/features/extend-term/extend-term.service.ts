@@ -35,15 +35,19 @@ export class ExtendTermService {
     this._newQuota = newQuota;
   }
 
-  constructor(private httpService: HttpService,
-              private storageService: StorageService) {
-  }
-  private readonly getAllowedMovementsUri = 'channels/allowedmovements';
-  private readonly calculateQuotaUri = 'channels/quotacalculator';
-  private readonly saveNewQuotaUri = 'channels/savequotification';
-  private readonly cutDateUri = 'channels/cutdateextermterm';
-  private readonly quotasPreviousMovementsUri = 'channels/quotacalculator';
-  private readonly saveNewQuotaPreviousMovementsUri = 'account/savepreviousconsumptions';
+  constructor(
+    private httpService: HttpService,
+    private storageService: StorageService
+  ) {}
+  private readonly getAllowedMovementsUri = "channels/allowedmovements";
+  private readonly calculateQuotaUri = "channels/quotacalculator";
+  private readonly saveNewQuotaUri = "channels/savequotification";
+  private readonly cutDateUri = "channels/cutdate";
+  private readonly quotasPreviousMovementsUri = "channels/quotacalculator";
+  private readonly saveNewQuotaUnifiedMovementsUri =
+    "channels/savequotificationunified";
+  private readonly saveNewQuotaPreviousMovementsUri =
+    "account/savepreviousconsumptions";
 
   // private readonly allowedMovementsUri = /channels/allowedmovements
 
@@ -110,8 +114,11 @@ export class ExtendTermService {
     this.$hideButtonPromoFilter.next(hide);
   }
 
+
   checkCutDate() {
-    return this.httpService.post('canales', this.cutDateUri);
+    return this.httpService.post("canales", this.cutDateUri, {
+      deactivation: 1,
+    });
   }
 
   getAllowedMovements(productId: number): Observable<any> {
@@ -193,17 +200,50 @@ export class ExtendTermService {
       movementId,
       statusId: 1,
       userIdCreate: this.storageService.getCurrentUser().userId,
+      deactivation: 1,
     });
   }
 
-  saveNewQuotaPreviousConsumptions( quota = 1, transaction: number[]): Observable<{title: string, message: string, type: string, status: 'success' | 'error'}> {
-    return this.httpService.post('canales', this.saveNewQuotaPreviousMovementsUri, {
-      accountId: this.storageService.getCurrentUser().actId,
-      quota,
-      transaction
-    })
-    .pipe(
-      map(response => ({
+  saveNewQuotaUnified(
+    cardId: number,
+    feeAmount: number,
+    newQuota: number,
+    movementList: AllowedMovement[]
+  ): Observable<any> {
+    let transactions = JSON.stringify(
+      movementList.map((values) => values.movementId)
+    );
+    return this.httpService.post(
+      "canales",
+      this.saveNewQuotaUnifiedMovementsUri,
+      {
+        cardId,
+        feeAmount,
+        newQuota,
+        movementList: transactions,
+        statusId: 1,
+        userIdCreate: this.storageService.getCurrentUser().userId,
+      }
+    );
+  }
+
+  saveNewQuotaPreviousConsumptions(
+    quota = 1,
+    transaction: string[]
+  ): Observable<{
+    title: string;
+    message: string;
+    type: string;
+    status: "success" | "error";
+  }> {
+    return this.httpService
+      .post("canales", this.saveNewQuotaPreviousMovementsUri, {
+        accountId: this.storageService.getCurrentUser().actId,
+        quota,
+        transaction,
+      })
+      .pipe(
+        map((response) => ({
           title: response.titleOne,
           message: response.message,
           type: response.type,

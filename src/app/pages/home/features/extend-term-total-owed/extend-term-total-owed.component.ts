@@ -48,6 +48,7 @@ export class ExtendTermTotalOwedComponent implements OnInit {
   done: boolean = false;
   isEmpty: boolean = false;
   commissionMonthly: string = '';
+  private operationId = 3;
 
   @ViewChild('summaryTemplate') summaryTemplate: TemplateRef<any>;
   @ViewChild('disabledTemplate') disabledTemplate: TemplateRef<any>;
@@ -63,19 +64,22 @@ export class ExtendTermTotalOwedComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkCutDate();
-    console.log("actID: ", this.storage.getCurrentUser().actId),
+    console.log('actID: ', this.storage.getCurrentUser().actId),
     this.tagsService.getAllFunctionalitiesAndTags().subscribe(functionality =>
       this.getTags(functionality.find(fun => fun.description === 'Ampliar plazo de compra').tags));
     this.getQuotas();
   }
 
   checkCutDate() {
-    this.extendTermTotalOwedService.checkCutDate().subscribe(response => {
-      if (!response.status) {
-        this.message = 'Para ampliar el plazo de su total adeudado debe realizarlo 3 días antes de su fecha de corte.';
-        this.title = response.titleOne;
+    this.extendTermTotalOwedService.checkCutDate().subscribe(({ json }) => {
+      const productInfo = json.deactivationList.find(
+        (deactivation) => deactivation.PSD_Id === this.operationId
+      );
+      if (!productInfo.status) {
+        this.message = productInfo.descriptionOne;
+        this.title = productInfo.titleOne;
+        this.done = true;
         this.template = this.disabledTemplate;
-        this.isEmpty = true;
       }
     });
   }
@@ -140,7 +144,7 @@ export class ExtendTermTotalOwedComponent implements OnInit {
               title: response.title,
               message: response.message,
             };
-  
+
             this.extendTermTotalOwedService.newQuota = {
               currency: '₡',
               amount: this.extendQuotaSummary.amountPerQuota,
@@ -149,7 +153,7 @@ export class ExtendTermTotalOwedComponent implements OnInit {
           });
     }
     }
-    
+
 
   openSummary() {
     this.modalService.open({
