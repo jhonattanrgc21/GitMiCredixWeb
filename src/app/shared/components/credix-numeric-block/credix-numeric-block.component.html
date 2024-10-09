@@ -1,18 +1,16 @@
 <span [style.font-size.px]="fontSize" class="credix-numeric-block">
 
     <span [style.font-weight]="fontWeight"
-          class="credix-numeric-block__integer" [class.disabled-color]='disabled'>{{prefix}}</span>
+          class="credix-numeric-block__integer">{{prefix}}</span>
 
     <span *ngIf="sign === '-'"
           [style.font-weight]="fontWeight"
-          [class.disabled-color]='disabled'
           class="credix-numeric-block__integer">{{sign}}</span>
 
     <span [style.font-weight]="fontWeight"
-          [class.disabled-color]='disabled'
           class="credix-numeric-block__integer">{{integerValue | mask: 'separator':'.'}}</span>
 
-  <span *ngIf="decimalValue" [class.disabled-color]='disabled' [style.font-weight]="fontWeight" [ngClass]="[type === 'percentage' ? '' : 'credix-numeric-block__decimal']">,{{decimalValue}}</span>
+  <span *ngIf="decimalValue" [style.font-weight]="fontWeight" [ngClass]="[type === 'percentage' ? '' : 'credix-numeric-block__decimal']">,{{decimalValue}}</span>
 
 
 

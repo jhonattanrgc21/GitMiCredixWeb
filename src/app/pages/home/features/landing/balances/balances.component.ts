@@ -47,6 +47,7 @@ export class BalancesComponent implements OnInit {
   isEnablePersonalCredit: boolean;
   enablePersonalCreditSubscription: Subscription;
   enableIncreaseCreditLimit: boolean;
+  enablePIN: boolean = true;
 
   constructor(private storageService: StorageService,
               private toastService: CredixToastService,
@@ -113,6 +114,10 @@ export class BalancesComponent implements OnInit {
         this.router.navigate(['/home/increase-limit']);
       }
     });
+  }
+
+  openPIN() {
+    this.router.navigate(['/home/current-pin']);
   }
 
   openApplyforcreditModal() {

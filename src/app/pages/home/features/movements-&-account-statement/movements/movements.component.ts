@@ -4,24 +4,17 @@ import { Movement } from "../../../../../shared/models/movement";
 import { TagsService } from "../../../../../core/services/tags.service";
 import { Tag } from "../../../../../shared/models/tag";
 import { NavigationService } from "../../../../../core/services/navigation.service";
-import { ModalService } from "../../../../../core/services/modal.service";
-import { MovementDetailsComponent } from "./movement-details/movement-details.component";
-import { ExtendTermService } from "../../extend-term/extend-term.service";
+import { ModalService } from "src/app/core/services/modal.service";
 import { Router } from "@angular/router";
 
+
 @Component({
-  selector: "app-movements",
-  templateUrl: "./movements.component.html",
-  styleUrls: ["./movements.component.scss"],
+  selector: 'app-movements',
+  templateUrl: './movements.component.html',
+  styleUrls: ['./movements.component.scss']
 })
 export class MovementsComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = [
-    "date",
-    "commerce",
-    "amount",
-    "quotas",
-    "extend",
-  ];
+  displayedColumns: string[] = ['date', 'commerce', 'amount', 'quotas', 'extend'];
   movementDataSource: Movement[] = [];
   p = 0;
   linkTag: string;
@@ -73,40 +66,11 @@ export class MovementsComponent implements OnInit, OnDestroy {
   }
 
   getTags(tags: Tag[]) {
-    this.linkTag = tags.find(
-      (tag) => tag.description === "movimientos.link"
-    )?.value;
-    this.columnOneTag = tags.find(
-      (tag) => tag.description === "movimientos.table.column1"
-    )?.value;
-    this.columnTwoTag = tags.find(
-      (tag) => tag.description === "movimientos.table.column2"
-    )?.value;
-    this.columnThreeTag = tags.find(
-      (tag) => tag.description === "movimientos.table.column3"
-    )?.value;
-    this.columnFourTag = tags.find(
-      (tag) => tag.description === "movimientos.table.column4"
-    )?.value;
-  }
-
-  openModalDetail(element) {
-    this.modalService
-      .open(
-        {
-          component: MovementDetailsComponent,
-          data: element,
-          hideCloseButton: false,
-        },
-        {
-          panelClass: "movement-details-panel",
-          disableClose: false,
-          width: 380,
-          height: 533,
-        }
-      )
-      .afterClosed()
-      .subscribe();
+    this.linkTag = tags.find(tag => tag.description === 'movimientos.link')?.value;
+    this.columnOneTag = tags.find(tag => tag.description === 'movimientos.table.column1')?.value;
+    this.columnTwoTag = tags.find(tag => tag.description === 'movimientos.table.column2')?.value;
+    this.columnThreeTag = tags.find(tag => tag.description === 'movimientos.table.column3')?.value;
+    this.columnFourTag = tags.find(tag => tag.description === 'movimientos.table.column4')?.value;
   }
 
   ngOnDestroy(): void {

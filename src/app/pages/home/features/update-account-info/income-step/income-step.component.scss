@@ -1,0 +1,50 @@
+.income-step-container{
+  .document-image-upload-link{
+    display: flex;
+    align-items: center;
+    .info-button{
+      mat-icon{
+        color: #239DF7;
+      }
+    }
+  }
+  .documents-uploaded-list{
+    span{
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      padding: 4px;
+      gap: 4px;
+      button{
+        background-color: #E9E9E9;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: normal;
+      }
+      mat-icon{
+        line-height: normal;
+        width: auto;
+        height: auto;
+        font-size: 12px;
+      }
+    }
+
+  }
+
+}
+.document-upload-info-modal-container{
+  h2{
+    padding: 18px 0;
+  }
+
+  ol{
+    padding-left: 20px;
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  credix-button{
+    width: 100%;
+  }
+}

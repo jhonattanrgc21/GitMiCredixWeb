@@ -1,9 +1,0 @@
-<div class="rule-info-popup">
-  <h2>Importante</h2>
-  <p *ngIf="!subscription">Con Credix Más, tiene ampliaciones de plazo a 3 y 6 cuotas cero interés gratuitas e ilimitadas. Por esto, su regla en “Programar cuotas” ahora no tiene comisión.</p>
-  <p *ngIf="subscription">Debido a que perderá los beneficios de Credix Más, su regla en “Programar cuotas” vuelve a su comisión original. </p>
-  <div class="button-row">
-    <credix-button type="secondary" (buttonClick)="close()">Listo</credix-button>
-    <credix-button class="button-large" (buttonClick)="close()" routerLink="/home/schedule-quotas">Ver regla</credix-button>
-  </div>
-</div>

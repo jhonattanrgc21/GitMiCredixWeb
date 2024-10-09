@@ -1,7 +1,6 @@
 export interface AllowedMovement {
   originAmount: string;
-  amount?: string;
-  originCurrency: OriginCurrency;
+  originCurrency: any;
   establishmentName: string;
   cardId: number;
   totalPlanQuota: number;
@@ -11,12 +10,4 @@ export interface AllowedMovement {
   promoApply: boolean;
   promoMessage?: string;
   promoDiscountMessage?: string;
-  productDisable?: boolean;
-  checked?: boolean;
-}
-
-interface OriginCurrency {
-  currencyDescription: string;
-  currency: string;
-  currencyId: number;
 }

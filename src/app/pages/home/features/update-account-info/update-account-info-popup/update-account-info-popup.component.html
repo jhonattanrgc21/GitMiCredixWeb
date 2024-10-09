@@ -1,0 +1,48 @@
+<div class="update-account-info-popup-container">
+  <h2>Actualizar Datos</h2>
+
+  <credix-stepper-sign-up #stepper class="modal-new-user__stepper">
+
+
+    <cdk-step [label]="'Personales'" [stepControl]="personalInfoFormGroup">
+      <div class="update-account-info-step" [ngClass]="{ 'id-step-active': personalInfoSwitch === 'idUpload' }">
+        <ng-container [ngSwitch]="personalInfoSwitch">
+          <personal-info-step-component *ngSwitchCase="'form'"
+            [personalInfoFormGroup]="personalInfoFormGroup"></personal-info-step-component>
+
+          <id-photo-upload-component *ngSwitchCase="'idUpload'" (goBack)="back()"
+            (validateId)="validateId($event)"></id-photo-upload-component>
+        </ng-container>
+      </div>
+    </cdk-step>
+
+    <cdk-step [label]="'Domicilio'" [stepControl]="adressFormGroup">
+      <div class="update-account-info-step">
+        <adress-step-component [newAddressFormGroup]="adressFormGroup"></adress-step-component>
+      </div>
+    </cdk-step>
+
+    <cdk-step [label]="'Ingresos'" [stepControl]="incomeFormGroup">
+      <div class="update-account-info-step">
+        <income-step-component [currentIncomeData]="incomeData" [IncomeStepFormGroup]="incomeFormGroup"></income-step-component>
+      </div>
+    </cdk-step>
+
+  </credix-stepper-sign-up>
+
+  <div class="stepper-action-buttons" *ngIf="personalInfoSwitch === 'form' || idValid">
+    <credix-button *ngIf="stepperIndex > 0" class="back-button" [type]="'secondary'" (click)="back()">
+      Atras
+    </credix-button>
+    <credix-button *ngIf="stepperIndex < 2" [disabled]="
+      stepperIndex === 0 ? personalInfoFormGroup.invalid :
+      stepperIndex === 1 ? adressFormGroup.invalid : false
+    " class="continue-button" (click)="nextStep()">
+      Continuar
+    </credix-button>
+    <credix-button *ngIf="stepperIndex === 2" [disabled]="incomeFormGroup.invalid" class="continue-button" (click)="submitUpdateAccountInfoForm()">
+      Confirmar
+    </credix-button>
+  </div>
+
+</div>

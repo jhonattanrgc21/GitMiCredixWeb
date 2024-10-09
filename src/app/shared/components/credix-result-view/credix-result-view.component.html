@@ -12,7 +12,7 @@
     <credix-button *ngIf="paymentService" [type]="'secondary'" [routerLink]="['/home/public-services/']" class="mr-16px">
       Listo
     </credix-button>
-    <credix-button (click)="clickButton()" [routerLink]="[routeTo]" class="mr-16px">
+    <credix-button (click)="buttonPressed.emit()" [routerLink]="[routeTo]" class="mr-16px">
       {{buttonText}}
     </credix-button>
   </div>

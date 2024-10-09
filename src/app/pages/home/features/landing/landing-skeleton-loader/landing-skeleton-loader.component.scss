@@ -1,0 +1,72 @@
+$flex-gap: 16px;
+$background-color: #FFFFFF;
+$border-radius: 8px;
+
+.landing-skeleton-loader-container {
+  display: flex;
+  flex-direction: column;
+  gap: $flex-gap;
+  height: 100%;
+
+
+  .main-loaders {
+    display: flex;
+    gap: $flex-gap;
+    flex: 1;
+
+
+    .left-column-loaders {
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      width: 40%;
+      background-color: $background-color;
+      border-radius: $border-radius;
+
+      .circle-loader {
+        position: relative;
+
+        .content {
+          background-color: $background-color;
+          position: absolute;
+          width: 120px;
+          height: 120px;
+          z-index: 1;
+          border-radius: 100%;
+          top: 15px;
+          left: 15px;
+        }
+
+      }
+
+    }
+
+    .right-column-loaders {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: $flex-gap;
+
+      .payment-details-loaders,
+      .movements-loaders {
+        padding: 16px;
+        flex: 1;
+        background-color: $background-color;
+        border-radius: $border-radius;
+
+      }
+
+    }
+
+
+  }
+
+  .awards-loaders {
+    overflow: hidden;
+    height: 15%;
+    background-color: $background-color;
+    border-radius: $border-radius;
+  }
+
+
+}

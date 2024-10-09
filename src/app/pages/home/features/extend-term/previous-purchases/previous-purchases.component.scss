@@ -1,13 +1,16 @@
 .extend-term {
+  max-height: 662px;
+  height: 100%;
+
   width: 877px !important;
   margin-left: -16px !important;
-
+  
   &__table-wrapper {
     height: 384px !important;
   }
 
   &__scrollbar {
-    height: 384px !important;
+    height: 384px !important; 
   }
 
   &__empty {
@@ -28,13 +31,13 @@
     }
 
     mat-header-cell:first-of-type {
-      justify-content: flex-start !important;
+      justify-content: flex-start !important; 
     }
 
     mat-header-cell:nth-child(3) {
       text-align: end !important;
     }
-
+    
     mat-header-cell:nth-child(4) {
       text-align: end !important;
     }
@@ -56,7 +59,7 @@
               height: 20px !important;
             }
           }
-        }
+        } 
 
         justify-content: flex-start!important;
       }
@@ -90,20 +93,13 @@
   .actions-footer {
     width: 877px !important;
     margin-left: 0px !important;
-  }
-
+  } 
+  
 }
 
-.title {
-  margin-top: 24px;
-  margin-bottom: 16px;
-  padding: 0 0 16px 16px;
-  &__subtitle{
-    padding: 0 0 2px 16px;
-  }
+.title-space {
+  margin: 0 0 16px 16px !important 
 }
-
-
 
 :host {
   ::ng-deep credix-result-notification {
@@ -112,27 +108,6 @@
 
     .credix-result-notification__title {
       width: 310px !important;
-    }
-  }
-
-  ::ng-deep credix-amount-summary {
-    position: absolute;
-    right: 16px;
-    bottom: 102px;
-  }
-
-}
-::ng-deep.info {
-  .mat-dialog-container{
-    padding: 16px;
-  }
-  .credix-popup{
-      &__title {
-      margin-top: 0 !important;
-      margin-bottom: 20px !important;
-    }
-    &__close-button{
-      top: 24px !important;
     }
   }
 }
@@ -162,6 +137,6 @@
     .actions-footer {
       width: 100% !important;
       margin-left: 0px !important;
-    }
+    } 
   }
 }

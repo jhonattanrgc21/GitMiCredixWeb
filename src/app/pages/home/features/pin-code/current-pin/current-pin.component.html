@@ -9,6 +9,7 @@
             *ngFor="let card of cardsPin; let i = index;"
             class="card-details"
             fxFlex="0 1 calc(50% - 8px)"
+            [isNotActive]="card.category === 'Principal' ? titularCardNotActive : false"
             [icon]="card.category !== 'Principal'? 'additionalCards': 'redCard'"
             [card]="card"
         >
