@@ -142,20 +142,6 @@ export class PreviousPurchasesComponent implements OnInit {
     });
   }
  
-  checkCutDate() {
-    this.extendTermService.checkCutDate().subscribe(({ json }) => {
-      const productInfo = json.deactivationList.find(
-        (deactivation) => deactivation.PSD_Id === this.operationId
-      );
-      if (!productInfo.status) {
-        this.message = productInfo.descriptionOne;
-        this.title = productInfo.titleOne;
-        this.done = true;
-        this.template = this.disabledTemplate;
-      }
-    });
-  }
-
   getAllowedMovements() {
     this.extendTermService.getAllowedMovements(1005)
       .subscribe(response => {
