@@ -78,19 +78,48 @@ span {
     background: #696d6f;
   }
 }
+
 .mat-dialog-container {
   overflow: visible !important;
-  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-slider-popup>.track),
-  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-credix-mas-popup>.credix-mas-popup),
-  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-home-popup>.credix-mas-popup) {
-    padding: 0 !important;
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>update-account-info-reminder-popup) {
+    padding: 16px;
+    update-account-info-reminder-popup{
+      display: block;
+      height: 100%;
+    }
   }
-  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-slider-popup>.confeti),
-  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-popup-promo>.confeti) {
-    background-image: url("src/assets/images/confetti_3.png");
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>title-card-not-active-component){
+    padding: 16px;
   }
-  &:has(app-credix-popup>.credix-popup>.credix-popup__content>app-rule-info-popup>.rule-info-popup) {
-    padding: 24px;
+}
+.update-account-info-popup{
+  height: 90%;
+  update-account-info-popup, .update-account-info-popup-container{
+    height: 100%;
+  }
+}
+
+.address-info-popup .mat-dialog-container{
+  padding: 16px;
+
+  .credix-confirmation-popup{
+
+    &__message{
+      margin: 28px 0;
+    }
+
+    &__actions button{
+      margin: 0;
+      width: 100%;
+    }
+
+  }
+
+}
+
+.change-celphone-popup, .document-upload-info-modal {
+  .mat-dialog-container{
+    padding: 16px !important
   }
 }
 .credix-popup {

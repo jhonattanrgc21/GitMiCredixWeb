@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Compiler, Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {HomeService} from './home.service';
 import {Router} from '@angular/router';
@@ -9,9 +9,8 @@ import {globalCacheBusterNotifier} from 'ngx-cacheable';
 import {UserIdleService} from 'angular-user-idle';
 import {ModalService} from 'src/app/core/services/modal.service';
 import {RenewTokenService} from '../../core/services/renew-token.service';
-import {HttpRequestsResponseInterceptor} from '../../core/interceptors/http.interceptor';
 import {CredixToastService} from '../../core/services/credix-toast.service';
-import { UpdatedRulePopupComponent } from './features/schedule-quotas/updated-rule-popup/updated-rule-popup.component';
+import { InfoToShowModalService } from '../../core/services/infoToShowModal.service';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +38,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
               private renderer: Renderer2,
               private modalService: ModalService,
               private renewTokenService: RenewTokenService,
-              private toastService: CredixToastService) {
+              private toastService: CredixToastService,
+              private infoToShowModalService: InfoToShowModalService,
+              private compiler: Compiler,
+            ) {
   }
 
   ngOnInit() {
@@ -67,25 +69,34 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.tagsService.getAllFunctionalitiesAndTags().subscribe();
     this.checkScreenBreakpoint();
-    this.homeService.getIsShowPopUp().subscribe(res => {
-      if(res.isShowPopUp) this.openUpdatedRuleModal();
-    });
+
+    this.infoToShowModalService.getInfoToShowModal('updatedata').subscribe(response => {
+      if(response.showModal){
+        this.openUpdateAccountInfoReminderPopUp(response.omitModal)
+      }
+    })
+
+  }
+
+  async openUpdateAccountInfoReminderPopUp(omitModal: boolean){
+    const { UpdateAccountInfoModule } = await import('./features/update-account-info/update-account-info.module')
+    await this.compiler.compileModuleAsync( UpdateAccountInfoModule )
+
+    const { UpdateAccountInfoReminderPopUp } = await import('./features/update-account-info/update-account-info-reminder-popup/update-account-info-reminder-popup.component')
+
+    this.modalService.open({
+      data:{
+        omitModal
+      },
+      component: UpdateAccountInfoReminderPopUp,
+      hideCloseButton: true,
+      title: null,
+    }, {width: 343, disableClose: true, panelClass: 'update-account-info-reminder-popup'})
   }
 
   ngAfterViewInit(): void {
     this.scrollBar.SimpleBar.getScrollElement().addEventListener('scroll', (event) =>
       this.scrollService.emitScroll(this.scrollBar.SimpleBar.getScrollElement().scrollTop));
-  }
-
-  openUpdatedRuleModal(){
-    this.modalService.open({
-      component: UpdatedRulePopupComponent,
-      hideCloseButton: false,
-      title: null,
-    }, {width: 343, height: 400, disableClose: false, panelClass: 'schedule-quotas-updatedRule-panel'})
-      .afterClosed().subscribe((ready: any) => {
-        if(ready) this.homeService.setLastReadyButtonClick().subscribe();
-      });
   }
 
   checkScreenBreakpoint() {

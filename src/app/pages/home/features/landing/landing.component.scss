@@ -1,0 +1,32 @@
+landing-skeleton-loader{
+  display: block;
+  height: 100%;
+}
+.titleCardNotActive-container {
+  margin-bottom: 16px;
+
+  mat-expansion-panel {
+    box-shadow: none;
+    ::ng-deep .mat-expansion-indicator::after {
+      color: #E42313;
+      border-width: 0 3px 3px 0;
+    }
+
+    mat-expansion-panel-header {
+      height: 60px;
+      &:hover{
+        background-color: #ffffff;
+      }
+    }
+
+    mat-panel-title {
+      color: #3E3E3E;
+      font-weight: 700;
+
+      mat-icon {
+        color: #E42313;
+        margin-right: 6px;
+      }
+    }
+  }
+}

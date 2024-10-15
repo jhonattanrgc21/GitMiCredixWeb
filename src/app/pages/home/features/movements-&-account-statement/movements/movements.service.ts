@@ -35,7 +35,6 @@ export class MovementsService {
         return [];
       }));
   }
-
   getMovementDetails(originDate: number, accountId: number, originAmount: string, quota: number): Observable<any> {
     return this.httpService.post('canales', this.getMovementDetailsUri, {
       accountId,
@@ -56,5 +55,4 @@ export class MovementsService {
   unsubscribe() {
     this.httpService.unsubscribeHttpCall();
   }
-
 }

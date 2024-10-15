@@ -1,0 +1,8 @@
+<div [class]=" type === 'modal' ? 'title-card-not-active-popup' : 'title-card-not-active-dropdown'">
+  <h2 *ngIf="type === 'modal'">¡Active su tarjeta!</h2>
+  <p>
+    Por favor llame al <credix-link-button [route]="phoneUrl">2227-3349</credix-link-button> o diríjase a una sucursal para activarla. Si ya realizó la gestión, tarda 24 horas en reflejarse el cambio en MiCredix.
+  </p>
+  <credix-button class="callButton" (buttonClick)="openPhoneCall()">Llamar</credix-button>
+  <credix-button class="locationsButton" (buttonClick)="goToLocationsWebsite()"[type]="'secondary'">Ver Sucursales</credix-button>
+</div>

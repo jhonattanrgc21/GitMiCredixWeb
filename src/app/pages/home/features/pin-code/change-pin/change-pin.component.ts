@@ -39,10 +39,8 @@ export class ChangePinComponent implements OnInit, OnDestroy {
   constructor(private changePinService: ChangePinService,
               private credixCodeErrorService: CredixCodeErrorService,
               private modalService: ModalService,
-              private httpService: HttpService,
               private tagsService: TagsService,
-              private router: Router,
-              private publicServicesApiService: PublicServicesApiService,
+              private router: Router
               ) {
   }
 
@@ -112,7 +110,7 @@ export class ChangePinComponent implements OnInit, OnDestroy {
         this.codeStatus = result.status;
       });
     }
-    
+
   }
 
   ngOnDestroy(): void {

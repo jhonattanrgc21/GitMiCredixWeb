@@ -1,74 +1,36 @@
 <div class="movements" fxLayout="column" fxLayoutGap="16px">
-  <mat-table
-    [dataSource]="
-      movementDataSource | paginate : { itemsPerPage: 15, currentPage: p }
-    "
-    class="movements__table"
-  >
+
+  <mat-table [dataSource]="movementDataSource | paginate: { itemsPerPage: 15, currentPage: p }"
+             class="movements__table">
+
     <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef credixHeaderCell>{{
-        columnOneTag || "Fecha"
-      }}</mat-header-cell>
-      <mat-cell *matCellDef="let element" credixCell>
-        {{ element.originDate | dateFormatter : "alphanumeric" }}
-      </mat-cell>
+      <mat-header-cell *matHeaderCellDef credixHeaderCell>{{columnOneTag || 'Fecha'}}</mat-header-cell>
+      <mat-cell *matCellDef="let element"
+                credixCell> {{element.originDate | dateFormatter: 'alphanumeric'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="commerce">
-      <mat-header-cell *matHeaderCellDef credixHeaderCell>{{
-        columnTwoTag || "Comercio"
-      }}</mat-header-cell>
-      <mat-cell
-        *matCellDef="let element"
-        [class.is-green]="element.movementType == 'Pago'"
-        credixCell
-      >
-        <strong>{{ element.establishmentName }}</strong></mat-cell
-      >
+      <mat-header-cell *matHeaderCellDef credixHeaderCell>{{columnTwoTag || 'Comercio'}}</mat-header-cell>
+      <mat-cell *matCellDef="let element" [class.is-green]="element.movementType == 'Pago'" credixCell>
+        <strong>{{element.establishmentName}}</strong></mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="amount">
-      <mat-header-cell *matHeaderCellDef credixHeaderCell>{{
-        columnThreeTag || "Monto"
-      }}</mat-header-cell>
-      <mat-cell
-        *matCellDef="let element"
-        [class.is-green]="element.movementType == 'Pago'"
-        credixCell
-      >
-        <credix-numeric-block
-          [prefix]="element.currencySimbol"
-          [value]="element.originAmount"
-          fontWeight="bold"
-        ></credix-numeric-block>
+      <mat-header-cell *matHeaderCellDef credixHeaderCell>{{columnThreeTag || 'Monto'}}</mat-header-cell>
+      <mat-cell *matCellDef="let element"
+                [class.is-green]="element.movementType == 'Pago'" credixCell>
+        <credix-numeric-block [prefix]="element.currencySimbol" [value]="element.originAmount"
+                              fontWeight="bold"></credix-numeric-block>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="quotas">
-      <mat-header-cell *matHeaderCellDef credixHeaderCell
-        >{{ columnFourTag || "Cuotas" }}
-      </mat-header-cell>
-      <mat-cell
-        *matCellDef="let element"
-        [class.is-green]="element.movementType == 'Pago'"
-        credixCell
-      >
-        <span
-          *ngIf="
-            element.movementType.toLowerCase() === 'consumo' &&
-            element.quota === 0
-          "
-          >A 1 cuota</span
-        >
-        <span
-          *ngIf="
-            element.movementType.toLowerCase() !== 'pago' && element.quota > 0
-          "
-        >
-          {{
-            "A " + element.quota + (element.quota === 1 ? " cuota" : " cuotas")
-          }}</span
-        >
+      <mat-header-cell *matHeaderCellDef credixHeaderCell>{{columnFourTag || 'Cuotas'}} </mat-header-cell>
+      <mat-cell *matCellDef="let element" [class.is-green]="element.movementType == 'Pago'"
+                credixCell>
+        <span *ngIf="element.movementType.toLowerCase() === 'consumo' && element.quota === 0">A 1 cuota</span>
+        <span *ngIf="element.movementType.toLowerCase() !== 'pago' && element.quota > 0">
+          {{'A ' + element.quota + (element.quota === 1 ? ' cuota' : ' cuotas')}}</span>
       </mat-cell>
     </ng-container>
 
@@ -80,37 +42,16 @@
           *ngIf="element.quantifiableMovement"
         >
           Ampliar plazo
+
         </credix-link-button>
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="detail">
-      <mat-header-cell *matHeaderCellDef credixHeaderCell></mat-header-cell>
-      <mat-cell *matCellDef="let element" credixCell>
-        <credix-link-button
-          (click)="openModalDetail(element)"
-          *ngIf="element?.details"
-        >
-          Ver detalle
-        </credix-link-button>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row
-      *matHeaderRowDef="displayedColumns; sticky: true"
-      credixHeaderRow
-    ></mat-header-row>
-    <mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      credixRow
-    ></mat-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns, sticky: true" credixHeaderRow></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" credixRow></mat-row>
   </mat-table>
 
-  <credix-paginator
-    (pageChange)="p = $event"
-    [autoHide]="true"
-    [maxSize]="8"
-  ></credix-paginator>
+  <credix-paginator (pageChange)="p = $event" [autoHide]="true" [maxSize]="8"></credix-paginator>
 </div>
 
 <ng-template #modalTemplate>

@@ -9,8 +9,6 @@ export class HomeService {
   private readonly logOutURI = 'security/logout';
   private readonly messagesUri = 'messagesrewards/messages/user';
   private readonly markMessageReadUri = `messagesrewards/messages`;
-  private readonly verifyChangeInComissionPorcentage = `account/verifyChangeInComissionPorcentage`;
-  private readonly modifyLastReadyButtonClick = `account/modifyLastReadyButtonClick`;
 
   private isTabletSubject = new Subject<boolean>();
   isTabletObs = this.isTabletSubject.asObservable();
@@ -52,24 +50,5 @@ export class HomeService {
 
   logOut(body: { deviceIdentifier: number, typeIncome: number }) {
     return this.httpService.post('canales', this.logOutURI, body);
-  }
-
-  getIsShowPopUp(){
-    const body = {accountId: this.localStorage.getCurrentUser().actId}
-    return this.httpService.post('canales', this.verifyChangeInComissionPorcentage, body)
-      .pipe(
-        map((response) => {
-            if ( response.status === 200 ) {
-              return response;
-            } else {
-              return {};
-            }
-          }
-        ));
-  }
-
-  setLastReadyButtonClick(){
-    const body = {accountId: this.localStorage.getCurrentUser().actId}
-    return this.httpService.post('canales', this.modifyLastReadyButtonClick, body);
   }
 }

@@ -1,34 +1,15 @@
 <ng-container [ngSwitch]="type">
-  <button
-    (click)="buttonClick.emit()"
-    *ngSwitchCase="'primary'"
-    [disabled]="disabled"
-    class="credix-button"
-    color="primary"
-    mat-flat-button
-  >
+  <button (click)="buttonClick.emit()" *ngSwitchCase="'primary'" [disabled]="disabled" class="credix-button"
+          color="primary" mat-flat-button>
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </button>
-  <button
-    (click)="buttonClick.emit()"
-    onclick="this.blur()"
-    *ngSwitchCase="'secondary'"
-    [disabled]="disabled"
-    class="credix-button"
-    color="primary"
-    mat-stroked-button
-  >
+  <button (click)="buttonClick.emit()" *ngSwitchCase="'secondary'" [disabled]="disabled" class="credix-button"
+          color="primary" mat-stroked-button>
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </button>
-  <button
-    (click)="buttonClick.emit()"
-    *ngSwitchDefault
-    [disabled]="disabled"
-    [routerLink]="route ? [route] : []"
-    class="credix-button"
-    color="primary"
-    mat-flat-button
-  >
+  <button (click)="buttonClick.emit()" *ngSwitchDefault [disabled]="disabled" [routerLink]="route ? [route] : []"
+          class="credix-button"
+          color="primary" mat-flat-button>
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </button>
 </ng-container>

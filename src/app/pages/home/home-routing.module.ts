@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home.component';
 import {AuthorizationGuard} from '../../core/guards/authorization.guard';
+import { titleCardGuard } from 'src/app/core/guards/title-card.guard';
 
 const routes: Routes = [
   {
@@ -24,7 +25,8 @@ const routes: Routes = [
       },
       {
         path: 'marchamos',
-        loadChildren: () => import('./features/marchamo/marchamo.module.js').then(m => m.MarchamoModule)
+        loadChildren: () => import('./features/marchamo/marchamo.module.js').then(m => m.MarchamoModule),
+        canActivate: [titleCardGuard]
       },
       {
         path: 'payment-places',
@@ -40,7 +42,8 @@ const routes: Routes = [
       },
       {
         path: 'personal-credit',
-        loadChildren: () => import('./features/personal-credit/personal-credit.module.js').then(m => m.PersonalCreditModule)
+        loadChildren: () => import('./features/personal-credit/personal-credit.module.js').then(m => m.PersonalCreditModule),
+        canActivate: [titleCardGuard]
       },
       {
         path: 'personal-info',
@@ -49,7 +52,8 @@ const routes: Routes = [
       },
       {
         path: 'buy-without-card',
-        loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule)
+        loadChildren: () => import('./features/buy-without-card/buy-without-card.module.js').then(m => m.BuyWithoutCardModule),
+        canActivate: [titleCardGuard]
       },
       {
         path: 'anticipated-cancellation',
@@ -58,11 +62,8 @@ const routes: Routes = [
       },
       {
         path: 'extend-term',
-        loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule)
-      },
-      {
-        path: 'schedule-quotas',
-        loadChildren: () => import('./features/schedule-quotas/schedule-quotas.module.js').then(m => m.ScheduleQuotasModule)
+        loadChildren: () => import('./features/extend-term/extend-term.module.js').then(m => m.ExtendTermModule),
+        canActivate: [titleCardGuard]
       },
       {
         path: 'change-password',
@@ -70,7 +71,8 @@ const routes: Routes = [
       },
       {
         path: 'increase-limit',
-        loadChildren: () => import('./features/increase-limit/increase-limit.module.js').then(m => m.IncreaseLimitModule)
+        loadChildren: () => import('./features/increase-limit/increase-limit.module.js').then(m => m.IncreaseLimitModule),
+        canActivate: [titleCardGuard]
       },
       {
         path: 'favorites-management',
@@ -83,7 +85,8 @@ const routes: Routes = [
       },
       {
         path: 'public-services',
-        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule)
+        loadChildren: () => import('./features/public-services/public-services.module.js').then(m => m.PublicServicesModule),
+        canActivate: [titleCardGuard]
       },
       {
         path: 'current-pin',
@@ -91,12 +94,9 @@ const routes: Routes = [
       },
       {
         path: 'extend-term-total-debt',
-        loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule)
+        loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule),
+        canActivate: [titleCardGuard]
       },
-      {
-        path: 'credix-mas',
-        loadChildren: () => import('./features/credix-mas/credix-mas.module').then(m => m.CredixMasModule)
-      }
     ]
   }
 ];

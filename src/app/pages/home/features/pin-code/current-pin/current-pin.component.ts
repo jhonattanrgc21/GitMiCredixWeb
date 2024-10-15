@@ -5,6 +5,9 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { Card } from 'src/app/shared/models/card';
 import { CardPin } from 'src/app/shared/models/card-pin';
 import { ChangePinService } from '../pin-code.service';
+import { TagsService } from 'src/app/core/services/tags.service';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-current-pin',
@@ -13,19 +16,37 @@ import { ChangePinService } from '../pin-code.service';
 })
 export class CurrentPinComponent implements OnInit {
 
+  titularCardNotActive: boolean = null
   cards: Card[];
   cardsPin: CardPin[];
 
   constructor(
     private changePinService: ChangePinService,
     private storageService: StorageService,
+    private tagsService: TagsService
   ) {}
 
   ngOnInit(): void {
     this.cardsPin = [];
     this.cards = this.storageService.getCurrentCards();
 
-    this.loadCardsPin();
+    this.checkIfTitleCardIsActive()
+  }
+
+  checkIfTitleCardIsActive(){
+    of(1).pipe(
+      switchMap(() => {
+        if(this.tagsService.titularCardNotActive === null){
+          const cardId = this.storageService.getCurrentCards().find(card => card.category === 'Principal')?.cardId
+          return this.tagsService.getHomeContent(cardId).pipe(map(() => this.tagsService.titularCardNotActive))
+        }
+        return of(1)
+      }),
+      tap(() => {
+        this.titularCardNotActive = this.tagsService.titularCardNotActive
+        this.loadCardsPin()
+      })
+    ).subscribe()
   }
 
   loadCardsPin()  {
@@ -34,7 +55,6 @@ export class CurrentPinComponent implements OnInit {
         let status = 3;
         let pin;
 
-        
         if ( crdPin && ( crdPin?.type === 'success' ) ) {
           if ( crdPin.pinStatus == '1' ) {
             pin = crdPin.pin.slice(0, 10);

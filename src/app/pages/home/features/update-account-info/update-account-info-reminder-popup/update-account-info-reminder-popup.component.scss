@@ -1,0 +1,17 @@
+.update-account-info-reminder-popup-container {
+  padding-top: 13px;
+
+  height: 100%;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  justify-content: space-between;
+
+  credix-button {
+    width: 100%;
+    & ::ng-deep button {
+      height: 44px;
+    }
+  }
+
+}

@@ -33,6 +33,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlexModule} from '@angular/flex-layout';
 import {RouterModule} from '@angular/router';
+import { ContentComponentsModule } from './components/content/content-components.module';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import {RouterModule} from '@angular/router';
     MatTooltipModule,
     MatStepperModule,
     FlexModule,
-    RouterModule
+    RouterModule,
+    ContentComponentsModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -107,7 +109,8 @@ import {RouterModule} from '@angular/router';
     MatTooltipModule,
     MatStepperModule,
     FlexModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ContentComponentsModule
   ]
 })
 
