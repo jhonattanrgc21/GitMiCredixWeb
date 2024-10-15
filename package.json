@@ -30,6 +30,7 @@
     "angular-user-idle": "^2.2.7",
     "crypto-js": "^4.0.0",
     "jsbarcode": "^3.11.0",
+    "miCredixWeb": "file:",
     "ngx-barcode6": "^1.0.12",
     "ngx-cacheable": "^1.4.2",
     "ngx-device-detector": "^1.4.6",
