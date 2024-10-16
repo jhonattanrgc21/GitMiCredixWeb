@@ -97,6 +97,10 @@ const routes: Routes = [
         loadChildren: () => import('./features/extend-term-total-owed/extend-term-total-owed.module.js').then(m => m.ExtendTermTotalOwedModule),
         canActivate: [titleCardGuard]
       },
+      {
+        path: 'managements',
+        loadChildren: () => import('./features/managements/managements.module').then(m => m.ManagementsModule)
+      }
     ]
   }
 ];

@@ -1,0 +1,32 @@
+<div class="renew-card-container">
+  <h1 class="title">Renovación</h1>
+  <credix-delivery-options-component *ngIf="!showSubmitSuccessNotification; else successNotification">
+  </credix-delivery-options-component>
+  <ng-template #successNotification>
+    <div class="success-notification-container">
+      <credix-result-notification [status]="'success'" [title]="'¡Éxito!'"
+        [message]="'Procesamos satisfactoriamente su solicitud para renovar su tarjeta. Ya puede retirarla en cualquiera de nuestras sucursales.'">
+      </credix-result-notification>
+      <div class="result-details">
+        <div class="left">
+          <h4>Datos de la gestión</h4>
+        </div>
+        <div class="right">
+          <div class="row-detail">
+            <span>Costo</span>
+            <span>
+              <credix-numeric-block [prefix]="prefixColones" [value]="0"></credix-numeric-block>
+            </span>
+          </div>
+          <div class="row-detail">
+            <span>Tipo de envio</span>
+            <span> En sucursales </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <div class="footer">
+    <credix-button [disabled]="invalidAddress" (buttonClick)="submitRenovation()">Renovar tarjeta</credix-button>
+  </div>
+</div>

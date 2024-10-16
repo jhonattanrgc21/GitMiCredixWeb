@@ -1,0 +1,16 @@
+<div class="cards-list-selection-container">
+  <h4>Seleccione la tarjeta:</h4>
+  <div class="cards-list">
+    <credix-checkbox-button [value]="card" (emitCheckBox)="pushOrRemoveCard($event)" *ngFor="let card of cards">
+      <div class="card-info">
+        <div class="card-info-icon">
+          <mat-icon [svgIcon]="card.category === 'Principal' ? 'redCard' : 'additionalCards'"></mat-icon>
+        </div>
+        <div class="card-info-text">
+          <span class="name">{{ card.name }}</span>
+          <span class="typeAndNumber">{{ card.typeCard | uppercase }} {{ card.cardNumber }}</span>
+        </div>
+      </div>
+    </credix-checkbox-button>
+  </div>
+</div>

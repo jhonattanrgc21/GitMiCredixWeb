@@ -1,0 +1,31 @@
+@import '../../../../../../core/styles/credix-theme.scss';
+
+$color-primary-300: map-get($primary-palette, 300);
+$border-color: #E9E9E9;
+
+.add-management-container{
+  padding: 16px;
+
+  .title{
+    padding-bottom: 8px;
+  }
+
+  .management-option{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    border-bottom: 1px solid $border-color;
+
+    .chevron mat-icon{
+      color: $color-primary-300;
+      height: 16px !important;
+    }
+
+    &:hover p{
+      font-weight: bold !important;
+    }
+
+  }
+}

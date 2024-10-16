@@ -90,6 +90,7 @@ export class MenuOptionComponent implements OnInit {
             });
           }
         });
+        this.submenus.push({id: 15, name: 'Mis gestiones', route: '/home/managements', icon: 'credit-card', parentId: 'Mi Cuenta'})
       }
 
 
@@ -204,10 +205,10 @@ const productOrdering = ['Crédito personal', 'Compra sin tarjeta', 'Ampliar pla
 const payOrdering = ['Servicios', 'Pagar tarjeta', 'Marchamo', 'Enviar dinero', 'Reportar transferencia', 'Lugares de pago'];
 
 export const menus: Menu[] = [
-  { id: 1, name: 'Inicio', route: '/home' },
-  { id: 2, name: 'Pagar' },
-  { id: 3, name: 'Productos' },
-  { id: 4, name: 'Mi Cuenta' }
+  {id: 1, name: 'Inicio', route: '/home', label: 'Inicio'},
+  {id: 2, name: 'Pagar', label: 'Pagar'},
+  {id: 3, name: 'Productos', label: 'Productos'},
+  {id: 4, name: 'Mi Cuenta', label: 'Gestiones'}
 ];
 
 export const submenus = [
@@ -225,9 +226,10 @@ export const submenus = [
   { id: 12, name: 'Datos personales', route: '/home/personal-info', icon: 'personal_data', parentId: 'Mi Cuenta' },
   { id: 13, name: 'Gestionar favoritos', route: '/home/favorites-management', icon: 'favorites', parentId: 'Mi Cuenta' },
   { id: 14, name: 'Cambiar clave', route: '/home/change-password', icon: 'change_password', parentId: 'Mi Cuenta' },
-  { id: 15, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta' },
-  { id: 16, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta' },
-  { id: 17, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta' }
+  { id: 15, name: 'Mis gestiones', route: '/home/my-processes', icon: 'credit-card', parentId: 'Mi Cuenta'},
+  {id: 16, name: 'Cambiar PIN', route: '/home/change-pin', icon: 'asterisk', parentId: 'Mi Cuenta' },
+  { id: 17, name: 'Aumentar límite de crédito', route: '/home/increase-limit', icon: 'cash', parentId: 'Mi Cuenta' },
+  { id: 18, name: 'Tarjetas adicionales', route: '/home/additional-cards-management', icon: 'credit-card-plus', parentId: 'Mi Cuenta' }
 ];
 
 export interface Menu {
@@ -235,6 +237,7 @@ export interface Menu {
   name: string;
   route?: string;
   submenus?: Submenu[];
+  label: string;
 }
 
 export interface Submenu {

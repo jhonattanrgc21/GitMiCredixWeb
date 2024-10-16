@@ -3,4 +3,7 @@
   [checked]="checked"
   [disabled]="disable"
   [value]="value"
-  class="credix-checkbox">{{label}}</mat-checkbox>
+  class="credix-checkbox">
+  {{label}}
+  <ng-content></ng-content>
+</mat-checkbox>

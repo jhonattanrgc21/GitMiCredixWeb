@@ -1,0 +1,13 @@
+<div class="add-management-container">
+  <h1 class="title">Mis gestiones</h1>
+
+  <div class="management-option" (click)="navigateTo(management.route)" *ngFor="let management of managementOptions">
+    <p>
+      {{ management.name }}
+    </p>
+    <div class="chevron">
+      <mat-icon svgIcon="chevron_right"></mat-icon>
+    </div>
+  </div>
+
+</div>

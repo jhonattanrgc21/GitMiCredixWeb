@@ -21,6 +21,7 @@ export const icons: string[] = [
   'collapse',
   'content-copy',
   'credit-card-plus',
+  'credit-card',
   'delete',
   'edit',
   'exit',

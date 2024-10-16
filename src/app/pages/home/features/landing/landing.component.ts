@@ -48,6 +48,8 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   delinquentCustomersActive = false;
 
+  delinquentCustomersActive = false;
+
   constructor(private landingService: LandingService,
               private tagsService: TagsService,
               private goHomeService: NavigationService,

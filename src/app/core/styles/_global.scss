@@ -91,6 +91,13 @@ span {
   &:has(app-credix-popup>.credix-popup>.credix-popup__content>title-card-not-active-component){
     padding: 16px;
   }
+  &:has(app-credix-popup>.credix-popup>.credix-popup__content>renew-card-new-address-popup) {
+    padding: 16px;
+    .credix-popup__title{
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+  }
 }
 .update-account-info-popup{
   height: 90%;
@@ -125,3 +132,4 @@ span {
 .credix-popup {
   position: static !important;
 }
+
