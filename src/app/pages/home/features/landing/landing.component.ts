@@ -44,12 +44,9 @@ export class LandingComponent implements OnInit, OnDestroy {
     titleTag: 'Movimientos'
   };
   cardId: number;
-  titularCardNotActive = false
+  titularCardNotActive = false;
 
   delinquentCustomersActive = false;
-
-  delinquentCustomersActive = false;
-
   constructor(private landingService: LandingService,
               private tagsService: TagsService,
               private goHomeService: NavigationService,
