@@ -85,6 +85,8 @@ export class AnticipatedCancellationComponent implements OnInit, OnDestroy {
         this.title = productInfo.titleOne;
         this.done = true;
         this.template = this.disabledTemplate;
+      } else {
+        this.getOptionsToCancel();
       }
     });
   }
