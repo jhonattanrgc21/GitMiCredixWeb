@@ -113,7 +113,6 @@ export class PersonalCreditComponent implements OnInit, AfterViewInit, OnDestroy
               }
             });
         }
-        this.stepper.next();
         break;
       case 2:
         this.modalService.confirmationPopup('¿Desea solicitar este crédito personal?', null, 380, 203)
